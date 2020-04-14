@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>EasyAbp.EShop.Baskets</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="2.5.0" />
+    <ProjectReference Include="..\EasyAbp.EShop.Baskets.Domain.Shared\EasyAbp.EShop.Baskets.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>EasyAbp.EShop.Payment</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="2.5.0" />
+    <ProjectReference Include="..\EasyAbp.EShop.Payment.Domain.Shared\EasyAbp.EShop.Payment.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

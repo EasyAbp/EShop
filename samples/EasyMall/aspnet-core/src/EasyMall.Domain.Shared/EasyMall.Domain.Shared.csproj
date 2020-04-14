@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>EasyMall</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="2.5.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\EasyMall\*.json" />
+    <Content Remove="Localization\EasyMall\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Domain.Shared\EasyAbp.EShop.Baskets.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Domain.Shared\EasyAbp.EShop.Orders.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payment\src\EasyAbp.EShop.Payment.Domain.Shared\EasyAbp.EShop.Payment.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Domain.Shared\EasyAbp.EShop.Stores.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
