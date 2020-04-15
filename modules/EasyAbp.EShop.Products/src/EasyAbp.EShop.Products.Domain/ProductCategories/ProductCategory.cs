@@ -10,5 +10,11 @@ namespace EasyAbp.EShop.Products.ProductCategories
         public virtual Guid? TenantId { get; protected set; }
         
         public virtual Guid? StoreId { get; protected set; }
+        
+        public virtual Guid CategoryId { get; protected set; }
+        
+        public virtual Guid ProductId { get; protected set; }
+        
+        public virtual int DisplayOrder { get; protected set; }
     }
 }

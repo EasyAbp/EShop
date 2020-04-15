@@ -16,8 +16,4 @@
     <Content Remove="Localization\Products\*.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Domain.Shared\EasyAbp.EShop.Stores.Domain.Shared.csproj" />
-  </ItemGroup>
-
 </Project>
