@@ -1,9 +1,11 @@
-﻿using Volo.Abp.Modularity;
+﻿using EasyAbp.EShop.Stores;
+using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Payment
 {
     [DependsOn(
-        typeof(EShopPaymentDomainSharedModule)
+        typeof(EShopPaymentDomainSharedModule),
+        typeof(EShopStoresDomainSharedModule)
         )]
     public class EShopPaymentDomainModule : AbpModule
     {

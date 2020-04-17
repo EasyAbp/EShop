@@ -1,5 +1,8 @@
-﻿namespace EasyAbp.EShop.Products.Products
+﻿using System;
+
+namespace EasyAbp.EShop.Products.Products
 {
+    [Flags]
     public enum InventoryStrategy
     {
         NoNeed = 1,
