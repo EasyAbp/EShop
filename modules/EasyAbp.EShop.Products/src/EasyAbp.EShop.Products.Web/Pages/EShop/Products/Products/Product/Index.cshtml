@@ -1,0 +1,51 @@
+@page
+@using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@inherits EasyAbp.EShop.Products.Web.Pages.ProductsPage
+@model IndexModel
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.Title = L["Product"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Product"].Value);
+    PageLayout.Content.MenuItemName = "Product";
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Products/Products/Product/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Products/Products/Product/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Product"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+                <abp-button id="NewProductButton"
+                            text="@L["CreateProduct"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="ProductTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["ProductStoreId"]</th>
+                <th>@L["ProductProductTypeId"]</th>
+                <th>@L["ProductDisplayName"]</th>
+                <th>@L["ProductInventoryStrategy"]</th>
+                <th>@L["ProductMediaResources"]</th>
+                <th>@L["ProductIsPublished"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

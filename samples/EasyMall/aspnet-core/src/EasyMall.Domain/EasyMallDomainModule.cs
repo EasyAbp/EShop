@@ -1,6 +1,7 @@
 ﻿using EasyAbp.EShop.Baskets;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payment;
+using EasyAbp.EShop.Payment.WeChatPay;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using EasyMall.MultiTenancy;
@@ -33,6 +34,7 @@ namespace EasyMall
         typeof(EShopBasketsDomainModule),
         typeof(EShopOrdersDomainModule),
         typeof(EShopPaymentDomainModule),
+        typeof(EShopPaymentWeChatPayDomainModule),
         typeof(EShopProductsDomainModule),
         typeof(EShopStoresDomainModule)
         )]

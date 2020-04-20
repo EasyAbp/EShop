@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Products</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>

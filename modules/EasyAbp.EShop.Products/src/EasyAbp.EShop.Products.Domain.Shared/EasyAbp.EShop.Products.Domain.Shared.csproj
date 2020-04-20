@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Products</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Products\*.json" />
-    <Content Remove="Localization\Products\*.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Products\Localization\Products\*.json" />
+    <Content Remove="EasyAbp\EShop\Products\Localization\Products\*.json" />
   </ItemGroup>
 
 </Project>

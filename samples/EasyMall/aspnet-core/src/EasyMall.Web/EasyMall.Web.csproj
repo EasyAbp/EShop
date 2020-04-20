@@ -43,6 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Web\EasyAbp.EShop.Baskets.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Web\EasyAbp.EShop.Orders.Web.csproj" />
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payment.WeChatPay\src\EasyAbp.EShop.Payment.WeChatPay.Web\EasyAbp.EShop.Payment.WeChatPay.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payment\src\EasyAbp.EShop.Payment.Web\EasyAbp.EShop.Payment.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Web\EasyAbp.EShop.Products.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web\EasyAbp.EShop.Stores.Web.csproj" />

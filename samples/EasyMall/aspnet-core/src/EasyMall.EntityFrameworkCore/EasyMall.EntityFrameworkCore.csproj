@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.EntityFrameworkCore\EasyAbp.EShop.Baskets.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.EntityFrameworkCore\EasyAbp.EShop.Orders.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payment.WeChatPay\src\EasyAbp.EShop.Payment.WeChatPay.EntityFrameworkCore\EasyAbp.EShop.Payment.WeChatPay.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payment\src\EasyAbp.EShop.Payment.EntityFrameworkCore\EasyAbp.EShop.Payment.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.EntityFrameworkCore\EasyAbp.EShop.Products.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.EntityFrameworkCore\EasyAbp.EShop.Stores.EntityFrameworkCore.csproj" />

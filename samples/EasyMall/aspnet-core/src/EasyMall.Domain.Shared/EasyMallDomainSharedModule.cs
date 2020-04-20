@@ -1,6 +1,7 @@
 ﻿using EasyAbp.EShop.Baskets;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payment;
+using EasyAbp.EShop.Payment.WeChatPay;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using EasyMall.Localization;
@@ -31,6 +32,7 @@ namespace EasyMall
         typeof(EShopBasketsDomainSharedModule),
         typeof(EShopOrdersDomainSharedModule),
         typeof(EShopPaymentDomainSharedModule),
+        typeof(EShopPaymentWeChatPayDomainSharedModule),
         typeof(EShopProductsDomainSharedModule),
         typeof(EShopStoresDomainSharedModule)
         )]

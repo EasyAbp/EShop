@@ -4,12 +4,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Products</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.MongoDB" Version="2.5.0" />
     <ProjectReference Include="..\EasyAbp.EShop.Products.Domain\EasyAbp.EShop.Products.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EasyAbp\EShop\Products" />
   </ItemGroup>
 
 </Project>
