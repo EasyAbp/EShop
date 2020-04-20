@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,6 +14,9 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DisplayName("ProductProductTypeId")]
         public Guid ProductTypeId { get; set; }
 
+        [DisplayName("ProductCategory")]
+        public IEnumerable<Guid> CategoryIds { get; set; }
+        
         [Required]
         [DisplayName("ProductDisplayName")]
         public string DisplayName { get; set; }

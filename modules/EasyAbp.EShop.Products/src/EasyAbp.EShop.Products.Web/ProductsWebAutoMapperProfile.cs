@@ -1,4 +1,4 @@
-using EasyAbp.EShop.Products.Products.Dtos;
+﻿using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Categories.Dtos;
 using EasyAbp.EShop.Products.ProductTypes.Dtos;
 using AutoMapper;
