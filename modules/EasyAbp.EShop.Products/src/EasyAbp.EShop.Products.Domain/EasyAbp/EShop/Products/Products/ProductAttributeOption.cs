@@ -11,5 +11,20 @@ namespace EasyAbp.EShop.Products.Products
         
         [CanBeNull]
         public virtual string Description { get; protected set; }
+        
+        public virtual int DisplayOrder { get; protected set; }
+
+        protected ProductAttributeOption() {}
+        
+        public ProductAttributeOption(
+            Guid id,
+            [NotNull] string displayName,
+            [CanBeNull] string description,
+            int displayOrder = 0) : base(id)
+        {
+            DisplayName = displayName;
+            Description = description;
+            DisplayOrder = displayOrder;
+        }
     }
 }

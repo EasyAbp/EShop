@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public Guid ProductTypeId { get; set; }
 
-        public IEnumerable<Guid> CategoryIds { get; set; }
+        public ICollection<Guid> CategoryIds { get; set; }
 
         public string DisplayName { get; set; }
         
@@ -18,12 +18,14 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public string MediaResources { get; set; }
         
+        public int DisplayOrder { get; set; }
+
         public bool IsPublished { get; set; }
         
         public ProductDetailDto ProductDetail { get; set; }
         
-        public IEnumerable<ProductAttributeDto> ProductAttributes { get; set; }
+        public ICollection<ProductAttributeDto> ProductAttributes { get; set; }
         
-        public IEnumerable<ProductSkuDto> ProductSkus { get; set; }
+        public ICollection<ProductSkuDto> ProductSkus { get; set; }
     }
 }

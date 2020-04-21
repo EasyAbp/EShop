@@ -27,7 +27,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
             Guid? storeId,
             Guid categoryId,
             Guid productId,
-            int displayOrder
+            int displayOrder = 0
         ) :base(id)
         {
             TenantId = tenantId;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Authorization;
@@ -54,13 +55,101 @@ namespace EasyAbp.EShop.Products.Products
         {
             await CheckCreatePolicyAsync();
 
-            var entity = MapToEntity(input);
+            var product = MapToEntity(input);
 
-            TryToSetTenantId(entity);
+            TryToSetTenantId(product);
+            
+            await UpdateProductAttributesAsync(product, input);
 
-            await Repository.InsertAsync(entity, autoSave: true);
+            await Repository.InsertAsync(product, autoSave: true);
+            
+            await UpdateProductCategoriesAsync(product.Id, product.StoreId, input.CategoryIds);
 
-            return MapToGetOutputDto(entity);
+            return MapToGetOutputDto(product);
+        }
+
+        public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
+        {
+            await CheckUpdatePolicyAsync();
+
+            var product = await GetEntityByIdAsync(id);
+            
+            MapToEntity(input, product);
+
+            await UpdateProductAttributesAsync(product, input);
+
+            await Repository.UpdateAsync(product, autoSave: true);
+
+            await UpdateProductCategoriesAsync(product.Id, product.StoreId, input.CategoryIds);
+
+            return MapToGetOutputDto(product);
+        }
+
+        private async Task UpdateProductAttributesAsync(Product product, CreateUpdateProductDto input)
+        {
+            foreach (var attributeDto in input.ProductAttributes)
+            {
+                var attribute = product.ProductAttributes.FirstOrDefault(a => a.DisplayName == attributeDto.DisplayName);
+                
+                if (attribute == null)
+                {
+                    attribute = new ProductAttribute(GuidGenerator.Create(),
+                        attributeDto.DisplayName, attributeDto.Description);
+                    
+                    product.ProductAttributes.Add(attribute);
+                }
+
+                foreach (var optionDto in attributeDto.ProductAttributeOptions)
+                {
+                    var option = attribute.ProductAttributeOptions.FirstOrDefault(o => o.DisplayName == optionDto.DisplayName);
+
+                    if (option == null)
+                    {
+                        option = new ProductAttributeOption(GuidGenerator.Create(),
+                            optionDto.DisplayName, optionDto.Description);
+                    
+                        attribute.ProductAttributeOptions.Add(option);
+                    }
+                }
+
+                var exceptOptionNames = attribute.ProductAttributeOptions.Select(o => o.DisplayName)
+                    .Except(attributeDto.ProductAttributeOptions.Select(o => o.DisplayName));
+
+                attribute.ProductAttributeOptions.RemoveAll(o => exceptOptionNames.Contains(o.DisplayName));
+            }
+
+            var exceptAttributeNames = product.ProductAttributes.Select(a => a.DisplayName)
+                .Except(input.ProductAttributes.Select(a => a.DisplayName));
+
+            product.ProductAttributes.RemoveAll(a => exceptAttributeNames.Contains(a.DisplayName));
+        }
+
+        public override async Task DeleteAsync(Guid id)
+        {
+            await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
+
+            await base.DeleteAsync(id);
+        }
+
+        public override async Task<ProductDto> GetAsync(Guid id)
+        {
+            var dto = await base.GetAsync(id);
+
+            dto.CategoryIds = (await _productCategoryRepository.GetListByProductId(dto.Id, dto.StoreId))
+                .Select(x => x.CategoryId).ToList();
+            
+            return dto;
+        }
+
+        protected virtual async Task UpdateProductCategoriesAsync(Guid productId, Guid? storeId, IEnumerable<Guid> categoryIds)
+        {
+            await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
+
+            foreach (var categoryId in categoryIds)
+            {
+                await _productCategoryRepository.InsertAsync(new ProductCategory(GuidGenerator.Create(),
+                    CurrentTenant.Id, storeId, categoryId, productId));
+            }
         }
     }
 }

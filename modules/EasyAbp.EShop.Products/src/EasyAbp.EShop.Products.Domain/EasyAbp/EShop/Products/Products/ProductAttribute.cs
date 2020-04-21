@@ -13,6 +13,26 @@ namespace EasyAbp.EShop.Products.Products
         [CanBeNull]
         public virtual string Description { get; protected set; }
         
-        public virtual IEnumerable<ProductAttributeOption> ProductAttributeOptions { get; protected set; }
+        public virtual int DisplayOrder { get; protected set; }
+
+        public virtual ICollection<ProductAttributeOption> ProductAttributeOptions { get; protected set; }
+
+        protected ProductAttribute()
+        {
+            ProductAttributeOptions = new List<ProductAttributeOption>();
+        }
+        
+        public ProductAttribute(
+            Guid id,
+            [NotNull] string displayName,
+            [CanBeNull] string description,
+            int displayOrder = 0) : base(id)
+        {
+            DisplayName = displayName;
+            Description = description;
+            DisplayOrder = displayOrder;
+
+            ProductAttributeOptions = new List<ProductAttributeOption>();
+        }
     }
 }

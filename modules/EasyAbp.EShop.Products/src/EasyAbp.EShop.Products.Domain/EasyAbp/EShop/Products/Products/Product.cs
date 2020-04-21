@@ -22,17 +22,21 @@ namespace EasyAbp.EShop.Products.Products
         
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
+        
+        public virtual int DisplayOrder { get; protected set; }
 
         public virtual bool IsPublished { get; protected set; }
         
         public virtual ProductDetail ProductDetail { get; protected set; }
         
-        public virtual IEnumerable<ProductAttribute> ProductAttributes { get; protected set; }
+        public virtual ICollection<ProductAttribute> ProductAttributes { get; protected set; }
         
-        public virtual IEnumerable<ProductSku> ProductSkus { get; protected set; }
+        public virtual ICollection<ProductSku> ProductSkus { get; protected set; }
 
         protected Product()
         {
+            ProductAttributes = new List<ProductAttribute>();
+            ProductSkus = new List<ProductSku>();
         }
 
         public Product(
@@ -43,7 +47,8 @@ namespace EasyAbp.EShop.Products.Products
             string displayName,
             InventoryStrategy inventoryStrategy,
             bool isPublished,
-            string mediaResources
+            string mediaResources,
+            int displayOrder
         ) :base(id)
         {
             TenantId = tenantId;
@@ -53,6 +58,9 @@ namespace EasyAbp.EShop.Products.Products
             InventoryStrategy = inventoryStrategy;
             IsPublished = isPublished;
             MediaResources = mediaResources;
+            DisplayOrder = displayOrder;
+            ProductAttributes = new List<ProductAttribute>();
+            ProductSkus = new List<ProductSku>();
         }
     }
 }
