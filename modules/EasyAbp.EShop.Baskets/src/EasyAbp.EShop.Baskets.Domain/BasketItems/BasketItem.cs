@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -15,5 +16,20 @@ namespace EasyAbp.EShop.Baskets.BasketItems
         public virtual Guid ProductSkuId { get; protected set; }
         
         public virtual int Quantity { get; protected set; }
+        
+        [CanBeNull]
+        public virtual string MediaResources { get; protected set; }
+        
+        [NotNull]
+        public virtual string ProductName { get; protected set; }
+        
+        [NotNull]
+        public virtual string SkuDescription { get; protected set; }
+
+        public virtual decimal UnitPrice { get; protected set; }
+        
+        public virtual decimal TotalPrice { get; protected set; }
+        
+        public virtual decimal TotalDiscount { get; protected set; }
     }
 }
