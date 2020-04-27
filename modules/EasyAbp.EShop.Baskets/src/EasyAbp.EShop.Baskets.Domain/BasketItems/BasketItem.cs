@@ -26,6 +26,9 @@ namespace EasyAbp.EShop.Baskets.BasketItems
         [NotNull]
         public virtual string SkuDescription { get; protected set; }
 
+        [NotNull]
+        public virtual string Currency { get; protected set; }
+        
         public virtual decimal UnitPrice { get; protected set; }
         
         public virtual decimal TotalPrice { get; protected set; }

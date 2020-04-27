@@ -20,6 +20,9 @@ namespace EasyAbp.EShop.Payment.RefundRecords
         [NotNull]
         public virtual string ExternalTradingCode { get; protected set; }
         
+        [NotNull]
+        public virtual string Currency { get; protected set; }
+        
         public virtual decimal RefundAmount { get; protected set; }
 
         [CanBeNull]

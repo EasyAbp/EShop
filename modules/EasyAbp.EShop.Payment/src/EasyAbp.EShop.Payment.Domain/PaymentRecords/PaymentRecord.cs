@@ -16,6 +16,9 @@ namespace EasyAbp.EShop.Payment.PaymentRecords
         [NotNull]
         public virtual string ExternalTradingCode { get; protected set; }
         
+        [NotNull]
+        public virtual string Currency { get; protected set; }
+        
         public virtual decimal OriginalPaymentAmount { get; protected set; }
 
         public virtual decimal PaymentDiscount { get; protected set; }

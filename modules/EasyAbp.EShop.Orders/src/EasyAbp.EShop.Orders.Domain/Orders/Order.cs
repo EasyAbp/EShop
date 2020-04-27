@@ -22,6 +22,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual Guid? ShippingMethodId { get; protected set; }
         
+        [NotNull]
+        public virtual string Currency { get; protected set; }
+        
         public virtual decimal Freight { get; protected set; }
         
         public virtual decimal ProductTotalPrice { get; protected set; }

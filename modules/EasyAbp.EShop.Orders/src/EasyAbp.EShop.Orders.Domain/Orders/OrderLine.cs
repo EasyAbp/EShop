@@ -21,6 +21,9 @@ namespace EasyAbp.EShop.Orders.Orders
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
         
+        [NotNull]
+        public virtual string Currency { get; protected set; }
+        
         public virtual decimal UnitPrice { get; protected set; }
         
         public virtual decimal TotalPrice { get; protected set; }
