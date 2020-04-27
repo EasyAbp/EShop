@@ -129,16 +129,6 @@ namespace EasyAbp.EShop.Products.Products
             await base.DeleteAsync(id);
         }
 
-        public override async Task<ProductDto> GetAsync(Guid id)
-        {
-            var dto = await base.GetAsync(id);
-
-            dto.CategoryIds = (await _productCategoryRepository.GetListByProductId(dto.Id, dto.StoreId))
-                .Select(x => x.CategoryId).ToList();
-            
-            return dto;
-        }
-
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, Guid storeId, IEnumerable<Guid> categoryIds)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
