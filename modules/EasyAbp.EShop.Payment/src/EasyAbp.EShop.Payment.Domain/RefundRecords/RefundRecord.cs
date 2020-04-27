@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Payment.RefundRecords
     {
         public virtual Guid? TenantId { get; protected set; }
         
-        public virtual Guid? StoreId { get; protected set; }
+        public virtual Guid StoreId { get; protected set; }
         
         public virtual Guid OrderId { get; protected set; }
         

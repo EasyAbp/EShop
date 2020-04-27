@@ -13,7 +13,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
     {
         [HiddenInput]
         [Display(Name = "ProductStore")]
-        public Guid? StoreId { get; set; }
+        public Guid StoreId { get; set; }
 
         [Required]
         [SelectItems("ProductTypes")]

@@ -43,10 +43,8 @@ namespace EasyAbp.EShop.Products.Products
 
                 query = query.Where(p => productIds.Contains(p.Id));
             }
-            else if (input.StoreId.HasValue)
-            {
-                query = query.Where(p => p.StoreId == input.StoreId);
-            }
+            
+            query = query.Where(p => p.StoreId == input.StoreId);
 
             return query;
         }
@@ -141,7 +139,7 @@ namespace EasyAbp.EShop.Products.Products
             return dto;
         }
 
-        protected virtual async Task UpdateProductCategoriesAsync(Guid productId, Guid? storeId, IEnumerable<Guid> categoryIds)
+        protected virtual async Task UpdateProductCategoriesAsync(Guid productId, Guid storeId, IEnumerable<Guid> categoryIds)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
 

@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         public virtual Guid? TenantId { get; protected set; }
         
-        public virtual Guid? StoreId { get; protected set; }
+        public virtual Guid StoreId { get; protected set; }
         
         public virtual Guid CustomerUserId { get; protected set; }
         

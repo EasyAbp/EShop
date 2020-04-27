@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
     {
         public virtual Guid? TenantId { get; protected set; }
         
-        public virtual Guid? StoreId { get; protected set; }
+        public virtual Guid StoreId { get; protected set; }
         
         public virtual Guid CategoryId { get; protected set; }
         
@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
         public ProductCategory(
             Guid id,
             Guid? tenantId,
-            Guid? storeId,
+            Guid storeId,
             Guid categoryId,
             Guid productId,
             int displayOrder = 0

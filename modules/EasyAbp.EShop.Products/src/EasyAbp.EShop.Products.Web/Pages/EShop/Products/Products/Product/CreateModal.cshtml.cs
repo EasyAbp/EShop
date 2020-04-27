@@ -37,7 +37,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             _service = service;
         }
 
-        public async Task OnGetAsync(Guid? storeId)
+        public async Task OnGetAsync(Guid storeId)
         {
             ProductTypes =
                 (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
