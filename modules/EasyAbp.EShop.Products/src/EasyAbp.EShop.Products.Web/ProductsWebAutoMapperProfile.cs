@@ -17,7 +17,8 @@ namespace EasyAbp.EShop.Products.Web
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<ProductDto, CreateUpdateProductViewModel>()
+            CreateMap<ProductDto, CreateEditProductViewModel>()
+                .Ignore(dto => dto.StoreId)
                 // .Ignore(x => x.ProductAttributes);
                 .ForMember(dest => dest.ProductAttributeNames,
                     opt => opt.MapFrom(source =>
@@ -27,7 +28,7 @@ namespace EasyAbp.EShop.Products.Web
                         x.ProductAttributes
                             .Select(a => a.ProductAttributeOptions.Select(o => o.DisplayName).JoinAsString(","))
                             .JoinAsString(Environment.NewLine)));
-            CreateMap<CreateUpdateProductViewModel, CreateUpdateProductDto>()
+            CreateMap<CreateEditProductViewModel, CreateUpdateProductDto>()
                 .ForMember(dest => dest.ProductAttributes,
                     opt => opt.MapFrom(x =>
                         x.ProductAttributeNames.Split(",", StringSplitOptions.RemoveEmptyEntries).Select((s, i) =>

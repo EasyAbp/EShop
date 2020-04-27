@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         public Guid Id { get; set; }
 
         [BindProperty]
-        public CreateUpdateProductViewModel Product { get; set; }
+        public CreateEditProductViewModel Product { get; set; }
         
         public ICollection<SelectListItem> ProductTypes { get; set; }
         
@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             _service = service;
         }
 
-        public async Task OnGetAsync()
+        public virtual async Task OnGetAsync(Guid storeId)
         {
             ProductTypes =
                 (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
@@ -53,13 +53,16 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
             var productDto = await _service.GetAsync(Id);
-            Product = ObjectMapper.Map<ProductDto, CreateUpdateProductViewModel>(productDto);
+            
+            Product = ObjectMapper.Map<ProductDto, CreateEditProductViewModel>(productDto);
+
+            Product.StoreId = storeId;
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public virtual async Task<IActionResult> OnPostAsync()
         {
             await _service.UpdateAsync(Id,
-                ObjectMapper.Map<CreateUpdateProductViewModel, CreateUpdateProductDto>(Product));
+                ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product));
             return NoContent();
         }
     }

@@ -18,12 +18,14 @@ namespace EasyAbp.EShop.Products
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductDto>()
+                .Ignore(dto => dto.CategoryIds);
             CreateMap<ProductDetail, ProductDetailDto>();
             CreateMap<ProductAttribute, ProductAttributeDto>();
             CreateMap<ProductAttributeOption, ProductAttributeOptionDto>();
             CreateMap<ProductSku, ProductSkuDto>();
             CreateMap<CreateUpdateProductDto, Product>(MemberList.Source)
+                .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.CategoryIds, opt => opt.DoNotValidate())
                 .Ignore(p => p.ProductAttributes)
                 .Ignore(p => p.ProductSkus);

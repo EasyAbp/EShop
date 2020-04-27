@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.Categories;
@@ -99,6 +100,13 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
             builder.Entity<ProductCategory>(b =>
             {
                 b.ToTable(options.TablePrefix + "ProductCategories", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+            });
+
+            builder.Entity<ProductStore>(b =>
+            {
+                b.ToTable(options.TablePrefix + "ProductStores", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
             });

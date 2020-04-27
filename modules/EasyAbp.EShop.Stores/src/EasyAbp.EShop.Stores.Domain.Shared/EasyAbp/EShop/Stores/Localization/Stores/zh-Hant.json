@@ -1,0 +1,13 @@
+{
+  "culture": "zh-Hant",
+  "texts": {
+    "ManageYourProfile": "管理個人資料",
+    "Menu:Store": "MenuStore",
+    "Store": "Store",
+    "StoreName": "StoreName",
+    "CreateStore": "CreateStore",
+    "EditStore": "EditStore",
+    "StoreDeletionConfirmationMessage": "Are you sure to delete the store {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

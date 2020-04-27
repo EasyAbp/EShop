@@ -1,0 +1,13 @@
+{
+  "culture": "en",
+  "texts": {
+    "ManageYourProfile": "Manage your profile",
+    "Menu:Store": "MenuStore",
+    "Store": "Store",
+    "StoreName": "StoreName",
+    "CreateStore": "CreateStore",
+    "EditStore": "EditStore",
+    "StoreDeletionConfirmationMessage": "Are you sure to delete the store {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

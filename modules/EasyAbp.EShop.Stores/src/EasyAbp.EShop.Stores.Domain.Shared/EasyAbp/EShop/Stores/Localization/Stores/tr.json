@@ -1,0 +1,13 @@
+{
+  "culture": "tr",
+  "texts": {
+    "ManageYourProfile": "Profil y�netimi",
+    "Menu:Store": "MenuStore",
+    "Store": "Store",
+    "StoreName": "StoreName",
+    "CreateStore": "CreateStore",
+    "EditStore": "EditStore",
+    "StoreDeletionConfirmationMessage": "Are you sure to delete the store {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

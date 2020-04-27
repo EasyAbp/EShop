@@ -5,6 +5,7 @@ using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.ProductCategories;
+using EasyAbp.EShop.Products.ProductStores;
 
 namespace EasyAbp.EShop.Products.EntityFrameworkCore
 {
@@ -22,5 +23,6 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         DbSet<Category> Categories { get; set; }
         DbSet<ProductType> ProductTypes { get; set; }
         DbSet<ProductCategory> ProductCategories { get; set; }
+        DbSet<ProductStore> ProductStores { get; set; }
     }
 }

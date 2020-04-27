@@ -8,12 +8,15 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 {
     public class CreateUpdateProductDto : IValidatableObject
     {
-        [DisplayName("ProductStoreId")]
-        public Guid StoreId { get; set; }
-
         [Required]
         [DisplayName("ProductProductTypeId")]
         public Guid ProductTypeId { get; set; }
+        
+        /// <summary>
+        /// This property is set for adding the store to ProductStore in creation, or for permission checking in update.
+        /// </summary>
+        [DisplayName("ProductStoreId")]
+        public Guid StoreId { get; set; }
 
         [DisplayName("ProductCategory")]
         public ICollection<Guid> CategoryIds { get; set; }

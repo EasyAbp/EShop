@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Authorization;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.Products.Dtos;
-using Volo.Abp.Application.Dtos;
+using EasyAbp.EShop.Products.ProductStores;
+using Volo.Abp;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Threading;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -20,33 +20,25 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetPolicyName { get; set; } = ProductsPermissions.Products.Default;
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
 
+        private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
+            IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductRepository repository) : base(repository)
         {
+            _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
             _repository = repository;
         }
 
         protected override IQueryable<Product> CreateFilteredQuery(GetProductListDto input)
         {
-            var query = base.CreateFilteredQuery(input);
-
-            if (input.CategoryId.HasValue)
-            {
-                var productIds = AsyncHelper
-                    .RunSync(() => _productCategoryRepository.GetListByCategoryId(input.CategoryId.Value, input.StoreId))
-                    .Select(pc => pc.ProductId).ToList();
-
-                query = query.Where(p => productIds.Contains(p.Id));
-            }
-            
-            query = query.Where(p => p.StoreId == input.StoreId);
-
-            return query;
+            return input.CategoryId.HasValue
+                ? _repository.GetQueryable(input.StoreId, input.CategoryId.Value)
+                : _repository.GetQueryable(input.StoreId);
         }
 
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
@@ -60,15 +52,25 @@ namespace EasyAbp.EShop.Products.Products
             await UpdateProductAttributesAsync(product, input);
 
             await Repository.InsertAsync(product, autoSave: true);
+
+            await AddProductToStoreAsync(product.Id, input.StoreId);
             
-            await UpdateProductCategoriesAsync(product.Id, product.StoreId, input.CategoryIds);
+            await UpdateProductCategoriesAsync(product.Id, input.CategoryIds);
 
             return MapToGetOutputDto(product);
+        }
+
+        protected virtual async Task AddProductToStoreAsync(Guid productId, Guid storeId)
+        {
+            await _productStoreRepository.InsertAsync(new ProductStore(GuidGenerator.Create(), CurrentTenant.Id,
+                storeId, productId, true), true);
         }
 
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
             await CheckUpdatePolicyAsync();
+
+            await CheckStoreIsProductOwnerAsync(id, input.StoreId);
 
             var product = await GetEntityByIdAsync(id);
             
@@ -78,12 +80,22 @@ namespace EasyAbp.EShop.Products.Products
 
             await Repository.UpdateAsync(product, autoSave: true);
 
-            await UpdateProductCategoriesAsync(product.Id, product.StoreId, input.CategoryIds);
+            await UpdateProductCategoriesAsync(product.Id, input.CategoryIds);
 
             return MapToGetOutputDto(product);
         }
 
-        private async Task UpdateProductAttributesAsync(Product product, CreateUpdateProductDto input)
+        protected virtual async Task CheckStoreIsProductOwnerAsync(Guid id, Guid storeId)
+        {
+            var productStore = await _productStoreRepository.GetAsync(id, storeId);
+
+            if (!productStore.IsOwner)
+            {
+                throw new StoreIsNotProductOwnerException(id, storeId);
+            }
+        }
+
+        protected virtual async Task UpdateProductAttributesAsync(Product product, CreateUpdateProductDto input)
         {
             foreach (var attributeDto in input.ProductAttributes)
             {
@@ -122,21 +134,39 @@ namespace EasyAbp.EShop.Products.Products
             product.ProductAttributes.RemoveAll(a => exceptAttributeNames.Contains(a.DisplayName));
         }
 
+        [RemoteService(IsMetadataEnabled = false)]
         public override async Task DeleteAsync(Guid id)
         {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<ProductDto> GetAsync(Guid id)
+        {
+            var dto = await base.GetAsync(id);
+
+            dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
+                .Select(x => x.CategoryId).ToList();
+            
+            return dto;
+        }
+        
+        public async Task DeleteAsync(Guid id, Guid storeId)
+        {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
+            
+            await CheckStoreIsProductOwnerAsync(id, storeId);
 
             await base.DeleteAsync(id);
         }
 
-        protected virtual async Task UpdateProductCategoriesAsync(Guid productId, Guid storeId, IEnumerable<Guid> categoryIds)
+        protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
 
             foreach (var categoryId in categoryIds)
             {
-                await _productCategoryRepository.InsertAsync(new ProductCategory(GuidGenerator.Create(),
-                    CurrentTenant.Id, storeId, categoryId, productId));
+                await _productCategoryRepository.InsertAsync(
+                    new ProductCategory(GuidGenerator.Create(), CurrentTenant.Id, categoryId, productId), true);
             }
         }
     }

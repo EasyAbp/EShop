@@ -36,7 +36,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\EShop" />
+    <Folder Include="Pages\EShop\Stores\Stores" />
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Stores\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Stores\Store\CreateModal.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Stores\Store\EditModal.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Stores\Store\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Stores\_ViewImports.cshtml" />
   </ItemGroup>
 
 </Project>

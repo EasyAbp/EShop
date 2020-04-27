@@ -17,7 +17,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
     public class CreateModalModel : ProductsPageModel
     {
         [BindProperty]
-        public CreateUpdateProductViewModel Product { get; set; }
+        public CreateEditProductViewModel Product { get; set; }
         
         public ICollection<SelectListItem> ProductTypes { get; set; }
         
@@ -37,7 +37,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             _service = service;
         }
 
-        public async Task OnGetAsync(Guid storeId)
+        public virtual async Task OnGetAsync(Guid storeId, Guid? categoryId)
         {
             ProductTypes =
                 (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
@@ -49,15 +49,20 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                     {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount}))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
             
-            Product = new CreateUpdateProductViewModel
+            Product = new CreateEditProductViewModel
             {
                 StoreId = storeId
             };
+
+            if (categoryId.HasValue)
+            {
+                Product.CategoryIds = new List<Guid>(new[] {categoryId.Value});
+            }
         }
         
-        public async Task<IActionResult> OnPostAsync()
+        public virtual async Task<IActionResult> OnPostAsync()
         {
-            await _service.CreateAsync(ObjectMapper.Map<CreateUpdateProductViewModel, CreateUpdateProductDto>(Product));
+            await _service.CreateAsync(ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product));
             return NoContent();
         }
     }

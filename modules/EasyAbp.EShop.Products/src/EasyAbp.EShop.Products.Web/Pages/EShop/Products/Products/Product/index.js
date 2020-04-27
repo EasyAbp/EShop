@@ -14,7 +14,9 @@ $(function () {
         autoWidth: false,
         scrollCollapse: true,
         order: [[1, "asc"]],
-        ajax: abp.libs.datatables.createAjax(service.getList),
+        ajax: abp.libs.datatables.createAjax(service.getList, function () {
+            return { storeId: storeId, categoryId: categoryId }
+        }),
         columnDefs: [
             {
                 rowAction: {
@@ -23,7 +25,7 @@ $(function () {
                             {
                                 text: l('Edit'),
                                 action: function (data) {
-                                    editModal.open({ id: data.record.id });
+                                    editModal.open({ id: data.record.id, storeId: storeId });
                                 }
                             },
                             {
@@ -32,7 +34,7 @@ $(function () {
                                     return l('ProductDeletionConfirmationMessage', data.record.id);
                                 },
                                 action: function (data) {
-                                    service.delete(data.record.id)
+                                    service.delete({ id: data.record.id, storeId: storeId })
                                         .then(function () {
                                             abp.notify.info(l('SuccessfullyDeleted'));
                                             dataTable.ajax.reload();
@@ -42,7 +44,6 @@ $(function () {
                         ]
                 }
             },
-            { data: "storeId" },
             { data: "productTypeId" },
             { data: "displayName" },
             { data: "inventoryStrategy" },
@@ -61,6 +62,6 @@ $(function () {
 
     $('#NewProductButton').click(function (e) {
         e.preventDefault();
-        createModal.open();
+        createModal.open({ storeId: storeId, categoryId: categoryId });
     });
 });

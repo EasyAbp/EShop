@@ -10,6 +10,7 @@ using EasyAbp.EShop.Products.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using EasyAbp.EShop.Products.Localization;
+using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.UI.Navigation;
 
@@ -17,7 +18,7 @@ namespace EasyAbp.EShop.Products.Web
 {
     public class ProductsMenuContributor : IMenuContributor
     {
-        public async Task ConfigureMenuAsync(MenuConfigurationContext context)
+        public virtual async Task ConfigureMenuAsync(MenuConfigurationContext context)
         {
             if (context.Menu.Name == StandardMenus.Main)
             {
@@ -49,8 +50,12 @@ namespace EasyAbp.EShop.Products.Web
 
             if (await authorizationService.IsGrantedAsync(ProductsPermissions.Products.Default))
             {
+                var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
+
+                var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
+                
                 productManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Product", l["Menu:Product"], "/EShop/Products/Products/Product")
+                    new ApplicationMenuItem("Product", l["Menu:Product"], "/EShop/Products/Products/Product?storeId=" + defaultStore)
                 );
             }
 

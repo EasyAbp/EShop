@@ -1,0 +1,38 @@
+@page
+@inherits EasyAbp.EShop.Stores.Web.Pages.StoresPage
+@model EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store.IndexModel
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Stores/Stores/Store/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Stores/Stores/Store/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_2">
+                <h2>@L["Store"]</h2>
+            </abp-column>
+            <abp-column size-md="_10" class="text-right">
+                <abp-button id="NewStoreButton"
+                            text="@L["CreateStore"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="StoreTable">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["Name"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EasyAbp.EShop.Stores.Stores;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
-using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class Product : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
+    public class Product : FullAuditedAggregateRoot<Guid>
     {
-        public virtual Guid? TenantId { get; protected set; }
-        
-        public virtual Guid StoreId { get; protected set; }
-        
         public virtual Guid ProductTypeId { get; protected set; }
         
         [NotNull]
@@ -41,8 +35,6 @@ namespace EasyAbp.EShop.Products.Products
 
         public Product(
             Guid id,
-            Guid? tenantId,
-            Guid storeId,
             Guid productTypeId,
             string displayName,
             InventoryStrategy inventoryStrategy,
@@ -51,8 +43,6 @@ namespace EasyAbp.EShop.Products.Products
             int displayOrder
         ) :base(id)
         {
-            TenantId = tenantId;
-            StoreId = storeId;
             ProductTypeId = productTypeId;
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
