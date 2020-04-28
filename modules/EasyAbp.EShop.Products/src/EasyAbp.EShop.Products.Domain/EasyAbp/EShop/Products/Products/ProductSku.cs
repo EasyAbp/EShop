@@ -21,6 +21,8 @@ namespace EasyAbp.EShop.Products.Products
         public virtual int Sold { get; protected set; }
         
         public virtual int OrderMinQuantity { get; protected set; }
+        
+        public Guid? ProductDetailId { get; set; }
 
         protected ProductSku() {}
         
@@ -32,7 +34,8 @@ namespace EasyAbp.EShop.Products.Products
             decimal price,
             int inventory,
             int sold,
-            int orderMinQuantity) : base(id)
+            int orderMinQuantity,
+            Guid? productDetailId) : base(id)
         {
             SerializedAttributeOptionIds = serializedAttributeOptionIds;
             Currency = currency;
@@ -41,6 +44,7 @@ namespace EasyAbp.EShop.Products.Products
             Inventory = inventory;
             Sold = sold;
             OrderMinQuantity = orderMinQuantity;
+            ProductDetailId = productDetailId;
         }
     }
 }

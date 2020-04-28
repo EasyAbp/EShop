@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels
 {
-    public class CreateUpdateProductAttributeViewModel
+    public class CreateEditProductAttributeViewModel
     {
         [Required]
         [Display(Name = "ProductAttributeDisplayName")]
@@ -15,6 +15,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductAttributeDisplayOrder")]
         public int DisplayOrder { get; set; } = 0;
         
-        public List<CreateUpdateProductAttributeOptionViewModel> ProductAttributeOptions { get; set; }
+        public List<CreateEditProductAttributeOptionViewModel> ProductAttributeOptions { get; set; }
     }
 }

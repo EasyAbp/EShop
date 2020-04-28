@@ -16,5 +16,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public int Sold { get; set; }
         
         public int OrderMinQuantity { get; set; }
+        
+        public Guid? ProductDetailId { get; set; }
     }
 }

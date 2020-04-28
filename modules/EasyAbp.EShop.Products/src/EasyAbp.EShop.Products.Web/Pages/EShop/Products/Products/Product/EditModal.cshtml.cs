@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
@@ -28,15 +30,18 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
+        private readonly IProductDetailAppService _productDetailAppService;
         private readonly IProductAppService _service;
 
         public EditModalModel(
             IProductTypeAppService productTypeAppService,
             ICategoryAppService categoryAppService,
+            IProductDetailAppService productDetailAppService,
             IProductAppService service)
         {
             _productTypeAppService = productTypeAppService;
             _categoryAppService = categoryAppService;
+            _productDetailAppService = productDetailAppService;
             _service = service;
         }
 
@@ -53,16 +58,35 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
             var productDto = await _service.GetAsync(Id);
+
+            var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId);
             
             Product = ObjectMapper.Map<ProductDto, CreateEditProductViewModel>(productDto);
+            
+            Product.ProductDetail = new CreateEditProductDetailViewModel
+            {
+                StoreId = storeId,
+                Description = detailDto.Description
+            };
 
             Product.StoreId = storeId;
         }
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            await _service.UpdateAsync(Id,
-                ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product));
+            var product = await _service.GetAsync(Id);
+
+            var detail = await _productDetailAppService.GetAsync(product.ProductDetailId);
+
+            await _productDetailAppService.UpdateAsync(detail.Id,
+                ObjectMapper
+                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
+
+            var updateProductDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
+
+            updateProductDto.ProductDetailId = detail.Id;
+            
+            await _service.UpdateAsync(Id, updateProductDto);
             return NoContent();
         }
     }

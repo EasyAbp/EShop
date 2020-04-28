@@ -28,7 +28,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductDisplayName")]
         public string DisplayName { get; set; }
         
-        public CreateUpdateProductDetailViewModel ProductDetail { get; set; }
+        public CreateEditProductDetailViewModel ProductDetail { get; set; }
 
         [Required]
         [Placeholder("ProductAttributeNamesPlaceholder")]

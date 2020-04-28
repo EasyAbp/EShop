@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Categories.Dtos;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductTypes;
@@ -16,6 +18,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 {
     public class CreateModalModel : ProductsPageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public Guid StoreId { get; set; }
+        
         [BindProperty]
         public CreateEditProductViewModel Product { get; set; }
         
@@ -25,19 +30,22 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
+        private readonly IProductDetailAppService _productDetailAppService;
         private readonly IProductAppService _service;
 
         public CreateModalModel(
             IProductTypeAppService productTypeAppService,
             ICategoryAppService categoryAppService,
+            IProductDetailAppService productDetailAppService,
             IProductAppService service)
         {
             _productTypeAppService = productTypeAppService;
             _categoryAppService = categoryAppService;
+            _productDetailAppService = productDetailAppService;
             _service = service;
         }
 
-        public virtual async Task OnGetAsync(Guid storeId, Guid? categoryId)
+        public virtual async Task OnGetAsync(Guid? categoryId)
         {
             ProductTypes =
                 (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
@@ -51,7 +59,11 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             
             Product = new CreateEditProductViewModel
             {
-                StoreId = storeId
+                StoreId = StoreId,
+                ProductDetail = new CreateEditProductDetailViewModel
+                {
+                    StoreId = StoreId
+                }
             };
 
             if (categoryId.HasValue)
@@ -62,7 +74,16 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            await _service.CreateAsync(ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product));
+            var detail = await _productDetailAppService.CreateAsync(
+                ObjectMapper
+                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
+
+            var createDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
+
+            createDto.ProductDetailId = detail.Id;
+            
+            var product = await _service.CreateAsync(createDto);
+
             return NoContent();
         }
     }

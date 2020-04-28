@@ -7,6 +7,8 @@ using EasyAbp.EShop.Products.ProductTypes.Dtos;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductCategories.Dtos;
 using AutoMapper;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products
@@ -29,7 +31,8 @@ namespace EasyAbp.EShop.Products
                 .ForSourceMember(dto => dto.CategoryIds, opt => opt.DoNotValidate())
                 .Ignore(p => p.ProductAttributes)
                 .Ignore(p => p.ProductSkus);
-            CreateMap<CreateUpdateProductDetailDto, ProductDetail>(MemberList.Source);
+            CreateMap<CreateUpdateProductDetailDto, ProductDetail>(MemberList.Source)
+                .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate());
             CreateMap<CreateUpdateProductAttributeDto, ProductAttribute>(MemberList.Source);
             CreateMap<CreateUpdateProductAttributeOptionDto, ProductAttributeOption>(MemberList.Source);
             CreateMap<Category, CategoryDto>();

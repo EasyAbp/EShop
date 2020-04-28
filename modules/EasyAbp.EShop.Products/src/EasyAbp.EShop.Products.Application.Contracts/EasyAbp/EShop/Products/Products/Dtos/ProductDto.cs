@@ -8,6 +8,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     {
         public Guid ProductTypeId { get; set; }
 
+        public Guid ProductDetailId { get; set; }
+
         public ICollection<Guid> CategoryIds { get; set; }
 
         public string DisplayName { get; set; }
@@ -19,8 +21,6 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public int DisplayOrder { get; set; }
 
         public bool IsPublished { get; set; }
-        
-        public ProductDetailDto ProductDetail { get; set; }
         
         public ICollection<ProductAttributeDto> ProductAttributes { get; set; }
         

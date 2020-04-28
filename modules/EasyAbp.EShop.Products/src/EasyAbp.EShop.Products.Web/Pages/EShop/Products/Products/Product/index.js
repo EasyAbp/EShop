@@ -34,7 +34,7 @@ $(function () {
                                     return l('ProductDeletionConfirmationMessage', data.record.id);
                                 },
                                 action: function (data) {
-                                    service.delete({ id: data.record.id, storeId: storeId })
+                                    service.delete(data.record.id, storeId)
                                         .then(function () {
                                             abp.notify.info(l('SuccessfullyDeleted'));
                                             dataTable.ajax.reload();

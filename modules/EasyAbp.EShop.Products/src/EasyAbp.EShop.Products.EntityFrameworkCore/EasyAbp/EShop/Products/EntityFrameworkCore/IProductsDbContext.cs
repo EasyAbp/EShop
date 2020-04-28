@@ -5,6 +5,7 @@ using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.ProductCategories;
+using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductStores;
 
 namespace EasyAbp.EShop.Products.EntityFrameworkCore

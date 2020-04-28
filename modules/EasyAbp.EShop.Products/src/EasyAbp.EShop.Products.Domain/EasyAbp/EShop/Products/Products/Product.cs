@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EasyAbp.EShop.Products.ProductDetails;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 
@@ -9,6 +10,8 @@ namespace EasyAbp.EShop.Products.Products
     {
         public virtual Guid ProductTypeId { get; protected set; }
         
+        public virtual Guid ProductDetailId { get; protected set; }
+
         [NotNull]
         public virtual string DisplayName { get; protected set; }
         
@@ -20,8 +23,6 @@ namespace EasyAbp.EShop.Products.Products
         public virtual int DisplayOrder { get; protected set; }
 
         public virtual bool IsPublished { get; protected set; }
-        
-        public virtual ProductDetail ProductDetail { get; protected set; }
         
         public virtual ICollection<ProductAttribute> ProductAttributes { get; protected set; }
         
@@ -36,6 +37,7 @@ namespace EasyAbp.EShop.Products.Products
         public Product(
             Guid id,
             Guid productTypeId,
+            Guid productDetailId,
             string displayName,
             InventoryStrategy inventoryStrategy,
             bool isPublished,
@@ -44,6 +46,7 @@ namespace EasyAbp.EShop.Products.Products
         ) :base(id)
         {
             ProductTypeId = productTypeId;
+            ProductDetailId = productDetailId;
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
             IsPublished = isPublished;

@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels
 {
-    public class CreateUpdateProductAttributeOptionViewModel
+    public class CreateEditProductAttributeOptionViewModel
     {
         [Required]
         [Display(Name = "ProductAttributeOptionDisplayName")]

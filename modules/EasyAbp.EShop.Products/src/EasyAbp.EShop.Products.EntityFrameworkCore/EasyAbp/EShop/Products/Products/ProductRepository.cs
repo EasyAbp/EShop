@@ -16,7 +16,6 @@ namespace EasyAbp.EShop.Products.Products
         public override IQueryable<Product> WithDetails()
         {
             return base.WithDetails()
-                .Include(x => x.ProductDetail)
                 .Include(x => x.ProductAttributes).ThenInclude(x => x.ProductAttributeOptions)
                 .Include(x => x.ProductSkus);
         }

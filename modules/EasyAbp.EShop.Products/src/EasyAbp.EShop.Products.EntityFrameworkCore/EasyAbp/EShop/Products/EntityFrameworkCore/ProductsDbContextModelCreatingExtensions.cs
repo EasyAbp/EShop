@@ -4,6 +4,7 @@ using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Products;
 using System;
+using EasyAbp.EShop.Products.ProductDetails;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -57,7 +58,6 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "ProductDetails", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
-                b.HasKey(x => new { x.ProductId });
             });
             
             builder.Entity<ProductAttribute>(b =>
