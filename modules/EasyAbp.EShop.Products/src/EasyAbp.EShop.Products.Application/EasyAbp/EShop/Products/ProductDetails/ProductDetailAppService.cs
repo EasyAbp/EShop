@@ -61,18 +61,13 @@ namespace EasyAbp.EShop.Products.ProductDetails
             await Repository.DeleteAsync(id);
         }
         
+        [Obsolete("Should use DeleteAsync(Guid id, Guid storeId)")]
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        [RemoteService(false)]
-        public override Task<PagedResultDto<ProductDetailDto>> GetListAsync(PagedAndSortedResultRequestDto input)
-        {
-            throw new NotImplementedException();
-        }
-        
         protected virtual async Task CheckStoreIsProductOwnerAsync(Guid productId, Guid storeId)
         {
             var productStore = await _productStoreRepository.GetAsync(productId, storeId);

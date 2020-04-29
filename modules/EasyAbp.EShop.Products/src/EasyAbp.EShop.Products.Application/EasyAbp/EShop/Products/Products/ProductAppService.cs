@@ -162,12 +162,14 @@ namespace EasyAbp.EShop.Products.Products
             product.ProductAttributes.RemoveAll(a => exceptAttributeNames.Contains(a.DisplayName));
         }
 
+        [Obsolete("Should use DeleteAsync(Guid id, Guid storeId)")]
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
+        [Obsolete("Should use GetAsync(Guid id, Guid storeId)")]
         [RemoteService(false)]
         public override Task<ProductDto> GetAsync(Guid id)
         {
