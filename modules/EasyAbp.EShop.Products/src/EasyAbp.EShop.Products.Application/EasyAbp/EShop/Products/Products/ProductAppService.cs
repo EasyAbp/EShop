@@ -24,18 +24,18 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetPolicyName { get; set; } = null;
         protected override string GetListPolicyName { get; set; } = null;
 
-        private readonly ISerializedAttributeOptionIdsFormatter _serializedAttributeOptionIdsFormatter;
+        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
-            ISerializedAttributeOptionIdsFormatter serializedAttributeOptionIdsFormatter,
+            IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductRepository repository) : base(repository)
         {
-            _serializedAttributeOptionIdsFormatter = serializedAttributeOptionIdsFormatter;
+            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
             _repository = repository;
@@ -125,12 +125,29 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task UpdateProductAttributesAsync(Product product, CreateUpdateProductDto input)
         {
+            var isProductSkusEmpty = product.ProductSkus.IsNullOrEmpty();
+
+            var usedAttributeOptionIds = new HashSet<Guid>();
+            
+            foreach (var serializedAttributeOptionIds in product.ProductSkus.Select(sku => sku.SerializedAttributeOptionIds))
+            {
+                foreach (var attributeOptionId in await _attributeOptionIdsSerializer.DeserializeAsync(serializedAttributeOptionIds))
+                {
+                    usedAttributeOptionIds.Add(attributeOptionId);
+                }
+            }
+            
             foreach (var attributeDto in input.ProductAttributes)
             {
                 var attribute = product.ProductAttributes.FirstOrDefault(a => a.DisplayName == attributeDto.DisplayName);
                 
                 if (attribute == null)
                 {
+                    if (!isProductSkusEmpty)
+                    {
+                        throw new ProductAttributesModificationFailedException();
+                    }
+                    
                     attribute = new ProductAttribute(GuidGenerator.Create(),
                         attributeDto.DisplayName, attributeDto.Description);
                     
@@ -150,16 +167,29 @@ namespace EasyAbp.EShop.Products.Products
                     }
                 }
 
-                var exceptOptionNames = attribute.ProductAttributeOptions.Select(o => o.DisplayName)
-                    .Except(attributeDto.ProductAttributeOptions.Select(o => o.DisplayName));
+                var removedOptionNames = attribute.ProductAttributeOptions.Select(o => o.DisplayName)
+                    .Except(attributeDto.ProductAttributeOptions.Select(o => o.DisplayName)).ToList();
 
-                attribute.ProductAttributeOptions.RemoveAll(o => exceptOptionNames.Contains(o.DisplayName));
+                if (!isProductSkusEmpty && removedOptionNames.Any() && usedAttributeOptionIds
+                    .Intersect(attribute.ProductAttributeOptions
+                        .Where(option => removedOptionNames.Contains(option.DisplayName))
+                        .Select(option => option.Id)).Any())
+                {
+                    throw new ProductAttributeOptionsDeletionFailedException();
+                }
+
+                attribute.ProductAttributeOptions.RemoveAll(o => removedOptionNames.Contains(o.DisplayName));
             }
 
-            var exceptAttributeNames = product.ProductAttributes.Select(a => a.DisplayName)
-                .Except(input.ProductAttributes.Select(a => a.DisplayName));
+            var removedAttributeNames = product.ProductAttributes.Select(a => a.DisplayName)
+                .Except(input.ProductAttributes.Select(a => a.DisplayName)).ToList();
 
-            product.ProductAttributes.RemoveAll(a => exceptAttributeNames.Contains(a.DisplayName));
+            if (!isProductSkusEmpty && removedAttributeNames.Any())
+            {
+                throw new ProductAttributesModificationFailedException();
+            }
+            
+            product.ProductAttributes.RemoveAll(a => removedAttributeNames.Contains(a.DisplayName));
         }
 
         [Obsolete("Should use DeleteAsync(Guid id, Guid storeId)")]
@@ -257,7 +287,7 @@ namespace EasyAbp.EShop.Products.Products
             CheckProductIsNotStatic(product);
 
             input.SerializedAttributeOptionIds =
-                await _serializedAttributeOptionIdsFormatter.ParseAsync(input.SerializedAttributeOptionIds);
+                await _attributeOptionIdsSerializer.FormatAsync(input.SerializedAttributeOptionIds);
 
             await CheckSkuAttributeOptionsAsync(product, input.SerializedAttributeOptionIds);
 
