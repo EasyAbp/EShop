@@ -41,9 +41,11 @@ namespace EasyAbp.EShop.Products.Products
 
         protected override IQueryable<Product> CreateFilteredQuery(GetProductListDto input)
         {
-            return input.CategoryId.HasValue
+            var query = input.CategoryId.HasValue
                 ? _repository.GetQueryable(input.StoreId, input.CategoryId.Value)
                 : _repository.GetQueryable(input.StoreId);
+
+            return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
 
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
@@ -93,6 +95,8 @@ namespace EasyAbp.EShop.Products.Products
             await CheckStoreIsProductOwnerAsync(id, input.StoreId);
             
             var product = await GetEntityByIdAsync(id);
+            
+            CheckProductIsNotStatic(product);
             
             MapToEntity(input, product);
 
@@ -174,11 +178,25 @@ namespace EasyAbp.EShop.Products.Products
         
         public async Task DeleteAsync(Guid id, Guid storeId)
         {
+            await CheckDeletePolicyAsync();
+
+            var product = await GetEntityByIdAsync(id);
+            
+            CheckProductIsNotStatic(product);
+            
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
             
             await CheckStoreIsProductOwnerAsync(id, storeId);
 
-            await base.DeleteAsync(id);
+            await _repository.DeleteAsync(product);
+        }
+
+        private static void CheckProductIsNotStatic(Product product)
+        {
+            if (product.IsStatic)
+            {
+                throw new StaticProductCannotBeModifiedException(product.Id);
+            }
         }
 
         public async Task<ProductDto> CreateSkuAsync(Guid productId, Guid storeId, CreateProductSkuDto input)
@@ -188,6 +206,8 @@ namespace EasyAbp.EShop.Products.Products
             await CheckStoreIsProductOwnerAsync(productId, storeId);
             
             var product = await GetEntityByIdAsync(productId);
+
+            CheckProductIsNotStatic(product);
 
             input.SerializedAttributeOptionIds =
                 await _serializedAttributeOptionIdsFormatter.ParseAsync(input.SerializedAttributeOptionIds);
@@ -224,6 +244,8 @@ namespace EasyAbp.EShop.Products.Products
             
             var product = await GetEntityByIdAsync(productId);
 
+            CheckProductIsNotStatic(product);
+
             var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
 
             ObjectMapper.Map(input, sku);
@@ -241,6 +263,8 @@ namespace EasyAbp.EShop.Products.Products
             
             var product = await GetEntityByIdAsync(productId);
             
+            CheckProductIsNotStatic(product);
+
             var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
 
             product.ProductSkus.Remove(sku);

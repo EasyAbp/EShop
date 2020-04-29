@@ -24,6 +24,10 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual bool IsPublished { get; protected set; }
         
+        public virtual bool IsStatic { get; protected set; }
+        
+        public virtual bool IsHidden { get; protected set; }
+        
         public virtual ICollection<ProductAttribute> ProductAttributes { get; protected set; }
         
         public virtual ICollection<ProductSku> ProductSkus { get; protected set; }
@@ -41,6 +45,8 @@ namespace EasyAbp.EShop.Products.Products
             string displayName,
             InventoryStrategy inventoryStrategy,
             bool isPublished,
+            bool isStatic,
+            bool isHidden,
             string mediaResources,
             int displayOrder
         ) :base(id)
@@ -50,6 +56,8 @@ namespace EasyAbp.EShop.Products.Products
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
             IsPublished = isPublished;
+            IsStatic = isStatic;
+            IsHidden = isHidden;
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
             ProductAttributes = new List<ProductAttribute>();

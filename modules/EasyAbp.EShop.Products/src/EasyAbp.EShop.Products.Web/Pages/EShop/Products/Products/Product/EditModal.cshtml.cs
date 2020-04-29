@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories;
+using EasyAbp.EShop.Products.Categories.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +54,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
             
             Categories =
-                (await _categoryAppService.GetListAsync(new PagedAndSortedResultRequestDto
+                (await _categoryAppService.GetListAsync(new GetCategoryListDto
                     {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount}))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 

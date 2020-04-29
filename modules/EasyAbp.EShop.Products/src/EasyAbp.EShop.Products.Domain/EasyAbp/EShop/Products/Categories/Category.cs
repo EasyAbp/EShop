@@ -19,6 +19,8 @@ namespace EasyAbp.EShop.Products.Categories
         
         [CanBeNull]
         public virtual string MediaResources { get; protected set; } 
+        
+        public virtual bool IsHidden { get; protected set; }
 
         protected Category()
         {
@@ -30,7 +32,8 @@ namespace EasyAbp.EShop.Products.Categories
             Guid? parentCategoryId,
             string displayName,
             string description,
-            string mediaResources
+            string mediaResources,
+            bool isHidden
         ) :base(id)
         {
             TenantId = tenantId;
@@ -38,6 +41,7 @@ namespace EasyAbp.EShop.Products.Categories
             DisplayName = displayName;
             Description = description;
             MediaResources = mediaResources;
+            IsHidden = isHidden;
         }
     }
 }

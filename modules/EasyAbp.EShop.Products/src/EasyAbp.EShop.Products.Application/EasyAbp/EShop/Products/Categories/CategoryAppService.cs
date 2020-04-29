@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using EasyAbp.EShop.Products.Authorization;
 using EasyAbp.EShop.Products.Categories.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -6,7 +7,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.Categories
 {
-    public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateCategoryDto, CreateUpdateCategoryDto>,
+    public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, GetCategoryListDto, CreateUpdateCategoryDto, CreateUpdateCategoryDto>,
         ICategoryAppService
     {
         protected override string CreatePolicyName { get; set; } = ProductsPermissions.Categories.Create;
@@ -20,6 +21,13 @@ namespace EasyAbp.EShop.Products.Categories
         public CategoryAppService(ICategoryRepository repository) : base(repository)
         {
             _repository = repository;
+        }
+
+        protected override IQueryable<Category> CreateFilteredQuery(GetCategoryListDto input)
+        {
+            var query =  base.CreateFilteredQuery(input);
+            
+            return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
             
             Categories =
-                (await _categoryAppService.GetListAsync(new PagedAndSortedResultRequestDto
+                (await _categoryAppService.GetListAsync(new GetCategoryListDto
                     {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount}))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
             

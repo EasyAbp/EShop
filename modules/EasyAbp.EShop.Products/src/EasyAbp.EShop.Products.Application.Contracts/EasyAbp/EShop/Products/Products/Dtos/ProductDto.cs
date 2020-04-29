@@ -22,6 +22,10 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public bool IsPublished { get; set; }
         
+        public bool IsStatic { get; set; }
+        
+        public bool IsHidden { get; set; }
+
         public ICollection<ProductAttributeDto> ProductAttributes { get; set; }
         
         public ICollection<ProductSkuDto> ProductSkus { get; set; }
