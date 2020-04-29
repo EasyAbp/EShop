@@ -9,9 +9,9 @@
     <abp-modal>
         <abp-modal-header title="@L["EditProductSku"].Value"></abp-modal-header>
         <abp-modal-body>
-            <abp-input asp-for="Id" />
             <abp-input asp-for="StoreId" />
             <abp-input asp-for="ProductId" />
+            <abp-input asp-for="ProductSkuId" />
             <abp-form-content />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>

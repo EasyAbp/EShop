@@ -14,16 +14,13 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
     {
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
-        public Guid Id { get; set; }
-        
-        [HiddenInput]
-        [BindProperty(SupportsGet = true)]
         public Guid StoreId { get; set; }
         
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
         public Guid ProductId { get; set; }
         
+        [HiddenInput]
         [BindProperty(SupportsGet = true)]
         public Guid ProductSkuId { get; set; }
 

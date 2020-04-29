@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public string Currency { get; set; }
         
         [DisplayName("ProductSkuOriginalPrice")]
-        public decimal OriginalPrice { get; set; }
+        public decimal? OriginalPrice { get; set; }
 
         [DisplayName("ProductSkuPrice")]
         public decimal Price { get; set; }

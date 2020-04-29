@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
         public decimal Price { get; set; }
      
         [Display(Name = "ProductSkuOriginalPrice")]
-        public decimal OriginalPrice { get; set; }
+        public decimal? OriginalPrice { get; set; }
 
         [Required]
         [Display(Name = "ProductSkuInventory")]

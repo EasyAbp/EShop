@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Products.Products
         [NotNull]
         public virtual string Currency { get; protected set; }
         
-        public virtual decimal OriginalPrice { get; protected set; }
+        public virtual decimal? OriginalPrice { get; protected set; }
         
         public virtual decimal Price { get; protected set; }
 
@@ -30,7 +30,7 @@ namespace EasyAbp.EShop.Products.Products
             Guid id,
             [NotNull] string serializedAttributeOptionIds,
             [NotNull] string currency,
-            decimal originalPrice,
+            decimal? originalPrice,
             decimal price,
             int inventory,
             int sold,
