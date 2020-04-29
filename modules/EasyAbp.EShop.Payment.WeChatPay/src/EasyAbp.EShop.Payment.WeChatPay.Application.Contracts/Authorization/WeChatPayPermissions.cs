@@ -4,7 +4,7 @@ namespace EasyAbp.EShop.Payment.WeChatPay.Authorization
 {
     public class WeChatPayPermissions
     {
-        public const string GroupName = "WeChatPay";
+        public const string GroupName = "EasyAbp.EShop.WeChatPay";
 
         public static string[] GetAll()
         {

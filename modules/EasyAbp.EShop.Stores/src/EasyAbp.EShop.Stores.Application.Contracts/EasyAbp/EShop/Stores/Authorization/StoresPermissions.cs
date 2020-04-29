@@ -4,7 +4,7 @@ namespace EasyAbp.EShop.Stores.Authorization
 {
     public class StoresPermissions
     {
-        public const string GroupName = "Stores";
+        public const string GroupName = "EasyAbp.EShop.Stores";
 
         public static string[] GetAll()
         {

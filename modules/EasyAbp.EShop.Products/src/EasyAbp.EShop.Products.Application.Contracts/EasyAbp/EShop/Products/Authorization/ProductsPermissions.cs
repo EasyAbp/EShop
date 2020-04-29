@@ -4,7 +4,7 @@ namespace EasyAbp.EShop.Products.Authorization
 {
     public class ProductsPermissions
     {
-        public const string GroupName = "Products";
+        public const string GroupName = "EasyAbp.EShop.Products";
 
         public class ProductTypes
         {
