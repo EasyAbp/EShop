@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Authorization;
 using EasyAbp.EShop.Products.Categories.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -13,8 +15,8 @@ namespace EasyAbp.EShop.Products.Categories
         protected override string CreatePolicyName { get; set; } = ProductsPermissions.Categories.Create;
         protected override string DeletePolicyName { get; set; } = ProductsPermissions.Categories.Delete;
         protected override string UpdatePolicyName { get; set; } = ProductsPermissions.Categories.Update;
-        protected override string GetPolicyName { get; set; } = ProductsPermissions.Categories.Default;
-        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Categories.Default;
+        protected override string GetPolicyName { get; set; } = null;
+        protected override string GetListPolicyName { get; set; } = null;
 
         private readonly ICategoryRepository _repository;
 
@@ -28,6 +30,16 @@ namespace EasyAbp.EShop.Products.Categories
             var query =  base.CreateFilteredQuery(input);
             
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
+        }
+
+        public override Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoryListDto input)
+        {
+            if (input.ShowHidden)
+            {
+                AuthorizationService.CheckAsync(ProductsPermissions.Products.Default);
+            }
+            
+            return base.GetListAsync(input);
         }
     }
 }

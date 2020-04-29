@@ -7,7 +7,9 @@ using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
 
@@ -19,8 +21,8 @@ namespace EasyAbp.EShop.Products.Products
         protected override string CreatePolicyName { get; set; } = ProductsPermissions.Products.Create;
         protected override string DeletePolicyName { get; set; } = ProductsPermissions.Products.Delete;
         protected override string UpdatePolicyName { get; set; } = ProductsPermissions.Products.Update;
-        protected override string GetPolicyName { get; set; } = ProductsPermissions.Products.Default;
-        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
+        protected override string GetPolicyName { get; set; } = null;
+        protected override string GetListPolicyName { get; set; } = null;
 
         private readonly ISerializedAttributeOptionIdsFormatter _serializedAttributeOptionIdsFormatter;
         private readonly IProductStoreRepository _productStoreRepository;
@@ -175,7 +177,17 @@ namespace EasyAbp.EShop.Products.Products
             
             return dto;
         }
-        
+
+        public override Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
+        {
+            if (input.ShowHidden)
+            {
+                AuthorizationService.CheckAsync(ProductsPermissions.Products.Default);
+            }
+            
+            return base.GetListAsync(input);
+        }
+
         public async Task DeleteAsync(Guid id, Guid storeId)
         {
             await CheckDeletePolicyAsync();
