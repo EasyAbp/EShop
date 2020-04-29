@@ -194,9 +194,9 @@ namespace EasyAbp.EShop.Products.Products
             await CheckGetListPolicyAsync();
 
             // Todo: Check if current user is an admin of the store.
-            var isCurrentUserStoreAdmin = true;
+            var isCurrentUserStoreAdmin = true && await AuthorizationService.IsGrantedAsync(ProductsPermissions.Products.Default);
             
-            if (input.ShowHidden && (!isCurrentUserStoreAdmin || !await AuthorizationService.IsGrantedAsync(ProductsPermissions.Products.Default)))
+            if (input.ShowHidden && !isCurrentUserStoreAdmin)
             {
                 throw new NotAllowedToGetProductListWithShowHiddenException();
             }

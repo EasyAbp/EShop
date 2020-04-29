@@ -35,9 +35,9 @@ namespace EasyAbp.EShop.Products.Categories
         public override async Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoryListDto input)
         {
             // Todo: Check if current user is an admin of the store.
-            var isCurrentUserStoreAdmin = true;
-
-            if (input.ShowHidden && (!isCurrentUserStoreAdmin || !await AuthorizationService.IsGrantedAsync(ProductsPermissions.Categories.Default)))
+            var isCurrentUserStoreAdmin = true && await AuthorizationService.IsGrantedAsync(ProductsPermissions.Categories.Default);
+            
+            if (input.ShowHidden && !isCurrentUserStoreAdmin)
             {
                 throw new NotAllowedToGetCategoryListWithShowHiddenException();
             }
