@@ -18,8 +18,10 @@ namespace EasyAbp.EShop.Stores.Stores
 
         public Store(
             Guid id,
+            Guid? tenantId,
             [NotNull] string name) : base(id)
         {
+            TenantId = tenantId;
             Name = name;
         }
     }
