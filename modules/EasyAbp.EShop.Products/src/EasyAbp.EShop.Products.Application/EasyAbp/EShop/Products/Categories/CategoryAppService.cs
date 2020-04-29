@@ -32,14 +32,17 @@ namespace EasyAbp.EShop.Products.Categories
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
 
-        public override Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoryListDto input)
+        public override async Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoryListDto input)
         {
-            if (input.ShowHidden)
+            // Todo: Check if current user is an admin of the store.
+            var isCurrentUserStoreAdmin = true;
+
+            if (input.ShowHidden && (!isCurrentUserStoreAdmin || !await AuthorizationService.IsGrantedAsync(ProductsPermissions.Categories.Default)))
             {
-                AuthorizationService.CheckAsync(ProductsPermissions.Products.Default);
+                throw new NotAllowedToGetCategoryListWithShowHiddenException();
             }
             
-            return base.GetListAsync(input);
+            return await base.GetListAsync(input);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                     {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount}))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
-            var productDto = await _service.GetAsync(Id);
+            var productDto = await _service.GetAsync(Id, storeId);
 
             var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId);
             
@@ -75,7 +75,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var product = await _service.GetAsync(Id);
+            var product = await _service.GetAsync(Id, Product.StoreId);
 
             var detail = await _productDetailAppService.GetAsync(product.ProductDetailId);
 

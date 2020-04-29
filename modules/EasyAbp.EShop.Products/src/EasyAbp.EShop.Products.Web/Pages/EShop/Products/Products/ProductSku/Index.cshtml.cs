@@ -25,7 +25,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         
         public virtual async Task OnGetAsync()
         {
-            ProductDisplayName = (await _productAppService.GetAsync(ProductId)).DisplayName;
+            ProductDisplayName = (await _productAppService.GetAsync(ProductId, StoreId)).DisplayName;
         }
     }
 }

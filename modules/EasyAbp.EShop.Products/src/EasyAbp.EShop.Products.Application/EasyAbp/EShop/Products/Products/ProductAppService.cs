@@ -163,14 +163,25 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [RemoteService(false)]
-        public override async Task DeleteAsync(Guid id)
+        public override Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public override async Task<ProductDto> GetAsync(Guid id)
+        [RemoteService(false)]
+        public override Task<ProductDto> GetAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual async Task<ProductDto> GetAsync(Guid id, Guid storeId)
         {
             var dto = await base.GetAsync(id);
+
+            if (!dto.IsPublished)
+            {
+                await CheckStoreIsProductOwnerAsync(id, storeId);
+            }
 
             dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
                 .Select(x => x.CategoryId).ToList();
@@ -178,14 +189,36 @@ namespace EasyAbp.EShop.Products.Products
             return dto;
         }
 
-        public override Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
+        public override async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
         {
-            if (input.ShowHidden)
-            {
-                AuthorizationService.CheckAsync(ProductsPermissions.Products.Default);
-            }
+            await CheckGetListPolicyAsync();
+
+            // Todo: Check if current user is an admin of the store.
+            var isCurrentUserStoreAdmin = true;
             
-            return base.GetListAsync(input);
+            if (input.ShowHidden && (!isCurrentUserStoreAdmin || !await AuthorizationService.IsGrantedAsync(ProductsPermissions.Products.Default)))
+            {
+                throw new NotAllowedToGetProductListWithShowHiddenException();
+            }
+
+            var query = CreateFilteredQuery(input);
+            
+            if (!isCurrentUserStoreAdmin)
+            {
+                query = query.Where(x => x.IsPublished);
+            }
+
+            var totalCount = await AsyncQueryableExecuter.CountAsync(query);
+
+            query = ApplySorting(query, input);
+            query = ApplyPaging(query, input);
+
+            var entities = await AsyncQueryableExecuter.ToListAsync(query);
+
+            return new PagedResultDto<ProductDto>(
+                totalCount,
+                entities.Select(MapToGetListOutputDto).ToList()
+            );
         }
 
         public async Task DeleteAsync(Guid id, Guid storeId)

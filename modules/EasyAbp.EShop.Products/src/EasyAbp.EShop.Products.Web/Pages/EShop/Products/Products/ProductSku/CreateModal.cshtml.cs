@@ -44,7 +44,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
 
         public virtual async Task OnGetAsync()
         {
-            var product = await _productAppService.GetAsync(ProductId);
+            var product = await _productAppService.GetAsync(ProductId, StoreId);
 
             Attributes = new Dictionary<string, ICollection<SelectListItem>>();
             

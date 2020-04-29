@@ -20,6 +20,8 @@ namespace EasyAbp.EShop.Products.Products
 
         Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input);
 
+        Task<ProductDto> GetAsync(Guid id, Guid storeId);
+
         Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId);
     }
 }
