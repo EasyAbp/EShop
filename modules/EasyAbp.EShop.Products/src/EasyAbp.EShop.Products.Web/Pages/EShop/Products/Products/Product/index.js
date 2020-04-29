@@ -23,6 +23,12 @@ $(function () {
                     items:
                         [
                             {
+                                text: l('ProductSku'),
+                                action: function (data) {
+                                    document.location.href = document.location.origin + '/EShop/Products/Products/ProductSku?ProductId=' + data.record.id + '&StoreId=' + storeId;
+                                }
+                            },
+                            {
                                 text: l('Edit'),
                                 action: function (data) {
                                     editModal.open({ id: data.record.id, storeId: storeId });

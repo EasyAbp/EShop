@@ -1,0 +1,22 @@
+@page
+@inherits EasyAbp.EShop.Products.Web.Pages.ProductsPage
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.CreateModalModel
+@{
+    Layout = null;
+}
+<abp-dynamic-form abp-model="ProductSku" data-ajaxForm="true" asp-page="CreateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["CreateProductSku"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-form-content/>
+            @foreach (var attr in Model.Attributes)
+            {
+                <abp-select asp-for="@Model.SelectedAttributeOptionIdDict[attr.Key]" asp-items="@attr.Value" label="@L["ProductAttribute"].Value - @attr.Key" />
+            }
+            <abp-input asp-for="StoreId" />
+            <abp-input asp-for="ProductId" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</abp-dynamic-form>

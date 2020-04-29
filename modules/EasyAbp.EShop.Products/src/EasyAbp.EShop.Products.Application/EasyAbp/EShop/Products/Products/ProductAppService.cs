@@ -22,15 +22,18 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetPolicyName { get; set; } = ProductsPermissions.Products.Default;
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
 
+        private readonly ISerializedAttributeOptionIdsFormatter _serializedAttributeOptionIdsFormatter;
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
+            ISerializedAttributeOptionIdsFormatter serializedAttributeOptionIdsFormatter,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductRepository repository) : base(repository)
         {
+            _serializedAttributeOptionIdsFormatter = serializedAttributeOptionIdsFormatter;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
             _repository = repository;
@@ -176,6 +179,75 @@ namespace EasyAbp.EShop.Products.Products
             await CheckStoreIsProductOwnerAsync(id, storeId);
 
             await base.DeleteAsync(id);
+        }
+
+        public async Task<ProductDto> CreateSkuAsync(Guid productId, Guid storeId, CreateProductSkuDto input)
+        {
+            await CheckUpdatePolicyAsync();
+            
+            await CheckStoreIsProductOwnerAsync(productId, storeId);
+            
+            var product = await GetEntityByIdAsync(productId);
+
+            input.SerializedAttributeOptionIds =
+                await _serializedAttributeOptionIdsFormatter.ParseAsync(input.SerializedAttributeOptionIds);
+
+            await CheckSkuAttributeOptionsAsync(product, input.SerializedAttributeOptionIds);
+
+            var sku = ObjectMapper.Map<CreateProductSkuDto, ProductSku>(input);
+            
+            EntityHelper.TrySetId(sku, GuidGenerator.Create);
+            
+            product.ProductSkus.Add(sku);
+
+            await _repository.UpdateAsync(product, true);
+
+            return ObjectMapper.Map<Product, ProductDto>(product);
+        }
+
+        protected virtual Task CheckSkuAttributeOptionsAsync(Product product, string inputSerializedAttributeOptionIds)
+        {
+            if (product.ProductSkus.FirstOrDefault(sku =>
+                sku.SerializedAttributeOptionIds.Equals(inputSerializedAttributeOptionIds)) != null)
+            {
+                throw new ProductSkuDuplicatedException(product.Id, inputSerializedAttributeOptionIds);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input)
+        {
+            await CheckUpdatePolicyAsync();
+            
+            await CheckStoreIsProductOwnerAsync(productId, storeId);
+            
+            var product = await GetEntityByIdAsync(productId);
+
+            var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
+
+            ObjectMapper.Map(input, sku);
+
+            await _repository.UpdateAsync(product, true);
+
+            return ObjectMapper.Map<Product, ProductDto>(product);
+        }
+
+        public async Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId)
+        {
+            await CheckUpdatePolicyAsync();
+            
+            await CheckStoreIsProductOwnerAsync(productId, storeId);
+            
+            var product = await GetEntityByIdAsync(productId);
+            
+            var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
+
+            product.ProductSkus.Remove(sku);
+            
+            await _repository.UpdateAsync(product, true);
+
+            return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)

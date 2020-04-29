@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\EShop\Products\Products" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -51,6 +50,18 @@
     <_ContentIncludedByDefault Remove="Pages\Categories\Category\CreateModal.cshtml" />
     <_ContentIncludedByDefault Remove="Pages\Categories\Category\EditModal.cshtml" />
     <_ContentIncludedByDefault Remove="Pages\Categories\Category\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\EShop\Products\Products\ProductSku\CreateModal.cshtml.cs">
+      <DependentUpon>CreateModal.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\EShop\Products\Products\ProductSku\EditModal.cshtml.cs">
+      <DependentUpon>EditModal.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\EShop\Products\Products\ProductSku\Index.cshtml.cs">
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

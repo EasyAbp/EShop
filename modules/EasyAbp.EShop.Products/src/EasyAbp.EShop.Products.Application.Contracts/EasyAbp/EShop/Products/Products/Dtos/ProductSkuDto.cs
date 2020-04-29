@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     {
         public string SerializedAttributeOptionIds { get; set; }
         
+        public string Currency { get; set; }
+        
         public decimal OriginalPrice { get; set; }
         
         public decimal Price { get; set; }

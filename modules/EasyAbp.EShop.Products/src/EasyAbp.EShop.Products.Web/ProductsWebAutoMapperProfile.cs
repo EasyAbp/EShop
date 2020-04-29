@@ -7,6 +7,7 @@ using EasyAbp.EShop.Products.ProductTypes.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
+using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products.Web
@@ -50,6 +51,11 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>();
             CreateMap<ProductAttributeDto, CreateEditProductAttributeViewModel>();
             CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>();
+            CreateMap<CreateEditProductSkuViewModel, CreateProductSkuDto>()
+                .Ignore(dto => dto.SerializedAttributeOptionIds);
+            CreateMap<CreateEditProductSkuViewModel, UpdateProductSkuDto>();
+            CreateMap<ProductSkuDto, CreateEditProductSkuViewModel>()
+                .ForSourceMember(dto => dto.SerializedAttributeOptionIds, opt => opt.DoNotValidate());
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
             CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>();
             CreateMap<CategoryDto, CreateUpdateCategoryDto>();

@@ -35,6 +35,8 @@ namespace EasyAbp.EShop.Products
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate());
             CreateMap<CreateUpdateProductAttributeDto, ProductAttribute>(MemberList.Source);
             CreateMap<CreateUpdateProductAttributeOptionDto, ProductAttributeOption>(MemberList.Source);
+            CreateMap<CreateProductSkuDto, ProductSku>(MemberList.Source);
+            CreateMap<UpdateProductSkuDto, ProductSku>(MemberList.Source);
             CreateMap<Category, CategoryDto>();
             CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);
             CreateMap<ProductType, ProductTypeDto>();
