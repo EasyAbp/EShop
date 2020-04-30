@@ -24,17 +24,20 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetPolicyName { get; set; } = null;
         protected override string GetListPolicyName { get; set; } = null;
 
+        private readonly IProductPurchasableStatusProvider _productPurchasableStatusProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
+            IProductPurchasableStatusProvider productPurchasableStatusProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductRepository repository) : base(repository)
         {
+            _productPurchasableStatusProvider = productPurchasableStatusProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
@@ -349,6 +352,15 @@ namespace EasyAbp.EShop.Products.Products
             await _repository.UpdateAsync(product, true);
 
             return ObjectMapper.Map<Product, ProductDto>(product);
+        }
+
+        public async Task<GetProductPurchasableStatusResult> GetPurchasableStatusAsync(Guid productId, Guid productSkuId, Guid storeId)
+        {
+            var product = await _repository.GetAsync(productId);
+
+            var productSku = product.ProductSkus.Single(sku => sku.Id == productSkuId);
+
+            return await _productPurchasableStatusProvider.GetPurchasableStatusAsync(product, productSku, storeId);
         }
 
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)

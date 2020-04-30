@@ -23,5 +23,7 @@ namespace EasyAbp.EShop.Products.Products
         Task<ProductDto> GetAsync(Guid id, Guid storeId);
 
         Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId);
+
+        Task<GetProductPurchasableStatusResult> GetPurchasableStatusAsync(Guid productId, Guid productSkuId, Guid storeId);
     }
 }
