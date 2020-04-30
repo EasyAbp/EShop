@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EasyAbp.EShop.Stores.Stores;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -40,5 +41,7 @@ namespace EasyAbp.EShop.Orders.Orders
         
         [CanBeNull]
         public virtual string StaffRemark { get; protected set; }
+        
+        public virtual List<OrderLine> OrderLines { get; protected set; }
     }
 }

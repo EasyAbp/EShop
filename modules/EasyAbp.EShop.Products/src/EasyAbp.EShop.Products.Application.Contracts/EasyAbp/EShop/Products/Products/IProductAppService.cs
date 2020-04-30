@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Products.Dtos;
-using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.Products
@@ -24,6 +24,7 @@ namespace EasyAbp.EShop.Products.Products
 
         Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId);
 
-        Task<GetProductPurchasableStatusResult> GetPurchasableStatusAsync(Guid productId, Guid productSkuId, Guid storeId);
+        Task<CheckProductPurchasableResult> CheckPurchasableAsync(Guid productId, Guid productSkuId, Guid storeId,
+            Dictionary<string, object> extraProperties);
     }
 }
