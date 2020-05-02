@@ -118,6 +118,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "ProductHistories", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+                b.HasIndex(x => x.ProductId);
+                b.HasIndex(x => x.ModificationTime);
             });
 
             builder.Entity<ProductDetailHistory>(b =>
@@ -125,6 +127,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "ProductDetailHistories", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+                b.HasIndex(x => x.ProductDetailId);
+                b.HasIndex(x => x.ModificationTime);
             });
         }
     }

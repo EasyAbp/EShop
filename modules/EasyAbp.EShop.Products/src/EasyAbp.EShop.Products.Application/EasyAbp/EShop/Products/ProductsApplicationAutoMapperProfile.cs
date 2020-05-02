@@ -10,6 +10,9 @@ using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.ProductDetailHistories;
+using EasyAbp.EShop.Products.ProductDetailHistories.Dtos;
+using EasyAbp.EShop.Products.ProductHistories;
+using EasyAbp.EShop.Products.ProductHistories.Dtos;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products
@@ -44,6 +47,8 @@ namespace EasyAbp.EShop.Products
             CreateMap<CreateUpdateProductTypeDto, ProductType>(MemberList.Source);
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<CreateUpdateProductCategoryDto, ProductCategory>(MemberList.Source);
+            CreateMap<ProductHistory, ProductHistoryDto>();
+            CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
         }
     }
 }
