@@ -65,7 +65,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await Repository.InsertAsync(product, autoSave: true);
 
-            await CheckProductDetailIdAsync(product.Id, input.ProductDetailId);
+            await CheckProductDetailAvailableAsync(product.Id, input.ProductDetailId);
 
             await AddProductToStoreAsync(product.Id, input.StoreId);
             
@@ -74,7 +74,7 @@ namespace EasyAbp.EShop.Products.Products
             return MapToGetOutputDto(product);
         }
 
-        private async Task CheckProductDetailIdAsync(Guid currentProductId, Guid desiredProductDetailId)
+        protected virtual async Task CheckProductDetailAvailableAsync(Guid currentProductId, Guid desiredProductDetailId)
         {
             var otherOwner = await _repository.FindAsync(x =>
                 x.ProductDetailId == desiredProductDetailId && x.Id != currentProductId);
@@ -109,7 +109,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await Repository.UpdateAsync(product, autoSave: true);
 
-            await CheckProductDetailIdAsync(product.Id, input.ProductDetailId);
+            await CheckProductDetailAvailableAsync(product.Id, input.ProductDetailId);
 
             await UpdateProductCategoriesAsync(product.Id, input.CategoryIds);
 

@@ -9,6 +9,7 @@ using EasyAbp.EShop.Products.ProductCategories.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
+using EasyAbp.EShop.Products.ProductDetailHistories;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products

@@ -7,6 +7,8 @@ using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductStores;
+using EasyAbp.EShop.Products.ProductHistories;
+using EasyAbp.EShop.Products.ProductDetailHistories;
 
 namespace EasyAbp.EShop.Products.EntityFrameworkCore
 {
@@ -25,6 +27,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductStore> ProductStores { get; set; }
+        public DbSet<ProductHistory> ProductHistories { get; set; }
+        public DbSet<ProductDetailHistory> ProductDetailHistories { get; set; }
 
         public ProductsDbContext(DbContextOptions<ProductsDbContext> options) 
             : base(options)

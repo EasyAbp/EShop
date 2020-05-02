@@ -1,3 +1,5 @@
+using EasyAbp.EShop.Products.ProductDetailHistories;
+using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductTypes;
@@ -107,6 +109,20 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
             builder.Entity<ProductStore>(b =>
             {
                 b.ToTable(options.TablePrefix + "ProductStores", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+            });
+
+            builder.Entity<ProductHistory>(b =>
+            {
+                b.ToTable(options.TablePrefix + "ProductHistories", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+            });
+
+            builder.Entity<ProductDetailHistory>(b =>
+            {
+                b.ToTable(options.TablePrefix + "ProductDetailHistories", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
             });

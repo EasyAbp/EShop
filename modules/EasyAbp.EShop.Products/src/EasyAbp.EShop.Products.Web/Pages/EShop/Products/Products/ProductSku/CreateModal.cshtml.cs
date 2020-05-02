@@ -2,18 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Categories;
-using EasyAbp.EShop.Products.ProductDetails;
-using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Products.ProductTypes;
-using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
-using Volo.Abp.Application.Dtos;
+using Volo.Abp.Json;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
 {
@@ -34,11 +28,15 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         public Dictionary<string, Guid> SelectedAttributeOptionIdDict { get; set; }
         
         public Dictionary<string, ICollection<SelectListItem>> Attributes { get; set; }
-        
+
+        private readonly IJsonSerializer _jsonSerializer;
         private readonly IProductAppService _productAppService;
 
-        public CreateModalModel(IProductAppService productAppService)
+        public CreateModalModel(
+            IJsonSerializer jsonSerializer,
+            IProductAppService productAppService)
         {
+            _jsonSerializer = jsonSerializer;
             _productAppService = productAppService;
         }
 
@@ -60,7 +58,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         {
             var createDto = ObjectMapper.Map<CreateEditProductSkuViewModel, CreateProductSkuDto>(ProductSku);
 
-            createDto.SerializedAttributeOptionIds = JsonConvert.SerializeObject(SelectedAttributeOptionIdDict.Values);
+            createDto.SerializedAttributeOptionIds = _jsonSerializer.Serialize(SelectedAttributeOptionIdDict.Values);
             
             await _productAppService.CreateSkuAsync(ProductId, StoreId, createDto);
 
