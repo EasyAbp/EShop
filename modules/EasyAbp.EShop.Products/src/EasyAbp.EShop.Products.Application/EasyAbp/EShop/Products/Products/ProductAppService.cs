@@ -199,14 +199,14 @@ namespace EasyAbp.EShop.Products.Products
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [Obsolete("Should use GetAsync(Guid id, Guid storeId)")]
         [RemoteService(false)]
         public override Task<ProductDto> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
         
         public virtual async Task<ProductDto> GetAsync(Guid id, Guid storeId)

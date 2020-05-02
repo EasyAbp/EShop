@@ -65,7 +65,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         protected virtual async Task CheckStoreIsProductOwnerAsync(Guid productId, Guid storeId)

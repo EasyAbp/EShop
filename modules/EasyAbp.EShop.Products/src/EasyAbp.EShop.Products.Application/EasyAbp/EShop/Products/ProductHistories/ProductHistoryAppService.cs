@@ -35,19 +35,19 @@ namespace EasyAbp.EShop.Products.ProductHistories
         [RemoteService(false)]
         public override Task<ProductHistoryDto> CreateAsync(object input)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [RemoteService(false)]
         public override Task<ProductHistoryDto> UpdateAsync(Guid id, object input)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }
