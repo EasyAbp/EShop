@@ -12,6 +12,10 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual Guid ProductSkuId { get; protected set; }
         
+        public virtual DateTime ProductModificationTime { get; protected set; }
+        
+        public virtual DateTime ProductDetailModificationTime { get; protected set; }
+        
         [NotNull]
         public virtual string ProductName { get; protected set; }
         
