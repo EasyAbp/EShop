@@ -22,8 +22,6 @@ namespace EasyAbp.EShop.Orders.Orders
         [NotNull]
         public virtual string Currency { get; protected set; }
         
-        public virtual decimal Freight { get; protected set; }
-        
         public virtual decimal ProductTotalPrice { get; protected set; }
         
         public virtual decimal TotalDiscount { get; protected set; }
