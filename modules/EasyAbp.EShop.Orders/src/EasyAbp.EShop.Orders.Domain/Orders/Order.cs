@@ -17,8 +17,6 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual OrderStatus OrderStatus { get; protected set; }
 
-        public virtual bool NeedShipping { get; protected set; }
-        
         [NotNull]
         public virtual string Currency { get; protected set; }
         
