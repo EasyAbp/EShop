@@ -19,10 +19,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual bool NeedShipping { get; protected set; }
         
-        public virtual Guid? ShippingAddressId { get; protected set; }
-
-        public virtual Guid? ShippingMethodId { get; protected set; }
-        
         [NotNull]
         public virtual string Currency { get; protected set; }
         
@@ -41,6 +37,12 @@ namespace EasyAbp.EShop.Orders.Orders
         
         [CanBeNull]
         public virtual string StaffRemark { get; protected set; }
+        
+        public virtual DateTime? PaidTime { get; protected set; }
+        
+        public virtual DateTime? CompletionTime { get; protected set; }
+        
+        public virtual DateTime? CancelledTime { get; protected set; }
         
         public virtual List<OrderLine> OrderLines { get; protected set; }
     }
