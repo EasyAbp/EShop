@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EasyAbp.EShop.Stores.Stores;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -26,5 +27,7 @@ namespace EasyAbp.EShop.Payment.PaymentRecords
         public virtual decimal ActualPaymentAmount { get; protected set; }
         
         public virtual decimal RefundAmount { get; protected set; }
+        
+        public virtual List<PaymentRecordOrder> PaymentRecordOrders { get; protected set; }
     }
 }

@@ -1,17 +1,11 @@
 ﻿using System;
-using EasyAbp.EShop.Stores.Stores;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
-using Volo.Abp.MultiTenancy;
 
-namespace EasyAbp.EShop.Payment.PaymentRecordOrders
+namespace EasyAbp.EShop.Payment.PaymentRecords
 {
-    public class PaymentRecordOrder : FullAuditedEntity<Guid>, IMultiTenant, IMultiStore
+    public class PaymentRecordOrder : FullAuditedEntity<Guid>
     {
-        public virtual Guid? TenantId { get; protected set; }
-
-        public virtual Guid StoreId { get; protected set; }
-        
         public virtual Guid OrderId { get; protected set; }
         
         [NotNull]
