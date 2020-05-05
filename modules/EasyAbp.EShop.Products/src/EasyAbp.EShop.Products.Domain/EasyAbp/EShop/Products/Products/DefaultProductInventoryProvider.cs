@@ -18,5 +18,15 @@ namespace EasyAbp.EShop.Products.Products
         {
             return Task.FromResult(productSku.Inventory);
         }
+
+        public Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        {
+            return Task.FromResult(productSku.TryIncreaseInventory(quantity));
+        }
+
+        public Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        {
+            return Task.FromResult(productSku.TryReduceInventory(quantity));
+        }
     }
 }

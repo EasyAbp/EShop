@@ -217,6 +217,8 @@ namespace EasyAbp.EShop.Products.Products
             {
                 await CheckStoreIsProductOwnerAsync(id, storeId);
             }
+            
+            // Todo: get real inventory.
 
             dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
                 .Select(x => x.CategoryId).ToList();
@@ -250,6 +252,8 @@ namespace EasyAbp.EShop.Products.Products
 
             var entities = await AsyncQueryableExecuter.ToListAsync(query);
 
+            // Todo: get real inventory.
+            
             return new PagedResultDto<ProductDto>(
                 totalCount,
                 entities.Select(MapToGetListOutputDto).ToList()

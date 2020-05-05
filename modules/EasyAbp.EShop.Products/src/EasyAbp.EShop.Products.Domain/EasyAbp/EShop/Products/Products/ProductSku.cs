@@ -46,5 +46,29 @@ namespace EasyAbp.EShop.Products.Products
             OrderMinQuantity = orderMinQuantity;
             ProductDetailId = productDetailId;
         }
+
+        public bool TryIncreaseInventory(int quantity)
+        {
+            if (quantity <= 0)
+            {
+                return false;
+            }
+            
+            Inventory = checked(Inventory + quantity);
+
+            return true;
+        }
+
+        public bool TryReduceInventory(int quantity)
+        {
+            if (quantity > Inventory || quantity <= 0)
+            {
+                return false;
+            }
+
+            Inventory -= quantity;
+            
+            return true;
+        }
     }
 }

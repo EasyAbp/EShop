@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Orders</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>

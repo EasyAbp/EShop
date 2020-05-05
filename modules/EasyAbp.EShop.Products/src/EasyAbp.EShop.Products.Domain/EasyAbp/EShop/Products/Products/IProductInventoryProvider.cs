@@ -8,5 +8,9 @@ namespace EasyAbp.EShop.Products.Products
         Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity);
         
         Task<int> GetInventoryAsync(Product product, ProductSku productSku, Guid storeId);
+
+        Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity);
+        
+        Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity);
     }
 }

@@ -1,0 +1,54 @@
+@page
+@using EasyAbp.EShop.Orders.Web.Pages.EShop.Orders.Orders.Order
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@inherits EasyAbp.EShop.Orders.Web.Pages.OrdersPage
+@model IndexModel
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.Title = L["Order"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Order"].Value);
+    PageLayout.Content.MenuItemName = "Order";
+
+    var cardTitle = @L["Order"].Value;
+    
+    if (Model.StoreName != null)
+    {
+        cardTitle += $" - {Model.StoreName}";
+    }
+    
+    if (Model.CustomerUserName != null)
+    {
+        cardTitle += $" - {Model.CustomerUserName}";
+    }
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Orders/Orders/Order/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Orders/Orders/Order/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@cardTitle</abp-card-title>
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="OrderTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["OrderCustomerUserId"]</th>
+                <th>@L["OrderOrderStatus"]</th>
+                <th>@L["OrderTotalPrice"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

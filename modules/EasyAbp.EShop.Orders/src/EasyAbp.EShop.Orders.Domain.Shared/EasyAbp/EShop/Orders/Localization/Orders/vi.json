@@ -1,0 +1,28 @@
+{
+  "culture": "vi",
+  "texts": {
+    "Menu:Order": "MenuOrder",
+    "Order": "Order",
+    "OrderStoreId": "OrderStoreId",
+    "OrderCustomerUserId": "OrderCustomerUserId",
+    "OrderOrderStatus": "OrderOrderStatus",
+    "OrderCurrency": "OrderCurrency",
+    "OrderProductTotalPrice": "OrderProductTotalPrice",
+    "OrderTotalDiscount": "OrderTotalDiscount",
+    "OrderTotalPrice": "OrderTotalPrice",
+    "OrderRefundedAmount": "OrderRefundedAmount",
+    "OrderCustomerRemark": "OrderCustomerRemark",
+    "OrderStaffRemark": "OrderStaffRemark",
+    "OrderPaidTime": "OrderPaidTime",
+    "OrderCompletionTime": "OrderCompletionTime",
+    "OrderCancelledTime": "OrderCancelledTime",
+    "OrderLine": "OrderLine",
+    "OrderLineProductId": "OrderLineProductId",
+    "OrderLineProductSkuId": "OrderLineProductSkuId",
+    "OrderLineQuantity": "OrderLineQuantity",
+    "CreateOrder": "CreateOrder",
+    "EditOrder": "EditOrder",
+    "OrderDeletionConfirmationMessage": "Are you sure to delete the order {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}
