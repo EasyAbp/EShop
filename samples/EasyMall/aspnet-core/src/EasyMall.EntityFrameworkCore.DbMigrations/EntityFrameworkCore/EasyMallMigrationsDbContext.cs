@@ -1,6 +1,6 @@
 ﻿using EasyAbp.EShop.Baskets.EntityFrameworkCore;
 using EasyAbp.EShop.Orders.EntityFrameworkCore;
-using EasyAbp.EShop.Payment.EntityFrameworkCore;
+using EasyAbp.EShop.Payments.EntityFrameworkCore;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
 using EasyAbp.EShop.Stores.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -50,7 +50,7 @@ namespace EasyMall.EntityFrameworkCore
             builder.ConfigureEasyMall();
             builder.ConfigureBaskets();
             builder.ConfigureOrders();
-            builder.ConfigurePayment();
+            builder.ConfigurePayments();
             builder.ConfigureProducts();
             builder.ConfigureStores();
         }

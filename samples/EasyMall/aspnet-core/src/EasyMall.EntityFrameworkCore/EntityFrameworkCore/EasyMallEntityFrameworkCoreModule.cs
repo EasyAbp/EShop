@@ -1,7 +1,7 @@
 ﻿using EasyAbp.EShop.Baskets.EntityFrameworkCore;
 using EasyAbp.EShop.Orders.EntityFrameworkCore;
-using EasyAbp.EShop.Payment.EntityFrameworkCore;
-using EasyAbp.EShop.Payment.WeChatPay.EntityFrameworkCore;
+using EasyAbp.EShop.Payments.EntityFrameworkCore;
+using EasyAbp.EShop.Payments.WeChatPay.EntityFrameworkCore;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
 using EasyAbp.EShop.Stores.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,8 +32,8 @@ namespace EasyMall.EntityFrameworkCore
         typeof(AbpFeatureManagementEntityFrameworkCoreModule),
         typeof(EShopBasketsEntityFrameworkCoreModule),
         typeof(EShopOrdersEntityFrameworkCoreModule),
-        typeof(EShopPaymentEntityFrameworkCoreModule),
-        typeof(EShopPaymentWeChatPayEntityFrameworkCoreModule),
+        typeof(EShopPaymentsEntityFrameworkCoreModule),
+        typeof(EShopPaymentsWeChatPayEntityFrameworkCoreModule),
         typeof(EShopProductsEntityFrameworkCoreModule),
         typeof(EShopStoresEntityFrameworkCoreModule)
         )]

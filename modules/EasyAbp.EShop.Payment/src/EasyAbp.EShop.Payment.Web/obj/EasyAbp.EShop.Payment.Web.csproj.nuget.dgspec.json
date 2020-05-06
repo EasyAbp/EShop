@@ -1,0 +1,341 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Web\\EasyAbp.EShop.Payment.Web.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Application.Contracts\\EasyAbp.EShop.Payment.Application.Contracts.csproj": {
+      "version": "0.1.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Application.Contracts\\EasyAbp.EShop.Payment.Application.Contracts.csproj",
+        "projectName": "EasyAbp.EShop.Payment.Application.Contracts",
+        "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Application.Contracts\\EasyAbp.EShop.Payment.Application.Contracts.csproj",
+        "packagesPath": "C:\\Users\\gdlcf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Application.Contracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gdlcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {
+              "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Domain.Shared\\EasyAbp.EShop.Payment.Domain.Shared.csproj": {
+                "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Domain.Shared\\EasyAbp.EShop.Payment.Domain.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "SourceLink.Create.CommandLine": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.3, )"
+            },
+            "Volo.Abp.Authorization": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            },
+            "Volo.Abp.Ddd.Application.Contracts": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Domain.Shared\\EasyAbp.EShop.Payment.Domain.Shared.csproj": {
+      "version": "0.1.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Domain.Shared\\EasyAbp.EShop.Payment.Domain.Shared.csproj",
+        "projectName": "EasyAbp.EShop.Payment.Domain.Shared",
+        "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Domain.Shared\\EasyAbp.EShop.Payment.Domain.Shared.csproj",
+        "packagesPath": "C:\\Users\\gdlcf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Domain.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gdlcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "SourceLink.Create.CommandLine": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.3, )"
+            },
+            "Volo.Abp.Validation": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.HttpApi\\EasyAbp.EShop.Payment.HttpApi.csproj": {
+      "version": "0.1.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.HttpApi\\EasyAbp.EShop.Payment.HttpApi.csproj",
+        "projectName": "EasyAbp.EShop.Payment.HttpApi",
+        "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.HttpApi\\EasyAbp.EShop.Payment.HttpApi.csproj",
+        "packagesPath": "C:\\Users\\gdlcf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.HttpApi\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gdlcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Application.Contracts\\EasyAbp.EShop.Payment.Application.Contracts.csproj": {
+                "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Application.Contracts\\EasyAbp.EShop.Payment.Application.Contracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "SourceLink.Create.CommandLine": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.3, )"
+            },
+            "Volo.Abp.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Web\\EasyAbp.EShop.Payment.Web.csproj": {
+      "version": "0.1.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Web\\EasyAbp.EShop.Payment.Web.csproj",
+        "projectName": "EasyAbp.EShop.Payment.Web",
+        "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Web\\EasyAbp.EShop.Payment.Web.csproj",
+        "packagesPath": "C:\\Users\\gdlcf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gdlcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.HttpApi\\EasyAbp.EShop.Payment.HttpApi.csproj": {
+                "projectPath": "C:\\Users\\gdlcf\\Desktop\\Projects\\EasyAbp\\EasyAbp.EShop\\modules\\EasyAbp.EShop.Payment\\src\\EasyAbp.EShop.Payment.HttpApi\\EasyAbp.EShop.Payment.HttpApi.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "SourceLink.Create.CommandLine": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.3, )"
+            },
+            "Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            },
+            "Volo.Abp.AutoMapper": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            }
+          },
+          "imports": [
+            "portable-net45+win8+wp8+wpa81",
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
