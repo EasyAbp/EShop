@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>EasyAbp.EShop.Payments.WeChatPay</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Payments.WeChatPay.Application\EasyAbp.EShop.Payments.WeChatPay.Application.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Payments.WeChatPay.Domain.Tests\EasyAbp.EShop.Payments.WeChatPay.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+  </ItemGroup>
+
+</Project>

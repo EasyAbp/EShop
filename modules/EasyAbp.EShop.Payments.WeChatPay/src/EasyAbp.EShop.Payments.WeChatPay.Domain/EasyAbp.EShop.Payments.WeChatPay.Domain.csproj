@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>EasyAbp.EShop.Payments.WeChatPay</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="2.5.0" />
+    <ProjectReference Include="..\..\..\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Abstractions\EasyAbp.EShop.Payments.Abstractions.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Payments.WeChatPay.Domain.Shared\EasyAbp.EShop.Payments.WeChatPay.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
