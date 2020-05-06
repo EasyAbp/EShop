@@ -16,22 +16,24 @@ namespace EasyAbp.EShop.Products.Products
             _productInventoryProvider = productInventoryProvider;
         }
         
-        public async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
-            return await _productInventoryProvider.IsInventorySufficientAsync(product, productSku, storeId, quantity);
+            var inventory = await _productInventoryProvider.GetInventoryAsync(product, productSku, storeId);
+            
+            return product.InventoryStrategy == InventoryStrategy.NoNeed || inventory - quantity >= 0;
         }
 
-        public async Task<int> GetInventoryAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<int> GetInventoryAsync(Product product, ProductSku productSku, Guid storeId)
         {
             return await _productInventoryProvider.GetInventoryAsync(product, productSku, storeId);
         }
 
-        public async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
             return await _productInventoryProvider.TryIncreaseInventoryAsync(product, productSku, storeId, quantity);
         }
 
-        public async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
             return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, storeId, quantity);
         }

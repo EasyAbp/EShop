@@ -25,6 +25,7 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IProductManager _productManager;
+        private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
@@ -32,12 +33,14 @@ namespace EasyAbp.EShop.Products.Products
 
         public ProductAppService(
             IProductManager productManager,
+            IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
+            _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
@@ -211,19 +214,35 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual async Task<ProductDto> GetAsync(Guid id, Guid storeId)
         {
-            var dto = await base.GetAsync(id);
+            await CheckGetPolicyAsync();
 
+            var product = await GetEntityByIdAsync(id);
+            
+            var dto = MapToGetOutputDto(product);
+            
             if (!dto.IsPublished)
             {
                 await CheckStoreIsProductOwnerAsync(id, storeId);
             }
             
-            // Todo: get real inventory.
-
+            await LoadRealInventoriesAsync(product, dto, storeId);
+            
             dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
                 .Select(x => x.CategoryId).ToList();
             
             return dto;
+        }
+
+        protected virtual async Task<ProductDto> LoadRealInventoriesAsync(Product product, ProductDto productDto, Guid storeId)
+        {
+            var inventoryDict = await _productInventoryProvider.GetInventoryDictionaryAsync(product, storeId);
+
+            foreach (var productSkuDto in productDto.ProductSkus)
+            {
+                productSkuDto.Inventory = inventoryDict[productSkuDto.Id];
+            }
+
+            return productDto;
         }
 
         public override async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
@@ -250,14 +269,16 @@ namespace EasyAbp.EShop.Products.Products
             query = ApplySorting(query, input);
             query = ApplyPaging(query, input);
 
-            var entities = await AsyncQueryableExecuter.ToListAsync(query);
+            var products = await AsyncQueryableExecuter.ToListAsync(query);
 
-            // Todo: get real inventory.
+            var items = new List<ProductDto>();
             
-            return new PagedResultDto<ProductDto>(
-                totalCount,
-                entities.Select(MapToGetListOutputDto).ToList()
-            );
+            foreach (var product in products)
+            {
+                items.Add(await LoadRealInventoriesAsync(product, MapToGetListOutputDto(product), input.StoreId));
+            }
+            
+            return new PagedResultDto<ProductDto>(totalCount, items);
         }
 
         public async Task DeleteAsync(Guid id, Guid storeId)
