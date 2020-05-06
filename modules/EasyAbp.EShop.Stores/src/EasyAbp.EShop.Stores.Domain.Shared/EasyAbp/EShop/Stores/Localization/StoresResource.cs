@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Stores.Localization
 {
-    [LocalizationResourceName("Stores")]
+    [LocalizationResourceName("EasyAbpEShopStores")]
     public class StoresResource
     {
         

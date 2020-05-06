@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Payments.Localization
 {
-    [LocalizationResourceName("Payments")]
+    [LocalizationResourceName("EasyAbpEShopPayments")]
     public class PaymentsResource
     {
         

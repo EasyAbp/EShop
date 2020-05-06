@@ -2,7 +2,7 @@
 
 namespace EasyMall.Localization
 {
-    [LocalizationResourceName("EasyMall")]
+    [LocalizationResourceName("EasyAbpEShopEasyMall")]
     public class EasyMallResource
     {
 
