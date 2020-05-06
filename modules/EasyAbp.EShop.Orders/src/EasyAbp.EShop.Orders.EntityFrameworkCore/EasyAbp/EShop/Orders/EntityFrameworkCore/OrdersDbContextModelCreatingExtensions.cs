@@ -46,6 +46,10 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Orders", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+                b.Property(x => x.ProductTotalPrice).HasColumnType("decimal(18,6)");
+                b.Property(x => x.TotalPrice).HasColumnType("decimal(18,6)");
+                b.Property(x => x.TotalDiscount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.RefundedAmount).HasColumnType("decimal(18,6)");
             });
             
             builder.Entity<OrderLine>(b =>
@@ -53,6 +57,9 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "OrderLines", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+                b.Property(x => x.TotalPrice).HasColumnType("decimal(18,6)");
+                b.Property(x => x.TotalDiscount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.UnitPrice).HasColumnType("decimal(18,6)");
             });
         }
     }
