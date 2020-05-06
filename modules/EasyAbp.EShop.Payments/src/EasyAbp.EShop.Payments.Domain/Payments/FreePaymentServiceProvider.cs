@@ -8,6 +8,11 @@ namespace EasyAbp.EShop.Payments.Payments
     [Dependency(ServiceLifetime.Transient, TryRegister = true)]
     public class FreePaymentServiceProvider : IPaymentServiceProvider
     {
+        public FreePaymentServiceProvider()
+        {
+            
+        }
+        
         public async Task<Payment> PayForOrderAsync(Payment payment, Dictionary<string, object> extraProperties = null)
         {
             throw new System.NotImplementedException();
