@@ -358,16 +358,6 @@ namespace EasyAbp.EShop.Products.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<CheckProductPurchasableResult> CheckPurchasableAsync(Guid productId, Guid productSkuId,
-            Guid storeId, Dictionary<string, object> extraProperties)
-        {
-            var product = await _repository.GetAsync(productId);
-
-            var productSku = product.ProductSkus.Single(sku => sku.Id == productSkuId);
-
-            return await _productManager.GetPurchasableStatusAsync(product, productSku, storeId, extraProperties);
-        }
-
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));

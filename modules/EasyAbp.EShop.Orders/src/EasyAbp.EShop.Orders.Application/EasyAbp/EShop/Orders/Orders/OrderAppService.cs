@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Authorization;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Json;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -26,17 +24,20 @@ namespace EasyAbp.EShop.Orders.Orders
         
         private readonly INewOrderGenerator _newOrderGenerator;
         private readonly IProductAppService _productAppService;
+        private readonly IPurchasableCheckManager _purchasableCheckManager;
         private readonly IOrderDiscountManager _orderDiscountManager;
         private readonly IOrderRepository _repository;
 
         public OrderAppService(
             INewOrderGenerator newOrderGenerator,
             IProductAppService productAppService,
+            IPurchasableCheckManager purchasableCheckManager,
             IOrderDiscountManager orderDiscountManager,
             IOrderRepository repository) : base(repository)
         {
             _newOrderGenerator = newOrderGenerator;
             _productAppService = productAppService;
+            _purchasableCheckManager = purchasableCheckManager;
             _orderDiscountManager = orderDiscountManager;
             _repository = repository;
         }
@@ -101,8 +102,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList(),
                 input.StoreId);
-            
-            // Todo: Check if the product is purchasable.
+
+            await _purchasableCheckManager.CheckAsync(input, productDict);
             
             var order = await _newOrderGenerator.GenerateAsync(input, productDict);
 
