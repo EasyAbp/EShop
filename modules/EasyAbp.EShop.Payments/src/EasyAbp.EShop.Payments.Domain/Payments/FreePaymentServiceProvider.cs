@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Payments.Payments;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 
-namespace EasyAbp.EShop.Payments
+namespace EasyAbp.EShop.Payments.Payments
 {
     [Dependency(ServiceLifetime.Transient, TryRegister = true)]
     public class FreePaymentServiceProvider : IPaymentServiceProvider
