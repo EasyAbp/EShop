@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Products;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
@@ -9,35 +10,41 @@ namespace EasyAbp.EShop.Orders.Orders
     public class OrderProductInventoryReductionEventHandler : IOrderProductInventoryReductionEventHandler, ITransientDependency
     {
         private readonly IClock _clock;
+        private readonly ICurrentTenant _currentTenant;
         private readonly IOrderRepository _orderRepository;
 
         public OrderProductInventoryReductionEventHandler(
             IClock clock,
+            ICurrentTenant currentTenant,
             IOrderRepository orderRepository)
         {
             _clock = clock;
+            _currentTenant = currentTenant;
             _orderRepository = orderRepository;
         }
         
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(ProductInventoryReductionAfterOrderPlacedResultEto eventData)
         {
-            var order = await _orderRepository.GetAsync(eventData.OrderId);
-
-            if (order.OrderStatus != OrderStatus.Pending || order.ReducedInventoryAfterPlacingTime.HasValue)
+            using (_currentTenant.Change(eventData.TenantId))
             {
-                return;
-            }
+                var order = await _orderRepository.GetAsync(eventData.OrderId);
 
-            if (!eventData.IsSuccess)
-            {
-                // Todo: Cancel order.
-                return;
-            }
+                if (order.OrderStatus != OrderStatus.Pending || order.ReducedInventoryAfterPlacingTime.HasValue)
+                {
+                    return;
+                }
+
+                if (!eventData.IsSuccess)
+                {
+                    // Todo: Cancel order.
+                    return;
+                }
             
-            order.SetReducedInventoryAfterPaymentTime(_clock.Now);
+                order.SetReducedInventoryAfterPaymentTime(_clock.Now);
 
-            await _orderRepository.UpdateAsync(order, true);
+                await _orderRepository.UpdateAsync(order, true);
+            }
         }
     }
 }

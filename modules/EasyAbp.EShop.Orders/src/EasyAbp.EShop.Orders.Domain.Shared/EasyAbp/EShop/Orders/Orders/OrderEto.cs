@@ -8,6 +8,8 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         public Guid Id { get; set; }
         
+        public Guid? TenantId { get; set; }
+
         public Guid StoreId { get; set; }
 
         public Guid CustomerUserId { get; set; }
