@@ -16,7 +16,7 @@ namespace EasyAbp.EShop.Payments
         {
             var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();
 
-            resolver.TryRegisterProviderAsync("Free", typeof(FreePaymentServiceProvider));
+            resolver.TryRegisterProviderAsync(FreePaymentServiceProvider.PaymentMethod, typeof(FreePaymentServiceProvider));
         }
     }
 }

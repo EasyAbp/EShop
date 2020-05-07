@@ -4,9 +4,9 @@ using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
-namespace EasyAbp.EShop.Payments.RefundRecords
+namespace EasyAbp.EShop.Payments.Refunds
 {
-    public class RefundRecord : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
+    public class Refund : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
     {
         public virtual Guid? TenantId { get; protected set; }
         
@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Payments.RefundRecords
         public virtual Guid OrderId { get; protected set; }
         
         [NotNull]
-        public virtual string RefundMethod { get; protected set; }
+        public virtual string RefundPaymentMethod { get; protected set; }
         
         [NotNull]
         public virtual string ExternalTradingCode { get; protected set; }

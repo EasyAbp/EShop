@@ -8,6 +8,8 @@ namespace EasyAbp.EShop.Payments.Payments
     [Dependency(ServiceLifetime.Transient, TryRegister = true)]
     public class FreePaymentServiceProvider : IPaymentServiceProvider
     {
+        public const string PaymentMethod = "Free";
+        
         public FreePaymentServiceProvider()
         {
             
