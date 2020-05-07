@@ -255,7 +255,7 @@ var abp = abp || {};
     });
 
     abp.event.on('abp.configurationInitialized', function () {
-        var l = abp.localization.getResource('AbpUi');
+        var l = abp.localization.getResource('EasyAbpEShopAbpUi');
 
         abp.ajax.defaultError.message = l('DefaultErrorMessage');
         abp.ajax.defaultError.details = l('DefaultErrorMessageDetail');

@@ -1,0 +1,51 @@
+@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@inherits EasyAbp.EShop.Payments.Web.Pages.PaymentsPage
+@model EasyAbp.EShop.Payments.Web.Pages.EShop.Payments.Payments.PaymentOrder.IndexModel
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.Title = L["PaymentItem"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:PaymentItem"].Value);
+    PageLayout.Content.MenuItemName = "PaymentItem";
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/Payments/PaymentItem/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/Payments/PaymentItem/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["PaymentItem"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+                <abp-button id="NewPaymentItemButton"
+                            text="@L["CreatePaymentItem"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="PaymentItemTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["PaymentItemItemType"]</th>
+                <th>@L["PaymentItemItemKey"]</th>
+                <th>@L["PaymentItemCurrency"]</th>
+                <th>@L["PaymentItemOriginalPaymentAmount"]</th>
+                <th>@L["PaymentItemPaymentDiscount"]</th>
+                <th>@L["PaymentItemActualPaymentAmount"]</th>
+                <th>@L["PaymentItemRefundAmount"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

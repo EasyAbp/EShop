@@ -34,6 +34,8 @@ namespace EasyAbp.EShop.Orders.Orders
         [CanBeNull]
         public virtual string StaffRemark { get; protected set; }
         
+        public virtual Guid? PaymentId { get; protected set; }
+        
         public virtual DateTime? PaidTime { get; protected set; }
         
         public virtual DateTime? CompletionTime { get; protected set; }
@@ -91,6 +93,26 @@ namespace EasyAbp.EShop.Orders.Orders
         public void SetReducedInventoryAfterPaymentTime(DateTime? time)
         {
             ReducedInventoryAfterPaymentTime = time;
+        }
+        
+        public void SetPaymentId(Guid? paymentId)
+        {
+            PaymentId = paymentId;
+        }
+
+        public void SetPaidTime(DateTime? paidTime)
+        {
+            PaidTime = paidTime;
+        }
+
+        public void SetOrderStatus(OrderStatus orderStatus)
+        {
+            OrderStatus = orderStatus;
+        }
+
+        public void SetCompletionTime(DateTime? completionTime)
+        {
+            CompletionTime = completionTime;
         }
     }
 }

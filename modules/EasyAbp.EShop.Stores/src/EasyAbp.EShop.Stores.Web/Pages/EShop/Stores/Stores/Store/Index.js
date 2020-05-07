@@ -1,6 +1,6 @@
 $(function () {
 
-    var l = abp.localization.getResource('Stores');
+    var l = abp.localization.getResource('EasyAbpEShopStores');
 
     var service = easyAbp.eShop.stores.stores.store;
     var createModal = new abp.ModalManager(abp.appPath + 'EShop/Stores/Stores/Store/CreateModal');

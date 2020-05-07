@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Payments</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Payments\*.json" />
-    <Content Remove="Localization\Payments\*.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Payments\Localization\Payments\*.json" />
+    <Content Remove="EasyAbp\EShop\Payments\Localization\Payments\*.json" />
   </ItemGroup>
 
 </Project>

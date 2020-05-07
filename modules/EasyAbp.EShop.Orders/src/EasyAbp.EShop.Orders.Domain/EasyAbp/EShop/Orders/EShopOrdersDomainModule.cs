@@ -26,7 +26,6 @@ namespace EasyAbp.EShop.Orders
             Configure<AbpDistributedEventBusOptions>(options =>
             {
                 options.EtoMappings.Add<Order, OrderEto>(typeof(EShopOrdersDomainModule));
-                options.EtoMappings.Add<OrderLine, OrderLineEto>(typeof(EShopOrdersDomainModule));
             });
         }
     }

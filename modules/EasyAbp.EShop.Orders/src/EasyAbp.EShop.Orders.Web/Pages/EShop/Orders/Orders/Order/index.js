@@ -1,6 +1,6 @@
 $(function () {
 
-    var l = abp.localization.getResource('Orders');
+    var l = abp.localization.getResource('EasyAbpEShopOrders');
 
     var service = easyAbp.eShop.orders.orders.order;
 
@@ -21,7 +21,7 @@ $(function () {
                             {
                                 text: l('Detail'),
                                 action: function (data) {
-                                    editModal.open({ id: data.record.id });
+                                    detailModal.open({ id: data.record.id });
                                 }
                             }
                         ]
@@ -32,17 +32,4 @@ $(function () {
             { data: "totalPrice" },
         ]
     }));
-
-    createModal.onResult(function () {
-        dataTable.ajax.reload();
-    });
-
-    editModal.onResult(function () {
-        dataTable.ajax.reload();
-    });
-
-    $('#NewOrderButton').click(function (e) {
-        e.preventDefault();
-        createModal.open();
-    });
 });
