@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Payments.Payments
     public class PaymentHasAlreadyBeenCompletedException : BusinessException
     {
         public PaymentHasAlreadyBeenCompletedException(Guid id) : base(
-            message: $"Payment({id}) has already been completed.")
+            message: $"Payment ({id}) has already been completed.")
         {
         }
     }

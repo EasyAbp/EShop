@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
 using Volo.Abp.DependencyInjection;
@@ -37,6 +38,20 @@ namespace EasyAbp.EShop.Payments.Payments
             if (order.TotalPrice != paymentItem.OriginalPaymentAmount)
             {
                 return false;
+            }
+
+            var inputStoreIdString = inputExtraProperties.GetOrDefault("StoreId") as string;
+            
+            if (order.StoreId.ToString() != inputStoreIdString)
+            {
+                if (inputStoreIdString == null)
+                {
+                    inputExtraProperties.Add("StoreId", order.StoreId);
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             return order.OrderStatus == OrderStatus.Pending;

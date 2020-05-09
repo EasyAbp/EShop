@@ -1,11 +1,14 @@
 ﻿using EasyAbp.EShop.Baskets;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payments;
+using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.WeChatPay;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using EasyMall.MultiTenancy;
 using EasyMall.ObjectExtending;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -51,6 +54,13 @@ namespace EasyMall
             {
                 options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
+        }
+        
+        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        {
+            var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();
+
+            resolver.TryRegisterProviderAsync(WeChatPayPaymentServiceProvider.PaymentMethod, typeof(WeChatPayPaymentServiceProvider));
         }
     }
 }

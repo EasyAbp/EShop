@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Payments.WeChatPay
         typeof(EShopPaymentsWeChatPayApplicationContractsModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule)
-        )]
+    )]
     public class EShopPaymentsWeChatPayApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

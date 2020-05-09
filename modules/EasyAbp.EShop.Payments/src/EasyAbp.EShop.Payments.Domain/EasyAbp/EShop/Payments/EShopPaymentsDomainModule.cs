@@ -1,6 +1,7 @@
 ﻿using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.EventBus.Distributed;
@@ -15,6 +16,11 @@ namespace EasyAbp.EShop.Payments
         )]
     public class EShopPaymentsDomainModule : AbpModule
     {
+        public override void PostConfigureServices(ServiceConfigurationContext context)
+        {
+            context.Services.TryAddTransient<IPaymentServiceProvider, FreePaymentServiceProvider>();
+        }
+
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();

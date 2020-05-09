@@ -10,6 +10,8 @@ namespace EasyAbp.EShop.Payments.Payments
     {
         public virtual Guid? TenantId { get; protected set; }
         
+        public virtual Guid UserId { get; protected set; }
+        
         [NotNull]
         public virtual string PaymentMethod { get; protected set; }
         
@@ -42,6 +44,7 @@ namespace EasyAbp.EShop.Payments.Payments
         public Payment(
             Guid id,
             Guid? tenantId,
+            Guid userId,
             [NotNull] string paymentMethod,
             [NotNull] string currency,
             decimal originalPaymentAmount,
@@ -49,10 +52,13 @@ namespace EasyAbp.EShop.Payments.Payments
         ) :base(id)
         {
             TenantId = tenantId;
+            UserId = userId;
             PaymentMethod = paymentMethod;
             Currency = currency;
             OriginalPaymentAmount = originalPaymentAmount;
+            ActualPaymentAmount = originalPaymentAmount;
             PaymentItems = paymentItems;
+            RefundAmount = 0;
         }
 
         public void SetPayeeAccount([NotNull] string payeeAccount)
@@ -67,16 +73,12 @@ namespace EasyAbp.EShop.Payments.Payments
             ExternalTradingCode = externalTradingCode;
         }
 
-        public void SetPaymentDiscount(
-            decimal paymentDiscount,
-            decimal actualPaymentAmount,
-            decimal refundAmount)
+        public void SetPaymentDiscount(decimal paymentDiscount)
         {
             CheckPaymentIsNotCompleted();
 
             PaymentDiscount = paymentDiscount;
-            ActualPaymentAmount = actualPaymentAmount;
-            RefundAmount = refundAmount;
+            ActualPaymentAmount -= paymentDiscount;
         }
 
         public void CompletePayment(DateTime completionTime)

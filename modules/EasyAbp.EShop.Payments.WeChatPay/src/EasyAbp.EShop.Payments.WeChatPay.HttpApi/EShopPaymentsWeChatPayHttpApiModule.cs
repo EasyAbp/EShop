@@ -1,4 +1,5 @@
-﻿using Localization.Resources.AbpUi;
+﻿using EasyAbp.Abp.WeChat.Pay.HttpApi;
+using Localization.Resources.AbpUi;
 using EasyAbp.EShop.Payments.WeChatPay.Localization;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Localization;
@@ -9,7 +10,9 @@ namespace EasyAbp.EShop.Payments.WeChatPay
 {
     [DependsOn(
         typeof(EShopPaymentsWeChatPayApplicationContractsModule),
-        typeof(AbpAspNetCoreMvcModule))]
+        typeof(AbpAspNetCoreMvcModule),
+        typeof(AbpWeChatPayHttpApiModule)
+    )]
     public class EShopPaymentsWeChatPayHttpApiModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
