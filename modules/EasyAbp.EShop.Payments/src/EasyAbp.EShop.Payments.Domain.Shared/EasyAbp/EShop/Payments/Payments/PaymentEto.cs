@@ -6,6 +6,8 @@ namespace EasyAbp.EShop.Payments.Payments
     [Serializable]
     public class PaymentEto
     {
+        public Guid UserId { get; set; }
+
         public Guid Id { get; set; }
         
         public Guid? TenantId { get; set; }

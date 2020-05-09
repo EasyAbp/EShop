@@ -6,6 +6,8 @@ namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
     public class PaymentDto : ExtensibleFullAuditedEntityDto<Guid>
     {
+        public Guid UserId { get; set; }
+        
         public string PaymentMethod { get; set; }
 
         public string ExternalTradingCode { get; set; }
