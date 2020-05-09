@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Baskets.MongoDB
 {
     public static class BasketsMongoDbContextExtensions
     {
-        public static void ConfigureBaskets(
+        public static void ConfigureEShopBaskets(
             this IMongoModelBuilder builder,
             Action<AbpMongoModelBuilderConfigurationOptions> optionsAction = null)
         {

@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Payments.MongoDB
 {
     public static class PaymentsMongoDbContextExtensions
     {
-        public static void ConfigurePayments(
+        public static void ConfigureEShopPayments(
             this IMongoModelBuilder builder,
             Action<AbpMongoModelBuilderConfigurationOptions> optionsAction = null)
         {

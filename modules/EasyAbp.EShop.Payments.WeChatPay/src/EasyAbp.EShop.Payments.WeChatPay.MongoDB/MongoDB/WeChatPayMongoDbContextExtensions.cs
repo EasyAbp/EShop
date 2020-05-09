@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Payments.WeChatPay.MongoDB
 {
     public static class WeChatPayMongoDbContextExtensions
     {
-        public static void ConfigureWeChatPay(
+        public static void ConfigureEShopWeChatPay(
             this IMongoModelBuilder builder,
             Action<AbpMongoModelBuilderConfigurationOptions> optionsAction = null)
         {

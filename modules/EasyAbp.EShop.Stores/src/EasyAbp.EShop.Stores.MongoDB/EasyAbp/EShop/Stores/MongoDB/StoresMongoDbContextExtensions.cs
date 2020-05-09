@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Stores.MongoDB
 {
     public static class StoresMongoDbContextExtensions
     {
-        public static void ConfigureStores(
+        public static void ConfigureEShopStores(
             this IMongoModelBuilder builder,
             Action<AbpMongoModelBuilderConfigurationOptions> optionsAction = null)
         {
