@@ -41,7 +41,7 @@ namespace EasyAbp.EShop.Orders.Orders
                     return;
                 }
             
-                order.SetReducedInventoryAfterPaymentTime(_clock.Now);
+                order.SetReducedInventoryAfterPlacingTime(_clock.Now);
 
                 await _orderRepository.UpdateAsync(order, true);
             }

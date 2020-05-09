@@ -40,6 +40,11 @@ namespace EasyAbp.EShop.Payments.Payments
                 return false;
             }
 
+            if (!order.ReducedInventoryAfterPlacingTime.HasValue)
+            {
+                return false;
+            }
+
             var inputStoreIdString = inputExtraProperties.GetOrDefault("StoreId") as string;
             
             if (order.StoreId.ToString() != inputStoreIdString)
