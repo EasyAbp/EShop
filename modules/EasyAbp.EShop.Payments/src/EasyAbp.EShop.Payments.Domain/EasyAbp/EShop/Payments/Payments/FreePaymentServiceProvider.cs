@@ -7,9 +7,7 @@ using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
-    // [ExposeServices(typeof(IPaymentRepository))]
-    // [Dependency(ServiceLifetime.Transient, TryRegister = true)]
-    public class FreePaymentServiceProvider : IPaymentServiceProvider
+    public class FreePaymentServiceProvider : IPaymentServiceProvider, ITransientDependency
     {
         private readonly IClock _clock;
         private readonly IPaymentRepository _paymentRepository;

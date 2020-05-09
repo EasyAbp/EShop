@@ -32,7 +32,7 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             await CheckCreatePolicyAsync();
 
-            var providerType = await _paymentServiceResolver.GetProviderTypeOrDefaultAsync(input.PaymentMethod) ??
+            var providerType = _paymentServiceResolver.GetProviderTypeOrDefault(input.PaymentMethod) ??
                                throw new UnknownPaymentMethodException(input.PaymentMethod);
 
             var provider = ServiceProvider.GetService(providerType) as IPaymentServiceProvider ??

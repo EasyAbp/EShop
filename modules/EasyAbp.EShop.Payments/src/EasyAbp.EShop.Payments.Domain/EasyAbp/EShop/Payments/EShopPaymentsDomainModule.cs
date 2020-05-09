@@ -16,16 +16,14 @@ namespace EasyAbp.EShop.Payments
         )]
     public class EShopPaymentsDomainModule : AbpModule
     {
-        public override void PostConfigureServices(ServiceConfigurationContext context)
-        {
-            context.Services.TryAddTransient<IPaymentServiceProvider, FreePaymentServiceProvider>();
-        }
-
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
         {
             var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();
 
-            resolver.TryRegisterProviderAsync(FreePaymentServiceProvider.PaymentMethod, typeof(FreePaymentServiceProvider));
+            if (resolver.GetPaymentMethods().Count == 0)
+            {
+                resolver.TryRegisterProvider(FreePaymentServiceProvider.PaymentMethod, typeof(FreePaymentServiceProvider));
+            }
         }
 
         public override void ConfigureServices(ServiceConfigurationContext context)

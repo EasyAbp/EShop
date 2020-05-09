@@ -6,10 +6,10 @@ namespace EasyAbp.EShop.Payments.Payments
 {
     public interface IPaymentServiceResolver
     {
-        Task<bool> TryRegisterProviderAsync(string paymentMethod, Type providerType);
+        bool TryRegisterProvider(string paymentMethod, Type providerType);
         
-        Task<List<string>> GetPaymentMethodsAsync();
+        List<string> GetPaymentMethods();
 
-        Task<Type> GetProviderTypeOrDefaultAsync(string paymentMethod);
+        Type GetProviderTypeOrDefault(string paymentMethod);
     }
 }

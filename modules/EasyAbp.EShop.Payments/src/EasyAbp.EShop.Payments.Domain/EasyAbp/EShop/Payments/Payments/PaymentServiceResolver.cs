@@ -18,34 +18,34 @@ namespace EasyAbp.EShop.Payments.Payments
             _serviceProvider = serviceProvider;
         }
         
-        public virtual Task<bool> TryRegisterProviderAsync(string paymentMethod, Type providerType)
+        public virtual bool TryRegisterProvider(string paymentMethod, Type providerType)
         {
             if (Providers.ContainsKey(paymentMethod))
             {
-                return Task.FromResult(false);
+                return false;
             }
 
             using (var scope = _serviceProvider.CreateScope())
             {
                 if (scope.ServiceProvider.GetService(providerType) == null)
                 {
-                    return Task.FromResult(false);
+                    return false;
                 }
             }
 
             Providers.Add(paymentMethod, providerType);
 
-            return Task.FromResult(true);
+            return true;
         }
 
-        public virtual Task<List<string>> GetPaymentMethodsAsync()
+        public virtual List<string> GetPaymentMethods()
         {
-            return Task.FromResult(Providers.Keys.ToList());
+            return Providers.Keys.ToList();
         }
 
-        public virtual Task<Type> GetProviderTypeOrDefaultAsync(string paymentMethod)
+        public virtual Type GetProviderTypeOrDefault(string paymentMethod)
         {
-            return Task.FromResult(Providers.GetOrDefault(paymentMethod));
+            return Providers.GetOrDefault(paymentMethod);
         }
     }
 }

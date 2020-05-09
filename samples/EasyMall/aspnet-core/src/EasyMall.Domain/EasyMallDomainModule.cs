@@ -60,7 +60,7 @@ namespace EasyMall
         {
             var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();
 
-            resolver.TryRegisterProviderAsync(WeChatPayPaymentServiceProvider.PaymentMethod, typeof(WeChatPayPaymentServiceProvider));
+            resolver.TryRegisterProvider(WeChatPayPaymentServiceProvider.PaymentMethod, typeof(WeChatPayPaymentServiceProvider));
         }
     }
 }
