@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
 using Volo.Abp.DependencyInjection;
@@ -34,44 +36,58 @@ namespace EasyAbp.EShop.Products.Products
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
         {
-            var uow = _unitOfWorkManager.Current;
             using (_currentTenant.Change(eventData.Entity.TenantId))
             {
+                var models = new List<ReduceInventoryModel>();
+                
                 foreach (var orderLine in eventData.Entity.OrderLines)
                 {
                     var product = await _productRepository.FindAsync(orderLine.ProductId);
 
                     var productSku = product?.ProductSkus.FirstOrDefault(sku => sku.Id == orderLine.ProductSkuId);
 
-                    if (productSku == null)
+                    if (productSku == null || product.InventoryStrategy != InventoryStrategy.ReduceAfterPlacing)
                     {
-                        await uow.RollbackAsync();
-                        await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
-                            {OrderId = eventData.Entity.Id, IsSuccess = false});
-                        return;
+                        continue;
                     }
 
-                    if (product.InventoryStrategy != InventoryStrategy.ReduceAfterPlacing)
-                    {
-                        await uow.RollbackAsync();
-                        await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
-                            {OrderId = eventData.Entity.Id, IsSuccess = false});
-                        return;
-                    }
-
-                    if (!await _productManager.TryReduceInventoryAsync(product, productSku, eventData.Entity.StoreId,
+                    if (!await _productManager.IsInventorySufficientAsync(product, productSku, eventData.Entity.StoreId,
                         orderLine.Quantity))
                     {
-                        await uow.RollbackAsync();
                         await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
                             {OrderId = eventData.Entity.Id, IsSuccess = false});
                         return;
                     }
+
+                    models.Add(new ReduceInventoryModel
+                    {
+                        Product = product,
+                        ProductSku = productSku,
+                        StoreId = eventData.Entity.StoreId,
+                        Quantity = orderLine.Quantity
+                    });
+                }
+
+                foreach (var model in models)
+                {
+                    await _productManager.TryReduceInventoryAsync(model.Product, model.ProductSku, model.StoreId,
+                        model.Quantity);
                 }
             
                 await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
                     {OrderId = eventData.Entity.Id, IsSuccess = true});
             }
         }
+    }
+
+    internal class ReduceInventoryModel
+    {
+        public Product Product { get; set; }
+        
+        public ProductSku ProductSku { get; set; }
+        
+        public Guid StoreId { get; set; }
+        
+        public int Quantity { get; set; }
     }
 }
