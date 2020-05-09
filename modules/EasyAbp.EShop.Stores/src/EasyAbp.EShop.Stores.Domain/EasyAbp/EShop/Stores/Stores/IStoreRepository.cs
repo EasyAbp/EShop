@@ -7,6 +7,6 @@ namespace EasyAbp.EShop.Stores.Stores
 {
     public interface IStoreRepository : IRepository<Store, Guid>
     {
-        Task<Store> FirstOrDefaultAsync(CancellationToken cancellationToken = default);
+        Task<Store> FindDefaultStoreAsync(CancellationToken cancellationToken = default);
     }
 }

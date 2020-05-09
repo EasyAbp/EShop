@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Stores.Stores
         {
         }
 
-        public async Task<Store> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
+        public async Task<Store> FindDefaultStoreAsync(CancellationToken cancellationToken = default)
         {
             return await WithDetails().FirstOrDefaultAsync(cancellationToken: cancellationToken);
         }

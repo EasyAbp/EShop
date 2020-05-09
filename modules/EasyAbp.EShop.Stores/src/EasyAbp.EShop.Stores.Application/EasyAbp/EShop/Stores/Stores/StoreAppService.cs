@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Stores.Stores
         public async Task<StoreDto> GetDefaultAsync()
         {
             // Todo: need to be improved
-            return ObjectMapper.Map<Store, StoreDto>(await _repository.FirstOrDefaultAsync());
+            return ObjectMapper.Map<Store, StoreDto>(await _repository.FindDefaultStoreAsync());
         }
     }
 }
