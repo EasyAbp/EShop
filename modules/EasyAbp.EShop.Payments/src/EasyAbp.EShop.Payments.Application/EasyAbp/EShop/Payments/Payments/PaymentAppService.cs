@@ -28,6 +28,18 @@ namespace EasyAbp.EShop.Payments.Payments
             _repository = repository;
         }
 
+        public override Task<PaymentDto> GetAsync(Guid id)
+        {
+            // Todo: Check permission.
+            return base.GetAsync(id);
+        }
+
+        public override Task<PagedResultDto<PaymentDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        {
+            // Todo: Check permission.
+            return base.GetListAsync(input);
+        }
+
         public override async Task<PaymentDto> CreateAsync(CreatePaymentDto input)
         {
             await CheckCreatePolicyAsync();

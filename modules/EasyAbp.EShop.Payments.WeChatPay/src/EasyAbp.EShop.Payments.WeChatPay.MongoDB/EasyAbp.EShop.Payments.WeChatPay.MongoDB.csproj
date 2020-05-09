@@ -4,12 +4,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Payments.WeChatPay</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.MongoDB" Version="2.7.0" />
     <ProjectReference Include="..\EasyAbp.EShop.Payments.WeChatPay.Domain\EasyAbp.EShop.Payments.WeChatPay.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EasyAbp\EShop\Payments\WeChatPay" />
   </ItemGroup>
 
 </Project>

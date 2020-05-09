@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Payments.WeChatPay</RootNamespace>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Localization\WeChatPay\*.json" />
-    <Content Remove="Localization\WeChatPay\*.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Payments\WeChatPay\Localization\WeChatPay\*.json" />
+    <Content Remove="EasyAbp\EShop\Payments\WeChatPay\Localization\WeChatPay\*.json" />
   </ItemGroup>
 
 </Project>

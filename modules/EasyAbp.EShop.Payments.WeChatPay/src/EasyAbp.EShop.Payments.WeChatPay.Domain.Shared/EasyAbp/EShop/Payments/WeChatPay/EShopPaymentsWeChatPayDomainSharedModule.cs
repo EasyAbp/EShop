@@ -17,7 +17,7 @@ namespace EasyAbp.EShop.Payments.WeChatPay
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EShopPaymentsWeChatPayDomainSharedModule>("EasyAbp.EShop.Payments.WeChatPay");
+                options.FileSets.AddEmbedded<EShopPaymentsWeChatPayDomainSharedModule>();
             });
 
             Configure<AbpLocalizationOptions>(options =>
@@ -25,12 +25,12 @@ namespace EasyAbp.EShop.Payments.WeChatPay
                 options.Resources
                     .Add<WeChatPayResource>("en")
                     .AddBaseTypes(typeof(AbpValidationResource))
-                    .AddVirtualJson("/Localization/WeChatPay");
+                    .AddVirtualJson("/EasyAbp/EShop/Payments/WeChatPay/Localization/WeChatPay");
             });
 
             Configure<AbpExceptionLocalizationOptions>(options =>
             {
-                options.MapCodeNamespace("WeChatPay", typeof(WeChatPayResource));
+                options.MapCodeNamespace("EasyAbp.EShop.Payments.WeChatPay", typeof(WeChatPayResource));
             });
         }
     }
