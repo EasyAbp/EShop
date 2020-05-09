@@ -24,9 +24,9 @@ namespace EasyAbp.EShop.Payments.WeChatPay.Settings
                 new SettingDefinition(WeChatPaySettings.WeChatPayPaymentMethod.ApiKey),
                 new SettingDefinition(WeChatPaySettings.WeChatPayPaymentMethod.IsSandBox, "false"),
                 new SettingDefinition(WeChatPaySettings.WeChatPayPaymentMethod.NotifyUrl,
-                    _configuration["App:SelfUrl"].EnsureEndsWith('/') + "WeChatPay/Notify"),
+                    _configuration["App:SelfUrl"]?.EnsureEndsWith('/') + "WeChatPay/Notify"),
                 new SettingDefinition(WeChatPaySettings.WeChatPayPaymentMethod.RefundNotifyUrl,
-                    _configuration["App:SelfUrl"].EnsureEndsWith('/') + "WeChatPay/RefundNotify"),
+                    _configuration["App:SelfUrl"]?.EnsureEndsWith('/') + "WeChatPay/RefundNotify"),
                 new SettingDefinition(WeChatPaySettings.WeChatPayPaymentMethod.CertificatePath),
                 new SettingDefinition(WeChatPaySettings.WeChatPayPaymentMethod.CertificateSecret)
             );
