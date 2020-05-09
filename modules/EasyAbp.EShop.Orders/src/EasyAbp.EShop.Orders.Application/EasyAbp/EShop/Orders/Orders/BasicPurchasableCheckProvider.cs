@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;
 
@@ -36,10 +37,11 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             foreach (var orderLine in input.OrderLines)
             {
-                var inventory = productDict[orderLine.ProductId].ProductSkus
+                var product = productDict[orderLine.ProductId];
+                var inventory = product.ProductSkus
                     .Single(sku => sku.Id == orderLine.ProductSkuId).Inventory;
 
-                if (inventory < orderLine.Quantity)
+                if (product.InventoryStrategy != InventoryStrategy.NoNeed && inventory < orderLine.Quantity)
                 {
                     throw new NotPurchasableException(orderLine.ProductId, orderLine.ProductSkuId,
                         "Insufficient inventory");
