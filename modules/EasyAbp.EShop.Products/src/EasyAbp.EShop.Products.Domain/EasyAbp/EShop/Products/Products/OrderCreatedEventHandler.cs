@@ -31,12 +31,12 @@ namespace EasyAbp.EShop.Products.Products
             _productManager = productManager;
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
         {
+            var uow = _unitOfWorkManager.Current;
             using (_currentTenant.Change(eventData.Entity.TenantId))
             {
-                using var uow = _unitOfWorkManager.Begin(true, true);
-            
                 foreach (var orderLine in eventData.Entity.OrderLines)
                 {
                     var product = await _productRepository.FindAsync(orderLine.ProductId);
@@ -69,7 +69,6 @@ namespace EasyAbp.EShop.Products.Products
                     }
                 }
             
-                await uow.CompleteAsync();
                 await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
                     {OrderId = eventData.Entity.Id, IsSuccess = true});
             }

@@ -7,6 +7,7 @@ using Volo.Abp.EventBus;
 using Volo.Abp.Guids;
 using Volo.Abp.Json;
 using Volo.Abp.ObjectMapping;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.ProductHistories
 {
@@ -29,7 +30,8 @@ namespace EasyAbp.EShop.Products.ProductHistories
             _productHistoryRepository = productHistoryRepository;
         }
         
-        public async Task HandleEventAsync(EntityChangedEventData<Product> eventData)
+        [UnitOfWork(true)]
+        public virtual async Task HandleEventAsync(EntityChangedEventData<Product> eventData)
         {
             var modificationTime = eventData.Entity.LastModificationTime ?? eventData.Entity.CreationTime;
 
