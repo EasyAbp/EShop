@@ -79,21 +79,21 @@ namespace EasyAbp.EShop.Payments.WeChatPay
                 receipt: payeeConfigurations.GetOrDefault("receipt") as string ?? "N",
                 sceneInfo: null);
 
-            if (result.Attributes == null || result.Attributes["return_code"].Value != "SUCCESS")
+            if (result.SelectSingleNode("return_code")?.Value != "SUCCESS")
             {
-                throw new UnifiedOrderFailedException(result.Attributes?["return_code"].Value, result.Attributes?["return_msg"].Value);
+                throw new UnifiedOrderFailedException(result.SelectSingleNode("return_code")?.Value, result.SelectSingleNode("return_msg")?.Value);
             }
 
-            if (result.Attributes["result_code"].Value != "SUCCESS")
+            if (result.SelectSingleNode("result_code")?.Value != "SUCCESS")
             {
-                throw new UnifiedOrderFailedException(result.Attributes["return_code"]?.Value,
-                    result.Attributes["return_msg"]?.Value, result.Attributes["err_code_des"]?.Value,
-                    result.Attributes["err_code"]?.Value);
+                throw new UnifiedOrderFailedException(result.SelectSingleNode("return_code")?.Value,
+                    result.SelectSingleNode("return_msg")?.Value, result.SelectSingleNode("err_code_des")?.Value,
+                    result.SelectSingleNode("err_code")?.Value);
             }
 
-            payment.SetProperty("trade_type", result.Attributes["trade_type"]);
-            payment.SetProperty("prepay_id", result.Attributes["prepay_id"]);
-            payment.SetProperty("code_url", result.Attributes["code_url"]);
+            payment.SetProperty("trade_type", result.SelectSingleNode("trade_type"));
+            payment.SetProperty("prepay_id", result.SelectSingleNode("prepay_id"));
+            payment.SetProperty("code_url", result.SelectSingleNode("code_url"));
             
             return await _paymentRepository.UpdateAsync(payment, true);
         }
