@@ -55,7 +55,7 @@ namespace EasyAbp.EShop.Products.Products
                         orderLine.Quantity))
                     {
                         await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
-                            {OrderId = eventData.Entity.Id, IsSuccess = false});
+                            {TenantId = eventData.Entity.TenantId, OrderId = eventData.Entity.Id, IsSuccess = false});
                         return;
                     }
 
@@ -75,7 +75,7 @@ namespace EasyAbp.EShop.Products.Products
                 }
             
                 await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
-                    {OrderId = eventData.Entity.Id, IsSuccess = true});
+                    {TenantId = eventData.Entity.TenantId, OrderId = eventData.Entity.Id, IsSuccess = true});
             }
         }
     }

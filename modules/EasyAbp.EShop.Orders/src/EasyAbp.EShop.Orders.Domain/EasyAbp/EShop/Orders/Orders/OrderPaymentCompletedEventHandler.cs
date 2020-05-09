@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.Payments;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
@@ -11,13 +12,16 @@ namespace EasyAbp.EShop.Orders.Orders
     public class OrderPaymentCompletedEventHandler : IOrderPaymentCompletedEventHandler, ITransientDependency
     {
         private readonly IClock _clock;
+        private readonly ICurrentTenant _currentTenant;
         private readonly IOrderRepository _orderRepository;
 
         public OrderPaymentCompletedEventHandler(
             IClock clock,
+            ICurrentTenant currentTenant,
             IOrderRepository orderRepository)
         {
             _clock = clock;
+            _currentTenant = currentTenant;
             _orderRepository = orderRepository;
         }
         
@@ -28,6 +32,8 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 return;
             }
+
+            using var currentTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
             foreach (var item in eventData.Entity.PaymentItems.Where(item => item.ItemType == "EasyAbpEShopOrder"))
             {
