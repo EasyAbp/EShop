@@ -21,7 +21,7 @@ namespace EasyAbp.EShop.Baskets.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigureBaskets();
+            builder.ConfigureEShopBaskets();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Payments.WeChatPay.EntityFrameworkCore
 {
     public static class WeChatPayDbContextModelCreatingExtensions
     {
-        public static void ConfigureWeChatPay(
+        public static void ConfigureEShopWeChatPay(
             this ModelBuilder builder,
             Action<WeChatPayModelBuilderConfigurationOptions> optionsAction = null)
         {

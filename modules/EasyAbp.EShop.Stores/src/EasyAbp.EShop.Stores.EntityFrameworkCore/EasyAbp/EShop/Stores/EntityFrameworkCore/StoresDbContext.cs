@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigureStores();
+            builder.ConfigureEShopStores();
         }
     }
 }

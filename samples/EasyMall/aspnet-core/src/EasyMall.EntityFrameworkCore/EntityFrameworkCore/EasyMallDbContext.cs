@@ -52,7 +52,7 @@ namespace EasyMall.EntityFrameworkCore
 
             /* Configure your own tables/entities inside the ConfigureEasyMall method */
 
-            builder.ConfigureEasyMall();
+            builder.ConfigureEShopEasyMall();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Products.MongoDB
         {
             base.CreateModel(modelBuilder);
 
-            modelBuilder.ConfigureProducts();
+            modelBuilder.ConfigureEShopProducts();
         }
     }
 }

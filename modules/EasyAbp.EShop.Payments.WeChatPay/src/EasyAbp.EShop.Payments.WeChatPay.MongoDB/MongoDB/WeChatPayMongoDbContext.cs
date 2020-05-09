@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Payments.WeChatPay.MongoDB
         {
             base.CreateModel(modelBuilder);
 
-            modelBuilder.ConfigureWeChatPay();
+            modelBuilder.ConfigureEShopWeChatPay();
         }
     }
 }

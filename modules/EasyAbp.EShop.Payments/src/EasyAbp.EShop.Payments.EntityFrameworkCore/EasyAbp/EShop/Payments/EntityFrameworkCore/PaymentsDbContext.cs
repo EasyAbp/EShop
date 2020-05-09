@@ -26,7 +26,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigurePayments();
+            builder.ConfigureEShopPayments();
         }
     }
 }

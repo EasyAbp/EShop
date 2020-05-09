@@ -47,12 +47,12 @@ namespace EasyMall.EntityFrameworkCore
 
             /* Configure your own tables/entities inside the ConfigureEasyMall method */
 
-            builder.ConfigureEasyMall();
-            builder.ConfigureBaskets();
-            builder.ConfigureOrders();
-            builder.ConfigurePayments();
-            builder.ConfigureProducts();
-            builder.ConfigureStores();
+            builder.ConfigureEShopEasyMall();
+            builder.ConfigureEShopBaskets();
+            builder.ConfigureEShopOrders();
+            builder.ConfigureEShopPayments();
+            builder.ConfigureEShopProducts();
+            builder.ConfigureEShopStores();
         }
     }
 }

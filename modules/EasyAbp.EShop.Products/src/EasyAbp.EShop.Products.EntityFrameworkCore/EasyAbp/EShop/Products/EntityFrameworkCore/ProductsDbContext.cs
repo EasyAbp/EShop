@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigureProducts();
+            builder.ConfigureEShopProducts();
         }
     }
 }

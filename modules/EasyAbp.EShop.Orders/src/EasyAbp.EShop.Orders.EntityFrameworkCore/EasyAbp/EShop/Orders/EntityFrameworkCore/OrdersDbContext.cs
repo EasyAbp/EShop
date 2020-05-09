@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigureOrders();
+            builder.ConfigureEShopOrders();
         }
     }
 }

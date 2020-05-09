@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Payments.MongoDB
         {
             base.CreateModel(modelBuilder);
 
-            modelBuilder.ConfigurePayments();
+            modelBuilder.ConfigureEShopPayments();
         }
     }
 }

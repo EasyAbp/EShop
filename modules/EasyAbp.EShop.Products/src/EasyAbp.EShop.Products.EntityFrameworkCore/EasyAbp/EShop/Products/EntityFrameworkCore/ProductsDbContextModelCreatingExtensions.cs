@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
 {
     public static class ProductsDbContextModelCreatingExtensions
     {
-        public static void ConfigureProducts(
+        public static void ConfigureEShopProducts(
             this ModelBuilder builder,
             Action<ProductsModelBuilderConfigurationOptions> optionsAction = null)
         {

@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
 {
     public static class StoresDbContextModelCreatingExtensions
     {
-        public static void ConfigureStores(
+        public static void ConfigureEShopStores(
             this ModelBuilder builder,
             Action<StoresModelBuilderConfigurationOptions> optionsAction = null)
         {

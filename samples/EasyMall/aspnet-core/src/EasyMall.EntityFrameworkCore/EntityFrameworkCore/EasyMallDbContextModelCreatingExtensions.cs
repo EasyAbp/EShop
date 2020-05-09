@@ -5,7 +5,7 @@ namespace EasyMall.EntityFrameworkCore
 {
     public static class EasyMallDbContextModelCreatingExtensions
     {
-        public static void ConfigureEasyMall(this ModelBuilder builder)
+        public static void ConfigureEShopEasyMall(this ModelBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
 

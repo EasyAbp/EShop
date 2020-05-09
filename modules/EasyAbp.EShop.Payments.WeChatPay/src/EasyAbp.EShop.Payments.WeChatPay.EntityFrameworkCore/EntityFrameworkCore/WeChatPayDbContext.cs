@@ -21,7 +21,7 @@ namespace EasyAbp.EShop.Payments.WeChatPay.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigureWeChatPay();
+            builder.ConfigureEShopWeChatPay();
         }
     }
 }

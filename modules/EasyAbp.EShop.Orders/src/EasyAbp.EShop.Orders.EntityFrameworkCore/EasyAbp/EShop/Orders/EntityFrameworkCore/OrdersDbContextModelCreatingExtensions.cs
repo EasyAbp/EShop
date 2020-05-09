@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
 {
     public static class OrdersDbContextModelCreatingExtensions
     {
-        public static void ConfigureOrders(
+        public static void ConfigureEShopOrders(
             this ModelBuilder builder,
             Action<OrdersModelBuilderConfigurationOptions> optionsAction = null)
         {

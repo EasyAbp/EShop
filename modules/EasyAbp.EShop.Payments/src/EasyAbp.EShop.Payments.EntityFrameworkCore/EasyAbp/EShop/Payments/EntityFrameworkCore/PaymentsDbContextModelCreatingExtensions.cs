@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
 {
     public static class PaymentsDbContextModelCreatingExtensions
     {
-        public static void ConfigurePayments(
+        public static void ConfigureEShopPayments(
             this ModelBuilder builder,
             Action<PaymentsModelBuilderConfigurationOptions> optionsAction = null)
         {
