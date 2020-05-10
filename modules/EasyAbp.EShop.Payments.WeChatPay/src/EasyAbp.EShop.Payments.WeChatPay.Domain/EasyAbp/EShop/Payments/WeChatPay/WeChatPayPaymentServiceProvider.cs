@@ -81,21 +81,21 @@ namespace EasyAbp.EShop.Payments.WeChatPay
 
             var xml = result.SelectSingleNode("xml") ?? throw new UnifiedOrderFailedException();
             
-            if (xml.SelectSingleNode("return_code")?.Value != "SUCCESS")
+            if (xml.SelectSingleNode("return_code")?.InnerText != "SUCCESS")
             {
-                throw new UnifiedOrderFailedException(xml.SelectSingleNode("return_code")?.Value, xml.SelectSingleNode("return_msg")?.Value);
+                throw new UnifiedOrderFailedException(xml.SelectSingleNode("return_code")?.InnerText, xml.SelectSingleNode("return_msg")?.InnerText);
             }
 
-            if (xml.SelectSingleNode("result_code")?.Value != "SUCCESS")
+            if (xml.SelectSingleNode("result_code")?.InnerText != "SUCCESS")
             {
-                throw new UnifiedOrderFailedException(xml.SelectSingleNode("return_code")?.Value,
-                    xml.SelectSingleNode("return_msg")?.Value, xml.SelectSingleNode("err_code_des")?.Value,
-                    xml.SelectSingleNode("err_code")?.Value);
+                throw new UnifiedOrderFailedException(xml.SelectSingleNode("return_code")?.InnerText,
+                    xml.SelectSingleNode("return_msg")?.InnerText, xml.SelectSingleNode("err_code_des")?.InnerText,
+                    xml.SelectSingleNode("err_code")?.InnerText);
             }
 
-            payment.SetProperty("trade_type", xml.SelectSingleNode("trade_type"));
-            payment.SetProperty("prepay_id", xml.SelectSingleNode("prepay_id"));
-            payment.SetProperty("code_url", xml.SelectSingleNode("code_url"));
+            payment.SetProperty("trade_type", xml.SelectSingleNode("trade_type")?.InnerText);
+            payment.SetProperty("prepay_id", xml.SelectSingleNode("prepay_id")?.InnerText);
+            payment.SetProperty("code_url", xml.SelectSingleNode("code_url")?.InnerText);
             
             return await _paymentRepository.UpdateAsync(payment, true);
         }
