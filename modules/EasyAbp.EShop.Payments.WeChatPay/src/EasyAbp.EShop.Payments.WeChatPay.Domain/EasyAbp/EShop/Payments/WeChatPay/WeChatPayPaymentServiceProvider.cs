@@ -79,21 +79,23 @@ namespace EasyAbp.EShop.Payments.WeChatPay
                 receipt: payeeConfigurations.GetOrDefault("receipt") as string ?? "N",
                 sceneInfo: null);
 
-            if (result.SelectSingleNode("return_code")?.Value != "SUCCESS")
+            var xml = result.SelectSingleNode("xml") ?? throw new UnifiedOrderFailedException();
+            
+            if (xml.SelectSingleNode("return_code")?.Value != "SUCCESS")
             {
-                throw new UnifiedOrderFailedException(result.SelectSingleNode("return_code")?.Value, result.SelectSingleNode("return_msg")?.Value);
+                throw new UnifiedOrderFailedException(xml.SelectSingleNode("return_code")?.Value, xml.SelectSingleNode("return_msg")?.Value);
             }
 
-            if (result.SelectSingleNode("result_code")?.Value != "SUCCESS")
+            if (xml.SelectSingleNode("result_code")?.Value != "SUCCESS")
             {
-                throw new UnifiedOrderFailedException(result.SelectSingleNode("return_code")?.Value,
-                    result.SelectSingleNode("return_msg")?.Value, result.SelectSingleNode("err_code_des")?.Value,
-                    result.SelectSingleNode("err_code")?.Value);
+                throw new UnifiedOrderFailedException(xml.SelectSingleNode("return_code")?.Value,
+                    xml.SelectSingleNode("return_msg")?.Value, xml.SelectSingleNode("err_code_des")?.Value,
+                    xml.SelectSingleNode("err_code")?.Value);
             }
 
-            payment.SetProperty("trade_type", result.SelectSingleNode("trade_type"));
-            payment.SetProperty("prepay_id", result.SelectSingleNode("prepay_id"));
-            payment.SetProperty("code_url", result.SelectSingleNode("code_url"));
+            payment.SetProperty("trade_type", xml.SelectSingleNode("trade_type"));
+            payment.SetProperty("prepay_id", xml.SelectSingleNode("prepay_id"));
+            payment.SetProperty("code_url", xml.SelectSingleNode("code_url"));
             
             return await _paymentRepository.UpdateAsync(payment, true);
         }

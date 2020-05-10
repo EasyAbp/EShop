@@ -30,19 +30,26 @@ namespace EasyAbp.EShop.Payments.WeChatPay
         {
             using var disabledDataFilter = _dataFilter.Disable<IMultiTenant>();
 
-            if (xmlDocument.Attributes == null || xmlDocument.Attributes["return_code"].Value != "SUCCESS")
+            var xml = xmlDocument.SelectSingleNode("xml") ??
+                      throw new XmlDocumentMissingRequiredElementException("xml");
+
+            if (xml.SelectSingleNode("return_code")?.Value != "SUCCESS")
             {
                 return;
             }
+
+            // Todo: sign check
             
-            if (xmlDocument.Attributes["result_code"].Value == "SUCCESS")
+            if (xml.SelectSingleNode("result_code")?.Value == "SUCCESS")
             {
-                var orderId = Guid.Parse(xmlDocument.Attributes["out_trade_no"].Value);
+                var orderId = Guid.Parse(xml.SelectSingleNode("out_trade_no")?.Value ??
+                                         throw new XmlDocumentMissingRequiredElementException("out_trade_no"));
             
                 var payment = await _paymentRepository.GetAsync(orderId);
-            
-                payment.SetExternalTradingCode(xmlDocument.Attributes["transaction_id"].Value);
-            
+
+                payment.SetExternalTradingCode(xml.SelectSingleNode("transaction_id")?.Value ??
+                                               throw new XmlDocumentMissingRequiredElementException("transaction_id"));
+
                 payment.CompletePayment(_clock.Now);
 
                 await _paymentRepository.UpdateAsync(payment, true);

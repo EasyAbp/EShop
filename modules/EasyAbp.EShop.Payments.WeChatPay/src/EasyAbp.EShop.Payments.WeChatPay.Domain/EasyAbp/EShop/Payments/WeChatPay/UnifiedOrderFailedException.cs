@@ -4,6 +4,10 @@ namespace EasyAbp.EShop.Payments.WeChatPay
 {
     public class UnifiedOrderFailedException : BusinessException
     {
+        public UnifiedOrderFailedException() : base(message: $"Unified order failed")
+        {
+        }
+        
         public UnifiedOrderFailedException(string returnCode, string returnMsg) : base(
             message: $"Unified order failed, return_code: {returnCode}, return_msg: {returnMsg}")
         {
