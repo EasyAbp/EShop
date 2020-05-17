@@ -1,9 +1,9 @@
 ﻿using EasyAbp.EShop.Baskets;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payments;
-using EasyAbp.EShop.Payments.WeChatPay;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
+using EasyAbp.PaymentService.WeChatPay;
 using EasyMall.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -32,10 +32,10 @@ namespace EasyMall
         typeof(EShopBasketsDomainSharedModule),
         typeof(EShopOrdersDomainSharedModule),
         typeof(EShopPaymentsDomainSharedModule),
-        typeof(EShopPaymentsWeChatPayDomainSharedModule),
         typeof(EShopProductsDomainSharedModule),
-        typeof(EShopStoresDomainSharedModule)
-        )]
+        typeof(EShopStoresDomainSharedModule),
+        typeof(PaymentServiceWeChatPayDomainSharedModule)
+    )]
     public class EasyMallDomainSharedModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

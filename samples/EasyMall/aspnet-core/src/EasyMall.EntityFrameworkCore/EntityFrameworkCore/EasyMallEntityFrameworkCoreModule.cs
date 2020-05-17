@@ -1,9 +1,9 @@
 ﻿using EasyAbp.EShop.Baskets.EntityFrameworkCore;
 using EasyAbp.EShop.Orders.EntityFrameworkCore;
 using EasyAbp.EShop.Payments.EntityFrameworkCore;
-using EasyAbp.EShop.Payments.WeChatPay.EntityFrameworkCore;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
 using EasyAbp.EShop.Stores.EntityFrameworkCore;
+using EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -33,10 +33,10 @@ namespace EasyMall.EntityFrameworkCore
         typeof(EShopBasketsEntityFrameworkCoreModule),
         typeof(EShopOrdersEntityFrameworkCoreModule),
         typeof(EShopPaymentsEntityFrameworkCoreModule),
-        typeof(EShopPaymentsWeChatPayEntityFrameworkCoreModule),
         typeof(EShopProductsEntityFrameworkCoreModule),
-        typeof(EShopStoresEntityFrameworkCoreModule)
-        )]
+        typeof(EShopStoresEntityFrameworkCoreModule),
+        typeof(PaymentServiceWeChatPayEntityFrameworkCoreModule)
+    )]
     public class EasyMallEntityFrameworkCoreModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)

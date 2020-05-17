@@ -8,17 +8,7 @@ namespace EasyAbp.EShop.Payments.Authorization
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var moduleGroup = context.AddGroup(PaymentsPermissions.GroupName, L("Permission:Payments"));
-            
-            var payment = moduleGroup.AddPermission(PaymentsPermissions.Payments.Default, L("Permission:Payment"));
-            payment.AddChild(PaymentsPermissions.Payments.Manage, L("Permission:Manage"));
-            payment.AddChild(PaymentsPermissions.Payments.CrossStore, L("Permission:CrossStore"));
-            payment.AddChild(PaymentsPermissions.Payments.Create, L("Permission:Create"));
-            
-            var refund = moduleGroup.AddPermission(PaymentsPermissions.Refunds.Default, L("Permission:Refund"));
-            refund.AddChild(PaymentsPermissions.Refunds.Manage, L("Permission:Manage"));
-            refund.AddChild(PaymentsPermissions.Refunds.CrossStore, L("Permission:CrossStore"));
-            refund.AddChild(PaymentsPermissions.Refunds.Create, L("Permission:Create"));
+            // var moduleGroup = context.AddGroup(PaymentsPermissions.GroupName, L("Permission:Payments"));
         }
 
         private static LocalizableString L(string name)

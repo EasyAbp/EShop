@@ -3,6 +3,7 @@ using EasyAbp.EShop.Orders.EntityFrameworkCore;
 using EasyAbp.EShop.Payments.EntityFrameworkCore;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
 using EasyAbp.EShop.Stores.EntityFrameworkCore;
+using EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -53,6 +54,8 @@ namespace EasyMall.EntityFrameworkCore
             builder.ConfigureEShopPayments();
             builder.ConfigureEShopProducts();
             builder.ConfigureEShopStores();
+            
+            builder.ConfigurePaymentServiceWeChatPay();
         }
     }
 }

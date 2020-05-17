@@ -9,10 +9,6 @@ namespace EasyAbp.EShop.Payments.Settings
             /* Define module settings here.
              * Use names from PaymentsSettings class.
              */
-
-            context.Add(
-                new SettingDefinition(PaymentsSettings.FreePaymentMethod.DefaultPayeeAccount, "None")
-            );
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using EasyAbp.EShop.Payments.Localization;
+using EasyAbp.PaymentService.Web;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AutoMapper;
@@ -13,8 +14,9 @@ namespace EasyAbp.EShop.Payments.Web
     [DependsOn(
         typeof(EShopPaymentsHttpApiModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-        typeof(AbpAutoMapperModule)
-        )]
+        typeof(AbpAutoMapperModule),
+        typeof(PaymentServiceWebModule)
+    )]
     public class EShopPaymentsWebModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)

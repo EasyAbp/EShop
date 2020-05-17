@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Payments.Payments;
+﻿using EasyAbp.PaymentService.Payments;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 

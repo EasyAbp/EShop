@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200517122756_UsedPaymentServiceModule.cs" />
+    <Compile Remove="Migrations\20200517122756_UsedPaymentServiceModule.Designer.cs" />
+    <Compile Remove="Migrations\20200517123312_UsedPaymentServiceModule.cs" />
+    <Compile Remove="Migrations\20200517123312_UsedPaymentServiceModule.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EasyMall.EntityFrameworkCore\EasyMall.EntityFrameworkCore.csproj" />
   </ItemGroup>
 

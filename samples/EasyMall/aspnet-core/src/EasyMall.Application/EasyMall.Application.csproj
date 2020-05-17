@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Application\EasyAbp.EShop.Baskets.Application.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Application\EasyAbp.EShop.Orders.Application.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payments.WeChatPay\src\EasyAbp.EShop.Payments.WeChatPay.Application\EasyAbp.EShop.Payments.WeChatPay.Application.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Application\EasyAbp.EShop.Payments.Application.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Application\EasyAbp.EShop.Products.Application.csproj" />
     <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application\EasyAbp.EShop.Stores.Application.csproj" />
@@ -19,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="0.1.3" />
     <PackageReference Include="Volo.Abp.Account.Application" Version="2.7.0" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="2.7.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="2.7.0" />

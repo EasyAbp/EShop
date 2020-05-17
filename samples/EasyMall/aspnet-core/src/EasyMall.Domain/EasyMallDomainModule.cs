@@ -1,10 +1,10 @@
 ﻿using EasyAbp.EShop.Baskets;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payments;
-using EasyAbp.EShop.Payments.Payments;
-using EasyAbp.EShop.Payments.WeChatPay;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
+using EasyAbp.PaymentService.Payments;
+using EasyAbp.PaymentService.WeChatPay;
 using EasyMall.MultiTenancy;
 using EasyMall.ObjectExtending;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,10 +37,10 @@ namespace EasyMall
         typeof(EShopBasketsDomainModule),
         typeof(EShopOrdersDomainModule),
         typeof(EShopPaymentsDomainModule),
-        typeof(EShopPaymentsWeChatPayDomainModule),
         typeof(EShopProductsDomainModule),
-        typeof(EShopStoresDomainModule)
-        )]
+        typeof(EShopStoresDomainModule),
+        typeof(PaymentServiceWeChatPayDomainModule)
+    )]
     public class EasyMallDomainModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -60,6 +60,7 @@ namespace EasyMall
         {
             var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();
 
+            resolver.TryRegisterProvider(FreePaymentServiceProvider.PaymentMethod, typeof(FreePaymentServiceProvider));
             resolver.TryRegisterProvider(WeChatPayPaymentServiceProvider.PaymentMethod, typeof(WeChatPayPaymentServiceProvider));
         }
     }

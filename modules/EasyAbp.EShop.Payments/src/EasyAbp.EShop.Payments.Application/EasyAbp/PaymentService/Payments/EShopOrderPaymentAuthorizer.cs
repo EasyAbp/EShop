@@ -5,7 +5,7 @@ using EasyAbp.EShop.Orders.Orders;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Users;
 
-namespace EasyAbp.EShop.Payments.Payments
+namespace EasyAbp.PaymentService.Payments
 {
     public class EShopOrderPaymentAuthorizer : IPaymentAuthorizer, ITransientDependency
     {
@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Payments.Payments
                 return false;
             }
 
-            if (!order.ReducedInventoryAfterPlacingTime.HasValue)
+            if (order.ReducedInventoryAfterPlacingTime.HasValue)
             {
                 return false;
             }

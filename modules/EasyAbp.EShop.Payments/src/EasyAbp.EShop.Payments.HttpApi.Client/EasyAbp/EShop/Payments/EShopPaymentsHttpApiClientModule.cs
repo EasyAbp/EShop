@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.PaymentService;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
 
@@ -6,7 +7,9 @@ namespace EasyAbp.EShop.Payments
 {
     [DependsOn(
         typeof(EShopPaymentsApplicationContractsModule),
-        typeof(AbpHttpClientModule))]
+        typeof(AbpHttpClientModule),
+        typeof(PaymentServiceHttpApiClientModule)
+    )]
     public class EShopPaymentsHttpApiClientModule : AbpModule
     {
         public const string RemoteServiceName = "Payments";

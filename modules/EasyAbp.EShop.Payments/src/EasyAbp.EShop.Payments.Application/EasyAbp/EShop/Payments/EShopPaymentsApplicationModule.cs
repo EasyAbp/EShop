@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.PaymentService;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
@@ -9,7 +10,8 @@ namespace EasyAbp.EShop.Payments
         typeof(EShopPaymentsDomainModule),
         typeof(EShopPaymentsApplicationContractsModule),
         typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpAutoMapperModule),
+        typeof(PaymentServiceApplicationModule)
         )]
     public class EShopPaymentsApplicationModule : AbpModule
     {

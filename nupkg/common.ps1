@@ -35,16 +35,6 @@ $projects = (
     "modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.MongoDB",
     "modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.Web",
 	
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.Application",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.Application.Contracts",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.Domain",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.Domain.Shared",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.EntityFrameworkCore",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.HttpApi",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.HttpApi.Client",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.MongoDB",
-    "modules/EasyAbp.EShop.Payments.WeChatPay/src/EasyAbp.EShop.Payments.WeChatPay.Web",
-
     "modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Application",
     "modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Application.Contracts",
     "modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Domain",
