@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Orders.Authorization
         {
             var moduleGroup = context.AddGroup(OrdersPermissions.GroupName, L("Permission:Orders"));
             
-            var order = moduleGroup.AddPermission(OrdersPermissions.Orders.Default, L("Permission:Product"));
+            var order = moduleGroup.AddPermission(OrdersPermissions.Orders.Default, L("Permission:Order"));
             order.AddChild(OrdersPermissions.Orders.Manage, L("Permission:Manage"));
             order.AddChild(OrdersPermissions.Orders.CrossStore, L("Permission:CrossStore"));
             order.AddChild(OrdersPermissions.Orders.Create, L("Permission:Create"));
