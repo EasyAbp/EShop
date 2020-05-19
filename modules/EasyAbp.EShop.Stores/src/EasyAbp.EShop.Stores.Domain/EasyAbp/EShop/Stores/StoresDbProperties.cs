@@ -2,10 +2,10 @@
 {
     public static class StoresDbProperties
     {
-        public static string DbTablePrefix { get; set; } = "Stores";
+        public static string DbTablePrefix { get; set; } = "EShopStores";
 
         public static string DbSchema { get; set; } = null;
 
-        public const string ConnectionStringName = "Stores";
+        public const string ConnectionStringName = "EShopStores";
     }
 }
