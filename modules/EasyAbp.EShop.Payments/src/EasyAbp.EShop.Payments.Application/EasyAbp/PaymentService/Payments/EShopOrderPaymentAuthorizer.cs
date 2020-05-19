@@ -40,7 +40,7 @@ namespace EasyAbp.PaymentService.Payments
                 return false;
             }
 
-            if (order.ReducedInventoryAfterPlacingTime.HasValue)
+            if (!order.ReducedInventoryAfterPlacingTime.HasValue)
             {
                 return false;
             }
