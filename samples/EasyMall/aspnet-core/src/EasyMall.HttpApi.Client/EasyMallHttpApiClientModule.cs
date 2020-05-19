@@ -24,7 +24,6 @@ namespace EasyMall
         typeof(EShopBasketsHttpApiClientModule),
         typeof(EShopOrdersHttpApiClientModule),
         typeof(EShopPaymentsHttpApiClientModule),
-        typeof(EShopPaymentsWeChatPayHttpApiClientModule),
         typeof(EShopProductsHttpApiClientModule),
         typeof(EShopStoresHttpApiClientModule),
         typeof(PaymentServiceWeChatPayHttpApiClientModule)
