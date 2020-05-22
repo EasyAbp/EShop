@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/EasyAbp/EShop</RepositoryUrl>
     <PackageTags>abp module easyabp EShop shopping shop ordering product payment store mall</PackageTags>
     <Company>EasyAbp</Company>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
