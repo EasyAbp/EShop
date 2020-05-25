@@ -51,6 +51,7 @@ $(function () {
                 }
             },
             { data: "productTypeId" },
+            { data: "code" },
             { data: "displayName" },
             { data: "inventoryStrategy" },
             { data: "mediaResources" },

@@ -12,6 +12,9 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual Guid ProductDetailId { get; protected set; }
 
+        [CanBeNull]
+        public virtual string Code { get; protected set; }
+
         [NotNull]
         public virtual string DisplayName { get; protected set; }
         
@@ -42,17 +45,19 @@ namespace EasyAbp.EShop.Products.Products
             Guid id,
             Guid productTypeId,
             Guid productDetailId,
-            string displayName,
+            [CanBeNull] string code,
+            [NotNull] string displayName,
             InventoryStrategy inventoryStrategy,
             bool isPublished,
             bool isStatic,
             bool isHidden,
-            string mediaResources,
+            [CanBeNull] string mediaResources,
             int displayOrder
-        ) :base(id)
+        ) : base(id)
         {
             ProductTypeId = productTypeId;
             ProductDetailId = productDetailId;
+            Code = code?.Trim();
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
             IsPublished = isPublished;

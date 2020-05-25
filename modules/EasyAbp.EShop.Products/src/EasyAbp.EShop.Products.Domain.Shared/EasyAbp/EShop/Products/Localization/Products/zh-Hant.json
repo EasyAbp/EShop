@@ -8,6 +8,7 @@
     "ProductProductTypeId": "ProductProductTypeId",
     "ProductDetailId": "ProductDetailId",
     "ProductProductStoreId": "ProductProductStoreId",
+    "ProductCode": "ProductCode",
     "ProductDisplayName": "ProductDisplayName",
     "ProductDetailProductId": "ProductDetailProductId",
     "ProductDetailProductSkuId": "ProductDetailProductSkuId",

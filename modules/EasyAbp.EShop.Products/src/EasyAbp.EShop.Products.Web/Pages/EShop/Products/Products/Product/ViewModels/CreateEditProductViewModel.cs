@@ -24,6 +24,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductCategory")]
         public List<Guid> CategoryIds { get; set; }
         
+        [Display(Name = "ProductCode")]
+        public string Code { get; set; }
+        
         [Required]
         [Display(Name = "ProductDisplayName")]
         public string DisplayName { get; set; }

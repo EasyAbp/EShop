@@ -59,11 +59,13 @@ namespace EasyAbp.EShop.Products.Products
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             await CheckCreatePolicyAsync();
-
+            
             var product = MapToEntity(input);
 
             TryToSetTenantId(product);
             
+            await CheckProductCodeUniqueAsync(product);
+
             await UpdateProductAttributesAsync(product, input);
 
             await Repository.InsertAsync(product, autoSave: true);
@@ -75,6 +77,19 @@ namespace EasyAbp.EShop.Products.Products
             await UpdateProductCategoriesAsync(product.Id, input.CategoryIds);
 
             return MapToGetOutputDto(product);
+        }
+
+        private async Task CheckProductCodeUniqueAsync(Product product)
+        {
+            if (product.Code.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            if (await _repository.FindAsync(x => x.Code == product.Code && x.Id != product.Id) != null)
+            {
+                throw new ProductCodeDuplicatedException(product.Code);
+            }
         }
 
         protected virtual async Task CheckProductDetailAvailableAsync(Guid currentProductId, Guid desiredProductDetailId)
@@ -107,6 +122,8 @@ namespace EasyAbp.EShop.Products.Products
             CheckProductIsNotStatic(product);
             
             MapToEntity(input, product);
+
+            await CheckProductCodeUniqueAsync(product);
 
             await UpdateProductAttributesAsync(product, input);
 

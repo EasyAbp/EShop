@@ -13,6 +13,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public ICollection<Guid> CategoryIds { get; set; }
 
+        public string Code { get; set; }
+        
         public string DisplayName { get; set; }
         
         public InventoryStrategy InventoryStrategy { get; set; }
