@@ -64,52 +64,13 @@ namespace EasyAbp.EShop.Products.Products
 
             TryToSetTenantId(product);
             
-            await CheckProductCodeUniqueAsync(product);
-
             await UpdateProductAttributesAsync(product, input);
-
-            await Repository.InsertAsync(product, autoSave: true);
-
-            await CheckProductDetailAvailableAsync(product.Id, input.ProductDetailId);
-
-            await AddProductToStoreAsync(product.Id, input.StoreId);
             
-            await UpdateProductCategoriesAsync(product.Id, input.CategoryIds);
+            await _productManager.CreateAsync(product, input.StoreId, input.CategoryIds);
 
             return MapToGetOutputDto(product);
         }
-
-        private async Task CheckProductCodeUniqueAsync(Product product)
-        {
-            if (product.Code.IsNullOrEmpty())
-            {
-                return;
-            }
-
-            if (await _repository.FindAsync(x => x.Code == product.Code && x.Id != product.Id) != null)
-            {
-                throw new ProductCodeDuplicatedException(product.Code);
-            }
-        }
-
-        protected virtual async Task CheckProductDetailAvailableAsync(Guid currentProductId, Guid desiredProductDetailId)
-        {
-            var otherOwner = await _repository.FindAsync(x =>
-                x.ProductDetailId == desiredProductDetailId && x.Id != currentProductId);
-
-            // Todo: should also check ProductSku owner
-            
-            if (otherOwner != null)
-            {
-                throw new EntityNotFoundException(typeof(ProductDetail), desiredProductDetailId);
-            }
-        }
-
-        protected virtual async Task AddProductToStoreAsync(Guid productId, Guid storeId)
-        {
-            await _productStoreRepository.InsertAsync(new ProductStore(GuidGenerator.Create(), CurrentTenant.Id,
-                storeId, productId, true), true);
-        }
+        
 
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
@@ -122,16 +83,10 @@ namespace EasyAbp.EShop.Products.Products
             CheckProductIsNotStatic(product);
             
             MapToEntity(input, product);
-
-            await CheckProductCodeUniqueAsync(product);
-
+            
             await UpdateProductAttributesAsync(product, input);
 
-            await Repository.UpdateAsync(product, autoSave: true);
-
-            await CheckProductDetailAvailableAsync(product.Id, input.ProductDetailId);
-
-            await UpdateProductCategoriesAsync(product.Id, input.CategoryIds);
+            await _productManager.UpdateAsync(product, input.CategoryIds);
 
             return MapToGetOutputDto(product);
         }
@@ -326,12 +281,10 @@ namespace EasyAbp.EShop.Products.Products
             var product = await GetEntityByIdAsync(id);
             
             CheckProductIsNotStatic(product);
-            
-            await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
-            
+
             await CheckStoreIsProductOwnerAsync(id, storeId);
 
-            await _repository.DeleteAsync(product);
+            await _productManager.DeleteAsync(product);
         }
 
         private static void CheckProductIsNotStatic(Product product)
@@ -417,15 +370,6 @@ namespace EasyAbp.EShop.Products.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)
-        {
-            await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
 
-            foreach (var categoryId in categoryIds)
-            {
-                await _productCategoryRepository.InsertAsync(
-                    new ProductCategory(GuidGenerator.Create(), CurrentTenant.Id, categoryId, productId), true);
-            }
-        }
     }
 }
