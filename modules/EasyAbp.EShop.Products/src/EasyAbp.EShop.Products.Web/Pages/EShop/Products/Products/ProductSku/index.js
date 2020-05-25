@@ -13,7 +13,7 @@ $(function () {
         order: [[1, "asc"]],
         ajax: function (requestData, callback, settings) {
             if (callback) {
-                service.get(productId).then(function (result) {
+                service.get(productId, storeId).then(function (result) {
                     callback({
                         recordsTotal: result.productSkus.length,
                         recordsFiltered: result.productSkus.length,
