@@ -239,7 +239,28 @@ namespace EasyAbp.EShop.Products.Products
             
             if (!dto.IsPublished)
             {
-                await CheckStoreIsProductOwnerAsync(id, storeId);
+                await CheckStoreIsProductOwnerAsync(dto.Id, storeId);
+            }
+            
+            await LoadRealInventoriesAsync(product, dto, storeId);
+            
+            dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
+                .Select(x => x.CategoryId).ToList();
+            
+            return dto;
+        }
+        
+        public virtual async Task<ProductDto> GetByCodeAsync(string code, Guid storeId)
+        {
+            await CheckGetPolicyAsync();
+
+            var product = await _repository.GetAsync(x => x.Code == code);
+            
+            var dto = MapToGetOutputDto(product);
+            
+            if (!dto.IsPublished)
+            {
+                await CheckStoreIsProductOwnerAsync(dto.Id, storeId);
             }
             
             await LoadRealInventoriesAsync(product, dto, storeId);
