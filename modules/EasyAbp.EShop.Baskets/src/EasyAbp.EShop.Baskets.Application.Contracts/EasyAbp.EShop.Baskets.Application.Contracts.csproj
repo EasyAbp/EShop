@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="2.7.0" />
-    <PackageReference Include="Volo.Abp.Authorization" Version="2.7.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="2.8.0" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="2.8.0" />
     <ProjectReference Include="..\EasyAbp.EShop.Baskets.Domain.Shared\EasyAbp.EShop.Baskets.Domain.Shared.csproj" />
   </ItemGroup>
 
