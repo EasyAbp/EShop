@@ -64,14 +64,14 @@ namespace EasyAbp.EShop.Products.Products
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(product.Id));
 
-            await _productRepository.DeleteAsync(product);
+            await _productRepository.DeleteAsync(product, true);
         }
         
         public virtual async Task DeleteAsync(Guid id)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
 
-            await _productRepository.DeleteAsync(id);
+            await _productRepository.DeleteAsync(id, true);
         }
 
         protected virtual async Task AddProductToStoreAsync(Guid productId, Guid storeId)

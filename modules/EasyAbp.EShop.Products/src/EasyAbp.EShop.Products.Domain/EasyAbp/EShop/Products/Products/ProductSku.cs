@@ -18,6 +18,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual int Inventory { get; protected set; }
         
+        // Todo: should be implemented
         public virtual int Sold { get; protected set; }
         
         public virtual int OrderMinQuantity { get; protected set; }
