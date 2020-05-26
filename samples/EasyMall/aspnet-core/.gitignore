@@ -258,3 +258,5 @@ src/EasyMall.IdentityServer/Logs/*
 src/EasyMall.HttpApi.Host/Logs/*
 src/EasyMall.HttpApi.HostWithIds/Logs/*
 src/EasyMall.DbMigrator/Logs/*
+
+appsettings.*.json
