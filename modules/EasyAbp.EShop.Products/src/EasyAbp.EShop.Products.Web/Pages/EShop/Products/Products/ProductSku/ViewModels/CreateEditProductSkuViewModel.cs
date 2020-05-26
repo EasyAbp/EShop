@@ -6,6 +6,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
 {
     public class CreateEditProductSkuViewModel
     {
+        [Display(Name = "ProductSkuCode")]
+        public string Code { get; set; }
+        
         [Required]
         [Display(Name = "ProductSkuCurrency")]
         public string Currency { get; set; }

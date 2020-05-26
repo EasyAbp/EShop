@@ -68,5 +68,10 @@ namespace EasyAbp.EShop.Products.Products
             ProductAttributes = new List<ProductAttribute>();
             ProductSkus = new List<ProductSku>();
         }
+
+        public void TrimCode()
+        {
+            Code = Code?.Trim();
+        }
     }
 }

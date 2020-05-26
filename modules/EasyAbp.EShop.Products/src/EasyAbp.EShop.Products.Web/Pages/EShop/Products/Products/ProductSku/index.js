@@ -49,6 +49,7 @@ $(function () {
                         ]
                 }
             },
+            { data: "code" },
             { data: "contentDescription" },
             { data: "price" },
             { data: "inventory" },

@@ -304,34 +304,16 @@ namespace EasyAbp.EShop.Products.Products
             var product = await GetEntityByIdAsync(productId);
 
             CheckProductIsNotStatic(product);
-
-            input.SerializedAttributeOptionIds =
-                await _attributeOptionIdsSerializer.FormatAsync(input.SerializedAttributeOptionIds);
-
-            await CheckSkuAttributeOptionsAsync(product, input.SerializedAttributeOptionIds);
-
+            
             var sku = ObjectMapper.Map<CreateProductSkuDto, ProductSku>(input);
-            
+
             EntityHelper.TrySetId(sku, GuidGenerator.Create);
+
+            await _productManager.CreateSkuAsync(product, sku);
             
-            product.ProductSkus.Add(sku);
-
-            await _repository.UpdateAsync(product, true);
-
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
-
-        protected virtual Task CheckSkuAttributeOptionsAsync(Product product, string inputSerializedAttributeOptionIds)
-        {
-            if (product.ProductSkus.FirstOrDefault(sku =>
-                sku.SerializedAttributeOptionIds.Equals(inputSerializedAttributeOptionIds)) != null)
-            {
-                throw new ProductSkuDuplicatedException(product.Id, inputSerializedAttributeOptionIds);
-            }
-
-            return Task.CompletedTask;
-        }
-
+        
         public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input)
         {
             await CheckUpdatePolicyAsync();
@@ -346,8 +328,8 @@ namespace EasyAbp.EShop.Products.Products
 
             ObjectMapper.Map(input, sku);
 
-            await _repository.UpdateAsync(product, true);
-
+            await _productManager.UpdateSkuAsync(product, sku);
+            
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
@@ -363,9 +345,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
 
-            product.ProductSkus.Remove(sku);
-            
-            await _repository.UpdateAsync(product, true);
+            await _productManager.DeleteSkuAsync(product, sku);
 
             return ObjectMapper.Map<Product, ProductDto>(product);
         }

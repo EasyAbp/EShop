@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EasyMall.Migrations
 {
-    public partial class Initial : Migration
+    public partial class AddedCodeToProductSku : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -202,6 +202,243 @@ namespace EasyMall.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EShopOrdersOrders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    StoreId = table.Column<Guid>(nullable: false),
+                    CustomerUserId = table.Column<Guid>(nullable: false),
+                    OrderStatus = table.Column<int>(nullable: false),
+                    Currency = table.Column<string>(nullable: true),
+                    ProductTotalPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    TotalDiscount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    RefundedAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    CustomerRemark = table.Column<string>(nullable: true),
+                    StaffRemark = table.Column<string>(nullable: true),
+                    PaymentId = table.Column<Guid>(nullable: true),
+                    PaidTime = table.Column<DateTime>(nullable: true),
+                    CompletionTime = table.Column<DateTime>(nullable: true),
+                    CancelledTime = table.Column<DateTime>(nullable: true),
+                    ReducedInventoryAfterPlacingTime = table.Column<DateTime>(nullable: true),
+                    ReducedInventoryAfterPaymentTime = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopOrdersOrders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    ParentCategoryId = table.Column<Guid>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    MediaResources = table.Column<string>(nullable: true),
+                    IsHidden = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    DisplayOrder = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductDetailHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    ProductDetailId = table.Column<Guid>(nullable: false),
+                    ModificationTime = table.Column<DateTime>(nullable: false),
+                    SerializedDto = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductDetailHistories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    ModificationTime = table.Column<DateTime>(nullable: false),
+                    SerializedDto = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductHistories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProducts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    ProductTypeId = table.Column<Guid>(nullable: false),
+                    ProductDetailId = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
+                    InventoryStrategy = table.Column<int>(nullable: false),
+                    MediaResources = table.Column<string>(nullable: true),
+                    DisplayOrder = table.Column<int>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false),
+                    IsStatic = table.Column<bool>(nullable: false),
+                    IsHidden = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProducts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductStores",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    StoreId = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    IsOwner = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductStores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    MultiTenancySide = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopStoresStores",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopStoresStores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IdentityServerApiResources",
                 columns: table => new
                 {
@@ -350,6 +587,149 @@ namespace EasyMall.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerPersistedGrants", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentServicePayments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    PaymentMethod = table.Column<string>(nullable: true),
+                    PayeeAccount = table.Column<string>(nullable: true),
+                    ExternalTradingCode = table.Column<string>(nullable: true),
+                    Currency = table.Column<string>(nullable: true),
+                    OriginalPaymentAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    PaymentDiscount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    ActualPaymentAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    RefundAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    CompletionTime = table.Column<DateTime>(nullable: true),
+                    CancelledTime = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentServicePayments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentServiceRefunds",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    PaymentId = table.Column<Guid>(nullable: false),
+                    PaymentItemId = table.Column<Guid>(nullable: false),
+                    RefundPaymentMethod = table.Column<string>(nullable: true),
+                    ExternalTradingCode = table.Column<string>(nullable: true),
+                    Currency = table.Column<string>(nullable: true),
+                    RefundAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    CustomerRemark = table.Column<string>(nullable: true),
+                    StaffRemark = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentServiceRefunds", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentServiceWeChatPayPaymentRecords",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    PaymentId = table.Column<Guid>(nullable: false),
+                    ReturnCode = table.Column<string>(nullable: true),
+                    ReturnMsg = table.Column<string>(nullable: true),
+                    AppId = table.Column<string>(nullable: true),
+                    MchId = table.Column<string>(nullable: true),
+                    DeviceInfo = table.Column<string>(nullable: true),
+                    NonceStr = table.Column<string>(nullable: true),
+                    Sign = table.Column<string>(nullable: true),
+                    SignType = table.Column<string>(nullable: true),
+                    ResultCode = table.Column<string>(nullable: true),
+                    ErrCode = table.Column<string>(nullable: true),
+                    ErrCodeDes = table.Column<string>(nullable: true),
+                    Openid = table.Column<string>(nullable: true),
+                    IsSubscribe = table.Column<string>(nullable: true),
+                    TradeType = table.Column<string>(nullable: true),
+                    BankType = table.Column<string>(nullable: true),
+                    TotalFee = table.Column<int>(nullable: false),
+                    SettlementTotalFee = table.Column<int>(nullable: true),
+                    FeeType = table.Column<string>(nullable: true),
+                    CashFee = table.Column<int>(nullable: false),
+                    CashFeeType = table.Column<string>(nullable: true),
+                    CouponFee = table.Column<int>(nullable: true),
+                    CouponCount = table.Column<int>(nullable: true),
+                    CouponTypes = table.Column<string>(nullable: true),
+                    CouponIds = table.Column<string>(nullable: true),
+                    CouponFees = table.Column<string>(nullable: true),
+                    TransactionId = table.Column<string>(nullable: true),
+                    OutTradeNo = table.Column<string>(nullable: true),
+                    Attach = table.Column<string>(nullable: true),
+                    TimeEnd = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentServiceWeChatPayPaymentRecords", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentServiceWeChatPayRefundRecords",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    PaymentId = table.Column<Guid>(nullable: false),
+                    ReturnCode = table.Column<string>(nullable: true),
+                    ReturnMsg = table.Column<string>(nullable: true),
+                    AppId = table.Column<string>(nullable: true),
+                    MchId = table.Column<string>(nullable: true),
+                    NonceStr = table.Column<string>(nullable: true),
+                    ReqInfo = table.Column<string>(nullable: true),
+                    TransactionId = table.Column<string>(nullable: true),
+                    OutTradeNo = table.Column<string>(nullable: true),
+                    RefundId = table.Column<string>(nullable: true),
+                    OutRefundNo = table.Column<string>(nullable: true),
+                    TotalFee = table.Column<int>(nullable: false),
+                    SettlementTotalFee = table.Column<int>(nullable: true),
+                    RefundFee = table.Column<int>(nullable: false),
+                    SettlementRefundFee = table.Column<int>(nullable: false),
+                    RefundStatus = table.Column<string>(nullable: true),
+                    SuccessTime = table.Column<string>(nullable: true),
+                    RefundRecvAccout = table.Column<string>(nullable: true),
+                    RefundAccount = table.Column<string>(nullable: true),
+                    RefundRequestSource = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentServiceWeChatPayRefundRecords", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -528,6 +908,105 @@ namespace EasyMall.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopOrdersOrderLines",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    ProductSkuId = table.Column<Guid>(nullable: false),
+                    ProductModificationTime = table.Column<DateTime>(nullable: false),
+                    ProductDetailModificationTime = table.Column<DateTime>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    SkuDescription = table.Column<string>(nullable: true),
+                    MediaResources = table.Column<string>(nullable: true),
+                    Currency = table.Column<string>(nullable: true),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    TotalDiscount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    OrderId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopOrdersOrderLines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EShopOrdersOrderLines_EShopOrdersOrders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "EShopOrdersOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductAttributes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    DisplayOrder = table.Column<int>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductAttributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EShopProductsProductAttributes_EShopProductsProducts_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "EShopProductsProducts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductSkus",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    SerializedAttributeOptionIds = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true),
+                    Currency = table.Column<string>(nullable: true),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    Inventory = table.Column<int>(nullable: false),
+                    Sold = table.Column<int>(nullable: false),
+                    OrderMinQuantity = table.Column<int>(nullable: false),
+                    ProductDetailId = table.Column<Guid>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductSkus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EShopProductsProductSkus_EShopProductsProducts_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "EShopProductsProducts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -778,6 +1257,38 @@ namespace EasyMall.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PaymentServicePaymentItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    ItemType = table.Column<string>(nullable: true),
+                    ItemKey = table.Column<Guid>(nullable: false),
+                    Currency = table.Column<string>(nullable: true),
+                    OriginalPaymentAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    PaymentDiscount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    ActualPaymentAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    RefundAmount = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    PaymentId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentServicePaymentItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentServicePaymentItems_PaymentServicePayments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "PaymentServicePayments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AbpEntityPropertyChanges",
                 columns: table => new
                 {
@@ -798,6 +1309,34 @@ namespace EasyMall.Migrations
                         principalTable: "AbpEntityChanges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EShopProductsProductAttributeOptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierId = table.Column<Guid>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    DisplayOrder = table.Column<int>(nullable: false),
+                    ProductAttributeId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EShopProductsProductAttributeOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EShopProductsProductAttributeOptions_EShopProductsProductAttributes_ProductAttributeId",
+                        column: x => x.ProductAttributeId,
+                        principalTable: "EShopProductsProductAttributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -925,6 +1464,46 @@ namespace EasyMall.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EShopOrdersOrderLines_OrderId",
+                table: "EShopOrdersOrderLines",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductAttributeOptions_ProductAttributeId",
+                table: "EShopProductsProductAttributeOptions",
+                column: "ProductAttributeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductAttributes_ProductId",
+                table: "EShopProductsProductAttributes",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductDetailHistories_ModificationTime",
+                table: "EShopProductsProductDetailHistories",
+                column: "ModificationTime");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductDetailHistories_ProductDetailId",
+                table: "EShopProductsProductDetailHistories",
+                column: "ProductDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductHistories_ModificationTime",
+                table: "EShopProductsProductHistories",
+                column: "ModificationTime");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductHistories_ProductId",
+                table: "EShopProductsProductHistories",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EShopProductsProductSkus_ProductId",
+                table: "EShopProductsProductSkus",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_IdentityServerClients_ClientId",
                 table: "IdentityServerClients",
                 column: "ClientId");
@@ -955,6 +1534,11 @@ namespace EasyMall.Migrations
                 name: "IX_IdentityServerPersistedGrants_SubjectId_ClientId_Type",
                 table: "IdentityServerPersistedGrants",
                 columns: new[] { "SubjectId", "ClientId", "Type" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentServicePaymentItems_PaymentId",
+                table: "PaymentServicePaymentItems",
+                column: "PaymentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -997,6 +1581,39 @@ namespace EasyMall.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "EShopOrdersOrderLines");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsCategories");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductAttributeOptions");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductCategories");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductDetailHistories");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductDetails");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductHistories");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductSkus");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductStores");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductTypes");
+
+            migrationBuilder.DropTable(
+                name: "EShopStoresStores");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiClaims");
@@ -1044,6 +1661,18 @@ namespace EasyMall.Migrations
                 name: "IdentityServerPersistedGrants");
 
             migrationBuilder.DropTable(
+                name: "PaymentServicePaymentItems");
+
+            migrationBuilder.DropTable(
+                name: "PaymentServiceRefunds");
+
+            migrationBuilder.DropTable(
+                name: "PaymentServiceWeChatPayPaymentRecords");
+
+            migrationBuilder.DropTable(
+                name: "PaymentServiceWeChatPayRefundRecords");
+
+            migrationBuilder.DropTable(
                 name: "AbpEntityChanges");
 
             migrationBuilder.DropTable(
@@ -1056,6 +1685,12 @@ namespace EasyMall.Migrations
                 name: "AbpUsers");
 
             migrationBuilder.DropTable(
+                name: "EShopOrdersOrders");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProductAttributes");
+
+            migrationBuilder.DropTable(
                 name: "IdentityServerApiScopes");
 
             migrationBuilder.DropTable(
@@ -1065,7 +1700,13 @@ namespace EasyMall.Migrations
                 name: "IdentityServerIdentityResources");
 
             migrationBuilder.DropTable(
+                name: "PaymentServicePayments");
+
+            migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "EShopProductsProducts");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiResources");

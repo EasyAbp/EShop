@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductDetails;
@@ -15,22 +16,27 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProvider _productInventoryProvider;
+        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
 
         public ProductManager(
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
-            IProductInventoryProvider productInventoryProvider)
+            IProductInventoryProvider productInventoryProvider,
+            IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProvider = productInventoryProvider;
+            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
         }
 
         public virtual async Task<Product> CreateAsync(Product product, Guid? storeId = null,
             IEnumerable<Guid> categoryIds = null)
         {
+            product.TrimCode();
+            
             await CheckProductCodeUniqueAsync(product);
 
             await _productRepository.InsertAsync(product, autoSave: true);
@@ -72,6 +78,62 @@ namespace EasyAbp.EShop.Products.Products
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
 
             await _productRepository.DeleteAsync(id, true);
+        }
+
+        public virtual async Task<Product> CreateSkuAsync(Product product, ProductSku productSku)
+        {
+            productSku.SetSerializedAttributeOptionIds(await _attributeOptionIdsSerializer.FormatAsync(productSku.SerializedAttributeOptionIds));
+
+            await CheckSkuAttributeOptionsAsync(product, productSku);
+
+            await CheckProductSkuCodeUniqueAsync(product, productSku);
+            
+            productSku.TrimCode();
+            
+            product.ProductSkus.AddIfNotContains(productSku);
+            
+            return await _productRepository.UpdateAsync(product, true);
+        }
+
+        protected virtual Task CheckProductSkuCodeUniqueAsync(Product product, ProductSku productSku)
+        {
+            if (productSku.Code.IsNullOrEmpty())
+            {
+                return Task.CompletedTask;
+            }
+            
+            if (product.ProductSkus.Where(sku => sku.Id != productSku.Id)
+                .FirstOrDefault(sku => sku.Code == productSku.Code) != null)
+            {
+                throw new ProductSkuCodeDuplicatedException(product.Id, productSku.Code);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task CheckSkuAttributeOptionsAsync(Product product, ProductSku productSku)
+        {
+            if (product.ProductSkus.Where(sku => sku.Id != productSku.Id).FirstOrDefault(sku =>
+                sku.SerializedAttributeOptionIds.Equals(productSku.SerializedAttributeOptionIds)) != null)
+            {
+                throw new ProductSkuDuplicatedException(product.Id, productSku.SerializedAttributeOptionIds);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task<Product> UpdateSkuAsync(Product product, ProductSku productSku)
+        {
+            await CheckProductSkuCodeUniqueAsync(product, productSku);
+
+            return await _productRepository.UpdateAsync(product, true);
+        }
+
+        public virtual async Task<Product> DeleteSkuAsync(Product product, ProductSku productSku)
+        {
+            product.ProductSkus.Remove(productSku);
+            
+            return await _productRepository.UpdateAsync(product, true);
         }
 
         protected virtual async Task AddProductToStoreAsync(Guid productId, Guid storeId)

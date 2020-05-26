@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMall.Migrations
 {
     [DbContext(typeof(EasyMallMigrationsDbContext))]
-    [Migration("20200429100034_AddedIsHiddenAndIsStatic")]
-    partial class AddedIsHiddenAndIsStatic
+    [Migration("20200526074907_AddedCodeToProductSku")]
+    partial class AddedCodeToProductSku
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,190 @@ namespace EasyMall.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CancelledTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CompletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerRemark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnName("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnName("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PaidTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("ProductTotalPrice")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<DateTime?>("ReducedInventoryAfterPaymentTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReducedInventoryAfterPlacingTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("RefundedAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("StaffRemark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnName("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("TotalDiscount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EShopOrdersOrders");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnName("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnName("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MediaResources")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ProductDetailModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ProductModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductSkuId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkuDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalDiscount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("EShopOrdersOrderLines");
+                });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Categories.Category", b =>
                 {
@@ -87,7 +271,7 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsCategories");
+                    b.ToTable("EShopProductsCategories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductCategories.ProductCategory", b =>
@@ -136,7 +320,40 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsProductCategories");
+                    b.ToTable("EShopProductsProductCategories");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Products.ProductDetailHistories.ProductDetailHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SerializedDto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModificationTime");
+
+                    b.HasIndex("ProductDetailId");
+
+                    b.ToTable("EShopProductsProductDetailHistories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductDetails.ProductDetail", b =>
@@ -189,7 +406,40 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsProductDetails");
+                    b.ToTable("EShopProductsProductDetails");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Products.ProductHistories.ProductHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SerializedDto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModificationTime");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("EShopProductsProductHistories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductStores.ProductStore", b =>
@@ -252,7 +502,7 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsProductStores");
+                    b.ToTable("EShopProductsProductStores");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductTypes.ProductType", b =>
@@ -314,7 +564,7 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsProductTypes");
+                    b.ToTable("EShopProductsProductTypes");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.Product", b =>
@@ -322,6 +572,9 @@ namespace EasyMall.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -391,7 +644,7 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsProducts");
+                    b.ToTable("EShopProductsProducts");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductAttribute", b =>
@@ -446,7 +699,7 @@ namespace EasyMall.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductsProductAttributes");
+                    b.ToTable("EShopProductsProductAttributes");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductAttributeOption", b =>
@@ -501,7 +754,7 @@ namespace EasyMall.Migrations
 
                     b.HasIndex("ProductAttributeId");
 
-                    b.ToTable("ProductsProductAttributeOptions");
+                    b.ToTable("EShopProductsProductAttributeOptions");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductSku", b =>
@@ -509,6 +762,9 @@ namespace EasyMall.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -549,7 +805,7 @@ namespace EasyMall.Migrations
                     b.Property<int>("OrderMinQuantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("OriginalPrice")
+                    b.Property<decimal?>("OriginalPrice")
                         .HasColumnType("decimal(18,6)");
 
                     b.Property<decimal>("Price")
@@ -571,7 +827,7 @@ namespace EasyMall.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductsProductSkus");
+                    b.ToTable("EShopProductsProductSkus");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Stores.Stores.Store", b =>
@@ -628,7 +884,453 @@ namespace EasyMall.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StoresStores");
+                    b.ToTable("EShopStoresStores");
+                });
+
+            modelBuilder.Entity("EasyAbp.PaymentService.Payments.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("ActualPaymentAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<DateTime?>("CancelledTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CompletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnName("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnName("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExternalTradingCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("OriginalPaymentAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("PayeeAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PaymentDiscount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnName("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentServicePayments");
+                });
+
+            modelBuilder.Entity("EasyAbp.PaymentService.Payments.PaymentItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("ActualPaymentAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnName("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnName("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid>("ItemKey")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ItemType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("OriginalPaymentAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("PaymentDiscount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<Guid?>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("PaymentServicePaymentItems");
+                });
+
+            modelBuilder.Entity("EasyAbp.PaymentService.Refunds.Refund", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerRemark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnName("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnName("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExternalTradingCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PaymentItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("RefundPaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StaffRemark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnName("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentServiceRefunds");
+                });
+
+            modelBuilder.Entity("EasyAbp.PaymentService.WeChatPay.PaymentRecords.PaymentRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AppId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Attach")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CashFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CashFeeType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CouponCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CouponFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CouponFees")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CouponIds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CouponTypes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeviceInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrCodeDes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FeeType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsSubscribe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MchId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NonceStr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Openid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutTradeNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ResultCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReturnCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReturnMsg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SettlementTotalFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sign")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SignType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnName("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TimeEnd")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TradeType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentServiceWeChatPayPaymentRecords");
+                });
+
+            modelBuilder.Entity("EasyAbp.PaymentService.WeChatPay.RefundRecords.RefundRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AppId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MchId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NonceStr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutRefundNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutTradeNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RefundAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RefundFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RefundId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefundRecvAccout")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefundRequestSource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefundStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReqInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReturnCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReturnMsg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SettlementRefundFee")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SettlementTotalFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SuccessTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnName("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TotalFee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentServiceWeChatPayRefundRecords");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2168,6 +2870,13 @@ namespace EasyMall.Migrations
                     b.ToTable("AbpTenantConnectionStrings");
                 });
 
+            modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderLine", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Orders.Orders.Order", null)
+                        .WithMany("OrderLines")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductAttribute", b =>
                 {
                     b.HasOne("EasyAbp.EShop.Products.Products.Product", null)
@@ -2187,6 +2896,13 @@ namespace EasyMall.Migrations
                     b.HasOne("EasyAbp.EShop.Products.Products.Product", null)
                         .WithMany("ProductSkus")
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("EasyAbp.PaymentService.Payments.PaymentItem", b =>
+                {
+                    b.HasOne("EasyAbp.PaymentService.Payments.Payment", null)
+                        .WithMany("PaymentItems")
+                        .HasForeignKey("PaymentId");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>

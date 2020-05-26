@@ -9,6 +9,9 @@ namespace EasyAbp.EShop.Products.Products
         [NotNull]
         public virtual string SerializedAttributeOptionIds { get; protected set; }
         
+        [CanBeNull]
+        public virtual string Code { get; protected set; }
+        
         [NotNull]
         public virtual string Currency { get; protected set; }
         
@@ -30,6 +33,7 @@ namespace EasyAbp.EShop.Products.Products
         public ProductSku(
             Guid id,
             [NotNull] string serializedAttributeOptionIds,
+            [CanBeNull] string code,
             [NotNull] string currency,
             decimal? originalPrice,
             decimal price,
@@ -39,6 +43,7 @@ namespace EasyAbp.EShop.Products.Products
             Guid? productDetailId) : base(id)
         {
             SerializedAttributeOptionIds = serializedAttributeOptionIds;
+            Code = code?.Trim();
             Currency = currency;
             OriginalPrice = originalPrice;
             Price = price;
@@ -70,6 +75,16 @@ namespace EasyAbp.EShop.Products.Products
             Inventory -= quantity;
             
             return true;
+        }
+        
+        public void TrimCode()
+        {
+            Code = Code?.Trim();
+        }
+
+        public void SetSerializedAttributeOptionIds(string serializedAttributeOptionIds)
+        {
+            SerializedAttributeOptionIds = serializedAttributeOptionIds;
         }
     }
 }
