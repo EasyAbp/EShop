@@ -9,6 +9,6 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories.Dtos
 
         public DateTime ModificationTime { get; set; }
 
-        public string SerializedDto { get; set; }
+        public string SerializedEntityData { get; set; }
     }
 }

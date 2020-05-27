@@ -11,7 +11,7 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories
         public virtual DateTime ModificationTime { get; protected set; }
         
         [NotNull]
-        public virtual string SerializedDto { get; protected set; }
+        public virtual string SerializedEntityData { get; protected set; }
         
         protected ProductDetailHistory() {}
 
@@ -19,11 +19,11 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories
             Guid id,
             Guid productDetailId,
             DateTime modificationTime,
-            [NotNull] string serializedDto) : base(id)
+            [NotNull] string serializedEntityData) : base(id)
         {
             ProductDetailId = productDetailId;
             ModificationTime = modificationTime;
-            SerializedDto = serializedDto;
+            SerializedEntityData = serializedEntityData;
         }
     }
 }
