@@ -40,8 +40,6 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
             });
             */
             
-            // Configure dependent module
-            
             builder.ConfigurePaymentService();
         }
     }

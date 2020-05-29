@@ -1,4 +1,5 @@
 ﻿using System;
+using EasyAbp.PaymentService.MongoDB;
 using Volo.Abp;
 using Volo.Abp.MongoDB;
 
@@ -17,6 +18,8 @@ namespace EasyAbp.EShop.Payments.MongoDB
             );
 
             optionsAction?.Invoke(options);
+            
+            builder.ConfigurePaymentService();
         }
     }
 }

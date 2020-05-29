@@ -17,19 +17,12 @@
     <PackageReference Include="Volo.Abp.FeatureManagement.Domain.Shared" Version="2.8.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="2.8.0" />
     <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="2.8.0" />
+    <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.Domain.Shared\EasyAbp.EShop.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Localization\EasyMall\*.json" />
     <Content Remove="Localization\EasyMall\*.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Domain.Shared\EasyAbp.EShop.Baskets.Domain.Shared.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Domain.Shared\EasyAbp.EShop.Orders.Domain.Shared.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Domain.Shared\EasyAbp.EShop.Payments.Domain.Shared.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Domain.Shared\EasyAbp.EShop.Stores.Domain.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,11 +8,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.EntityFrameworkCore\EasyAbp.EShop.Baskets.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.EntityFrameworkCore\EasyAbp.EShop.Orders.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.EntityFrameworkCore\EasyAbp.EShop.Payments.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.EntityFrameworkCore\EasyAbp.EShop.Products.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.EntityFrameworkCore\EasyAbp.EShop.Stores.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.EntityFrameworkCore\EasyAbp.EShop.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EasyMall.Domain\EasyMall.Domain.csproj" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="0.1.6" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="2.8.0" />

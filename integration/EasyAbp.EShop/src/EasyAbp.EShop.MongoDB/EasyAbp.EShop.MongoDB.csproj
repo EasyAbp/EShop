@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.MongoDB" Version="2.8.0" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.MongoDB\EasyAbp.EShop.Baskets.MongoDB.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.MongoDB\EasyAbp.EShop.Orders.MongoDB.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.MongoDB\EasyAbp.EShop.Payments.MongoDB.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.MongoDB\EasyAbp.EShop.Products.MongoDB.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.MongoDB\EasyAbp.EShop.Stores.MongoDB.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Domain\EasyAbp.EShop.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EasyAbp\EShop" />
+  </ItemGroup>
+
+</Project>

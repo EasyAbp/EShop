@@ -10,6 +10,7 @@ using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Products.Web;
 using EasyAbp.EShop.Stores;
 using EasyAbp.EShop.Stores.Web;
+using EasyAbp.EShop.Web;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.WeChatPay;
 using EasyAbp.PaymentService.WeChatPay.Web;
@@ -63,11 +64,7 @@ namespace EasyMall.Web
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(EShopBasketsWebModule),
-        typeof(EShopOrdersWebModule),
-        typeof(EShopPaymentsWebModule),
-        typeof(EShopProductsWebModule),
-        typeof(EShopStoresWebModule),
+        typeof(EShopWebModule),
         typeof(PaymentServiceWeChatPayWebModule)
         )]
     public class EasyMallWebModule : AbpModule

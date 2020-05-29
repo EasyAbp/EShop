@@ -1,8 +1,4 @@
-﻿using EasyAbp.EShop.Baskets;
-using EasyAbp.EShop.Orders;
-using EasyAbp.EShop.Payments;
-using EasyAbp.EShop.Products;
-using EasyAbp.EShop.Stores;
+﻿using EasyAbp.EShop;
 using EasyAbp.PaymentService.WeChatPay;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
@@ -21,11 +17,7 @@ namespace EasyMall
         typeof(AbpPermissionManagementHttpApiClientModule),
         typeof(AbpTenantManagementHttpApiClientModule),
         typeof(AbpFeatureManagementHttpApiClientModule),
-        typeof(EShopBasketsHttpApiClientModule),
-        typeof(EShopOrdersHttpApiClientModule),
-        typeof(EShopPaymentsHttpApiClientModule),
-        typeof(EShopProductsHttpApiClientModule),
-        typeof(EShopStoresHttpApiClientModule),
+        typeof(EShopHttpApiClientModule),
         typeof(PaymentServiceWeChatPayHttpApiClientModule)
     )]
     public class EasyMallHttpApiClientModule : AbpModule

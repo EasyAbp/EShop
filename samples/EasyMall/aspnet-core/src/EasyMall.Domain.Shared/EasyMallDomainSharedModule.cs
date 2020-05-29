@@ -1,8 +1,4 @@
-﻿using EasyAbp.EShop.Baskets;
-using EasyAbp.EShop.Orders;
-using EasyAbp.EShop.Payments;
-using EasyAbp.EShop.Products;
-using EasyAbp.EShop.Stores;
+﻿using EasyAbp.EShop;
 using EasyAbp.PaymentService.WeChatPay;
 using EasyMall.Localization;
 using Volo.Abp.AuditLogging;
@@ -29,11 +25,7 @@ namespace EasyMall
         typeof(AbpPermissionManagementDomainSharedModule),
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpTenantManagementDomainSharedModule),
-        typeof(EShopBasketsDomainSharedModule),
-        typeof(EShopOrdersDomainSharedModule),
-        typeof(EShopPaymentsDomainSharedModule),
-        typeof(EShopProductsDomainSharedModule),
-        typeof(EShopStoresDomainSharedModule),
+        typeof(EShopDomainSharedModule),
         typeof(PaymentServiceWeChatPayDomainSharedModule)
     )]
     public class EasyMallDomainSharedModule : AbpModule
