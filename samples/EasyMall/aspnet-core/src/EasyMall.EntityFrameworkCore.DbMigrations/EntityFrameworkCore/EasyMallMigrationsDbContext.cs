@@ -1,15 +1,10 @@
-﻿using EasyAbp.EShop.Baskets.EntityFrameworkCore;
-using EasyAbp.EShop.Orders.EntityFrameworkCore;
-using EasyAbp.EShop.Payments.EntityFrameworkCore;
-using EasyAbp.EShop.Products.EntityFrameworkCore;
-using EasyAbp.EShop.Stores.EntityFrameworkCore;
+﻿using EasyAbp.EShop.EntityFrameworkCore;
 using EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
-using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.IdentityServer.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
@@ -48,12 +43,8 @@ namespace EasyMall.EntityFrameworkCore
 
             /* Configure your own tables/entities inside the ConfigureEasyMall method */
 
-            builder.ConfigureEShopEasyMall();
-            builder.ConfigureEShopBaskets();
-            builder.ConfigureEShopOrders();
-            builder.ConfigureEShopPayments();
-            builder.ConfigureEShopProducts();
-            builder.ConfigureEShopStores();
+            builder.ConfigureEasyMall();
+            builder.ConfigureEShop();
             
             builder.ConfigurePaymentServiceWeChatPay();
         }
