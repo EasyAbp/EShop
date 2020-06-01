@@ -1,3 +1,5 @@
+using EasyAbp.EShop.Payments.Refunds;
+using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.PaymentService.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -19,6 +21,8 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
+                options.AddRepository<Payment, PaymentRepository>();
+                options.AddRepository<Refund, RefundRepository>();
             });
         }
     }

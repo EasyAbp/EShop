@@ -1,0 +1,60 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using EasyAbp.EShop.Payments.Authorization
+@using EasyAbp.EShop.Payments.Web.Pages.EShop.Payments.Refunds.Refund
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@inherits EasyAbp.EShop.Payments.Web.Pages.PaymentsPage
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["Refund"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Refund"].Value);
+    PageLayout.Content.MenuItemName = "Refund";
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Payments/Refunds/Refund/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Payments/Refunds/Refund/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Refund"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(PaymentsPermissions.Refunds.Create))
+                { 
+                <abp-button id="NewRefundButton"
+                            text="@L["CreateRefund"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="RefundTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["RefundStoreId"]</th>
+                <th>@L["RefundPaymentId"]</th>
+                <th>@L["RefundPaymentItemId"]</th>
+                <th>@L["RefundRefundPaymentMethod"]</th>
+                <th>@L["RefundExternalTradingCode"]</th>
+                <th>@L["RefundCurrency"]</th>
+                <th>@L["RefundRefundAmount"]</th>
+                <th>@L["RefundCustomerRemark"]</th>
+                <th>@L["RefundStaffRemark"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

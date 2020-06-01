@@ -1,0 +1,61 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using EasyAbp.EShop.Payments.Authorization
+@using EasyAbp.EShop.Payments.Web.Pages.EShop.Payments.Payments.Payment
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@inherits EasyAbp.EShop.Payments.Web.Pages.PaymentsPage
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["Payment"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Payment"].Value);
+    PageLayout.Content.MenuItemName = "Payment";
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Payments/Payments/Payment/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Payments/Payments/Payment/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Payment"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(PaymentsPermissions.Payments.Create))
+                { 
+                <abp-button id="NewPaymentButton"
+                            text="@L["CreatePayment"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="PaymentTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["PaymentStoreId"]</th>
+                <th>@L["PaymentPaymentMethod"]</th>
+                <th>@L["PaymentExternalTradingCode"]</th>
+                <th>@L["PaymentCurrency"]</th>
+                <th>@L["PaymentOriginalPaymentAmount"]</th>
+                <th>@L["PaymentPaymentDiscount"]</th>
+                <th>@L["PaymentActualPaymentAmount"]</th>
+                <th>@L["PaymentRefundAmount"]</th>
+                <th>@L["PaymentCompletionTime"]</th>
+                <th>@L["PaymentCancelledTime"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

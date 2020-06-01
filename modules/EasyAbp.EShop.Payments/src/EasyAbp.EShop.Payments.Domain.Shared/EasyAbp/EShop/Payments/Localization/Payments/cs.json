@@ -1,5 +1,23 @@
 {
   "culture": "cs",
   "texts": {
+    "Permission:Payments": "Payments",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:Payments": "MenuPayments",
+    "Payment": "Payment",
+    "PaymentStoreId": "PaymentStoreId",
+    "CreatePayment": "CreatePayment",
+    "EditPayment": "EditPayment",
+    "PaymentDeletionConfirmationMessage": "Are you sure to delete the payment {0}?",
+    "SuccessfullyDeleted": "Successfully deleted",
+    "Permission:Refunds": "Refunds",
+    "Menu:Refunds": "MenuRefunds",
+    "Refund": "Refund",
+    "RefundStoreId": "RefundStoreId",
+    "CreateRefund": "CreateRefund",
+    "EditRefund": "EditRefund",
+    "RefundDeletionConfirmationMessage": "Are you sure to delete the refund {0}?"
   }
 }
