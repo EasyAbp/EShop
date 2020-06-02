@@ -63,7 +63,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             if (input.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.IsGrantedAsync(OrdersPermissions.Orders.Manage);
+                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
 
                 if (input.StoreId.HasValue)
                 {
@@ -71,7 +71,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
                 else
                 {
-                    await AuthorizationService.IsGrantedAsync(OrdersPermissions.Orders.CrossStore);
+                    await AuthorizationService.CheckAsync(OrdersPermissions.Orders.CrossStore);
                 }
             }
 
@@ -86,7 +86,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (order.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.IsGrantedAsync(OrdersPermissions.Orders.Manage);
+                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
 
                 // Todo: Check if current user is an admin of the store.
             }
