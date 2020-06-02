@@ -9,9 +9,9 @@ namespace EasyAbp.EShop.Payments.Payments
         ICrudAppService< 
             PaymentDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
-            CreateUpdatePaymentDto,
-            CreateUpdatePaymentDto>
+            GetPaymentListDto,
+            object,
+            object>
     {
 
     }

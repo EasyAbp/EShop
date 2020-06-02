@@ -14,18 +14,16 @@ namespace EasyAbp.EShop.Payments.Authorization
         public class Payments
         {
             public const string Default = GroupName + ".Payments";
-            public const string Update = Default + ".Update";
-            public const string Create = Default + ".Create";
-            public const string Delete = Default + ".Delete";
+            public const string Manage = Default + ".Manage";
+            public const string CrossStore = Default + ".CrossStore";
         }
 
 
         public class Refunds
         {
             public const string Default = GroupName + ".Refunds";
-            public const string Update = Default + ".Update";
-            public const string Create = Default + ".Create";
-            public const string Delete = Default + ".Delete";
+            public const string Manage = Default + ".Manage";
+            public const string CrossStore = Default + ".CrossStore";
         }
 
     }

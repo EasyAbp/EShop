@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain.Shared" Version="0.1.6" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain.Shared" Version="0.1.8" />
     <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="2.8.0" />
     <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="2.8.0" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Domain.Shared" Version="2.8.0" />

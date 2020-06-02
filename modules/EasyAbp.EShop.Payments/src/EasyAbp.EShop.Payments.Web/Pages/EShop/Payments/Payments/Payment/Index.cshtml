@@ -11,6 +11,18 @@
     PageLayout.Content.Title = L["Payment"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Payment"].Value);
     PageLayout.Content.MenuItemName = "Payment";
+    
+    var cardTitle = @L["Payment"].Value;
+    
+    if (Model.StoreName != null)
+    {
+        cardTitle += $" - {Model.StoreName}";
+    }
+    
+    if (Model.UserName != null)
+    {
+        cardTitle += $" - {Model.UserName}";
+    }
 }
 
 @section scripts
@@ -26,16 +38,7 @@
     <abp-card-header>
         <abp-row>
             <abp-column size-md="_6">
-                <abp-card-title>@L["Payment"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-			    @if (await Authorization.IsGrantedAsync(PaymentsPermissions.Payments.Create))
-                { 
-                <abp-button id="NewPaymentButton"
-                            text="@L["CreatePayment"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
+                <abp-card-title>@cardTitle</abp-card-title>
             </abp-column>
         </abp-row>
     </abp-card-header>

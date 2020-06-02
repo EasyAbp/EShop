@@ -15,6 +15,7 @@ using EasyAbp.EShop.Payments.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using EasyAbp.EShop.Payments.Localization;
+using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.UI.Navigation;
 
@@ -32,20 +33,35 @@ namespace EasyAbp.EShop.Payments.Web
 
         private async Task ConfigureMainMenu(MenuConfigurationContext context)
         {
+            var l = context.ServiceProvider.GetRequiredService<IStringLocalizer<PaymentsResource>>();            //Add main menu items.
+
             var authorizationService = context.ServiceProvider.GetRequiredService<IAuthorizationService>();
-            var l = context.ServiceProvider.GetRequiredService<IStringLocalizer<PaymentsResource>>();
+            
+            var paymentManagementMenuItem = new ApplicationMenuItem("PaymentManagement", l["Menu:PaymentManagement"]);
              
-            if (await authorizationService.IsGrantedAsync(PaymentsPermissions.Payments.Default))
+            var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
+
+            var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
+            
+            if (await authorizationService.IsGrantedAsync(PaymentsPermissions.Payments.Manage))
             {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem("Payments", l["Menu:Payments"], "/Payments/Payment")
+                paymentManagementMenuItem.AddItem(
+                    new ApplicationMenuItem("Payments", l["Menu:Payments"], "/EShop/Payments/Payments/Payment?storeId=" + defaultStore)
                 );
             }
-            if (await authorizationService.IsGrantedAsync(PaymentsPermissions.Refunds.Default))
+            if (await authorizationService.IsGrantedAsync(PaymentsPermissions.Refunds.Manage))
             {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem("Refunds", l["Menu:Refunds"], "/Refunds/Refund")
+                paymentManagementMenuItem.AddItem(
+                    new ApplicationMenuItem("Refunds", l["Menu:Refunds"], "/EShop/Payments/Refunds/Refund?storeId=" + defaultStore)
                 );
+            }
+
+            if (!paymentManagementMenuItem.Items.IsNullOrEmpty())
+            {
+                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == "EasyAbpEShop",
+                    () => new ApplicationMenuItem("EasyAbpEShop", l["Menu:EasyAbpEShop"]));
+                
+                eShopMenuItem.Items.Add(paymentManagementMenuItem);
             }
         }
     }

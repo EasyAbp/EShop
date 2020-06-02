@@ -11,6 +11,18 @@
     PageLayout.Content.Title = L["Refund"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Refund"].Value);
     PageLayout.Content.MenuItemName = "Refund";
+    
+    var cardTitle = @L["Refund"].Value;
+    
+    if (Model.StoreName != null)
+    {
+        cardTitle += $" - {Model.StoreName}";
+    }
+    
+    if (Model.UserName != null)
+    {
+        cardTitle += $" - {Model.UserName}";
+    }
 }
 
 @section scripts
@@ -26,16 +38,7 @@
     <abp-card-header>
         <abp-row>
             <abp-column size-md="_6">
-                <abp-card-title>@L["Refund"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-			    @if (await Authorization.IsGrantedAsync(PaymentsPermissions.Refunds.Create))
-                { 
-                <abp-button id="NewRefundButton"
-                            text="@L["CreateRefund"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
+                <abp-card-title>@cardTitle</abp-card-title>
             </abp-column>
         </abp-row>
     </abp-card-header>

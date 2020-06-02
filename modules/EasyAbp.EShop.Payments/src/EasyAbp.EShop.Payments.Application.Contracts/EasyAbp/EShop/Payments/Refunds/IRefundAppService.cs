@@ -9,9 +9,9 @@ namespace EasyAbp.EShop.Payments.Refunds
         ICrudAppService< 
             RefundDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
-            CreateUpdateRefundDto,
-            CreateUpdateRefundDto>
+            GetRefundListDto,
+            object,
+            object>
     {
 
     }

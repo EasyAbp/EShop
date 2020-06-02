@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Users;
 
@@ -59,7 +60,15 @@ namespace EasyAbp.PaymentService.Payments
                 }
             }
 
-            return order.OrderStatus == OrderStatus.Pending;
+            if (order.OrderStatus != OrderStatus.Pending)
+            {
+                return false;
+            }
+
+            // Record the StoreId so EasyAbp.EShop.Payments.Payments.Payment entity can use it.
+            payment.SetProperty("StoreId", order.StoreId);
+            
+            return true;
         }
     }
 }

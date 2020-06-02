@@ -14,6 +14,11 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
     )]
     public class EShopPaymentsEntityFrameworkCoreModule : AbpModule
     {
+        public override void PreConfigureServices(ServiceConfigurationContext context)
+        {
+            EShopPaymentsEfCoreEntityExtensionMappings.Configure();
+        }
+        
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAbpDbContext<PaymentsDbContext>(options =>

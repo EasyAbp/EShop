@@ -43,21 +43,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
             });
             */
             
-            builder.ConfigurePaymentService();
-
-            builder.Entity<Payment>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Payments", options.Schema);
-                b.ConfigureByConvention(); 
-                /* Configure more properties here */
-            });
-
-            builder.Entity<Refund>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Refunds", options.Schema);
-                b.ConfigureByConvention(); 
-                /* Configure more properties here */
-            });
+            EShopPaymentsEfCoreEntityExtensionMappings.Configure();
         }
     }
 }
