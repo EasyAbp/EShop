@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop.EntityFrameworkCore;
+using EasyAbp.PaymentService.EntityFrameworkCore;
 using EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace EShopSample.EntityFrameworkCore
         typeof(AbpTenantManagementEntityFrameworkCoreModule),
         typeof(AbpFeatureManagementEntityFrameworkCoreModule),
         typeof(EShopEntityFrameworkCoreModule),
+        typeof(PaymentServiceEntityFrameworkCoreModule),
         typeof(PaymentServiceWeChatPayEntityFrameworkCoreModule)
     )]
     public class EShopSampleEntityFrameworkCoreModule : AbpModule

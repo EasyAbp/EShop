@@ -1,7 +1,6 @@
 using EasyAbp.EShop.Payments.Refunds;
 using EasyAbp.EShop.Payments.Payments;
 using System;
-using EasyAbp.PaymentService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -43,7 +42,35 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
             });
             */
             
-            EShopPaymentsEfCoreEntityExtensionMappings.Configure();
+            builder.Entity<Payment>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Payments", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+                b.Property(x => x.ActualPaymentAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.PaymentDiscount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(18,6)");
+            });
+
+            builder.Entity<Refund>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Refunds", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(18,6)");
+            });
+
+            builder.Entity<PaymentItem>(b =>
+            {
+                b.ToTable(options.TablePrefix + "PaymentItems", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+                b.Property(x => x.ActualPaymentAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.PaymentDiscount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(18,6)");
+            });
         }
     }
 }

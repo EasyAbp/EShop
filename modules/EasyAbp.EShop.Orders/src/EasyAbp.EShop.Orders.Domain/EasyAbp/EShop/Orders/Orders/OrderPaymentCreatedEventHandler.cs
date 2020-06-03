@@ -11,13 +11,16 @@ namespace EasyAbp.EShop.Orders.Orders
     public class OrderPaymentCreatedEventHandler : IOrderPaymentCreatedEventHandler, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
+        private readonly IOrderPaymentChecker _orderPaymentChecker;
         private readonly IOrderRepository _orderRepository;
 
         public OrderPaymentCreatedEventHandler(
             ICurrentTenant currentTenant,
+            IOrderPaymentChecker orderPaymentChecker,
             IOrderRepository orderRepository)
         {
             _currentTenant = currentTenant;
+            _orderPaymentChecker = orderPaymentChecker;
             _orderRepository = orderRepository;
         }
         
@@ -30,11 +33,12 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var order = await _orderRepository.FindAsync(item.ItemKey);
 
-                if (order == null || order.PaymentId.HasValue)
+                if (order == null || order.PaymentId.HasValue ||
+                    !await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity))
                 {
                     continue;
                 }
-                
+
                 order.SetPaymentId(eventData.Entity.Id);
 
                 await _orderRepository.UpdateAsync(order, true);

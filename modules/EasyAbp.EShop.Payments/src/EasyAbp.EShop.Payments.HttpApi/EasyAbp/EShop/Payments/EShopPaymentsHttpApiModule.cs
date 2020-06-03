@@ -1,6 +1,5 @@
 ﻿using Localization.Resources.AbpUi;
 using EasyAbp.EShop.Payments.Localization;
-using EasyAbp.PaymentService;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
@@ -10,8 +9,7 @@ namespace EasyAbp.EShop.Payments
 {
     [DependsOn(
         typeof(EShopPaymentsApplicationContractsModule),
-        typeof(AbpAspNetCoreMvcModule),
-        typeof(PaymentServiceHttpApiModule)
+        typeof(AbpAspNetCoreMvcModule)
     )]
     public class EShopPaymentsHttpApiModule : AbpModule
     {

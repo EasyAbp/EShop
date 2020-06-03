@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using EasyAbp.PaymentService.Payments;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
-    public class Payment : FullAuditedAggregateRoot<Guid>, IPayment
+    public class Payment : FullAuditedAggregateRoot<Guid>, IPayment, IMultiTenant
     {
         #region Base properties
         

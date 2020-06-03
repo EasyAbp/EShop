@@ -1,5 +1,4 @@
-﻿using EasyAbp.PaymentService.MongoDB;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
 
@@ -7,8 +6,7 @@ namespace EasyAbp.EShop.Payments.MongoDB
 {
     [DependsOn(
         typeof(EShopPaymentsDomainModule),
-        typeof(AbpMongoDbModule),
-        typeof(PaymentServiceMongoDbModule)
+        typeof(AbpMongoDbModule)
     )]
     public class EShopPaymentsMongoDbModule : AbpModule
     {

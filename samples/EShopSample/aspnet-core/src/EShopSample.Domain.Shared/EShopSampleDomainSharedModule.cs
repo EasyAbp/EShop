@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop;
+using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.WeChatPay;
 using EShopSample.Localization;
 using Volo.Abp.AuditLogging;
@@ -26,6 +27,7 @@ namespace EShopSample
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpTenantManagementDomainSharedModule),
         typeof(EShopDomainSharedModule),
+        typeof(PaymentServiceDomainSharedModule),
         typeof(PaymentServiceWeChatPayDomainSharedModule)
     )]
     public class EShopSampleDomainSharedModule : AbpModule

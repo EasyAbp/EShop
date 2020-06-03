@@ -13,6 +13,7 @@ using EasyAbp.EShop.Stores;
 using EasyAbp.EShop.Stores.Web;
 using EasyAbp.EShop.Web;
 using EasyAbp.PaymentService;
+using EasyAbp.PaymentService.Web;
 using EasyAbp.PaymentService.WeChatPay;
 using EasyAbp.PaymentService.WeChatPay.Web;
 using Localization.Resources.AbpUi;
@@ -66,6 +67,7 @@ namespace EShopSample.Web
         typeof(AbpTenantManagementWebModule),
         typeof(AbpAspNetCoreSerilogModule),
         typeof(EShopWebModule),
+        typeof(PaymentServiceWebModule),
         typeof(PaymentServiceWeChatPayWebModule)
         )]
     public class EShopSampleWebModule : AbpModule

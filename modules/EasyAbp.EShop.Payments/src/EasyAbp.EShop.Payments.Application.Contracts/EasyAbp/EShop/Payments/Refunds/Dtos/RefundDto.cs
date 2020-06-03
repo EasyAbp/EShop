@@ -1,11 +1,26 @@
 using System;
 using Volo.Abp.Application.Dtos;
-using PaymentServiceRefundDto = EasyAbp.PaymentService.Refunds.Dtos.RefundDto;
 
 namespace EasyAbp.EShop.Payments.Refunds.Dtos
 {
-    public class RefundDto : PaymentServiceRefundDto
+    public class RefundDto : FullAuditedEntityDto<Guid>
     {
         public Guid? StoreId { get; set; }
+        
+        public Guid PaymentId { get; set; }
+        
+        public Guid PaymentItemId { get; set; }
+
+        public string RefundPaymentMethod { get; set; }
+
+        public string ExternalTradingCode { get; set; }
+
+        public string Currency { get; set; }
+
+        public decimal RefundAmount { get; set; }
+
+        public string CustomerRemark { get; set; }
+
+        public string StaffRemark { get; set; }
     }
 }

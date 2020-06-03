@@ -1,5 +1,4 @@
-﻿using EasyAbp.PaymentService;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
 
@@ -7,8 +6,7 @@ namespace EasyAbp.EShop.Payments
 {
     [DependsOn(
         typeof(EShopPaymentsApplicationContractsModule),
-        typeof(AbpHttpClientModule),
-        typeof(PaymentServiceHttpApiClientModule)
+        typeof(AbpHttpClientModule)
     )]
     public class EShopPaymentsHttpApiClientModule : AbpModule
     {

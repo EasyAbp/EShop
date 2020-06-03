@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Web" Version="0.1.8" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="2.8.0" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="2.8.0" />
   </ItemGroup>

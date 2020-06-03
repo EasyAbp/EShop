@@ -13,6 +13,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
          * DbSet<Question> Questions { get; }
          */
         DbSet<Payment> Payments { get; set; }
+        DbSet<PaymentItem> PaymentItems { get; set; }
         DbSet<Refund> Refunds { get; set; }
     }
 }

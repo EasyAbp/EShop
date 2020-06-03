@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop;
+using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.Payments;
 using EasyAbp.PaymentService.WeChatPay;
 using EShopSample.MultiTenancy;
@@ -31,6 +32,7 @@ namespace EShopSample
         typeof(AbpSettingManagementDomainModule),
         typeof(AbpTenantManagementDomainModule),
         typeof(EShopDomainModule),
+        typeof(PaymentServiceDomainModule),
         typeof(PaymentServiceWeChatPayDomainModule)
     )]
     public class EShopSampleDomainModule : AbpModule

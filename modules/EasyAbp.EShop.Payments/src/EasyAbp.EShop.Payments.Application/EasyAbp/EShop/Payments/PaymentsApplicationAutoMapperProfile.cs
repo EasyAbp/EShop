@@ -14,6 +14,7 @@ namespace EasyAbp.EShop.Payments
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Payment, PaymentDto>();
+            CreateMap<PaymentItem, PaymentItemDto>();
             CreateMap<Refund, RefundDto>();
         }
     }

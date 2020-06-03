@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Payments
         typeof(AbpAutoMapperModule),
         typeof(EShopPaymentsDomainSharedModule),
         typeof(EShopStoresDomainSharedModule),
-        typeof(PaymentServiceDomainModule)
+        typeof(PaymentServiceDomainSharedModule)
         )]
     public class EShopPaymentsDomainModule : AbpModule
     {
