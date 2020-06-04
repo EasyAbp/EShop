@@ -6,6 +6,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.ObjectMapping;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
@@ -24,6 +25,7 @@ namespace EasyAbp.EShop.Payments.Payments
             _paymentRepository = paymentRepository;
         }
 
+        [UnitOfWork(true)]
         public async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
         {
             var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
