@@ -43,7 +43,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 var order = await _orderRepository.FindAsync(item.ItemKey);
 
                 if (order == null || order.PaidTime.HasValue ||
-                    !await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity))
+                    !await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
                     continue;
                 }

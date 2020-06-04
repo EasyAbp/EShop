@@ -5,6 +5,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrderPaymentChecker
     {
-        Task<bool> IsValidPaymentAsync(Order order, PaymentEto paymentEto);
+        Task<bool> IsValidPaymentAsync(Order order, PaymentEto payment, PaymentItemEto paymentItem);
     }
 }
