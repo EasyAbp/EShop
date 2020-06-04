@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Payments;
 using EasyAbp.PaymentService.Payments;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
@@ -29,14 +30,14 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             using var currentTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
-            foreach (var item in eventData.Entity.PaymentItems.Where(item => item.ItemType == "EasyAbpEShopOrder"))
+            foreach (var item in eventData.Entity.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
                 var order = await _orderRepository.FindAsync(item.ItemKey);
 
                 if (order == null || order.PaymentId.HasValue ||
                     !await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
-                    continue;
+                    throw new OrderPaymentInvalidException(eventData.Entity.Id, item.ItemKey);
                 }
 
                 order.SetPaymentId(eventData.Entity.Id);

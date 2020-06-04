@@ -12,6 +12,8 @@ namespace EasyAbp.EShop.Payments.Payments
 {
     public class PaymentSynchronizer :
         IDistributedEventHandler<EntityUpdatedEto<PaymentEto>>,
+        IDistributedEventHandler<EntityDeletedEto<PaymentEto>>,
+        IPaymentSynchronizer,
         ITransientDependency
     {
         private readonly IObjectMapper _objectMapper;
@@ -26,27 +28,39 @@ namespace EasyAbp.EShop.Payments.Payments
         }
 
         [UnitOfWork(true)]
-        public async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
+        public virtual async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
         {
             var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
             
             if (payment == null)
             {
                 payment = _objectMapper.Map<PaymentEto, Payment>(eventData.Entity);
-                
-                if (Guid.TryParse(eventData.Entity.GetProperty<string>("StoreId"), out var storeId))
-                {
-                    payment.SetStoreId(storeId);
-                }
-                
+
                 await _paymentRepository.InsertAsync(payment, true);
             }
             else
             {
                 _objectMapper.Map(eventData.Entity, payment);
-                
-                await _paymentRepository.UpdateAsync(payment, true);
             }
+            
+            if (Guid.TryParse(eventData.Entity.GetProperty<string>("StoreId"), out var storeId))
+            {
+                payment.SetStoreId(storeId);
+            }
+            
+            await _paymentRepository.UpdateAsync(payment, true);
+        }
+
+        public virtual async Task HandleEventAsync(EntityDeletedEto<PaymentEto> eventData)
+        {
+            var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
+
+            if (payment == null)
+            {
+                return;
+            }
+            
+            await _paymentRepository.DeleteAsync(payment, true);
         }
     }
 }

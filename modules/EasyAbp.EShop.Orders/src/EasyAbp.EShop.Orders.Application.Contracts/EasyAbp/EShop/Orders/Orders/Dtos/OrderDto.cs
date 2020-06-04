@@ -26,6 +26,8 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
 
         public string StaffRemark { get; set; }
 
+        public Guid? PaymentId { get; set; }
+
         public DateTime? PaidTime { get; set; }
 
         public DateTime? CompletionTime { get; set; }

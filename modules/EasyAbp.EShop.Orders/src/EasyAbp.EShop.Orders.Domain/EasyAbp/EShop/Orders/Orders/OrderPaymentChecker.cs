@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.PaymentService.Payments;
 using Volo.Abp.Data;
@@ -17,8 +18,9 @@ namespace EasyAbp.EShop.Orders.Orders
         
         protected virtual Task<bool> IsStoreIdCorrectAsync(Order order, PaymentEto payment)
         {
-            return Task.FromResult(Guid.TryParse(payment.GetProperty<string>("StoreId"), out var paymentStoreId) &&
-                                   order.StoreId == paymentStoreId);
+            return Task.FromResult(
+                Guid.TryParse(payment.ExtraProperties.GetOrDefault("StoreId")?.ToString(), out var paymentStoreId) &&
+                order.StoreId == paymentStoreId);
         }
         
         protected virtual Task<bool> IsPaymentPriceCorrectAsync(Order order, PaymentItemEto paymentItem)
