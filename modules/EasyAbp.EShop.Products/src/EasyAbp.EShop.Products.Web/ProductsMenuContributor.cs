@@ -30,25 +30,23 @@ namespace EasyAbp.EShop.Products.Web
         {
             var l = context.GetLocalizer<ProductsResource>();            //Add main menu items.
 
-            var authorizationService = context.ServiceProvider.GetRequiredService<IAuthorizationService>();
-            
             var productManagementMenuItem = new ApplicationMenuItem("ProductManagement", l["Menu:ProductManagement"]);
 
-            if (await authorizationService.IsGrantedAsync(ProductsPermissions.ProductTypes.Default))
+            if (await context.IsGrantedAsync(ProductsPermissions.ProductTypes.Default))
             {
                 productManagementMenuItem.AddItem(
                     new ApplicationMenuItem("ProductType", l["Menu:ProductType"], "/EShop/Products/ProductTypes/ProductType")
                 );
             }
 
-            if (await authorizationService.IsGrantedAsync(ProductsPermissions.Categories.Default))
+            if (await context.IsGrantedAsync(ProductsPermissions.Categories.Default))
             {
                 productManagementMenuItem.AddItem(
                     new ApplicationMenuItem("Category", l["Menu:Category"], "/EShop/Products/Categories/Category")
                 );
             }
 
-            if (await authorizationService.IsGrantedAsync(ProductsPermissions.Products.Default))
+            if (await context.IsGrantedAsync(ProductsPermissions.Products.Default))
             {
                 var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
 

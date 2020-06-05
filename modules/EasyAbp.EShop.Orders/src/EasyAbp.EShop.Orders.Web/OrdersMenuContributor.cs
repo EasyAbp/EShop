@@ -24,11 +24,9 @@ namespace EasyAbp.EShop.Orders.Web
         {
             var l = context.GetLocalizer<OrdersResource>();            //Add main menu items.
 
-            var authorizationService = context.ServiceProvider.GetRequiredService<IAuthorizationService>();
-            
             var orderManagementMenuItem = new ApplicationMenuItem("OrderManagement", l["Menu:OrderManagement"]);
 
-            if (await authorizationService.IsGrantedAsync(OrdersPermissions.Orders.Manage))
+            if (await context.IsGrantedAsync(OrdersPermissions.Orders.Manage))
             {
                 var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
 

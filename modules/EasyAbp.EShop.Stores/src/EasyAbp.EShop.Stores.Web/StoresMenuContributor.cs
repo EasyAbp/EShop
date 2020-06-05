@@ -23,11 +23,9 @@ namespace EasyAbp.EShop.Stores.Web
         {
             var l = context.GetLocalizer<StoresResource>();            //Add main menu items.
 
-            var authorizationService = context.ServiceProvider.GetRequiredService<IAuthorizationService>();
-            
             var storeManagementMenuItem = new ApplicationMenuItem("StoreManagement", l["Menu:StoreManagement"]);
 
-            if (await authorizationService.IsGrantedAsync(StoresPermissions.Stores.Default))
+            if (await context.IsGrantedAsync(StoresPermissions.Stores.Default))
             {
                 storeManagementMenuItem.AddItem(
                     new ApplicationMenuItem("Store", l["Menu:Store"], "/EShop/Stores/Stores/Store")
