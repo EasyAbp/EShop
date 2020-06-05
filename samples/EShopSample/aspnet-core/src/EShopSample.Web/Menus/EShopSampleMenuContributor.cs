@@ -26,7 +26,7 @@ namespace EShopSample.Web.Menus
                 administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
             }
 
-            var l = context.ServiceProvider.GetRequiredService<IStringLocalizer<EShopSampleResource>>();
+            var l = context.GetLocalizer<EShopSampleResource>();
 
             context.Menu.Items.Insert(0, new ApplicationMenuItem("EShopSample.Home", l["Menu:Home"], "/"));
         }

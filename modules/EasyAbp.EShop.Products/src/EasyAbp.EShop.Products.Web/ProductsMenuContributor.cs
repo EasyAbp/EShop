@@ -28,7 +28,7 @@ namespace EasyAbp.EShop.Products.Web
 
         private async Task ConfigureMainMenu(MenuConfigurationContext context)
         {
-            var l = context.ServiceProvider.GetRequiredService<IStringLocalizer<ProductsResource>>();            //Add main menu items.
+            var l = context.GetLocalizer<ProductsResource>();            //Add main menu items.
 
             var authorizationService = context.ServiceProvider.GetRequiredService<IAuthorizationService>();
             

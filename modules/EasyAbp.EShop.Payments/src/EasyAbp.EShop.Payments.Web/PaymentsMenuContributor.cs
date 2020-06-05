@@ -33,7 +33,7 @@ namespace EasyAbp.EShop.Payments.Web
 
         private async Task ConfigureMainMenu(MenuConfigurationContext context)
         {
-            var l = context.ServiceProvider.GetRequiredService<IStringLocalizer<PaymentsResource>>();            //Add main menu items.
+            var l = context.GetLocalizer<PaymentsResource>();            //Add main menu items.
 
             var authorizationService = context.ServiceProvider.GetRequiredService<IAuthorizationService>();
             
