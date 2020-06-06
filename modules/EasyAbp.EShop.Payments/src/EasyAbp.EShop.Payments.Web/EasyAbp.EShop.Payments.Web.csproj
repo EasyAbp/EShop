@@ -38,13 +38,4 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Payments\PaymentOrder\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\Payments\Payment\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\Refunds\Refund\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\EShop\Payments\Payments\PaymentOrder\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\EShop\Payments\Payments\Payment\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\EShop\Payments\Refunds\Refund\Index.cshtml" />
-  </ItemGroup>
-
 </Project>
