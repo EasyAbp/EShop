@@ -30,9 +30,9 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var order = await _orderRepository.GetAsync(eventData.OrderId);
 
-                if (order.OrderStatus != OrderStatus.Pending || order.ReducedInventoryAfterPlacingTime.HasValue)
+                if (order.ReducedInventoryAfterPlacingTime.HasValue)
                 {
-                    return;
+                    throw new OrderIsInWrongStageException(order.Id);
                 }
 
                 if (!eventData.IsSuccess)
@@ -42,6 +42,31 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
             
                 order.SetReducedInventoryAfterPlacingTime(_clock.Now);
+
+                await _orderRepository.UpdateAsync(order, true);
+            }
+        }
+
+        [UnitOfWork(true)]
+        public virtual async Task HandleEventAsync(ProductInventoryReductionAfterOrderPaidResultEto eventData)
+        {
+            using (_currentTenant.Change(eventData.TenantId))
+            {
+                var order = await _orderRepository.GetAsync(eventData.OrderId);
+
+                if (order.ReducedInventoryAfterPaymentTime.HasValue)
+                {
+                    throw new OrderIsInWrongStageException(order.Id);
+                }
+
+                if (!eventData.IsSuccess)
+                {
+                    // Todo: Refund.
+                    // Todo: Cancel order.
+                    return;
+                }
+            
+                order.SetReducedInventoryAfterPaymentTime(_clock.Now);
 
                 await _orderRepository.UpdateAsync(order, true);
             }

@@ -3,7 +3,9 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IOrderProductInventoryReductionEventHandler : IDistributedEventHandler<ProductInventoryReductionAfterOrderPlacedResultEto>
+    public interface IOrderProductInventoryReductionEventHandler :
+        IDistributedEventHandler<ProductInventoryReductionAfterOrderPlacedResultEto>,
+        IDistributedEventHandler<ProductInventoryReductionAfterOrderPaidResultEto>
     {
         
     }

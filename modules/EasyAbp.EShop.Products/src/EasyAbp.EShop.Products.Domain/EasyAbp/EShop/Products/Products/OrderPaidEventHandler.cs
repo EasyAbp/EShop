@@ -3,14 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class OrderCreatedEventHandler : IOrderCreatedEventHandler, ITransientDependency
+    public class OrderPaidEventHandler : IOrderPaidEventHandler, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
@@ -18,7 +17,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductRepository _productRepository;
         private readonly IProductManager _productManager;
 
-        public OrderCreatedEventHandler(
+        public OrderPaidEventHandler(
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
@@ -32,15 +31,15 @@ namespace EasyAbp.EShop.Products.Products
             _productManager = productManager;
         }
         
-        public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
+        public virtual async Task HandleEventAsync(OrderPaidEto eventData)
         {
-            using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
+            using var changeTenant = _currentTenant.Change(eventData.Order.TenantId);
 
             using var uow = _unitOfWorkManager.Begin(isTransactional: true);
 
             var models = new List<ReduceInventoryModel>();
                 
-            foreach (var orderLine in eventData.Entity.OrderLines)
+            foreach (var orderLine in eventData.Order.OrderLines)
             {
                 // Todo: Should use ProductHistory.
                 var product = await _productRepository.FindAsync(orderLine.ProductId);
@@ -54,12 +53,12 @@ namespace EasyAbp.EShop.Products.Products
                     return;
                 }
                     
-                if (product.InventoryStrategy != InventoryStrategy.ReduceAfterPlacing)
+                if (product.InventoryStrategy != InventoryStrategy.ReduceAfterPayment)
                 {
                     continue;
                 }
 
-                if (!await _productManager.IsInventorySufficientAsync(product, productSku, eventData.Entity.StoreId,
+                if (!await _productManager.IsInventorySufficientAsync(product, productSku, eventData.Order.StoreId,
                     orderLine.Quantity))
                 {
                     await PublishResultEventAsync(eventData, false);
@@ -71,7 +70,7 @@ namespace EasyAbp.EShop.Products.Products
                 {
                     Product = product,
                     ProductSku = productSku,
-                    StoreId = eventData.Entity.StoreId,
+                    StoreId = eventData.Order.StoreId,
                     Quantity = orderLine.Quantity
                 });
             }
@@ -95,13 +94,15 @@ namespace EasyAbp.EShop.Products.Products
             
             await PublishResultEventAsync(eventData, true);
         }
-        
-        protected virtual async Task PublishResultEventAsync(EntityCreatedEto<OrderEto> orderCreatedEto, bool isSuccess)
+
+        protected virtual async Task PublishResultEventAsync(OrderPaidEto orderPaidEto, bool isSuccess)
         {
-            await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
+            await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPaidResultEto
             {
-                TenantId = orderCreatedEto.Entity.TenantId,
-                OrderId = orderCreatedEto.Entity.Id,
+                TenantId = orderPaidEto.Order.TenantId,
+                OrderId = orderPaidEto.Order.Id,
+                PaymentId = orderPaidEto.PaymentId,
+                PaymentItemId = orderPaidEto.PaymentItemId,
                 IsSuccess = isSuccess
             });
         }
