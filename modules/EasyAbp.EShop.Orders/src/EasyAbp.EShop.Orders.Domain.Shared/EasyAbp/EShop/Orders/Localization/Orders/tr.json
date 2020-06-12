@@ -5,6 +5,7 @@
     "Menu:Order": "MenuOrder",
     "Order": "Order",
     "OrderStoreId": "OrderStoreId",
+    "OrderOrderNumber": "OrderOrderNumber",
     "OrderCustomerUserId": "OrderCustomerUserId",
     "OrderOrderStatus": "OrderOrderStatus",
     "OrderCurrency": "OrderCurrency",

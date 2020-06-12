@@ -13,6 +13,9 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual Guid StoreId { get; protected set; }
         
+        [NotNull]
+        public virtual string OrderNumber { get; protected set; }
+        
         public virtual Guid CustomerUserId { get; protected set; }
         
         public virtual OrderStatus OrderStatus { get; protected set; }
@@ -78,6 +81,11 @@ namespace EasyAbp.EShop.Orders.Orders
 
             OrderStatus = OrderStatus.Pending;
             OrderLines = new List<OrderLine>();
+        }
+
+        public void SetOrderNumber([NotNull] string orderNumber)
+        {
+            OrderNumber = orderNumber;
         }
 
         public void SetOrderLines(List<OrderLine> orderLines)

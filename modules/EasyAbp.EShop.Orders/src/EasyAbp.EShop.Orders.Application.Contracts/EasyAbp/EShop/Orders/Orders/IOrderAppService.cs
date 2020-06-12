@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -13,6 +14,6 @@ namespace EasyAbp.EShop.Orders.Orders
             CreateOrderDto,
             CreateOrderDto>
     {
-
+        Task<OrderDto> GetByOrderNumberAsync(string orderNumber);
     }
 }

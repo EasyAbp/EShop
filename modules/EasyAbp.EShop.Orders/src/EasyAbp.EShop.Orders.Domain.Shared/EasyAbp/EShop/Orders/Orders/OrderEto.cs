@@ -12,6 +12,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public Guid StoreId { get; set; }
 
+        public string OrderNumber { get; set; }
+        
         public Guid CustomerUserId { get; set; }
 
         public OrderStatus OrderStatus { get; set; }

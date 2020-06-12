@@ -19,17 +19,20 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly ICurrentTenant _currentTenant;
         private readonly ICurrentUser _currentUser;
         private readonly IJsonSerializer _jsonSerializer;
+        private readonly IOrderNumberGenerator _orderNumberGenerator;
 
         public NewOrderGenerator(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
             ICurrentUser currentUser,
-            IJsonSerializer jsonSerializer)
+            IJsonSerializer jsonSerializer,
+            IOrderNumberGenerator orderNumberGenerator)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
             _currentUser = currentUser;
             _jsonSerializer = jsonSerializer;
+            _orderNumberGenerator = orderNumberGenerator;
         }
         
         public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
@@ -56,6 +59,8 @@ namespace EasyAbp.EShop.Orders.Orders
                 customerRemark: input.CustomerRemark);
 
             order.SetOrderLines(orderLines);
+            
+            order.SetOrderNumber(await _orderNumberGenerator.CreateAsync(order));
             
             return order;
         }

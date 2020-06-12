@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
     public class OrderDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         public Guid StoreId { get; set; }
+        
+        public string OrderNumber { get; set; }
 
         public Guid CustomerUserId { get; set; }
 

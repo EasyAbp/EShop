@@ -27,6 +27,7 @@ $(function () {
                         ]
                 }
             },
+            { data: "orderNumber" },
             { data: "customerUserId" },
             { data: "orderStatus" },
             { data: "totalPrice" },

@@ -50,6 +50,7 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
                 b.Property(x => x.TotalPrice).HasColumnType("decimal(18,6)");
                 b.Property(x => x.TotalDiscount).HasColumnType("decimal(18,6)");
                 b.Property(x => x.RefundedAmount).HasColumnType("decimal(18,6)");
+                b.HasIndex(x => x.OrderNumber).IsUnique();
             });
             
             builder.Entity<OrderLine>(b =>

@@ -138,5 +138,21 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             throw new NotSupportedException();
         }
+
+        public virtual async Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
+        {
+            await CheckGetPolicyAsync();
+
+            var order = await _repository.GetAsync(x => x.OrderNumber == orderNumber);
+
+            if (order.CustomerUserId != CurrentUser.GetId())
+            {
+                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
+
+                // Todo: Check if current user is an admin of the store.
+            }
+            
+            return MapToGetOutputDto(order);
+        }
     }
 }
