@@ -49,12 +49,17 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var item in eventData.Entity.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
-                var order = await _orderRepository.FindAsync(item.ItemKey);
+                var order = await _orderRepository.GetAsync(item.ItemKey);
 
-                if (order == null || order.PaidTime.HasValue ||
-                    !await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
+                if (order.PaymentId != eventData.Entity.Id || order.PaidTime.HasValue ||
+                    order.OrderStatus != OrderStatus.Pending)
                 {
-                    continue;
+                    throw new OrderIsInWrongStageException(order.Id);
+                }
+
+                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
+                {
+                    throw new OrderPaymentInvalidException(eventData.Entity.Id, item.ItemKey);
                 }
                 
                 order.SetPaidTime(_clock.Now);
