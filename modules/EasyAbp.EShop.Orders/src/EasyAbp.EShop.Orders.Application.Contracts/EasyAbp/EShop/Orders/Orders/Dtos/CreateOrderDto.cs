@@ -22,18 +22,18 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (OrderLines.Any(orderLine => orderLine.Quantity <= 0))
+            if (OrderLines.Count == 0)
             {
                 yield return new ValidationResult(
-                    "Quantity should be greater than 0.",
+                    "OrderLines should not be empty.",
                     new[] { "OrderLines" }
                 );
             }
             
-            if (OrderLines.Select(orderLine => orderLine.Quantity).Sum() <= 0)
+            if (OrderLines.Any(orderLine => orderLine.Quantity <= 0))
             {
                 yield return new ValidationResult(
-                    "Total quantity should be greater than 0.",
+                    "Quantity should be greater than 0.",
                     new[] { "OrderLines" }
                 );
             }
