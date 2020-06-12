@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Payments
     )]
     public class EShopPaymentsHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "Payments";
+        public const string RemoteServiceName = "EShopPayments";
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {

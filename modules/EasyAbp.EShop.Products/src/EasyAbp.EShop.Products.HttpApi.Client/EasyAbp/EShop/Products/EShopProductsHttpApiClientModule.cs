@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Products
         typeof(AbpHttpClientModule))]
     public class EShopProductsHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "Products";
+        public const string RemoteServiceName = "EShopProducts";
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
