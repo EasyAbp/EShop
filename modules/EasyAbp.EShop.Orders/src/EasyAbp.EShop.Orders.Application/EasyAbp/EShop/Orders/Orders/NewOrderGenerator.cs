@@ -69,6 +69,11 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var product = productDict[input.ProductId];
             var productSku = product.ProductSkus.Single(x => x.Id == input.ProductSkuId);
+
+            if (!input.Quantity.IsBetween(productSku.OrderMinQuantity, productSku.OrderMaxQuantity))
+            {
+                throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, input.Quantity);
+            }
             
             return new OrderLine(
                 id: _guidGenerator.Create(),
@@ -84,7 +89,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 totalPrice: productSku.Price * input.Quantity,
                 totalDiscount: 0,
                 quantity: input.Quantity
-                );
+            );
         }
 
         protected virtual Task<string> GenerateSkuDescriptionAsync(ProductDto product, ProductSkuDto productSku)

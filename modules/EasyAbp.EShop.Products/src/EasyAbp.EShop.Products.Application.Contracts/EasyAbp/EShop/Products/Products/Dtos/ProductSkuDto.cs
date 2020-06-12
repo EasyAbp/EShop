@@ -21,6 +21,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public int OrderMinQuantity { get; set; }
         
+        public int OrderMaxQuantity { get; set; }
+        
         public Guid? ProductDetailId { get; set; }
     }
 }

@@ -22,8 +22,13 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DisplayName("ProductSkuInventory")]
         public int Inventory { get; set; }
         
+        [DefaultValue(1)]
         [DisplayName("ProductSkuOrderMinQuantity")]
         public int OrderMinQuantity { get; set; }
+        
+        [DefaultValue(99)]
+        [DisplayName("ProductSkuOrderMaxQuantity")]
+        public int OrderMaxQuantity { get; set; }
         
         [DisplayName("ProductSkuProductDetailId")]
         public Guid? ProductDetailId { get; set; }

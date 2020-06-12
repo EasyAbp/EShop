@@ -26,6 +26,8 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual int OrderMinQuantity { get; protected set; }
         
+        public virtual int OrderMaxQuantity { get; protected set; }
+        
         public Guid? ProductDetailId { get; set; }
 
         protected ProductSku() {}
@@ -40,6 +42,7 @@ namespace EasyAbp.EShop.Products.Products
             int inventory,
             int sold,
             int orderMinQuantity,
+            int orderMaxQuantity,
             Guid? productDetailId) : base(id)
         {
             SerializedAttributeOptionIds = serializedAttributeOptionIds;
@@ -50,6 +53,7 @@ namespace EasyAbp.EShop.Products.Products
             Inventory = inventory;
             Sold = sold;
             OrderMinQuantity = orderMinQuantity;
+            OrderMaxQuantity = orderMaxQuantity;
             ProductDetailId = productDetailId;
         }
 

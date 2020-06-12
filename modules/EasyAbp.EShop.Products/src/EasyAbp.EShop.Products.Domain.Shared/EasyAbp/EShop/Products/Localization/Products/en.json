@@ -28,6 +28,7 @@
     "ProductSkuPrice": "ProductSkuPrice",
     "ProductSkuInventory": "ProductSkuInventory",
     "ProductSkuOrderMinQuantity": "ProductSkuOrderMinQuantity",
+    "ProductSkuOrderMaxQuantity": "ProductSkuOrderMaxQuantity",
     "ProductSkuProductDetailId": "ProductSkuProductDetailId",
     "ProductSkuContentDescription": "ProductSkuContentDescription",
     "CreateProductSku": "CreateProductSku",

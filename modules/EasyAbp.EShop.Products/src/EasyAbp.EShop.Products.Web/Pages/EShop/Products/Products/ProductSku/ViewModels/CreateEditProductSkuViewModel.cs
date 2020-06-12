@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,8 +26,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
         public int Inventory { get; set; }
 
         [Required]
+        [DefaultValue(1)]
         [Display(Name = "ProductSkuOrderMinQuantity")]
         public int OrderMinQuantity { get; set; }
+
+        [Required]
+        [DefaultValue(99)]
+        [Display(Name = "ProductSkuOrderMaxQuantity")]
+        public int OrderMaxQuantity { get; set; }
         
         [HiddenInput]
         [Display(Name = "ProductSkuProductDetailId")]
