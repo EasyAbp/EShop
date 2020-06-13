@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Stores.Settings
              * Use names from StoresSettings class.
              */
 
-            context.Add(new SettingDefinition(StoresSettings.DefaultProductTypeDisplayName, "My store"));
+            context.Add(new SettingDefinition(StoresSettings.DefaultStoreDisplayName, "My store"));
         }
     }
 }
