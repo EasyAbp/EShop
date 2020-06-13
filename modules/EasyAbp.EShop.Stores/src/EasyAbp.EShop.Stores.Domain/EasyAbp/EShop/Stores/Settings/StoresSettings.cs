@@ -8,6 +8,6 @@
          * public const string MySettingName = GroupName + ".MySettingName";
          */
         
-        public const string DefaultStoreDisplayName = GroupName + ".DefaultStoreDisplayName";
+        public const string DefaultStoreName = GroupName + ".DefaultStoreName";
     }
 }

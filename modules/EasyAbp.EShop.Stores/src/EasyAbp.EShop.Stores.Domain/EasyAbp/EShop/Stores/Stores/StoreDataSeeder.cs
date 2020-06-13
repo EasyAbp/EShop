@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Stores.Stores
                 {
                     await _storeRepository.InsertAsync(
                         new Store(_guidGenerator.Create(), _currentTenant.Id,
-                            await _settingProvider.GetOrNullAsync(StoresSettings.DefaultStoreDisplayName)), true);
+                            await _settingProvider.GetOrNullAsync(StoresSettings.DefaultStoreName)), true);
                 }
             }
         }
