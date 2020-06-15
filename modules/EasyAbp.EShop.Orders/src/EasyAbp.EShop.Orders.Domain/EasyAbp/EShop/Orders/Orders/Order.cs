@@ -53,7 +53,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         protected Order()
         {
-            OrderLines = new List<OrderLine>();
         }
 
         public Order(
