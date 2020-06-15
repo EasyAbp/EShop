@@ -25,11 +25,15 @@ namespace EasyAbp.EShop.Products
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Product, ProductDto>()
-                .Ignore(dto => dto.CategoryIds);
+                .Ignore(dto => dto.CategoryIds)
+                .Ignore(dto => dto.MinimumPrice)
+                .Ignore(dto => dto.MaximumPrice);
             CreateMap<ProductDetail, ProductDetailDto>();
             CreateMap<ProductAttribute, ProductAttributeDto>();
             CreateMap<ProductAttributeOption, ProductAttributeOptionDto>();
-            CreateMap<ProductSku, ProductSkuDto>();
+            CreateMap<ProductSku, ProductSkuDto>()
+                .Ignore(dto => dto.DiscountedPrice)
+                .Ignore(dto => dto.RealInventory);
             CreateMap<CreateUpdateProductDto, Product>(MemberList.Source)
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.CategoryIds, opt => opt.DoNotValidate())
