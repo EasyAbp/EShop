@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Orders.Web
         {
             var l = context.GetLocalizer<OrdersResource>();            //Add main menu items.
 
-            var orderManagementMenuItem = new ApplicationMenuItem("OrderManagement", l["Menu:OrderManagement"]);
+            var orderManagementMenuItem = new ApplicationMenuItem("EasyAbpEShopOrders", l["Menu:OrderManagement"]);
 
             if (await context.IsGrantedAsync(OrdersPermissions.Orders.Manage))
             {
@@ -33,7 +33,7 @@ namespace EasyAbp.EShop.Orders.Web
                 var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
                 
                 orderManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Order", l["Menu:Order"], "/EShop/Orders/Orders/Order?storeId=" + defaultStore)
+                    new ApplicationMenuItem("EasyAbpEShopOrdersOrder", l["Menu:Order"], "/EShop/Orders/Orders/Order?storeId=" + defaultStore)
                 );
             }
             

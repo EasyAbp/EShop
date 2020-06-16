@@ -30,19 +30,19 @@ namespace EasyAbp.EShop.Products.Web
         {
             var l = context.GetLocalizer<ProductsResource>();            //Add main menu items.
 
-            var productManagementMenuItem = new ApplicationMenuItem("ProductManagement", l["Menu:ProductManagement"]);
+            var productManagementMenuItem = new ApplicationMenuItem("EasyAbpEShopProducts", l["Menu:ProductManagement"]);
 
             if (await context.IsGrantedAsync(ProductsPermissions.ProductTypes.Default))
             {
                 productManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("ProductType", l["Menu:ProductType"], "/EShop/Products/ProductTypes/ProductType")
+                    new ApplicationMenuItem("EasyAbpEShopProductsProductType", l["Menu:ProductType"], "/EShop/Products/ProductTypes/ProductType")
                 );
             }
 
             if (await context.IsGrantedAsync(ProductsPermissions.Categories.Default))
             {
                 productManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Category", l["Menu:Category"], "/EShop/Products/Categories/Category")
+                    new ApplicationMenuItem("EasyAbpEShopProductsCategory", l["Menu:Category"], "/EShop/Products/Categories/Category")
                 );
             }
 
@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Products.Web
                 var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
                 
                 productManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Product", l["Menu:Product"], "/EShop/Products/Products/Product?storeId=" + defaultStore)
+                    new ApplicationMenuItem("EasyAbpEShopProductsProduct", l["Menu:Product"], "/EShop/Products/Products/Product?storeId=" + defaultStore)
                 );
             }
 
