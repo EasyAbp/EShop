@@ -53,8 +53,8 @@ namespace EasyAbp.EShop.Products.Products
         protected override IQueryable<Product> CreateFilteredQuery(GetProductListDto input)
         {
             var query = input.CategoryId.HasValue
-                ? _repository.GetQueryable(input.StoreId, input.CategoryId.Value)
-                : _repository.GetQueryable(input.StoreId);
+                ? _repository.WithDetails(input.StoreId, input.CategoryId.Value)
+                : _repository.WithDetails(input.StoreId);
 
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
@@ -261,8 +261,7 @@ namespace EasyAbp.EShop.Products.Products
             
             foreach (var product in products)
             {
-                // Todo: How to get list with details if the queryable is customized?
-                var productDto = MapToGetListOutputDto(await _repository.GetAsync(product.Id));
+                var productDto = MapToGetListOutputDto(product);
                 
                 await LoadRealInventoriesAsync(product, productDto, input.StoreId);
                 await LoadPricesAsync(product, productDto, input.StoreId);
