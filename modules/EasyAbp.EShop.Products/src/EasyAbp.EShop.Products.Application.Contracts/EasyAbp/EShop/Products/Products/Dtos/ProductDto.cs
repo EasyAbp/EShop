@@ -28,6 +28,10 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public bool IsStatic { get; set; }
         
         public bool IsHidden { get; set; }
+        
+        public decimal? MinimumPrice { get; set; }
+        
+        public decimal? MaximumPrice { get; set; }
 
         public ICollection<ProductAttributeDto> ProductAttributes { get; set; }
         

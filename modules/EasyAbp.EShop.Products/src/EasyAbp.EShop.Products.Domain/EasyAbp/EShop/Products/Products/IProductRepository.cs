@@ -10,5 +10,9 @@ namespace EasyAbp.EShop.Products.Products
         
         IQueryable<Product> GetQueryable(Guid storeId);
         
+        IQueryable<Product> WithDetails(Guid storeId, Guid categoryId);
+        
+        IQueryable<Product> WithDetails(Guid storeId);
+        
     }
 }

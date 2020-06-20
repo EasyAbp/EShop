@@ -19,7 +19,6 @@ namespace EasyAbp.EShop.Products.Products
 
         protected ProductAttribute()
         {
-            ProductAttributeOptions = new List<ProductAttributeOption>();
         }
         
         public ProductAttribute(

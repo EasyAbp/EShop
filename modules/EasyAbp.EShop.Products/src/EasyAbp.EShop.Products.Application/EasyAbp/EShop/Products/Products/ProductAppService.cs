@@ -25,6 +25,7 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IProductManager _productManager;
+        private readonly IProductDiscountManager _productDiscountManager;
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
@@ -33,6 +34,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public ProductAppService(
             IProductManager productManager,
+            IProductDiscountManager productDiscountManager,
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
@@ -40,6 +42,7 @@ namespace EasyAbp.EShop.Products.Products
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
+            _productDiscountManager = productDiscountManager;
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
@@ -50,8 +53,8 @@ namespace EasyAbp.EShop.Products.Products
         protected override IQueryable<Product> CreateFilteredQuery(GetProductListDto input)
         {
             var query = input.CategoryId.HasValue
-                ? _repository.GetQueryable(input.StoreId, input.CategoryId.Value)
-                : _repository.GetQueryable(input.StoreId);
+                ? _repository.WithDetails(input.StoreId, input.CategoryId.Value)
+                : _repository.WithDetails(input.StoreId);
 
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
@@ -198,6 +201,7 @@ namespace EasyAbp.EShop.Products.Products
             }
             
             await LoadRealInventoriesAsync(product, dto, storeId);
+            await LoadPricesAsync(product, dto, storeId);
             
             dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
                 .Select(x => x.CategoryId).ToList();
@@ -226,18 +230,6 @@ namespace EasyAbp.EShop.Products.Products
             return dto;
         }
 
-        protected virtual async Task<ProductDto> LoadRealInventoriesAsync(Product product, ProductDto productDto, Guid storeId)
-        {
-            var inventoryDict = await _productInventoryProvider.GetInventoryDictionaryAsync(product, storeId);
-
-            foreach (var productSkuDto in productDto.ProductSkus)
-            {
-                productSkuDto.Inventory = inventoryDict[productSkuDto.Id];
-            }
-
-            return productDto;
-        }
-
         public override async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
         {
             await CheckGetListPolicyAsync();
@@ -250,6 +242,7 @@ namespace EasyAbp.EShop.Products.Products
                 throw new NotAllowedToGetProductListWithShowHiddenException();
             }
 
+            // Todo: Products cache.
             var query = CreateFilteredQuery(input);
             
             if (!isCurrentUserStoreAdmin)
@@ -268,10 +261,41 @@ namespace EasyAbp.EShop.Products.Products
             
             foreach (var product in products)
             {
-                items.Add(await LoadRealInventoriesAsync(product, MapToGetListOutputDto(product), input.StoreId));
+                var productDto = MapToGetListOutputDto(product);
+                
+                await LoadRealInventoriesAsync(product, productDto, input.StoreId);
+                await LoadPricesAsync(product, productDto, input.StoreId);
+
+                items.Add(productDto);
             }
             
             return new PagedResultDto<ProductDto>(totalCount, items);
+        }
+        
+        protected virtual async Task<ProductDto> LoadRealInventoriesAsync(Product product, ProductDto productDto, Guid storeId)
+        {
+            var inventoryDict = await _productInventoryProvider.GetInventoryDictionaryAsync(product, storeId);
+
+            foreach (var productSkuDto in productDto.ProductSkus)
+            {
+                productSkuDto.RealInventory = inventoryDict[productSkuDto.Id];
+            }
+
+            return productDto;
+        }
+
+        protected virtual async Task<ProductDto> LoadPricesAsync(Product product, ProductDto productDto, Guid storeId)
+        {
+            foreach (var productSkuDto in productDto.ProductSkus)
+            {
+                productSkuDto.DiscountedPrice = await _productDiscountManager.GetDiscountedPriceAsync(product,
+                    product.ProductSkus.Single(sku => sku.Id == productSkuDto.Id), storeId);
+            }
+
+            productDto.MinimumPrice = productDto.ProductSkus.Select(sku => sku.Price).Min();
+            productDto.MaximumPrice = productDto.ProductSkus.Select(sku => sku.Price).Max();
+
+            return productDto;
         }
 
         public async Task DeleteAsync(Guid id, Guid storeId)

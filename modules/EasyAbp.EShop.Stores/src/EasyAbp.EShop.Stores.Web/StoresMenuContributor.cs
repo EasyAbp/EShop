@@ -23,12 +23,12 @@ namespace EasyAbp.EShop.Stores.Web
         {
             var l = context.GetLocalizer<StoresResource>();            //Add main menu items.
 
-            var storeManagementMenuItem = new ApplicationMenuItem("StoreManagement", l["Menu:StoreManagement"]);
+            var storeManagementMenuItem = new ApplicationMenuItem("EasyAbpEShopStores", l["Menu:StoreManagement"]);
 
             if (await context.IsGrantedAsync(StoresPermissions.Stores.Default))
             {
                 storeManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Store", l["Menu:Store"], "/EShop/Stores/Stores/Store")
+                    new ApplicationMenuItem("EasyAbpEShopStoresStore", l["Menu:Store"], "/EShop/Stores/Stores/Store")
                 );
             }
             

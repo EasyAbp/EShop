@@ -37,8 +37,6 @@ namespace EasyAbp.EShop.Products.Products
 
         protected Product()
         {
-            ProductAttributes = new List<ProductAttribute>();
-            ProductSkus = new List<ProductSku>();
         }
 
         public Product(
@@ -65,6 +63,7 @@ namespace EasyAbp.EShop.Products.Products
             IsHidden = isHidden;
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
+            
             ProductAttributes = new List<ProductAttribute>();
             ProductSkus = new List<ProductSku>();
         }

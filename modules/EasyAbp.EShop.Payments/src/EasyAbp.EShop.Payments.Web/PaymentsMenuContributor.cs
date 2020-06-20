@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Payments.Web
         {
             var l = context.GetLocalizer<PaymentsResource>();            //Add main menu items.
 
-            var paymentManagementMenuItem = new ApplicationMenuItem("PaymentManagement", l["Menu:PaymentManagement"]);
+            var paymentManagementMenuItem = new ApplicationMenuItem("EasyAbpEShopPayments", l["Menu:PaymentManagement"]);
              
             var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
 
@@ -44,13 +44,13 @@ namespace EasyAbp.EShop.Payments.Web
             if (await context.IsGrantedAsync(PaymentsPermissions.Payments.Manage))
             {
                 paymentManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Payments", l["Menu:Payments"], "/EShop/Payments/Payments/Payment?storeId=" + defaultStore)
+                    new ApplicationMenuItem("EasyAbpEShopPaymentsPayment", l["Menu:Payment"], "/EShop/Payments/Payments/Payment?storeId=" + defaultStore)
                 );
             }
             if (await context.IsGrantedAsync(PaymentsPermissions.Refunds.Manage))
             {
                 paymentManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("Refunds", l["Menu:Refunds"], "/EShop/Payments/Refunds/Refund?storeId=" + defaultStore)
+                    new ApplicationMenuItem("EasyAbpEShopPaymentsRefund", l["Menu:Refund"], "/EShop/Payments/Refunds/Refund?storeId=" + defaultStore)
                 );
             }
 

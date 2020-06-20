@@ -10,8 +10,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.EntityFrameworkCore\EasyAbp.EShop.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopSample.Domain\EShopSample.Domain.csproj" />
-    <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="0.3.4" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="0.3.4" />
+    <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="0.3.6" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="0.3.6" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="2.9.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="2.9.0" />
     <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="2.9.0" />
