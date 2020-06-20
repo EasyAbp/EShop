@@ -81,8 +81,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "ProductSkus", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
-                b.Property(x => x.Price).HasColumnType("decimal(18,6)");
-                b.Property(x => x.OriginalPrice).HasColumnType("decimal(18,6)");
+                b.Property(x => x.Price).HasColumnType("decimal(20,8)");
+                b.Property(x => x.OriginalPrice).HasColumnType("decimal(20,8)");
             });
 
             builder.Entity<Category>(b =>

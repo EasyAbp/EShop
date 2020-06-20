@@ -47,10 +47,10 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Payments", options.Schema);
                 b.ConfigureByConvention();
                 /* Configure more properties here */
-                b.Property(x => x.ActualPaymentAmount).HasColumnType("decimal(18,6)");
-                b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(18,6)");
-                b.Property(x => x.PaymentDiscount).HasColumnType("decimal(18,6)");
-                b.Property(x => x.RefundAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.ActualPaymentAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.PaymentDiscount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
             });
 
             builder.Entity<Refund>(b =>
@@ -58,7 +58,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Refunds", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
-                b.Property(x => x.RefundAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
             });
 
             builder.Entity<PaymentItem>(b =>
@@ -66,10 +66,10 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "PaymentItems", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
-                b.Property(x => x.ActualPaymentAmount).HasColumnType("decimal(18,6)");
-                b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(18,6)");
-                b.Property(x => x.PaymentDiscount).HasColumnType("decimal(18,6)");
-                b.Property(x => x.RefundAmount).HasColumnType("decimal(18,6)");
+                b.Property(x => x.ActualPaymentAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.PaymentDiscount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
             });
         }
     }
