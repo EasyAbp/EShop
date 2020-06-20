@@ -1,3 +1,4 @@
+using EasyAbp.Abp.Trees.EntityFrameworkCore;
 using EasyAbp.EShop.Products.ProductDetailHistories;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductStores;
@@ -14,7 +15,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
 {
     [DependsOn(
         typeof(EShopProductsDomainModule),
-        typeof(AbpEntityFrameworkCoreModule)
+        typeof(AbpEntityFrameworkCoreModule),
+        typeof(AbpTreesEntityFrameworkCoreModule)
     )]
     public class EShopProductsEntityFrameworkCoreModule : AbpModule
     {

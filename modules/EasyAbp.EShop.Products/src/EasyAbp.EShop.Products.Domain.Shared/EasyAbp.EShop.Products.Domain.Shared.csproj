@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyAbp.Abp.Trees.Domain.Shared" Version="0.290.2" />
     <PackageReference Include="Volo.Abp.Validation" Version="2.9.0" />
   </ItemGroup>
 
