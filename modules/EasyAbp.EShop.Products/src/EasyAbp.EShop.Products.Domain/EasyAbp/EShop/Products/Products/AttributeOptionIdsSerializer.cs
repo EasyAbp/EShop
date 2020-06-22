@@ -23,6 +23,11 @@ namespace EasyAbp.EShop.Products.Products
 
         public Task<string> SerializeAsync(IEnumerable<Guid> attributeOptionIds)
         {
+            if (attributeOptionIds == null)
+            {
+                return Task.FromResult(string.Empty);
+            }
+
             return Task.FromResult(_jsonSerializer.Serialize(attributeOptionIds.OrderBy(x => x)));
         }
 
