@@ -164,7 +164,7 @@ namespace EasyAbp.EShop.Products.Products
             
             if (otherOwner != null)
             {
-                throw new EntityNotFoundException(typeof(ProductDetail), desiredProductDetailId);
+                throw new ProductDetailHasBeenUsedException(desiredProductDetailId);
             }
         }
         
