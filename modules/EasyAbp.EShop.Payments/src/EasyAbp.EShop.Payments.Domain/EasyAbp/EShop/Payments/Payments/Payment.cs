@@ -35,6 +35,8 @@ namespace EasyAbp.EShop.Payments.Payments
         
         public virtual decimal RefundAmount { get; protected set; }
         
+        public virtual decimal PendingRefundAmount { get; protected set; }
+
         public virtual DateTime? CompletionTime { get; protected set; }
         
         public virtual DateTime? CancelledTime { get; protected set; }

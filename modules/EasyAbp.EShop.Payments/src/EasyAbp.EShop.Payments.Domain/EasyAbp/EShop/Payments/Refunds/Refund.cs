@@ -31,7 +31,11 @@ namespace EasyAbp.EShop.Payments.Refunds
         
         [CanBeNull]
         public virtual string StaffRemark { get; protected set; }
+
+        public virtual DateTime? CompletedTime { get; protected set; }
         
+        public virtual DateTime? CancelledTime { get; protected set; }
+
         #endregion
         
         public virtual Guid? StoreId { get; protected set; }

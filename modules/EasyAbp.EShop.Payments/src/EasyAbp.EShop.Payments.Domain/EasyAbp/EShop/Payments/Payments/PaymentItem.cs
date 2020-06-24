@@ -24,6 +24,8 @@ namespace EasyAbp.EShop.Payments.Payments
         public virtual decimal ActualPaymentAmount { get; protected set; }
         
         public virtual decimal RefundAmount { get; protected set; }
+        
+        public virtual decimal PendingRefundAmount { get; protected set; }
 
         #endregion
         

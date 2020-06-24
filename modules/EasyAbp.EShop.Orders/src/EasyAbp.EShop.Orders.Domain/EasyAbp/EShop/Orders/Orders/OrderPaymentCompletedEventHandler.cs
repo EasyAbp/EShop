@@ -38,28 +38,30 @@ namespace EasyAbp.EShop.Orders.Orders
         }
         
         [UnitOfWork(true)]
-        public virtual async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
+        public virtual async Task HandleEventAsync(PaymentCompletedEto eventData)
         {
-            if (!eventData.Entity.CompletionTime.HasValue)
+            var payment = eventData.Payment;
+            
+            if (!payment.CompletionTime.HasValue || payment.CancelledTime.HasValue)
             {
                 return;
             }
 
-            using var currentTenant = _currentTenant.Change(eventData.Entity.TenantId);
+            using var currentTenant = _currentTenant.Change(payment.TenantId);
 
-            foreach (var item in eventData.Entity.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
+            foreach (var item in payment.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
                 var order = await _orderRepository.GetAsync(item.ItemKey);
 
-                if (order.PaymentId != eventData.Entity.Id || order.PaidTime.HasValue ||
+                if (order.PaymentId != payment.Id || order.PaidTime.HasValue ||
                     order.OrderStatus != OrderStatus.Pending)
                 {
                     throw new OrderIsInWrongStageException(order.Id);
                 }
 
-                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
+                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, payment, item))
                 {
-                    throw new OrderPaymentInvalidException(eventData.Entity.Id, item.ItemKey);
+                    throw new OrderPaymentInvalidException(payment.Id, item.ItemKey);
                 }
                 
                 order.SetPaidTime(_clock.Now);
@@ -70,7 +72,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 await _distributedEventBus.PublishAsync(new OrderPaidEto
                 {
                     Order = _objectMapper.Map<Order, OrderEto>(order),
-                    PaymentId = eventData.Entity.Id,
+                    PaymentId = payment.Id,
                     PaymentItemId = item.Id
                 });
             }
