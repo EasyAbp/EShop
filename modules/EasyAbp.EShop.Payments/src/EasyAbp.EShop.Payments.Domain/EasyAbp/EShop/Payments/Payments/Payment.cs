@@ -56,5 +56,10 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             StoreId = storeId;
         }
+
+        public void SetPaymentItems(List<PaymentItem> paymentItems)
+        {
+            PaymentItems = paymentItems;
+        }
     }
 }

@@ -13,7 +13,9 @@ namespace EasyAbp.EShop.Payments
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
 
-            CreateMap<PaymentEto, Payment>(MemberList.Source).Ignore(x => x.StoreId);
+            CreateMap<PaymentEto, Payment>(MemberList.Source)
+                .Ignore(x => x.StoreId)
+                .Ignore(x => x.PaymentItems);
             CreateMap<PaymentItemEto, PaymentItem>(MemberList.Source);
         }
     }

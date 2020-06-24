@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.PaymentService.Payments;
 using Volo.Abp.Data;
@@ -36,11 +38,32 @@ namespace EasyAbp.EShop.Payments.Payments
             {
                 payment = _objectMapper.Map<PaymentEto, Payment>(eventData.Entity);
 
+                payment.SetPaymentItems(
+                    _objectMapper.Map<List<PaymentItemEto>, List<PaymentItem>>(eventData.Entity.PaymentItems));
+
                 await _paymentRepository.InsertAsync(payment, true);
             }
             else
             {
                 _objectMapper.Map(eventData.Entity, payment);
+
+                foreach (var item in eventData.Entity.PaymentItems)
+                {
+                    var find = payment.PaymentItems.FirstOrDefault(i => i.Id == item.Id);
+
+                    if (find == null)
+                    {
+                        payment.PaymentItems.Add(_objectMapper.Map<PaymentItemEto, PaymentItem>(item));
+                    }
+                    else
+                    {
+                        _objectMapper.Map(item, find);
+                    }
+
+                    var etoPaymentItemIds = eventData.Entity.PaymentItems.Select(i => i.Id).ToList();
+
+                    payment.PaymentItems.RemoveAll(i => !etoPaymentItemIds.Contains(i.Id));
+                }
             }
             
             if (Guid.TryParse(eventData.Entity.GetProperty<string>("StoreId"), out var storeId))
