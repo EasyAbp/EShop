@@ -9,9 +9,9 @@ namespace EasyAbp.EShop.Products.ProductCategories
         ICrudAppService< 
             ProductCategoryDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
-            CreateUpdateProductCategoryDto,
-            CreateUpdateProductCategoryDto>
+            GetProductCategoryListDto,
+            object,
+            object>
     {
 
     }

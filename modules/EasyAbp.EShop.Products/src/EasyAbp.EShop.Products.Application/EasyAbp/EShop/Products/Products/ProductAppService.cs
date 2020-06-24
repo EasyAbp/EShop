@@ -59,6 +59,13 @@ namespace EasyAbp.EShop.Products.Products
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
 
+        protected override Product MapToEntity(CreateUpdateProductDto createInput)
+        {
+            var product = base.MapToEntity(createInput);
+
+            return product;
+        }
+
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             await CheckCreatePolicyAsync();
@@ -203,9 +210,6 @@ namespace EasyAbp.EShop.Products.Products
             await LoadRealInventoriesAsync(product, dto, storeId);
             await LoadPricesAsync(product, dto, storeId);
             
-            dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
-                .Select(x => x.CategoryId).ToList();
-            
             return dto;
         }
         
@@ -223,9 +227,6 @@ namespace EasyAbp.EShop.Products.Products
             }
             
             await LoadRealInventoriesAsync(product, dto, storeId);
-            
-            dto.CategoryIds = (await _productCategoryRepository.GetListByProductIdAsync(dto.Id))
-                .Select(x => x.CategoryId).ToList();
             
             return dto;
         }
@@ -292,8 +293,11 @@ namespace EasyAbp.EShop.Products.Products
                     product.ProductSkus.Single(sku => sku.Id == productSkuDto.Id), storeId);
             }
 
-            productDto.MinimumPrice = productDto.ProductSkus.Select(sku => sku.Price).Min();
-            productDto.MaximumPrice = productDto.ProductSkus.Select(sku => sku.Price).Max();
+            if (productDto.ProductSkus.Count > 0)
+            {
+                productDto.MinimumPrice = productDto.ProductSkus.Min(sku => sku.Price);
+                productDto.MaximumPrice = productDto.ProductSkus.Max(sku => sku.Price);
+            }
 
             return productDto;
         }

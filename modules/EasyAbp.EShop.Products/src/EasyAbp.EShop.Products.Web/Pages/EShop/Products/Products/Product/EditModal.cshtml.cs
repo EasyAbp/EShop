@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Categories.Dtos;
+using EasyAbp.EShop.Products.ProductCategories;
+using EasyAbp.EShop.Products.ProductCategories.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -32,17 +34,20 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
         private readonly IProductDetailAppService _productDetailAppService;
+        private readonly IProductCategoryAppService _productCategoryAppService;
         private readonly IProductAppService _service;
 
         public EditModalModel(
             IProductTypeAppService productTypeAppService,
             ICategoryAppService categoryAppService,
             IProductDetailAppService productDetailAppService,
+            IProductCategoryAppService productCategoryAppService,
             IProductAppService service)
         {
             _productTypeAppService = productTypeAppService;
             _categoryAppService = categoryAppService;
             _productDetailAppService = productDetailAppService;
+            _productCategoryAppService = productCategoryAppService;
             _service = service;
         }
 
@@ -63,6 +68,12 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId);
             
             Product = ObjectMapper.Map<ProductDto, CreateEditProductViewModel>(productDto);
+
+            Product.CategoryIds = (await _productCategoryAppService.GetListAsync(new GetProductCategoryListDto
+            {
+                ProductId = productDto.Id,
+                MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
+            })).Items.Select(x => x.CategoryId).ToList();
             
             Product.ProductDetail = new CreateEditProductDetailViewModel
             {

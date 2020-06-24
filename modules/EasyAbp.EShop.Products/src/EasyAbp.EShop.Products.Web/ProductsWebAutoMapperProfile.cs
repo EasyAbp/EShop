@@ -20,8 +20,9 @@ namespace EasyAbp.EShop.Products.Web
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<ProductDto, CreateEditProductViewModel>()
-                .Ignore(dto => dto.ProductDetail)
-                .Ignore(dto => dto.StoreId)
+                .Ignore(model => model.CategoryIds)
+                .Ignore(model => model.ProductDetail)
+                .Ignore(model => model.StoreId)
                 .ForSourceMember(dto => dto.ProductDetailId, opt => opt.DoNotValidate())
                 // .Ignore(x => x.ProductAttributes);
                 .ForMember(dest => dest.ProductAttributeNames,

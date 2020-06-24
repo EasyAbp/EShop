@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Categories;
@@ -25,7 +27,6 @@ namespace EasyAbp.EShop.Products
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Product, ProductDto>()
-                .Ignore(dto => dto.CategoryIds)
                 .Ignore(dto => dto.MinimumPrice)
                 .Ignore(dto => dto.MaximumPrice);
             CreateMap<ProductDetail, ProductDetailDto>();
@@ -38,7 +39,8 @@ namespace EasyAbp.EShop.Products
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.CategoryIds, opt => opt.DoNotValidate())
                 .Ignore(p => p.ProductAttributes)
-                .Ignore(p => p.ProductSkus);
+                .Ignore(p => p.ProductSkus)
+                .AfterMap((src, dest) => dest.InitializeNullCollections());
             CreateMap<CreateUpdateProductDetailDto, ProductDetail>(MemberList.Source)
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate());
             CreateMap<CreateUpdateProductAttributeDto, ProductAttribute>(MemberList.Source);
@@ -50,7 +52,6 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductType, ProductTypeDto>();
             CreateMap<CreateUpdateProductTypeDto, ProductType>(MemberList.Source);
             CreateMap<ProductCategory, ProductCategoryDto>();
-            CreateMap<CreateUpdateProductCategoryDto, ProductCategory>(MemberList.Source);
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
         }
