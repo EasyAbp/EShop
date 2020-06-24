@@ -51,6 +51,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.PaymentDiscount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.PendingRefundAmount).HasColumnType("decimal(20,8)");
             });
 
             builder.Entity<Refund>(b =>
@@ -70,6 +71,7 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.Property(x => x.OriginalPaymentAmount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.PaymentDiscount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.PendingRefundAmount).HasColumnType("decimal(20,8)");
             });
         }
     }
