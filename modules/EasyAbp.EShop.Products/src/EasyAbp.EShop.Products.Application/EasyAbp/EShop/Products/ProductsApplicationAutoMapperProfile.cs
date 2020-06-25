@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Categories;
@@ -16,12 +15,13 @@ using EasyAbp.EShop.Products.ProductDetailHistories.Dtos;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Products
 {
-    public class ProductsApplicationAutoMapperProfile : Profile
+    public class ProductsApplicationAutoMapperProfile : Profile, ISingletonDependency
     {
-        public ProductsApplicationAutoMapperProfile() 
+        public ProductsApplicationAutoMapperProfile(IAttributeOptionIdsSerializer attributeOptionIdsSerializer) 
         {
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
@@ -33,8 +33,12 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductAttribute, ProductAttributeDto>();
             CreateMap<ProductAttributeOption, ProductAttributeOptionDto>();
             CreateMap<ProductSku, ProductSkuDto>()
+                .ForSourceMember(entity => entity.SerializedAttributeOptionIds, opt => opt.DoNotValidate())
+                .Ignore(dto => dto.AttributeOptionIds)
                 .Ignore(dto => dto.DiscountedPrice)
-                .Ignore(dto => dto.RealInventory);
+                .Ignore(dto => dto.RealInventory)
+                .AfterMap(async (src, dest) => dest.AttributeOptionIds =
+                    (await attributeOptionIdsSerializer.DeserializeAsync(src.SerializedAttributeOptionIds)).ToList());
             CreateMap<CreateUpdateProductDto, Product>(MemberList.Source)
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.CategoryIds, opt => opt.DoNotValidate())
@@ -45,7 +49,12 @@ namespace EasyAbp.EShop.Products
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate());
             CreateMap<CreateUpdateProductAttributeDto, ProductAttribute>(MemberList.Source);
             CreateMap<CreateUpdateProductAttributeOptionDto, ProductAttributeOption>(MemberList.Source);
-            CreateMap<CreateProductSkuDto, ProductSku>(MemberList.Source);
+            CreateMap<CreateProductSkuDto, ProductSku>(MemberList.Source)
+                .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate())
+                .Ignore(entity => entity.SerializedAttributeOptionIds)
+                .AfterMap(async (src, dest) =>
+                    dest.SetSerializedAttributeOptionIds(
+                        await attributeOptionIdsSerializer.SerializeAsync(src.AttributeOptionIds)));
             CreateMap<UpdateProductSkuDto, ProductSku>(MemberList.Source);
             CreateMap<Category, CategoryDto>();
             CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);

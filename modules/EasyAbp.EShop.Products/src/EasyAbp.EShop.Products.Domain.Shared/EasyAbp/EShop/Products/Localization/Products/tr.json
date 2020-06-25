@@ -21,7 +21,7 @@
     "ProductAttributeOptionNames": "ProductAttributeOptionNames",
     "ProductAttributeOptionNamesPlaceholder": "ProductAttributeOptionNamesPlaceholder",
     "ProductSku": "ProductSku",
-    "ProductSkuSerializedAttributeOptionIds": "ProductSkuSerializedAttributeOptionIds",
+    "ProductSkuAttributeOptionIds": "ProductSkuAttributeOptionIds",
     "ProductSkuCode": "ProductSkuCode",
     "ProductSkuCurrency": "ProductSkuCurrency",
     "ProductSkuOriginalPrice": "ProductSkuOriginalPrice",

@@ -58,7 +58,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         {
             var createDto = ObjectMapper.Map<CreateEditProductSkuViewModel, CreateProductSkuDto>(ProductSku);
 
-            createDto.SerializedAttributeOptionIds = _jsonSerializer.Serialize(SelectedAttributeOptionIdDict.Values);
+            createDto.AttributeOptionIds = SelectedAttributeOptionIdDict.Values.ToList();
             
             await _productAppService.CreateSkuAsync(ProductId, StoreId, createDto);
 

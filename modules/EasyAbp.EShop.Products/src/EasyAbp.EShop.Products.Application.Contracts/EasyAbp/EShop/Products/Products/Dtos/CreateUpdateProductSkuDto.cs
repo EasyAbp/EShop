@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,7 +38,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     public class CreateProductSkuDto : UpdateProductSkuDto
     {
         [Required]
-        [DisplayName("ProductSkuSerializedAttributeOptionIds")]
-        public string SerializedAttributeOptionIds { get; set; }
+        [DisplayName("ProductSkuAttributeOptionIds")]
+        public List<Guid> AttributeOptionIds { get; set; }
     }
 }

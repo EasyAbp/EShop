@@ -94,11 +94,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
         protected virtual Task<string> GenerateSkuDescriptionAsync(ProductDto product, ProductSkuDto productSku)
         {
-            var attributeOptionIds = _jsonSerializer.Deserialize<Guid[]>(productSku.SerializedAttributeOptionIds);
-
             var names = new Collection<string[]>();
 
-            foreach (var attributeOptionId in attributeOptionIds)
+            foreach (var attributeOptionId in productSku.AttributeOptionIds)
             {
                 names.Add(product.ProductAttributes.SelectMany(
                     attribute => attribute.ProductAttributeOptions.Where(option => option.Id == attributeOptionId),

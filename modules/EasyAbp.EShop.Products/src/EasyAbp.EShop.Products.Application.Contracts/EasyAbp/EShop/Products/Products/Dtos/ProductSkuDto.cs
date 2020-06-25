@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     public class ProductSkuDto : FullAuditedEntityDto<Guid>
     {
-        public string SerializedAttributeOptionIds { get; set; }
+        public List<Guid> AttributeOptionIds { get; set; }
         
         public string Code { get; set; }
         

@@ -53,10 +53,10 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<ProductAttributeDto, CreateEditProductAttributeViewModel>();
             CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>();
             CreateMap<CreateEditProductSkuViewModel, CreateProductSkuDto>()
-                .Ignore(dto => dto.SerializedAttributeOptionIds);
+                .Ignore(dto => dto.AttributeOptionIds);
             CreateMap<CreateEditProductSkuViewModel, UpdateProductSkuDto>();
             CreateMap<ProductSkuDto, CreateEditProductSkuViewModel>()
-                .ForSourceMember(dto => dto.SerializedAttributeOptionIds, opt => opt.DoNotValidate());
+                .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate());
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
             CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>();
             CreateMap<CategoryDto, CreateUpdateCategoryDto>();

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Authorization;
 using EasyAbp.EShop.Products.ProductCategories;
-using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
 using Microsoft.AspNetCore.Authorization;
@@ -200,12 +199,12 @@ namespace EasyAbp.EShop.Products.Products
 
             var product = await GetEntityByIdAsync(id);
             
-            var dto = MapToGetOutputDto(product);
-            
-            if (!dto.IsPublished)
+            if (!product.IsPublished)
             {
-                await CheckStoreIsProductOwnerAsync(dto.Id, storeId);
+                await CheckStoreIsProductOwnerAsync(product.Id, storeId);
             }
+            
+            var dto = MapToGetOutputDto(product);
             
             await LoadRealInventoriesAsync(product, dto, storeId);
             await LoadPricesAsync(product, dto, storeId);
@@ -219,12 +218,12 @@ namespace EasyAbp.EShop.Products.Products
 
             var product = await _repository.GetAsync(x => x.Code == code);
             
-            var dto = MapToGetOutputDto(product);
-            
-            if (!dto.IsPublished)
+            if (!product.IsPublished)
             {
-                await CheckStoreIsProductOwnerAsync(dto.Id, storeId);
+                await CheckStoreIsProductOwnerAsync(product.Id, storeId);
             }
+            
+            var dto = MapToGetOutputDto(product);
             
             await LoadRealInventoriesAsync(product, dto, storeId);
             

@@ -17,10 +17,15 @@ namespace EasyAbp.EShop.Products
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAutoMapperObjectMapper<EShopProductsApplicationModule>();
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<EShopProductsApplicationModule>(validate: true);
+                options.Configurators.Add(abpAutoMapperConfigurationContext =>
+                {
+                    var profile = abpAutoMapperConfigurationContext.ServiceProvider
+                        .GetRequiredService<ProductsApplicationAutoMapperProfile>();
+                    
+                    abpAutoMapperConfigurationContext.MapperConfiguration.AddProfile(profile);
+                });
             });
         }
     }

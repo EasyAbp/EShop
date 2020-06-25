@@ -81,9 +81,8 @@ $(function () {
         for (let i in product.productSkus) {
             let sku = product.productSkus[i];
             let options = [];
-            let attributeOptionIds = JSON.parse(sku.serializedAttributeOptionIds);
-            for (let j in attributeOptionIds) {
-                let optionId = attributeOptionIds[j];
+            for (let j in sku.attributeOptionIds) {
+                let optionId = sku.attributeOptionIds[j];
                 options.push(attributeOptionNames[optionId]);
             }
             sku.contentDescription = options.join(',');
