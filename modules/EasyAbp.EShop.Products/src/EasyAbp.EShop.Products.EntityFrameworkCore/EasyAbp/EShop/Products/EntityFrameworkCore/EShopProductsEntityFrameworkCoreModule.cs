@@ -8,6 +8,8 @@ using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products;
+using EasyAbp.EShop.Products.ProductTags;
+using EasyAbp.EShop.Products.Tags;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
@@ -29,7 +31,9 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
                 options.AddRepository<Category, CategoryRepository>();
+                options.AddRepository<Tag, TagRepository>();
                 options.AddRepository<Product, ProductRepository>();
+                options.AddRepository<ProductTag, ProductTagRepository>();
                 options.AddRepository<ProductDetail, ProductDetailRepository>();
                 options.AddRepository<ProductType, ProductTypeRepository>();
                 options.AddRepository<ProductCategory, ProductCategoryRepository>();

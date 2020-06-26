@@ -1,7 +1,6 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
-using EasyAbp.EShop.Products.ProductDetails;
-using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products

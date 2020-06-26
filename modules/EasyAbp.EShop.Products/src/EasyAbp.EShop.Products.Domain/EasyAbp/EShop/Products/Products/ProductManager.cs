@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductStores;
 using Microsoft.Extensions.DependencyInjection;
+using EasyAbp.EShop.Products.ProductTags;
+using JetBrains.Annotations;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Services;
 
 namespace EasyAbp.EShop.Products.Products
@@ -16,22 +19,26 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductRepository _productRepository;
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
+        private readonly IProductTagRepository _productTagRepository;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
 
         public ProductManager(
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
+            [NotNull] IProductTagRepository productTagRepository,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
+            _productTagRepository = productTagRepository ?? throw new ArgumentNullException(nameof(productTagRepository));
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
         }
 
         public virtual async Task<Product> CreateAsync(Product product, Guid? storeId = null,
-            IEnumerable<Guid> categoryIds = null)
+            IEnumerable<Guid> categoryIds = null,
+            IEnumerable<Guid> tagIds = null)
         {
             product.TrimCode();
             
@@ -43,6 +50,8 @@ namespace EasyAbp.EShop.Products.Products
 
             await UpdateProductCategoriesAsync(product.Id, categoryIds);
 
+            await UpdateProductTagsAsync(product.Id, tagIds);
+
             if (storeId.HasValue)
             {
                 await AddProductToStoreAsync(product.Id, storeId.Value);
@@ -51,7 +60,9 @@ namespace EasyAbp.EShop.Products.Products
             return product;
         }
         
-        public virtual async Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null)
+        public virtual async Task<Product> UpdateAsync(Product product, 
+            IEnumerable<Guid> categoryIds = null,
+            IEnumerable<Guid> tagIds = null)
         {
             await CheckProductCodeUniqueAsync(product);
 
@@ -60,6 +71,8 @@ namespace EasyAbp.EShop.Products.Products
             await CheckProductDetailAvailableAsync(product.Id, product.ProductDetailId);
 
             await UpdateProductCategoriesAsync(product.Id, categoryIds);
+
+            await UpdateProductTagsAsync(product.Id, tagIds);
 
             return product;
         }
@@ -179,6 +192,22 @@ namespace EasyAbp.EShop.Products.Products
             {
                 await _productCategoryRepository.InsertAsync(
                     new ProductCategory(GuidGenerator.Create(), CurrentTenant.Id, categoryId, productId), true);
+            }
+        }
+
+        protected virtual async Task UpdateProductTagsAsync(Guid productId, IEnumerable<Guid> tagIds)
+        {
+            await _productTagRepository.DeleteAsync(x => x.ProductId.Equals(productId));
+
+            if (tagIds == null)
+            {
+                return;
+            }
+
+            foreach (var tagId in tagIds)
+            {
+                await _productTagRepository.InsertAsync(
+                    new ProductTag(GuidGenerator.Create(), CurrentTenant.Id, tagId, productId), true);
             }
         }
 

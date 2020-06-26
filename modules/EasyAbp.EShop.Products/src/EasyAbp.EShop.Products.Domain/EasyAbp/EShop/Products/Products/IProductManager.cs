@@ -7,9 +7,9 @@ namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductManager : IDomainService
     {
-        Task<Product> CreateAsync(Product product, Guid? storeId = null, IEnumerable<Guid> categoryIds = null);
+        Task<Product> CreateAsync(Product product, Guid? storeId = null, IEnumerable<Guid> categoryIds = null, IEnumerable<Guid> tagIds = null);
 
-        Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null);
+        Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null, IEnumerable<Guid> tagIds = null);
 
         Task DeleteAsync(Product product);
         
