@@ -46,9 +46,9 @@ namespace EasyAbp.EShop.Products.Tags
 
         public Tag(
             Guid id,
-            Guid storeId,
             Guid? tenantId,
-            Guid? parentCategoryId,
+            Guid storeId,
+            Guid? parentId,
             string displayName,
             string description,
             string mediaResources,
@@ -57,7 +57,7 @@ namespace EasyAbp.EShop.Products.Tags
         {
             TenantId = tenantId;
             StoreId = storeId;
-            ParentId = parentCategoryId;
+            ParentId = parentId;
             DisplayName = displayName;
             Description = description;
             MediaResources = mediaResources;

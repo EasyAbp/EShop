@@ -26,13 +26,13 @@ namespace EasyAbp.EShop.Products.Products
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
-            [NotNull] IProductTagRepository productTagRepository,
+            IProductTagRepository productTagRepository,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
-            _productTagRepository = productTagRepository ?? throw new ArgumentNullException(nameof(productTagRepository));
+            _productTagRepository = productTagRepository;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
         }
 
@@ -181,14 +181,16 @@ namespace EasyAbp.EShop.Products.Products
         
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)
         {
-            await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
+            categoryIds ??= new List<Guid>();
 
-            if (categoryIds == null)
+            var productCategories = await _productCategoryRepository.GetListByProductIdAsync(productId);
+
+            foreach (var productCategory in productCategories.Where(x => !categoryIds.Contains(x.CategoryId)).ToList())
             {
-                return;
+                await _productCategoryRepository.DeleteAsync(productCategory, true);
             }
-            
-            foreach (var categoryId in categoryIds)
+
+            foreach (var categoryId in categoryIds.Except(productCategories.Select(x => x.CategoryId).ToList()))
             {
                 await _productCategoryRepository.InsertAsync(
                     new ProductCategory(GuidGenerator.Create(), CurrentTenant.Id, categoryId, productId), true);
@@ -197,14 +199,16 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task UpdateProductTagsAsync(Guid productId, IEnumerable<Guid> tagIds)
         {
-            await _productTagRepository.DeleteAsync(x => x.ProductId.Equals(productId));
+            tagIds ??= new List<Guid>();
 
-            if (tagIds == null)
+            var productTags = await _productTagRepository.GetListByProductIdAsync(productId);
+
+            foreach (var productTag in productTags.Where(x => !tagIds.Contains(x.TagId)).ToList())
             {
-                return;
+                await _productTagRepository.DeleteAsync(productTag, true);
             }
 
-            foreach (var tagId in tagIds)
+            foreach (var tagId in tagIds.Except(productTags.Select(x => x.TagId).ToList()))
             {
                 await _productTagRepository.InsertAsync(
                     new ProductTag(GuidGenerator.Create(), CurrentTenant.Id, tagId, productId), true);

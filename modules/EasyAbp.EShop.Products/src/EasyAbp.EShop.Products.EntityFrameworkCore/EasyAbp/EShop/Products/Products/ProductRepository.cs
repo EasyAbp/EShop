@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Products.Products
                 .Include(x => x.ProductSkus);
         }
 
-        public IQueryable<Product> GetQueryable(Guid storeId, Guid? categoryId = default, Guid? tagId = default)
+        public IQueryable<Product> GetQueryable(Guid storeId, Guid? categoryId = null, Guid? tagId = null)
         {
             var queryable = GetStoreQueryable(storeId);
 
@@ -37,7 +37,7 @@ namespace EasyAbp.EShop.Products.Products
             return queryable;
         }
 
-        public IQueryable<Product> WithDetails(Guid storeId, Guid? categoryId = default, Guid? tagId = default)
+        public IQueryable<Product> WithDetails(Guid storeId, Guid? categoryId = null, Guid? tagId = null)
         {
             var queryable = WithStoreDetails(storeId);
 

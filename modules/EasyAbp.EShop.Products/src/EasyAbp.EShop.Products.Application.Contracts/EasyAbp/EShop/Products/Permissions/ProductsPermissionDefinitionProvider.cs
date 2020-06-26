@@ -20,9 +20,9 @@ namespace EasyAbp.EShop.Products.Permissions
             categories.AddChild(ProductsPermissions.Categories.Delete, L("Permission:Delete"));
 
             var tags = moduleGroup.AddPermission(ProductsPermissions.Tags.Default, L("Permission:Tag"));
-            tags.AddChild(ProductsPermissions.Tags.Create, L("Permission:Create"), MultiTenancySides.Host);
-            tags.AddChild(ProductsPermissions.Tags.Update, L("Permission:Update"), MultiTenancySides.Host);
-            tags.AddChild(ProductsPermissions.Tags.Delete, L("Permission:Delete"), MultiTenancySides.Host);
+            tags.AddChild(ProductsPermissions.Tags.Create, L("Permission:Create"));
+            tags.AddChild(ProductsPermissions.Tags.Update, L("Permission:Update"));
+            tags.AddChild(ProductsPermissions.Tags.Delete, L("Permission:Delete"));
 
             var product = moduleGroup.AddPermission(ProductsPermissions.Products.Default, L("Permission:Product"));
             product.AddChild(ProductsPermissions.Products.CrossStore, L("Permission:CrossStore"));
