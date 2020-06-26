@@ -34,6 +34,8 @@ namespace EasyAbp.EShop.Products.Web
                             .Select(a => a.ProductAttributeOptions.Select(o => o.DisplayName).JoinAsString(","))
                             .JoinAsString(Environment.NewLine)));
             CreateMap<CreateEditProductViewModel, CreateUpdateProductDto>()
+                // Todo: should be remove
+                .Ignore(dto => dto.TagIds)
                 .Ignore(dto => dto.ProductDetailId)
                 .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
                 .ForMember(dest => dest.ProductAttributes,
@@ -41,11 +43,11 @@ namespace EasyAbp.EShop.Products.Web
                         x.ProductAttributeNames.Split(",", StringSplitOptions.RemoveEmptyEntries).Select((s, i) =>
                             new CreateUpdateProductAttributeDto
                             {
-                                DisplayName = s,
+                                DisplayName = s.Trim(),
                                 ProductAttributeOptions = new List<CreateUpdateProductAttributeOptionDto>(
                                     x.ProductAttributeOptionNames.SplitToLines(StringSplitOptions.RemoveEmptyEntries)[i]
                                         .Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o =>
-                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o}))
+                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o.Trim()}))
                             })));
             CreateMap<ProductDetailDto, CreateEditProductDetailViewModel>()
                 .Ignore(model => model.StoreId);

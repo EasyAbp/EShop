@@ -21,7 +21,7 @@ namespace EasyAbp.EShop.Products.Tags.Dtos
         public string MediaResources { get; set; }
     }
 
-    public class CreateTagDto : ExtensibleObject
+    public class CreateTagDto : UpdateTagDto
     {
         [Required]
         [DisplayName("TagStoreId")]

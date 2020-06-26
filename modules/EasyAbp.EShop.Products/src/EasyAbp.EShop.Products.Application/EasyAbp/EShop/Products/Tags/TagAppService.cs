@@ -36,7 +36,7 @@ namespace EasyAbp.EShop.Products.Tags
 
             var entity = await GetEntityByIdAsync(id);
 
-            await CheckCurrentUserIs(entity.StoreId, CurrentUser.Id);
+            await CheckCurrentUserIsStoreOwner(entity.StoreId, CurrentUser.Id);
 
             return MapToGetOutputDto(entity);
         }
@@ -45,7 +45,7 @@ namespace EasyAbp.EShop.Products.Tags
         {
             await CheckGetListPolicyAsync();
 
-            await CheckCurrentUserIs(input.StoreId, CurrentUser.Id);
+            await CheckCurrentUserIsStoreOwner(input.StoreId, CurrentUser.Id);
 
             var query = CreateFilteredQuery(input);
 
@@ -65,7 +65,7 @@ namespace EasyAbp.EShop.Products.Tags
         {
             await CheckCreatePolicyAsync();
 
-            await CheckCurrentUserIs(input.StoreId, CurrentUser.Id);
+            await CheckCurrentUserIsStoreOwner(input.StoreId, CurrentUser.Id);
 
             var entity = MapToEntity(input);
 
@@ -82,7 +82,7 @@ namespace EasyAbp.EShop.Products.Tags
 
             var entity = await GetEntityByIdAsync(id);
 
-            await CheckCurrentUserIs(entity.StoreId, CurrentUser.Id);
+            await CheckCurrentUserIsStoreOwner(entity.StoreId, CurrentUser.Id);
 
             MapToEntity(input, entity);
             await Repository.UpdateAsync(entity, autoSave: true);
@@ -96,12 +96,12 @@ namespace EasyAbp.EShop.Products.Tags
 
             var entity = await GetEntityByIdAsync(id);
 
-            await CheckCurrentUserIs(entity.StoreId, CurrentUser.Id);
+            await CheckCurrentUserIsStoreOwner(entity.StoreId, CurrentUser.Id);
 
             await DeleteByIdAsync(id);
         }
 
-        protected virtual Task CheckCurrentUserIs(Guid storeId, Guid? userId)
+        protected virtual Task CheckCurrentUserIsStoreOwner(Guid storeId, Guid? userId)
         {
             //TODO: check if current user id owner of store
             return Task.CompletedTask;

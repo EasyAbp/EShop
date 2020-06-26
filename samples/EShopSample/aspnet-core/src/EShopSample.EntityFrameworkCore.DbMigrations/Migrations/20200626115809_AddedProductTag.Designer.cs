@@ -4,20 +4,22 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200626115809_AddedProductTag")]
+    partial class AddedProductTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -27,7 +29,7 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CanceledTime")
+                    b.Property<DateTime?>("CancelledTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CompletionTime")
@@ -36,8 +38,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -179,31 +180,22 @@ namespace EShopSample.Migrations
                     b.Property<DateTime>("ProductDetailModificationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProductDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ProductModificationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ProductSkuId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ProductTypeUniqueName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductUniqueName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("SkuDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalDiscount")
@@ -231,7 +223,7 @@ namespace EShopSample.Migrations
                     b.Property<decimal>("ActualPaymentAmount")
                         .HasColumnType("decimal(20,8)");
 
-                    b.Property<DateTime?>("CanceledTime")
+                    b.Property<DateTime?>("CancelledTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CompletionTime")
@@ -240,8 +232,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -392,7 +383,7 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CanceledTime")
+                    b.Property<DateTime?>("CancelledTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CompletedTime")
@@ -401,8 +392,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -473,156 +463,6 @@ namespace EShopSample.Migrations
                     b.ToTable("EShopPaymentsRefunds");
                 });
 
-            modelBuilder.Entity("EasyAbp.EShop.Plugins.Baskets.BasketItems.BasketItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BasketName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Currency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Inventory")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsInvalid")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnName("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnName("LastModifierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("MediaResources")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductSkuId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ProductUniqueName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SkuDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("StoreId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("TotalDiscount")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("EShopPluginsBasketsBasketItems");
-                });
-
-            modelBuilder.Entity("EasyAbp.EShop.Plugins.Baskets.ProductUpdates.ProductUpdate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnName("DeleterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnName("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnName("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnName("LastModifierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductSkuId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductSkuId");
-
-                    b.ToTable("EShopPluginsBasketsProductUpdates");
-                });
-
             modelBuilder.Entity("EasyAbp.EShop.Products.Categories.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -635,8 +475,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -694,16 +533,9 @@ namespace EShopSample.Migrations
                         .HasColumnName("TenantId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UniqueName")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
-
-                    b.HasIndex("UniqueName")
-                        .IsUnique()
-                        .HasFilter("[UniqueName] IS NOT NULL");
 
                     b.ToTable("EShopProductsCategories");
                 });
@@ -720,8 +552,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -767,8 +598,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties")
@@ -801,8 +631,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -855,8 +684,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties")
@@ -880,71 +708,6 @@ namespace EShopSample.Migrations
                     b.ToTable("EShopProductsProductHistories");
                 });
 
-            modelBuilder.Entity("EasyAbp.EShop.Products.ProductInventories.ProductInventory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnName("DeleterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnName("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Inventory")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnName("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnName("LastModifierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductSkuId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("Sold")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductSkuId");
-
-                    b.ToTable("EShopProductsProductInventories");
-                });
-
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductStores.ProductStore", b =>
                 {
                     b.Property<Guid>("Id")
@@ -954,8 +717,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -1071,8 +833,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -1117,7 +878,7 @@ namespace EShopSample.Migrations
                     b.Property<int>("MultiTenancySide")
                         .HasColumnType("int");
 
-                    b.Property<string>("UniqueName")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -1131,11 +892,13 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -1198,17 +961,7 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("ProductTypeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("SpecifiedInventoryProviderName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UniqueName")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UniqueName")
-                        .IsUnique()
-                        .HasFilter("[UniqueName] IS NOT NULL");
 
                     b.ToTable("EShopProductsProducts");
                 });
@@ -1329,6 +1082,9 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
                         .HasColumnType("datetime2");
@@ -1348,6 +1104,9 @@ namespace EShopSample.Migrations
                         .HasColumnName("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Inventory")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("IsDeleted")
@@ -1361,12 +1120,6 @@ namespace EShopSample.Migrations
                     b.Property<Guid?>("LastModifierId")
                         .HasColumnName("LastModifierId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("MediaResources")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrderMaxQuantity")
                         .HasColumnType("int");
@@ -1389,8 +1142,8 @@ namespace EShopSample.Migrations
                     b.Property<string>("SerializedAttributeOptionIds")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SpecifiedInventoryProviderName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Sold")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1490,8 +1243,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -1548,7 +1300,7 @@ namespace EShopSample.Migrations
                     b.Property<decimal>("ActualPaymentAmount")
                         .HasColumnType("decimal(18,6)");
 
-                    b.Property<DateTime?>("CanceledTime")
+                    b.Property<DateTime?>("CancelledTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CompletionTime")
@@ -1557,8 +1309,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -1706,7 +1457,7 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CanceledTime")
+                    b.Property<DateTime?>("CancelledTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CompletedTime")
@@ -1715,8 +1466,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -1809,8 +1559,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CouponCount")
                         .HasColumnType("int");
@@ -1922,8 +1671,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CouponIds")
                         .HasColumnType("nvarchar(max)");
@@ -2056,8 +1804,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CorrelationId")
                         .HasColumnName("CorrelationId")
@@ -2278,8 +2025,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -2366,9 +2112,10 @@ namespace EShopSample.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .IsRequired()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(256)")
@@ -2413,9 +2160,10 @@ namespace EShopSample.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .IsRequired()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties")
@@ -2497,8 +2245,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -2771,8 +2518,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -2866,8 +2612,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -3078,8 +2823,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ConsentLifetime")
                         .HasColumnType("int");
@@ -3352,8 +3096,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -3417,8 +3160,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -3479,8 +3221,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")
@@ -3621,8 +3362,7 @@ namespace EShopSample.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnName("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnName("CreationTime")

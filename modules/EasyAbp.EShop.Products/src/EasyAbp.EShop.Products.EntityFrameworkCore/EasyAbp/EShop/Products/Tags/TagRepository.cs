@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Products.Tags
         {
             return includeDetails
                 ? await WithDetails().Where(x => x.StoreId == storeId).ToListAsync(GetCancellationToken(cancellationToken))
-                : await DbSet.Where(x => x.StoreId == storeId).ToListAsync(GetCancellationToken(cancellationToken));
+                : await GetQueryable().Where(x => x.StoreId == storeId).ToListAsync(GetCancellationToken(cancellationToken));
         }
 
         [Obsolete("Should use GetListByAsync(Guid storeId, bool includeDetails, CancellationToken cancellationToken)")]
