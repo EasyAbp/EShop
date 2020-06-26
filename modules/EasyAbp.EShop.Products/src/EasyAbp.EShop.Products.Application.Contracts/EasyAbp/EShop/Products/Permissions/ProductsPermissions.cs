@@ -20,6 +20,14 @@ namespace EasyAbp.EShop.Products.Permissions
             public const string Create = Default + ".Create";
         }
 
+        public class Tags
+        {
+            public const string Default = GroupName + ".Tag";
+            public const string Delete = Default + ".Delete";
+            public const string Update = Default + ".Update";
+            public const string Create = Default + ".Create";
+        }
+
         public class Products
         {
             public const string Default = GroupName + ".Product";

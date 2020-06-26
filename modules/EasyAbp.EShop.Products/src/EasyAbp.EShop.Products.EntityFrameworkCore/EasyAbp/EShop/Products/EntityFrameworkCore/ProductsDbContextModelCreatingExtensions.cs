@@ -8,6 +8,8 @@ using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Products;
 using System;
 using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductTags;
+using EasyAbp.EShop.Products.Tags;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -97,11 +99,30 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.HasIndex(x => x.UniqueName).IsUnique();
             });
 
+            builder.Entity<Tag>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Tags", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+
+                b.HasIndex(x => x.StoreId);
+            });
+
             builder.Entity<ProductType>(b =>
             {
                 b.ToTable(options.TablePrefix + "ProductTypes", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+            });
+
+            builder.Entity<ProductTag>(b =>
+            {
+                b.ToTable(options.TablePrefix + "ProductTags", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+
+                b.HasIndex(x => x.TagId);
+                b.HasIndex(x => x.ProductId);
             });
 
             builder.Entity<ProductCategory>(b =>

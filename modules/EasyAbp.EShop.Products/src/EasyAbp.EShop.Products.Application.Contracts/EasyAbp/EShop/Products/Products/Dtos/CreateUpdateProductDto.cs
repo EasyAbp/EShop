@@ -22,6 +22,9 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         [DisplayName("ProductCategory")]
         public ICollection<Guid> CategoryIds { get; set; }
+
+        [DisplayName("ProductTag")]
+        public ICollection<Guid> TagIds { get; set; }
         
         [DisplayName("ProductUniqueName")]
         public string UniqueName { get; set; }

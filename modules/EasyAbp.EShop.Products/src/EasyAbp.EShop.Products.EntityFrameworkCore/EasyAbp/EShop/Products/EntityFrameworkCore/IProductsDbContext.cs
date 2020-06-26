@@ -10,6 +10,8 @@ using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductDetailHistories;
 using EasyAbp.EShop.Products.ProductInventories;
+using EasyAbp.EShop.Products.ProductTags;
+using EasyAbp.EShop.Products.Tags;
 
 namespace EasyAbp.EShop.Products.EntityFrameworkCore
 {
@@ -25,7 +27,9 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         DbSet<ProductAttributeOption> ProductAttributeOptions { get; set; }
         DbSet<ProductSku> ProductSkus { get; set; }
         DbSet<Category> Categories { get; set; }
+        DbSet<Tag> Tags { get; set; }
         DbSet<ProductType> ProductTypes { get; set; }
+        DbSet<ProductTag> ProductTags { get; set; }
         DbSet<ProductCategory> ProductCategories { get; set; }
         DbSet<ProductStore> ProductStores { get; set; }
         DbSet<ProductHistory> ProductHistories { get; set; }
