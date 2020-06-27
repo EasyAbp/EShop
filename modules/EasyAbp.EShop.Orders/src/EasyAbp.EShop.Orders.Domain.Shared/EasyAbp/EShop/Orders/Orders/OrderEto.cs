@@ -36,7 +36,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public DateTime? CompletionTime { get; set; }
 
-        public DateTime? CancelledTime { get; set; }
+        public DateTime? CanceledTime { get; set; }
 
         public List<OrderLineEto> OrderLines { get; set; }
     }

@@ -34,7 +34,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         public virtual DateTime? CompletedTime { get; protected set; }
         
-        public virtual DateTime? CancelledTime { get; protected set; }
+        public virtual DateTime? CanceledTime { get; protected set; }
 
         #endregion
         

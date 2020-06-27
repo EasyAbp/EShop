@@ -26,7 +26,7 @@ namespace EasyAbp.EShop.Payments.Payments.Dtos
 
         public DateTime? CompletionTime { get; set; }
         
-        public DateTime? CancelledTime { get; set; }
+        public DateTime? CanceledTime { get; set; }
 
         public List<PaymentItemDto> PaymentItems { get; set; }
     }

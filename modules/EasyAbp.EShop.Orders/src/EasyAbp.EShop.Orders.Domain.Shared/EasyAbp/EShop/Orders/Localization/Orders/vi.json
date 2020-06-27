@@ -16,7 +16,7 @@
     "OrderStaffRemark": "OrderStaffRemark",
     "OrderPaidTime": "OrderPaidTime",
     "OrderCompletionTime": "OrderCompletionTime",
-    "OrderCancelledTime": "OrderCancelledTime",
+    "OrderCanceledTime": "OrderCanceledTime",
     "OrderLine": "OrderLine",
     "OrderLineProductId": "OrderLineProductId",
     "OrderLineProductSkuId": "OrderLineProductSkuId",

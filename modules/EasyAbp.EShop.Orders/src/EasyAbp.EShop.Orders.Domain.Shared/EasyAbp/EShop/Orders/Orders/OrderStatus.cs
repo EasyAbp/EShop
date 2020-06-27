@@ -8,6 +8,6 @@ namespace EasyAbp.EShop.Orders.Orders
         Pending = 1,
         Processing = 2,
         Completed = 4,
-        Cancelled = 8
+        Canceled = 8
     }
 }

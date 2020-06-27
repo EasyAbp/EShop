@@ -42,7 +42,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var payment = eventData.Payment;
             
-            if (!payment.CompletionTime.HasValue || payment.CancelledTime.HasValue)
+            if (!payment.CompletionTime.HasValue || payment.CanceledTime.HasValue)
             {
                 return;
             }

@@ -39,7 +39,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
         public virtual DateTime? CompletionTime { get; protected set; }
         
-        public virtual DateTime? CancelledTime { get; protected set; }
+        public virtual DateTime? CanceledTime { get; protected set; }
         
         public virtual List<PaymentItem> PaymentItems { get; protected set; }
         
