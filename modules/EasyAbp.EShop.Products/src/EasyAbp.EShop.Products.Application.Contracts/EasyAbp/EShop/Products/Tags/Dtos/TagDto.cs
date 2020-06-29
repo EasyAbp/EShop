@@ -1,10 +1,9 @@
 ﻿using System;
-using EasyAbp.Abp.Trees.Dtos;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Tags.Dtos
 {
-    public class TagDto : ExtensibleFullAuditedEntityDto<Guid>, ITreeDto
+    public class TagDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         public Guid StoreId { get; set; }
         
