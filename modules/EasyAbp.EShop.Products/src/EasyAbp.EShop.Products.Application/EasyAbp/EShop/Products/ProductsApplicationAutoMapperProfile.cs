@@ -14,6 +14,10 @@ using EasyAbp.EShop.Products.ProductDetailHistories;
 using EasyAbp.EShop.Products.ProductDetailHistories.Dtos;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
+using EasyAbp.EShop.Products.ProductTags;
+using EasyAbp.EShop.Products.ProductTags.Dtos;
+using EasyAbp.EShop.Products.Tags;
+using EasyAbp.EShop.Products.Tags.Dtos;
 using Volo.Abp.AutoMapper;
 using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.ProductInventories.Dtos;
@@ -68,6 +72,10 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
             CreateMap<ProductInventory, ProductInventoryDto>();
+            CreateMap<CreateTagDto, TagDto>(MemberList.Source);
+            CreateMap<UpdateTagDto, TagDto>(MemberList.Source);
+            CreateMap<Tag, TagDto>();
+            CreateMap<ProductTag, ProductTagDto>();
         }
     }
 }
