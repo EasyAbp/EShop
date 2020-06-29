@@ -9,7 +9,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace EasyAbp.EShop.Products.ProductTags
 {
-    class ProductTagAppService : CrudAppService<ProductTag, ProductTagDto, Guid, GetProductTagListDto, object, object>,
+    public class ProductTagAppService : CrudAppService<ProductTag, ProductTagDto, Guid, GetProductTagListDto, object, object>,
         IProductTagAppService
     {
         public ProductTagAppService(IRepository<ProductTag, Guid> repository) : base(repository)
