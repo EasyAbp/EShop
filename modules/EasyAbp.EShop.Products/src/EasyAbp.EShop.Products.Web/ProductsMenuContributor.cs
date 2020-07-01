@@ -2,16 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using EasyAbp.EShop.Products.Localization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using EasyAbp.EShop.Products.Localization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Stores.Stores;
-using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.UI.Navigation;
 
 namespace EasyAbp.EShop.Products.Web
