@@ -10,7 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Baskets.Application\EasyAbp.EShop.Baskets.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Baskets.Domain.Tests\EasyAbp.EShop.Baskets.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
   </ItemGroup>
 
 </Project>
