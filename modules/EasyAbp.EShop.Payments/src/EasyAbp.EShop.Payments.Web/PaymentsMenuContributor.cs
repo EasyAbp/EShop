@@ -1,22 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using EasyAbp.EShop.Payments.Localization;
-using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EShop.Payments.Authorization;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Payments.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using EasyAbp.EShop.Payments.Localization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using EasyAbp.EShop.Payments.Localization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using EasyAbp.EShop.Payments.Localization;
 using EasyAbp.EShop.Stores.Stores;
-using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.UI.Navigation;
 
 namespace EasyAbp.EShop.Payments.Web
