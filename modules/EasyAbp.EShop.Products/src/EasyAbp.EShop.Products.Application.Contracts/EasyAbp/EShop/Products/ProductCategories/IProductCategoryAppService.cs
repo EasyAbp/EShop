@@ -6,12 +6,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Products.ProductCategories
 {
     public interface IProductCategoryAppService :
-        ICrudAppService< 
+        IReadOnlyAppService< 
             ProductCategoryDto, 
             Guid, 
-            GetProductCategoryListDto,
-            object,
-            object>
+            GetProductCategoryListDto>
     {
 
     }

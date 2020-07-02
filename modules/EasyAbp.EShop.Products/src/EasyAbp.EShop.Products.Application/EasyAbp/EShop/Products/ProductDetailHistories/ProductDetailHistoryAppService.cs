@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.ProductDetailHistories
 {
-    public class ProductDetailHistoryAppService : CrudAppService<ProductDetailHistory, ProductDetailHistoryDto, Guid, GetProductDetailHistoryListDto, object, object>,
+    public class ProductDetailHistoryAppService : ReadOnlyAppService<ProductDetailHistory, ProductDetailHistoryDto, Guid, GetProductDetailHistoryListDto>,
         IProductDetailHistoryAppService
     {
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
@@ -30,24 +30,6 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories
             await CheckGetPolicyAsync();
             
             return MapToGetOutputDto(await _repository.GetAsync(productId, modificationTime));
-        }
-
-        [RemoteService(false)]
-        public override Task<ProductDetailHistoryDto> CreateAsync(object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task<ProductDetailHistoryDto> UpdateAsync(Guid id, object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task DeleteAsync(Guid id)
-        {
-            throw new NotSupportedException();
         }
     }
 }

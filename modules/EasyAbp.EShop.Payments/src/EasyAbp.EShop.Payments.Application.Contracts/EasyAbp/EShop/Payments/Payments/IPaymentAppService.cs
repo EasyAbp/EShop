@@ -7,12 +7,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Payments.Payments
 {
     public interface IPaymentAppService :
-        ICrudAppService< 
+        IReadOnlyAppService< 
             PaymentDto, 
             Guid, 
-            GetPaymentListDto,
-            object,
-            object>
+            GetPaymentListDto>
     {
         Task CreateAsync(CreatePaymentDto input);
     }

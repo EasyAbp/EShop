@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Authorization;
-using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +27,6 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
-        private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
@@ -37,7 +35,6 @@ namespace EasyAbp.EShop.Products.Products
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
-            IProductCategoryRepository productCategoryRepository,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
@@ -45,7 +42,6 @@ namespace EasyAbp.EShop.Products.Products
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
-            _productCategoryRepository = productCategoryRepository;
             _repository = repository;
         }
 
@@ -250,12 +246,12 @@ namespace EasyAbp.EShop.Products.Products
                 query = query.Where(x => x.IsPublished);
             }
 
-            var totalCount = await AsyncQueryableExecuter.CountAsync(query);
+            var totalCount = await AsyncExecuter.CountAsync(query);
 
             query = ApplySorting(query, input);
             query = ApplyPaging(query, input);
 
-            var products = await AsyncQueryableExecuter.ToListAsync(query);
+            var products = await AsyncExecuter.ToListAsync(query);
 
             var items = new List<ProductDto>();
             

@@ -13,7 +13,7 @@ using Volo.Abp.Users;
 namespace EasyAbp.EShop.Payments.Refunds
 {
     [Authorize]
-    public class RefundAppService : CrudAppService<Refund, RefundDto, Guid, GetRefundListDto, object, object>,
+    public class RefundAppService : ReadOnlyAppService<Refund, RefundDto, Guid, GetRefundListDto>,
         IRefundAppService
     {
         protected override string GetPolicyName { get; set; } = PaymentsPermissions.Refunds.Default;
@@ -75,24 +75,6 @@ namespace EasyAbp.EShop.Payments.Refunds
             }
 
             return await base.GetListAsync(input);
-        }
-
-        [RemoteService(false)]
-        public override Task<RefundDto> CreateAsync(object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task<RefundDto> UpdateAsync(Guid id, object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task DeleteAsync(Guid id)
-        {
-            throw new NotSupportedException();
         }
     }
 }

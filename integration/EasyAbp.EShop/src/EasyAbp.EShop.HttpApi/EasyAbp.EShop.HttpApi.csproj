@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="2.9.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="3.0.0" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.HttpApi\EasyAbp.EShop.Baskets.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.HttpApi\EasyAbp.EShop.Orders.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.HttpApi\EasyAbp.EShop.Payments.HttpApi.csproj" />

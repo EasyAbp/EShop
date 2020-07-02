@@ -15,7 +15,7 @@ using Volo.Abp.Users;
 namespace EasyAbp.EShop.Orders.Orders
 {
     [Authorize]
-    public class OrderAppService : CrudAppService<Order, OrderDto, Guid, GetOrderListDto, CreateOrderDto, CreateOrderDto>,
+    public class OrderAppService : CrudAppService<Order, OrderDto, Guid, GetOrderListDto, CreateOrderDto>,
         IOrderAppService
     {
         protected override string CreatePolicyName { get; set; } = OrdersPermissions.Orders.Create;
@@ -125,12 +125,6 @@ namespace EasyAbp.EShop.Orders.Orders
             }
 
             return dict;
-        }
-
-        [RemoteService(false)]
-        public override Task<OrderDto> UpdateAsync(Guid id, CreateOrderDto input)
-        {
-            throw new NotSupportedException();
         }
 
         [RemoteService(false)]

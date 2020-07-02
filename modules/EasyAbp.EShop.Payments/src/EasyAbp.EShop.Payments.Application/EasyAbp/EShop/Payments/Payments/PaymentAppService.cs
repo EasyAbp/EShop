@@ -18,7 +18,7 @@ using Volo.Abp.Users;
 namespace EasyAbp.EShop.Payments.Payments
 {
     [Authorize]
-    public class PaymentAppService : CrudAppService<Payment, PaymentDto, Guid, GetPaymentListDto, object, object>,
+    public class PaymentAppService : ReadOnlyAppService<Payment, PaymentDto, Guid, GetPaymentListDto>,
         IPaymentAppService
     {
         protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
@@ -82,12 +82,6 @@ namespace EasyAbp.EShop.Payments.Payments
 
             return await base.GetListAsync(input);
         }
-
-        [RemoteService(false)]
-        public override Task<PaymentDto> CreateAsync(object input)
-        {
-            throw new NotSupportedException();
-        }
         
         [Authorize(PaymentsPermissions.Payments.Create)]
         public async Task CreateAsync(CreatePaymentDto input)
@@ -135,18 +129,6 @@ namespace EasyAbp.EShop.Payments.Payments
                     OriginalPaymentAmount = order.TotalPrice
                 }).ToList()
             });
-        }
-
-        [RemoteService(false)]
-        public override Task<PaymentDto> UpdateAsync(Guid id, object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task DeleteAsync(Guid id)
-        {
-            throw new NotSupportedException();
         }
     }
 }

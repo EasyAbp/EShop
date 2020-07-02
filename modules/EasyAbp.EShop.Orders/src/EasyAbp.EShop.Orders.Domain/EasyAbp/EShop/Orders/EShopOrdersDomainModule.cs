@@ -2,6 +2,7 @@
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Modularity;
 
@@ -23,9 +24,11 @@ namespace EasyAbp.EShop.Orders
                 options.AddProfile<OrdersDomainAutoMapperProfile>(validate: true);
             });
 
-            Configure<AbpDistributedEventBusOptions>(options =>
+            Configure<AbpDistributedEntityEventOptions>(options =>
             {
                 options.EtoMappings.Add<Order, OrderEto>(typeof(EShopOrdersDomainModule));
+                
+                options.AutoEventSelectors.Add<Order>();
             });
         }
     }

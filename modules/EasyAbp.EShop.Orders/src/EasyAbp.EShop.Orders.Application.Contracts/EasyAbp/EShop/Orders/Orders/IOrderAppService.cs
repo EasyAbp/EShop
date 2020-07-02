@@ -11,7 +11,6 @@ namespace EasyAbp.EShop.Orders.Orders
             OrderDto, 
             Guid, 
             GetOrderListDto,
-            CreateOrderDto,
             CreateOrderDto>
     {
         Task<OrderDto> GetByOrderNumberAsync(string orderNumber);

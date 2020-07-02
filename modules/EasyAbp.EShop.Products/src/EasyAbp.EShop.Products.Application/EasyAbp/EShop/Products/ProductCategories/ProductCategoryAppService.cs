@@ -9,7 +9,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.ProductCategories
 {
-    public class ProductCategoryAppService : CrudAppService<ProductCategory, ProductCategoryDto, Guid, GetProductCategoryListDto, object, object>,
+    public class ProductCategoryAppService : ReadOnlyAppService<ProductCategory, ProductCategoryDto, Guid, GetProductCategoryListDto>,
         IProductCategoryAppService
     {
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
@@ -40,24 +40,6 @@ namespace EasyAbp.EShop.Products.ProductCategories
 
         [RemoteService(false)]
         public override Task<ProductCategoryDto> GetAsync(Guid id)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task<ProductCategoryDto> CreateAsync(object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task<ProductCategoryDto> UpdateAsync(Guid id, object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task DeleteAsync(Guid id)
         {
             throw new NotSupportedException();
         }

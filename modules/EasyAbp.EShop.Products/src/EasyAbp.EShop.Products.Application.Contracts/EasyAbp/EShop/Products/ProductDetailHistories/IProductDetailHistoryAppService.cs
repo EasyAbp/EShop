@@ -7,12 +7,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Products.ProductDetailHistories
 {
     public interface IProductDetailHistoryAppService :
-        ICrudAppService< 
+        IReadOnlyAppService< 
             ProductDetailHistoryDto, 
             Guid, 
-            GetProductDetailHistoryListDto,
-            object,
-            object>
+            GetProductDetailHistoryListDto>
     {
         Task<ProductDetailHistoryDto> GetByTimeAsync(Guid productId, DateTime modificationTime);
     }
