@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="3.0.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="3.0.1" />
     <ProjectReference Include="..\EasyAbp.EShop.Products.Application.Contracts\EasyAbp.EShop.Products.Application.Contracts.csproj" />
   </ItemGroup>
 
