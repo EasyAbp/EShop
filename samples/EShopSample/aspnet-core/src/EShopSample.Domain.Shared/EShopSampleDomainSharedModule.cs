@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop;
+using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.WeChatPay;
 using EShopSample.Localization;
@@ -27,6 +28,7 @@ namespace EShopSample
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpTenantManagementDomainSharedModule),
         typeof(EShopDomainSharedModule),
+        typeof(EShopPluginsBasketsDomainSharedModule),
         typeof(PaymentServiceDomainSharedModule),
         typeof(PaymentServiceWeChatPayDomainSharedModule)
     )]

@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop;
+using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.Payments;
 using EasyAbp.PaymentService.WeChatPay;
@@ -32,6 +33,7 @@ namespace EShopSample
         typeof(AbpSettingManagementDomainModule),
         typeof(AbpTenantManagementDomainModule),
         typeof(EShopDomainModule),
+        typeof(EShopPluginsBasketsDomainModule),
         typeof(PaymentServiceDomainModule),
         typeof(PaymentServiceWeChatPayDomainModule)
     )]

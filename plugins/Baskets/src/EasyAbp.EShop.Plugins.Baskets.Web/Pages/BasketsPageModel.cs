@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages
         protected BasketsPageModel()
         {
             LocalizationResourceType = typeof(BasketsResource);
-            ObjectMapperContext = typeof(BasketsWebModule);
+            ObjectMapperContext = typeof(EShopPluginsBasketsWebModule);
         }
     }
 }

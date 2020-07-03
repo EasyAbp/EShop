@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\common.props" />
+  <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Plugins.Baskets</RootNamespace>
+    <RootNamespace />
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
@@ -17,8 +17,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Baskets\*.json" />
-    <Content Remove="Localization\Baskets\*.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Baskets\Localization\*.json" />
+    <Content Remove="EasyAbp\EShop\Plugins\Baskets\Localization\*.json" />
   </ItemGroup>
 
 </Project>

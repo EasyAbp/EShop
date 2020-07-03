@@ -3,7 +3,7 @@
 namespace EasyAbp.EShop.Plugins.Baskets
 {
     [DependsOn(
-        typeof(BasketsApplicationModule),
+        typeof(EShopPluginsBasketsApplicationModule),
         typeof(BasketsDomainTestModule)
         )]
     public class BasketsApplicationTestModule : AbpModule

@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore
 {
     [DependsOn(
         typeof(BasketsTestBaseModule),
-        typeof(BasketsEntityFrameworkCoreModule),
+        typeof(EShopPluginsBasketsEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreSqliteModule)
         )]
     public class BasketsEntityFrameworkCoreTestModule : AbpModule

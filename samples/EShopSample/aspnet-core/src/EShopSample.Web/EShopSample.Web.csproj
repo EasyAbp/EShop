@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.Web\EasyAbp.EShop.Web.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Web\EasyAbp.EShop.Plugins.Baskets.Web.csproj" />
     <ProjectReference Include="..\EShopSample.Application\EShopSample.Application.csproj" />
     <ProjectReference Include="..\EShopSample.HttpApi\EShopSample.HttpApi.csproj" />
     <ProjectReference Include="..\EShopSample.EntityFrameworkCore.DbMigrations\EShopSample.EntityFrameworkCore.DbMigrations.csproj" />

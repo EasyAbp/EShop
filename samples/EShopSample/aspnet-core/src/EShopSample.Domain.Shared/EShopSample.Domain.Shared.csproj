@@ -19,6 +19,7 @@
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="3.0.1" />
     <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="3.0.1" />
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.Domain.Shared\EasyAbp.EShop.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Domain.Shared\EasyAbp.EShop.Plugins.Baskets.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

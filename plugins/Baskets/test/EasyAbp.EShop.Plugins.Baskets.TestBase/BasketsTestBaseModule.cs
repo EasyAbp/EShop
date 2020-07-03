@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Plugins.Baskets
         typeof(AbpAutofacModule),
         typeof(AbpTestBaseModule),
         typeof(AbpAuthorizationModule),
-        typeof(BasketsDomainModule)
+        typeof(EShopPluginsBasketsDomainModule)
         )]
     public class BasketsTestBaseModule : AbpModule
     {

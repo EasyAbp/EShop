@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.Application.Contracts\EasyAbp.EShop.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Application.Contracts\EasyAbp.EShop.Plugins.Baskets.Application.Contracts.csproj" />
     <ProjectReference Include="..\EShopSample.Domain.Shared\EShopSample.Domain.Shared.csproj" />
   </ItemGroup>
 

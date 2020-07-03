@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore;
 using EasyAbp.PaymentService.EntityFrameworkCore;
 using EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -45,8 +46,11 @@ namespace EShopSample.EntityFrameworkCore
             /* Configure your own tables/entities inside the ConfigureEShopSample method */
 
             builder.ConfigureEShopSample();
+            
             builder.ConfigureEShop();
             
+            builder.ConfigurePluginsBaskets();
+
             builder.ConfigurePaymentService();
             builder.ConfigurePaymentServiceWeChatPay();
         }

@@ -2,7 +2,7 @@
 {
     public class BasketsMenus
     {
-        private const string Prefix = "Baskets";
+        private const string Prefix = "EasyAbp.EShop.Plugins.Baskets";
 
         //Add your menu items here...
         //public const string Home = Prefix + ".MyNewMenuItem";

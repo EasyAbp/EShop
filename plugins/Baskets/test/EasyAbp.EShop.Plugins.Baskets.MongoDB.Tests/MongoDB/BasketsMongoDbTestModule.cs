@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.MongoDB
 {
     [DependsOn(
         typeof(BasketsTestBaseModule),
-        typeof(BasketsMongoDbModule)
+        typeof(EShopPluginsBasketsMongoDbModule)
         )]
     public class BasketsMongoDbTestModule : AbpModule
     {

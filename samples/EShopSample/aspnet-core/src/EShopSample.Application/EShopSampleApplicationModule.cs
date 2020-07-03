@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop;
+using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.WeChatPay;
 using Volo.Abp.Account;
@@ -20,9 +21,10 @@ namespace EShopSample
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
         typeof(EShopApplicationModule),
+        typeof(EShopPluginsBasketsApplicationModule),
         typeof(PaymentServiceApplicationModule),
         typeof(PaymentServiceWeChatPayApplicationModule)
-        )]
+    )]
     public class EShopSampleApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
