@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Baskets.MongoDB;
+﻿using EasyAbp.EShop.Plugins.MongoDB;
 using EasyAbp.EShop.Orders.MongoDB;
 using EasyAbp.EShop.Payments.MongoDB;
 using EasyAbp.EShop.Products.MongoDB;
@@ -12,9 +12,9 @@ namespace EasyAbp.EShop.MongoDB
     [DependsOn(
         typeof(EShopDomainModule),
         typeof(AbpMongoDbModule),
-        typeof(EShopBasketsMongoDbModule),
         typeof(EShopOrdersMongoDbModule),
         typeof(EShopPaymentsMongoDbModule),
+        typeof(EShopPluginsMongoDbModule),
         typeof(EShopProductsMongoDbModule),
         typeof(EShopStoresMongoDbModule)
     )]

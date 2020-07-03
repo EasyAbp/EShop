@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Baskets.EntityFrameworkCore;
+﻿using EasyAbp.EShop.Plugins.EntityFrameworkCore;
 using EasyAbp.EShop.Orders.EntityFrameworkCore;
 using EasyAbp.EShop.Payments.EntityFrameworkCore;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
@@ -12,9 +12,9 @@ namespace EasyAbp.EShop.EntityFrameworkCore
     [DependsOn(
         typeof(EShopDomainModule),
         typeof(AbpEntityFrameworkCoreModule),
-        typeof(EShopBasketsEntityFrameworkCoreModule),
         typeof(EShopOrdersEntityFrameworkCoreModule),
         typeof(EShopPaymentsEntityFrameworkCoreModule),
+        typeof(EShopPluginsEntityFrameworkCoreModule),
         typeof(EShopProductsEntityFrameworkCoreModule),
         typeof(EShopStoresEntityFrameworkCoreModule)
     )]

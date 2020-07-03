@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Baskets;
+﻿using EasyAbp.EShop.Plugins;
 using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Localization;
@@ -15,9 +15,9 @@ namespace EasyAbp.EShop
 {
     [DependsOn(
         typeof(AbpValidationModule),
-        typeof(EShopBasketsDomainSharedModule),
         typeof(EShopOrdersDomainSharedModule),
         typeof(EShopPaymentsDomainSharedModule),
+        typeof(EShopPluginsDomainSharedModule),
         typeof(EShopProductsDomainSharedModule),
         typeof(EShopStoresDomainSharedModule)
     )]

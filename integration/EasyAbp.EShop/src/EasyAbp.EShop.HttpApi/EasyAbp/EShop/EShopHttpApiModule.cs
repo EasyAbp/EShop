@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Baskets;
+﻿using EasyAbp.EShop.Plugins;
 using Localization.Resources.AbpUi;
 using EasyAbp.EShop.Localization;
 using EasyAbp.EShop.Orders;
@@ -15,9 +15,9 @@ namespace EasyAbp.EShop
     [DependsOn(
         typeof(EShopApplicationContractsModule),
         typeof(AbpAspNetCoreMvcModule),
-        typeof(EShopBasketsHttpApiModule),
         typeof(EShopOrdersHttpApiModule),
         typeof(EShopPaymentsHttpApiModule),
+        typeof(EShopPluginsHttpApiModule),
         typeof(EShopProductsHttpApiModule),
         typeof(EShopStoresHttpApiModule)
     )]

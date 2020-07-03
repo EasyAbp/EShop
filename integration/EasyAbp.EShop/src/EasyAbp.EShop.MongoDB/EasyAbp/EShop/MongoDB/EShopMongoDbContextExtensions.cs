@@ -1,5 +1,5 @@
 ﻿using System;
-using EasyAbp.EShop.Baskets.MongoDB;
+using EasyAbp.EShop.Plugins.MongoDB;
 using EasyAbp.EShop.Orders.MongoDB;
 using EasyAbp.EShop.Payments.MongoDB;
 using EasyAbp.EShop.Products.MongoDB;
@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.MongoDB
 
             optionsAction?.Invoke(options);
             
-            builder.ConfigureEShopBaskets();
+            builder.ConfigureEShopPlugins();
             builder.ConfigureEShopOrders();
             builder.ConfigureEShopPayments();
             builder.ConfigureEShopProducts();

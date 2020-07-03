@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Baskets;
+﻿using EasyAbp.EShop.Plugins;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payments;
 using EasyAbp.EShop.Products;
@@ -15,9 +15,9 @@ namespace EasyAbp.EShop
         typeof(EShopApplicationContractsModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule),
-        typeof(EShopBasketsApplicationModule),
         typeof(EShopOrdersApplicationModule),
         typeof(EShopPaymentsApplicationModule),
+        typeof(EShopPluginsApplicationModule),
         typeof(EShopProductsApplicationModule),
         typeof(EShopStoresApplicationModule)
         )]

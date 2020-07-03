@@ -1,5 +1,5 @@
 ﻿using System;
-using EasyAbp.EShop.Baskets.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.EntityFrameworkCore;
 using EasyAbp.EShop.Orders.EntityFrameworkCore;
 using EasyAbp.EShop.Payments.EntityFrameworkCore;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
@@ -44,9 +44,9 @@ namespace EasyAbp.EShop.EntityFrameworkCore
             });
             */
 
-            builder.ConfigureEShopBaskets();
             builder.ConfigureEShopOrders();
             builder.ConfigureEShopPayments();
+            builder.ConfigureEShopPlugins();
             builder.ConfigureEShopProducts();
             builder.ConfigureEShopStores();
         }

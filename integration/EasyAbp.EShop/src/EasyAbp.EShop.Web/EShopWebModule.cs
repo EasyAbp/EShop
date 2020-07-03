@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Baskets.Web;
+﻿using EasyAbp.EShop.Plugins.Web;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using EasyAbp.EShop.Localization;
@@ -19,9 +19,9 @@ namespace EasyAbp.EShop.Web
         typeof(EShopHttpApiModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule),
-        typeof(EShopBasketsWebModule),
         typeof(EShopOrdersWebModule),
         typeof(EShopPaymentsWebModule),
+        typeof(EShopPluginsWebModule),
         typeof(EShopProductsWebModule),
         typeof(EShopStoresWebModule)
     )]

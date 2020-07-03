@@ -81,25 +81,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.MongoD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.Web", "..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web\EasyAbp.EShop.Stores.Web.csproj", "{20E6571D-9BAF-4BE7-B7CC-7F5F32D682F8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baskets", "Baskets", "{83C515D3-9811-4428-9401-17B1AF5406EF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{83C515D3-9811-4428-9401-17B1AF5406EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Application", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Application\EasyAbp.EShop.Baskets.Application.csproj", "{F11833F9-83D7-44C6-BE12-2402DFF85E54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Application", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Application\EasyAbp.EShop.Plugins.Application.csproj", "{F11833F9-83D7-44C6-BE12-2402DFF85E54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Application.Contracts", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Application.Contracts\EasyAbp.EShop.Baskets.Application.Contracts.csproj", "{911CAA20-A5CA-4FFC-B7F2-F5B5B485EACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Application.Contracts", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Application.Contracts\EasyAbp.EShop.Plugins.Application.Contracts.csproj", "{911CAA20-A5CA-4FFC-B7F2-F5B5B485EACA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Domain", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Domain\EasyAbp.EShop.Baskets.Domain.csproj", "{046AA12C-4DCF-43D2-990C-831D344039DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Domain", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Domain\EasyAbp.EShop.Plugins.Domain.csproj", "{046AA12C-4DCF-43D2-990C-831D344039DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Domain.Shared", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Domain.Shared\EasyAbp.EShop.Baskets.Domain.Shared.csproj", "{494B7797-6CFB-49D6-976A-4466FB8348E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Domain.Shared", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Domain.Shared\EasyAbp.EShop.Plugins.Domain.Shared.csproj", "{494B7797-6CFB-49D6-976A-4466FB8348E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.EntityFrameworkCore", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.EntityFrameworkCore\EasyAbp.EShop.Baskets.EntityFrameworkCore.csproj", "{8D53DAA3-A999-45AB-A349-0E917DF01ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.EntityFrameworkCore", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.EntityFrameworkCore\EasyAbp.EShop.Plugins.EntityFrameworkCore.csproj", "{8D53DAA3-A999-45AB-A349-0E917DF01ADC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.HttpApi", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.HttpApi\EasyAbp.EShop.Baskets.HttpApi.csproj", "{03E56BB2-AB95-4589-A6EF-EB8FB12D7EDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.HttpApi", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.HttpApi\EasyAbp.EShop.Plugins.HttpApi.csproj", "{03E56BB2-AB95-4589-A6EF-EB8FB12D7EDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.HttpApi.Client", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.HttpApi.Client\EasyAbp.EShop.Baskets.HttpApi.Client.csproj", "{6C54DD23-9F05-4FE1-B96C-BC5DC8260115}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.HttpApi.Client", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.HttpApi.Client\EasyAbp.EShop.Plugins.HttpApi.Client.csproj", "{6C54DD23-9F05-4FE1-B96C-BC5DC8260115}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.MongoDB", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.MongoDB\EasyAbp.EShop.Baskets.MongoDB.csproj", "{FB7E2381-138D-4675-AC9C-E7320B6DED8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.MongoDB", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.MongoDB\EasyAbp.EShop.Plugins.MongoDB.csproj", "{FB7E2381-138D-4675-AC9C-E7320B6DED8F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Web", "..\..\..\modules\EasyAbp.EShop.Baskets\src\EasyAbp.EShop.Baskets.Web\EasyAbp.EShop.Baskets.Web.csproj", "{4209B3D2-A337-4B18-BE1A-30557EEE402C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Web", "..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Web\EasyAbp.EShop.Plugins.Web.csproj", "{4209B3D2-A337-4B18-BE1A-30557EEE402C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{081297DF-C052-4468-9B0D-9094C7D7D427}"
 EndProject
@@ -145,17 +145,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE3E0AEA-37C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8E979EEC-F9B0-4167-9A68-757A87C6B6CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Application.Tests", "..\..\..\modules\EasyAbp.EShop.Baskets\test\EasyAbp.EShop.Baskets.Application.Tests\EasyAbp.EShop.Baskets.Application.Tests.csproj", "{57A12322-85F2-4166-A569-BA18EED3D9BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Application.Tests", "..\..\..\modules\EasyAbp.EShop.Plugins\test\EasyAbp.EShop.Plugins.Application.Tests\EasyAbp.EShop.Plugins.Application.Tests.csproj", "{57A12322-85F2-4166-A569-BA18EED3D9BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.Domain.Tests", "..\..\..\modules\EasyAbp.EShop.Baskets\test\EasyAbp.EShop.Baskets.Domain.Tests\EasyAbp.EShop.Baskets.Domain.Tests.csproj", "{4FABE9F3-78B0-4737-A4D1-90BCCFE4283A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Domain.Tests", "..\..\..\modules\EasyAbp.EShop.Plugins\test\EasyAbp.EShop.Plugins.Domain.Tests\EasyAbp.EShop.Plugins.Domain.Tests.csproj", "{4FABE9F3-78B0-4737-A4D1-90BCCFE4283A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.EntityFrameworkCore.Tests", "..\..\..\modules\EasyAbp.EShop.Baskets\test\EasyAbp.EShop.Baskets.EntityFrameworkCore.Tests\EasyAbp.EShop.Baskets.EntityFrameworkCore.Tests.csproj", "{40D7BD93-0022-4286-AF58-DA9A9062A819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.EntityFrameworkCore.Tests", "..\..\..\modules\EasyAbp.EShop.Plugins\test\EasyAbp.EShop.Plugins.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.EntityFrameworkCore.Tests.csproj", "{40D7BD93-0022-4286-AF58-DA9A9062A819}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.HttpApi.Client.ConsoleTestApp", "..\..\..\modules\EasyAbp.EShop.Baskets\test\EasyAbp.EShop.Baskets.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Baskets.HttpApi.Client.ConsoleTestApp.csproj", "{56C958AA-8C7A-4D3B-99C4-6924F5C84C67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.HttpApi.Client.ConsoleTestApp", "..\..\..\modules\EasyAbp.EShop.Plugins\test\EasyAbp.EShop.Plugins.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.HttpApi.Client.ConsoleTestApp.csproj", "{56C958AA-8C7A-4D3B-99C4-6924F5C84C67}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.MongoDB.Tests", "..\..\..\modules\EasyAbp.EShop.Baskets\test\EasyAbp.EShop.Baskets.MongoDB.Tests\EasyAbp.EShop.Baskets.MongoDB.Tests.csproj", "{E6BF4905-854D-4682-891B-2B945572F9EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.MongoDB.Tests", "..\..\..\modules\EasyAbp.EShop.Plugins\test\EasyAbp.EShop.Plugins.MongoDB.Tests\EasyAbp.EShop.Plugins.MongoDB.Tests.csproj", "{E6BF4905-854D-4682-891B-2B945572F9EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Baskets.TestBase", "..\..\..\modules\EasyAbp.EShop.Baskets\test\EasyAbp.EShop.Baskets.TestBase\EasyAbp.EShop.Baskets.TestBase.csproj", "{1AE2272F-1898-450E-B81C-F7BD779654D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.TestBase", "..\..\..\modules\EasyAbp.EShop.Plugins\test\EasyAbp.EShop.Plugins.TestBase\EasyAbp.EShop.Plugins.TestBase.csproj", "{1AE2272F-1898-450E-B81C-F7BD779654D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D6ECFB54-7735-40F5-BA10-F102AF7B5BE7}"
 EndProject
@@ -258,6 +258,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.MongoDB.Tests", "..\..\..\integration\EasyAbp.EShop\test\EasyAbp.EShop.MongoDB.Tests\EasyAbp.EShop.MongoDB.Tests.csproj", "{65B43722-08F5-4F0D-ADAE-E7C6768E59BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.TestBase", "..\..\..\integration\EasyAbp.EShop\test\EasyAbp.EShop.TestBase\EasyAbp.EShop.TestBase.csproj", "{45B6591E-6517-4F57-9AFA-F28AF880B725}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{94CC5A11-DA0F-413C-96CA-01DB0FC426E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baskets", "Baskets", "{C93BAB01-7D07-4C47-B19A-B91987D10F94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Coupons", "Coupons", "{6D9A736A-DE07-4517-A40A-B26D6ECD1A93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpressDelivery", "ExpressDelivery", "{04F47882-9E52-4555-A2DC-1A5164EA04DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -818,6 +826,10 @@ Global
 		{6ADE7CAF-260E-4E71-B4FA-E96819A0F43A} = {4995F694-3DE4-4678-BED4-3C5D8B5F0158}
 		{65B43722-08F5-4F0D-ADAE-E7C6768E59BC} = {4995F694-3DE4-4678-BED4-3C5D8B5F0158}
 		{45B6591E-6517-4F57-9AFA-F28AF880B725} = {4995F694-3DE4-4678-BED4-3C5D8B5F0158}
+		{F043A268-ED7C-452B-ADA1-6A62F00D9D79} = {7FA8569F-8D62-4C13-9C8A-98DADA1F09A0}
+		{C93BAB01-7D07-4C47-B19A-B91987D10F94} = {94CC5A11-DA0F-413C-96CA-01DB0FC426E0}
+		{6D9A736A-DE07-4517-A40A-B26D6ECD1A93} = {94CC5A11-DA0F-413C-96CA-01DB0FC426E0}
+		{04F47882-9E52-4555-A2DC-1A5164EA04DB} = {94CC5A11-DA0F-413C-96CA-01DB0FC426E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
