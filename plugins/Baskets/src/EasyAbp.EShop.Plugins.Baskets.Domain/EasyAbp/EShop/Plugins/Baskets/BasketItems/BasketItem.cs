@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         public virtual Guid? TenantId { get; protected set; }
         
         [NotNull]
-        public virtual string BasketLabel { get; protected set; }
+        public virtual string BasketName { get; protected set; }
         
         public virtual Guid UserId { get; protected set; }
         
