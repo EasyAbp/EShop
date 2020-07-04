@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class Product : FullAuditedAggregateRoot<Guid>
+    public class Product : FullAuditedAggregateRoot<Guid>, IProduct
     {
         public virtual Guid ProductTypeId { get; protected set; }
         
@@ -31,9 +31,9 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual bool IsHidden { get; protected set; }
         
-        public virtual ICollection<ProductAttribute> ProductAttributes { get; protected set; }
+        public virtual List<ProductAttribute> ProductAttributes { get; protected set; }
         
-        public virtual ICollection<ProductSku> ProductSkus { get; protected set; }
+        public virtual List<ProductSku> ProductSkus { get; protected set; }
 
         protected Product()
         {

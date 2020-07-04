@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.EShop.Plugins.Baskets.BasketItems;
+using EasyAbp.EShop.Plugins.Baskets.ProductUpdates;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -17,6 +19,8 @@ namespace EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
+                options.AddRepository<BasketItem, BasketItemRepository>();
+                options.AddRepository<ProductUpdate, ProductUpdateRepository>();
             });
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
@@ -18,21 +19,21 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
         private readonly ICurrentUser _currentUser;
-        private readonly IJsonSerializer _jsonSerializer;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
+        private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
 
         public NewOrderGenerator(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
             ICurrentUser currentUser,
-            IJsonSerializer jsonSerializer,
-            IOrderNumberGenerator orderNumberGenerator)
+            IOrderNumberGenerator orderNumberGenerator,
+            IProductSkuDescriptionProvider productSkuDescriptionProvider)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
             _currentUser = currentUser;
-            _jsonSerializer = jsonSerializer;
             _orderNumberGenerator = orderNumberGenerator;
+            _productSkuDescriptionProvider = productSkuDescriptionProvider;
         }
         
         public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
@@ -68,7 +69,7 @@ namespace EasyAbp.EShop.Orders.Orders
         protected virtual async Task<OrderLine> GenerateNewOrderLineAsync(CreateOrderLineDto input, Dictionary<Guid, ProductDto> productDict)
         {
             var product = productDict[input.ProductId];
-            var productSku = product.ProductSkus.Single(x => x.Id == input.ProductSkuId);
+            var productSku = product.GetSkuById(input.ProductSkuId);
 
             if (!input.Quantity.IsBetween(productSku.OrderMinQuantity, productSku.OrderMaxQuantity))
             {
@@ -82,7 +83,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 productModificationTime: product.LastModificationTime ?? product.CreationTime,
                 productDetailModificationTime: productSku.LastModificationTime ?? productSku.CreationTime,
                 productName: product.DisplayName,
-                skuDescription: await GenerateSkuDescriptionAsync(product, productSku),
+                skuDescription: await _productSkuDescriptionProvider.GenerateAsync(product, productSku),
                 mediaResources: product.MediaResources,
                 currency: productSku.Currency,
                 unitPrice: productSku.Price,
@@ -92,20 +93,6 @@ namespace EasyAbp.EShop.Orders.Orders
             );
         }
 
-        protected virtual Task<string> GenerateSkuDescriptionAsync(ProductDto product, ProductSkuDto productSku)
-        {
-            var names = new Collection<string[]>();
-
-            foreach (var attributeOptionId in productSku.AttributeOptionIds)
-            {
-                names.Add(product.ProductAttributes.SelectMany(
-                    attribute => attribute.ProductAttributeOptions.Where(option => option.Id == attributeOptionId),
-                    (attribute, option) => new [] {attribute.DisplayName, option.DisplayName}).Single());
-            }
-
-            return Task.FromResult(_jsonSerializer.Serialize(names));
-        }
-        
         protected virtual Task<string> GetStoreCurrencyAsync(Guid storeId)
         {
             // Todo: Get real store currency configuration.

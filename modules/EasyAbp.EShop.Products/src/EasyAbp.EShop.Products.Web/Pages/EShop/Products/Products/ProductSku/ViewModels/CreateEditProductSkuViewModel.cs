@@ -35,6 +35,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
         [Display(Name = "ProductSkuOrderMaxQuantity")]
         public int OrderMaxQuantity { get; set; }
         
+        [Display(Name = "ProductSkuMediaResources")]
+        public string MediaResources { get; set; }
+        
         [HiddenInput]
         [Display(Name = "ProductSkuProductDetailId")]
         public Guid? ProductDetailId { get; set; }

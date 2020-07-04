@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
@@ -34,5 +35,15 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public ICollection<ProductAttributeDto> ProductAttributes { get; set; }
         
         public ICollection<ProductSkuDto> ProductSkus { get; set; }
+
+        public ProductSkuDto GetSkuById(Guid skuId)
+        {
+            return ProductSkus.Single(x => x.Id == skuId);
+        }
+        
+        public ProductSkuDto FindSkuById(Guid skuId)
+        {
+            return ProductSkus.FirstOrDefault(x => x.Id == skuId);
+        }
     }
 }

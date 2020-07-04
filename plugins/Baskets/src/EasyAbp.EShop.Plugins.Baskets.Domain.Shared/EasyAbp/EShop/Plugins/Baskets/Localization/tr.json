@@ -1,7 +1,32 @@
 {
   "culture": "tr",
   "texts": {
-    "ManageYourProfile":  "Profil yönetimi",
-    "SamplePageMessage": "Baskets modulünden örnek bir sayfa"
+    "ManageYourProfile": "Profil yönetimi",
+    "SamplePageMessage": "Baskets modulünden örnek bir sayfa",
+    "Permission:BasketItem": "BasketItem",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:BasketItem": "MenuBasketItem",
+    "BasketItem": "BasketItem",
+    "BasketItemBasketName": "BasketItemBasketName",
+    "BasketItemUserId": "BasketItemUserId",
+    "BasketItemStoreId": "BasketItemStoreId",
+    "BasketItemProductId": "BasketItemProductId",
+    "BasketItemProductSkuId": "BasketItemProductSkuId",
+    "BasketItemQuantity": "BasketItemQuantity",
+    "BasketItemMediaResources": "BasketItemMediaResources",
+    "BasketItemProductName": "BasketItemProductName",
+    "BasketItemSkuDescription": "BasketItemSkuDescription",
+    "BasketItemCurrency": "BasketItemCurrency",
+    "BasketItemUnitPrice": "BasketItemUnitPrice",
+    "BasketItemTotalPrice": "BasketItemTotalPrice",
+    "BasketItemTotalDiscount": "BasketItemTotalDiscount",
+    "BasketItemInventory": "BasketItemInventory",
+    "BasketItemIsInvalid": "BasketItemIsInvalid",
+    "CreateBasketItem": "CreateBasketItem",
+    "EditBasketItem": "EditBasketItem",
+    "BasketItemDeletionConfirmationMessage": "Are you sure to delete the basketItem {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
   }
 }

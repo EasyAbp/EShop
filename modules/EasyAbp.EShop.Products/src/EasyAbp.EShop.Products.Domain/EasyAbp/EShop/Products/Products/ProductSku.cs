@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductSku : FullAuditedEntity<Guid>
+    public class ProductSku : FullAuditedEntity<Guid>, IProductSku
     {
         [NotNull]
         public virtual string SerializedAttributeOptionIds { get; protected set; }
@@ -28,6 +28,9 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual int OrderMaxQuantity { get; protected set; }
         
+        [CanBeNull]
+        public virtual string MediaResources { get; protected set; }
+        
         public Guid? ProductDetailId { get; set; }
 
         protected ProductSku() {}
@@ -43,6 +46,7 @@ namespace EasyAbp.EShop.Products.Products
             int sold,
             int orderMinQuantity,
             int orderMaxQuantity,
+            [CanBeNull] string mediaResources,
             Guid? productDetailId) : base(id)
         {
             SerializedAttributeOptionIds = serializedAttributeOptionIds;
@@ -54,6 +58,7 @@ namespace EasyAbp.EShop.Products.Products
             Sold = sold;
             OrderMinQuantity = orderMinQuantity;
             OrderMaxQuantity = orderMaxQuantity;
+            MediaResources = mediaResources;
             ProductDetailId = productDetailId;
         }
 

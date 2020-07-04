@@ -40,6 +40,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public int OrderMaxQuantity { get; set; }
         
+        public string MediaResources { get; set; }
+        
         public Guid? ProductDetailId { get; set; }
     }
 }
