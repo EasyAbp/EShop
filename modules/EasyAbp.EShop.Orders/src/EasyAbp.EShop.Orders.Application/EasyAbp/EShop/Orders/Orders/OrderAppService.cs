@@ -128,6 +128,12 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [RemoteService(false)]
+        public override Task<OrderDto> UpdateAsync(Guid id, CreateOrderDto input)
+        {
+            throw new NotSupportedException();
+        }
+        
+        [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
             throw new NotSupportedException();
