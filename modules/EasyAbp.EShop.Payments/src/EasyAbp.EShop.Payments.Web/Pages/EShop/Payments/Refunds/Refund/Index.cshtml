@@ -1,18 +1,21 @@
 @page
 @using Microsoft.AspNetCore.Authorization
 @using EasyAbp.EShop.Payments.Authorization
+@using EasyAbp.EShop.Payments.Localization
+@using EasyAbp.EShop.Payments.Web.Menus
 @using EasyAbp.EShop.Payments.Web.Pages.EShop.Payments.Refunds.Refund
+@using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
-@inherits EasyAbp.EShop.Payments.Web.Pages.PaymentsPage
 @model IndexModel
 @inject IPageLayout PageLayout
+@inject IStringLocalizer<PaymentsResource> L
 @inject IAuthorizationService Authorization
 @{
     PageLayout.Content.Title = L["Refund"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Refund"].Value);
-    PageLayout.Content.MenuItemName = "EasyAbpEShopPaymentsRefund";
+    PageLayout.Content.MenuItemName = PaymentsMenus.Refund;
     
-    var cardTitle = @L["Refund"].Value;
+    var cardTitle = L["Refund"].Value;
     
     if (Model.StoreName != null)
     {

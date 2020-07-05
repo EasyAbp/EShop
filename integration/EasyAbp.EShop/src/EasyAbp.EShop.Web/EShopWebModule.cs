@@ -6,6 +6,7 @@ using EasyAbp.EShop.Orders.Web;
 using EasyAbp.EShop.Payments.Web;
 using EasyAbp.EShop.Products.Web;
 using EasyAbp.EShop.Stores.Web;
+using EasyAbp.EShop.Web.Menus;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AutoMapper;

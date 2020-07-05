@@ -1,13 +1,16 @@
 @page
+@using EasyAbp.EShop.Products.Localization
+@using EasyAbp.EShop.Products.Web.Menus
 @using EasyAbp.EShop.Products.Web.Pages.EShop.Products.ProductTypes.ProductType
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
-@inherits EasyAbp.EShop.Products.Web.Pages.ProductsPage
 @model IndexModel
 @inject IPageLayout PageLayout
+@inject IHtmlLocalizer<ProductsResource> L
 @{
     PageLayout.Content.Title = L["ProductType"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:ProductType"].Value);
-    PageLayout.Content.MenuItemName = "EasyAbpEShopProductsProductType";
+    PageLayout.Content.MenuItemName = ProductsMenus.ProductType;
 }
 
 @section scripts

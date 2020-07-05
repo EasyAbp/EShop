@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Volo.Abp.UI.Navigation;
 
-namespace EasyAbp.EShop.Plugins.Web
+namespace EasyAbp.EShop.Plugins.Web.Menus
 {
     public class PluginsMenuContributor : IMenuContributor
     {

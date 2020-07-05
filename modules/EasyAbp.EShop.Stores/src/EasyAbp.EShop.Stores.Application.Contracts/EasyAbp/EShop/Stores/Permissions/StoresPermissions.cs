@@ -1,6 +1,6 @@
 ﻿using Volo.Abp.Reflection;
 
-namespace EasyAbp.EShop.Stores.Authorization
+namespace EasyAbp.EShop.Stores.Permissions
 {
     public class StoresPermissions
     {

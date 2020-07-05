@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-using EasyAbp.EShop.Payments.Localization;
-using EasyAbp.EShop.Payments.Authorization;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Payments.Authorization;
+using EasyAbp.EShop.Payments.Localization;
 using EasyAbp.EShop.Stores.Stores;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.UI.Navigation;
 
-namespace EasyAbp.EShop.Payments.Web
+namespace EasyAbp.EShop.Payments.Web.Menus
 {
     public class PaymentsMenuContributor : IMenuContributor
     {
@@ -22,7 +22,7 @@ namespace EasyAbp.EShop.Payments.Web
         {
             var l = context.GetLocalizer<PaymentsResource>();            //Add main menu items.
 
-            var paymentManagementMenuItem = new ApplicationMenuItem("EasyAbpEShopPayments", l["Menu:PaymentManagement"]);
+            var paymentManagementMenuItem = new ApplicationMenuItem(PaymentsMenus.Prefix, l["Menu:PaymentManagement"]);
              
             var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
 
@@ -31,20 +31,20 @@ namespace EasyAbp.EShop.Payments.Web
             if (await context.IsGrantedAsync(PaymentsPermissions.Payments.Manage))
             {
                 paymentManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("EasyAbpEShopPaymentsPayment", l["Menu:Payment"], "/EShop/Payments/Payments/Payment?storeId=" + defaultStore)
+                    new ApplicationMenuItem(PaymentsMenus.Payment, l["Menu:Payment"], "/EShop/Payments/Payments/Payment?storeId=" + defaultStore)
                 );
             }
             if (await context.IsGrantedAsync(PaymentsPermissions.Refunds.Manage))
             {
                 paymentManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("EasyAbpEShopPaymentsRefund", l["Menu:Refund"], "/EShop/Payments/Refunds/Refund?storeId=" + defaultStore)
+                    new ApplicationMenuItem(PaymentsMenus.Refund, l["Menu:Refund"], "/EShop/Payments/Refunds/Refund?storeId=" + defaultStore)
                 );
             }
 
             if (!paymentManagementMenuItem.Items.IsNullOrEmpty())
             {
-                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == "EasyAbpEShop",
-                    () => new ApplicationMenuItem("EasyAbpEShop", l["Menu:EasyAbpEShop"]));
+                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == PaymentsMenus.ModuleGroupPrefix,
+                    () => new ApplicationMenuItem(PaymentsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"]));
                 
                 eShopMenuItem.Items.Add(paymentManagementMenuItem);
             }

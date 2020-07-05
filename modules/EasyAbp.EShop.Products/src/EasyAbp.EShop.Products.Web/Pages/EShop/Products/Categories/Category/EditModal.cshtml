@@ -1,6 +1,8 @@
 @page
-@inherits EasyAbp.EShop.Products.Web.Pages.ProductsPage
+@using EasyAbp.EShop.Products.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@inject IHtmlLocalizer<ProductsResource> L
 @model EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category.EditModalModel
 @{
     Layout = null;

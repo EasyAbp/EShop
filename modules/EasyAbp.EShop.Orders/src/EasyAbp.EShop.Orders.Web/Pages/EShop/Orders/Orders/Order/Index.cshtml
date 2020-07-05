@@ -1,15 +1,18 @@
 @page
+@using EasyAbp.EShop.Orders.Localization
+@using EasyAbp.EShop.Orders.Web.Menus
 @using EasyAbp.EShop.Orders.Web.Pages.EShop.Orders.Orders.Order
+@using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
-@inherits EasyAbp.EShop.Orders.Web.Pages.OrdersPage
 @model IndexModel
 @inject IPageLayout PageLayout
+@inject IStringLocalizer<OrdersResource> L
 @{
     PageLayout.Content.Title = L["Order"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Order"].Value);
-    PageLayout.Content.MenuItemName = "EasyAbpEShopOrdersOrder";
+    PageLayout.Content.MenuItemName = OrdersMenus.Order;
 
-    var cardTitle = @L["Order"].Value;
+    var cardTitle = L["Order"].Value;
     
     if (Model.StoreName != null)
     {

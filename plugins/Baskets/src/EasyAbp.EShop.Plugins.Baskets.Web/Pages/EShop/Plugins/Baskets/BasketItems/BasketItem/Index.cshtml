@@ -2,6 +2,7 @@
 @using EasyAbp.EShop.Plugins.Baskets.Permissions
 @using EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem
 @using EasyAbp.EShop.Plugins.Baskets.Localization
+@using EasyAbp.EShop.Plugins.Baskets.Web.Menus
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
@@ -12,7 +13,7 @@
 @{
     PageLayout.Content.Title = L["BasketItem"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:BasketItem"].Value);
-    PageLayout.Content.MenuItemName = "EasyAbpEShopBasketsBasketItem";
+    PageLayout.Content.MenuItemName = BasketsMenus.BasketItem;
 }
 
 @section scripts

@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using EasyAbp.EShop.Orders.Localization;
 using EasyAbp.EShop.Stores.Stores;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.UI.Navigation;
 
-namespace EasyAbp.EShop.Orders.Web
+namespace EasyAbp.EShop.Orders.Web.Menus
 {
     public class OrdersMenuContributor : IMenuContributor
     {
@@ -24,7 +22,7 @@ namespace EasyAbp.EShop.Orders.Web
         {
             var l = context.GetLocalizer<OrdersResource>();            //Add main menu items.
 
-            var orderManagementMenuItem = new ApplicationMenuItem("EasyAbpEShopOrders", l["Menu:OrderManagement"]);
+            var orderManagementMenuItem = new ApplicationMenuItem(OrdersMenus.Prefix, l["Menu:OrderManagement"]);
 
             if (await context.IsGrantedAsync(OrdersPermissions.Orders.Manage))
             {
@@ -33,14 +31,14 @@ namespace EasyAbp.EShop.Orders.Web
                 var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
                 
                 orderManagementMenuItem.AddItem(
-                    new ApplicationMenuItem("EasyAbpEShopOrdersOrder", l["Menu:Order"], "/EShop/Orders/Orders/Order?storeId=" + defaultStore)
+                    new ApplicationMenuItem(OrdersMenus.Order, l["Menu:Order"], "/EShop/Orders/Orders/Order?storeId=" + defaultStore)
                 );
             }
             
             if (!orderManagementMenuItem.Items.IsNullOrEmpty())
             {
-                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == "EasyAbpEShop",
-                    () => new ApplicationMenuItem("EasyAbpEShop", l["Menu:EasyAbpEShop"]));
+                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == OrdersMenus.ModuleGroupPrefix,
+                    () => new ApplicationMenuItem(OrdersMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"]));
                 
                 eShopMenuItem.Items.Add(orderManagementMenuItem);
             }

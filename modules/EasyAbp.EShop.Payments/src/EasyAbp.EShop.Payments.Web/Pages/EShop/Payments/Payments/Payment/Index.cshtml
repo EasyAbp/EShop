@@ -1,18 +1,20 @@
 @page
 @using Microsoft.AspNetCore.Authorization
-@using EasyAbp.EShop.Payments.Authorization
+@using EasyAbp.EShop.Payments.Localization
+@using EasyAbp.EShop.Payments.Web.Menus
 @using EasyAbp.EShop.Payments.Web.Pages.EShop.Payments.Payments.Payment
+@using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
-@inherits EasyAbp.EShop.Payments.Web.Pages.PaymentsPage
 @model IndexModel
 @inject IPageLayout PageLayout
+@inject IStringLocalizer<PaymentsResource> L
 @inject IAuthorizationService Authorization
 @{
     PageLayout.Content.Title = L["Payment"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Payment"].Value);
-    PageLayout.Content.MenuItemName = "EasyAbpEShopPaymentsPayment";
+    PageLayout.Content.MenuItemName = PaymentsMenus.Payment;
     
-    var cardTitle = @L["Payment"].Value;
+    var cardTitle = L["Payment"].Value;
     
     if (Model.StoreName != null)
     {

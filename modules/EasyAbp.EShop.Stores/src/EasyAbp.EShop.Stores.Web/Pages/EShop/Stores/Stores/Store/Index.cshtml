@@ -1,6 +1,20 @@
 @page
-@inherits EasyAbp.EShop.Stores.Web.Pages.StoresPage
-@model EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store.IndexModel
+@using EasyAbp.EShop.Stores.Permissions
+@using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store
+@using EasyAbp.EShop.Stores.Localization
+@using EasyAbp.EShop.Stores.Web.Menus
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<StoresResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["BasketItem"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:BasketItem"].Value);
+    PageLayout.Content.MenuItemName = StoresMenus.Store;
+}
 
 @section scripts
 {
@@ -14,14 +28,17 @@
 <abp-card>
     <abp-card-header>
         <abp-row>
-            <abp-column size-md="_2">
-                <h2>@L["Store"]</h2>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Store"]</abp-card-title>
             </abp-column>
-            <abp-column size-md="_10" class="text-right">
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(StoresPermissions.Stores.Create))
+                { 
                 <abp-button id="NewStoreButton"
                             text="@L["CreateStore"].Value"
                             icon="plus"
                             button-type="Primary" />
+                }
             </abp-column>
         </abp-row>
     </abp-card-header>

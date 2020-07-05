@@ -1,6 +1,8 @@
 @page
-@inherits EasyAbp.EShop.Stores.Web.Pages.StoresPage
+@using EasyAbp.EShop.Stores.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@inject IHtmlLocalizer<StoresResource> L
 @model EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store.CreateModalModel
 @{
     Layout = null;
