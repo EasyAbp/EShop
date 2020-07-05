@@ -15,6 +15,8 @@ using EasyAbp.EShop.Products.ProductDetailHistories.Dtos;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
 using Volo.Abp.AutoMapper;
+using EasyAbp.EShop.Products.ProductInventories;
+using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Products
@@ -36,7 +38,8 @@ namespace EasyAbp.EShop.Products
                 .ForSourceMember(entity => entity.SerializedAttributeOptionIds, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.AttributeOptionIds)
                 .Ignore(dto => dto.DiscountedPrice)
-                .Ignore(dto => dto.RealInventory)
+                .Ignore(dto => dto.Inventory)
+                .Ignore(dto => dto.Sold)
                 .AfterMap(async (src, dest) => dest.AttributeOptionIds =
                     (await attributeOptionIdsSerializer.DeserializeAsync(src.SerializedAttributeOptionIds)).ToList());
             CreateMap<CreateUpdateProductDto, Product>(MemberList.Source)
@@ -63,6 +66,7 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
+            CreateMap<ProductInventory, ProductInventoryDto>();
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels
 {
-    public class CreateEditProductSkuViewModel
+    public class EditProductSkuViewModel
     {
         [Display(Name = "ProductSkuCode")]
         public string Code { get; set; }
@@ -20,10 +20,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
      
         [Display(Name = "ProductSkuOriginalPrice")]
         public decimal? OriginalPrice { get; set; }
-
-        [Required]
-        [Display(Name = "ProductSkuInventory")]
-        public int Inventory { get; set; }
 
         [Required]
         [DefaultValue(1)]

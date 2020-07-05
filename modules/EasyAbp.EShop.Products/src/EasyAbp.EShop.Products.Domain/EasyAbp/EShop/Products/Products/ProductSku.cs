@@ -19,11 +19,6 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual decimal Price { get; protected set; }
 
-        public virtual int Inventory { get; protected set; }
-        
-        // Todo: should be implemented
-        public virtual int Sold { get; protected set; }
-        
         public virtual int OrderMinQuantity { get; protected set; }
         
         public virtual int OrderMaxQuantity { get; protected set; }
@@ -42,8 +37,6 @@ namespace EasyAbp.EShop.Products.Products
             [NotNull] string currency,
             decimal? originalPrice,
             decimal price,
-            int inventory,
-            int sold,
             int orderMinQuantity,
             int orderMaxQuantity,
             [CanBeNull] string mediaResources,
@@ -54,38 +47,12 @@ namespace EasyAbp.EShop.Products.Products
             Currency = currency;
             OriginalPrice = originalPrice;
             Price = price;
-            Inventory = inventory;
-            Sold = sold;
             OrderMinQuantity = orderMinQuantity;
             OrderMaxQuantity = orderMaxQuantity;
             MediaResources = mediaResources;
             ProductDetailId = productDetailId;
         }
 
-        public bool TryIncreaseInventory(int quantity)
-        {
-            if (quantity <= 0)
-            {
-                return false;
-            }
-            
-            Inventory = checked(Inventory + quantity);
-
-            return true;
-        }
-
-        public bool TryReduceInventory(int quantity)
-        {
-            if (quantity > Inventory || quantity <= 0)
-            {
-                return false;
-            }
-
-            Inventory -= quantity;
-            
-            return true;
-        }
-        
         public void TrimCode()
         {
             Code = Code?.Trim();

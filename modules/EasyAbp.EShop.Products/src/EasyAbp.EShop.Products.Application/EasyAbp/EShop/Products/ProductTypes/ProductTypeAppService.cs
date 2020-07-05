@@ -1,5 +1,5 @@
 using System;
-using EasyAbp.EShop.Products.Authorization;
+using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductTypes.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;

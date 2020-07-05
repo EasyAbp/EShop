@@ -8,6 +8,7 @@ using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels;
+using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products.Web
@@ -52,11 +53,14 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>();
             CreateMap<ProductAttributeDto, CreateEditProductAttributeViewModel>();
             CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>();
-            CreateMap<CreateEditProductSkuViewModel, CreateProductSkuDto>()
+            CreateMap<CreateProductSkuViewModel, CreateProductSkuDto>()
+                .ForSourceMember(model => model.Inventory, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.AttributeOptionIds);
-            CreateMap<CreateEditProductSkuViewModel, UpdateProductSkuDto>();
-            CreateMap<ProductSkuDto, CreateEditProductSkuViewModel>()
-                .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate());
+            CreateMap<EditProductSkuViewModel, UpdateProductSkuDto>();
+            CreateMap<ProductSkuDto, EditProductSkuViewModel>()
+                .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate())
+                .ForSourceMember(dto => dto.Inventory, opt => opt.DoNotValidate())
+                .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate());
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
             CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>();
             CreateMap<CategoryDto, CreateUpdateCategoryDto>();

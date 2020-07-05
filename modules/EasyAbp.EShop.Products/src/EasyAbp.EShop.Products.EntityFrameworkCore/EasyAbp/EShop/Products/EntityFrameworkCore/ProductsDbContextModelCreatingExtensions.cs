@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.ProductDetailHistories;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductStores;
@@ -129,6 +130,16 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 /* Configure more properties here */
                 b.HasIndex(x => x.ProductDetailId);
                 b.HasIndex(x => x.ModificationTime);
+            });
+            
+            builder.Entity<ProductInventory>(b =>
+            {
+                b.ToTable(options.TablePrefix + "ProductInventories", options.Schema);
+                b.ConfigureByConvention();
+
+                /* Configure more properties here */
+
+                b.HasIndex(x => x.ProductSkuId);
             });
         }
     }

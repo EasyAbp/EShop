@@ -20,9 +20,6 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DisplayName("ProductSkuPrice")]
         public decimal Price { get; set; }
         
-        [DisplayName("ProductSkuInventory")]
-        public int Inventory { get; set; }
-        
         [DefaultValue(1)]
         [DisplayName("ProductSkuOrderMinQuantity")]
         public int OrderMinQuantity { get; set; }

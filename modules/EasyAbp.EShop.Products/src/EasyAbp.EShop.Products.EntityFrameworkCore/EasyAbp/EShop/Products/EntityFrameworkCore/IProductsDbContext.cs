@@ -9,6 +9,7 @@ using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductDetailHistories;
+using EasyAbp.EShop.Products.ProductInventories;
 
 namespace EasyAbp.EShop.Products.EntityFrameworkCore
 {
@@ -29,5 +30,6 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         DbSet<ProductStore> ProductStores { get; set; }
         DbSet<ProductHistory> ProductHistories { get; set; }
         DbSet<ProductDetailHistory> ProductDetailHistories { get; set; }
+        DbSet<ProductInventory> ProductInventories { get; set; }
     }
 }

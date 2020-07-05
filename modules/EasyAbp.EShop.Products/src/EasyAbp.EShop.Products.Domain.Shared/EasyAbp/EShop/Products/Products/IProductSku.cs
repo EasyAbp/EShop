@@ -14,10 +14,6 @@ namespace EasyAbp.EShop.Products.Products
         
         decimal Price { get; }
 
-        int Inventory { get; }
-        
-        int Sold { get; }
-        
         int OrderMinQuantity { get; }
         
         int OrderMaxQuantity { get; }

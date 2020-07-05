@@ -1,6 +1,6 @@
 ﻿using Volo.Abp.Reflection;
 
-namespace EasyAbp.EShop.Products.Authorization
+namespace EasyAbp.EShop.Products.Permissions
 {
     public class ProductsPermissions
     {
@@ -36,5 +36,13 @@ namespace EasyAbp.EShop.Products.Authorization
         {
             return ReflectionHelper.GetPublicConstantsRecursively(typeof(ProductsPermissions));
         }
+
+        public class ProductInventory
+        {
+            public const string Default = GroupName + ".ProductInventory";
+            public const string CrossStore = Default + ".CrossStore";
+            public const string Update = Default + ".Update";
+        }
+
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Authorization;
+using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
 using Volo.Abp;
 using Volo.Abp.Application.Services;

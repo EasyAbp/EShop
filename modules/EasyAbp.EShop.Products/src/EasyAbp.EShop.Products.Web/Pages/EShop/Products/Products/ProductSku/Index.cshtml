@@ -1,12 +1,15 @@
 @page
 @using EasyAbp.EShop.Products.Localization
+@using EasyAbp.EShop.Products.Permissions
 @using EasyAbp.EShop.Products.Web.Menus
 @using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @model IndexModel
 @inject IPageLayout PageLayout
 @inject IHtmlLocalizer<ProductsResource> L
+@inject IAuthorizationService Authorization
 @{
     PageLayout.Content.Title = L["ProductSku"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Product"].Value);
@@ -33,10 +36,13 @@
                 <abp-card-title>@L["ProductSku"] - @Model.ProductDisplayName</abp-card-title>
             </abp-column>
             <abp-column size-md="_6" class="text-right">
+                @if (await Authorization.IsGrantedAsync(ProductsPermissions.Products.Create))
+                { 
                 <abp-button id="NewProductSkuButton"
                             text="@L["CreateProductSku"].Value"
                             icon="plus"
                             button-type="Primary" />
+                }
             </abp-column>
         </abp-row>
     </abp-card-header>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using EasyAbp.EShop.Products.Localization;
+using EasyAbp.EShop.Products.Permissions;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Authorization;
 using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.Extensions.DependencyInjection;

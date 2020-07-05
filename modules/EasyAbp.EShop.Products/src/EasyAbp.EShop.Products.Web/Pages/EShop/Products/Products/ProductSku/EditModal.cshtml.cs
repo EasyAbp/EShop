@@ -25,7 +25,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         public Guid ProductSkuId { get; set; }
 
         [BindProperty]
-        public CreateEditProductSkuViewModel ProductSku { get; set; }
+        public EditProductSkuViewModel ProductSku { get; set; }
 
         private readonly IProductAppService _productAppService;
 
@@ -39,14 +39,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
             var product = await _productAppService.GetAsync(ProductId, StoreId);
 
             ProductSku =
-                ObjectMapper.Map<ProductSkuDto, CreateEditProductSkuViewModel>(
+                ObjectMapper.Map<ProductSkuDto, EditProductSkuViewModel>(
                     product.ProductSkus.Single(x => x.Id == ProductSkuId));
         }
         
         public virtual async Task<IActionResult> OnPostAsync()
         {
             await _productAppService.UpdateSkuAsync(ProductId, ProductSkuId, StoreId,
-                ObjectMapper.Map<CreateEditProductSkuViewModel, UpdateProductSkuDto>(ProductSku));
+                ObjectMapper.Map<EditProductSkuViewModel, UpdateProductSkuDto>(ProductSku));
             
             return NoContent();
         }

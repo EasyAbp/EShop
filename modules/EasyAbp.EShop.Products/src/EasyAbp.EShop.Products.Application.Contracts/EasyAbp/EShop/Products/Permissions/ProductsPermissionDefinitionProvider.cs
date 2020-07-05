@@ -3,7 +3,7 @@ using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 using Volo.Abp.MultiTenancy;
 
-namespace EasyAbp.EShop.Products.Authorization
+namespace EasyAbp.EShop.Products.Permissions
 {
     public class ProductsPermissionDefinitionProvider : PermissionDefinitionProvider
     {
@@ -27,6 +27,10 @@ namespace EasyAbp.EShop.Products.Authorization
             product.AddChild(ProductsPermissions.Products.Create, L("Permission:Create"));
             product.AddChild(ProductsPermissions.Products.Update, L("Permission:Update"));
             product.AddChild(ProductsPermissions.Products.Delete, L("Permission:Delete"));
+
+            var productInventoryPermission = moduleGroup.AddPermission(ProductsPermissions.ProductInventory.Default, L("Permission:ProductInventory"));
+            productInventoryPermission.AddChild(ProductsPermissions.ProductInventory.CrossStore, L("Permission:CrossStore"));
+            productInventoryPermission.AddChild(ProductsPermissions.ProductInventory.Update, L("Permission:Update"));
         }
 
         private static LocalizableString L(string name)

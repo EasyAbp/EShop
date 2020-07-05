@@ -24,15 +24,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         /// </summary>
         public decimal DiscountedPrice { get; set; }
         
-        /// <summary>
-        /// Inventory property in the ProductSku entity.
-        /// </summary>
         public int Inventory { get; set; }
-        
-        /// <summary>
-        /// Inventory provider's inventory quantity (same as Inventory property if there is no provider).
-        /// </summary>
-        public int RealInventory { get; set; }
         
         public int Sold { get; set; }
         

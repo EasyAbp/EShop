@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Authorization;
+using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
 using Microsoft.AspNetCore.Authorization;
@@ -274,7 +274,7 @@ namespace EasyAbp.EShop.Products.Products
 
             foreach (var productSkuDto in productDto.ProductSkus)
             {
-                productSkuDto.RealInventory = inventoryDict[productSkuDto.Id];
+                productSkuDto.Inventory = inventoryDict[productSkuDto.Id];
             }
 
             return productDto;

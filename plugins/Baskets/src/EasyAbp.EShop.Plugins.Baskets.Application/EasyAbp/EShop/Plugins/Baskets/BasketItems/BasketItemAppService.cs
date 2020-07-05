@@ -146,7 +146,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 return;
             }
 
-            if (productDto.InventoryStrategy != InventoryStrategy.NoNeed && quantity > productSkuDto.RealInventory)
+            if (productDto.InventoryStrategy != InventoryStrategy.NoNeed && quantity > productSkuDto.Inventory)
             {
                 item.SetIsInvalid(true);
             }
@@ -160,7 +160,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 UnitPrice = productSkuDto.DiscountedPrice,
                 TotalPrice = productSkuDto.DiscountedPrice * item.Quantity,
                 TotalDiscount = (productSkuDto.Price - productSkuDto.DiscountedPrice) * item.Quantity,
-                Inventory = productSkuDto.RealInventory
+                Inventory = productSkuDto.Inventory
             });
 
             if (!productDto.IsPublished)

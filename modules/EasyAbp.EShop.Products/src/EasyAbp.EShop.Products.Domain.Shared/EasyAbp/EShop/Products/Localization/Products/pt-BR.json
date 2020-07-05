@@ -74,6 +74,17 @@
     "ProductCategoryDisplayOrder": "ProductCategoryDisplayOrder",
     "CreateProductCategory": "CreateProductCategory",
     "EditProductCategory": "EditProductCategory",
-    "ProductCategoryDeletionConfirmationMessage": "Are you sure to delete the productcategory {0}?"
+    "ProductCategoryDeletionConfirmationMessage": "Are you sure to delete the productcategory {0}?",
+    "Permission:ProductInventory": "ProductInventory",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "ProductInventory": "ProductInventory",
+    "ProductInventoryChangeType": "ProductInventoryChangeType",
+    "IncreaseInventory": "Increase",
+    "DecreaseInventory": "Decrease",
+    "ProductInventoryInventory": "ProductInventoryInventory",
+    "ProductInventoryChangeType": "ProductInventoryChangeType",
+    "ChangeProductInventory": "ChangeProductInventory"
   }
 }

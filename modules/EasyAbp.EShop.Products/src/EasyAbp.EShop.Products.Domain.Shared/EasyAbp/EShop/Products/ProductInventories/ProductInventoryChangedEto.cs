@@ -3,12 +3,8 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.ProductInventories
 {
-    public class ProductInventoryChangedEto : IMultiTenant
+    public class ProductInventoryChangedEto
     {
-        public Guid Id { get; set; }
-        
-        public Guid? TenantId { get; set; }
-        
         public Guid ProductId { get; set; }
         
         public Guid ProductSkuId { get; set; }

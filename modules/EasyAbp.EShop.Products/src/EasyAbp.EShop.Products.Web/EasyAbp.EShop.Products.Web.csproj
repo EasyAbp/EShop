@@ -27,6 +27,10 @@
     <Content Remove="Pages\**\*.css" />
     <Content Remove="Pages\**\*.js" />
     <Content Remove="wwwroot\**\*.*" />
+    <Content Update="Pages\EShop\Products\Products\ProductSku\ChangeInventoryModal.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\EShop\Products\ProductInventories" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

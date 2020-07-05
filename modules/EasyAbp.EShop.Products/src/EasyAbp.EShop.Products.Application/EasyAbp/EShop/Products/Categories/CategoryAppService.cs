@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Authorization;
 using EasyAbp.EShop.Products.Categories.Dtos;
+using EasyAbp.EShop.Products.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
