@@ -112,23 +112,23 @@ namespace EShopSample.Web
             {
                 options.ConventionalControllers.Create(typeof(EShopOrdersApplicationModule).Assembly, opt =>
                 {
-                    opt.RootPath = "eShop";
+                    opt.RootPath = "eShop/orders";
                 });
                 options.ConventionalControllers.Create(typeof(EShopPaymentsApplicationModule).Assembly, opt =>
                 {
-                    opt.RootPath = "eShop";
+                    opt.RootPath = "eShop/payments";
                 });
                 options.ConventionalControllers.Create(typeof(EShopPluginsApplicationModule).Assembly, opt =>
                 {
-                    opt.RootPath = "eShop";
+                    opt.RootPath = "eShop/plugins";
                 });
                 options.ConventionalControllers.Create(typeof(EShopProductsApplicationModule).Assembly, opt =>
                 {
-                    opt.RootPath = "eShop";
+                    opt.RootPath = "eShop/products";
                 });
                 options.ConventionalControllers.Create(typeof(EShopStoresApplicationModule).Assembly, opt =>
                 {
-                    opt.RootPath = "eShop";
+                    opt.RootPath = "eShop/stores";
                 });
                 
                 options.ConventionalControllers.Create(typeof(EShopPluginsBasketsApplicationModule).Assembly, opt =>
@@ -142,7 +142,7 @@ namespace EShopSample.Web
                 });
                 options.ConventionalControllers.Create(typeof(PaymentServiceWeChatPayApplicationModule).Assembly, opt =>
                 {
-                    opt.RootPath = "paymentService";
+                    opt.RootPath = "paymentService/weChatPay";
                 });
             });
         }
