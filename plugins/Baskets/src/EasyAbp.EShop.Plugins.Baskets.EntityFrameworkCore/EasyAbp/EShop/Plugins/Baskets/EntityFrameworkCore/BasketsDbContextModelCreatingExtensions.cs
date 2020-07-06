@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore
 {
     public static class BasketsDbContextModelCreatingExtensions
     {
-        public static void ConfigurePluginsBaskets(
+        public static void ConfigureEShopPluginsBaskets(
             this ModelBuilder builder,
             Action<BasketsModelBuilderConfigurationOptions> optionsAction = null)
         {

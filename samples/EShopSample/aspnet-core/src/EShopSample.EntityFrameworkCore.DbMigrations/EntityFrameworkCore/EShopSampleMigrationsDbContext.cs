@@ -49,7 +49,7 @@ namespace EShopSample.EntityFrameworkCore
             
             builder.ConfigureEShop();
             
-            builder.ConfigurePluginsBaskets();
+            builder.ConfigureEShopPluginsBaskets();
 
             builder.ConfigurePaymentService();
             builder.ConfigurePaymentServiceWeChatPay();

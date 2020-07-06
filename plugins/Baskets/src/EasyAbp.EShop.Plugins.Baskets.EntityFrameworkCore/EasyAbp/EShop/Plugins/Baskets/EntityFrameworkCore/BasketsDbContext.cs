@@ -25,7 +25,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigurePluginsBaskets();
+            builder.ConfigureEShopPluginsBaskets();
         }
     }
 }
