@@ -41,6 +41,9 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DisplayName("ProductMediaResources")]
         public string MediaResources { get; set; }
         
+        [DisplayName("ProductSpecifiedInventoryProviderName")]
+        public string SpecifiedInventoryProviderName { get; set; }
+
         [DisplayName("ProductIsPublished")]
         public bool IsPublished { get; set; }
 

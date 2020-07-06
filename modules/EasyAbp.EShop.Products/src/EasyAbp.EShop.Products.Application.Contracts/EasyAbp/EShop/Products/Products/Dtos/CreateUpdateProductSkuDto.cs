@@ -27,6 +27,12 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DefaultValue(99)]
         [DisplayName("ProductSkuOrderMaxQuantity")]
         public int OrderMaxQuantity { get; set; }
+
+        [DisplayName("ProductSkuMediaResources")]
+        public string MediaResources { get; set; }
+        
+        [DisplayName("ProductSkuSpecifiedInventoryProviderName")]
+        public string SpecifiedInventoryProviderName { get; set; }
         
         [DisplayName("ProductSkuProductDetailId")]
         public Guid? ProductDetailId { get; set; }

@@ -31,6 +31,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public string MediaResources { get; set; }
         
+        public string SpecifiedInventoryProviderName { get; set; }
+
         public Guid? ProductDetailId { get; set; }
     }
 }

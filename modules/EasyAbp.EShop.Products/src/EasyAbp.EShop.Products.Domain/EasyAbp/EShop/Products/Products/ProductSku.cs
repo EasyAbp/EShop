@@ -26,6 +26,9 @@ namespace EasyAbp.EShop.Products.Products
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
         
+        [CanBeNull]
+        public virtual string SpecifiedInventoryProviderName { get; protected set; }
+        
         public Guid? ProductDetailId { get; set; }
 
         protected ProductSku() {}
@@ -40,6 +43,7 @@ namespace EasyAbp.EShop.Products.Products
             int orderMinQuantity,
             int orderMaxQuantity,
             [CanBeNull] string mediaResources,
+            [CanBeNull] string specifiedInventoryProviderName,
             Guid? productDetailId) : base(id)
         {
             SerializedAttributeOptionIds = serializedAttributeOptionIds;
@@ -50,6 +54,7 @@ namespace EasyAbp.EShop.Products.Products
             OrderMinQuantity = orderMinQuantity;
             OrderMaxQuantity = orderMaxQuantity;
             MediaResources = mediaResources;
+            SpecifiedInventoryProviderName = specifiedInventoryProviderName;
             ProductDetailId = productDetailId;
         }
 
