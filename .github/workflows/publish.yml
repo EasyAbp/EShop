@@ -11,69 +11,6 @@ jobs:
       - uses: actions/checkout@v2
 
       # Publish modules
-      - name: publish EasyAbp.EShop.Plugins.Application.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Application/EasyAbp.EShop.Plugins.Application.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          
-      - name: publish EasyAbp.EShop.Plugins.Application.Contracts.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Application.Contracts/EasyAbp.EShop.Plugins.Application.Contracts.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.Domain.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Domain/EasyAbp.EShop.Plugins.Domain.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.Domain.Shared.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Domain.Shared/EasyAbp.EShop.Plugins.Domain.Shared.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.EntityFrameworkCore.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.EntityFrameworkCore/EasyAbp.EShop.Plugins.EntityFrameworkCore.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.HttpApi.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.HttpApi/EasyAbp.EShop.Plugins.HttpApi.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.HttpApi.Client.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.HttpApi.Client/EasyAbp.EShop.Plugins.HttpApi.Client.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.MongoDB.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.MongoDB/EasyAbp.EShop.Plugins.MongoDB.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: publish EasyAbp.EShop.Plugins.Web.dll
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Web/EasyAbp.EShop.Plugins.Web.csproj
-          VERSION_FILE_PATH: common.props
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
       - name: publish EasyAbp.EShop.Orders.Application.dll
         uses: brandedoutcast/publish-nuget@v2
         with:
@@ -197,6 +134,69 @@ jobs:
         uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.Web/EasyAbp.EShop.Payments.Web.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Application.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Application/EasyAbp.EShop.Plugins.Application.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Application.Contracts.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Application.Contracts/EasyAbp.EShop.Plugins.Application.Contracts.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Domain.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Domain/EasyAbp.EShop.Plugins.Domain.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Domain.Shared.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Domain.Shared/EasyAbp.EShop.Plugins.Domain.Shared.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.EntityFrameworkCore.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.EntityFrameworkCore/EasyAbp.EShop.Plugins.EntityFrameworkCore.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.HttpApi.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.HttpApi/EasyAbp.EShop.Plugins.HttpApi.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.HttpApi.Client.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.HttpApi.Client/EasyAbp.EShop.Plugins.HttpApi.Client.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.MongoDB.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.MongoDB/EasyAbp.EShop.Plugins.MongoDB.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Web.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Web/EasyAbp.EShop.Plugins.Web.csproj
           VERSION_FILE_PATH: common.props
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
@@ -387,5 +387,69 @@ jobs:
         uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: integration/EasyAbp.EShop/src/EasyAbp.EShop.Web/EasyAbp.EShop.Web.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      # Publish plugin modules
+      - name: publish EasyAbp.EShop.Plugins.Baskets.Application.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application/EasyAbp.EShop.Plugins.Baskets.Application.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.Application.Contracts.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application.Contracts/EasyAbp.EShop.Plugins.Baskets.Application.Contracts.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.Domain.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Domain/EasyAbp.EShop.Plugins.Baskets.Domain.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.Domain.Shared.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Domain.Shared/EasyAbp.EShop.Plugins.Baskets.Domain.Shared.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore/EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.HttpApi.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.HttpApi/EasyAbp.EShop.Plugins.Baskets.HttpApi.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.HttpApi.Client.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.HttpApi.Client/EasyAbp.EShop.Plugins.Baskets.HttpApi.Client.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.MongoDB.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.MongoDB/EasyAbp.EShop.Plugins.Baskets.MongoDB.csproj
+          VERSION_FILE_PATH: common.props
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: publish EasyAbp.EShop.Plugins.Baskets.Web.dll
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Web/EasyAbp.EShop.Plugins.Baskets.Web.csproj
           VERSION_FILE_PATH: common.props
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
