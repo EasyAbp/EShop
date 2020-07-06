@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductCategories;
-using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductStores;
-using Volo.Abp.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
 
 namespace EasyAbp.EShop.Products.Products
@@ -204,6 +203,18 @@ namespace EasyAbp.EShop.Products.Products
         public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
             return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, storeId, quantity);
+        }
+
+        public virtual async Task<decimal> GetDiscountedPriceAsync(Product product, ProductSku productSku, Guid storeId)
+        {
+            var currentPrice = productSku.Price;
+            
+            foreach (var provider in ServiceProvider.GetServices<IProductDiscountProvider>())
+            {
+                currentPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, currentPrice);
+            }
+
+            return currentPrice;
         }
     }
 }

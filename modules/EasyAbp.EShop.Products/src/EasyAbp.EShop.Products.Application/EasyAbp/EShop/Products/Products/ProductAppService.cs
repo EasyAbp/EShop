@@ -23,7 +23,6 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IProductManager _productManager;
-        private readonly IProductDiscountManager _productDiscountManager;
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
@@ -31,14 +30,12 @@ namespace EasyAbp.EShop.Products.Products
 
         public ProductAppService(
             IProductManager productManager,
-            IProductDiscountManager productDiscountManager,
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
-            _productDiscountManager = productDiscountManager;
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
@@ -284,7 +281,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             foreach (var productSkuDto in productDto.ProductSkus)
             {
-                productSkuDto.DiscountedPrice = await _productDiscountManager.GetDiscountedPriceAsync(product,
+                productSkuDto.DiscountedPrice = await _productManager.GetDiscountedPriceAsync(product,
                     product.ProductSkus.Single(sku => sku.Id == productSkuDto.Id), storeId);
             }
 

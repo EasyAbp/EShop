@@ -19,9 +19,6 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         /// </summary>
         public decimal Price { get; set; }
         
-        /// <summary>
-        /// Price from IProductDiscountManager
-        /// </summary>
         public decimal DiscountedPrice { get; set; }
         
         public int Inventory { get; set; }
