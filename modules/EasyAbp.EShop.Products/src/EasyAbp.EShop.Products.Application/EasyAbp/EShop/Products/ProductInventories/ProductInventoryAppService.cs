@@ -81,7 +81,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
         {
             if (changedInventory >= 0)
             {
-                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(productInventory, changedInventory))
+                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(productInventory, changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);
@@ -89,7 +89,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
             }
             else
             {
-                if (!await _productInventoryProvider.TryReduceInventoryAsync(productInventory, -changedInventory))
+                if (!await _productInventoryProvider.TryReduceInventoryAsync(productInventory, -changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);

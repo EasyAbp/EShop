@@ -19,14 +19,11 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         /// </summary>
         public decimal Price { get; set; }
         
-        /// <summary>
-        /// Price from IProductDiscountManager
-        /// </summary>
         public decimal DiscountedPrice { get; set; }
         
         public int Inventory { get; set; }
         
-        public int Sold { get; set; }
+        public long Sold { get; set; }
         
         public int OrderMinQuantity { get; set; }
         
@@ -34,6 +31,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public string MediaResources { get; set; }
         
+        public string SpecifiedInventoryProviderName { get; set; }
+
         public Guid? ProductDetailId { get; set; }
     }
 }

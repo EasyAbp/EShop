@@ -12,5 +12,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
         public int OriginalInventory { get; set; }
         
         public int NewInventory { get; set; }
+        
+        public long Sold { get; set; }
     }
 }

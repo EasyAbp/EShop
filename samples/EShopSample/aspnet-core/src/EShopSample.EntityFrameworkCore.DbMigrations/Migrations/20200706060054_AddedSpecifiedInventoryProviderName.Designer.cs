@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200706060054_AddedSpecifiedInventoryProviderName")]
+    partial class AddedSpecifiedInventoryProviderName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -916,8 +918,8 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("ProductSkuId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("Sold")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Sold")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

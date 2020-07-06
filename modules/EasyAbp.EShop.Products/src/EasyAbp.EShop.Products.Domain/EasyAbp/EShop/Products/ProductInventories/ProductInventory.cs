@@ -11,8 +11,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
         
         public virtual int Inventory { get; protected set; }
         
-        // Todo: should be implemented
-        public virtual int Sold { get; protected set; }
+        public virtual long Sold { get; protected set; }
 
         protected ProductInventory()
         {
@@ -23,7 +22,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
             Guid productId,
             Guid productSkuId,
             int inventory,
-            int sold) : base(id)
+            long sold) : base(id)
         {
             ProductId = productId;
             ProductSkuId = productSkuId;
@@ -31,19 +30,29 @@ namespace EasyAbp.EShop.Products.ProductInventories
             Sold = sold;
         }
         
-        internal bool TryIncreaseInventory(int quantity)
+        internal bool TryIncreaseInventory(int quantity, bool decreaseSold)
         {
             if (quantity < 0)
+            {
+                return false;
+            }
+
+            if (decreaseSold && Sold - quantity < 0)
             {
                 return false;
             }
             
             Inventory = checked(Inventory + quantity);
 
+            if (decreaseSold)
+            {
+                Sold -= quantity;
+            }
+
             return true;
         }
 
-        internal bool TryReduceInventory(int quantity)
+        internal bool TryReduceInventory(int quantity, bool increaseSold)
         {
             if (quantity > Inventory || quantity < 0)
             {
@@ -51,6 +60,11 @@ namespace EasyAbp.EShop.Products.ProductInventories
             }
 
             Inventory -= quantity;
+
+            if (increaseSold)
+            {
+                Sold = checked(Sold + quantity);
+            }
             
             return true;
         }

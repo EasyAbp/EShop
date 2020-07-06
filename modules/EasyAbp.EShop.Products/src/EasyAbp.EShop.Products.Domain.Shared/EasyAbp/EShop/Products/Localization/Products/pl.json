@@ -1,6 +1,7 @@
 {
   "culture": "pl",
   "texts": {
+    "KeepEmptyIfDoNotKnow": "KeepEmptyIfDoNotKnow",
     "Menu:Product": "MenuProduct",
     "Product": "Product",
     "ProductStore": "ProductStore",
@@ -26,9 +27,11 @@
     "ProductSkuOriginalPrice": "ProductSkuOriginalPrice",
     "ProductSkuPrice": "ProductSkuPrice",
     "ProductSkuInventory": "ProductSkuInventory",
+    "ProductSkuSold": "ProductSkuSold",
     "ProductSkuOrderMinQuantity": "ProductSkuOrderMinQuantity",
     "ProductSkuOrderMaxQuantity": "ProductSkuOrderMaxQuantity",
     "ProductSkuMediaResources": "ProductSkuMediaResources",
+    "ProductSkuSpecifiedInventoryProviderName": "ProductSkuSpecifiedInventoryProviderName",
     "ProductSkuProductDetailId": "ProductSkuProductDetailId",
     "ProductSkuContentDescription": "ProductSkuContentDescription",
     "CreateProductSku": "CreateProductSku",
@@ -37,6 +40,7 @@
     "ProductInventoryStrategy": "ProductInventoryStrategy",
     "ProductIsPublished": "ProductIsPublished",
     "ProductMediaResources": "ProductMediaResources",
+    "ProductSpecifiedInventoryProviderName": "ProductSpecifiedInventoryProviderName",
     "ProductAttributeDisplayName": "ProductAttributeDisplayName",
     "ProductAttributeDescription": "ProductAttributeDescription",
     "ProductAttributeDisplayOrder": "ProductAttributeDisplayOrder",
@@ -84,7 +88,6 @@
     "IncreaseInventory": "Increase",
     "DecreaseInventory": "Decrease",
     "ProductInventoryInventory": "ProductInventoryInventory",
-    "ProductInventoryChangeType": "ProductInventoryChangeType",
     "ChangeProductInventory": "ChangeProductInventory"
   }
 }

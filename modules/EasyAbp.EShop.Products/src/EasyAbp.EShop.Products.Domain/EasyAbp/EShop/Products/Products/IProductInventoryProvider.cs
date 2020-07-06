@@ -6,12 +6,14 @@ namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductInventoryProvider
     {
-        Task<int> GetInventoryAsync(Product product, ProductSku productSku, Guid storeId);
+        string ProviderName { get; }
         
-        Task<Dictionary<Guid, int>> GetInventoryDictionaryAsync(Product product, Guid storeId);
+        Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId);
+        
+        Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(Product product, Guid storeId);
 
-        Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity);
+        Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool decreaseSold);
         
-        Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity);
+        Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold);
     }
 }

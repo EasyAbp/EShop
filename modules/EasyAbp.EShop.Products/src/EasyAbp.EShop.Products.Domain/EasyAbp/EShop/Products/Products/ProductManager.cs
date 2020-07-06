@@ -3,32 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductCategories;
-using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductStores;
-using Volo.Abp.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
 
 namespace EasyAbp.EShop.Products.Products
 {
     public class ProductManager : DomainService, IProductManager
     {
+        protected Dictionary<string, IProductInventoryProvider> InventoryProviders;
+        
         private readonly IProductRepository _productRepository;
         private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
-        private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
 
         public ProductManager(
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
             IProductCategoryRepository productCategoryRepository,
-            IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
             _productCategoryRepository = productCategoryRepository;
-            _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
         }
 
@@ -186,24 +184,54 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
-            var inventory = await _productInventoryProvider.GetInventoryAsync(product, productSku, storeId);
+            var inventoryData = await GetInventoryProviderOrDefault(product, productSku)
+                .GetInventoryDataAsync(product, productSku, storeId);
             
-            return product.InventoryStrategy == InventoryStrategy.NoNeed || inventory - quantity >= 0;
+            return product.InventoryStrategy == InventoryStrategy.NoNeed || inventoryData.Inventory - quantity >= 0;
         }
 
-        public virtual async Task<int> GetInventoryAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId)
         {
-            return await _productInventoryProvider.GetInventoryAsync(product, productSku, storeId);
+            return await GetInventoryProviderOrDefault(product, productSku)
+                .GetInventoryDataAsync(product, productSku, storeId);
         }
 
-        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool reduceSold)
         {
-            return await _productInventoryProvider.TryIncreaseInventoryAsync(product, productSku, storeId, quantity);
+            return await GetInventoryProviderOrDefault(product, productSku)
+                .TryIncreaseInventoryAsync(product, productSku, storeId, quantity, reduceSold);
         }
 
-        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold)
         {
-            return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, storeId, quantity);
+            return await GetInventoryProviderOrDefault(product, productSku)
+                .TryReduceInventoryAsync(product, productSku, storeId, quantity, increaseSold);
+        }
+
+        protected virtual IProductInventoryProvider GetInventoryProviderOrDefault(Product product, ProductSku productSku)
+        {
+            var providerName = !productSku.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
+                ? productSku.SpecifiedInventoryProviderName
+                : !product.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
+                    ? product.SpecifiedInventoryProviderName
+                    : "Default";
+
+            InventoryProviders ??= ServiceProvider.GetServices<IProductInventoryProvider>()
+                .ToDictionary(p => p.ProviderName, p => p);
+
+            return InventoryProviders.GetOrDefault(providerName) ?? InventoryProviders["Default"];
+        }
+
+        public virtual async Task<decimal> GetDiscountedPriceAsync(Product product, ProductSku productSku, Guid storeId)
+        {
+            var currentPrice = productSku.Price;
+            
+            foreach (var provider in ServiceProvider.GetServices<IProductDiscountProvider>())
+            {
+                currentPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, currentPrice);
+            }
+
+            return currentPrice;
         }
     }
 }

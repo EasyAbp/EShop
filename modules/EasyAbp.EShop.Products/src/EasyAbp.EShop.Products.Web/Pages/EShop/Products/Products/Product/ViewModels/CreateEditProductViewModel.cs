@@ -48,10 +48,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         public InventoryStrategy InventoryStrategy { get; set; }
         
         [Display(Name = "ProductDisplayOrder")]
-        public int DisplayOrder { get; set; } = 0;
+        public int DisplayOrder { get; set; }
 
         [Display(Name = "ProductMediaResources")]
         public string MediaResources { get; set; }
+        
+        [Placeholder("KeepEmptyIfDoNotKnow")]
+        [Display(Name = "ProductSpecifiedInventoryProviderName")]
+        public string SpecifiedInventoryProviderName { get; set; }
         
         [Display(Name = "ProductIsPublished")]
         public bool IsPublished { get; set; }

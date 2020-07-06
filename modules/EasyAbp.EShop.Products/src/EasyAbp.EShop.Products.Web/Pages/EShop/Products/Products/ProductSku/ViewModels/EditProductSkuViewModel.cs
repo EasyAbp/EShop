@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels
 {
@@ -33,6 +34,10 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
         
         [Display(Name = "ProductSkuMediaResources")]
         public string MediaResources { get; set; }
+        
+        [Placeholder("KeepEmptyIfDoNotKnow")]
+        [Display(Name = "ProductSkuSpecifiedInventoryProviderName")]
+        public string SpecifiedInventoryProviderName { get; set; }
         
         [HiddenInput]
         [Display(Name = "ProductSkuProductDetailId")]

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;
@@ -74,6 +75,12 @@ namespace EasyAbp.EShop.Orders.Orders
             if (!input.Quantity.IsBetween(productSku.OrderMinQuantity, productSku.OrderMaxQuantity))
             {
                 throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, input.Quantity);
+            }
+
+            if (productSku.Inventory < input.Quantity)
+            {
+                throw new InventoryInsufficientException(input.ProductId, input.ProductSkuId, input.Quantity,
+                    productSku.Inventory);
             }
             
             return new OrderLine(
