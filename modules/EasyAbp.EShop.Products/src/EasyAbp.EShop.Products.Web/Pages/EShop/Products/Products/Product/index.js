@@ -54,7 +54,7 @@ $(function () {
             { data: "code" },
             { data: "displayName" },
             { data: "inventoryStrategy" },
-            { data: "mediaResources" },
+            { data: "sold" },
             { data: "isPublished" },
         ]
     }));

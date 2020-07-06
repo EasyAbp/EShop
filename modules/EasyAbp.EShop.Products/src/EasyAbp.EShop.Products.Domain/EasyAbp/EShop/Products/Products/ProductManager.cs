@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -184,28 +184,28 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
-            var inventory = await GetInventoryProviderOrDefault(product, productSku)
-                .GetInventoryAsync(product, productSku, storeId);
+            var inventoryData = await GetInventoryProviderOrDefault(product, productSku)
+                .GetInventoryDataAsync(product, productSku, storeId);
             
-            return product.InventoryStrategy == InventoryStrategy.NoNeed || inventory - quantity >= 0;
+            return product.InventoryStrategy == InventoryStrategy.NoNeed || inventoryData.Inventory - quantity >= 0;
         }
 
-        public virtual async Task<int> GetInventoryAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId)
         {
             return await GetInventoryProviderOrDefault(product, productSku)
-                .GetInventoryAsync(product, productSku, storeId);
+                .GetInventoryDataAsync(product, productSku, storeId);
         }
 
-        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool reduceSold)
         {
             return await GetInventoryProviderOrDefault(product, productSku)
-                .TryIncreaseInventoryAsync(product, productSku, storeId, quantity);
+                .TryIncreaseInventoryAsync(product, productSku, storeId, quantity, reduceSold);
         }
 
-        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold)
         {
             return await GetInventoryProviderOrDefault(product, productSku)
-                .TryReduceInventoryAsync(product, productSku, storeId, quantity);
+                .TryReduceInventoryAsync(product, productSku, storeId, quantity, increaseSold);
         }
 
         protected virtual IProductInventoryProvider GetInventoryProviderOrDefault(Product product, ProductSku productSku)

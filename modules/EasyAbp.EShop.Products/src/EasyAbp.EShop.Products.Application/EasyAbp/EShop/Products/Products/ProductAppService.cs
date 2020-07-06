@@ -199,8 +199,8 @@ namespace EasyAbp.EShop.Products.Products
             
             var dto = MapToGetOutputDto(product);
             
-            await LoadRealInventoriesAsync(product, dto, storeId);
-            await LoadPricesAsync(product, dto, storeId);
+            await LoadDtoInventoryDataAsync(product, dto, storeId);
+            await LoadDtoPriceAsync(product, dto, storeId);
             
             return dto;
         }
@@ -218,7 +218,7 @@ namespace EasyAbp.EShop.Products.Products
             
             var dto = MapToGetOutputDto(product);
             
-            await LoadRealInventoriesAsync(product, dto, storeId);
+            await LoadDtoInventoryDataAsync(product, dto, storeId);
             
             return dto;
         }
@@ -256,8 +256,8 @@ namespace EasyAbp.EShop.Products.Products
             {
                 var productDto = MapToGetListOutputDto(product);
                 
-                await LoadRealInventoriesAsync(product, productDto, input.StoreId);
-                await LoadPricesAsync(product, productDto, input.StoreId);
+                await LoadDtoInventoryDataAsync(product, productDto, input.StoreId);
+                await LoadDtoPriceAsync(product, productDto, input.StoreId);
 
                 items.Add(productDto);
             }
@@ -265,19 +265,25 @@ namespace EasyAbp.EShop.Products.Products
             return new PagedResultDto<ProductDto>(totalCount, items);
         }
         
-        protected virtual async Task<ProductDto> LoadRealInventoriesAsync(Product product, ProductDto productDto, Guid storeId)
+        protected virtual async Task<ProductDto> LoadDtoInventoryDataAsync(Product product, ProductDto productDto, Guid storeId)
         {
-            var inventoryDict = await _productInventoryProvider.GetInventoryDictionaryAsync(product, storeId);
+            var inventoryDataDict = await _productInventoryProvider.GetInventoryDataDictionaryAsync(product, storeId);
 
+            productDto.Sold = 0;
+            
             foreach (var productSkuDto in productDto.ProductSkus)
             {
-                productSkuDto.Inventory = inventoryDict[productSkuDto.Id];
+                var inventoryData = inventoryDataDict[productSkuDto.Id];
+                
+                productSkuDto.Inventory = inventoryData.Inventory;
+                productSkuDto.Sold = inventoryData.Sold;
+                productDto.Sold += productSkuDto.Sold;
             }
 
             return productDto;
         }
 
-        protected virtual async Task<ProductDto> LoadPricesAsync(Product product, ProductDto productDto, Guid storeId)
+        protected virtual async Task<ProductDto> LoadDtoPriceAsync(Product product, ProductDto productDto, Guid storeId)
         {
             foreach (var productSkuDto in productDto.ProductSkus)
             {
@@ -369,7 +375,5 @@ namespace EasyAbp.EShop.Products.Products
 
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
-
-
     }
 }

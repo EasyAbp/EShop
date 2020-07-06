@@ -24,6 +24,7 @@ namespace EasyAbp.EShop.Products.Web
                 .Ignore(model => model.CategoryIds)
                 .Ignore(model => model.ProductDetail)
                 .Ignore(model => model.StoreId)
+                .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.ProductDetailId, opt => opt.DoNotValidate())
                 // .Ignore(x => x.ProductAttributes);
                 .ForMember(dest => dest.ProductAttributeNames,

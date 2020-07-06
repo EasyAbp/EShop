@@ -63,6 +63,7 @@ $(function () {
             { data: "contentDescription" },
             { data: "price" },
             { data: "inventory" },
+            { data: "sold" },
         ]
     }));
 

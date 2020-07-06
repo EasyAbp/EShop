@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public int Inventory { get; set; }
         
-        public int Sold { get; set; }
+        public long Sold { get; set; }
         
         public int OrderMinQuantity { get; set; }
         

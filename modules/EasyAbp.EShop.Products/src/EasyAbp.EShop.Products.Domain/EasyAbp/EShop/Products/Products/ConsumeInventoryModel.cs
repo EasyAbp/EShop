@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ReduceInventoryModel
+    public class ConsumeInventoryModel
     {
         public Product Product { get; set; }
         

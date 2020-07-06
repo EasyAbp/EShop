@@ -30,6 +30,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public bool IsHidden { get; set; }
         
+        public long Sold { get; set; }
+        
         public decimal? MinimumPrice { get; set; }
         
         public decimal? MaximumPrice { get; set; }

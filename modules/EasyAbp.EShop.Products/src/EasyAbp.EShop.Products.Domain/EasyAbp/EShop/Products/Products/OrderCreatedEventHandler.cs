@@ -38,7 +38,7 @@ namespace EasyAbp.EShop.Products.Products
 
             using var uow = _unitOfWorkManager.Begin(isTransactional: true);
 
-            var models = new List<ReduceInventoryModel>();
+            var models = new List<ConsumeInventoryModel>();
                 
             foreach (var orderLine in eventData.Entity.OrderLines)
             {
@@ -67,7 +67,7 @@ namespace EasyAbp.EShop.Products.Products
                     return;
                 }
 
-                models.Add(new ReduceInventoryModel
+                models.Add(new ConsumeInventoryModel
                 {
                     Product = product,
                     ProductSku = productSku,
@@ -79,7 +79,7 @@ namespace EasyAbp.EShop.Products.Products
             foreach (var model in models)
             {
                 if (await _productManager.TryReduceInventoryAsync(model.Product, model.ProductSku, model.StoreId,
-                    model.Quantity))
+                    model.Quantity, true))
                 {
                     continue;
                 }
