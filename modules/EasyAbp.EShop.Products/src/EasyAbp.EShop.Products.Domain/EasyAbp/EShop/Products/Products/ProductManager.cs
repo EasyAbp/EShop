@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -210,9 +210,9 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual IProductInventoryProvider GetInventoryProviderOrDefault(Product product, ProductSku productSku)
         {
-            var providerName = productSku.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
+            var providerName = !productSku.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
                 ? productSku.SpecifiedInventoryProviderName
-                : product.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
+                : !product.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
                     ? product.SpecifiedInventoryProviderName
                     : "Default";
 
