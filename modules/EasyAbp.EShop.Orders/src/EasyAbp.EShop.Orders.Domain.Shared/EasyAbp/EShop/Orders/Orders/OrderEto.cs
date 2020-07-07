@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     [Serializable]
-    public class OrderEto
+    public class OrderEto : IOrder, IMultiTenant
     {
         public Guid Id { get; set; }
         
@@ -31,12 +32,18 @@ namespace EasyAbp.EShop.Orders.Orders
         public string CustomerRemark { get; set; }
 
         public string StaffRemark { get; set; }
+        
+        public Guid? PaymentId { get; }
 
         public DateTime? PaidTime { get; set; }
 
         public DateTime? CompletionTime { get; set; }
 
         public DateTime? CanceledTime { get; set; }
+        
+        public DateTime? ReducedInventoryAfterPlacingTime { get; }
+        
+        public DateTime? ReducedInventoryAfterPaymentTime { get; }
 
         public List<OrderLineEto> OrderLines { get; set; }
     }

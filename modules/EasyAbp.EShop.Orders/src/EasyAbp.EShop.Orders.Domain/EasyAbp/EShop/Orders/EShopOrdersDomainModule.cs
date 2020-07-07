@@ -10,9 +10,8 @@ namespace EasyAbp.EShop.Orders
 {
     [DependsOn(
         typeof(AbpAutoMapperModule),
-        typeof(EShopOrdersDomainSharedModule),
-        typeof(EShopStoresDomainSharedModule)
-        )]
+        typeof(EShopOrdersDomainSharedModule)
+    )]
     public class EShopOrdersDomainModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

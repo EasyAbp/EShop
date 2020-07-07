@@ -3,7 +3,7 @@
 namespace EasyAbp.EShop.Orders.Orders
 {
     [Serializable]
-    public class OrderLineEto
+    public class OrderLineEto : IOrderLine
     {
         public Guid Id { get; set; }
 

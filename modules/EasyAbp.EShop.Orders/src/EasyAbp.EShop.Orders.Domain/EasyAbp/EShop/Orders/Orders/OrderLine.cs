@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderLine : FullAuditedEntity<Guid>
+    public class OrderLine : FullAuditedEntity<Guid>, IOrderLine
     {
         public virtual Guid ProductId { get; protected set; }
         

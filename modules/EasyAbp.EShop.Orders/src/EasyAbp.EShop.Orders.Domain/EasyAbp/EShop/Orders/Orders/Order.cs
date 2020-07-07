@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EasyAbp.EShop.Stores.Stores;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class Order : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
+    public class Order : FullAuditedAggregateRoot<Guid>, IOrder, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
         

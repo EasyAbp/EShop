@@ -1,6 +1,7 @@
 ﻿using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Orders.Localization;
+using EasyAbp.EShop.Stores;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
@@ -9,7 +10,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Orders
 {
     [DependsOn(
-        typeof(AbpValidationModule)
+        typeof(AbpValidationModule),
+        typeof(EShopStoresDomainSharedModule)
     )]
     public class EShopOrdersDomainSharedModule : AbpModule
     {
