@@ -82,12 +82,6 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, input.Quantity);
             }
-
-            if (productSku.Inventory < input.Quantity)
-            {
-                throw new InventoryInsufficientException(input.ProductId, input.ProductSkuId, input.Quantity,
-                    productSku.Inventory);
-            }
             
             return new OrderLine(
                 id: _guidGenerator.Create(),
