@@ -9,6 +9,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     public class ProductDto : FullAuditedEntityDto<Guid>
     {
         public Guid ProductTypeId { get; set; }
+        
+        public string ProductTypeName { get; set; }
 
         public Guid ProductDetailId { get; set; }
 

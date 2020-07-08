@@ -28,19 +28,12 @@
             <abp-column size-md="_6">
                 <abp-card-title>@L["ProductType"]</abp-card-title>
             </abp-column>
-            <abp-column size-md="_6" class="text-right">
-                <abp-button id="NewProductTypeButton"
-                            text="@L["CreateProductType"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-            </abp-column>
         </abp-row>
     </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="ProductTypeTable" class="nowrap">
             <thead>
             <tr>
-                <th>@L["Actions"]</th>
                 <th>@L["ProductTypeName"]</th>
                 <th>@L["ProductTypeDisplayName"]</th>
                 <th>@L["ProductTypeDescription"]</th>

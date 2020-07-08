@@ -29,6 +29,7 @@ namespace EasyAbp.EShop.Products
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Product, ProductDto>()
+                .Ignore(dto => dto.ProductTypeName)
                 .Ignore(dto => dto.Sold)
                 .Ignore(dto => dto.MinimumPrice)
                 .Ignore(dto => dto.MaximumPrice);
@@ -63,7 +64,6 @@ namespace EasyAbp.EShop.Products
             CreateMap<Category, CategoryDto>();
             CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);
             CreateMap<ProductType, ProductTypeDto>();
-            CreateMap<CreateUpdateProductTypeDto, ProductType>(MemberList.Source);
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();

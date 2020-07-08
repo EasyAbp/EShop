@@ -15,6 +15,9 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual DateTime ProductDetailModificationTime { get; protected set; }
         
         [NotNull]
+        public virtual string ProductTypeName { get; protected set; }
+        
+        [NotNull]
         public virtual string ProductName { get; protected set; }
         
         [CanBeNull]
@@ -42,6 +45,7 @@ namespace EasyAbp.EShop.Orders.Orders
             Guid productSkuId,
             DateTime productModificationTime,
             DateTime productDetailModificationTime,
+            [NotNull] string productTypeName,
             [NotNull] string productName,
             [CanBeNull] string skuDescription,
             [CanBeNull] string mediaResources,
@@ -55,6 +59,7 @@ namespace EasyAbp.EShop.Orders.Orders
             ProductSkuId = productSkuId;
             ProductModificationTime = productModificationTime;
             ProductDetailModificationTime = productDetailModificationTime;
+            ProductTypeName = productTypeName;
             ProductName = productName;
             SkuDescription = skuDescription;
             MediaResources = mediaResources;

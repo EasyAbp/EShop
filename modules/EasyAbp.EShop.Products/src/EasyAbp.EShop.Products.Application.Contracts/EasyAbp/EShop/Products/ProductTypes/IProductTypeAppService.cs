@@ -6,12 +6,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Products.ProductTypes
 {
     public interface IProductTypeAppService :
-        ICrudAppService< 
+        IReadOnlyAppService< 
             ProductTypeDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
-            CreateUpdateProductTypeDto,
-            CreateUpdateProductTypeDto>
+            PagedAndSortedResultRequestDto>
     {
 
     }

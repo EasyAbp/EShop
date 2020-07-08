@@ -12,6 +12,8 @@ namespace EasyAbp.EShop.Orders.Orders
         
         DateTime ProductDetailModificationTime { get; }
         
+        string ProductTypeName { get; }
+
         string ProductName { get; }
         
         string SkuDescription { get; }

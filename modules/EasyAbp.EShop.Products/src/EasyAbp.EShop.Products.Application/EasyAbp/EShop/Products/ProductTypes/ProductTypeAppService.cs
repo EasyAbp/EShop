@@ -6,12 +6,9 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.ProductTypes
 {
-    public class ProductTypeAppService : CrudAppService<ProductType, ProductTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateProductTypeDto, CreateUpdateProductTypeDto>,
+    public class ProductTypeAppService : ReadOnlyAppService<ProductType, ProductTypeDto, Guid, PagedAndSortedResultRequestDto>,
         IProductTypeAppService
     {
-        protected override string CreatePolicyName { get; set; } = ProductsPermissions.ProductTypes.Create;
-        protected override string DeletePolicyName { get; set; } = ProductsPermissions.ProductTypes.Delete;
-        protected override string UpdatePolicyName { get; set; } = ProductsPermissions.ProductTypes.Update;
         protected override string GetPolicyName { get; set; } = ProductsPermissions.ProductTypes.Default;
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.ProductTypes.Default;
         

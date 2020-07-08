@@ -89,6 +89,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 productSkuId: productSku.Id,
                 productModificationTime: product.LastModificationTime ?? product.CreationTime,
                 productDetailModificationTime: productSku.LastModificationTime ?? productSku.CreationTime,
+                productTypeName: product.ProductTypeName,
                 productName: product.DisplayName,
                 skuDescription: await _productSkuDescriptionProvider.GenerateAsync(product, productSku),
                 mediaResources: product.MediaResources,

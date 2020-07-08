@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
+using EasyAbp.EShop.Products.ProductTypes;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -26,6 +27,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
+        private readonly IProductTypeRepository _productTypeRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
@@ -33,12 +35,14 @@ namespace EasyAbp.EShop.Products.Products
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
+            IProductTypeRepository productTypeRepository,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
+            _productTypeRepository = productTypeRepository;
             _repository = repository;
         }
 
@@ -201,10 +205,22 @@ namespace EasyAbp.EShop.Products.Products
             
             await LoadDtoInventoryDataAsync(product, dto, storeId);
             await LoadDtoPriceAsync(product, dto, storeId);
-            
+
+            await LoadDtosProductTypeNameAsync(new[] {dto});
+
             return dto;
         }
-        
+
+        protected virtual async Task LoadDtosProductTypeNameAsync(IEnumerable<ProductDto> dtos)
+        {
+            var dict = (await _productTypeRepository.GetListAsync()).ToDictionary(x => x.Id, x => x.Name);
+
+            foreach (var dto in dtos)
+            {
+                dto.ProductTypeName = dict[dto.ProductTypeId];
+            }
+        }
+
         public virtual async Task<ProductDto> GetByCodeAsync(string code, Guid storeId)
         {
             await CheckGetPolicyAsync();
@@ -261,6 +277,8 @@ namespace EasyAbp.EShop.Products.Products
 
                 items.Add(productDto);
             }
+            
+            await LoadDtosProductTypeNameAsync(items);
             
             return new PagedResultDto<ProductDto>(totalCount, items);
         }

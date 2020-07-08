@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Categories.Dtos;
-using EasyAbp.EShop.Products.ProductTypes.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels;
-using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products.Web
@@ -65,7 +63,6 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
             CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>();
             CreateMap<CategoryDto, CreateUpdateCategoryDto>();
-            CreateMap<ProductTypeDto, CreateUpdateProductTypeDto>();
         }
     }
 }

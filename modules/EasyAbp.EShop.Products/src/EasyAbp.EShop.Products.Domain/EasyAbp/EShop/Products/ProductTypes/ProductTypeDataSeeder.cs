@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.Products.ProductTypes
         {
             if (await _productTypeRepository.GetCountAsync() == 0)
             {
-                await _productTypeRepository.InsertAsync(new ProductType(_guidGenerator.Create(), "Default", "Default",
+                await _productTypeRepository.InsertAsync(new ProductType(_guidGenerator.Create(), ProductsConsts.DefaultProductType, "Default",
                     null, MultiTenancySides.Both), true);
             }
         }

@@ -12,9 +12,6 @@ namespace EasyAbp.EShop.Products.Permissions
             var moduleGroup = context.AddGroup(ProductsPermissions.GroupName, L("Permission:Products"));
             
             var productTypes = moduleGroup.AddPermission(ProductsPermissions.ProductTypes.Default, L("Permission:ProductType"));
-            productTypes.AddChild(ProductsPermissions.ProductTypes.Create, L("Permission:Create"), MultiTenancySides.Host);
-            productTypes.AddChild(ProductsPermissions.ProductTypes.Update, L("Permission:Update"), MultiTenancySides.Host);
-            productTypes.AddChild(ProductsPermissions.ProductTypes.Delete, L("Permission:Delete"), MultiTenancySides.Host);
             
             var categories = moduleGroup.AddPermission(ProductsPermissions.Categories.Default, L("Permission:Category"));
             categories.AddChild(ProductsPermissions.Categories.CrossStore, L("Permission:CrossStore"));
