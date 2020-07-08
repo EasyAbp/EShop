@@ -37,7 +37,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
         }
         
-        public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
+        public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict, Dictionary<string, object> orderExtraProperties)
         {
             var orderLines = new List<OrderLine>();
 
@@ -59,6 +59,11 @@ namespace EasyAbp.EShop.Orders.Orders
                 totalPrice: productTotalPrice,
                 refundedAmount: 0,
                 customerRemark: input.CustomerRemark);
+
+            foreach (var orderExtraProperty in orderExtraProperties)
+            {
+                order.ExtraProperties.Add(orderExtraProperty.Key, orderExtraProperty.Value);
+            }
 
             order.SetOrderLines(orderLines);
             

@@ -105,7 +105,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
             await _purchasableCheckManager.CheckAsync(input, productDict);
             
-            var order = await _newOrderGenerator.GenerateAsync(input, productDict);
+            var orderExtraProperties = new Dictionary<string, object>();
+
+            var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
 
             await _orderDiscountManager.DiscountAsync(order, input.ExtraProperties);
 
