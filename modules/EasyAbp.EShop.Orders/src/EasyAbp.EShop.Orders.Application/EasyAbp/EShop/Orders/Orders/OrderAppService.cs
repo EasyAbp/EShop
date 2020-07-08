@@ -103,10 +103,10 @@ namespace EasyAbp.EShop.Orders.Orders
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList(),
                 input.StoreId);
 
-            await _purchasableCheckManager.CheckAsync(input, productDict);
-            
             var orderExtraProperties = new Dictionary<string, object>();
 
+            await _purchasableCheckManager.CheckAsync(input, productDict, orderExtraProperties);
+            
             var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
 
             await _orderDiscountManager.DiscountAsync(order, input.ExtraProperties);

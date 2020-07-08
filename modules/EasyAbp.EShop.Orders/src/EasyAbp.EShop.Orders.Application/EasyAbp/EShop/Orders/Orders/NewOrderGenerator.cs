@@ -7,6 +7,7 @@ using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.Json;
@@ -62,7 +63,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var orderExtraProperty in orderExtraProperties)
             {
-                order.ExtraProperties.Add(orderExtraProperty.Key, orderExtraProperty.Value);
+                order.SetProperty(orderExtraProperty.Key, orderExtraProperty.Value);
             }
 
             order.SetOrderLines(orderLines);
