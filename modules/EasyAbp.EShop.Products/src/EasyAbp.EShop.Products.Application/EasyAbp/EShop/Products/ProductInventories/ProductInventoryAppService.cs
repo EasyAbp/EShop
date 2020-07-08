@@ -63,16 +63,10 @@ namespace EasyAbp.EShop.Products.ProductInventories
                 productInventory =
                     new ProductInventory(GuidGenerator.Create(), input.ProductId, input.ProductSkuId, 0, 0);
 
-                await ChangeInventoryAsync(productInventory, input.ChangedInventory);
-
                 await _repository.InsertAsync(productInventory, true);
             }
-            else
-            {
-                await ChangeInventoryAsync(productInventory, input.ChangedInventory);
-
-                await _repository.UpdateAsync(productInventory, true);
-            }
+            
+            await ChangeInventoryAsync(productInventory, input.ChangedInventory);
 
             return ObjectMapper.Map<ProductInventory, ProductInventoryDto>(productInventory);
         }

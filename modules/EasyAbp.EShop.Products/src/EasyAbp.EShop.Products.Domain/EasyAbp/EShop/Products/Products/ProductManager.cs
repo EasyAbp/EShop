@@ -80,7 +80,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual async Task<Product> CreateSkuAsync(Product product, ProductSku productSku)
         {
-            productSku.SetSerializedAttributeOptionIds(await _attributeOptionIdsSerializer.FormatAsync(productSku.SerializedAttributeOptionIds));
+            // productSku.SetSerializedAttributeOptionIds(await _attributeOptionIdsSerializer.FormatAsync(productSku.SerializedAttributeOptionIds));
 
             await CheckSkuAttributeOptionsAsync(product, productSku);
 
