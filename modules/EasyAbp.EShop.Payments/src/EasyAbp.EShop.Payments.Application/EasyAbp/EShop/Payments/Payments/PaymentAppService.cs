@@ -24,15 +24,18 @@ namespace EasyAbp.EShop.Payments.Payments
         protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
         protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
 
+        private readonly IPayableChecker _payableChecker;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderAppService _orderAppService;
         private readonly IPaymentRepository _repository;
         
         public PaymentAppService(
+            IPayableChecker payableChecker,
             IDistributedEventBus distributedEventBus,
             IOrderAppService orderAppService,
             IPaymentRepository repository) : base(repository)
         {
+            _payableChecker = payableChecker;
             _distributedEventBus = distributedEventBus;
             _orderAppService = orderAppService;
             _repository = repository;
@@ -84,36 +87,21 @@ namespace EasyAbp.EShop.Payments.Payments
         }
         
         [Authorize(PaymentsPermissions.Payments.Create)]
-        public async Task CreateAsync(CreatePaymentDto input)
+        public virtual async Task CreateAsync(CreatePaymentDto input)
         {
             var orders = new List<OrderDto>();
             
             foreach (var orderId in input.OrderIds)
             {
-                var order = await _orderAppService.GetAsync(orderId);
-                
-                orders.Add(order);
-
-                if (order.PaymentId.HasValue || order.PaidTime.HasValue)
-                {
-                    throw new OrderPaymentAlreadyExistsException(orderId);
-                }
+                orders.Add(await _orderAppService.GetAsync(orderId));
             }
-
-            if (orders.Select(order => order.Currency).Distinct().Count() != 1)
-            {
-                throw new MultiCurrencyNotSupportedException();
-            }
-            
-            if (orders.Select(order => order.StoreId).Distinct().Count() != 1)
-            {
-                throw new MultiStorePaymentNotSupportedException();
-            }
-
-            // Todo: should avoid duplicate creations.
 
             var extraProperties = new Dictionary<string, object> {{"StoreId", orders.First().StoreId}};
 
+            await _payableChecker.CheckAsync(input, orders, extraProperties);
+
+            // Todo: should avoid duplicate creations.
+            
             await _distributedEventBus.PublishAsync(new CreatePaymentEto
             {
                 TenantId = CurrentTenant.Id,

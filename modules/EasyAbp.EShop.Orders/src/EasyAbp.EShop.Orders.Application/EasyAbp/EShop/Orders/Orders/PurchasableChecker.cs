@@ -8,16 +8,16 @@ using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class PurchasableCheckManager : IPurchasableCheckManager, ITransientDependency
+    public class PurchasableChecker : IPurchasableChecker, ITransientDependency
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public PurchasableCheckManager(IServiceProvider serviceProvider)
+        public PurchasableChecker(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public async Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict,
+        public virtual async Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict,
             Dictionary<string, object> orderExtraProperties)
         {
             var providers = _serviceProvider.GetServices<IPurchasableCheckProvider>();

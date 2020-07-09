@@ -24,20 +24,20 @@ namespace EasyAbp.EShop.Orders.Orders
         
         private readonly INewOrderGenerator _newOrderGenerator;
         private readonly IProductAppService _productAppService;
-        private readonly IPurchasableCheckManager _purchasableCheckManager;
+        private readonly IPurchasableChecker _purchasableChecker;
         private readonly IOrderDiscountManager _orderDiscountManager;
         private readonly IOrderRepository _repository;
 
         public OrderAppService(
             INewOrderGenerator newOrderGenerator,
             IProductAppService productAppService,
-            IPurchasableCheckManager purchasableCheckManager,
+            IPurchasableChecker purchasableChecker,
             IOrderDiscountManager orderDiscountManager,
             IOrderRepository repository) : base(repository)
         {
             _newOrderGenerator = newOrderGenerator;
             _productAppService = productAppService;
-            _purchasableCheckManager = purchasableCheckManager;
+            _purchasableChecker = purchasableChecker;
             _orderDiscountManager = orderDiscountManager;
             _repository = repository;
         }
@@ -105,7 +105,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var orderExtraProperties = new Dictionary<string, object>();
 
-            await _purchasableCheckManager.CheckAsync(input, productDict, orderExtraProperties);
+            await _purchasableChecker.CheckAsync(input, productDict, orderExtraProperties);
             
             var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
 
