@@ -6,9 +6,6 @@ namespace EasyAbp.EShop.Products.Categories.Dtos
 {
     public class CreateUpdateCategoryDto
     {
-        [DisplayName("CategoryParentCategoryId")]
-        public Guid? ParentCategoryId { get; set; }
-
         [Required]
         [DisplayName("CategoryDisplayName")]
         public string DisplayName { get; set; }
