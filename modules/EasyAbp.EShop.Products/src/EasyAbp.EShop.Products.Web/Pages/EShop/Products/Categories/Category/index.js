@@ -50,7 +50,7 @@ $(function () {
                         ]
                 }
             },
-            { data: "parentCategoryId" },
+            { data: "name" },
             { data: "displayName" },
             { data: "description" },
             { data: "mediaResources" },

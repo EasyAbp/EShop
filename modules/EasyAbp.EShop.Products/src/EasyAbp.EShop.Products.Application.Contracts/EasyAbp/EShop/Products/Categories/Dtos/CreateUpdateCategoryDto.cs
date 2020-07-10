@@ -7,6 +7,10 @@ namespace EasyAbp.EShop.Products.Categories.Dtos
     public class CreateUpdateCategoryDto
     {
         [Required]
+        [DisplayName("CategoryName")]
+        public string Name { get; set; }
+        
+        [Required]
         [DisplayName("CategoryDisplayName")]
         public string DisplayName { get; set; }
 

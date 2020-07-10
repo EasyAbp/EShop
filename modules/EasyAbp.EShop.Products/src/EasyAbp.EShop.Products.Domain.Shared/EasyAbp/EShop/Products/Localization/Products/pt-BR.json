@@ -54,7 +54,7 @@
     "Menu:Category": "MenuCategory",
     "Category": "Category",
     "CategoryTenantId": "CategoryTenantId",
-    "CategoryParentCategoryId": "CategoryParentCategoryId",
+    "CategoryName": "CategoryName",
     "CategoryDisplayName": "CategoryDisplayName",
     "CategoryDescription": "CategoryDescription",
     "CategoryMediaResources": "CategoryMediaResources",

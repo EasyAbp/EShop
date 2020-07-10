@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Products.Categories.Dtos
 {
     public class CategoryDto : FullAuditedEntityDto<Guid>
     {
+        public string Name { get; set; }
+        
         public string DisplayName { get; set; }
         
         [NotNull]
