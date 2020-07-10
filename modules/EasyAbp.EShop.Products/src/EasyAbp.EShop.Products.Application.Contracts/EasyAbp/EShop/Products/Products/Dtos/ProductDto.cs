@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     {
         public Guid ProductTypeId { get; set; }
         
-        public string ProductTypeName { get; set; }
+        public string ProductTypeUniqueName { get; set; }
 
         public Guid ProductDetailId { get; set; }
 

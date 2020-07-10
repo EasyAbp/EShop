@@ -4,7 +4,11 @@
     {
         public string MediaResources { get; set; }
         
-        public string ProductName { get; set; }
+        public string ProductUniqueName { get; set; }
+        
+        public string ProductDisplayName { get; set; }
+        
+        public string SkuName { get; set; }
         
         public string SkuDescription { get; set; }
         

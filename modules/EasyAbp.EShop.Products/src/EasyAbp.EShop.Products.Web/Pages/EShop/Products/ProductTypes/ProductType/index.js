@@ -14,7 +14,7 @@ $(function () {
         order: [[1, "asc"]],
         ajax: abp.libs.datatables.createAjax(service.getList),
         columnDefs: [
-            { data: "name" },
+            { data: "uniqueName" },
             { data: "displayName" },
             { data: "description" },
             { data: "multiTenancySide" },

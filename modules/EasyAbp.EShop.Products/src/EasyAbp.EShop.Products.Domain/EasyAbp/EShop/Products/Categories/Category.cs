@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Products.Categories
         public virtual Guid? TenantId { get; protected set; }
     
         [CanBeNull]
-        public virtual string Name { get; protected set; }
+        public virtual string UniqueName { get; protected set; }
         
         [CanBeNull]
         public virtual string Description { get; protected set; }
@@ -47,7 +47,7 @@ namespace EasyAbp.EShop.Products.Categories
         public Category(
             Guid id,
             Guid? tenantId,
-            string name,
+            string uniqueName,
             string displayName,
             string description,
             string mediaResources,
@@ -55,7 +55,7 @@ namespace EasyAbp.EShop.Products.Categories
         ) :base(id)
         {
             TenantId = tenantId;
-            Name = name;
+            UniqueName = uniqueName;
             DisplayName = displayName;
             Description = description;
             MediaResources = mediaResources;

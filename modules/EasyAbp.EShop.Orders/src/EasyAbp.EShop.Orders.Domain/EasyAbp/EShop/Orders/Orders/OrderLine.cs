@@ -13,12 +13,18 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual DateTime ProductModificationTime { get; protected set; }
         
         public virtual DateTime ProductDetailModificationTime { get; protected set; }
+
+        [NotNull]
+        public virtual string ProductTypeUniqueName { get; protected set; }
+        
+        [CanBeNull]
+        public virtual string ProductUniqueName { get; protected set; }
         
         [NotNull]
-        public virtual string ProductTypeName { get; protected set; }
-        
-        [NotNull]
-        public virtual string ProductName { get; protected set; }
+        public virtual string ProductDisplayName { get; protected set; }
+                
+        [CanBeNull]
+        public virtual string SkuName { get; protected set; }
         
         [CanBeNull]
         public virtual string SkuDescription { get; protected set; }
@@ -45,8 +51,10 @@ namespace EasyAbp.EShop.Orders.Orders
             Guid productSkuId,
             DateTime productModificationTime,
             DateTime productDetailModificationTime,
-            [NotNull] string productTypeName,
-            [NotNull] string productName,
+            [NotNull] string productTypeUniqueName,
+            [CanBeNull] string productUniqueName,
+            [NotNull] string productDisplayName,
+            [CanBeNull] string skuName,
             [CanBeNull] string skuDescription,
             [CanBeNull] string mediaResources,
             [NotNull] string currency,
@@ -59,8 +67,10 @@ namespace EasyAbp.EShop.Orders.Orders
             ProductSkuId = productSkuId;
             ProductModificationTime = productModificationTime;
             ProductDetailModificationTime = productDetailModificationTime;
-            ProductTypeName = productTypeName;
-            ProductName = productName;
+            ProductTypeUniqueName = productTypeUniqueName;
+            ProductUniqueName = productUniqueName;
+            ProductDisplayName = productDisplayName;
+            SkuName = skuName;
             SkuDescription = skuDescription;
             MediaResources = mediaResources;
             Currency = currency;

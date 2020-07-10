@@ -154,7 +154,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             item.UpdateProductData(quantity, new ProductDataModel
             {
                 MediaResources = productSkuDto.MediaResources ?? productDto.MediaResources,
-                ProductName = productDto.DisplayName,
+                ProductUniqueName = productDto.UniqueName,
+                ProductDisplayName = productDto.DisplayName,
+                SkuName = productSkuDto.Name,
                 SkuDescription = await _productSkuDescriptionProvider.GenerateAsync(productDto, productSkuDto),
                 Currency = productSkuDto.Currency,
                 UnitPrice = productSkuDto.DiscountedPrice,

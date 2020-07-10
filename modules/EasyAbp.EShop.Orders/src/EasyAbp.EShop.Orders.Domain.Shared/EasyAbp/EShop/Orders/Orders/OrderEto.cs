@@ -33,7 +33,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public string StaffRemark { get; set; }
         
-        public Guid? PaymentId { get; }
+        public Guid? PaymentId { get; set; }
 
         public DateTime? PaidTime { get; set; }
 
@@ -41,9 +41,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public DateTime? CanceledTime { get; set; }
         
-        public DateTime? ReducedInventoryAfterPlacingTime { get; }
+        public DateTime? ReducedInventoryAfterPlacingTime { get; set; }
         
-        public DateTime? ReducedInventoryAfterPaymentTime { get; }
+        public DateTime? ReducedInventoryAfterPaymentTime { get; set; }
 
         public List<OrderLineEto> OrderLines { get; set; }
     }

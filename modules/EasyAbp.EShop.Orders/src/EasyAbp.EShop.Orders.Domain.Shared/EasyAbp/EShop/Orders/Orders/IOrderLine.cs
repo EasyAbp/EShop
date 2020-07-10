@@ -12,9 +12,13 @@ namespace EasyAbp.EShop.Orders.Orders
         
         DateTime ProductDetailModificationTime { get; }
         
-        string ProductTypeName { get; }
+        string ProductTypeUniqueName { get; }
 
-        string ProductName { get; }
+        string ProductUniqueName { get; }
+        
+        string ProductDisplayName { get; }
+        
+        string SkuName { get; }
         
         string SkuDescription { get; }
         

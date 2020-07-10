@@ -25,9 +25,15 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
         
-        [NotNull]
-        public virtual string ProductName { get; protected set; }
+        [CanBeNull]
+        public virtual string ProductUniqueName { get; protected set; }
         
+        [NotNull]
+        public virtual string ProductDisplayName { get; protected set; }
+
+        [CanBeNull]
+        public virtual string SkuName { get; protected set; }
+
         [NotNull]
         public virtual string SkuDescription { get; protected set; }
 
@@ -70,7 +76,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             Quantity = quantity;
             
             MediaResources = productData.MediaResources;
-            ProductName = productData.ProductName;
+            ProductUniqueName = productData.ProductUniqueName;
+            ProductDisplayName = productData.ProductDisplayName;
+            SkuName = productData.SkuName;
             SkuDescription = productData.SkuDescription;
             Currency = productData.Currency;
             UnitPrice = productData.UnitPrice;

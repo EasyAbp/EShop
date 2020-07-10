@@ -205,18 +205,18 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtoInventoryDataAsync(product, dto, storeId);
             await LoadDtoPriceAsync(product, dto, storeId);
 
-            await LoadDtosProductTypeNameAsync(new[] {dto});
+            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
 
             return dto;
         }
 
-        protected virtual async Task LoadDtosProductTypeNameAsync(IEnumerable<ProductDto> dtos)
+        protected virtual async Task LoadDtosProductTypeUniqueNameAsync(IEnumerable<ProductDto> dtos)
         {
-            var dict = (await _productTypeRepository.GetListAsync()).ToDictionary(x => x.Id, x => x.Name);
+            var dict = (await _productTypeRepository.GetListAsync()).ToDictionary(x => x.Id, x => x.UniqueName);
 
             foreach (var dto in dtos)
             {
-                dto.ProductTypeName = dict[dto.ProductTypeId];
+                dto.ProductTypeUniqueName = dict[dto.ProductTypeId];
             }
         }
 
@@ -277,7 +277,7 @@ namespace EasyAbp.EShop.Products.Products
                 items.Add(productDto);
             }
             
-            await LoadDtosProductTypeNameAsync(items);
+            await LoadDtosProductTypeUniqueNameAsync(items);
             
             return new PagedResultDto<ProductDto>(totalCount, items);
         }

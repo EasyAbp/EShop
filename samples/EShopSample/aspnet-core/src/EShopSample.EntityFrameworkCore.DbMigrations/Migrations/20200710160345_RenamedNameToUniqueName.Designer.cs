@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710160345_RenamedNameToUniqueName")]
+    partial class RenamedNameToUniqueName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,9 +203,6 @@ namespace EShopSample.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SkuDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalDiscount")
@@ -536,9 +535,6 @@ namespace EShopSample.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SkuDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("StoreId")

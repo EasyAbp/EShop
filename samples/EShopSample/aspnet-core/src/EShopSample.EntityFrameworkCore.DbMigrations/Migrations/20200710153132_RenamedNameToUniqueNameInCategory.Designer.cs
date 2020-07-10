@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710153132_RenamedNameToUniqueNameInCategory")]
+    partial class RenamedNameToUniqueNameInCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,31 +181,25 @@ namespace EShopSample.Migrations
                     b.Property<DateTime>("ProductDetailModificationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProductDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ProductModificationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ProductSkuId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ProductTypeUniqueName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductUniqueName")
+                    b.Property<string>("ProductTypeName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("SkuDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalDiscount")
@@ -520,25 +516,19 @@ namespace EShopSample.Migrations
                     b.Property<string>("MediaResources")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProductDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ProductSkuId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ProductUniqueName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("SkuDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("StoreId")
@@ -1064,7 +1054,7 @@ namespace EShopSample.Migrations
                     b.Property<int>("MultiTenancySide")
                         .HasColumnType("int");
 
-                    b.Property<string>("UniqueName")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

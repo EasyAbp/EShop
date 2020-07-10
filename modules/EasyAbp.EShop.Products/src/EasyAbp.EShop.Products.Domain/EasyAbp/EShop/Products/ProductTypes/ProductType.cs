@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Products.ProductTypes
 {
     public class ProductType : FullAuditedAggregateRoot<Guid>
     {
-        public virtual string Name { get; protected set; }
+        public virtual string UniqueName { get; protected set; }
 
         [NotNull]
         public virtual string DisplayName { get; protected set; }
@@ -23,13 +23,13 @@ namespace EasyAbp.EShop.Products.ProductTypes
 
         public ProductType(
             Guid id,
-            string name,
+            string uniqueName,
             string displayName,
             string description,
             MultiTenancySides multiTenancySide
         ) :base(id)
         {
-            Name = name;
+            UniqueName = uniqueName;
             DisplayName = displayName;
             Description = description;
             MultiTenancySide = multiTenancySide;

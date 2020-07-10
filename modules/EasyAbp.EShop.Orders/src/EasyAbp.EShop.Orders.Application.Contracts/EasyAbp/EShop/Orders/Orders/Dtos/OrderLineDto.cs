@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
-    public class OrderLineDto : FullAuditedEntityDto<Guid>
+    public class OrderLineDto : FullAuditedEntityDto<Guid>, IOrderLine
     {
         public Guid ProductId { get; set; }
         
@@ -13,9 +13,13 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         
         public DateTime ProductDetailModificationTime { get; set; }
         
-        public string ProductTypeName { get; set; }
+        public string ProductTypeUniqueName { get; set; }
         
-        public string ProductName { get; set; }
+        public string ProductUniqueName { get; set; }
+
+        public string ProductDisplayName { get; set; }
+        
+        public string SkuName { get; set; }
         
         public string SkuDescription { get; set; }
         
