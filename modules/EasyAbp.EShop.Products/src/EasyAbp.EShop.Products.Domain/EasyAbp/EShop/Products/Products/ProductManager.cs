@@ -84,7 +84,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await CheckSkuAttributeOptionsAsync(product, productSku);
 
-            await CheckProductSkuCodeUniqueAsync(product, productSku);
+            await CheckProductSkuNameUniqueAsync(product, productSku);
             
             productSku.TrimCode();
             
@@ -93,17 +93,17 @@ namespace EasyAbp.EShop.Products.Products
             return await _productRepository.UpdateAsync(product, true);
         }
 
-        protected virtual Task CheckProductSkuCodeUniqueAsync(Product product, ProductSku productSku)
+        protected virtual Task CheckProductSkuNameUniqueAsync(Product product, ProductSku productSku)
         {
-            if (productSku.Code.IsNullOrEmpty())
+            if (productSku.Name.IsNullOrEmpty())
             {
                 return Task.CompletedTask;
             }
             
             if (product.ProductSkus.Where(sku => sku.Id != productSku.Id)
-                .FirstOrDefault(sku => sku.Code == productSku.Code) != null)
+                .FirstOrDefault(sku => sku.Name == productSku.Name) != null)
             {
-                throw new ProductSkuCodeDuplicatedException(product.Id, productSku.Code);
+                throw new ProductSkuCodeDuplicatedException(product.Id, productSku.Name);
             }
 
             return Task.CompletedTask;
@@ -122,7 +122,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual async Task<Product> UpdateSkuAsync(Product product, ProductSku productSku)
         {
-            await CheckProductSkuCodeUniqueAsync(product, productSku);
+            await CheckProductSkuNameUniqueAsync(product, productSku);
 
             return await _productRepository.UpdateAsync(product, true);
         }
@@ -142,14 +142,14 @@ namespace EasyAbp.EShop.Products.Products
         
         protected virtual async Task CheckProductCodeUniqueAsync(Product product)
         {
-            if (product.Code.IsNullOrEmpty())
+            if (product.UniqueName.IsNullOrEmpty())
             {
                 return;
             }
 
-            if (await _productRepository.FindAsync(x => x.Code == product.Code && x.Id != product.Id) != null)
+            if (await _productRepository.FindAsync(x => x.UniqueName == product.UniqueName && x.Id != product.Id) != null)
             {
-                throw new ProductCodeDuplicatedException(product.Code);
+                throw new ProductCodeDuplicatedException(product.UniqueName);
             }
         }
         

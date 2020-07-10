@@ -54,6 +54,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Products", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+                
+                b.HasIndex(x => x.UniqueName).IsUnique();
             });
             
             builder.Entity<ProductDetail>(b =>

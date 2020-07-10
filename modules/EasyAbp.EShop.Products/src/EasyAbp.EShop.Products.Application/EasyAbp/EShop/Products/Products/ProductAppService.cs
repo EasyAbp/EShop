@@ -77,7 +77,6 @@ namespace EasyAbp.EShop.Products.Products
             return MapToGetOutputDto(product);
         }
         
-
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
             await CheckUpdatePolicyAsync();
@@ -225,7 +224,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             await CheckGetPolicyAsync();
 
-            var product = await _repository.GetAsync(x => x.Code == code);
+            var product = await _repository.GetAsync(x => x.UniqueName == code);
             
             if (!product.IsPublished)
             {

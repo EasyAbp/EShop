@@ -13,7 +13,7 @@ namespace EasyAbp.EShop.Products.Products
         public virtual Guid ProductDetailId { get; protected set; }
 
         [CanBeNull]
-        public virtual string Code { get; protected set; }
+        public virtual string UniqueName { get; protected set; }
 
         [NotNull]
         public virtual string DisplayName { get; protected set; }
@@ -59,7 +59,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             ProductTypeId = productTypeId;
             ProductDetailId = productDetailId;
-            Code = code?.Trim();
+            UniqueName = code?.Trim();
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
             IsPublished = isPublished;
@@ -81,7 +81,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public void TrimCode()
         {
-            Code = Code?.Trim();
+            UniqueName = UniqueName?.Trim();
         }
     }
 }

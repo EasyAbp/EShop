@@ -59,7 +59,7 @@ $(function () {
                         ]
                 }
             },
-            { data: "code" },
+            { data: "name" },
             { data: "contentDescription" },
             { data: "price" },
             { data: "inventory" },

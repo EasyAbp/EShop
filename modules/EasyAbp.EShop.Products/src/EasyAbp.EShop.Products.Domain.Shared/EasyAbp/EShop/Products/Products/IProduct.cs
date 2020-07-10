@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Products.Products
         
         Guid ProductDetailId { get; }
 
-        string Code { get; }
+        string UniqueName { get; }
 
         string DisplayName { get; }
         

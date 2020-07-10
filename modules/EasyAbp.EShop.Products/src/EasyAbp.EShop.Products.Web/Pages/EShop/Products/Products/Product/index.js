@@ -51,7 +51,7 @@ $(function () {
                 }
             },
             { data: "productTypeId" },
-            { data: "code" },
+            { data: "uniqueName" },
             { data: "displayName" },
             { data: "inventoryStrategy" },
             { data: "sold" },

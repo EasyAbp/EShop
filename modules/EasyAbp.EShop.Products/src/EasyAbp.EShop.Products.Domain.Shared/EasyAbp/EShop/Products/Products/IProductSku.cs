@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         string SerializedAttributeOptionIds { get; }
         
-        string Code { get; }
+        string Name { get; }
         
         string Currency { get; }
         

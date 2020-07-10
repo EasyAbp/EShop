@@ -7,8 +7,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 {
     public class UpdateProductSkuDto
     {
-        [DisplayName("ProductSkuCode")]
-        public string Code { get; set; }
+        [DisplayName("ProductSkuName")]
+        public string Name { get; set; }
         
         [Required]
         [DisplayName("ProductSkuCurrency")]

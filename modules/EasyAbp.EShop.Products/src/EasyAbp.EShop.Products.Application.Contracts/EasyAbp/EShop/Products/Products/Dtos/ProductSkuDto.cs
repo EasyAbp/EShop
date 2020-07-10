@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     {
         public List<Guid> AttributeOptionIds { get; set; }
         
-        public string Code { get; set; }
+        public string Name { get; set; }
         
         public string Currency { get; set; }
         
