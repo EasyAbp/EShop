@@ -110,40 +110,7 @@ namespace EShopSample.Web
         {
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
-                options.ConventionalControllers.Create(typeof(EShopOrdersApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "eShop/orders";
-                });
-                options.ConventionalControllers.Create(typeof(EShopPaymentsApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "eShop/payments";
-                });
-                options.ConventionalControllers.Create(typeof(EShopPluginsApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "eShop/plugins";
-                });
-                options.ConventionalControllers.Create(typeof(EShopProductsApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "eShop/products";
-                });
-                options.ConventionalControllers.Create(typeof(EShopStoresApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "eShop/stores";
-                });
-                
-                options.ConventionalControllers.Create(typeof(EShopPluginsBasketsApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "eShop/plugins/baskets";
-                });
-                
-                options.ConventionalControllers.Create(typeof(PaymentServiceApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "paymentService";
-                });
-                options.ConventionalControllers.Create(typeof(PaymentServiceWeChatPayApplicationModule).Assembly, opt =>
-                {
-                    opt.RootPath = "paymentService/weChatPay";
-                });
+                options.ConventionalControllers.Create(typeof(EShopSampleApplicationModule).Assembly);
             });
         }
 
