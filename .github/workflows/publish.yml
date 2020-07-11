@@ -22,7 +22,7 @@ jobs:
           del * -Exclude EasyAbp.*
           del *.HttpApi.Client.ConsoleTestApp*
           del *.Host.Shared*
-          dir /b
+          dir -name
 
       - name: dotnet nuget push to GitHub
         run: |
