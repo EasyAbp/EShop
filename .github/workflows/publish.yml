@@ -19,10 +19,10 @@ jobs:
       - name: remove unused packages
         run: |
           cd dest
-          ls | grep -v EasyAbp. | xargs rm -f
-          ls | grep HttpApi.Client.ConsoleTestApp | xargs rm -f
-          ls | grep .Host.Shared | xargs rm -f
-          ls
+          del * -Exclude EasyAbp.*
+          del *.HttpApi.Client.ConsoleTestApp*
+          del *.Host.Shared*
+          dir
 
       - name: dotnet nuget push to GitHub
         run: |
