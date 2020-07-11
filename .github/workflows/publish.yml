@@ -28,6 +28,7 @@ jobs:
           cd dest
           ls | grep -v EasyAbp. | xargs rm -f
           ls | grep HttpApi.Client.ConsoleTestApp | xargs rm -f
+          ls | grep .Host.Shared | xargs rm -f
           ls
 
       - name: dotnet nuget push to GitHub
