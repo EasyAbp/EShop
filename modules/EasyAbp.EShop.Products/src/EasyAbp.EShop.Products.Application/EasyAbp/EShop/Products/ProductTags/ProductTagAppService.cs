@@ -1,8 +1,8 @@
-﻿using EasyAbp.EShop.Products.ProductTags.Dtos;
+﻿using EasyAbp.EShop.Products.Permissions;
+using EasyAbp.EShop.Products.ProductTags.Dtos;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;

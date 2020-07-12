@@ -1,24 +1,29 @@
-﻿using EasyAbp.EShop.Products.Authorization;
+﻿using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Tags.Dtos;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Linq;
 
 namespace EasyAbp.EShop.Products.Tags
 {
     public class TagAppService : CrudAppService<Tag, TagDto, Guid, GetTagListDto, CreateTagDto, UpdateTagDto>,
         ITagAppService
     {
+        private readonly IAsyncQueryableExecuter _asyncQueryableExecuter;
         protected override string CreatePolicyName { get; set; } = ProductsPermissions.Tags.Create;
         protected override string DeletePolicyName { get; set; } = ProductsPermissions.Tags.Delete;
         protected override string UpdatePolicyName { get; set; } = ProductsPermissions.Tags.Update;
         protected override string GetPolicyName { get; set; } = ProductsPermissions.Tags.Default;
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Tags.Default;
 
-        public TagAppService(ITagRepository repository) : base(repository)
+        public TagAppService(ITagRepository repository,
+            [NotNull] IAsyncQueryableExecuter asyncQueryableExecuter) : base(repository)
         {
+            _asyncQueryableExecuter = asyncQueryableExecuter ?? throw new ArgumentNullException(nameof(asyncQueryableExecuter));
         }
 
         protected override IQueryable<Tag> CreateFilteredQuery(GetTagListDto input)
@@ -49,12 +54,12 @@ namespace EasyAbp.EShop.Products.Tags
 
             var query = CreateFilteredQuery(input);
 
-            var totalCount = await AsyncQueryableExecuter.CountAsync(query);
+            var totalCount = await _asyncQueryableExecuter.CountAsync(query);
 
             query = ApplySorting(query, input);
             query = ApplyPaging(query, input);
 
-            var entities = await AsyncQueryableExecuter.ToListAsync(query);
+            var entities = await _asyncQueryableExecuter.ToListAsync(query);
 
             return new PagedResultDto<TagDto>(
                 totalCount,
