@@ -57,7 +57,7 @@ jobs:
 
       - name: add git tag
         uses: tvdias/github-tagger@v0.0.1
-        if: !${{ steps.checkTag.outputs.exists }}
+        if: ${{ steps.checkTag.outputs.exists == 'false' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.getVersion.outputs.first_match }}
