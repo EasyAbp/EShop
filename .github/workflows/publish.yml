@@ -16,11 +16,11 @@ jobs:
         with:
           path: ./common.props
 
-      - name: get version
-        id: getVersion
+      - name: get version line
+        id: getVersionLine
         uses: AsasInnab/regex-action@v1
         with:
-          regex_pattern: '^\s*<Version>(.*)<\/Version>\s*$'
+          regex_pattern: '(?<=>)[^<>]+(?=</Version>)'
           regex_flags: 'gim'
           search_string: '${{ steps.commonProps.outputs.content }}'
 
