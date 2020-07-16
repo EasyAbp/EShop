@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id}/abandoned")]
         [RemoteService(false)]
         public Task<ProductCategoryDto> GetAsync(Guid id)
         {

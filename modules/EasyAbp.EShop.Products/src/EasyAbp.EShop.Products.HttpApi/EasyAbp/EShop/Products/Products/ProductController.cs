@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id}/abandoned")]
         [RemoteService(false)]
         public Task<ProductDto> GetAsync(Guid id)
         {
@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id}/abandoned")]
         [RemoteService(false)]
         public Task DeleteAsync(Guid id)
         {

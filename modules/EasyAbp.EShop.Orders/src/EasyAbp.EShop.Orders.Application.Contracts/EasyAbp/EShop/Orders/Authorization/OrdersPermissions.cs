@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Orders.Authorization
             public const string Manage = Default + ".Manage";
             public const string CrossStore = Default + ".CrossStore";
             public const string Create = Default + ".Create";
-            public const string ConfirmReceipt = Default + ".ConfirmReceipt";
+            public const string Complete = Default + ".Complete";
             public const string RequestCancellation = Default + ".RequestCancellation";
             public const string Cancel = Default + ".Cancel";
         }

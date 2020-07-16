@@ -38,7 +38,7 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id}/abandoned")]
         [RemoteService(false)]
         public Task<OrderDto> UpdateAsync(Guid id, CreateOrderDto input)
         {
@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id}/abandoned")]
         [RemoteService(false)]
         public Task DeleteAsync(Guid id)
         {
@@ -58,6 +58,13 @@ namespace EasyAbp.EShop.Orders.Orders
         public Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
         {
             return _service.GetByOrderNumberAsync(orderNumber);
+        }
+
+        [HttpPost]
+        [Route("complete")]
+        public Task<OrderDto> CompleteAsync(CompleteOrderInput input)
+        {
+            return _service.CompleteAsync(input);
         }
     }
 }

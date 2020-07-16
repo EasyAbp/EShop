@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Timing;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -21,24 +22,27 @@ namespace EasyAbp.EShop.Orders.Orders
         protected override string CreatePolicyName { get; set; } = OrdersPermissions.Orders.Create;
         protected override string GetPolicyName { get; set; } = OrdersPermissions.Orders.Default;
         protected override string GetListPolicyName { get; set; } = OrdersPermissions.Orders.Default;
-        
+
+        private readonly IClock _clock;
         private readonly INewOrderGenerator _newOrderGenerator;
         private readonly IProductAppService _productAppService;
         private readonly IPurchasableChecker _purchasableChecker;
-        private readonly IOrderDiscountManager _orderDiscountManager;
+        private readonly IOrderManager _orderManager;
         private readonly IOrderRepository _repository;
 
         public OrderAppService(
+            IClock clock,
             INewOrderGenerator newOrderGenerator,
             IProductAppService productAppService,
             IPurchasableChecker purchasableChecker,
-            IOrderDiscountManager orderDiscountManager,
+            IOrderManager orderManager,
             IOrderRepository repository) : base(repository)
         {
+            _clock = clock;
             _newOrderGenerator = newOrderGenerator;
             _productAppService = productAppService;
             _purchasableChecker = purchasableChecker;
-            _orderDiscountManager = orderDiscountManager;
+            _orderManager = orderManager;
             _repository = repository;
         }
 
@@ -109,7 +113,7 @@ namespace EasyAbp.EShop.Orders.Orders
             
             var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
 
-            await _orderDiscountManager.DiscountAsync(order, input.ExtraProperties);
+            await _orderManager.DiscountAsync(order, input.ExtraProperties);
 
             await Repository.InsertAsync(order, autoSave: true);
 
@@ -154,6 +158,23 @@ namespace EasyAbp.EShop.Orders.Orders
                 // Todo: Check if current user is an admin of the store.
             }
             
+            return MapToGetOutputDto(order);
+        }
+
+        [Authorize(OrdersPermissions.Orders.Complete)]
+        public virtual async Task<OrderDto> CompleteAsync(CompleteOrderInput input)
+        {
+            var order = await GetEntityByIdAsync(input.OrderId);
+            
+            if (order.CustomerUserId != CurrentUser.GetId())
+            {
+                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
+
+                // Todo: Check if current user is an admin of the store.
+            }
+
+            order = await _orderManager.CompleteAsync(order);
+
             return MapToGetOutputDto(order);
         }
     }

@@ -52,7 +52,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id}/abandoned")]
         [RemoteService(false)]
         public Task DeleteAsync(Guid id, Guid storeId)
         {
