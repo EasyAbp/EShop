@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="0.5.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="0.5.2" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="3.0.1" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="3.0.1" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Domain.Shared\EasyAbp.EShop.Payments.Domain.Shared.csproj" />
