@@ -22,7 +22,7 @@ jobs:
         with:
           regex_pattern: '(?<=>)[^<>]+(?=</Version>)'
           regex_flags: 'gim'
-          search_string: '${{ steps.commonProps.outputs.content }}'
+          search_string: '${{ steps.commonProps.outputs.first_match }}'
 
       - name: dotnet build
         run: dotnet build -c Release
@@ -34,7 +34,7 @@ jobs:
         run: |
           cd dest
           del * -Exclude EasyAbp.*
-          del * -Exclude *.${{ steps.getVersion.outputs.content }}.nupkg
+          del * -Exclude *.${{ steps.getVersion.outputs.first_match }}.nupkg
           del *.HttpApi.Client.ConsoleTestApp*
           del *.Host.Shared*
           dir -name
@@ -50,5 +50,5 @@ jobs:
       - name: add git tag
         uses: Klemensas/action-autotag@stable
         with:
-          version: ${{ steps.getVersion.outputs.content }}
+          version: ${{ steps.getVersion.outputs.first_match }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
