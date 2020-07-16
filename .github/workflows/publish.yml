@@ -34,7 +34,7 @@ jobs:
         run: |
           cd dest
           del * -Exclude EasyAbp.*
-          del * -Exclude *.${{ steps.commonProps.outputs.content }}.nupkg
+          del * -Exclude *.${{ steps.getVersion.outputs.content }}.nupkg
           del *.HttpApi.Client.ConsoleTestApp*
           del *.Host.Shared*
           dir -name
