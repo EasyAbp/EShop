@@ -48,7 +48,7 @@ jobs:
         run: dotnet nuget push dest\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: determine if the tag exists
-      - uses: mukunku/tag-exists-action@v1.0.0
+        uses: mukunku/tag-exists-action@v1.0.0
         id: checkTag
         with:
           tag: ${{ steps.getVersion.outputs.first_match }}
