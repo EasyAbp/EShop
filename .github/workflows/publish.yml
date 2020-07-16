@@ -16,8 +16,8 @@ jobs:
         with:
           path: ./common.props
 
-      - name: get version line
-        id: getVersionLine
+      - name: get version
+        id: getVersion
         uses: AsasInnab/regex-action@v1
         with:
           regex_pattern: '(?<=>)[^<>]+(?=</Version>)'
@@ -50,5 +50,5 @@ jobs:
       - name: add git tag
         uses: Klemensas/action-autotag@stable
         with:
-          version: ${{ steps.commonProps.outputs.content }}
+          version: ${{ steps.getVersion.outputs.content }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
