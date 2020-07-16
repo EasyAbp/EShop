@@ -15,11 +15,32 @@ jobs:
 
       - name: dotnet pack
         run: dotnet pack -c Release --no-build -o dest
+        
+      - name: read common.props
+        id: commonProps
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./common.props
+          
+      - name: get version
+        id: getVersion
+        uses: AsasInnab/regex-action@v1
+        with:
+          regex_pattern: '^\s*<Version>(.*)<\/Version>\s*$'
+          regex_flags: 'gim'
+          search_string: '${{ steps.commonProps.outputs.content }}'
+
+      - name: add git tag
+        uses: Klemensas/action-autotag@stable
+        with:
+          version: ${{ steps.commonProps.outputs.content }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: remove unused packages
         run: |
           cd dest
           del * -Exclude EasyAbp.*
+          del * -Exclude *.${{ steps.commonProps.outputs.content }}.nupkg
           del *.HttpApi.Client.ConsoleTestApp*
           del *.Host.Shared*
           dir -name
