@@ -10,18 +10,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: warrenbuckley/Setup-Nuget@v1
 
-      - name: dotnet build
-        run: dotnet build -c Release
-
-      - name: dotnet pack
-        run: dotnet pack -c Release --no-build -o dest
-        
       - name: read common.props
         id: commonProps
         uses: juliangruber/read-file-action@v1
         with:
           path: ./common.props
-          
+
       - name: get version
         id: getVersion
         uses: AsasInnab/regex-action@v1
@@ -30,11 +24,11 @@ jobs:
           regex_flags: 'gim'
           search_string: '${{ steps.commonProps.outputs.content }}'
 
-      - name: add git tag
-        uses: Klemensas/action-autotag@stable
-        with:
-          version: ${{ steps.commonProps.outputs.content }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: dotnet build
+        run: dotnet build -c Release
+
+      - name: dotnet pack
+        run: dotnet pack -c Release --no-build -o dest
 
       - name: remove unused packages
         run: |
@@ -52,3 +46,9 @@ jobs:
 
       - name: dotnet nuget push to NuGet
         run: dotnet nuget push dest\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: add git tag
+        uses: Klemensas/action-autotag@stable
+        with:
+          version: ${{ steps.commonProps.outputs.content }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
