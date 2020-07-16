@@ -50,5 +50,5 @@ jobs:
       - name: add git tag
         uses: Klemensas/action-autotag@stable
         with:
-          version: ${{ steps.getVersion.outputs.first_match }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ steps.getVersion.outputs.first_match }}
