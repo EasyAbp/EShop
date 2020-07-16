@@ -48,7 +48,7 @@ jobs:
         run: dotnet nuget push dest\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: add git tag
-        uses: Klemensas/action-autotag@stable
+        uses: tvdias/github-tagger@v0.0.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ steps.getVersion.outputs.first_match }}
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          tag: "${{ steps.getVersion.outputs.first_match }}"
