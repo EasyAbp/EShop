@@ -5,7 +5,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Tags.Dtos
 {
-    public class UpdateTagDto : ExtensibleObject
+    public class UpdateTagDto
     {
         [DisplayName("TagParentId")]
         public Guid? ParentId { get; set; }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
+namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Tags.Tag
 {
     public class IndexModel : ProductsPageModel
     {
@@ -11,12 +11,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         [BindProperty(SupportsGet = true)]
         public Guid? StoreId { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public Guid? CategoryId { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public Guid? TagId { get; set; }
 
         public string StoreName { get; set; }
 

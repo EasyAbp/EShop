@@ -1,12 +1,12 @@
 $(function () {
 
-    var l = abp.localization.getResource('EasyAbpEShopProducts');
+    var l = abp.localization.getResource('Products');
 
-    var service = easyAbp.eShop.products.products.product;
-    var createModal = new abp.ModalManager(abp.appPath + 'EShop/Products/Products/Product/CreateModal');
-    var editModal = new abp.ModalManager(abp.appPath + 'EShop/Products/Products/Product/EditModal');
+    var service = easyAbp.eShop.products.tags.tag;
+    var createModal = new abp.ModalManager(abp.appPath + 'EShop/Products/Tags/Tag/CreateModal');
+    var editModal = new abp.ModalManager(abp.appPath + 'EShop/Products/Tags/Tag/EditModal');
 
-    var dataTable = $('#ProductTable').DataTable(abp.libs.datatables.normalizeConfiguration({
+    var dataTable = $('#TagTable').DataTable(abp.libs.datatables.normalizeConfiguration({
         processing: true,
         serverSide: true,
         paging: true,
@@ -15,7 +15,7 @@ $(function () {
         scrollCollapse: true,
         order: [[1, "asc"]],
         ajax: abp.libs.datatables.createAjax(service.getList, function () {
-            return { storeId: storeId, categoryId: categoryId, tagId: tagId, showHidden: true }
+            return { storeId: storeId, showHidden: true }
         }),
         columnDefs: [
             {
@@ -23,24 +23,25 @@ $(function () {
                     items:
                         [
                             {
-                                text: l('ProductSku'),
+                                text: l('Product'),
                                 action: function (data) {
-                                    document.location.href = document.location.origin + '/EShop/Products/Products/ProductSku?ProductId=' + data.record.id + '&StoreId=' + storeId;
+                                    document.location.href = document.location.origin +
+                                        '/EShop/Products/Products/Product?StoreId=' + storeId + '&TagId=' + data.record.id;
                                 }
                             },
                             {
                                 text: l('Edit'),
                                 action: function (data) {
-                                    editModal.open({ id: data.record.id, storeId: storeId });
+                                    editModal.open({ id: data.record.id });
                                 }
                             },
                             {
                                 text: l('Delete'),
                                 confirmMessage: function (data) {
-                                    return l('ProductDeletionConfirmationMessage', data.record.id);
+                                    return l('TagDeletionConfirmationMessage', data.record.id);
                                 },
                                 action: function (data) {
-                                    service.delete(data.record.id, storeId)
+                                        service.delete(data.record.id)
                                         .then(function () {
                                             abp.notify.info(l('SuccessfullyDeleted'));
                                             dataTable.ajax.reload();
@@ -50,12 +51,17 @@ $(function () {
                         ]
                 }
             },
-            { data: "productTypeId" },
-            { data: "uniqueName" },
+            { data: "id"},
+            //{ data: "storeId" },
+            { data: "description" },
+            { data: "mediaResources" },
+            //{ data: "isHidden" },
             { data: "displayName" },
-            { data: "inventoryStrategy" },
-            { data: "sold" },
-            { data: "isPublished" },
+            //{ data: "code" },
+            //{ data: "level" },
+            { data: "parentId" },
+            //{ data: "parent" },
+            //{ data: "children" },
         ]
     }));
 
@@ -67,8 +73,8 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewProductButton').click(function (e) {
+    $('#NewTagButton').click(function (e) {
         e.preventDefault();
-        createModal.open({ storeId: storeId, categoryId: categoryId, tagId: tagId });
+        createModal.open();
     });
 });

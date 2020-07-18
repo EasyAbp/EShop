@@ -9,6 +9,8 @@ using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductTypes;
+using EasyAbp.EShop.Products.Tags;
+using EasyAbp.EShop.Products.Tags.Dtos;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,16 +22,19 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
     {
         [BindProperty(SupportsGet = true)]
         public Guid StoreId { get; set; }
-        
+
         [BindProperty]
         public CreateEditProductViewModel Product { get; set; }
-        
+
         public ICollection<SelectListItem> ProductTypes { get; set; }
-        
+
         public ICollection<SelectListItem> Categories { get; set; }
+
+        public ICollection<SelectListItem> Tags { get; set; }
 
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
+        private readonly ITagAppService _tagAppService;
         private readonly IProductDetailAppService _productDetailAppService;
         private readonly IProductAppService _service;
 
@@ -37,26 +42,36 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             IProductTypeAppService productTypeAppService,
             ICategoryAppService categoryAppService,
             IProductDetailAppService productDetailAppService,
+            ITagAppService tagAppService,
             IProductAppService service)
         {
             _productTypeAppService = productTypeAppService;
             _categoryAppService = categoryAppService;
             _productDetailAppService = productDetailAppService;
+            _tagAppService = tagAppService;
             _service = service;
         }
 
-        public virtual async Task OnGetAsync(Guid? categoryId)
+        public virtual async Task OnGetAsync(Guid? categoryId, Guid? tagId)
         {
             ProductTypes =
                 (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
-                    {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount})).Items
+                { MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount })).Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
-            
+
             Categories =
                 (await _categoryAppService.GetListAsync(new GetCategoryListDto
-                    {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount}))?.Items
+                { MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount }))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
-            
+
+            Tags =
+                (await _tagAppService.GetListAsync(new GetTagListDto
+                {
+                    MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount,
+                    StoreId = StoreId
+                }))?.Items
+                .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
+
             Product = new CreateEditProductViewModel
             {
                 StoreId = StoreId,
@@ -68,10 +83,15 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
             if (categoryId.HasValue)
             {
-                Product.CategoryIds = new List<Guid>(new[] {categoryId.Value});
+                Product.CategoryIds = new List<Guid>(new[] { categoryId.Value });
+            }
+
+            if (tagId.HasValue)
+            {
+                Product.TagIds = new List<Guid>(new[] { tagId.Value });
             }
         }
-        
+
         public virtual async Task<IActionResult> OnPostAsync()
         {
             var detail = await _productDetailAppService.CreateAsync(
@@ -81,7 +101,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             var createDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
 
             createDto.ProductDetailId = detail.Id;
-            
+
             var product = await _service.CreateAsync(createDto);
 
             return NoContent();

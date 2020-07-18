@@ -11,7 +11,11 @@ using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
+using EasyAbp.EShop.Products.ProductTags;
+using EasyAbp.EShop.Products.ProductTags.Dtos;
 using EasyAbp.EShop.Products.ProductTypes;
+using EasyAbp.EShop.Products.Tags;
+using EasyAbp.EShop.Products.Tags.Dtos;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Volo.Abp.Application.Dtos;
@@ -31,23 +35,31 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         
         public ICollection<SelectListItem> Categories { get; set; }
 
+        public ICollection<SelectListItem> Tags { get; set; }
+
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
+        private readonly ITagAppService _tagAppService;
         private readonly IProductDetailAppService _productDetailAppService;
         private readonly IProductCategoryAppService _productCategoryAppService;
+        private readonly IProductTagAppService _productTagAppService;
         private readonly IProductAppService _service;
 
         public EditModalModel(
             IProductTypeAppService productTypeAppService,
             ICategoryAppService categoryAppService,
+            ITagAppService tagAppService,
             IProductDetailAppService productDetailAppService,
             IProductCategoryAppService productCategoryAppService,
+            IProductTagAppService productTagAppService,
             IProductAppService service)
         {
             _productTypeAppService = productTypeAppService;
             _categoryAppService = categoryAppService;
+            _tagAppService = tagAppService;
             _productDetailAppService = productDetailAppService;
             _productCategoryAppService = productCategoryAppService;
+            _productTagAppService = productTagAppService;
             _service = service;
         }
 
@@ -63,6 +75,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                     {MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount}))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
+            Tags =
+                (await _tagAppService.GetListAsync(new GetTagListDto
+                {
+                    MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount,
+                    StoreId = storeId
+                }))?.Items
+                .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
+
             var productDto = await _service.GetAsync(Id, storeId);
 
             var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId);
@@ -74,7 +94,13 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 ProductId = productDto.Id,
                 MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
             })).Items.Select(x => x.CategoryId).ToList();
-            
+
+            Product.TagIds = (await _productTagAppService.GetListAsync(new GetProductTagListDto
+            {
+                ProductId = productDto.Id,
+                MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
+            })).Items.Select(x => x.TagId).ToList();
+
             Product.ProductDetail = new CreateEditProductDetailViewModel
             {
                 StoreId = storeId,

@@ -20,6 +20,6 @@ namespace EasyAbp.EShop.Products.Products
         
         string MediaResources { get; }
         
-        public Guid? ProductDetailId { get; }
+        Guid? ProductDetailId { get; }
     }
 }

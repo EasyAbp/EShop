@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Tags.Dtos
@@ -11,10 +12,14 @@ namespace EasyAbp.EShop.Products.Tags.Dtos
         
         public string Code { get; set; }
 
+        public int Level { get; set; }
+
         public string DisplayName { get; set; }
 
         public string Description { get; set; }
 
         public string MediaResources { get; set; }
+
+        public ICollection<TagDto> Children { get; set; }
     }
 }

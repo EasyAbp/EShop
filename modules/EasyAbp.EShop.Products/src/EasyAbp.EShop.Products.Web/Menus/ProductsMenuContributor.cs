@@ -1,10 +1,7 @@
-using System.Collections.Generic;
 using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Products.Permissions;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Localization;
-using EasyAbp.EShop.Stores.Stores;
-using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.UI.Navigation;
 
 namespace EasyAbp.EShop.Products.Web.Menus
@@ -21,7 +18,9 @@ namespace EasyAbp.EShop.Products.Web.Menus
 
         private async Task ConfigureMainMenu(MenuConfigurationContext context)
         {
-            var l = context.GetLocalizer<ProductsResource>();            //Add main menu items.
+            var l = context.GetLocalizer<ProductsResource>();            
+            
+            //Add main menu items.
 
             var productManagementMenuItem = new ApplicationMenuItem(ProductsMenus.Prefix, l["Menu:ProductManagement"]);
 
@@ -39,14 +38,17 @@ namespace EasyAbp.EShop.Products.Web.Menus
                 );
             }
 
+            if (await context.IsGrantedAsync(ProductsPermissions.Tags.Default))
+            {
+                productManagementMenuItem.AddItem(
+                    new ApplicationMenuItem(ProductsMenus.Tag, l["Menu:Tag"], "/EShop/Products/Tags/Tag")
+                );
+            }
+
             if (await context.IsGrantedAsync(ProductsPermissions.Products.Default))
             {
-                var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
-
-                var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
-                
                 productManagementMenuItem.AddItem(
-                    new ApplicationMenuItem(ProductsMenus.Product, l["Menu:Product"], "/EShop/Products/Products/Product?storeId=" + defaultStore)
+                    new ApplicationMenuItem(ProductsMenus.Product, l["Menu:Product"], "/EShop/Products/Products/Product")
                 );
             }
 
