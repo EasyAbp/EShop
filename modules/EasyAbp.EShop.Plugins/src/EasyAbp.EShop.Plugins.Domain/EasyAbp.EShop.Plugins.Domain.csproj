@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="3.0.1" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="3.0.4" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Domain.Shared\EasyAbp.EShop.Plugins.Domain.Shared.csproj" />
   </ItemGroup>
 
