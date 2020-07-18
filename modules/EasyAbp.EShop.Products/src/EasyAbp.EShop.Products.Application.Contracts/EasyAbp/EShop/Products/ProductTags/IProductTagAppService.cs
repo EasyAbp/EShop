@@ -5,12 +5,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Products.ProductTags
 {
     public interface IProductTagAppService :
-        ICrudAppService<
+        IReadOnlyAppService<
             ProductTagDto,
             Guid,
-            GetProductTagListDto,
-            object,
-            object>
+            GetProductTagListDto>
     {
 
     }

@@ -75,6 +75,8 @@ namespace EasyAbp.EShop.Products
             CreateMap<CreateTagDto, TagDto>(MemberList.Source);
             CreateMap<UpdateTagDto, TagDto>(MemberList.Source);
             CreateMap<Tag, TagDto>();
+            CreateMap<CreateTagDto, Tag>(MemberList.Source);
+            CreateMap<UpdateTagDto, Tag>(MemberList.Source);
             CreateMap<ProductTag, ProductTagDto>();
         }
     }

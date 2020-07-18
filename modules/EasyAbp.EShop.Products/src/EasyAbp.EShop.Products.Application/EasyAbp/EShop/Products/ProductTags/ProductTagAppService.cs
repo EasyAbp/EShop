@@ -40,23 +40,5 @@ namespace EasyAbp.EShop.Products.ProductTags
         {
             throw new NotSupportedException();
         }
-
-        [RemoteService(false)]
-        public override Task<ProductTagDto> CreateAsync(object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task<ProductTagDto> UpdateAsync(Guid id, object input)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public override Task DeleteAsync(Guid id)
-        {
-            throw new NotSupportedException();
-        }
     }
 }

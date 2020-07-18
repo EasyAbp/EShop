@@ -18,9 +18,9 @@ namespace EasyAbp.EShop.Products.Products
             _service = service;
         }
 
-        [HttpGet]
-        [Route("{id}/abandoned")]
+        [Route("{id}")]
         [RemoteService(false)]
+        [NonAction]
         public Task<ProductDto> GetAsync(Guid id)
         {
             return _service.GetAsync(id);
@@ -45,8 +45,7 @@ namespace EasyAbp.EShop.Products.Products
             return _service.UpdateAsync(id, input);
         }
 
-        [HttpDelete]
-        [Route("{id}/abandoned")]
+        [NonAction]
         [RemoteService(false)]
         public Task DeleteAsync(Guid id)
         {

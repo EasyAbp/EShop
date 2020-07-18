@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EasyAbp.EShop.Products.Products.Dtos;
@@ -7,6 +7,7 @@ using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels;
+using EasyAbp.EShop.Products.Tags.Dtos;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Products.Web
@@ -20,6 +21,7 @@ namespace EasyAbp.EShop.Products.Web
              * into multiple profile classes for a better organization. */
             CreateMap<ProductDto, CreateEditProductViewModel>()
                 .Ignore(model => model.CategoryIds)
+                .Ignore(model => model.TagIds)
                 .Ignore(model => model.ProductDetail)
                 .Ignore(model => model.StoreId)
                 .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate())
@@ -34,8 +36,6 @@ namespace EasyAbp.EShop.Products.Web
                             .Select(a => a.ProductAttributeOptions.Select(o => o.DisplayName).JoinAsString(","))
                             .JoinAsString(Environment.NewLine)));
             CreateMap<CreateEditProductViewModel, CreateUpdateProductDto>()
-                // Todo: should be remove
-                .Ignore(dto => dto.TagIds)
                 .Ignore(dto => dto.ProductDetailId)
                 .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
                 .ForMember(dest => dest.ProductAttributes,
@@ -65,6 +65,8 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
             CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>();
             CreateMap<CategoryDto, CreateUpdateCategoryDto>();
+            CreateMap<TagDto, CreateTagDto>();
+            CreateMap<TagDto, UpdateTagDto>();
         }
     }
 }

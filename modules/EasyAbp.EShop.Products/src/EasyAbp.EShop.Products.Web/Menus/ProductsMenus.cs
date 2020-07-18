@@ -9,7 +9,9 @@
         public const string ProductType = Prefix + ".ProductType";
         
         public const string Category = Prefix + ".Category";
-        
+
+        public const string Tag = Prefix + ".Tag";
+
         public const string Product = Prefix + ".Product";
 
         //Add your menu items here...
