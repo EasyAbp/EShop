@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Plugins.Web
 
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EShopPluginsWebModule>("EasyAbp.EShop.Plugins.Web");
+                options.FileSets.AddEmbedded<EShopPluginsWebModule>();
             });
 
             context.Services.AddAutoMapperObjectMapper<EShopPluginsWebModule>();

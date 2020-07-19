@@ -5,11 +5,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>EShopSample</RootNamespace>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="0.6.0" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain.Shared" Version="0.6.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="0.6.2" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain.Shared" Version="0.6.2" />
     <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="3.0.4" />
     <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="3.0.4" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Domain.Shared" Version="3.0.4" />
@@ -25,6 +26,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Localization\EShopSample\*.json" />
     <Content Remove="Localization\EShopSample\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.5" />
   </ItemGroup>
 
 </Project>

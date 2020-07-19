@@ -14,10 +14,7 @@ namespace EasyAbp.EShop.Payments
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<EShopPaymentsApplicationContractsModule>("EasyAbp.EShop.Payments");
-            });
+
         }
     }
 }

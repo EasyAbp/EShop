@@ -8,6 +8,7 @@
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
     <RootNamespace>EasyAbp.EShop.Stores.Web</RootNamespace>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,10 @@
     <ProjectReference Include="..\EasyAbp.EShop.Stores.HttpApi\EasyAbp.EShop.Stores.HttpApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.5" />
+  </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="Pages\**\*.css" />
     <EmbeddedResource Include="Pages\**\*.js" />

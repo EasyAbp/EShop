@@ -17,7 +17,7 @@ namespace EasyAbp.EShop.Plugins
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EShopPluginsDomainSharedModule>("EasyAbp.EShop.Plugins");
+                options.FileSets.AddEmbedded<EShopPluginsDomainSharedModule>();
             });
 
             Configure<AbpLocalizationOptions>(options =>

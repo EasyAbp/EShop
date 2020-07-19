@@ -14,10 +14,7 @@ namespace EasyAbp.EShop.Orders
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<EShopOrdersApplicationContractsModule>("EasyAbp.EShop.Orders");
-            });
+
         }
     }
 }

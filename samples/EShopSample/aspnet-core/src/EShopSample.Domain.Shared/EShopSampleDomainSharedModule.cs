@@ -38,7 +38,7 @@ namespace EShopSample
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EShopSampleDomainSharedModule>("EShopSample");
+                options.FileSets.AddEmbedded<EShopSampleDomainSharedModule>();
             });
 
             Configure<AbpLocalizationOptions>(options =>

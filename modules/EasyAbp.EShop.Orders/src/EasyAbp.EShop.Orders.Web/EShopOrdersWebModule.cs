@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Orders.Web
 
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EShopOrdersWebModule>("EasyAbp.EShop.Orders.Web");
+                options.FileSets.AddEmbedded<EShopOrdersWebModule>();
             });
 
             context.Services.AddAutoMapperObjectMapper<EShopOrdersWebModule>();

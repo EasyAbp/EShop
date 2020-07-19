@@ -26,7 +26,7 @@ namespace EasyAbp.EShop
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EShopApplicationContractsModule>("EasyAbp.EShop");
+                options.FileSets.AddEmbedded<EShopApplicationContractsModule>();
             });
         }
     }

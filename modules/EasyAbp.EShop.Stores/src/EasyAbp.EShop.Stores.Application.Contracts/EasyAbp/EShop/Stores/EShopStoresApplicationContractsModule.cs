@@ -12,12 +12,6 @@ namespace EasyAbp.EShop.Stores
         )]
     public class EShopStoresApplicationContractsModule : AbpModule
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<EShopStoresApplicationContractsModule>("EasyAbp.EShop.Stores");
-            });
-        }
+
     }
 }
