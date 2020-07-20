@@ -78,9 +78,14 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         {
             await CheckGetListPolicyAsync();
             
-            if (input.UserId != CurrentUser.GetId() && !await IsCurrentUserManagerAsync())
+            if (!input.UserId.HasValue && !await IsCurrentUserManagerAsync())
             {
-                throw new AbpAuthorizationException();
+                input.UserId = CurrentUser.GetId();
+            }
+            
+            if (input.UserId != CurrentUser.GetId())
+            {
+                await AuthorizationService.CheckAsync(BasketsPermissions.BasketItem.Manage);
             }
 
             var query = CreateFilteredQuery(input);

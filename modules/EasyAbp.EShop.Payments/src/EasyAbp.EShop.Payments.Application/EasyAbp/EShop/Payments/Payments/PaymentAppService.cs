@@ -69,6 +69,12 @@ namespace EasyAbp.EShop.Payments.Payments
 
         public override async Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentListDto input)
         {
+            if (!input.UserId.HasValue &&
+                !await AuthorizationService.IsGrantedAsync(PaymentsPermissions.Payments.Manage))
+            {
+                input.UserId = CurrentUser.GetId();
+            }
+
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
