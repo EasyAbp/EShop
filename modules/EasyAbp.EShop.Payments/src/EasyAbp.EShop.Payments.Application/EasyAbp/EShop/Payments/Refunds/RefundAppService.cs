@@ -60,12 +60,6 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         public override async Task<PagedResultDto<RefundDto>> GetListAsync(GetRefundListDto input)
         {
-            if (!input.UserId.HasValue &&
-                !await AuthorizationService.IsGrantedAsync(PaymentsPermissions.Refunds.Manage))
-            {
-                input.UserId = CurrentUser.GetId();
-            }
-            
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);

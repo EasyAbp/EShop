@@ -78,11 +78,6 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         {
             await CheckGetListPolicyAsync();
             
-            if (!input.UserId.HasValue && !await IsCurrentUserManagerAsync())
-            {
-                input.UserId = CurrentUser.GetId();
-            }
-            
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(BasketsPermissions.BasketItem.Manage);

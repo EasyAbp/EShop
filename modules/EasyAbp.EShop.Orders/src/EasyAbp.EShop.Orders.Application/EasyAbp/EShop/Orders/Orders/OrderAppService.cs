@@ -65,12 +65,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public override async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrderListDto input)
         {
-            if (!input.CustomerUserId.HasValue &&
-                !await AuthorizationService.IsGrantedAsync(OrdersPermissions.Orders.Manage))
-            {
-                input.CustomerUserId = CurrentUser.GetId();
-            }
-
             if (input.CustomerUserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
