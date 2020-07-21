@@ -8,5 +8,10 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public Guid? StoreId { get; set; }
         
         public Guid? CustomerUserId { get; set; }
+
+        public GetOrderListDto()
+        {
+            MaxMaxResultCount = 50;
+        }
     }
 }

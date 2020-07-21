@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Timing;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -23,7 +22,6 @@ namespace EasyAbp.EShop.Orders.Orders
         protected override string GetPolicyName { get; set; } = OrdersPermissions.Orders.Default;
         protected override string GetListPolicyName { get; set; } = OrdersPermissions.Orders.Default;
 
-        private readonly IClock _clock;
         private readonly INewOrderGenerator _newOrderGenerator;
         private readonly IProductAppService _productAppService;
         private readonly IPurchasableChecker _purchasableChecker;
@@ -31,14 +29,12 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IOrderRepository _repository;
 
         public OrderAppService(
-            IClock clock,
             INewOrderGenerator newOrderGenerator,
             IProductAppService productAppService,
             IPurchasableChecker purchasableChecker,
             IOrderManager orderManager,
             IOrderRepository repository) : base(repository)
         {
-            _clock = clock;
             _newOrderGenerator = newOrderGenerator;
             _productAppService = productAppService;
             _purchasableChecker = purchasableChecker;
@@ -48,7 +44,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         protected override IQueryable<Order> CreateFilteredQuery(GetOrderListDto input)
         {
-            var query = base.CreateFilteredQuery(input);
+            var query = _repository.WithDetails();
 
             if (input.StoreId.HasValue)
             {
