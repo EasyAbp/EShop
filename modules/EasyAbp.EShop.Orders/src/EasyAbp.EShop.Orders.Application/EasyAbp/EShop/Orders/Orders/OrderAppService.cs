@@ -121,7 +121,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var dict = new Dictionary<Guid, ProductDto>();
 
-            foreach (var productId in productIds)
+            foreach (var productId in productIds.Distinct().ToList())
             {
                 dict.Add(productId, await _productAppService.GetAsync(productId, storeId));
             }
