@@ -8,7 +8,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public interface INewOrderGenerator
     {
-        Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict,
-            Dictionary<string, object> orderExtraProperties);
+        Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict);
     }
 }

@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.Authorization;
 using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds.Dtos;
+using EasyAbp.EShop.Stores.Permissions;
 using Microsoft.AspNetCore.Authorization;
-using Volo.Abp;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Users;
@@ -21,7 +21,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         private readonly IPaymentRepository _paymentRepository;
         private readonly IRefundRepository _repository;
-        
+
         public RefundAppService(
             IPaymentRepository paymentRepository,
             IRefundRepository repository) : base(repository)
@@ -35,17 +35,22 @@ namespace EasyAbp.EShop.Payments.Refunds
             var refund = await base.GetAsync(id);
 
             var payment = await _paymentRepository.GetAsync(refund.PaymentId);
-            
+
             if (payment.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
-
-                // Todo: Check if current user is an admin of the store.
+                if (payment.StoreId.HasValue)
+                {
+                    await AuthorizationService.CheckStoreOwnerAsync(payment.StoreId.Value, PaymentsPermissions.Refunds.Manage);
+                }
+                else
+                {
+                    await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
+                }
             }
 
             return refund;
         }
-        
+
         protected override IQueryable<Refund> CreateFilteredQuery(GetRefundListDto input)
         {
             var query = input.UserId.HasValue ? _repository.GetQueryableByUserId(input.UserId.Value) : _repository;
@@ -66,7 +71,8 @@ namespace EasyAbp.EShop.Payments.Refunds
 
                 if (input.StoreId.HasValue)
                 {
-                    // Todo: Check if current user is an admin of the store.
+                    await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value,
+                            PaymentsPermissions.Refunds.Manage);
                 }
                 else
                 {

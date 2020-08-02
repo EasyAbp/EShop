@@ -20,22 +20,36 @@ namespace EasyAbp.EShop.Products.Products
                 .Include(x => x.ProductSkus);
         }
 
-        public IQueryable<Product> GetQueryable(Guid storeId, Guid categoryId)
+        public IQueryable<Product> GetQueryable(Guid storeId, Guid? categoryId = null)
         {
-            return JoinProductCategories(GetQueryable(storeId), categoryId);
+            var queryable = GetStoreQueryable(storeId);
+
+            if (categoryId.HasValue)
+            {
+                queryable = JoinProductCategories(queryable, categoryId.Value);
+            }
+
+            return queryable;
         }
-        
-        public IQueryable<Product> GetQueryable(Guid storeId)
+
+        public IQueryable<Product> WithDetails(Guid storeId, Guid? categoryId = null)
+        {
+            var queryable = WithStoreDetails(storeId);
+
+            if (categoryId.HasValue)
+            {
+                queryable = JoinProductCategories(queryable, categoryId.Value);
+            }
+
+            return queryable;
+        }
+
+        protected virtual IQueryable<Product> GetStoreQueryable(Guid storeId)
         {
             return JoinProductStores(GetQueryable(), storeId);
         }
-        
-        public IQueryable<Product> WithDetails(Guid storeId, Guid categoryId)
-        {
-            return JoinProductCategories(WithDetails(storeId), categoryId);
-        }
-        
-        public IQueryable<Product> WithDetails(Guid storeId)
+
+        protected virtual IQueryable<Product> WithStoreDetails(Guid storeId)
         {
             return JoinProductStores(WithDetails(), storeId);
         }
@@ -49,7 +63,7 @@ namespace EasyAbp.EShop.Products.Products
                 (product, productStore) => product
             );
         }
-        
+
         protected virtual IQueryable<Product> JoinProductCategories(IQueryable<Product> queryable, Guid categoryId)
         {
             return queryable.Join(

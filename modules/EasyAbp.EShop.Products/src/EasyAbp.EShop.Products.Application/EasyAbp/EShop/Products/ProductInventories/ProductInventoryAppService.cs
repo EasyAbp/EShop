@@ -1,10 +1,11 @@
-using System;
-using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.ProductStores;
+using EasyAbp.EShop.Stores.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Validation;
 
@@ -50,9 +51,9 @@ namespace EasyAbp.EShop.Products.ProductInventories
                 {
                     throw new AbpValidationException("StoreId should not be null.");
                 }
-                
-                // Todo: Check if current user is an admin of the store.
-                
+
+                await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value, ProductsPermissions.ProductInventory.Update);
+
                 await _productStoreRepository.GetAsync(input.ProductId, input.StoreId.Value);
             }
 
@@ -65,7 +66,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
                 await _repository.InsertAsync(productInventory, true);
             }
-            
+
             await ChangeInventoryAsync(productInventory, input.ChangedInventory);
 
             return ObjectMapper.Map<ProductInventory, ProductInventoryDto>(productInventory);

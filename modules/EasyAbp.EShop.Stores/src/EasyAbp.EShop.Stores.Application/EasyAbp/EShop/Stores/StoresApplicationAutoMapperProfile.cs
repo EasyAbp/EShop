@@ -1,6 +1,9 @@
+using AutoMapper;
+using EasyAbp.EShop.Stores.StoreOwners;
+using EasyAbp.EShop.Stores.StoreOwners.Dtos;
 using EasyAbp.EShop.Stores.Stores;
 using EasyAbp.EShop.Stores.Stores.Dtos;
-using AutoMapper;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Stores
 {
@@ -11,8 +14,14 @@ namespace EasyAbp.EShop.Stores
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<Store, StoreDto>();
-            CreateMap<CreateUpdateStoreDto, Store>(MemberList.Source);
+            CreateMap<Store, StoreDto>()
+                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
+            CreateMap<CreateUpdateStoreDto, Store>(MemberList.Source)
+                .MapExtraProperties(MappingPropertyDefinitionChecks.Both)
+                .ForSourceMember(x => x.OwnerIds, opt => opt.DoNotValidate());
+
+            CreateMap<StoreOwner, StoreOwnerDto>();
+
         }
     }
 }

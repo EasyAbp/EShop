@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>EasyAbp.EShop.Plugins.StoreApproval</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="3.0.5" />
+    <ProjectReference Include="..\EasyAbp.EShop.Plugins.StoreApproval.Domain\EasyAbp.EShop.Plugins.StoreApproval.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

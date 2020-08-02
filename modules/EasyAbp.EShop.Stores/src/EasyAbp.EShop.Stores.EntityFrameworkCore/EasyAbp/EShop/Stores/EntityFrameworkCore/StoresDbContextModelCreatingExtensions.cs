@@ -1,5 +1,6 @@
 using EasyAbp.EShop.Stores.Stores;
 using System;
+using EasyAbp.EShop.Stores.StoreOwners;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -45,6 +46,13 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
             {
                 b.ToTable(options.TablePrefix + "Stores", options.Schema);
                 b.ConfigureByConvention(); 
+                /* Configure more properties here */
+            });
+
+            builder.Entity<StoreOwner>(b =>
+            {
+                b.ToTable(options.TablePrefix + "StoreOwners", options.Schema);
+                b.ConfigureByConvention();
                 /* Configure more properties here */
             });
         }

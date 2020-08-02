@@ -17,14 +17,13 @@ namespace EasyAbp.EShop.Orders.Orders
             _serviceProvider = serviceProvider;
         }
 
-        public virtual async Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict,
-            Dictionary<string, object> orderExtraProperties)
+        public virtual async Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
         {
             var providers = _serviceProvider.GetServices<IPurchasableCheckProvider>();
 
             foreach (var provider in providers)
             {
-                await provider.CheckAsync(input, productDict, orderExtraProperties);
+                await provider.CheckAsync(input, productDict);
             }
         }
     }

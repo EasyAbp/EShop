@@ -8,12 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="3.0.4" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="3.0.5" />
     <ProjectReference Include="..\EasyAbp.EShop.Stores.Domain\EasyAbp.EShop.Stores.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EasyAbp\EShop\Stores" />
   </ItemGroup>
 
 </Project>

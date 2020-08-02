@@ -6,6 +6,7 @@ using EasyAbp.EShop.Orders.Authorization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
+using EasyAbp.EShop.Stores.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -67,7 +68,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 if (input.StoreId.HasValue)
                 {
-                    // Todo: Check if current user is an admin of the store.
+                    await AuthorizationService.IsStoreOwnerGrantedAsync(input.StoreId.Value,
+                        OrdersPermissions.Orders.Manage);
                 }
                 else
                 {
@@ -86,11 +88,10 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (order.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
-
-                // Todo: Check if current user is an admin of the store.
+                await AuthorizationService.CheckStoreOwnerAsync(order.StoreId,
+                    OrdersPermissions.Orders.Manage);
             }
-            
+
             return MapToGetOutputDto(order);
         }
 
@@ -103,13 +104,11 @@ namespace EasyAbp.EShop.Orders.Orders
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList(),
                 input.StoreId);
 
-            var orderExtraProperties = new Dictionary<string, object>();
+            await _purchasableChecker.CheckAsync(input, productDict);
 
-            await _purchasableChecker.CheckAsync(input, productDict, orderExtraProperties);
-            
-            var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
+            var order = await _newOrderGenerator.GenerateAsync(input, productDict);
 
-            await _orderManager.DiscountAsync(order, input.ExtraProperties);
+            await _orderManager.DiscountAsync(order);
 
             await Repository.InsertAsync(order, autoSave: true);
 
@@ -134,7 +133,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             throw new NotSupportedException();
         }
-        
+
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {
@@ -149,11 +148,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (order.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
-
-                // Todo: Check if current user is an admin of the store.
+                await AuthorizationService.CheckStoreOwnerAsync(order.StoreId, OrdersPermissions.Orders.Manage);
             }
-            
+
             return MapToGetOutputDto(order);
         }
 
@@ -161,12 +158,10 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual async Task<OrderDto> CompleteAsync(CompleteOrderInput input)
         {
             var order = await GetEntityByIdAsync(input.OrderId);
-            
+
             if (order.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
-
-                // Todo: Check if current user is an admin of the store.
+                await AuthorizationService.CheckStoreOwnerAsync(order.StoreId, OrdersPermissions.Orders.Manage);
             }
 
             order = await _orderManager.CompleteAsync(order);

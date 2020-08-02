@@ -11,8 +11,7 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class BasicPurchasableCheckProvider : IPurchasableCheckProvider, ITransientDependency
     {
-        public virtual async Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict,
-            Dictionary<string, object> orderExtraProperties)
+        public virtual async Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
         {
             await CheckProductsPublishedAsync(input, productDict);
 

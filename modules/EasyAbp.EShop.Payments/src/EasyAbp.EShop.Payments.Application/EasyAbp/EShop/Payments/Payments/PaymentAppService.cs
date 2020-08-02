@@ -1,15 +1,14 @@
+using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Payments.Authorization;
+using EasyAbp.EShop.Payments.Payments.Dtos;
+using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.PaymentService.Payments;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Orders.Orders;
-using EasyAbp.EShop.Orders.Orders.Dtos;
-using EasyAbp.EShop.Payments.Authorization;
-using EasyAbp.EShop.Payments.Payments;
-using EasyAbp.EShop.Payments.Payments.Dtos;
-using EasyAbp.PaymentService.Payments;
-using Microsoft.AspNetCore.Authorization;
-using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -27,8 +26,7 @@ namespace EasyAbp.EShop.Payments.Payments
         private readonly IPayableChecker _payableChecker;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderAppService _orderAppService;
-        private readonly IPaymentRepository _repository;
-        
+
         public PaymentAppService(
             IPayableChecker payableChecker,
             IDistributedEventBus distributedEventBus,
@@ -38,7 +36,6 @@ namespace EasyAbp.EShop.Payments.Payments
             _payableChecker = payableChecker;
             _distributedEventBus = distributedEventBus;
             _orderAppService = orderAppService;
-            _repository = repository;
         }
 
         public override async Task<PaymentDto> GetAsync(Guid id)
@@ -47,14 +44,20 @@ namespace EasyAbp.EShop.Payments.Payments
 
             if (payment.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
-
-                // Todo: Check if current user is an admin of the store.
+                if (payment.StoreId.HasValue)
+                {
+                    await AuthorizationService.CheckStoreOwnerAsync(payment.StoreId.Value,
+                        PaymentsPermissions.Payments.Manage);
+                }
+                else
+                {
+                    await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
+                }
             }
 
             return payment;
         }
-        
+
         protected override IQueryable<Payment> CreateFilteredQuery(GetPaymentListDto input)
         {
             var query = base.CreateFilteredQuery(input);
@@ -75,7 +78,8 @@ namespace EasyAbp.EShop.Payments.Payments
 
                 if (input.StoreId.HasValue)
                 {
-                    // Todo: Check if current user is an admin of the store.
+                    await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value,
+                            PaymentsPermissions.Payments.Manage);
                 }
                 else
                 {
@@ -85,23 +89,23 @@ namespace EasyAbp.EShop.Payments.Payments
 
             return await base.GetListAsync(input);
         }
-        
+
         [Authorize(PaymentsPermissions.Payments.Create)]
         public virtual async Task CreateAsync(CreatePaymentDto input)
         {
             var orders = new List<OrderDto>();
-            
+
             foreach (var orderId in input.OrderIds)
             {
                 orders.Add(await _orderAppService.GetAsync(orderId));
             }
 
-            var extraProperties = new Dictionary<string, object> {{"StoreId", orders.First().StoreId}};
+            var extraProperties = new Dictionary<string, object> { { "StoreId", orders.First().StoreId } };
 
             await _payableChecker.CheckAsync(input, orders, extraProperties);
 
             // Todo: should avoid duplicate creations.
-            
+
             await _distributedEventBus.PublishAsync(new CreatePaymentEto
             {
                 TenantId = CurrentTenant.Id,

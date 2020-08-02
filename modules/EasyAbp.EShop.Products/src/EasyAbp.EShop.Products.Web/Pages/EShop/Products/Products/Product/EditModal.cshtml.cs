@@ -1,19 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Categories.Dtos;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductCategories.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
-using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
@@ -30,6 +30,8 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         public ICollection<SelectListItem> ProductTypes { get; set; }
         
         public ICollection<SelectListItem> Categories { get; set; }
+
+        public ICollection<SelectListItem> Tags { get; set; }
 
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
@@ -74,7 +76,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 ProductId = productDto.Id,
                 MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
             })).Items.Select(x => x.CategoryId).ToList();
-            
+
             Product.ProductDetail = new CreateEditProductDetailViewModel
             {
                 StoreId = storeId,

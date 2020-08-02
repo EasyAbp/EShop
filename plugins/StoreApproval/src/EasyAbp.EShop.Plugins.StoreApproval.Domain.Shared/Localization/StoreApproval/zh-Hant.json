@@ -1,0 +1,31 @@
+{
+  "culture": "zh-Hant",
+  "texts": {
+    "ManageYourProfile": "管理個人資料",
+    "Permission:StoreApplication": "StoreApplication",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Permission:Approval": "Approval",
+    "Menu:StoreApplication": "MenuStoreApplication",
+    "StoreApplication": "StoreApplication",
+    "StoreApplicationApplicantId": "StoreApplicationApplicantId",
+    "StoreApplicationApprovalStatus": "StoreApplicationApprovalStatus",
+    "StoreApplicationStoreName": "StoreApplicationStoreName",
+    "StoreApplicationBusinessCategory": "StoreApplicationBusinessCategory",
+    "StoreApplicationAddress": "StoreApplicationAddress",
+    "StoreApplicationUnifiedCreditCode": "StoreApplicationUnifiedCreditCode",
+    "StoreApplicationHouseNumber": "StoreApplicationHouseNumber",
+    "StoreApplicationBusinessLicenseImage": "StoreApplicationBusinessLicenseImage",
+    "StoreApplicationName": "StoreApplicationName",
+    "StoreApplicationIdNumber": "StoreApplicationIdNumber",
+    "StoreApplicationIdCardFrontImage": "StoreApplicationIdCardFrontImage",
+    "StoreApplicationIdCardBackImage": "StoreApplicationIdCardBackImage",
+    "StoreApplicationStoreImage": "StoreApplicationStoreImage",
+    "StoreApplicationNote": "StoreApplicationNote",
+    "CreateStoreApplication": "CreateStoreApplication",
+    "EditStoreApplication": "EditStoreApplication",
+    "StoreApplicationDeletionConfirmationMessage": "Are you sure to delete the storeApplication {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

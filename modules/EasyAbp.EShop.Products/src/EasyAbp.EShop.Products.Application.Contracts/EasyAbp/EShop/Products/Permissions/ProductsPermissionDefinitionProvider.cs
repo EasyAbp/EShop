@@ -18,7 +18,8 @@ namespace EasyAbp.EShop.Products.Permissions
             categories.AddChild(ProductsPermissions.Categories.Create, L("Permission:Create"));
             categories.AddChild(ProductsPermissions.Categories.Update, L("Permission:Update"));
             categories.AddChild(ProductsPermissions.Categories.Delete, L("Permission:Delete"));
-            
+            categories.AddChild(ProductsPermissions.Categories.ShowHidden, L("Permission:ShowHidden"));
+
             var product = moduleGroup.AddPermission(ProductsPermissions.Products.Default, L("Permission:Product"));
             product.AddChild(ProductsPermissions.Products.CrossStore, L("Permission:CrossStore"));
             product.AddChild(ProductsPermissions.Products.Create, L("Permission:Create"));

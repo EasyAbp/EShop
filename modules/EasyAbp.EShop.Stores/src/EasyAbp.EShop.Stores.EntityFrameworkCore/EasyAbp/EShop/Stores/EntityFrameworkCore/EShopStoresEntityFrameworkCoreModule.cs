@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Stores.StoreOwners;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
                 options.AddRepository<Store, StoreRepository>();
+                options.AddRepository<StoreOwner, StoreOwnerRepository>();
             });
         }
     }

@@ -12,6 +12,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -38,7 +39,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
         }
         
-        public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict, Dictionary<string, object> orderExtraProperties)
+        public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
         {
             var orderLines = new List<OrderLine>();
 
@@ -61,10 +62,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 refundedAmount: 0,
                 customerRemark: input.CustomerRemark);
 
-            foreach (var orderExtraProperty in orderExtraProperties)
-            {
-                order.SetProperty(orderExtraProperty.Key, orderExtraProperty.Value);
-            }
+            input.MapExtraPropertiesTo(order, MappingPropertyDefinitionChecks.Both);
 
             order.SetOrderLines(orderLines);
             
