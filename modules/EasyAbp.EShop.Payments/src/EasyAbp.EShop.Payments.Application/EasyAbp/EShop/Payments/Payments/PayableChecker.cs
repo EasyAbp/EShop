@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Payments.Payments.Dtos;
+using EasyAbp.PaymentService.Payments;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 
@@ -18,14 +19,13 @@ namespace EasyAbp.EShop.Payments.Payments
         }
 
 
-        public virtual async Task CheckAsync(CreatePaymentDto input, List<OrderDto> orders,
-            Dictionary<string, object> paymentExtraProperties)
+        public virtual async Task CheckAsync(CreatePaymentDto input, List<OrderDto> orders, CreatePaymentEto createPaymentEto)
         {
             var providers = _serviceProvider.GetServices<IPayableCheckProvider>();
 
             foreach (var provider in providers)
             {
-                await provider.CheckAsync(input, orders, paymentExtraProperties);
+                await provider.CheckAsync(input, orders, createPaymentEto);
             }
         }
     }

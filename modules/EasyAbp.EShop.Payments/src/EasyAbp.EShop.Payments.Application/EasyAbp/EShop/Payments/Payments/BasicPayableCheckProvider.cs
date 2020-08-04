@@ -10,8 +10,7 @@ namespace EasyAbp.EShop.Payments.Payments
 {
     public class BasicPayableCheckProvider : IPayableCheckProvider, ITransientDependency
     {
-        public virtual Task CheckAsync(CreatePaymentDto input, List<OrderDto> orders,
-            Dictionary<string, object> paymentExtraProperties)
+        public virtual Task CheckAsync(CreatePaymentDto input, List<OrderDto> orders, CreatePaymentEto createPaymentEto)
         {
             foreach (var order in orders.Where(order => order.PaymentId.HasValue || order.PaidTime.HasValue))
             {
@@ -23,10 +22,10 @@ namespace EasyAbp.EShop.Payments.Payments
                 throw new MultiCurrencyNotSupportedException();
             }
 
-            if (orders.Select(order => order.StoreId).Distinct().Count() != 1)
-            {
-                throw new MultiStorePaymentNotSupportedException();
-            }
+            // if (orders.Select(order => order.StoreId).Distinct().Count() != 1)
+            // {
+            //     throw new MultiStorePaymentNotSupportedException();
+            // }
 
             return Task.CompletedTask;
         }

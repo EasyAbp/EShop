@@ -39,8 +39,6 @@ namespace EasyAbp.EShop.Payments.Refunds
             if (payment.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
-
-                // Todo: Check if current user is an admin of the store.
             }
 
             return refund;
@@ -50,11 +48,6 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             var query = input.UserId.HasValue ? _repository.GetQueryableByUserId(input.UserId.Value) : _repository;
 
-            if (input.StoreId.HasValue)
-            {
-                query = query.Where(x => x.StoreId == input.StoreId.Value);
-            }
-
             return query;
         }
 
@@ -63,15 +56,6 @@ namespace EasyAbp.EShop.Payments.Refunds
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
-
-                if (input.StoreId.HasValue)
-                {
-                    // Todo: Check if current user is an admin of the store.
-                }
-                else
-                {
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.CrossStore);
-                }
             }
 
             return await base.GetListAsync(input);

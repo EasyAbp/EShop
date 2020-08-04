@@ -48,8 +48,6 @@ namespace EasyAbp.EShop.Payments.Payments
             if (payment.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
-
-                // Todo: Check if current user is an admin of the store.
             }
 
             return payment;
@@ -59,9 +57,9 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             var query = base.CreateFilteredQuery(input);
 
-            if (input.StoreId.HasValue)
+            if (input.UserId.HasValue)
             {
-                query = query.Where(x => x.StoreId == input.StoreId.Value);
+                query = query.Where(x => x.UserId == input.UserId.Value);
             }
 
             return query;
@@ -72,15 +70,6 @@ namespace EasyAbp.EShop.Payments.Payments
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
-
-                if (input.StoreId.HasValue)
-                {
-                    // Todo: Check if current user is an admin of the store.
-                }
-                else
-                {
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.CrossStore);
-                }
             }
 
             return await base.GetListAsync(input);
@@ -89,6 +78,8 @@ namespace EasyAbp.EShop.Payments.Payments
         [Authorize(PaymentsPermissions.Payments.Create)]
         public virtual async Task CreateAsync(CreatePaymentDto input)
         {
+            // Todo: should avoid duplicate creations. (concurrent lock)
+
             var orders = new List<OrderDto>();
             
             foreach (var orderId in input.OrderIds)
@@ -96,27 +87,26 @@ namespace EasyAbp.EShop.Payments.Payments
                 orders.Add(await _orderAppService.GetAsync(orderId));
             }
 
-            var extraProperties = new Dictionary<string, object> {{"StoreId", orders.First().StoreId}};
-
-            await _payableChecker.CheckAsync(input, orders, extraProperties);
-
-            // Todo: should avoid duplicate creations.
-            
-            await _distributedEventBus.PublishAsync(new CreatePaymentEto
+            var createPaymentEto = new CreatePaymentEto
             {
                 TenantId = CurrentTenant.Id,
                 UserId = CurrentUser.GetId(),
                 PaymentMethod = input.PaymentMethod,
                 Currency = orders.First().Currency,
-                ExtraProperties = extraProperties,
+                ExtraProperties = new Dictionary<string, object>(),
                 PaymentItems = orders.Select(order => new CreatePaymentItemEto
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
                     ItemKey = order.Id,
                     Currency = order.Currency,
-                    OriginalPaymentAmount = order.TotalPrice
+                    OriginalPaymentAmount = order.TotalPrice,
+                    ExtraProperties = new Dictionary<string, object> {{"StoreId", orders.First().StoreId.ToString()}}
                 }).ToList()
-            });
+            };
+
+            await _payableChecker.CheckAsync(input, orders, createPaymentEto);
+            
+            await _distributedEventBus.PublishAsync(createPaymentEto);
         }
     }
 }
