@@ -68,7 +68,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 if (input.StoreId.HasValue)
                 {
-                    await AuthorizationService.IsStoreOwnerGrantedAsync(input.StoreId.Value,
+                    await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value,
                         OrdersPermissions.Orders.Manage);
                 }
                 else
@@ -104,11 +104,13 @@ namespace EasyAbp.EShop.Orders.Orders
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList(),
                 input.StoreId);
 
-            await _purchasableChecker.CheckAsync(input, productDict);
+            var orderExtraProperties = new Dictionary<string, object>();
 
-            var order = await _newOrderGenerator.GenerateAsync(input, productDict);
+            await _purchasableChecker.CheckAsync(input, productDict, orderExtraProperties);
+            
+            var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
 
-            await _orderManager.DiscountAsync(order);
+            await _orderManager.DiscountAsync(order, input.ExtraProperties);
 
             await Repository.InsertAsync(order, autoSave: true);
 
@@ -133,7 +135,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             throw new NotSupportedException();
         }
-
+        
         [RemoteService(false)]
         public override Task DeleteAsync(Guid id)
         {

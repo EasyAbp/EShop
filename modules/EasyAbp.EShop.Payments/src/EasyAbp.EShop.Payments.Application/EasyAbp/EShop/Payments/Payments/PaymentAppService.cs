@@ -42,17 +42,22 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             var payment = await base.GetAsync(id);
 
+            await AuthorizationService.CheckAsync(GetPolicyName);
+
             if (payment.UserId != CurrentUser.GetId())
             {
                 if (payment.StoreId.HasValue)
                 {
-                    await AuthorizationService.CheckStoreOwnerAsync(payment.StoreId.Value,
-                        PaymentsPermissions.Payments.Manage);
+                    if (await AuthorizationService.IsStoreOwnerGrantedAsync(payment.StoreId.Value,
+                        PaymentsPermissions.Payments.Manage))
+                    {
+                        return payment;
+                    }
+
+                    await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.CrossStore);
                 }
-                else
-                {
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
-                }
+
+                await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
             }
 
             return payment;

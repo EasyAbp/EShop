@@ -15,7 +15,7 @@ $(function () {
         scrollCollapse: true,
         order: [[1, "asc"]],
         ajax: abp.libs.datatables.createAjax(service.getList, function () {
-            return { storeId: storeId, categoryId: categoryId, tagId: tagId, showHidden: true }
+            return { storeId: storeId, categoryId: categoryId, showHidden: true }
         }),
         columnDefs: [
             {
@@ -69,6 +69,6 @@ $(function () {
 
     $('#NewProductButton').click(function (e) {
         e.preventDefault();
-        createModal.open({ storeId: storeId, categoryId: categoryId, tagId: tagId });
+        createModal.open({ storeId: storeId, categoryId: categoryId });
     });
 });

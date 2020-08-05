@@ -1,10 +1,10 @@
-﻿using EasyAbp.EShop.Products.ProductCategories;
-using EasyAbp.EShop.Products.ProductStores;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.ProductCategories;
+using EasyAbp.EShop.Products.ProductStores;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
 
 namespace EasyAbp.EShop.Products.Products
@@ -51,8 +51,7 @@ namespace EasyAbp.EShop.Products.Products
             return product;
         }
         
-        public virtual async Task<Product> UpdateAsync(Product product, 
-            IEnumerable<Guid> categoryIds = null)
+        public virtual async Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null)
         {
             await CheckProductCodeUniqueAsync(product);
 
@@ -169,16 +168,14 @@ namespace EasyAbp.EShop.Products.Products
         
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)
         {
-            categoryIds ??= new List<Guid>();
+            await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
 
-            var productCategories = await _productCategoryRepository.GetListByProductIdAsync(productId);
-
-            foreach (var productCategory in productCategories.Where(x => !categoryIds.Contains(x.CategoryId)))
+            if (categoryIds == null)
             {
-                await _productCategoryRepository.DeleteAsync(productCategory, true);
+                return;
             }
-
-            foreach (var categoryId in categoryIds.Except(productCategories.Select(x => x.CategoryId)))
+            
+            foreach (var categoryId in categoryIds)
             {
                 await _productCategoryRepository.InsertAsync(
                     new ProductCategory(GuidGenerator.Create(), CurrentTenant.Id, categoryId, productId), true);

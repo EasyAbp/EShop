@@ -20,7 +20,6 @@ namespace EasyAbp.EShop.Products.Web
              * into multiple profile classes for a better organization. */
             CreateMap<ProductDto, CreateEditProductViewModel>()
                 .Ignore(model => model.CategoryIds)
-                .Ignore(model => model.TagIds)
                 .Ignore(model => model.ProductDetail)
                 .Ignore(model => model.StoreId)
                 .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate())
@@ -42,11 +41,11 @@ namespace EasyAbp.EShop.Products.Web
                         x.ProductAttributeNames.Split(",", StringSplitOptions.RemoveEmptyEntries).Select((s, i) =>
                             new CreateUpdateProductAttributeDto
                             {
-                                DisplayName = s.Trim(),
+                                DisplayName = s,
                                 ProductAttributeOptions = new List<CreateUpdateProductAttributeOptionDto>(
                                     x.ProductAttributeOptionNames.SplitToLines(StringSplitOptions.RemoveEmptyEntries)[i]
                                         .Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o =>
-                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o.Trim()}))
+                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o}))
                             })));
             CreateMap<ProductDetailDto, CreateEditProductDetailViewModel>()
                 .Ignore(model => model.StoreId);

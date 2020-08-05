@@ -6,8 +6,9 @@ using EasyAbp.EShop.Products.Products.Dtos;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IPurchasableChecker
+    public interface IPurchasableCheckProvider
     {
-        Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict);
+        Task CheckAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict,
+            Dictionary<string, object> orderExtraProperties);
     }
 }

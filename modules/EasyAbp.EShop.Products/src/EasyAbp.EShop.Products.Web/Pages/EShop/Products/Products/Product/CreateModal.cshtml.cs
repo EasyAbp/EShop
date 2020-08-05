@@ -28,8 +28,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         public ICollection<SelectListItem> Categories { get; set; }
 
-        public ICollection<SelectListItem> Tags { get; set; }
-
         private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
         private readonly IProductDetailAppService _productDetailAppService;
@@ -47,7 +45,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             _service = service;
         }
 
-        public virtual async Task OnGetAsync(Guid? categoryId, Guid? tagId)
+        public virtual async Task OnGetAsync(Guid? categoryId)
         {
             ProductTypes =
                 (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
@@ -71,11 +69,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             if (categoryId.HasValue)
             {
                 Product.CategoryIds = new List<Guid>(new[] { categoryId.Value });
-            }
-
-            if (tagId.HasValue)
-            {
-                Product.TagIds = new List<Guid>(new[] { tagId.Value });
             }
         }
 

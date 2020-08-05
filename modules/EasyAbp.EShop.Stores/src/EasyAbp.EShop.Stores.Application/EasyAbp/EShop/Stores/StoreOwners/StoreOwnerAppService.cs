@@ -11,7 +11,7 @@ namespace EasyAbp.EShop.Stores.StoreOwners
     public class StoreOwnerAppService : ReadOnlyAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto>,
         IStoreOwnerAppService
     {
-        protected override string GetListPolicyName { get; set; } = StoresPermissions.Stores.Default;
+        protected override string GetListPolicyName { get; set; } = StoresPermissions.Stores.Manage;
 
         private readonly IStoreOwnerRepository _repository;
 

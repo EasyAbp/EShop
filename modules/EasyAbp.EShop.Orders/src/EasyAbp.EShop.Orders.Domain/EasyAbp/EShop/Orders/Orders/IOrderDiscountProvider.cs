@@ -5,6 +5,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrderDiscountProvider
     {
-        Task<Order> DiscountAsync(Order order);
+        Task<Order> DiscountAsync(Order order, Dictionary<string, object> inputExtraProperties);
     }
 }
