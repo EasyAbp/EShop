@@ -47,30 +47,34 @@ namespace EasyAbp.EShop.Payments.Payments
             {
                 _objectMapper.Map(eventData.Entity, payment);
 
-                foreach (var item in eventData.Entity.PaymentItems)
+                foreach (var etoItem in eventData.Entity.PaymentItems)
                 {
-                    var find = payment.PaymentItems.FirstOrDefault(i => i.Id == item.Id);
+                    var item = payment.PaymentItems.FirstOrDefault(i => i.Id == etoItem.Id);
 
-                    if (find == null)
+                    if (item == null)
                     {
-                        payment.PaymentItems.Add(_objectMapper.Map<PaymentItemEto, PaymentItem>(item));
+                        if (!Guid.TryParse(etoItem.GetProperty<string>("StoreId"), out var storeId))
+                        {
+                            throw new StoreIdNotFoundException();
+                        }
+                        
+                        item = _objectMapper.Map<PaymentItemEto, PaymentItem>(etoItem);
+                        
+                        item.SetStoreId(storeId);
+
+                        payment.PaymentItems.Add(item);
                     }
                     else
                     {
-                        _objectMapper.Map(item, find);
+                        _objectMapper.Map(etoItem, item);
                     }
-
-                    var etoPaymentItemIds = eventData.Entity.PaymentItems.Select(i => i.Id).ToList();
-
-                    payment.PaymentItems.RemoveAll(i => !etoPaymentItemIds.Contains(i.Id));
                 }
+                
+                var etoPaymentItemIds = eventData.Entity.PaymentItems.Select(i => i.Id).ToList();
+
+                payment.PaymentItems.RemoveAll(i => !etoPaymentItemIds.Contains(i.Id));
             }
-            
-            if (Guid.TryParse(eventData.Entity.GetProperty<string>("StoreId"), out var storeId))
-            {
-                payment.SetStoreId(storeId);
-            }
-            
+
             await _paymentRepository.UpdateAsync(payment, true);
         }
 

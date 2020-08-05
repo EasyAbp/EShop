@@ -55,11 +55,6 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             var query = input.UserId.HasValue ? _repository.GetQueryableByUserId(input.UserId.Value) : _repository;
 
-            if (input.StoreId.HasValue)
-            {
-                query = query.Where(x => x.StoreId == input.StoreId.Value);
-            }
-
             return query;
         }
 

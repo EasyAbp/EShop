@@ -36,11 +36,13 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 if (order.PaymentId.HasValue || order.OrderStatus != OrderStatus.Pending)
                 {
+                    // Todo: should cancel the payment?
                     throw new OrderIsInWrongStageException(order.Id);
                 }
                 
                 if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
+                    // Todo: should cancel the payment?
                     throw new OrderPaymentInvalidException(eventData.Entity.Id, item.ItemKey);
                 }
 

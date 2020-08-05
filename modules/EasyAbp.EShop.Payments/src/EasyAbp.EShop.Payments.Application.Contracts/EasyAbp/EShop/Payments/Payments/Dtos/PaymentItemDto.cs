@@ -4,8 +4,10 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
-    public class PaymentItemDto : FullAuditedEntityDto<Guid>
+    public class PaymentItemDto : ExtensibleFullAuditedEntityDto<Guid>
     {
+        public Guid StoreId { get; set; }
+
         public string ItemType { get; set; }
 
         public Guid ItemKey { get; set; }

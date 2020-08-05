@@ -11,8 +11,8 @@
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.EntityFrameworkCore\EasyAbp.EShop.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore\EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopSample.Domain\EShopSample.Domain.csproj" />
-    <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="0.6.2" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="0.6.2" />
+    <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="0.6.4" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="0.6.4" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="3.0.5" />
     <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="3.0.5" />
     <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="3.0.5" />

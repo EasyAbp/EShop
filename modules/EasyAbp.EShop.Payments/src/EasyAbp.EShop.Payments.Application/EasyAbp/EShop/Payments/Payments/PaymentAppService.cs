@@ -67,9 +67,9 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             var query = base.CreateFilteredQuery(input);
 
-            if (input.StoreId.HasValue)
+            if (input.UserId.HasValue)
             {
-                query = query.Where(x => x.StoreId == input.StoreId.Value);
+                query = query.Where(x => x.UserId == input.UserId.Value);
             }
 
             return query;
@@ -98,6 +98,8 @@ namespace EasyAbp.EShop.Payments.Payments
         [Authorize(PaymentsPermissions.Payments.Create)]
         public virtual async Task CreateAsync(CreatePaymentDto input)
         {
+            // Todo: should avoid duplicate creations. (concurrent lock)
+
             var orders = new List<OrderDto>();
 
             foreach (var orderId in input.OrderIds)
@@ -117,15 +119,20 @@ namespace EasyAbp.EShop.Payments.Payments
                 UserId = CurrentUser.GetId(),
                 PaymentMethod = input.PaymentMethod,
                 Currency = orders.First().Currency,
-                ExtraProperties = extraProperties,
+                ExtraProperties = new Dictionary<string, object>(),
                 PaymentItems = orders.Select(order => new CreatePaymentItemEto
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
                     ItemKey = order.Id,
                     Currency = order.Currency,
-                    OriginalPaymentAmount = order.TotalPrice
+                    OriginalPaymentAmount = order.TotalPrice,
+                    ExtraProperties = new Dictionary<string, object> {{"StoreId", orders.First().StoreId.ToString()}}
                 }).ToList()
-            });
+            };
+
+            await _payableChecker.CheckAsync(input, orders, createPaymentEto);
+            
+            await _distributedEventBus.PublishAsync(createPaymentEto);
         }
     }
 }

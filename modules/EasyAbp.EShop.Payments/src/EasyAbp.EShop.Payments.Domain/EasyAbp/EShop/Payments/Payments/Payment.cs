@@ -45,16 +45,9 @@ namespace EasyAbp.EShop.Payments.Payments
         
         #endregion
 
-        public virtual Guid? StoreId { get; protected set; }
-
         private Payment()
         {
             
-        }
-        
-        public void SetStoreId(Guid? storeId)
-        {
-            StoreId = storeId;
         }
 
         public void SetPaymentItems(List<PaymentItem> paymentItems)
