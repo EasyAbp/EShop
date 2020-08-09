@@ -10,7 +10,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EShop.Products.ProductCategories
 {
-    public class ProductCategoryRepository : EfCoreRepository<ProductsDbContext, ProductCategory, Guid>, IProductCategoryRepository
+    public class ProductCategoryRepository : EfCoreRepository<IProductsDbContext, ProductCategory, Guid>, IProductCategoryRepository
     {
         public ProductCategoryRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {

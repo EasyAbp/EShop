@@ -10,7 +10,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EShop.Products.ProductDetailHistories
 {
-    public class ProductDetailHistoryRepository : EfCoreRepository<ProductsDbContext, ProductDetailHistory, Guid>, IProductDetailHistoryRepository
+    public class ProductDetailHistoryRepository : EfCoreRepository<IProductsDbContext, ProductDetailHistory, Guid>, IProductDetailHistoryRepository
     {
         public ProductDetailHistoryRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {

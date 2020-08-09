@@ -8,7 +8,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EShop.Stores.Stores
 {
-    public class StoreRepository : EfCoreRepository<StoresDbContext, Store, Guid>, IStoreRepository
+    public class StoreRepository : EfCoreRepository<IStoresDbContext, Store, Guid>, IStoreRepository
     {
         public StoreRepository(IDbContextProvider<StoresDbContext> dbContextProvider) : base(dbContextProvider)
         {

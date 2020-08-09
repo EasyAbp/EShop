@@ -11,7 +11,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EShop.Products.ProductInventories
 {
-    public class ProductInventoryRepository : EfCoreRepository<ProductsDbContext, ProductInventory, Guid>, IProductInventoryRepository
+    public class ProductInventoryRepository : EfCoreRepository<IProductsDbContext, ProductInventory, Guid>, IProductInventoryRepository
     {
         public ProductInventoryRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {
