@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Stores.Stores
 {
     public class StoreRepository : EfCoreRepository<IStoresDbContext, Store, Guid>, IStoreRepository
     {
-        public StoreRepository(IDbContextProvider<StoresDbContext> dbContextProvider) : base(dbContextProvider)
+        public StoreRepository(IDbContextProvider<IStoresDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

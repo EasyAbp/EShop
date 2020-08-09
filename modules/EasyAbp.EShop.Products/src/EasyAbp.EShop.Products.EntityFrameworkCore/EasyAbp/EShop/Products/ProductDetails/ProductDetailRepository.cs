@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
 {
     public class ProductDetailRepository : EfCoreRepository<IProductsDbContext, ProductDetail, Guid>, IProductDetailRepository
     {
-        public ProductDetailRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
+        public ProductDetailRepository(IDbContextProvider<IProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

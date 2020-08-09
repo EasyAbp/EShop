@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class OrderRepository : EfCoreRepository<IOrdersDbContext, Order, Guid>, IOrderRepository
     {
-        public OrderRepository(IDbContextProvider<OrdersDbContext> dbContextProvider) : base(dbContextProvider)
+        public OrderRepository(IDbContextProvider<IOrdersDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

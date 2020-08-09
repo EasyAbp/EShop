@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.ProductUpdates
 {
     public class ProductUpdateRepository : EfCoreRepository<IBasketsDbContext, ProductUpdate, Guid>, IProductUpdateRepository
     {
-        public ProductUpdateRepository(IDbContextProvider<BasketsDbContext> dbContextProvider) : base(dbContextProvider)
+        public ProductUpdateRepository(IDbContextProvider<IBasketsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

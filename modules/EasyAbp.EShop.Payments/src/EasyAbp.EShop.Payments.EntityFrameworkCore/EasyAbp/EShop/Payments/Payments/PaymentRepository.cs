@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Payments.Payments
 {
     public class PaymentRepository : EfCoreRepository<IPaymentsDbContext, Payment, Guid>, IPaymentRepository
     {
-        public PaymentRepository(IDbContextProvider<PaymentsDbContext> dbContextProvider) : base(dbContextProvider)
+        public PaymentRepository(IDbContextProvider<IPaymentsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

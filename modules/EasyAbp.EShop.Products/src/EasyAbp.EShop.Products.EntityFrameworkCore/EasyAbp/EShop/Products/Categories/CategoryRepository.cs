@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Products.Categories
 {
     public class CategoryRepository : EfCoreTreeRepository<ProductsDbContext, Category>, ICategoryRepository
     {
-        public CategoryRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
+        public CategoryRepository(IDbContextProvider<IProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 {
     public class RefundRepository : EfCoreRepository<IPaymentsDbContext, Refund, Guid>, IRefundRepository
     {
-        public RefundRepository(IDbContextProvider<PaymentsDbContext> dbContextProvider) : base(dbContextProvider)
+        public RefundRepository(IDbContextProvider<IPaymentsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories
 {
     public class ProductDetailHistoryRepository : EfCoreRepository<IProductsDbContext, ProductDetailHistory, Guid>, IProductDetailHistoryRepository
     {
-        public ProductDetailHistoryRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
+        public ProductDetailHistoryRepository(IDbContextProvider<IProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

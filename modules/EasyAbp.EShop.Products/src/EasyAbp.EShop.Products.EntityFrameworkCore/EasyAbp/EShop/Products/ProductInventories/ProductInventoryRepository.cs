@@ -13,7 +13,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
 {
     public class ProductInventoryRepository : EfCoreRepository<IProductsDbContext, ProductInventory, Guid>, IProductInventoryRepository
     {
-        public ProductInventoryRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
+        public ProductInventoryRepository(IDbContextProvider<IProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
