@@ -17,11 +17,12 @@ namespace EasyAbp.EShop.Stores
             CreateMap<Store, StoreDto>()
                 .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
             CreateMap<CreateUpdateStoreDto, Store>(MemberList.Source)
-                .MapExtraProperties(MappingPropertyDefinitionChecks.Both)
-                .ForSourceMember(x => x.OwnerIds, opt => opt.DoNotValidate());
+                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
 
-            CreateMap<StoreOwner, StoreOwnerDto>();
-
+            CreateMap<StoreOwner, StoreOwnerDto>()
+                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
+            CreateMap<StoreOwnerDto, StoreOwner>(MemberList.Source)
+                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
         }
     }
 }

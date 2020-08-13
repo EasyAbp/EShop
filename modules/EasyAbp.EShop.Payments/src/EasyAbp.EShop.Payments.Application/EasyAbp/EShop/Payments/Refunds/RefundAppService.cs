@@ -21,7 +21,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         private readonly IPaymentRepository _paymentRepository;
         private readonly IRefundRepository _repository;
-
+        
         public RefundAppService(
             IPaymentRepository paymentRepository,
             IRefundRepository repository) : base(repository)
@@ -35,22 +35,15 @@ namespace EasyAbp.EShop.Payments.Refunds
             var refund = await base.GetAsync(id);
 
             var payment = await _paymentRepository.GetAsync(refund.PaymentId);
-
+            
             if (payment.UserId != CurrentUser.GetId())
             {
-                if (payment.StoreId.HasValue)
-                {
-                    await AuthorizationService.CheckStoreOwnerAsync(payment.StoreId.Value, PaymentsPermissions.Refunds.Manage);
-                }
-                else
-                {
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
-                }
+                await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
             }
 
             return refund;
         }
-
+        
         protected override IQueryable<Refund> CreateFilteredQuery(GetRefundListDto input)
         {
             var query = input.UserId.HasValue ? _repository.GetQueryableByUserId(input.UserId.Value) : _repository;
@@ -63,16 +56,6 @@ namespace EasyAbp.EShop.Payments.Refunds
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
-
-                if (input.StoreId.HasValue)
-                {
-                    await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value,
-                            PaymentsPermissions.Refunds.Manage);
-                }
-                else
-                {
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.CrossStore);
-                }
             }
 
             return await base.GetListAsync(input);

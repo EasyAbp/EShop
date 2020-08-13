@@ -1,54 +1,33 @@
-using EasyAbp.EShop.Stores.Stores.Dtos;
 using System;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.EShop.Stores.Stores.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Stores.Stores
 {
-    public class StoreAppService : CrudAppService<Store, StoreDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateStoreDto, CreateUpdateStoreDto>,
+    public class StoreAppService : CrudAppService<Store, StoreDto, Guid, PagedAndSortedResultRequestDto,
+            CreateUpdateStoreDto, CreateUpdateStoreDto>,
         IStoreAppService
     {
-        private readonly IStoreRepository _repository;
-        private readonly IStoreManager _storeManager;
+        protected override string CreatePolicyName { get; set; } = StoresPermissions.Stores.Create;
+        protected override string DeletePolicyName { get; set; } = StoresPermissions.Stores.Delete;
+        protected override string UpdatePolicyName { get; set; } = StoresPermissions.Stores.Update;
+        protected override string GetPolicyName { get; set; } = StoresPermissions.Stores.Default;
+        protected override string GetListPolicyName { get; set; } = StoresPermissions.Stores.Default;
 
-        public StoreAppService(IStoreRepository repository,
-            IStoreManager storeManager) : base(repository)
+        private readonly IStoreRepository _repository;
+
+        public StoreAppService(IStoreRepository repository) : base(repository)
         {
             _repository = repository;
-            _storeManager = storeManager;
         }
 
         public async Task<StoreDto> GetDefaultAsync()
         {
             // Todo: need to be improved
             return ObjectMapper.Map<Store, StoreDto>(await _repository.FindDefaultStoreAsync());
-        }
-
-        public override async Task<StoreDto> CreateAsync(CreateUpdateStoreDto input)
-        {
-            await CheckCreatePolicyAsync();
-
-            var entity = MapToEntity(input);
-
-            TryToSetTenantId(entity);
-
-            entity = await _storeManager.CreateAsync(entity, input.OwnerIds);
-
-            return MapToGetOutputDto(entity);
-        }
-
-        public override async Task<StoreDto> UpdateAsync(Guid id, CreateUpdateStoreDto input)
-        {
-            await CheckUpdatePolicyAsync();
-
-            var entity = await GetEntityByIdAsync(id);
-
-            MapToEntity(input, entity);
-
-            entity = await _storeManager.UpdateAsync(entity, input.OwnerIds);
-
-            return MapToGetOutputDto(entity);
         }
     }
 }

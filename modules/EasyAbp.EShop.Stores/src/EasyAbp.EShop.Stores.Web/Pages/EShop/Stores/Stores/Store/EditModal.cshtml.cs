@@ -23,36 +23,17 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store
         [BindProperty]
         public CreateEditStoreViewModel Store { get; set; }
 
-        public ICollection<SelectListItem> StoreOwners { get; set; }
-
         private readonly IStoreAppService _service;
-        private readonly IIdentityUserAppService _userAppService;
-        private readonly IStoreOwnerAppService _storeOwnerAppService;
 
-        public EditModalModel(IStoreAppService service,
-            IIdentityUserAppService userAppService,
-            IStoreOwnerAppService storeOwnerAppService)
+        public EditModalModel(IStoreAppService service)
         {
             _service = service;
-            _userAppService = userAppService;
-            _storeOwnerAppService = storeOwnerAppService;
         }
 
         public async Task OnGetAsync()
         {
-            StoreOwners =
-                (await _userAppService.GetListAsync(new GetIdentityUsersInput
-                { MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount })).Items
-                .Select(x => new SelectListItem(x.UserName, x.Id.ToString())).ToList();
-
             var dto = await _service.GetAsync(Id);
             Store = ObjectMapper.Map<StoreDto, CreateEditStoreViewModel>(dto);
-
-            Store.OwnerIds = (await _storeOwnerAppService.GetListAsync(new GetStoreOwnerListDto
-            {
-                StoreId = Id,
-                MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
-            })).Items.Select(x => x.OwnerId).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync()

@@ -54,6 +54,9 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "StoreOwners", options.Schema);
                 b.ConfigureByConvention();
                 /* Configure more properties here */
+
+                b.HasIndex(x => new {x.StoreId, x.OwnerId})
+                    .IsUnique();
             });
         }
     }

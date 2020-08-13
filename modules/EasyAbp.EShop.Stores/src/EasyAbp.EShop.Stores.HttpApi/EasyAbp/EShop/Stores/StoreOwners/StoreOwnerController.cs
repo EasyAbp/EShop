@@ -1,13 +1,13 @@
-using EasyAbp.EShop.Stores.StoreOwners.Dtos;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.StoreOwners.Dtos;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    [RemoteService(Name = "EShopStores")]
+    [RemoteService(Name = "EShopStoreOwners")]
     [Route("/api/eShop/stores/storeOwner")]
     public class StoreOwnerController : StoresController
     {
@@ -18,8 +18,8 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             _service = service;
         }
 
-        [NonAction]
-        [RemoteService(false)]
+        [HttpGet]
+        [Route("{id}")]
         public Task<StoreOwnerDto> GetAsync(Guid id)
         {
             return _service.GetAsync(id);
@@ -29,6 +29,26 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         public Task<PagedResultDto<StoreOwnerDto>> GetListAsync(GetStoreOwnerListDto input)
         {
             return _service.GetListAsync(input);
+        }
+
+        [HttpPost]
+        public Task<StoreOwnerDto> CreateAsync(StoreOwnerDto input)
+        {
+            return _service.CreateAsync(input);
+        }
+        
+        [HttpPut]
+        [Route("{id}")]
+        public Task<StoreOwnerDto> UpdateAsync(Guid id, StoreOwnerDto input)
+        {
+            return _service.UpdateAsync(id, input);
+        }
+        
+        [HttpDelete]
+        [Route("{id}")]
+        public Task DeleteAsync(Guid id)
+        {
+            return _service.DeleteAsync(id);
         }
     }
 }

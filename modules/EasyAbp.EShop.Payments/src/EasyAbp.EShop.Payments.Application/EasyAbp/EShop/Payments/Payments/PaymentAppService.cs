@@ -26,7 +26,8 @@ namespace EasyAbp.EShop.Payments.Payments
         private readonly IPayableChecker _payableChecker;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderAppService _orderAppService;
-
+        private readonly IPaymentRepository _repository;
+        
         public PaymentAppService(
             IPayableChecker payableChecker,
             IDistributedEventBus distributedEventBus,
@@ -36,33 +37,21 @@ namespace EasyAbp.EShop.Payments.Payments
             _payableChecker = payableChecker;
             _distributedEventBus = distributedEventBus;
             _orderAppService = orderAppService;
+            _repository = repository;
         }
 
         public override async Task<PaymentDto> GetAsync(Guid id)
         {
             var payment = await base.GetAsync(id);
 
-            await AuthorizationService.CheckAsync(GetPolicyName);
-
             if (payment.UserId != CurrentUser.GetId())
             {
-                if (payment.StoreId.HasValue)
-                {
-                    if (await AuthorizationService.IsStoreOwnerGrantedAsync(payment.StoreId.Value,
-                        PaymentsPermissions.Payments.Manage))
-                    {
-                        return payment;
-                    }
-
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.CrossStore);
-                }
-
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
             }
 
             return payment;
         }
-
+        
         protected override IQueryable<Payment> CreateFilteredQuery(GetPaymentListDto input)
         {
             var query = base.CreateFilteredQuery(input);
@@ -80,40 +69,24 @@ namespace EasyAbp.EShop.Payments.Payments
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
-
-                if (input.StoreId.HasValue)
-                {
-                    await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value,
-                            PaymentsPermissions.Payments.Manage);
-                }
-                else
-                {
-                    await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.CrossStore);
-                }
             }
 
             return await base.GetListAsync(input);
         }
-
+        
         [Authorize(PaymentsPermissions.Payments.Create)]
         public virtual async Task CreateAsync(CreatePaymentDto input)
         {
             // Todo: should avoid duplicate creations. (concurrent lock)
 
             var orders = new List<OrderDto>();
-
+            
             foreach (var orderId in input.OrderIds)
             {
                 orders.Add(await _orderAppService.GetAsync(orderId));
             }
 
-            var extraProperties = new Dictionary<string, object> { { "StoreId", orders.First().StoreId } };
-
-            await _payableChecker.CheckAsync(input, orders, extraProperties);
-
-            // Todo: should avoid duplicate creations.
-
-            await _distributedEventBus.PublishAsync(new CreatePaymentEto
+            var createPaymentEto = new CreatePaymentEto
             {
                 TenantId = CurrentTenant.Id,
                 UserId = CurrentUser.GetId(),

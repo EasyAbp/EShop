@@ -7,6 +7,8 @@
         public const string Prefix = ModuleGroupPrefix + ".Stores";
         
         public const string Store = Prefix + ".Store";
+        
+        public const string StoreOwner = Prefix + ".StoreOwner";
 
         //Add your menu items here...
         //public const string Home = Prefix + ".MyNewMenuItem";

@@ -8,9 +8,13 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    public class StoreOwnerAppService : ReadOnlyAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto>,
+    public class StoreOwnerAppService : CrudAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto>,
         IStoreOwnerAppService
     {
+        protected override string CreatePolicyName { get; set; } = StoresPermissions.Stores.Manage;
+        protected override string DeletePolicyName { get; set; } = StoresPermissions.Stores.Manage;
+        protected override string UpdatePolicyName { get; set; } = StoresPermissions.Stores.Manage;
+        protected override string GetPolicyName { get; set; } = StoresPermissions.Stores.Manage;
         protected override string GetListPolicyName { get; set; } = StoresPermissions.Stores.Manage;
 
         private readonly IStoreOwnerRepository _repository;
@@ -18,6 +22,16 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         public StoreOwnerAppService(IStoreOwnerRepository repository) : base(repository)
         {
             _repository = repository;
+        }
+
+        public override async Task<StoreOwnerDto> CreateAsync(StoreOwnerDto input)
+        {
+            if (await _repository.IsExistAsync(input.StoreId, input.OwnerId))
+            {
+                throw new StoreOwnerDuplicatedException(input.StoreId, input.OwnerId);
+            }
+
+            return await base.CreateAsync(input);
         }
 
         protected override IQueryable<StoreOwner> CreateFilteredQuery(GetStoreOwnerListDto input)
@@ -35,20 +49,6 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             }
 
             return queryable;
-        }
-
-        [RemoteService(false)]
-        public override Task<StoreOwnerDto> GetAsync(Guid id)
-        {
-            throw new NotSupportedException();
-        }
-
-        [RemoteService(false)]
-        public async Task<bool> IsStoreOwnerAsync(Guid storeId, Guid userId)
-        {
-            var storeOwner = await _repository.FindAsync(x => x.OwnerId == userId && x.StoreId == storeId, false);
-
-            return storeOwner != null;
         }
     }
 }

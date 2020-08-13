@@ -6,11 +6,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
     public interface IStoreOwnerAppService :
-        IReadOnlyAppService<
+        ICrudAppService<
             StoreOwnerDto,
             Guid,
             GetStoreOwnerListDto>
     {
-        Task<bool> IsStoreOwnerAsync(Guid storeId, Guid userId);
     }
 }

@@ -10,9 +10,6 @@ namespace EasyAbp.EShop.Stores.Stores.Dtos
     {
         [Required]
         [DisplayName("StoreName")]
-        public string Name { get; set; }
-
-        [DisplayName("StoreOwner")]
-        public ICollection<Guid> OwnerIds { get; set; }
+        public string Name { get; set; } 
     }
 }

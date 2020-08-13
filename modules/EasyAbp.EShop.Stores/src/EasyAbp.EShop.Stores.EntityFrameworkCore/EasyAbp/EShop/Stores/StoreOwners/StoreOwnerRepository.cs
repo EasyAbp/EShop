@@ -16,14 +16,25 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         {
         }
 
-        public async Task<List<StoreOwner>> GetListByStoreIdAsync(Guid storeId, CancellationToken cancellationToken = default)
+        public async Task<List<StoreOwner>> GetListByStoreIdAsync(Guid storeId,
+            CancellationToken cancellationToken = default)
         {
             return await GetQueryable().Where(pc => pc.StoreId == storeId).ToListAsync(cancellationToken);
         }
 
-        public async Task<List<StoreOwner>> GetListByOwnerIdAsync(Guid ownerId, CancellationToken cancellationToken = default)
+        public async Task<List<StoreOwner>> GetListByOwnerIdAsync(Guid ownerId,
+            CancellationToken cancellationToken = default)
         {
             return await GetQueryable().Where(pc => pc.OwnerId == ownerId).ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> IsExistAsync(Guid storeId, Guid ownerId, CancellationToken cancellationToken = default)
+        {
+            var storeOwner = await GetQueryable().FirstOrDefaultAsync(
+                x => x.StoreId == storeId && x.OwnerId == ownerId,
+                cancellationToken: cancellationToken);
+
+            return storeOwner != null;
         }
     }
 }

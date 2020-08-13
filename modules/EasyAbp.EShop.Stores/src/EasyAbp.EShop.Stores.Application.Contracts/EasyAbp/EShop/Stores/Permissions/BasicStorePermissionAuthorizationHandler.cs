@@ -9,13 +9,13 @@ namespace EasyAbp.EShop.Stores.Permissions
 {
     public class BasicStorePermissionAuthorizationHandler : AuthorizationHandler<StorePermissionAuthorizationRequirement>
     {
-        private readonly IStoreOwnerAppService _storeOwnerAppService;
+        private readonly IStoreOwnerStore _storeOwnerStore;
         private readonly IPermissionChecker _permissionChecker;
 
-        public BasicStorePermissionAuthorizationHandler(IStoreOwnerAppService storeOwnerAppService,
+        public BasicStorePermissionAuthorizationHandler(IStoreOwnerStore storeOwnerStore,
             IPermissionChecker permissionChecker)
         {
-            _storeOwnerAppService = storeOwnerAppService;
+            _storeOwnerStore = storeOwnerStore;
             _permissionChecker = permissionChecker;
         }
 
@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Stores.Permissions
             var userId = context.User?.FindUserId();
             if (userId.HasValue)
             {
-                var isStoreOwner = await _storeOwnerAppService.IsStoreOwnerAsync(requirement.StoreId, userId.Value);
+                var isStoreOwner = await _storeOwnerStore.IsStoreOwnerAsync(requirement.StoreId, userId.Value);
 
                 if (isStoreOwner)
                 {

@@ -39,7 +39,7 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store
         public async Task<IActionResult> OnPostAsync()
         {
             var createDto = ObjectMapper.Map<CreateEditStoreViewModel, CreateUpdateStoreDto>(Store);
-            var product = await _service.CreateAsync(createDto);
+            var store = await _service.CreateAsync(createDto);
 
             return NoContent();
         }
