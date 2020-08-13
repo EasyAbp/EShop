@@ -5,9 +5,9 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EShop.Products.ProductDetails
 {
-    public class ProductDetailRepository : EfCoreRepository<ProductsDbContext, ProductDetail, Guid>, IProductDetailRepository
+    public class ProductDetailRepository : EfCoreRepository<IProductsDbContext, ProductDetail, Guid>, IProductDetailRepository
     {
-        public ProductDetailRepository(IDbContextProvider<ProductsDbContext> dbContextProvider) : base(dbContextProvider)
+        public ProductDetailRepository(IDbContextProvider<IProductsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

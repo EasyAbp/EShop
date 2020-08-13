@@ -6,9 +6,9 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    public class RefundRepository : EfCoreRepository<PaymentsDbContext, Refund, Guid>, IRefundRepository
+    public class RefundRepository : EfCoreRepository<IPaymentsDbContext, Refund, Guid>, IRefundRepository
     {
-        public RefundRepository(IDbContextProvider<PaymentsDbContext> dbContextProvider) : base(dbContextProvider)
+        public RefundRepository(IDbContextProvider<IPaymentsDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
