@@ -1,4 +1,5 @@
 ﻿using System;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.StoreOwners.Dtos

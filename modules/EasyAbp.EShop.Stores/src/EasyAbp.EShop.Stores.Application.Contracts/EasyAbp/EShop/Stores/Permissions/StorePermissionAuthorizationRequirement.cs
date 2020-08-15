@@ -5,7 +5,7 @@ namespace EasyAbp.EShop.Stores.Permissions
 {
     public class StorePermissionAuthorizationRequirement : IAuthorizationRequirement
     {
-        internal StorePermissionAuthorizationRequirement(Guid storeId, string policyName = null)
+        public StorePermissionAuthorizationRequirement(Guid storeId, string policyName = null)
         {
             StoreId = storeId;
             PolicyName = policyName;

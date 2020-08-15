@@ -1,14 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.StoreOwners;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
-using EasyAbp.EShop.Stores.Stores;
 using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Volo.Abp.Application.Dtos;
-using Volo.Abp.Identity;
 
 namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner
 {
@@ -17,16 +11,10 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner
         [BindProperty]
         public CreateEditStoreOwnerViewModel StoreOwner { get; set; }
 
-        private readonly IStoreAppService _storeService;
-        private readonly IIdentityUserAppService _userAppService;
         private readonly IStoreOwnerAppService _storeOwnerAppService;
 
-        public CreateModalModel(IStoreAppService storeService,
-            IIdentityUserAppService userAppService,
-            IStoreOwnerAppService storeOwnerAppService)
+        public CreateModalModel(IStoreOwnerAppService storeOwnerAppService)
         {
-            _storeService = storeService;
-            _userAppService = userAppService;
             _storeOwnerAppService = storeOwnerAppService;
         }
 

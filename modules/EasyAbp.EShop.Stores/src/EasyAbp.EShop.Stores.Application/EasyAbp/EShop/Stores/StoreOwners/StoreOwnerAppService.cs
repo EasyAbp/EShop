@@ -1,14 +1,13 @@
-﻿using EasyAbp.EShop.Stores.Permissions;
-using EasyAbp.EShop.Stores.StoreOwners.Dtos;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Volo.Abp;
-using Volo.Abp.Application.Services;
+using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.EShop.Stores.StoreOwners.Dtos;
+using EasyAbp.EShop.Stores.Stores;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    public class StoreOwnerAppService : CrudAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto>,
+    public class StoreOwnerAppService : MultiStoreCrudAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto>,
         IStoreOwnerAppService
     {
         protected override string CreatePolicyName { get; set; } = StoresPermissions.Stores.Manage;
@@ -16,6 +15,7 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         protected override string UpdatePolicyName { get; set; } = StoresPermissions.Stores.Manage;
         protected override string GetPolicyName { get; set; } = StoresPermissions.Stores.Manage;
         protected override string GetListPolicyName { get; set; } = StoresPermissions.Stores.Manage;
+        protected override string CrossStorePolicyName { get; set; } = StoresPermissions.Stores.CrossStore;
 
         private readonly IStoreOwnerRepository _repository;
 

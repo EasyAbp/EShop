@@ -16,8 +16,8 @@ namespace EasyAbp.EShop.Payments.Refunds
     public class RefundAppService : ReadOnlyAppService<Refund, RefundDto, Guid, GetRefundListDto>,
         IRefundAppService
     {
-        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Refunds.Default;
-        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Refunds.Default;
+        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Refunds.Manage;
+        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Refunds.Manage;
 
         private readonly IPaymentRepository _paymentRepository;
         private readonly IRefundRepository _repository;
@@ -38,7 +38,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             
             if (payment.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
+                await CheckPolicyAsync(GetPolicyName);
             }
 
             return refund;
@@ -55,7 +55,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
+                await CheckPolicyAsync(GetListPolicyName);
             }
 
             return await base.GetListAsync(input);

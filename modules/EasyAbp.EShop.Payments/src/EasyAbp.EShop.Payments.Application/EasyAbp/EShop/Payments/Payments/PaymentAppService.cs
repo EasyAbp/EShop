@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -20,8 +21,8 @@ namespace EasyAbp.EShop.Payments.Payments
     public class PaymentAppService : ReadOnlyAppService<Payment, PaymentDto, Guid, GetPaymentListDto>,
         IPaymentAppService
     {
-        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
-        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
+        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
+        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
 
         private readonly IPayableChecker _payableChecker;
         private readonly IDistributedEventBus _distributedEventBus;
@@ -46,7 +47,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
             if (payment.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
+                await CheckPolicyAsync(GetPolicyName);
             }
 
             return payment;
@@ -68,7 +69,7 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
+                await CheckPolicyAsync(GetListPolicyName);
             }
 
             return await base.GetListAsync(input);
