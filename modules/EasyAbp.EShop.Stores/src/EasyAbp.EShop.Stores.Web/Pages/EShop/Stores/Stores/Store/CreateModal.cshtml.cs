@@ -13,7 +13,8 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store
 {
     public class CreateModalModel : StoresPageModel
     {
-        [BindProperty] public CreateEditStoreViewModel Store { get; set; }
+        [BindProperty] 
+        public CreateEditStoreViewModel Store { get; set; }
 
         private readonly IStoreAppService _service;
 
