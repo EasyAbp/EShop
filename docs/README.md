@@ -26,9 +26,9 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
     * (Optional) EasyAbp.EShop.MongoDB
     * (Optional) EasyAbp.EShop.Web
 
-  > The above packages are integration packages containing the necessary sub-modules.
-  > Please install packages of each sub-module separately if you are using microservices.
-  > For example: install only the `EasyAbp.EShop.Products.Application` package.
+    > The above packages are integration packages containing the necessary sub-modules.
+    > Please install packages of each sub-module separately if you are using microservices.
+    > For example: install only the `EasyAbp.EShop.Products.Application` package.
 
 1. Add `DependsOn(typeof(EShopXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/How-To.md#add-module-dependencies))
 
