@@ -44,6 +44,7 @@ namespace EasyAbp.EShop.Orders.Orders
             }
             
             order.SetCompletionTime(_clock.Now);
+            order.SetOrderStatus(OrderStatus.Completed);
 
             return await _orderRepository.UpdateAsync(order, true);
         }
