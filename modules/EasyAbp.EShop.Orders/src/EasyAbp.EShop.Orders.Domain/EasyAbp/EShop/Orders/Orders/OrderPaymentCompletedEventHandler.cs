@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments;
 using EasyAbp.PaymentService.Payments;
@@ -55,7 +56,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var item in payment.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
-                var order = await _orderRepository.GetAsync(item.ItemKey);
+                var orderId = Guid.Parse(item.ItemKey);
+                
+                var order = await _orderRepository.GetAsync(orderId);
 
                 if (order.PaymentId != payment.Id || order.PaidTime.HasValue ||
                     order.OrderStatus != OrderStatus.Pending)
@@ -65,7 +68,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 if (!await _orderPaymentChecker.IsValidPaymentAsync(order, payment, item))
                 {
-                    throw new OrderPaymentInvalidException(payment.Id, item.ItemKey);
+                    throw new OrderPaymentInvalidException(payment.Id, orderId);
                 }
                 
                 order.SetPaidTime(_clock.Now);

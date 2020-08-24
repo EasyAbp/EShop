@@ -19,13 +19,9 @@ namespace EasyAbp.EShop.Payments.Payments
 
             if (orders.Select(order => order.Currency).Distinct().Count() != 1)
             {
+                // Todo: convert to a single currency.
                 throw new MultiCurrencyNotSupportedException();
             }
-
-            // if (orders.Select(order => order.StoreId).Distinct().Count() != 1)
-            // {
-            //     throw new MultiStorePaymentNotSupportedException();
-            // }
 
             return Task.CompletedTask;
         }
