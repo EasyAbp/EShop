@@ -2,10 +2,10 @@
 {
     public static class BasketsDbProperties
     {
-        public static string DbTablePrefix { get; set; } = "EShopPluginsBaskets";
+        public static string DbTablePrefix { get; set; } = "EasyAbpEShopPluginsBaskets";
 
         public static string DbSchema { get; set; } = null;
 
-        public const string ConnectionStringName = "EShopPluginsBaskets";
+        public const string ConnectionStringName = "EasyAbpEShopPluginsBaskets";
     }
 }
