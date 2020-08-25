@@ -158,9 +158,9 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [Authorize(OrdersPermissions.Orders.Complete)]
-        public virtual async Task<OrderDto> CompleteAsync(CompleteOrderInput input)
+        public virtual async Task<OrderDto> CompleteAsync(Guid id)
         {
-            var order = await GetEntityByIdAsync(input.OrderId);
+            var order = await GetEntityByIdAsync(id);
             
             if (order.CustomerUserId != CurrentUser.GetId())
             {

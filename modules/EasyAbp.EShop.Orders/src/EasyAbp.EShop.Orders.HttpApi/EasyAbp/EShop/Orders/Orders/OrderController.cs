@@ -61,10 +61,10 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [HttpPost]
-        [Route("complete")]
-        public Task<OrderDto> CompleteAsync(CompleteOrderInput input)
+        [Route("{id}/complete")]
+        public Task<OrderDto> CompleteAsync(Guid id)
         {
-            return _service.CompleteAsync(input);
+            return _service.CompleteAsync(id);
         }
     }
 }
