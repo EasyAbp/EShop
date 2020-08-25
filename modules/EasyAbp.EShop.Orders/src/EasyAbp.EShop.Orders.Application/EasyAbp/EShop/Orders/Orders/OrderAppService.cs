@@ -173,5 +173,10 @@ namespace EasyAbp.EShop.Orders.Orders
 
             return MapToGetOutputDto(order);
         }
+
+        public virtual Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

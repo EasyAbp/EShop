@@ -1,12 +1,13 @@
-﻿using Volo.Abp.Application;
+﻿using EasyAbp.PaymentService;
+using Volo.Abp.Application;
 using Volo.Abp.Modularity;
-using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Authorization;
 
 namespace EasyAbp.EShop.Payments
 {
     [DependsOn(
         typeof(EShopPaymentsDomainSharedModule),
+        typeof(PaymentServiceDomainSharedModule),
         typeof(AbpDddApplicationContractsModule),
         typeof(AbpAuthorizationModule)
         )]

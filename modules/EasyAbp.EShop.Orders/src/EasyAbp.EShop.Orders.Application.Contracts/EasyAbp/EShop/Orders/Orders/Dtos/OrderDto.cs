@@ -36,6 +36,8 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
 
         public DateTime? CanceledTime { get; set; }
         
+        public string CancellationReason { get; set; }
+
         public DateTime? ReducedInventoryAfterPlacingTime { get; set; }
         
         public DateTime? ReducedInventoryAfterPaymentTime { get; set; }

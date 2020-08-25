@@ -44,6 +44,9 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual DateTime? CanceledTime { get; protected set; }
         
+        [CanBeNull]
+        public virtual string CancellationReason { get; protected set; }
+
         public virtual DateTime? ReducedInventoryAfterPlacingTime { get; protected set; }
         
         public virtual DateTime? ReducedInventoryAfterPaymentTime { get; protected set; }
@@ -119,6 +122,12 @@ namespace EasyAbp.EShop.Orders.Orders
         public void SetCompletionTime(DateTime? completionTime)
         {
             CompletionTime = completionTime;
+        }
+
+        public void Cancel(DateTime canceledTime, [CanBeNull] string reason)
+        {
+            CanceledTime = canceledTime;
+            CancellationReason = reason;
         }
     }
 }

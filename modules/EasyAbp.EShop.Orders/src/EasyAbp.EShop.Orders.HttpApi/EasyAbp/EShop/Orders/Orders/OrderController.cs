@@ -66,5 +66,13 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             return _service.CompleteAsync(id);
         }
+
+        [HttpPost]
+        [Route("{id}/cancel")]
+        public Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
+        {
+            return _service.CancelAsync(id, input);
+
+        }
     }
 }
