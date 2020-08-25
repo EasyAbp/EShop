@@ -54,7 +54,7 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [HttpGet]
-        [Route("byOrderNumber")]
+        [Route("byOrderNumber/{orderNumber}")]
         public Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
         {
             return _service.GetByOrderNumberAsync(orderNumber);
