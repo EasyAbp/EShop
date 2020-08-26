@@ -67,15 +67,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             if (input.CustomerUserId != CurrentUser.GetId())
             {
-                if (input.StoreId.HasValue)
-                {
-                    await CheckMultiStorePolicyAsync(input.StoreId.Value, GetListPolicyName);
-                }
-                else
-                {
-                    throw new AbpAuthorizationException("Authorization failed! Given policy has not granted: " +
-                                                        GetListPolicyName);
-                }
+                await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
             }
 
             return await base.GetListAsync(input);
@@ -146,7 +138,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (order.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckStoreOwnerAsync(order.StoreId, OrdersPermissions.Orders.Manage);
+                await CheckMultiStorePolicyAsync(order.StoreId, OrdersPermissions.Orders.Manage);
             }
 
             return MapToGetOutputDto(order);
@@ -159,7 +151,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (order.CustomerUserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckStoreOwnerAsync(order.StoreId, OrdersPermissions.Orders.Manage);
+                await CheckMultiStorePolicyAsync(order.StoreId, OrdersPermissions.Orders.Manage);
             }
 
             order = await _orderManager.CompleteAsync(order);

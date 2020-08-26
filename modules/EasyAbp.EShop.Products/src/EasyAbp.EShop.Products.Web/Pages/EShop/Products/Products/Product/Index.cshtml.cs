@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             {
                 var storeOwners = await _storeOwnerAppService.GetListAsync(new GetStoreOwnerListDto
                 {
-                    OwnerId = CurrentUser.Id.Value,
+                    OwnerUserId = CurrentUser.Id.Value,
                 });
 
                 StoreId = storeOwners.Items.FirstOrDefault()?.StoreId;

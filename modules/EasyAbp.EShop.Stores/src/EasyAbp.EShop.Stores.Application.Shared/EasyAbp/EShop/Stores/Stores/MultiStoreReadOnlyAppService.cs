@@ -36,7 +36,7 @@ namespace EasyAbp.EShop.Stores.Stores
         where TGetOutputDto : IEntityDto<TKey>
         where TGetListOutputDto : IEntityDto<TKey>
     {
-        protected new IReadOnlyRepository<TEntity, TKey> Repository { get; }
+        protected IReadOnlyRepository<TEntity, TKey> Repository { get; }
 
         protected MultiStoreReadOnlyAppService(IReadOnlyRepository<TEntity, TKey> repository)
             : base(repository)
@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Stores.Stores
         {
             if (typeof(TEntity).IsAssignableTo<ICreationAuditedObject>())
             {
-                return query.OrderByDescending(e => ((ICreationAuditedObject) e).CreationTime);
+                return query.OrderByDescending(e => ((ICreationAuditedObject)e).CreationTime);
             }
             else
             {

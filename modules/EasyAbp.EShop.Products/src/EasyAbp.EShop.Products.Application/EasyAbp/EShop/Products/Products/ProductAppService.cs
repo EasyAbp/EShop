@@ -14,7 +14,8 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductAppService : CrudAppService<Product, ProductDto, Guid, GetProductListDto, CreateUpdateProductDto, CreateUpdateProductDto>,
+    public class ProductAppService : CrudAppService<Product, ProductDto, Guid, GetProductListDto, CreateUpdateProductDto
+            , CreateUpdateProductDto>,
         IProductAppService
     {
         protected override string CreatePolicyName { get; set; } = ProductsPermissions.Products.Create;
@@ -110,9 +111,11 @@ namespace EasyAbp.EShop.Products.Products
 
             var usedAttributeOptionIds = new HashSet<Guid>();
 
-            foreach (var serializedAttributeOptionIds in product.ProductSkus.Select(sku => sku.SerializedAttributeOptionIds))
+            foreach (var serializedAttributeOptionIds in product.ProductSkus.Select(sku =>
+                sku.SerializedAttributeOptionIds))
             {
-                foreach (var attributeOptionId in await _attributeOptionIdsSerializer.DeserializeAsync(serializedAttributeOptionIds))
+                foreach (var attributeOptionId in await _attributeOptionIdsSerializer.DeserializeAsync(
+                    serializedAttributeOptionIds))
                 {
                     usedAttributeOptionIds.Add(attributeOptionId);
                 }
@@ -120,7 +123,8 @@ namespace EasyAbp.EShop.Products.Products
 
             foreach (var attributeDto in input.ProductAttributes)
             {
-                var attribute = product.ProductAttributes.FirstOrDefault(a => a.DisplayName == attributeDto.DisplayName);
+                var attribute =
+                    product.ProductAttributes.FirstOrDefault(a => a.DisplayName == attributeDto.DisplayName);
 
                 if (attribute == null)
                 {
@@ -137,7 +141,8 @@ namespace EasyAbp.EShop.Products.Products
 
                 foreach (var optionDto in attributeDto.ProductAttributeOptions)
                 {
-                    var option = attribute.ProductAttributeOptions.FirstOrDefault(o => o.DisplayName == optionDto.DisplayName);
+                    var option =
+                        attribute.ProductAttributeOptions.FirstOrDefault(o => o.DisplayName == optionDto.DisplayName);
 
                     if (option == null)
                     {
@@ -203,7 +208,7 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtoInventoryDataAsync(product, dto, storeId);
             await LoadDtoPriceAsync(product, dto, storeId);
 
-            await LoadDtosProductTypeUniqueNameAsync(new[] { dto });
+            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
 
             return dto;
         }
@@ -240,7 +245,10 @@ namespace EasyAbp.EShop.Products.Products
         {
             await CheckGetListPolicyAsync();
 
-            var isCurrentUserStoreAdmin = await AuthorizationService.IsStoreOwnerGrantedAsync(input.StoreId, ProductsPermissions.Products.Default);
+            var isCurrentUserStoreAdmin =
+                await AuthorizationService.IsMultiStoreGrantedAsync(input.StoreId,
+                    ProductsPermissions.Products.CrossStore,
+                    ProductsPermissions.Products.Default);
 
             if (input.ShowHidden && !isCurrentUserStoreAdmin)
             {
@@ -279,7 +287,8 @@ namespace EasyAbp.EShop.Products.Products
             return new PagedResultDto<ProductDto>(totalCount, items);
         }
 
-        protected virtual async Task<ProductDto> LoadDtoInventoryDataAsync(Product product, ProductDto productDto, Guid storeId)
+        protected virtual async Task<ProductDto> LoadDtoInventoryDataAsync(Product product, ProductDto productDto,
+            Guid storeId)
         {
             var inventoryDataDict = await _productInventoryProvider.GetInventoryDataDictionaryAsync(product, storeId);
 
@@ -354,7 +363,8 @@ namespace EasyAbp.EShop.Products.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input)
+        public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId,
+            UpdateProductSkuDto input)
         {
             await CheckUpdatePolicyAsync();
 

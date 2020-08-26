@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
 using EasyAbp.EShop.Stores.Stores;
+using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
@@ -18,34 +19,37 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         protected override string CrossStorePolicyName { get; set; } = StoresPermissions.Stores.CrossStore;
 
         private readonly IStoreOwnerRepository _repository;
+        private readonly IStoreOwnerStore _storeOwnerStore;
 
-        public StoreOwnerAppService(IStoreOwnerRepository repository) : base(repository)
+        public StoreOwnerAppService(IStoreOwnerRepository repository,
+            IStoreOwnerStore storeOwnerStore) : base(repository)
         {
             _repository = repository;
+            _storeOwnerStore = storeOwnerStore;
         }
 
         public override async Task<StoreOwnerDto> CreateAsync(StoreOwnerDto input)
         {
-            if (await _repository.IsExistAsync(input.StoreId, input.OwnerId))
+            if (await _repository.IsExistAsync(input.StoreId, input.OwnerUserId))
             {
-                throw new StoreOwnerDuplicatedException(input.StoreId, input.OwnerId);
+                throw new StoreOwnerDuplicatedException(input.StoreId, input.OwnerUserId);
             }
 
             return await base.CreateAsync(input);
         }
-
+        
         protected override IQueryable<StoreOwner> CreateFilteredQuery(GetStoreOwnerListDto input)
         {
             var queryable = Repository.AsQueryable();
 
+            if (input.OwnerUserId.HasValue)
+            {
+                queryable = queryable.Where(x => x.OwnerUserId == input.OwnerUserId);
+            }
+
             if (input.StoreId.HasValue)
             {
                 queryable = queryable.Where(x => x.StoreId == input.StoreId);
-            }
-
-            if (input.OwnerId.HasValue)
-            {
-                queryable = queryable.Where(x => x.OwnerId == input.OwnerId);
             }
 
             return queryable;

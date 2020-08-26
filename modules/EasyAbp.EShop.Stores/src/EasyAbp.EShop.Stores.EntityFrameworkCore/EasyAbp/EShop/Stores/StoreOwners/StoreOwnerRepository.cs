@@ -22,16 +22,16 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             return await GetQueryable().Where(pc => pc.StoreId == storeId).ToListAsync(cancellationToken);
         }
 
-        public async Task<List<StoreOwner>> GetListByOwnerIdAsync(Guid ownerId,
+        public async Task<List<StoreOwner>> GetListByOwnerUserIdAsync(Guid ownerUserId,
             CancellationToken cancellationToken = default)
         {
-            return await GetQueryable().Where(pc => pc.OwnerId == ownerId).ToListAsync(cancellationToken);
+            return await GetQueryable().Where(pc => pc.OwnerUserId == ownerUserId).ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> IsExistAsync(Guid storeId, Guid ownerId, CancellationToken cancellationToken = default)
+        public async Task<bool> IsExistAsync(Guid storeId, Guid ownerUserId, CancellationToken cancellationToken = default)
         {
             var storeOwner = await GetQueryable().FirstOrDefaultAsync(
-                x => x.StoreId == storeId && x.OwnerId == ownerId,
+                x => x.OwnerUserId == ownerUserId && x.StoreId == storeId,
                 cancellationToken: cancellationToken);
 
             return storeOwner != null;

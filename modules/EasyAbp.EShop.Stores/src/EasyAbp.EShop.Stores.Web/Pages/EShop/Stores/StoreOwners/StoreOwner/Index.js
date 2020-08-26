@@ -58,7 +58,7 @@ $(function () {
                 }
             },
             {
-                data: "ownerId",
+                data: "ownerUserId",
                 render: function (data, type, row, meta) {
                     var currentCell = $("#StoreOwnerTable").DataTable().cells({"row":meta.row, "column":meta.col}).nodes(0);
                     userService.get(data).then(

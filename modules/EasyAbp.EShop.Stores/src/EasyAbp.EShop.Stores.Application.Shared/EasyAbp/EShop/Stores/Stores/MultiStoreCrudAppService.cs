@@ -52,22 +52,10 @@ namespace EasyAbp.EShop.Stores.Stores
             : base(repository)
         {
         }
-
-        protected override Task<TEntityDto> MapToGetListOutputDtoAsync(TEntity entity)
-        {
-            return base.MapToGetOutputDtoAsync(entity);
-        }
-
-        protected override TEntityDto MapToGetListOutputDto(TEntity entity)
-        {
-            return MapToGetOutputDto(entity);
-        }
     }
-
-    public abstract class MultiStoreCrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput,
-            TCreateInput, TUpdateInput>
-        : MultiStoreAbstractKeyCrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput,
-            TCreateInput, TUpdateInput>
+    
+    public abstract class MultiStoreCrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput>
+        : MultiStoreAbstractKeyCrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput>
         where TEntity : class, IEntity<TKey>, IMultiStore
         where TGetOutputDto : IEntityDto<TKey>
         where TGetListOutputDto : IEntityDto<TKey>
@@ -103,9 +91,9 @@ namespace EasyAbp.EShop.Stores.Stores
 
         protected override IQueryable<TEntity> ApplyDefaultSorting(IQueryable<TEntity> query)
         {
-            if (typeof(TEntity).IsAssignableTo<IHasCreationTime>())
+            if (typeof(TEntity).IsAssignableTo<ICreationAuditedObject>())
             {
-                return query.OrderByDescending(e => ((IHasCreationTime) e).CreationTime);
+                return query.OrderByDescending(e => ((ICreationAuditedObject)e).CreationTime);
             }
             else
             {

@@ -11,16 +11,16 @@ namespace EasyAbp.EShop.Stores.StoreOwners
 
         public virtual Guid StoreId { get; protected set; }
 
-        public virtual Guid OwnerId { get; protected set; }
+        public virtual Guid OwnerUserId { get; protected set; }
 
         protected StoreOwner()
         {
         }
 
-        public StoreOwner(Guid id, Guid storeId, Guid ownerId, Guid? tenantId = null) : base(id)
+        public StoreOwner(Guid id, Guid storeId, Guid ownerUserId, Guid? tenantId = null) : base(id)
         {
             StoreId = storeId;
-            OwnerId = ownerId;
+            OwnerUserId = ownerUserId;
             TenantId = tenantId;
         }
     }

@@ -10,8 +10,8 @@ namespace EasyAbp.EShop.Stores.StoreOwners
     {
         Task<List<StoreOwner>> GetListByStoreIdAsync(Guid storeId, CancellationToken cancellationToken = default);
 
-        Task<List<StoreOwner>> GetListByOwnerIdAsync(Guid ownerId, CancellationToken cancellationToken = default);
+        Task<List<StoreOwner>> GetListByOwnerUserIdAsync(Guid ownerUserId, CancellationToken cancellationToken = default);
 
-        Task<bool> IsExistAsync(Guid storeId, Guid ownerId, CancellationToken cancellationToken = default);
+        Task<bool> IsExistAsync(Guid storeId, Guid ownerUserId, CancellationToken cancellationToken = default);
     }
 }

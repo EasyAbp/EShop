@@ -5,8 +5,8 @@ namespace EasyAbp.EShop.Stores.StoreOwners
 {
     public class StoreOwnerDuplicatedException : BusinessException
     {
-        public StoreOwnerDuplicatedException(Guid storeId, Guid ownerId) : base(
-            message: $"Owner {ownerId} is duplicate for the store {storeId}")
+        public StoreOwnerDuplicatedException(Guid storeId, Guid ownerUserId) : base(
+            message: $"Owner {ownerUserId} is duplicate for the store {storeId}")
         {
         }
     }

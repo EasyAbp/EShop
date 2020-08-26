@@ -12,6 +12,6 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner.Vie
 
 
         [Required]
-        public Guid OwnerId  { get; set; }
+        public Guid MultiStoreCrudAppService  { get; set; }
     }
 }

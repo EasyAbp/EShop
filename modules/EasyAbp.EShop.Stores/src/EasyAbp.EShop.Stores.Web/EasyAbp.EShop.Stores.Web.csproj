@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.5" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Include="Pages\**\*.css" />
     <EmbeddedResource Include="Pages\**\*.js" />
@@ -32,44 +32,10 @@
     <Content Remove="Pages\**\*.css" />
     <Content Remove="Pages\**\*.js" />
     <Content Remove="wwwroot\**\*.*" />
-    <Content Update="Pages\EShop\Stores\Stores\StoreOwner\CreateModal.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Pages\EShop\Stores\Stores\StoreOwner\EditModal.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Pages\EShop\Stores\Stores\StoreOwner\Index.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\EShop\Stores\StoreOwners" />
     <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Pages\EShop\Stores\Stores\StoreOwner\CreateModal.cshtml.cs">
-      <DependentUpon>CreateModal.cshtml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\EShop\Stores\Stores\StoreOwner\EditModal.cshtml.cs">
-      <DependentUpon>EditModal.cshtml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\EShop\Stores\Stores\StoreOwner\Index.cshtml.cs">
-      <DependentUpon>Index.cshtml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\EShop\Stores\StoreOwners\StoreOwner\CreateModal.cshtml.cs">
-      <DependentUpon>CreateModal.cshtml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\EShop\Stores\StoreOwners\StoreOwner\EditModal.cshtml.cs">
-      <DependentUpon>EditModal.cshtml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\EShop\Stores\StoreOwners\StoreOwner\Index.cshtml.cs">
-      <DependentUpon>Index.cshtml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

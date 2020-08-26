@@ -52,7 +52,9 @@ namespace EasyAbp.EShop.Products.ProductInventories
                     throw new AbpValidationException("StoreId should not be null.");
                 }
 
-                await AuthorizationService.CheckStoreOwnerAsync(input.StoreId.Value, ProductsPermissions.ProductInventory.Update);
+                await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId.Value,
+                    ProductsPermissions.ProductInventory.CrossStore,
+                    ProductsPermissions.ProductInventory.Update);
 
                 await _productStoreRepository.GetAsync(input.ProductId, input.StoreId.Value);
             }
@@ -76,7 +78,8 @@ namespace EasyAbp.EShop.Products.ProductInventories
         {
             if (changedInventory >= 0)
             {
-                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(productInventory, changedInventory, false))
+                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(productInventory, changedInventory,
+                    false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);
@@ -84,7 +87,8 @@ namespace EasyAbp.EShop.Products.ProductInventories
             }
             else
             {
-                if (!await _productInventoryProvider.TryReduceInventoryAsync(productInventory, -changedInventory, false))
+                if (!await _productInventoryProvider.TryReduceInventoryAsync(productInventory, -changedInventory, false)
+                )
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);

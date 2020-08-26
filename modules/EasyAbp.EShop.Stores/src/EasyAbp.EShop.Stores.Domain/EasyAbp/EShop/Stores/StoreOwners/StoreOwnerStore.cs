@@ -60,10 +60,10 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             var cacheItems = new Dictionary<string, StoreOwnerCacheItem>();
             foreach (var storeOwner in storeOwners)
             {
-                cacheItems.Add(CalculateCacheKey(storeOwner.StoreId, storeOwner.OwnerId),
+                cacheItems.Add(CalculateCacheKey(storeOwner.StoreId, storeOwner.OwnerUserId),
                     new StoreOwnerCacheItem(true));
 
-                if (storeOwner.StoreId == storeId && storeOwner.OwnerId == userId)
+                if (storeOwner.OwnerUserId == userId && storeOwner.StoreId == storeId)
                 {
                     currentCacheItem.IsOwner = true;
                 }
