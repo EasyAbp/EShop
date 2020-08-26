@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200824110408_UpgradedPaymentServiceTo1_0_0")]
+    partial class UpgradedPaymentServiceTo1_0_0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace EShopSample.Migrations
 
                     b.Property<DateTime?>("CanceledTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("CancellationReason")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CompletionTime")
                         .HasColumnType("datetime2");
@@ -131,7 +130,7 @@ namespace EShopSample.Migrations
                         .IsUnique()
                         .HasFilter("[OrderNumber] IS NOT NULL");
 
-                    b.ToTable("EasyAbpEShopOrdersOrders");
+                    b.ToTable("EShopOrdersOrders");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderLine", b =>
@@ -222,7 +221,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("EasyAbpEShopOrdersOrderLines");
+                    b.ToTable("EShopOrdersOrderLines");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Payments.Payments.Payment", b =>
@@ -313,7 +312,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopPaymentsPayments");
+                    b.ToTable("EShopPaymentsPayments");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Payments.Payments.PaymentItem", b =>
@@ -390,7 +389,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("PaymentId");
 
-                    b.ToTable("EasyAbpEShopPaymentsPaymentItems");
+                    b.ToTable("EShopPaymentsPaymentItems");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.Refund", b =>
@@ -433,9 +432,6 @@ namespace EShopSample.Migrations
                         .HasColumnName("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DisplayReason")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ExternalTradingCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -460,6 +456,9 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PaymentItemId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("RefundAmount")
                         .HasColumnType("decimal(20,8)");
 
@@ -469,12 +468,15 @@ namespace EShopSample.Migrations
                     b.Property<string>("StaffRemark")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopPaymentsRefunds");
+                    b.ToTable("EShopPaymentsRefunds");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Plugins.Baskets.BasketItems.BasketItem", b =>
@@ -568,7 +570,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EasyAbpEShopPluginsBasketsBasketItems");
+                    b.ToTable("EShopPluginsBasketsBasketItems");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Plugins.Baskets.ProductUpdates.ProductUpdate", b =>
@@ -624,7 +626,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductSkuId");
 
-                    b.ToTable("EasyAbpEShopPluginsBasketsProductUpdates");
+                    b.ToTable("EShopPluginsBasketsProductUpdates");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Categories.Category", b =>
@@ -709,7 +711,7 @@ namespace EShopSample.Migrations
                         .IsUnique()
                         .HasFilter("[UniqueName] IS NOT NULL");
 
-                    b.ToTable("EasyAbpEShopProductsCategories");
+                    b.ToTable("EShopProductsCategories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductCategories.ProductCategory", b =>
@@ -759,7 +761,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopProductsProductCategories");
+                    b.ToTable("EShopProductsProductCategories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductDetailHistories.ProductDetailHistory", b =>
@@ -793,7 +795,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductDetailId");
 
-                    b.ToTable("EasyAbpEShopProductsProductDetailHistories");
+                    b.ToTable("EShopProductsProductDetailHistories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductDetails.ProductDetail", b =>
@@ -847,7 +849,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopProductsProductDetails");
+                    b.ToTable("EShopProductsProductDetails");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductHistories.ProductHistory", b =>
@@ -881,7 +883,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("EasyAbpEShopProductsProductHistories");
+                    b.ToTable("EShopProductsProductHistories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductInventories.ProductInventory", b =>
@@ -946,7 +948,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductSkuId");
 
-                    b.ToTable("EasyAbpEShopProductsProductInventories");
+                    b.ToTable("EShopProductsProductInventories");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductStores.ProductStore", b =>
@@ -1010,7 +1012,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopProductsProductStores");
+                    b.ToTable("EShopProductsProductStores");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.ProductTypes.ProductType", b =>
@@ -1073,7 +1075,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopProductsProductTypes");
+                    b.ToTable("EShopProductsProductTypes");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.Product", b =>
@@ -1161,7 +1163,7 @@ namespace EShopSample.Migrations
                         .IsUnique()
                         .HasFilter("[UniqueName] IS NOT NULL");
 
-                    b.ToTable("EasyAbpEShopProductsProducts");
+                    b.ToTable("EShopProductsProducts");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductAttribute", b =>
@@ -1216,7 +1218,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("EasyAbpEShopProductsProductAttributes");
+                    b.ToTable("EShopProductsProductAttributes");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductAttributeOption", b =>
@@ -1271,7 +1273,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductAttributeId");
 
-                    b.ToTable("EasyAbpEShopProductsProductAttributeOptions");
+                    b.ToTable("EShopProductsProductAttributeOptions");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Products.ProductSku", b =>
@@ -1347,7 +1349,7 @@ namespace EShopSample.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("EasyAbpEShopProductsProductSkus");
+                    b.ToTable("EShopProductsProductSkus");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Stores.Stores.Store", b =>
@@ -1405,7 +1407,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopStoresStores");
+                    b.ToTable("EShopStoresStores");
                 });
 
             modelBuilder.Entity("EasyAbp.PaymentService.Payments.Payment", b =>
@@ -1610,9 +1612,6 @@ namespace EShopSample.Migrations
                         .HasColumnName("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DisplayReason")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ExternalTradingCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -1637,6 +1636,9 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PaymentItemId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("RefundAmount")
                         .HasColumnType("decimal(20,8)");
 
@@ -1653,64 +1655,6 @@ namespace EShopSample.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EasyAbpPaymentServiceRefunds");
-                });
-
-            modelBuilder.Entity("EasyAbp.PaymentService.Refunds.RefundItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CustomerRemark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnName("DeleterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnName("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnName("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnName("LastModifierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PaymentItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("RefundAmount")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<Guid?>("RefundId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StaffRemark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RefundId");
-
-                    b.ToTable("EasyAbpPaymentServiceRefundItems");
                 });
 
             modelBuilder.Entity("EasyAbp.PaymentService.WeChatPay.PaymentRecords.PaymentRecord", b =>
@@ -3664,13 +3608,6 @@ namespace EShopSample.Migrations
                     b.HasOne("EasyAbp.PaymentService.Payments.Payment", null)
                         .WithMany("PaymentItems")
                         .HasForeignKey("PaymentId");
-                });
-
-            modelBuilder.Entity("EasyAbp.PaymentService.Refunds.RefundItem", b =>
-                {
-                    b.HasOne("EasyAbp.PaymentService.Refunds.Refund", null)
-                        .WithMany("RefundItems")
-                        .HasForeignKey("RefundId");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>

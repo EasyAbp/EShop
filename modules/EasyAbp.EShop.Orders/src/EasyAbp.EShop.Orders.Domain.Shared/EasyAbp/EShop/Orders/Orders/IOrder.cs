@@ -33,6 +33,8 @@ namespace EasyAbp.EShop.Orders.Orders
         
         DateTime? CanceledTime { get; }
         
+        string CancellationReason { get; }
+        
         DateTime? ReducedInventoryAfterPlacingTime { get; }
         
         DateTime? ReducedInventoryAfterPaymentTime { get; }

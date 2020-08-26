@@ -54,17 +54,25 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [HttpGet]
-        [Route("byOrderNumber")]
+        [Route("byOrderNumber/{orderNumber}")]
         public Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
         {
             return _service.GetByOrderNumberAsync(orderNumber);
         }
 
         [HttpPost]
-        [Route("complete")]
-        public Task<OrderDto> CompleteAsync(CompleteOrderInput input)
+        [Route("{id}/complete")]
+        public Task<OrderDto> CompleteAsync(Guid id)
         {
-            return _service.CompleteAsync(input);
+            return _service.CompleteAsync(id);
+        }
+
+        [HttpPost]
+        [Route("{id}/cancel")]
+        public Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
+        {
+            return _service.CancelAsync(id, input);
+
         }
     }
 }

@@ -97,8 +97,7 @@ namespace EasyAbp.EShop.Payments.Payments
                 PaymentItems = orders.Select(order => new CreatePaymentItemEto
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
-                    ItemKey = order.Id,
-                    Currency = order.Currency,
+                    ItemKey = order.Id.ToString(),
                     OriginalPaymentAmount = order.TotalPrice,
                     ExtraProperties = new Dictionary<string, object> {{"StoreId", orders.First().StoreId.ToString()}}
                 }).ToList()

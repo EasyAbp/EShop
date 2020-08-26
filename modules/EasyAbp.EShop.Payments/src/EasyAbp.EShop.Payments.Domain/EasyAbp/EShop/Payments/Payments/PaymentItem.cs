@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Payments.Payments
         [NotNull]
         public virtual string ItemType { get; protected set; }
         
-        public virtual Guid ItemKey { get; protected set; }
+        public virtual string ItemKey { get; protected set; }
         
         [NotNull]
         public virtual string Currency { get; protected set; }

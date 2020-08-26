@@ -14,6 +14,8 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         Task<OrderDto> GetByOrderNumberAsync(string orderNumber);
         
-        Task<OrderDto> CompleteAsync(CompleteOrderInput input);
+        Task<OrderDto> CompleteAsync(Guid id);
+
+        Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input);
     }
 }

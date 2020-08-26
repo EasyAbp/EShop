@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200825104114_AddedEasyAbpPrefix")]
+    partial class AddedEasyAbpPrefix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace EShopSample.Migrations
 
                     b.Property<DateTime?>("CanceledTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("CancellationReason")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CompletionTime")
                         .HasColumnType("datetime2");
@@ -433,9 +432,6 @@ namespace EShopSample.Migrations
                         .HasColumnName("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DisplayReason")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ExternalTradingCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -460,6 +456,9 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PaymentItemId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("RefundAmount")
                         .HasColumnType("decimal(20,8)");
 
@@ -468,6 +467,9 @@ namespace EShopSample.Migrations
 
                     b.Property<string>("StaffRemark")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("StoreId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1610,9 +1612,6 @@ namespace EShopSample.Migrations
                         .HasColumnName("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DisplayReason")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ExternalTradingCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -1637,6 +1636,9 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PaymentItemId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("RefundAmount")
                         .HasColumnType("decimal(20,8)");
 
@@ -1653,64 +1655,6 @@ namespace EShopSample.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EasyAbpPaymentServiceRefunds");
-                });
-
-            modelBuilder.Entity("EasyAbp.PaymentService.Refunds.RefundItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CustomerRemark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnName("DeleterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnName("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnName("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnName("LastModifierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PaymentItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("RefundAmount")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<Guid?>("RefundId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StaffRemark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RefundId");
-
-                    b.ToTable("EasyAbpPaymentServiceRefundItems");
                 });
 
             modelBuilder.Entity("EasyAbp.PaymentService.WeChatPay.PaymentRecords.PaymentRecord", b =>
@@ -3664,13 +3608,6 @@ namespace EShopSample.Migrations
                     b.HasOne("EasyAbp.PaymentService.Payments.Payment", null)
                         .WithMany("PaymentItems")
                         .HasForeignKey("PaymentId");
-                });
-
-            modelBuilder.Entity("EasyAbp.PaymentService.Refunds.RefundItem", b =>
-                {
-                    b.HasOne("EasyAbp.PaymentService.Refunds.Refund", null)
-                        .WithMany("RefundItems")
-                        .HasForeignKey("RefundId");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>

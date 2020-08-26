@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments;
 using EasyAbp.PaymentService.Payments;
@@ -32,7 +33,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var item in eventData.Entity.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
-                var order = await _orderRepository.GetAsync(item.ItemKey);
+                var orderId = Guid.Parse(item.ItemKey);
+                
+                var order = await _orderRepository.GetAsync(orderId);
 
                 if (order.PaymentId.HasValue || order.OrderStatus != OrderStatus.Pending)
                 {
@@ -43,7 +46,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
                     // Todo: should cancel the payment?
-                    throw new OrderPaymentInvalidException(eventData.Entity.Id, item.ItemKey);
+                    throw new OrderPaymentInvalidException(eventData.Entity.Id, orderId);
                 }
 
                 order.SetPaymentId(eventData.Entity.Id);
