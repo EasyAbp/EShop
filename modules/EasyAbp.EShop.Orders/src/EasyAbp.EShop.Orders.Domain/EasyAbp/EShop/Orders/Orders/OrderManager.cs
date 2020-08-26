@@ -51,7 +51,17 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual async Task<Order> CancelAsync(Order order, string cancellationReason)
         {
-            order.Cancel(_clock.Now, cancellationReason);
+            if (order.CanceledTime.HasValue)
+            {
+                throw new OrderIsInWrongStageException(order.Id);
+            }
+            
+            if (order.IsInPayment())
+            {
+                throw new OrderIsInWrongStageException(order.Id);
+            }
+
+            order.SetCanceled(_clock.Now, cancellationReason);
             order.SetOrderStatus(OrderStatus.Canceled);
 
             return await _orderRepository.UpdateAsync(order, true);

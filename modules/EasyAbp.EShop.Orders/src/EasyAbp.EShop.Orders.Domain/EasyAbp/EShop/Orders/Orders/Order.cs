@@ -125,7 +125,7 @@ namespace EasyAbp.EShop.Orders.Orders
             CompletionTime = completionTime;
         }
 
-        public void Cancel(DateTime canceledTime, [CanBeNull] string cancellationReason)
+        public void SetCanceled(DateTime canceledTime, [CanBeNull] string cancellationReason)
         {
             CanceledTime = canceledTime;
             CancellationReason = cancellationReason;
@@ -153,6 +153,11 @@ namespace EasyAbp.EShop.Orders.Orders
             orderLine.Refund(quantity, amount);
 
             RefundAmount += amount;
+        }
+
+        public bool IsInPayment()
+        {
+            return !(!PaymentId.HasValue || PaidTime.HasValue);
         }
     }
 }
