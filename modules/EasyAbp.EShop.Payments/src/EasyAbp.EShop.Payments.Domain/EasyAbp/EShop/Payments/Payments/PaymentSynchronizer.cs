@@ -7,6 +7,7 @@ using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Uow;
 
@@ -19,19 +20,24 @@ namespace EasyAbp.EShop.Payments.Payments
         ITransientDependency
     {
         private readonly IObjectMapper _objectMapper;
+        private readonly ICurrentTenant _currentTenant;
         private readonly IPaymentRepository _paymentRepository;
 
         public PaymentSynchronizer(
             IObjectMapper objectMapper,
+            ICurrentTenant currentTenant,
             IPaymentRepository paymentRepository)
         {
             _objectMapper = objectMapper;
+            _currentTenant = currentTenant;
             _paymentRepository = paymentRepository;
         }
 
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
         {
+            using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
+
             var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
             
             if (payment == null)

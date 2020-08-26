@@ -23,7 +23,11 @@ namespace EasyAbp.EShop.Payments
             CreateMap<RefundEto, Refund>(MemberList.Source)
                 .Ignore(x => x.RefundItems);
             CreateMap<RefundItemEto, RefundItem>(MemberList.Source)
-                .Ignore(x => x.StoreId);
+                .Ignore(x => x.StoreId)
+                .Ignore(x => x.OrderId);
+            CreateMap<Refund, OrderRefundEto>();
+            CreateMap<RefundItem, OrderRefundItemEto>();
+            CreateMap<RefundItemOrderLine, RefundItemOrderLineEto>();
         }
     }
 }

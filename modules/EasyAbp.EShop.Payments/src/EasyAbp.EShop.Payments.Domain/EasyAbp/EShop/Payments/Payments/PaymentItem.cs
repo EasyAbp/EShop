@@ -16,10 +16,7 @@ namespace EasyAbp.EShop.Payments.Payments
         public virtual string ItemType { get; protected set; }
         
         public virtual string ItemKey { get; protected set; }
-        
-        [NotNull]
-        public virtual string Currency { get; protected set; }
-        
+
         public virtual decimal OriginalPaymentAmount { get; protected set; }
 
         public virtual decimal PaymentDiscount { get; protected set; }

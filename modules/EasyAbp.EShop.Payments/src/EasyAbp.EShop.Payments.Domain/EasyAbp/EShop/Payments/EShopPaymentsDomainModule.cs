@@ -17,16 +17,6 @@ namespace EasyAbp.EShop.Payments
         )]
     public class EShopPaymentsDomainModule : AbpModule
     {
-        public override void PreConfigureServices(ServiceConfigurationContext context)
-        {
-            Configure<AbpDistributedEntityEventOptions>(options =>
-            {
-                options.EtoMappings.Add<Refund, RefundEto>(typeof(EShopPaymentsDomainModule));
-                
-                options.AutoEventSelectors.Add<Refund>();
-            });
-        }
-        
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAutoMapperObjectMapper<EShopPaymentsDomainModule>();

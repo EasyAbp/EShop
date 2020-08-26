@@ -1,6 +1,7 @@
 ﻿using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.PaymentService;
+using EasyAbp.PaymentService.Prepayment;
 using EasyAbp.PaymentService.WeChatPay;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
@@ -22,7 +23,8 @@ namespace EShopSample
         typeof(EShopHttpApiClientModule),
         typeof(EShopPluginsBasketsHttpApiClientModule),
         typeof(PaymentServiceHttpApiClientModule),
-        typeof(PaymentServiceWeChatPayHttpApiClientModule)
+        typeof(PaymentServiceWeChatPayHttpApiClientModule),
+        typeof(PaymentServicePrepaymentHttpApiClientModule)
     )]
     public class EShopSampleHttpApiClientModule : AbpModule
     {

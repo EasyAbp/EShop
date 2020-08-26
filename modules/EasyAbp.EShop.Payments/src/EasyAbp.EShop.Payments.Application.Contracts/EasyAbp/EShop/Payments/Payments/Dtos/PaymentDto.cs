@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
     public class PaymentDto : ExtensibleFullAuditedEntityDto<Guid>, IPayment
     {
+        #region Base properties
+
         public Guid UserId { get; set; }
         
         public string PaymentMethod { get; set; }
@@ -30,7 +32,9 @@ namespace EasyAbp.EShop.Payments.Payments.Dtos
         public DateTime? CompletionTime { get; set; }
         
         public DateTime? CanceledTime { get; set; }
-
+        
+        #endregion
+        
         public List<PaymentItemDto> PaymentItems { get; set; }
     }
 }

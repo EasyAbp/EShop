@@ -16,6 +16,8 @@ namespace EasyAbp.EShop.Payments
             CreateMap<Payment, PaymentDto>();
             CreateMap<PaymentItem, PaymentItemDto>();
             CreateMap<Refund, RefundDto>();
+            CreateMap<RefundItem, RefundItemDto>();
+            CreateMap<RefundItemOrderLine, RefundItemOrderLineDto>();
         }
     }
 }

@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200826141904_AddedPrepaymentModule")]
+    partial class AddedPrepaymentModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,6 +340,9 @@ namespace EShopSample.Migrations
                     b.Property<Guid?>("CreatorId")
                         .HasColumnName("CreatorId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("DeleterId")
                         .HasColumnName("DeleterId")

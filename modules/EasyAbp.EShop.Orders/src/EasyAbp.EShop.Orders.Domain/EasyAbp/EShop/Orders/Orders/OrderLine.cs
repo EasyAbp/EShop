@@ -89,7 +89,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         internal void Refund(int quantity, decimal amount)
         {
-            RefundedQuantity -= quantity;
+            RefundedQuantity += quantity;
             RefundAmount += amount;
         }
     }

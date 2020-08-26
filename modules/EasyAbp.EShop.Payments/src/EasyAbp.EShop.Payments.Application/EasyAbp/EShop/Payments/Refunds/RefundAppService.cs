@@ -81,6 +81,8 @@ namespace EasyAbp.EShop.Payments.Refunds
         public virtual async Task CreateAsync(CreateEShopRefundInput input)
         {
             await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
+
+            var payment = await _paymentRepository.GetAsync(input.PaymentId);
             
             var createRefundInput = new CreateRefundInput
             {
@@ -93,6 +95,13 @@ namespace EasyAbp.EShop.Payments.Refunds
             foreach (var refundItem in input.RefundItems)
             {
                 var order = await _orderAppService.GetAsync(refundItem.OrderId);
+
+                var paymentItem = payment.PaymentItems.SingleOrDefault(x => x.ItemKey == refundItem.OrderId.ToString());
+
+                if (order.PaymentId != input.PaymentId || paymentItem == null)
+                {
+                    throw new OrderIsNotInSpecifiedPaymentException(order.Id, payment.Id);
+                }
 
                 // Todo: Check if current user is an admin of the store.
 
@@ -108,7 +117,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
                 createRefundInput.RefundItems.Add(new CreateRefundItemInput
                 {
-                    PaymentItemId = refundItem.OrderId,
+                    PaymentItemId = paymentItem.Id,
                     RefundAmount = refundItem.OrderLines.Sum(x => x.TotalAmount),
                     CustomerRemark = refundItem.CustomerRemark,
                     StaffRemark = refundItem.StaffRemark,

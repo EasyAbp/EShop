@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
-using AutoMapper;
 using EasyAbp.EShop.Stores.Stores;
 using EasyAbp.PaymentService.Refunds;
-using JetBrains.Annotations;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    [AutoMap(typeof(EShopRefundItemEto))]
-
     public class RefundItem : FullAuditedEntity<Guid>, IRefundItem, IMultiStore, IHasExtraProperties
     {
         #region Base properties
