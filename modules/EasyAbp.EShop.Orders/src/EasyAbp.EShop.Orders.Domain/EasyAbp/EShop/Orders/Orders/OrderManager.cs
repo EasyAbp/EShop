@@ -48,5 +48,13 @@ namespace EasyAbp.EShop.Orders.Orders
 
             return await _orderRepository.UpdateAsync(order, true);
         }
+
+        public virtual async Task<Order> CancelAsync(Order order, string cancellationReason)
+        {
+            order.Cancel(_clock.Now, cancellationReason);
+            order.SetOrderStatus(OrderStatus.Canceled);
+
+            return await _orderRepository.UpdateAsync(order, true);
+        }
     }
 }

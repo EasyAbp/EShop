@@ -1,6 +1,6 @@
 using System;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.Refunds.Dtos;
-using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Payments.Refunds
@@ -11,6 +11,6 @@ namespace EasyAbp.EShop.Payments.Refunds
             Guid, 
             GetRefundListDto>
     {
-
+        Task CreateAsync(CreateEShopRefundInput input);
     }
 }

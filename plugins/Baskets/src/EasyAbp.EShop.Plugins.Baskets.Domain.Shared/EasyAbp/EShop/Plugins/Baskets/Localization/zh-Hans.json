@@ -3,9 +3,6 @@
   "texts": {
     "ManageYourProfile": "管理个人资料",
     "Permission:BasketItem": "BasketItem",
-    "Permission:Create": "Create",
-    "Permission:Update": "Update",
-    "Permission:Delete": "Delete",
     "Menu:BasketItem": "MenuBasketItem",
     "BasketItem": "BasketItem",
     "BasketItemBasketName": "BasketItemBasketName",

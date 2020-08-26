@@ -41,6 +41,7 @@ namespace EasyAbp.EShop.Payments.Payments
             _repository = repository;
         }
 
+        // Todo: should a store owner user see orders of other stores in the same payment/refund?
         public override async Task<PaymentDto> GetAsync(Guid id)
         {
             var payment = await base.GetAsync(id);
@@ -65,6 +66,7 @@ namespace EasyAbp.EShop.Payments.Payments
             return query;
         }
 
+        // Todo: should a store owner user see orders of other stores in the same payment/refund?
         public override async Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentListDto input)
         {
             if (input.UserId != CurrentUser.GetId())

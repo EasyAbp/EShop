@@ -106,7 +106,7 @@ namespace EShopSample.Migrations
                     b.Property<DateTime?>("ReducedInventoryAfterPlacingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("RefundedAmount")
+                    b.Property<decimal>("RefundAmount")
                         .HasColumnType("decimal(20,8)");
 
                     b.Property<string>("StaffRemark")
@@ -201,6 +201,12 @@ namespace EShopSample.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<int>("RefundedQuantity")
                         .HasColumnType("int");
 
                     b.Property<string>("SkuDescription")
@@ -475,6 +481,99 @@ namespace EShopSample.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EasyAbpEShopPaymentsRefunds");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CustomerRemark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnName("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnName("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PaymentItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid?>("RefundId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("StaffRemark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RefundId");
+
+                    b.ToTable("EasyAbpEShopPaymentsRefundItems");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItemOrderLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderLineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid?>("RefundItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("RefundedQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RefundItemId");
+
+                    b.ToTable("EasyAbpEShopPaymentsRefundItemOrderLines");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Plugins.Baskets.BasketItems.BasketItem", b =>
@@ -1679,6 +1778,10 @@ namespace EShopSample.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnName("DeletionTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnName("ExtraProperties")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -3629,6 +3732,20 @@ namespace EShopSample.Migrations
                     b.HasOne("EasyAbp.EShop.Payments.Payments.Payment", null)
                         .WithMany("PaymentItems")
                         .HasForeignKey("PaymentId");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItem", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Payments.Refunds.Refund", null)
+                        .WithMany("RefundItems")
+                        .HasForeignKey("RefundId");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItemOrderLine", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Payments.Refunds.RefundItem", null)
+                        .WithMany("RefundItemOrderLines")
+                        .HasForeignKey("RefundItemId");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Categories.Category", b =>

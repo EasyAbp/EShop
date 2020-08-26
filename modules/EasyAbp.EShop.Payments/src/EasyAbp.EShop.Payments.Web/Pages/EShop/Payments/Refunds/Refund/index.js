@@ -28,15 +28,16 @@ $(function () {
                         ]
                 }
             },
-            { data: "storeId" },
             { data: "paymentId" },
-            { data: "paymentItemId" },
             { data: "refundPaymentMethod" },
             { data: "externalTradingCode" },
             { data: "currency" },
             { data: "refundAmount" },
+            { data: "displayReason" },
             { data: "customerRemark" },
             { data: "staffRemark" },
+            { data: "completedTime" },
+            { data: "canceledTime" },
         ]
     }));
 

@@ -21,12 +21,12 @@ $(function () {
                             {
                                 text: l('PaymentItem'),
                                 action: function (data) {
+                                    document.location.href = document.location.origin + '/EShop/Payments/Payments/PaymentItem?PaymentId=' + data.record.id;
                                 }
                             }
                         ]
                 }
             },
-            { data: "storeId" },
             { data: "paymentMethod" },
             { data: "externalTradingCode" },
             { data: "currency" },
@@ -34,6 +34,7 @@ $(function () {
             { data: "paymentDiscount" },
             { data: "actualPaymentAmount" },
             { data: "refundAmount" },
+            { data: "pendingRefundAmount" },
             { data: "completionTime" },
             { data: "canceledTime" },
         ]

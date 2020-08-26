@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
@@ -27,8 +28,8 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual decimal TotalDiscount { get; protected set; }
         
         public virtual decimal TotalPrice { get; protected set; }
-        
-        public virtual decimal RefundedAmount { get; protected set; }
+
+        public virtual decimal RefundAmount { get; protected set; }
         
         [CanBeNull]
         public virtual string CustomerRemark { get; protected set; }
@@ -66,7 +67,6 @@ namespace EasyAbp.EShop.Orders.Orders
             decimal productTotalPrice,
             decimal totalDiscount,
             decimal totalPrice,
-            decimal refundedAmount,
             [CanBeNull] string customerRemark
         ) : base(id)
         {
@@ -77,9 +77,10 @@ namespace EasyAbp.EShop.Orders.Orders
             ProductTotalPrice = productTotalPrice;
             TotalDiscount = totalDiscount;
             TotalPrice = totalPrice;
-            RefundedAmount = refundedAmount;
             CustomerRemark = customerRemark;
 
+            RefundAmount = 0;
+            
             OrderStatus = OrderStatus.Pending;
             OrderLines = new List<OrderLine>();
         }
@@ -124,10 +125,34 @@ namespace EasyAbp.EShop.Orders.Orders
             CompletionTime = completionTime;
         }
 
-        public void Cancel(DateTime canceledTime, [CanBeNull] string reason)
+        public void Cancel(DateTime canceledTime, [CanBeNull] string cancellationReason)
         {
             CanceledTime = canceledTime;
-            CancellationReason = reason;
+            CancellationReason = cancellationReason;
+        }
+
+        public bool IsPaid()
+        {
+            return PaidTime.HasValue;
+        }
+
+        public void Refund(Guid orderLineId, int quantity, decimal amount)
+        {
+            if (amount <= decimal.Zero)
+            {
+                throw new InvalidRefundAmountException(amount);
+            }
+
+            var orderLine = OrderLines.Single(x => x.Id == orderLineId);
+
+            if (orderLine.RefundedQuantity + quantity > orderLine.Quantity)
+            {
+                throw new InvalidRefundQuantityException(quantity);
+            }
+
+            orderLine.Refund(quantity, amount);
+
+            RefundAmount += amount;
         }
     }
 }

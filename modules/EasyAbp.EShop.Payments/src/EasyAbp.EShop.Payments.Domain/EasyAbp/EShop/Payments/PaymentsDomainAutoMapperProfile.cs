@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using EasyAbp.EShop.Payments.Payments;
+using EasyAbp.EShop.Payments.Refunds;
 using EasyAbp.PaymentService.Payments;
+using EasyAbp.PaymentService.Refunds;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EShop.Payments
@@ -16,6 +18,11 @@ namespace EasyAbp.EShop.Payments
             CreateMap<PaymentEto, Payment>(MemberList.Source)
                 .Ignore(x => x.PaymentItems);
             CreateMap<PaymentItemEto, PaymentItem>(MemberList.Source)
+                .Ignore(x => x.StoreId);
+            
+            CreateMap<RefundEto, Refund>(MemberList.Source)
+                .Ignore(x => x.RefundItems);
+            CreateMap<RefundItemEto, RefundItem>(MemberList.Source)
                 .Ignore(x => x.StoreId);
         }
     }
