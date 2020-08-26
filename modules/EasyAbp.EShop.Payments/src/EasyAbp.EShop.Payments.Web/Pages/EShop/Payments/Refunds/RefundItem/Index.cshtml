@@ -1,0 +1,50 @@
+@page
+@using EasyAbp.EShop.Payments.Localization
+@using EasyAbp.EShop.Payments.Web.Menus
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@model EasyAbp.EShop.Payments.Web.Pages.EShop.Payments.Refunds.RefundItem.IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<PaymentsResource> L
+@{
+    PageLayout.Content.Title = L["RefundItem"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:RefundItem"].Value);
+    PageLayout.Content.MenuItemName = PaymentsMenus.Refund;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Payments/Refunds/RefundItem/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Payments/Refunds/RefundItem/index.css"/>
+}
+
+<script>
+    var refundId = '@Model.RefundId';
+</script>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["RefundItem"]</abp-card-title>
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="RefundTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["RefundItemStoreId"]</th>
+                <th>@L["RefundItemPaymentItemId"]</th>
+                <th>@L["RefundItemRefundAmount"]</th>
+                <th>@L["RefundItemCustomerRemark"]</th>
+                <th>@L["RefundItemStaffRemark"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

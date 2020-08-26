@@ -9,5 +9,7 @@ namespace EasyAbp.EShop.Orders.Orders
         Task<Order> DiscountAsync(Order order, Dictionary<string, object> inputExtraProperties);
 
         Task<Order> CompleteAsync(Order order);
+        
+        Task<Order> CancelAsync(Order order, string cancellationReason);
     }
 }

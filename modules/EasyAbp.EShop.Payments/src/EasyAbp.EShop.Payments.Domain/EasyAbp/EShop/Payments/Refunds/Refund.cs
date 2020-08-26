@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using AutoMapper;
 using EasyAbp.PaymentService.Refunds;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
+    [AutoMap(typeof(EShopRefundEto))]
     public class Refund : FullAuditedAggregateRoot<Guid>, IRefund
     {
         #region Base properties
@@ -35,12 +38,19 @@ namespace EasyAbp.EShop.Payments.Refunds
         public virtual DateTime? CompletedTime { get; protected set; }
         
         public virtual DateTime? CanceledTime { get; protected set; }
+        
+        public virtual List<RefundItem> RefundItems { get; protected set; }
 
         #endregion
         
         private Refund()
         {
             
+        }
+        
+        public void SetRefundItems(List<RefundItem> refundItems)
+        {
+            RefundItems = refundItems;
         }
     }
 }

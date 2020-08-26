@@ -30,5 +30,11 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             return _service.GetListAsync(input);
         }
+
+        [HttpPost]
+        public Task CreateAsync(CreateEShopRefundInput input)
+        {
+            return _service.CreateAsync(input);
+        }
     }
 }

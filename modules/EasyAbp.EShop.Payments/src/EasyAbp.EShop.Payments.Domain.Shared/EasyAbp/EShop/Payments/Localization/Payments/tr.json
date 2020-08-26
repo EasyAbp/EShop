@@ -3,30 +3,11 @@
   "texts": {
     "ManageYourProfile": "Profil y�netimi",
     "Permission:Payments": "Payments",
-    "Permission:Create": "Create",
-    "Permission:Update": "Update",
-    "Permission:Delete": "Delete",
     "Menu:Payment": "MenuPayments",
-    "Payment": "Payment",
-    "PaymentStoreId": "PaymentStoreId",
-    "CreatePayment": "CreatePayment",
-    "EditPayment": "EditPayment",
-    "PaymentDeletionConfirmationMessage": "Are you sure to delete the payment {0}?",
-    "PaymentItem": "PaymentItem",
-    "PaymentItemItemType": "PaymentItemItemType",
-    "PaymentItemItemKey": "PaymentItemItemKey",
-    "PaymentItemCurrency": "PaymentItemCurrency",
-    "PaymentItemOriginalPaymentAmount": "PaymentItemOriginalPaymentAmount",
-    "PaymentItemPaymentDiscount": "PaymentItemPaymentDiscount",
-    "PaymentItemActualPaymentAmount": "PaymentItemActualPaymentAmount",
-    "PaymentItemRefundAmount": "PaymentItemRefundAmount",
-    "SuccessfullyDeleted": "Successfully deleted",
+    "PaymentItemStoreId": "PaymentItemStoreId",
     "Permission:Refunds": "Refunds",
     "Menu:Refund": "MenuRefunds",
-    "Refund": "Refund",
-    "RefundStoreId": "RefundStoreId",
-    "CreateRefund": "CreateRefund",
-    "EditRefund": "EditRefund",
-    "RefundDeletionConfirmationMessage": "Are you sure to delete the refund {0}?"
+    "Menu:RefundItem": "MenuRefundsItem",
+    "RefundItemStoreId": "RefundItemStoreId"
   }
 }

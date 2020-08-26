@@ -58,7 +58,6 @@ namespace EasyAbp.EShop.Orders.Orders
                 productTotalPrice: productTotalPrice,
                 totalDiscount: orderLines.Select(x => x.TotalDiscount).Sum(),
                 totalPrice: productTotalPrice,
-                refundedAmount: 0,
                 customerRemark: input.CustomerRemark);
 
             foreach (var orderExtraProperty in orderExtraProperties)

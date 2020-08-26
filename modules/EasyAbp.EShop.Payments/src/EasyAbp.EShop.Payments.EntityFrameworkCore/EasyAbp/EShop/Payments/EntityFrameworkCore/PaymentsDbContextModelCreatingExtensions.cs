@@ -54,14 +54,6 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.Property(x => x.PendingRefundAmount).HasColumnType("decimal(20,8)");
             });
 
-            builder.Entity<Refund>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Refunds", options.Schema);
-                b.ConfigureByConvention(); 
-                /* Configure more properties here */
-                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
-            });
-
             builder.Entity<PaymentItem>(b =>
             {
                 b.ToTable(options.TablePrefix + "PaymentItems", options.Schema);
@@ -72,6 +64,30 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 b.Property(x => x.PaymentDiscount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.PendingRefundAmount).HasColumnType("decimal(20,8)");
+            });
+            
+            builder.Entity<Refund>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Refunds", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
+            });
+            
+            builder.Entity<RefundItem>(b =>
+            {
+                b.ToTable(options.TablePrefix + "RefundItems", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
+            });
+            
+            builder.Entity<RefundItemOrderLine>(b =>
+            {
+                b.ToTable(options.TablePrefix + "RefundItemOrderLines", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
             });
         }
     }

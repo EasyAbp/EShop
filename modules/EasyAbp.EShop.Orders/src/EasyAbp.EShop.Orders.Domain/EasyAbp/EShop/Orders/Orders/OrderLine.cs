@@ -43,6 +43,10 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual int Quantity { get; protected set; }
         
+        public virtual int RefundedQuantity { get; protected set; }
+        
+        public virtual decimal RefundAmount { get; protected set; }
+
         protected OrderLine() {}
 
         public OrderLine(
@@ -78,6 +82,15 @@ namespace EasyAbp.EShop.Orders.Orders
             TotalPrice = totalPrice;
             TotalDiscount = totalDiscount;
             Quantity = quantity;
+
+            RefundedQuantity = 0;
+            RefundAmount = 0;
+        }
+
+        internal void Refund(int quantity, decimal amount)
+        {
+            RefundedQuantity -= quantity;
+            RefundAmount += amount;
         }
     }
 }

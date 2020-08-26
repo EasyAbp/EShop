@@ -158,10 +158,22 @@ namespace EasyAbp.EShop.Orders.Orders
 
             return MapToGetOutputDto(order);
         }
-
-        public virtual Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
+        
+        [Authorize(OrdersPermissions.Orders.Cancel)]
+        public virtual async Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
         {
-            throw new NotImplementedException();
+            var order = await GetEntityByIdAsync(id);
+
+            if (order.IsPaid() || order.CustomerUserId != CurrentUser.GetId())
+            {
+                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
+
+                // Todo: Check if current user is an admin of the store.
+            }
+
+            order = await _orderManager.CancelAsync(order, input.CancellationReason);
+
+            return MapToGetOutputDto(order);
         }
     }
 }

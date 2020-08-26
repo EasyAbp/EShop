@@ -34,5 +34,9 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public decimal TotalDiscount { get; set; }
 
         public int Quantity { get; set; }
+        
+        public int RefundedQuantity { get; set; }
+        
+        public decimal RefundAmount { get; set; }
     }
 }
