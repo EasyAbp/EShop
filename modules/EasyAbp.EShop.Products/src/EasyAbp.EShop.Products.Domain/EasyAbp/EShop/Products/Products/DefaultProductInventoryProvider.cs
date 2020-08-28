@@ -11,8 +11,6 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class DefaultProductInventoryProvider : IProductInventoryProvider, ITransientDependency
     {
-        public string ProviderName { get; } = "Default";
-
         // Todo: should use IProductInventoryStore.
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;

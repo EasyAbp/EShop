@@ -22,9 +22,6 @@ namespace EasyAbp.EShop.Products.Products
         
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
-        
-        [CanBeNull]
-        public virtual string SpecifiedInventoryProviderName { get; protected set; }
 
         public virtual int DisplayOrder { get; protected set; }
 
@@ -53,7 +50,6 @@ namespace EasyAbp.EShop.Products.Products
             bool isStatic,
             bool isHidden,
             [CanBeNull] string mediaResources,
-            [CanBeNull] string specifiedInventoryProviderName,
             int displayOrder
         ) : base(id)
         {
@@ -66,7 +62,6 @@ namespace EasyAbp.EShop.Products.Products
             IsStatic = isStatic;
             IsHidden = isHidden;
             MediaResources = mediaResources;
-            SpecifiedInventoryProviderName = specifiedInventoryProviderName;
             DisplayOrder = displayOrder;
             
             ProductAttributes = new List<ProductAttribute>();

@@ -30,10 +30,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         [DisplayName("ProductSkuMediaResources")]
         public string MediaResources { get; set; }
-        
-        [DisplayName("ProductSkuSpecifiedInventoryProviderName")]
-        public string SpecifiedInventoryProviderName { get; set; }
-        
+
         [DisplayName("ProductSkuProductDetailId")]
         public Guid? ProductDetailId { get; set; }
     }

@@ -53,10 +53,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductMediaResources")]
         public string MediaResources { get; set; }
         
-        [Placeholder("KeepEmptyIfDoNotKnow")]
-        [Display(Name = "ProductSpecifiedInventoryProviderName")]
-        public string SpecifiedInventoryProviderName { get; set; }
-        
         [Display(Name = "ProductIsPublished")]
         public bool IsPublished { get; set; }
     }
