@@ -13,17 +13,20 @@ namespace EasyAbp.EShop.Products.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductStoreRepository _productStoreRepository;
+        private readonly IProductPriceProvider _productPriceProvider;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProvider _productInventoryProvider;
 
         public ProductManager(
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
+            IProductPriceProvider productPriceProvider,
             IProductCategoryRepository productCategoryRepository,
             IProductInventoryProvider productInventoryProvider)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
+            _productPriceProvider = productPriceProvider;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProvider = productInventoryProvider;
         }
@@ -203,16 +206,22 @@ namespace EasyAbp.EShop.Products.Products
                 increaseSold);
         }
 
-        public virtual async Task<decimal> GetDiscountedPriceAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku, Guid storeId)
         {
-            var currentPrice = productSku.Price;
+            var price = await _productPriceProvider.GetPriceAsync(product, productSku, storeId);
+
+            var discountedPrice = price;
             
             foreach (var provider in ServiceProvider.GetServices<IProductDiscountProvider>())
             {
-                currentPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, currentPrice);
+                discountedPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, discountedPrice);
             }
 
-            return currentPrice;
+            return new PriceDataModel
+            {
+                Price = price,
+                DiscountedPrice = discountedPrice
+            };
         }
     }
 }

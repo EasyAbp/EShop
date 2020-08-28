@@ -39,6 +39,7 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductSku, ProductSkuDto>()
                 .ForSourceMember(entity => entity.SerializedAttributeOptionIds, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.AttributeOptionIds)
+                .Ignore(dto => dto.Price)
                 .Ignore(dto => dto.DiscountedPrice)
                 .Ignore(dto => dto.Inventory)
                 .Ignore(dto => dto.Sold)
