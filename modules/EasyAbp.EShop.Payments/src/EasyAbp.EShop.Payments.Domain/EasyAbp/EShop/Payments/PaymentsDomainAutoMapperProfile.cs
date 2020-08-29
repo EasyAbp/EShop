@@ -25,6 +25,9 @@ namespace EasyAbp.EShop.Payments
             CreateMap<RefundItemEto, RefundItem>(MemberList.Source)
                 .Ignore(x => x.StoreId)
                 .Ignore(x => x.OrderId);
+            
+            CreateMap<Payment, EShopPaymentEto>();
+            CreateMap<PaymentItem, EShopPaymentItemEto>();
             CreateMap<Refund, OrderRefundEto>();
             CreateMap<RefundItem, OrderRefundItemEto>();
             CreateMap<RefundItemOrderLine, RefundItemOrderLineEto>();

@@ -1,10 +1,9 @@
-﻿using EasyAbp.PaymentService.Payments;
-using Volo.Abp.Domain.Entities.Events.Distributed;
+﻿using EasyAbp.EShop.Payments.Payments;
 using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IOrderPaymentCompletedEventHandler : IDistributedEventHandler<PaymentCompletedEto>
+    public interface IEShopPaymentCompletedEventHandler : IDistributedEventHandler<EShopPaymentCompletedEto>
     {
         
     }

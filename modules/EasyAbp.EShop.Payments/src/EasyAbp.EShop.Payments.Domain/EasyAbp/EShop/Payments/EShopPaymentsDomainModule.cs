@@ -1,8 +1,6 @@
 ﻿using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds;
 using EasyAbp.EShop.Stores;
-using EasyAbp.PaymentService.Payments;
-using EasyAbp.PaymentService.Refunds;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain.Entities.Events.Distributed;
@@ -14,9 +12,21 @@ namespace EasyAbp.EShop.Payments
         typeof(AbpAutoMapperModule),
         typeof(EShopPaymentsDomainSharedModule),
         typeof(EShopStoresDomainSharedModule)
-        )]
+    )]
     public class EShopPaymentsDomainModule : AbpModule
     {
+        public override void PreConfigureServices(ServiceConfigurationContext context)
+        {
+            Configure<AbpDistributedEntityEventOptions>(options =>
+            {
+                options.EtoMappings.Add<Payment, EShopPaymentEto>(typeof(EShopPaymentsDomainModule));
+                options.EtoMappings.Add<Refund, OrderRefundEto>(typeof(EShopPaymentsDomainModule));
+                
+                options.AutoEventSelectors.Add<Payment>();
+                options.AutoEventSelectors.Add<Refund>();
+            });
+        }
+        
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAutoMapperObjectMapper<EShopPaymentsDomainModule>();

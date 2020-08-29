@@ -3,9 +3,9 @@ using Volo.Abp;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
-    public class OrderPaymentAlreadyExistsException : BusinessException
+    public class EShopPaymentAlreadyExistsException : BusinessException
     {
-        public OrderPaymentAlreadyExistsException(Guid orderId)
+        public EShopPaymentAlreadyExistsException(Guid orderId)
             : base(message: $"The order {orderId}'s payment is already exists.")
         {
         }

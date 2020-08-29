@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using EasyAbp.EShop.Payments.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -10,6 +11,11 @@ namespace EasyAbp.EShop.Payments.Refunds
     {
         public RefundRepository(IDbContextProvider<IPaymentsDbContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+
+        public override IQueryable<Refund> WithDetails()
+        {
+            return base.WithDetails().Include(x => x.RefundItems);
         }
 
         public IQueryable<Refund> GetQueryableByUserId(Guid userId)

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments;
-using EasyAbp.PaymentService.Payments;
+using EasyAbp.EShop.Payments.Payments;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -10,24 +10,24 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderPaymentCreatedEventHandler : IOrderPaymentCreatedEventHandler, ITransientDependency
+    public class EShopPaymentCreatedEventHandler : IEShopPaymentCreatedEventHandler, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
-        private readonly IOrderPaymentChecker _orderPaymentChecker;
+        private readonly IEShopPaymentChecker _eShopPaymentChecker;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderPaymentCreatedEventHandler(
+        public EShopPaymentCreatedEventHandler(
             ICurrentTenant currentTenant,
-            IOrderPaymentChecker orderPaymentChecker,
+            IEShopPaymentChecker eShopPaymentChecker,
             IOrderRepository orderRepository)
         {
             _currentTenant = currentTenant;
-            _orderPaymentChecker = orderPaymentChecker;
+            _eShopPaymentChecker = eShopPaymentChecker;
             _orderRepository = orderRepository;
         }
         
         [UnitOfWork(true)]
-        public virtual async Task HandleEventAsync(EntityCreatedEto<PaymentEto> eventData)
+        public virtual async Task HandleEventAsync(EntityCreatedEto<EShopPaymentEto> eventData)
         {
             using var currentTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
@@ -43,10 +43,10 @@ namespace EasyAbp.EShop.Orders.Orders
                     throw new OrderIsInWrongStageException(order.Id);
                 }
                 
-                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
+                if (!await _eShopPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
                     // Todo: should cancel the payment?
-                    throw new OrderPaymentInvalidException(eventData.Entity.Id, orderId);
+                    throw new EShopPaymentInvalidException(eventData.Entity.Id, orderId);
                 }
 
                 order.SetPaymentId(eventData.Entity.Id);

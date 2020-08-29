@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.PaymentService.Refunds;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -16,6 +17,7 @@ using Volo.Abp.Uow;
 namespace EasyAbp.EShop.Payments.Refunds
 {
     public class RefundSynchronizer :
+        IDistributedEventHandler<EntityCreatedEto<RefundEto>>,
         IDistributedEventHandler<EntityUpdatedEto<RefundEto>>,
         IDistributedEventHandler<EntityDeletedEto<RefundEto>>,
         IRefundSynchronizer,
@@ -27,6 +29,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly IRefundRepository _refundRepository;
 
         public RefundSynchronizer(
@@ -36,6 +39,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             IJsonSerializer jsonSerializer,
             IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
+            IPaymentRepository paymentRepository,
             IRefundRepository refundRepository)
         {
             _objectMapper = objectMapper;
@@ -44,7 +48,50 @@ namespace EasyAbp.EShop.Payments.Refunds
             _jsonSerializer = jsonSerializer;
             _unitOfWorkManager = unitOfWorkManager;
             _distributedEventBus = distributedEventBus;
+            _paymentRepository = paymentRepository;
             _refundRepository = refundRepository;
+        }
+        
+        [UnitOfWork(true)]
+        public virtual async Task HandleEventAsync(EntityCreatedEto<RefundEto> eventData)
+        {
+            using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
+            
+            var refund = await _refundRepository.FindAsync(eventData.Entity.Id);
+
+            if (refund != null)
+            {
+                return;
+            }
+            
+            var payment = await _paymentRepository.FindAsync(eventData.Entity.PaymentId);
+
+            if (payment == null)
+            {
+                return;
+            }
+                
+            refund = _objectMapper.Map<RefundEto, Refund>(eventData.Entity);
+
+            refund.SetRefundItems(
+                _objectMapper.Map<List<RefundItemEto>, List<RefundItem>>(eventData.Entity.RefundItems));
+
+            refund.RefundItems.ForEach(item =>
+            {
+                FillRefundItemStoreId(item);
+                FillRefundItemOrderId(item);
+            });
+
+            FillRefundItemOrderLines(refund);
+                
+            await _refundRepository.InsertAsync(refund, true);
+            
+            if (refund.CompletedTime.HasValue)
+            {
+                _unitOfWorkManager.Current.OnCompleted(async () =>
+                    await _distributedEventBus.PublishAsync(new OrderRefundCompletedEto
+                        {Refund = _objectMapper.Map<Refund, OrderRefundEto>(refund)}));
+            }
         }
 
         [UnitOfWork(true)]
@@ -52,63 +99,52 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
             
-            var publishOrderRefundCompletedEvent = false;
-            
             var refund = await _refundRepository.FindAsync(eventData.Entity.Id);
             
             if (refund == null)
             {
-                refund = _objectMapper.Map<RefundEto, Refund>(eventData.Entity);
-
-                refund.SetRefundItems(
-                    _objectMapper.Map<List<RefundItemEto>, List<RefundItem>>(eventData.Entity.RefundItems));
-
-                refund.RefundItems.ForEach(item =>
-                {
-                    FillRefundItemStoreId(item);
-                    FillRefundItemOrderId(item);
-                });
-                
-                if (refund.CompletedTime.HasValue)
-                {
-                    publishOrderRefundCompletedEvent = true;
-                }
-                
-                await _refundRepository.InsertAsync(refund, true);
+                return;
             }
-            else
+
+            if (eventData.Entity.CompletedTime.HasValue && !refund.CompletedTime.HasValue)
             {
-                if (eventData.Entity.CompletedTime.HasValue && !refund.CompletedTime.HasValue)
-                {
-                    publishOrderRefundCompletedEvent = true;
-                }
-                
-                _objectMapper.Map(eventData.Entity, refund);
-
-                foreach (var etoItem in eventData.Entity.RefundItems)
-                {
-                    var item = refund.RefundItems.FirstOrDefault(i => i.Id == etoItem.Id);
-
-                    if (item == null)
-                    {
-                        item = _objectMapper.Map<RefundItemEto, RefundItem>(etoItem);
-                        
-                        refund.RefundItems.Add(item);
-                    }
-                    else
-                    {
-                        _objectMapper.Map(etoItem, item);
-                    }
-
-                    FillRefundItemStoreId(item);
-                    FillRefundItemOrderId(item);
-                }
-                
-                var etoRefundItemIds = eventData.Entity.RefundItems.Select(i => i.Id).ToList();
-
-                refund.RefundItems.RemoveAll(i => !etoRefundItemIds.Contains(i.Id));
+                _unitOfWorkManager.Current.OnCompleted(async () =>
+                    await _distributedEventBus.PublishAsync(new OrderRefundCompletedEto
+                        {Refund = _objectMapper.Map<Refund, OrderRefundEto>(refund)}));
             }
+                
+            _objectMapper.Map(eventData.Entity, refund);
 
+            foreach (var etoItem in eventData.Entity.RefundItems)
+            {
+                var item = refund.RefundItems.FirstOrDefault(i => i.Id == etoItem.Id);
+
+                if (item == null)
+                {
+                    item = _objectMapper.Map<RefundItemEto, RefundItem>(etoItem);
+                        
+                    refund.RefundItems.Add(item);
+                }
+                else
+                {
+                    _objectMapper.Map(etoItem, item);
+                }
+
+                FillRefundItemStoreId(item);
+                FillRefundItemOrderId(item);
+            }
+                
+            var etoRefundItemIds = eventData.Entity.RefundItems.Select(i => i.Id).ToList();
+
+            refund.RefundItems.RemoveAll(i => !etoRefundItemIds.Contains(i.Id));
+
+            FillRefundItemOrderLines(refund);
+
+            await _refundRepository.UpdateAsync(refund, true);
+        }
+
+        protected virtual void FillRefundItemOrderLines(Refund refund)
+        {
             foreach (var refundItem in refund.RefundItems)
             {
                 var orderLineInfoModels =
@@ -135,16 +171,6 @@ namespace EasyAbp.EShop.Payments.Refunds
                     refundItem.RefundItemOrderLines.RemoveAll(i => !orderLineIds.Contains(i.OrderLineId));
                 }
             }
-
-            await _refundRepository.UpdateAsync(refund, true);
-
-            var orderRefundEto = _objectMapper.Map<Refund, OrderRefundEto>(refund);
-
-            if (publishOrderRefundCompletedEvent)
-            {
-                _unitOfWorkManager.Current.OnCompleted(async () =>
-                    await _distributedEventBus.PublishAsync(new OrderRefundCompletedEto {Refund = orderRefundEto}));
-            }
         }
 
         protected virtual void FillRefundItemStoreId(RefundItem item)
@@ -167,8 +193,11 @@ namespace EasyAbp.EShop.Payments.Refunds
             item.SetOrderId(orderId);
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityDeletedEto<RefundEto> eventData)
         {
+            using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
+            
             var refund = await _refundRepository.FindAsync(eventData.Entity.Id);
 
             if (refund == null)
