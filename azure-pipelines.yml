@@ -74,7 +74,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      cd sample/MyAbpApp/src/MyAbpApp.DbMigrator
+      cd samples/EShopSample/aspnet-core/src/EShopSample.DbMigrator
       
       dotnet run
 - task: Docker@2
