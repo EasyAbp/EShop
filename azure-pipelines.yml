@@ -1,0 +1,88 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+schedules:
+- cron: "0 */6 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - master
+  always: true
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.x'
+- task: CmdLine@2
+  displayName: 'install dotnet-ef'
+  inputs:
+    script: 'dotnet tool install -g dotnet-ef'
+
+- task: CmdLine@2
+  inputs:
+    script: | 
+      echo commands
+      sed -i '0,/Default[^,]*/s//$(ConnectionStrings)"/g' samples/EShopSample/aspnet-core/src/EShopSample.Web/appsettings.json
+      echo commands executed
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo commands
+      sed -i '0,/Default[^,]*/s//$(ConnectionStrings)"/g' samples/EShopSample/aspnet-core/src/EShopSample.DbMigrator/appsettings.json
+      echo commands executed
+- task: DotNetCoreCLI@2
+  displayName: 'restore'
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  displayName: 'build'
+  inputs:
+    command: 'build'
+    
+- task: CmdLine@2
+  displayName: 'publish'
+  inputs:
+   script: |
+    dotnet publish
+- task: CmdLine@2
+  displayName: 'drop database'
+  inputs:
+    script: |
+      dotnet ef database drop --project samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore.DbMigrations/EShopSample.EntityFrameworkCore.DbMigrations.csproj -s samples/EShopSample/aspnet-core/src/EShopSample.Web/EShopSample.Web.csproj -f
+      
+- task: CmdLine@2
+  displayName: 'update database'
+  inputs:
+    script: | 
+       dotnet ef database update --project samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore.DbMigrations/EShopSample.EntityFrameworkCore.DbMigrations.csproj -s samples/EShopSample/aspnet-core/src/EShopSample.Web/EShopSample.Web.csproj
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd sample/MyAbpApp/src/MyAbpApp.DbMigrator
+      
+      dotnet run
+- task: Docker@2
+  displayName: 'build and push docker'
+  inputs:
+    containerRegistry: $(DockerRegistry)
+    repository: $(repository)
+    command: 'buildAndPush'
+    Dockerfile: 'samples/EShopSample/aspnet-core/src/EShopSample.Web/Dockerfile'
+    buildContext: .
+    tags: 'latest'
