@@ -11,23 +11,24 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class ProductManager : DomainService, IProductManager
     {
-        protected Dictionary<string, IProductInventoryProvider> InventoryProviders;
-        
         private readonly IProductRepository _productRepository;
         private readonly IProductStoreRepository _productStoreRepository;
+        private readonly IProductPriceProvider _productPriceProvider;
         private readonly IProductCategoryRepository _productCategoryRepository;
-        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
+        private readonly IProductInventoryProvider _productInventoryProvider;
 
         public ProductManager(
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
+            IProductPriceProvider productPriceProvider,
             IProductCategoryRepository productCategoryRepository,
-            IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
+            IProductInventoryProvider productInventoryProvider)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
+            _productPriceProvider = productPriceProvider;
             _productCategoryRepository = productCategoryRepository;
-            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
+            _productInventoryProvider = productInventoryProvider;
         }
 
         public virtual async Task<Product> CreateAsync(Product product, Guid? storeId = null,
@@ -184,54 +185,43 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
         {
-            var inventoryData = await GetInventoryProviderOrDefault(product, productSku)
-                .GetInventoryDataAsync(product, productSku, storeId);
+            var inventoryData = await _productInventoryProvider.GetInventoryDataAsync(product, productSku, storeId);
             
             return product.InventoryStrategy == InventoryStrategy.NoNeed || inventoryData.Inventory - quantity >= 0;
         }
 
         public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId)
         {
-            return await GetInventoryProviderOrDefault(product, productSku)
-                .GetInventoryDataAsync(product, productSku, storeId);
+            return await _productInventoryProvider.GetInventoryDataAsync(product, productSku, storeId);
         }
 
         public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool reduceSold)
         {
-            return await GetInventoryProviderOrDefault(product, productSku)
-                .TryIncreaseInventoryAsync(product, productSku, storeId, quantity, reduceSold);
+            return await _productInventoryProvider.TryIncreaseInventoryAsync(product, productSku, storeId, quantity, reduceSold);
         }
 
         public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold)
         {
-            return await GetInventoryProviderOrDefault(product, productSku)
-                .TryReduceInventoryAsync(product, productSku, storeId, quantity, increaseSold);
+            return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, storeId, quantity,
+                increaseSold);
         }
 
-        protected virtual IProductInventoryProvider GetInventoryProviderOrDefault(Product product, ProductSku productSku)
+        public virtual async Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku, Guid storeId)
         {
-            var providerName = !productSku.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
-                ? productSku.SpecifiedInventoryProviderName
-                : !product.SpecifiedInventoryProviderName.IsNullOrWhiteSpace()
-                    ? product.SpecifiedInventoryProviderName
-                    : "Default";
+            var price = await _productPriceProvider.GetPriceAsync(product, productSku, storeId);
 
-            InventoryProviders ??= ServiceProvider.GetServices<IProductInventoryProvider>()
-                .ToDictionary(p => p.ProviderName, p => p);
-
-            return InventoryProviders.GetOrDefault(providerName) ?? InventoryProviders["Default"];
-        }
-
-        public virtual async Task<decimal> GetDiscountedPriceAsync(Product product, ProductSku productSku, Guid storeId)
-        {
-            var currentPrice = productSku.Price;
+            var discountedPrice = price;
             
             foreach (var provider in ServiceProvider.GetServices<IProductDiscountProvider>())
             {
-                currentPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, currentPrice);
+                discountedPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, discountedPrice);
             }
 
-            return currentPrice;
+            return new PriceDataModel
+            {
+                Price = price,
+                DiscountedPrice = discountedPrice
+            };
         }
     }
 }

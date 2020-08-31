@@ -22,8 +22,6 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public string MediaResources { get; set; }
         
-        public string SpecifiedInventoryProviderName { get; set; }
-        
         public int DisplayOrder { get; set; }
 
         public bool IsPublished { get; set; }

@@ -3,23 +3,30 @@ using EasyAbp.EShop.Payments.Refunds;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderRefundEventHandler : IDistributedEventHandler<EntityCreatedEto<EShopRefundEto>>, ITransientDependency
+    public class RefundCompletedEventHandler : IDistributedEventHandler<EShopRefundCompletedEto>, ITransientDependency
     {
+        private readonly ICurrentTenant _currentTenant;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderRefundEventHandler(IOrderRepository orderRepository)
+        public RefundCompletedEventHandler(
+            ICurrentTenant currentTenant,
+            IOrderRepository orderRepository)
         {
+            _currentTenant = currentTenant;
             _orderRepository = orderRepository;
         }
         
         [UnitOfWork(true)]
-        public virtual async Task HandleEventAsync(EntityCreatedEto<EShopRefundEto> eventData)
+        public virtual async Task HandleEventAsync(EShopRefundCompletedEto eventData)
         {
-            foreach (var refundItem in eventData.Entity.RefundItems)
+            using var changeTenant = _currentTenant.Change(eventData.Refund.TenantId);
+
+            foreach (var refundItem in eventData.Refund.RefundItems)
             {
                 var order = await _orderRepository.GetAsync(refundItem.OrderId);
 

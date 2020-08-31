@@ -7,13 +7,11 @@ namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
     public class PaymentItemDto : ExtensibleFullAuditedEntityDto<Guid>, IPaymentItem
     {
-        public Guid StoreId { get; set; }
+        #region Base properties
 
         public string ItemType { get; set; }
 
         public string ItemKey { get; set; }
-
-        public string Currency { get; set; }
 
         public decimal OriginalPaymentAmount { get; set; }
 
@@ -24,5 +22,9 @@ namespace EasyAbp.EShop.Payments.Payments.Dtos
         public decimal RefundAmount { get; set; }
         
         public decimal PendingRefundAmount { get; set; }
+        
+        #endregion
+        
+        public Guid StoreId { get; set; }
     }
 }

@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments;
-using EasyAbp.PaymentService.Payments;
+using EasyAbp.EShop.Payments.Payments;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectMapping;
@@ -13,7 +12,7 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderPaymentCompletedEventHandler : IOrderPaymentCompletedEventHandler, ITransientDependency
+    public class PaymentCompletedEventHandler : IPaymentCompletedEventHandler, ITransientDependency
     {
         private readonly IClock _clock;
         private readonly ICurrentTenant _currentTenant;
@@ -23,7 +22,7 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderPaymentCompletedEventHandler(
+        public PaymentCompletedEventHandler(
             IClock clock,
             ICurrentTenant currentTenant,
             IObjectMapper objectMapper,
@@ -41,7 +40,8 @@ namespace EasyAbp.EShop.Orders.Orders
             _orderRepository = orderRepository;
         }
         
-        public virtual async Task HandleEventAsync(PaymentCompletedEto eventData)
+        [UnitOfWork(true)]
+        public virtual async Task HandleEventAsync(EShopPaymentCompletedEto eventData)
         {
             var payment = eventData.Payment;
             
@@ -51,8 +51,6 @@ namespace EasyAbp.EShop.Orders.Orders
             }
 
             using var currentTenant = _currentTenant.Change(payment.TenantId);
-
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
 
             foreach (var item in payment.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
@@ -68,7 +66,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 if (!await _orderPaymentChecker.IsValidPaymentAsync(order, payment, item))
                 {
-                    throw new OrderPaymentInvalidException(payment.Id, orderId);
+                    throw new InvalidPaymentException(payment.Id, orderId);
                 }
                 
                 order.SetPaidTime(_clock.Now);
@@ -76,7 +74,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 await _orderRepository.UpdateAsync(order, true);
 
-                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderPaidEto
+                _unitOfWorkManager.Current.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderPaidEto
                 {
                     Order = _objectMapper.Map<Order, OrderEto>(order),
                     PaymentId = payment.Id,
@@ -84,7 +82,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 }));
             }
             
-            await uow.CompleteAsync();
+            await _unitOfWorkManager.Current.CompleteAsync();
         }
     }
 }

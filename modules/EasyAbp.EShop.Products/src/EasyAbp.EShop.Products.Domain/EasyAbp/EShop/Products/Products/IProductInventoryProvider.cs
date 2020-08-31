@@ -6,8 +6,6 @@ namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductInventoryProvider
     {
-        string ProviderName { get; }
-        
         Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId);
         
         Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(Product product, Guid storeId);

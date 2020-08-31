@@ -2,7 +2,6 @@
   "culture": "en",
   "texts": {
     "ManageYourProfile": "Manage your profile",
-    "KeepEmptyIfDoNotKnow": "KeepEmptyIfDoNotKnow",
     "Menu:Product": "MenuProduct",
     "Product": "Product",
     "ProductStore": "ProductStore",
@@ -32,7 +31,6 @@
     "ProductSkuOrderMinQuantity": "ProductSkuOrderMinQuantity",
     "ProductSkuOrderMaxQuantity": "ProductSkuOrderMaxQuantity",
     "ProductSkuMediaResources": "ProductSkuMediaResources",
-    "ProductSkuSpecifiedInventoryProviderName": "ProductSkuSpecifiedInventoryProviderName",
     "ProductSkuProductDetailId": "ProductSkuProductDetailId",
     "ProductSkuContentDescription": "ProductSkuContentDescription",
     "CreateProductSku": "CreateProductSku",
@@ -41,7 +39,6 @@
     "ProductInventoryStrategy": "ProductInventoryStrategy",
     "ProductIsPublished": "ProductIsPublished",
     "ProductMediaResources": "ProductMediaResources",
-    "ProductSpecifiedInventoryProviderName": "ProductSpecifiedInventoryProviderName",
     "ProductAttributeDisplayName": "ProductAttributeDisplayName",
     "ProductAttributeDescription": "ProductAttributeDescription",
     "ProductAttributeDisplayOrder": "ProductAttributeDisplayOrder",

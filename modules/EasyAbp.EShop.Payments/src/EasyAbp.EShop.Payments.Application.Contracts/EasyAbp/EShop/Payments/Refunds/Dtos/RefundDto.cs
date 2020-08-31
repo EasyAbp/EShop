@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
 {
     public class RefundDto : FullAuditedEntityDto<Guid>, IRefund
     {
+        #region Base properties
+
         public Guid PaymentId { get; set; }
 
         public string RefundPaymentMethod { get; set; }
@@ -26,6 +28,8 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
         public DateTime? CompletedTime { get; set; }
         
         public DateTime? CanceledTime { get; set; }
+        
+        #endregion
         
         public List<RefundItemDto> RefundItems { get; set; }
     }

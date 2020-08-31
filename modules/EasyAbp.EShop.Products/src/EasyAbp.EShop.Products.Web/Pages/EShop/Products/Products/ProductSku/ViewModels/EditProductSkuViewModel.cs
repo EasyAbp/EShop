@@ -35,10 +35,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
         [Display(Name = "ProductSkuMediaResources")]
         public string MediaResources { get; set; }
         
-        [Placeholder("KeepEmptyIfDoNotKnow")]
-        [Display(Name = "ProductSkuSpecifiedInventoryProviderName")]
-        public string SpecifiedInventoryProviderName { get; set; }
-        
         [HiddenInput]
         [Display(Name = "ProductSkuProductDetailId")]
         public Guid? ProductDetailId { get; set; }

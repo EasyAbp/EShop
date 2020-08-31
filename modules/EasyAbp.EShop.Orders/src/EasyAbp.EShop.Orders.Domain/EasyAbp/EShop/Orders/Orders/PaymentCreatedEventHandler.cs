@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments;
-using EasyAbp.PaymentService.Payments;
+using EasyAbp.EShop.Payments.Payments;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -10,13 +10,13 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderPaymentCreatedEventHandler : IOrderPaymentCreatedEventHandler, ITransientDependency
+    public class PaymentCreatedEventHandler : IPaymentCreatedEventHandler, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IOrderPaymentChecker _orderPaymentChecker;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderPaymentCreatedEventHandler(
+        public PaymentCreatedEventHandler(
             ICurrentTenant currentTenant,
             IOrderPaymentChecker orderPaymentChecker,
             IOrderRepository orderRepository)
@@ -27,7 +27,7 @@ namespace EasyAbp.EShop.Orders.Orders
         }
         
         [UnitOfWork(true)]
-        public virtual async Task HandleEventAsync(EntityCreatedEto<PaymentEto> eventData)
+        public virtual async Task HandleEventAsync(EntityCreatedEto<EShopPaymentEto> eventData)
         {
             using var currentTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
                     // Todo: should cancel the payment?
-                    throw new OrderPaymentInvalidException(eventData.Entity.Id, orderId);
+                    throw new InvalidPaymentException(eventData.Entity.Id, orderId);
                 }
 
                 order.SetPaymentId(eventData.Entity.Id);
