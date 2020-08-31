@@ -29,6 +29,12 @@ namespace EasyAbp.EShop.Stores.Transactions
         {
             var order = eventData.Order;
             var refund = eventData.Refund;
+
+            // Record the transaction only if the order is completed.
+            if (!order.CompletionTime.HasValue)
+            {
+                return;
+            }
             
             using var changeTenant = _currentTenant.Change(order.TenantId);
 
