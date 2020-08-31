@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface ICompletableCheckProvider
+    public interface IOrderCompletableCheckProvider
     {
         Task CheckAsync(Order order);
     }

@@ -3,7 +3,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IEShopPaymentCompletedEventHandler : IDistributedEventHandler<EShopPaymentCompletedEto>
+    public interface IPaymentCompletedEventHandler : IDistributedEventHandler<EShopPaymentCompletedEto>
     {
         
     }

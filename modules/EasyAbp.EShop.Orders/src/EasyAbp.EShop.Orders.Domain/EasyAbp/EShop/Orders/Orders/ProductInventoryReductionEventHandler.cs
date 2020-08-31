@@ -7,13 +7,13 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderProductInventoryReductionEventHandler : IOrderProductInventoryReductionEventHandler, ITransientDependency
+    public class ProductInventoryReductionEventHandler : IProductInventoryReductionEventHandler, ITransientDependency
     {
         private readonly IClock _clock;
         private readonly ICurrentTenant _currentTenant;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderProductInventoryReductionEventHandler(
+        public ProductInventoryReductionEventHandler(
             IClock clock,
             ICurrentTenant currentTenant,
             IOrderRepository orderRepository)

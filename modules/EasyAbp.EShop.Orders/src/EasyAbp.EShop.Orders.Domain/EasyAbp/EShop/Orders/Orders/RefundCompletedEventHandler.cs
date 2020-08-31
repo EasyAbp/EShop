@@ -8,12 +8,12 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderRefundCompletedEventHandler : IDistributedEventHandler<OrderRefundCompletedEto>, ITransientDependency
+    public class RefundCompletedEventHandler : IDistributedEventHandler<EShopRefundCompletedEto>, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderRefundCompletedEventHandler(
+        public RefundCompletedEventHandler(
             ICurrentTenant currentTenant,
             IOrderRepository orderRepository)
         {
@@ -22,7 +22,7 @@ namespace EasyAbp.EShop.Orders.Orders
         }
         
         [UnitOfWork(true)]
-        public virtual async Task HandleEventAsync(OrderRefundCompletedEto eventData)
+        public virtual async Task HandleEventAsync(EShopRefundCompletedEto eventData)
         {
             using var changeTenant = _currentTenant.Change(eventData.Refund.TenantId);
 

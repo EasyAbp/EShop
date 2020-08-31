@@ -3,7 +3,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class BasicCompletableCheckProvider : ICompletableCheckProvider, ITransientDependency
+    public class BasicOrderCompletableCheckProvider : IOrderCompletableCheckProvider, ITransientDependency
     {
         public virtual Task CheckAsync(Order order)
         {

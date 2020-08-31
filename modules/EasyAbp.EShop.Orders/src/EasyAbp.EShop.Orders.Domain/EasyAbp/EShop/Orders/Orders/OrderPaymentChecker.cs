@@ -6,7 +6,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class EShopPaymentChecker : IEShopPaymentChecker, ITransientDependency
+    public class OrderPaymentChecker : IOrderPaymentChecker, ITransientDependency
     {
         public virtual async Task<bool> IsValidPaymentAsync(Order order, EShopPaymentEto payment, EShopPaymentItemEto paymentItem)
         {

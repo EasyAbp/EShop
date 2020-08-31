@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             foreach (var order in orders.Where(order => order.PaymentId.HasValue || order.PaidTime.HasValue))
             {
-                throw new EShopPaymentAlreadyExistsException(order.Id);
+                throw new PaymentAlreadyExistsException(order.Id);
             }
 
             if (orders.Select(order => order.Currency).Distinct().Count() != 1)

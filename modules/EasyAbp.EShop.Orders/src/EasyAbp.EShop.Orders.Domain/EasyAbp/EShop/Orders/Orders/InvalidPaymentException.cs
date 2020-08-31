@@ -3,9 +3,9 @@ using Volo.Abp;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class EShopPaymentInvalidException : BusinessException
+    public class InvalidPaymentException : BusinessException
     {
-        public EShopPaymentInvalidException(Guid paymentId, Guid orderId)
+        public InvalidPaymentException(Guid paymentId, Guid orderId)
             : base(message: $"The payment {paymentId} has invalid configurations for the order {orderId}.")
         {
         }

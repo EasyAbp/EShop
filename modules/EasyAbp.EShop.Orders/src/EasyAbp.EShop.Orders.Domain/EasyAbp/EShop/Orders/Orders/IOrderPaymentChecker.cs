@@ -3,7 +3,7 @@ using EasyAbp.EShop.Payments.Payments;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IEShopPaymentChecker
+    public interface IOrderPaymentChecker
     {
         Task<bool> IsValidPaymentAsync(Order order, EShopPaymentEto payment, EShopPaymentItemEto paymentItem);
     }

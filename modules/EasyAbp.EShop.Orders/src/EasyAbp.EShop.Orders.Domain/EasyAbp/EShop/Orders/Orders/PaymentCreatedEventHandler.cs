@@ -10,19 +10,19 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class EShopPaymentCreatedEventHandler : IEShopPaymentCreatedEventHandler, ITransientDependency
+    public class PaymentCreatedEventHandler : IPaymentCreatedEventHandler, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
-        private readonly IEShopPaymentChecker _eShopPaymentChecker;
+        private readonly IOrderPaymentChecker _orderPaymentChecker;
         private readonly IOrderRepository _orderRepository;
 
-        public EShopPaymentCreatedEventHandler(
+        public PaymentCreatedEventHandler(
             ICurrentTenant currentTenant,
-            IEShopPaymentChecker eShopPaymentChecker,
+            IOrderPaymentChecker orderPaymentChecker,
             IOrderRepository orderRepository)
         {
             _currentTenant = currentTenant;
-            _eShopPaymentChecker = eShopPaymentChecker;
+            _orderPaymentChecker = orderPaymentChecker;
             _orderRepository = orderRepository;
         }
         
@@ -43,10 +43,10 @@ namespace EasyAbp.EShop.Orders.Orders
                     throw new OrderIsInWrongStageException(order.Id);
                 }
                 
-                if (!await _eShopPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
+                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, eventData.Entity, item))
                 {
                     // Todo: should cancel the payment?
-                    throw new EShopPaymentInvalidException(eventData.Entity.Id, orderId);
+                    throw new InvalidPaymentException(eventData.Entity.Id, orderId);
                 }
 
                 order.SetPaymentId(eventData.Entity.Id);

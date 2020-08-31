@@ -6,7 +6,7 @@ using Volo.Abp.Data;
 namespace EasyAbp.EShop.Payments.Refunds
 {
     [Serializable]
-    public class OrderRefundItemEto : IRefundItem, IHasExtraProperties
+    public class EShopRefundItemEto : IRefundItem, IHasExtraProperties
     {
         #region Base properties
 

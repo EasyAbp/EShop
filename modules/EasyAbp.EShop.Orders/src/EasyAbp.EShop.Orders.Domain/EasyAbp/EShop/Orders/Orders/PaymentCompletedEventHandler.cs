@@ -12,22 +12,22 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class EShopPaymentCompletedEventHandler : IEShopPaymentCompletedEventHandler, ITransientDependency
+    public class PaymentCompletedEventHandler : IPaymentCompletedEventHandler, ITransientDependency
     {
         private readonly IClock _clock;
         private readonly ICurrentTenant _currentTenant;
         private readonly IObjectMapper _objectMapper;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
-        private readonly IEShopPaymentChecker _eShopPaymentChecker;
+        private readonly IOrderPaymentChecker _orderPaymentChecker;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderRepository _orderRepository;
 
-        public EShopPaymentCompletedEventHandler(
+        public PaymentCompletedEventHandler(
             IClock clock,
             ICurrentTenant currentTenant,
             IObjectMapper objectMapper,
             IUnitOfWorkManager unitOfWorkManager,
-            IEShopPaymentChecker eShopPaymentChecker,
+            IOrderPaymentChecker orderPaymentChecker,
             IDistributedEventBus distributedEventBus,
             IOrderRepository orderRepository)
         {
@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _currentTenant = currentTenant;
             _objectMapper = objectMapper;
             _unitOfWorkManager = unitOfWorkManager;
-            _eShopPaymentChecker = eShopPaymentChecker;
+            _orderPaymentChecker = orderPaymentChecker;
             _distributedEventBus = distributedEventBus;
             _orderRepository = orderRepository;
         }
@@ -64,9 +64,9 @@ namespace EasyAbp.EShop.Orders.Orders
                     throw new OrderIsInWrongStageException(order.Id);
                 }
 
-                if (!await _eShopPaymentChecker.IsValidPaymentAsync(order, payment, item))
+                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, payment, item))
                 {
-                    throw new EShopPaymentInvalidException(payment.Id, orderId);
+                    throw new InvalidPaymentException(payment.Id, orderId);
                 }
                 
                 order.SetPaidTime(_clock.Now);

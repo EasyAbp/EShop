@@ -89,8 +89,8 @@ namespace EasyAbp.EShop.Payments.Refunds
             if (refund.CompletedTime.HasValue)
             {
                 _unitOfWorkManager.Current.OnCompleted(async () =>
-                    await _distributedEventBus.PublishAsync(new OrderRefundCompletedEto
-                        {Refund = _objectMapper.Map<Refund, OrderRefundEto>(refund)}));
+                    await _distributedEventBus.PublishAsync(new EShopRefundCompletedEto
+                        {Refund = _objectMapper.Map<Refund, EShopRefundEto>(refund)}));
             }
         }
 
@@ -109,8 +109,8 @@ namespace EasyAbp.EShop.Payments.Refunds
             if (eventData.Entity.CompletedTime.HasValue && !refund.CompletedTime.HasValue)
             {
                 _unitOfWorkManager.Current.OnCompleted(async () =>
-                    await _distributedEventBus.PublishAsync(new OrderRefundCompletedEto
-                        {Refund = _objectMapper.Map<Refund, OrderRefundEto>(refund)}));
+                    await _distributedEventBus.PublishAsync(new EShopRefundCompletedEto
+                        {Refund = _objectMapper.Map<Refund, EShopRefundEto>(refund)}));
             }
                 
             _objectMapper.Map(eventData.Entity, refund);

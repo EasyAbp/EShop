@@ -36,7 +36,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw new OrderIsInWrongStageException(order.Id);
             }
             
-            var providers = ServiceProvider.GetServices<ICompletableCheckProvider>();
+            var providers = ServiceProvider.GetServices<IOrderCompletableCheckProvider>();
 
             foreach (var provider in providers)
             {

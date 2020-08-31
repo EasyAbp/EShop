@@ -4,7 +4,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IEShopPaymentCreatedEventHandler : IDistributedEventHandler<EntityCreatedEto<EShopPaymentEto>>
+    public interface IPaymentCreatedEventHandler : IDistributedEventHandler<EntityCreatedEto<EShopPaymentEto>>
     {
         
     }

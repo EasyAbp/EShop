@@ -28,8 +28,8 @@ namespace EasyAbp.EShop.Payments
             
             CreateMap<Payment, EShopPaymentEto>();
             CreateMap<PaymentItem, EShopPaymentItemEto>();
-            CreateMap<Refund, OrderRefundEto>();
-            CreateMap<RefundItem, OrderRefundItemEto>();
+            CreateMap<Refund, EShopRefundEto>();
+            CreateMap<RefundItem, EShopRefundItemEto>();
             CreateMap<RefundItemOrderLine, RefundItemOrderLineEto>();
         }
     }
