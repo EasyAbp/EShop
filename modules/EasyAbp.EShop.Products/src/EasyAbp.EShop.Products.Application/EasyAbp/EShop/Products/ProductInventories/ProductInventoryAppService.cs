@@ -53,7 +53,6 @@ namespace EasyAbp.EShop.Products.ProductInventories
                 }
 
                 await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId.Value,
-                    ProductsPermissions.ProductInventory.CrossStore,
                     ProductsPermissions.ProductInventory.Update);
 
                 await _productStoreRepository.GetAsync(input.ProductId, input.StoreId.Value);

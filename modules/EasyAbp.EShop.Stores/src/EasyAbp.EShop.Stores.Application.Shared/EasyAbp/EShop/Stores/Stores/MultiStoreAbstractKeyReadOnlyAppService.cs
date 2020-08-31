@@ -52,14 +52,7 @@ namespace EasyAbp.EShop.Stores.Stores
 
         protected virtual async Task CheckMultiStorePolicyAsync(Guid? storeId, string policyName)
         {
-            if (storeId.HasValue
-                && await AuthorizationService.IsStoreOwnerGrantedAsync(storeId.Value, policyName))
-            {
-                return;
-            }
-
-            await CheckPolicyAsync(CrossStorePolicyName);
-            await CheckPolicyAsync(policyName);
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, policyName, CrossStorePolicyName);
         }
     }
 }

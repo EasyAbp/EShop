@@ -247,8 +247,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var isCurrentUserStoreAdmin =
                 await AuthorizationService.IsMultiStoreGrantedAsync(input.StoreId,
-                    ProductsPermissions.Products.CrossStore,
-                    ProductsPermissions.Products.Default);
+                    ProductsPermissions.Products.Default, ProductsPermissions.Products.CrossStore);
 
             if (input.ShowHidden && !isCurrentUserStoreAdmin)
             {

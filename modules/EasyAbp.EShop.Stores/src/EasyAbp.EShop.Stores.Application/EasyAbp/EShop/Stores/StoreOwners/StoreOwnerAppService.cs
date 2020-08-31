@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
 using EasyAbp.EShop.Stores.Stores;
-using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
@@ -19,13 +18,10 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         protected override string CrossStorePolicyName { get; set; } = StoresPermissions.Stores.CrossStore;
 
         private readonly IStoreOwnerRepository _repository;
-        private readonly IStoreOwnerStore _storeOwnerStore;
 
-        public StoreOwnerAppService(IStoreOwnerRepository repository,
-            IStoreOwnerStore storeOwnerStore) : base(repository)
+        public StoreOwnerAppService(IStoreOwnerRepository repository) : base(repository)
         {
             _repository = repository;
-            _storeOwnerStore = storeOwnerStore;
         }
 
         public override async Task<StoreOwnerDto> CreateAsync(StoreOwnerDto input)
