@@ -68,16 +68,37 @@ namespace EasyAbp.EShop.Payments.Payments
             
             if (payment.CompletionTime.HasValue)
             {
-                _unitOfWorkManager.Current.OnCompleted(async () =>
-                {
-                    await _distributedEventBus.PublishAsync(new EShopPaymentCompletedEto
-                    {
-                        Payment = _objectMapper.Map<Payment, EShopPaymentEto>(payment)
-                    });
-                });
+                PublishPaymentCompletedEventOnUowCompleted(payment);
+            }
+
+            if (payment.CanceledTime.HasValue)
+            {
+                PublishPaymentCanceledEventOnUowCompleted(payment);
             }
         }
-        
+
+        protected virtual void PublishPaymentCanceledEventOnUowCompleted(Payment payment)
+        {
+            _unitOfWorkManager.Current.OnCompleted(async () =>
+            {
+                await _distributedEventBus.PublishAsync(new EShopPaymentCanceledEto
+                {
+                    Payment = _objectMapper.Map<Payment, EShopPaymentEto>(payment)
+                });
+            });
+        }
+
+        protected virtual void PublishPaymentCompletedEventOnUowCompleted(Payment payment)
+        {
+            _unitOfWorkManager.Current.OnCompleted(async () =>
+            {
+                await _distributedEventBus.PublishAsync(new EShopPaymentCompletedEto
+                {
+                    Payment = _objectMapper.Map<Payment, EShopPaymentEto>(payment)
+                });
+            });
+        }
+
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
         {
@@ -97,13 +118,12 @@ namespace EasyAbp.EShop.Payments.Payments
             
             if (eventData.Entity.CompletionTime.HasValue && !payment.CompletionTime.HasValue)
             {
-                _unitOfWorkManager.Current.OnCompleted(async () =>
-                {
-                    await _distributedEventBus.PublishAsync(new EShopPaymentCompletedEto
-                    {
-                        Payment = _objectMapper.Map<Payment, EShopPaymentEto>(payment)
-                    });
-                });
+                PublishPaymentCompletedEventOnUowCompleted(payment);
+            }
+            
+            if (eventData.Entity.CanceledTime.HasValue && !payment.CanceledTime.HasValue)
+            {
+                PublishPaymentCanceledEventOnUowCompleted(payment);
             }
                 
             _objectMapper.Map(eventData.Entity, payment);
