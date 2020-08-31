@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using EasyAbp.EShop.Stores.Stores;
+using EasyAbp.EShop.Stores.Transactions;
 
 namespace EasyAbp.EShop.Stores.EntityFrameworkCore
 {
@@ -12,5 +13,6 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
          * DbSet<Question> Questions { get; }
          */
         DbSet<Store> Stores { get; set; }
+        DbSet<Transaction> Transactions { get; set; }
     }
 }

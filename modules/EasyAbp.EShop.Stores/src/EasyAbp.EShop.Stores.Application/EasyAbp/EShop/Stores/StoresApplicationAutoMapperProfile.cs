@@ -1,5 +1,7 @@
 using EasyAbp.EShop.Stores.Stores;
 using EasyAbp.EShop.Stores.Stores.Dtos;
+using EasyAbp.EShop.Stores.Transactions;
+using EasyAbp.EShop.Stores.Transactions.Dtos;
 using AutoMapper;
 
 namespace EasyAbp.EShop.Stores
@@ -13,6 +15,8 @@ namespace EasyAbp.EShop.Stores
              * into multiple profile classes for a better organization. */
             CreateMap<Store, StoreDto>();
             CreateMap<CreateUpdateStoreDto, Store>(MemberList.Source);
+            CreateMap<Transaction, TransactionDto>();
+            CreateMap<CreateUpdateTransactionDto, Transaction>(MemberList.Source);
         }
     }
 }

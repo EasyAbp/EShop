@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Stores.Transactions;
 using EasyAbp.EShop.Stores.Stores;
 using System;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,15 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Stores", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
+            });
+
+
+            builder.Entity<Transaction>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Transactions", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+                b.Property(x => x.Amount).HasColumnType("decimal(20,8)");
             });
         }
     }

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.Localization;
 using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.EShop.Stores.Stores;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.UI.Navigation;
 
 namespace EasyAbp.EShop.Stores.Web.Menus
@@ -27,6 +29,16 @@ namespace EasyAbp.EShop.Stores.Web.Menus
                 storeManagementMenuItem.AddItem(
                     new ApplicationMenuItem(StoresMenus.Store, l["Menu:Store"], "/EShop/Stores/Stores/Store")
                 );
+            }
+            
+            if (await context.IsGrantedAsync(StoresPermissions.Transaction.Default))
+            {
+                var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
+
+                var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
+
+                storeManagementMenuItem.AddItem(
+                    new ApplicationMenuItem(StoresMenus.Transaction, l["Menu:Transaction"], "/EShop/Stores/Transactions/Transaction?storeId=" + defaultStore));
             }
             
             if (!storeManagementMenuItem.Items.IsNullOrEmpty())

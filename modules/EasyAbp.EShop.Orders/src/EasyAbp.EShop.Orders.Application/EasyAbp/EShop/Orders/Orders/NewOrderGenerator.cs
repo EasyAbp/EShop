@@ -48,6 +48,9 @@ namespace EasyAbp.EShop.Orders.Orders
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
+
+            // Todo: totalPrice may contain other fee.
+            var totalPrice = productTotalPrice;
             
             var order = new Order(
                 id: _guidGenerator.Create(),
@@ -57,7 +60,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 currency: await GetStoreCurrencyAsync(input.StoreId),
                 productTotalPrice: productTotalPrice,
                 totalDiscount: orderLines.Select(x => x.TotalDiscount).Sum(),
-                totalPrice: productTotalPrice,
+                totalPrice: totalPrice,
                 customerRemark: input.CustomerRemark);
 
             foreach (var orderExtraProperty in orderExtraProperties)
