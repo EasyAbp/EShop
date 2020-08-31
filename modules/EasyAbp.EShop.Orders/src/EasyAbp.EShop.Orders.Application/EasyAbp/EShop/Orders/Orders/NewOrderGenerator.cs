@@ -51,6 +51,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             // Todo: totalPrice may contain other fee.
             var totalPrice = productTotalPrice;
+            var totalDiscount = orderLines.Select(x => x.TotalDiscount).Sum();
             
             var order = new Order(
                 id: _guidGenerator.Create(),
@@ -59,8 +60,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 customerUserId: _currentUser.GetId(),
                 currency: await GetStoreCurrencyAsync(input.StoreId),
                 productTotalPrice: productTotalPrice,
-                totalDiscount: orderLines.Select(x => x.TotalDiscount).Sum(),
+                totalDiscount: totalDiscount,
                 totalPrice: totalPrice,
+                actualTotalPrice: totalPrice - totalDiscount,
                 customerRemark: input.CustomerRemark);
 
             foreach (var orderExtraProperty in orderExtraProperties)
@@ -84,6 +86,8 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, input.Quantity);
             }
+
+            var totalPrice = productSku.Price * input.Quantity;
             
             return new OrderLine(
                 id: _guidGenerator.Create(),
@@ -99,8 +103,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 mediaResources: product.MediaResources,
                 currency: productSku.Currency,
                 unitPrice: productSku.Price,
-                totalPrice: productSku.Price * input.Quantity,
+                totalPrice: totalPrice,
                 totalDiscount: 0,
+                actualTotalPrice: totalPrice,
                 quantity: input.Quantity
             );
         }

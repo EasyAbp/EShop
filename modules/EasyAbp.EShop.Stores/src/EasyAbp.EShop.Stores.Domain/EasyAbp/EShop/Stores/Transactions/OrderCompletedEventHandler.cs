@@ -33,7 +33,7 @@ namespace EasyAbp.EShop.Stores.Transactions
 
             var transaction = new Transaction(_guidGenerator.Create(), order.TenantId, order.StoreId, order.Id,
                 TransactionType.Debit, StoresConsts.TransactionOrderCompletedActionName, order.Currency,
-                order.TotalPrice);
+                order.ActualTotalPrice);
 
             await _transactionRepository.InsertAsync(transaction, true);
         }

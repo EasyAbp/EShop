@@ -28,6 +28,8 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual decimal TotalDiscount { get; protected set; }
         
         public virtual decimal TotalPrice { get; protected set; }
+        
+        public virtual decimal ActualTotalPrice { get; protected set; }
 
         public virtual decimal RefundAmount { get; protected set; }
         
@@ -67,6 +69,7 @@ namespace EasyAbp.EShop.Orders.Orders
             decimal productTotalPrice,
             decimal totalDiscount,
             decimal totalPrice,
+            decimal actualTotalPrice,
             [CanBeNull] string customerRemark
         ) : base(id)
         {
@@ -77,6 +80,7 @@ namespace EasyAbp.EShop.Orders.Orders
             ProductTotalPrice = productTotalPrice;
             TotalDiscount = totalDiscount;
             TotalPrice = totalPrice;
+            ActualTotalPrice = actualTotalPrice;
             CustomerRemark = customerRemark;
 
             RefundAmount = 0;

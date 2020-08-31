@@ -32,6 +32,8 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public decimal TotalPrice { get; set; }
         
         public decimal TotalDiscount { get; set; }
+        
+        public decimal ActualTotalPrice { get; set; }
 
         public int Quantity { get; set; }
         

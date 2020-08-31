@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Orders.Orders
         
         protected virtual Task<bool> IsPaymentPriceCorrectAsync(Order order, EShopPaymentItemEto paymentItem)
         {
-            return Task.FromResult(order.TotalPrice == paymentItem.OriginalPaymentAmount);
+            return Task.FromResult(order.ActualTotalPrice == paymentItem.OriginalPaymentAmount);
         }
 
         protected virtual Task<bool> IsUserAllowedToPayAsync(Order order, EShopPaymentEto payment)

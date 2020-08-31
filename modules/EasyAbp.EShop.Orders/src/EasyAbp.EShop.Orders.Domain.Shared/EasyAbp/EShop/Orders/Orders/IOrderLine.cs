@@ -31,6 +31,11 @@ namespace EasyAbp.EShop.Orders.Orders
         decimal TotalPrice { get; }
         
         decimal TotalDiscount { get; }
+        
+        /// <summary>
+        /// ActualTotalPrice = TotalPrice - TotalDiscount
+        /// </summary>
+        decimal ActualTotalPrice { get; }
 
         int Quantity { get; }
         
