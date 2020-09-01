@@ -18,6 +18,11 @@ namespace EasyAbp.EShop.Orders.Orders
         decimal TotalDiscount { get; }
         
         decimal TotalPrice { get; }
+        
+        /// <summary>
+        /// ActualTotalPrice = TotalPrice - TotalDiscount
+        /// </summary>
+        decimal ActualTotalPrice { get; }
 
         decimal RefundAmount { get; }
         

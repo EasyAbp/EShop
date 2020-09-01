@@ -1,10 +1,12 @@
 using EasyAbp.EShop.Stores.Stores.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
+using EasyAbp.EShop.Stores.Transactions.Dtos;
 using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner.ViewModels;
 using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Stores.Store.ViewModels;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.ObjectExtending;
+using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Transactions.Transaction.ViewModels;
 
 namespace EasyAbp.EShop.Stores.Web
 {
@@ -24,6 +26,9 @@ namespace EasyAbp.EShop.Stores.Web
                 .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
             CreateMap<CreateEditStoreOwnerViewModel, StoreOwnerDto>(MemberList.Source)
                 .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
+            CreateMap<TransactionDto, CreateUpdateTransactionDto>();
+            CreateMap<TransactionDto, CreateEditTransactionViewModel>();
+            CreateMap<CreateEditTransactionViewModel, CreateUpdateTransactionDto>();
         }
     }
 }

@@ -14,5 +14,21 @@
     "CreateStoreOwner": "CreateStoreOwner",
     "EditStoreOwner": "EditStoreOwner",
     "StoreOwnerDeletionConfirmationMessage": "Are you sure to delete the store owner {0}?"
+    "SuccessfullyDeleted": "Successfully deleted",
+    "Permission:Transaction": "Transaction",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:Transaction": "MenuTransaction",
+    "Transaction": "Transaction",
+    "TransactionStoreId": "TransactionStoreId",
+    "TransactionOrderId": "TransactionOrderId",
+    "TransactionTransactionType": "TransactionTransactionType",
+    "TransactionActionName": "TransactionActionName",
+    "TransactionCurrency": "TransactionCurrency",
+    "TransactionAmount": "TransactionAmount",
+    "CreateTransaction": "CreateTransaction",
+    "EditTransaction": "EditTransaction",
+    "TransactionDeletionConfirmationMessage": "Are you sure to delete the transaction {0}?"
   }
 }

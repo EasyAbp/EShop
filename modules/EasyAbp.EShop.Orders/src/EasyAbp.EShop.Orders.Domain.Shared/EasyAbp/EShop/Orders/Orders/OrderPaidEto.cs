@@ -2,6 +2,7 @@
 
 namespace EasyAbp.EShop.Orders.Orders
 {
+    [Serializable]
     public class OrderPaidEto
     {
         public OrderEto Order { get; set; }

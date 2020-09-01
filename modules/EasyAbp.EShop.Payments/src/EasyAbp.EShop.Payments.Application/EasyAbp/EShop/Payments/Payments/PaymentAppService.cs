@@ -100,7 +100,7 @@ namespace EasyAbp.EShop.Payments.Payments
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
                     ItemKey = order.Id.ToString(),
-                    OriginalPaymentAmount = order.TotalPrice,
+                    OriginalPaymentAmount = order.ActualTotalPrice,
                     ExtraProperties = new Dictionary<string, object> {{"StoreId", order.StoreId.ToString()}}
                 }).ToList()
             };

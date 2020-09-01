@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Stores.Transactions;
 using EasyAbp.EShop.Stores.Stores;
 using System;
 using EasyAbp.EShop.Stores.StoreOwners;
@@ -57,6 +58,15 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
 
                 b.HasIndex(x => new {x.OwnerUserId, x.StoreId})
                     .IsUnique();
+            });
+
+
+            builder.Entity<Transaction>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Transactions", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+                b.Property(x => x.Amount).HasColumnType("decimal(20,8)");
             });
         }
     }

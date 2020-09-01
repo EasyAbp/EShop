@@ -4,6 +4,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectMapping;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -11,13 +12,22 @@ namespace EasyAbp.EShop.Orders.Orders
     public class RefundCompletedEventHandler : IDistributedEventHandler<EShopRefundCompletedEto>, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
+        private readonly IObjectMapper _objectMapper;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderRepository _orderRepository;
 
         public RefundCompletedEventHandler(
             ICurrentTenant currentTenant,
+            IObjectMapper objectMapper,
+            IUnitOfWorkManager unitOfWorkManager,
+            IDistributedEventBus distributedEventBus,
             IOrderRepository orderRepository)
         {
             _currentTenant = currentTenant;
+            _objectMapper = objectMapper;
+            _unitOfWorkManager = unitOfWorkManager;
+            _distributedEventBus = distributedEventBus;
             _orderRepository = orderRepository;
         }
         
@@ -36,6 +46,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
 
                 await _orderRepository.UpdateAsync(order, true);
+                
+                _unitOfWorkManager.Current.OnCompleted(async () => await _distributedEventBus.PublishAsync(
+                    new OrderRefundedEto
+                    {
+                        Order = _objectMapper.Map<Order, OrderEto>(order),
+                        Refund = eventData.Refund
+                    }));
             }
         }
     }
