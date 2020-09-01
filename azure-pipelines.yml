@@ -12,8 +12,9 @@ schedules:
   always: true
 
 trigger:
-- master
-
+ branches:
+    include:
+    - master
 pool:
   vmImage: 'ubuntu-latest'
 
