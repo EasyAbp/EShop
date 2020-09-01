@@ -7,6 +7,7 @@ namespace EasyAbp.EShop.Stores
 {
     [DependsOn(
         typeof(EShopStoresDomainModule),
+        typeof(EShopStoresApplicationSharedModule),
         typeof(EShopStoresApplicationContractsModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule)

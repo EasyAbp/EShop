@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Stores.StoreOwners;
 using EasyAbp.EShop.Stores.Transactions;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
                 options.AddRepository<Store, StoreRepository>();
+                options.AddRepository<StoreOwner, StoreOwnerRepository>();
                 options.AddRepository<Transaction, TransactionRepository>();
             });
         }

@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Stores.StoreOwners;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -13,6 +14,8 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
          * DbSet<Question> Questions { get; }
          */
         DbSet<Store> Stores { get; set; }
+
+        DbSet<StoreOwner> StoreOwners { get; set; }
         DbSet<Transaction> Transactions { get; set; }
     }
 }

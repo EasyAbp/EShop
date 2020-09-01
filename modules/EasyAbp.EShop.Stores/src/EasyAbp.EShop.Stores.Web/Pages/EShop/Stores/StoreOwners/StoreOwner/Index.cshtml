@@ -1,0 +1,61 @@
+@page
+@using EasyAbp.EShop.Stores.Permissions
+@using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner
+@using EasyAbp.EShop.Stores.Localization
+@using EasyAbp.EShop.Stores.Web.Menus
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<StoresResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["StoreOwner"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:StoreOwner"].Value);
+    PageLayout.Content.MenuItemName = StoresMenus.StoreOwner;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Stores/StoreOwners/StoreOwner/index.js"/>
+}
+
+@section styles
+{
+    <abp-style src="/Pages/EShop/Stores/StoreOwners/StoreOwner/index.css"/>
+}
+
+<script>
+     let storeId = '@Model.StoreId';
+</script>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["StoreOwner"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+                @if (await Authorization.IsGrantedAsync(StoresPermissions.Stores.Manage))
+                {
+                    <abp-button id="NewStoreOwnerButton"
+                                text="@L["CreateStoreOwner"].Value"
+                                icon="plus"
+                                button-type="Primary"/>
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="StoreOwnerTable">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["StoreName"]</th>
+                <th>@L["OwnerName"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

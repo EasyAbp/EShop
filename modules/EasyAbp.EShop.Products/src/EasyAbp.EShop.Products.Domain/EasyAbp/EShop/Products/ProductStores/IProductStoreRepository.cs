@@ -7,6 +7,6 @@ namespace EasyAbp.EShop.Products.ProductStores
 {
     public interface IProductStoreRepository : IRepository<ProductStore, Guid>
     {
-        Task<ProductStore> GetAsync(Guid productId, Guid storeId, CancellationToken cancellationToken = default);
+        Task<ProductStore> GetAsync(Guid productId, Guid storeId, bool includeDetails = true, CancellationToken cancellationToken = default);
     }
 }

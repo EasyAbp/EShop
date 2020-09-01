@@ -18,11 +18,11 @@
     <PackageReference Include="EasyAbp.PaymentService.Application" Version="1.1.7" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="1.1.7" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="1.1.7" />
-    <PackageReference Include="Volo.Abp.Account.Application" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="3.0.4" />
+    <PackageReference Include="Volo.Abp.Account.Application" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="3.0.5" />
   </ItemGroup>
 
 </Project>

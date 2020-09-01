@@ -1,7 +1,6 @@
 ﻿using Volo.Abp.Application;
-using Volo.Abp.Modularity;
-using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Authorization;
+using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Stores
 {
@@ -12,6 +11,5 @@ namespace EasyAbp.EShop.Stores
         )]
     public class EShopStoresApplicationContractsModule : AbpModule
     {
-
     }
 }

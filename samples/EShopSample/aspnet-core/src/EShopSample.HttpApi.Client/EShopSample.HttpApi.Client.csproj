@@ -17,11 +17,11 @@
     <PackageReference Include="EasyAbp.PaymentService.HttpApi.Client" Version="1.1.7" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi.Client" Version="1.1.7" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi.Client" Version="1.1.7" />
-    <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="3.0.4" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="3.0.4" />
+    <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="3.0.5" />
   </ItemGroup>
 
 </Project>

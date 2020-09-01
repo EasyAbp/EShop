@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [SelectItems("Categories")]
         [Display(Name = "ProductCategory")]
         public List<Guid> CategoryIds { get; set; }
-        
+
         [Display(Name = "ProductUniqueName")]
         public string UniqueName { get; set; }
         

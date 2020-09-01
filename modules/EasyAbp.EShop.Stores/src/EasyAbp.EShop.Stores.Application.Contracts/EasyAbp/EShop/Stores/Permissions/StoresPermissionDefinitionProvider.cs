@@ -12,6 +12,8 @@ namespace EasyAbp.EShop.Stores.Permissions
             var myGroup = context.AddGroup(StoresPermissions.GroupName, L("Permission:Stores"));
             
             var stores = myGroup.AddPermission(StoresPermissions.Stores.Default, L("Permission:Store"));
+            stores.AddChild(StoresPermissions.Stores.CrossStore, L("Permission:CrossStore"));
+            stores.AddChild(StoresPermissions.Stores.Manage, L("Permission:Manage"));
             stores.AddChild(StoresPermissions.Stores.Create, L("Permission:Create"));
             stores.AddChild(StoresPermissions.Stores.Update, L("Permission:Update"));
             stores.AddChild(StoresPermissions.Stores.Delete, L("Permission:Delete"), MultiTenancySides.Host);

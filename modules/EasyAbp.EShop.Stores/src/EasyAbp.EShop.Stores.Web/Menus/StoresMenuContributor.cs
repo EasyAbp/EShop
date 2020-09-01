@@ -31,6 +31,13 @@ namespace EasyAbp.EShop.Stores.Web.Menus
                 );
             }
             
+            if (await context.IsGrantedAsync(StoresPermissions.Stores.Manage))
+            {
+                storeManagementMenuItem.AddItem(
+                    new ApplicationMenuItem(StoresMenus.StoreOwner, l["Menu:StoreOwner"], "/EShop/Stores/StoreOwners/StoreOwner")
+                );
+            }
+            
             if (await context.IsGrantedAsync(StoresPermissions.Transaction.Default))
             {
                 var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
