@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.Options.ProductGroups;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductStores;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,19 +17,22 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductPriceProvider _productPriceProvider;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProvider _productInventoryProvider;
+        private readonly IProductGroupConfigurationProvider _productGroupConfigurationProvider;
 
         public ProductManager(
             IProductRepository productRepository,
             IProductStoreRepository productStoreRepository,
             IProductPriceProvider productPriceProvider,
             IProductCategoryRepository productCategoryRepository,
-            IProductInventoryProvider productInventoryProvider)
+            IProductInventoryProvider productInventoryProvider,
+            IProductGroupConfigurationProvider productGroupConfigurationProvider)
         {
             _productRepository = productRepository;
             _productStoreRepository = productStoreRepository;
             _productPriceProvider = productPriceProvider;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProvider = productInventoryProvider;
+            _productGroupConfigurationProvider = productGroupConfigurationProvider;
         }
 
         public virtual async Task<Product> CreateAsync(Product product, Guid? storeId = null,
@@ -36,7 +40,9 @@ namespace EasyAbp.EShop.Products.Products
         {
             product.TrimCode();
             
-            await CheckProductCodeUniqueAsync(product);
+            await CheckProductGroupNameAsync(product);
+            
+            await CheckProductUniqueNameAsync(product);
 
             await _productRepository.InsertAsync(product, autoSave: true);
 
@@ -51,10 +57,22 @@ namespace EasyAbp.EShop.Products.Products
 
             return product;
         }
-        
+
+        protected virtual Task CheckProductGroupNameAsync(Product product)
+        {
+            if (_productGroupConfigurationProvider.Get(product.ProductGroupName) == null)
+            {
+                throw new NonexistentProductGroupException(product.DisplayName);
+            }
+            
+            return Task.CompletedTask;
+        }
+
         public virtual async Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null)
         {
-            await CheckProductCodeUniqueAsync(product);
+            await CheckProductGroupNameAsync(product);
+
+            await CheckProductUniqueNameAsync(product);
 
             await _productRepository.UpdateAsync(product, autoSave: true);
 
@@ -141,7 +159,7 @@ namespace EasyAbp.EShop.Products.Products
                 storeId, productId, true), true);
         }
         
-        protected virtual async Task CheckProductCodeUniqueAsync(Product product)
+        protected virtual async Task CheckProductUniqueNameAsync(Product product)
         {
             if (product.UniqueName.IsNullOrEmpty())
             {

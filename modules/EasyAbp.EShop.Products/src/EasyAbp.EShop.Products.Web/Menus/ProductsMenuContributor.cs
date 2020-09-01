@@ -24,13 +24,6 @@ namespace EasyAbp.EShop.Products.Web.Menus
 
             var productManagementMenuItem = new ApplicationMenuItem(ProductsMenus.Prefix, l["Menu:ProductManagement"]);
 
-            if (await context.IsGrantedAsync(ProductsPermissions.ProductTypes.Default))
-            {
-                productManagementMenuItem.AddItem(
-                    new ApplicationMenuItem(ProductsMenus.ProductType, l["Menu:ProductType"], "/EShop/Products/ProductTypes/ProductType")
-                );
-            }
-
             if (await context.IsGrantedAsync(ProductsPermissions.Categories.Default))
             {
                 productManagementMenuItem.AddItem(

@@ -1,12 +1,13 @@
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
-using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Stores.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.Options;
+using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -25,25 +26,25 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IProductManager _productManager;
+        private readonly EShopProductsOptions _options;
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
-        private readonly IProductTypeRepository _productTypeRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
             IProductManager productManager,
+            IOptions<EShopProductsOptions> options,
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
-            IProductTypeRepository productTypeRepository,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
+            _options = options.Value;
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
-            _productTypeRepository = productTypeRepository;
             _repository = repository;
         }
 
@@ -77,7 +78,7 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, input.StoreId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -102,7 +103,7 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, input.StoreId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -218,19 +219,21 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
 
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
 
-        protected virtual async Task LoadDtosProductTypeUniqueNameAsync(IEnumerable<ProductDto> dtos)
+        protected virtual Task LoadDtosProductGroupDisplayNameAsync(IEnumerable<ProductDto> dtos)
         {
-            var dict = (await _productTypeRepository.GetListAsync()).ToDictionary(x => x.Id, x => x.UniqueName);
+            var dict = _options.Groups.GetConfigurationsDictionary();
 
             foreach (var dto in dtos)
             {
-                dto.ProductTypeUniqueName = dict[dto.ProductTypeId];
+                dto.ProductGroupDisplayName = dict[dto.ProductGroupName].DisplayName;
             }
+
+            return Task.CompletedTask;
         }
 
         public virtual async Task<ProductDto> GetByCodeAsync(string code, Guid storeId)
@@ -247,7 +250,7 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
 
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -291,7 +294,7 @@ namespace EasyAbp.EShop.Products.Products
                 items.Add(productDto);
             }
 
-            await LoadDtosProductTypeUniqueNameAsync(items);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             return new PagedResultDto<ProductDto>(totalCount, items);
         }
@@ -386,7 +389,7 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -412,7 +415,7 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -435,9 +438,23 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
+        }
+
+        public virtual Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync()
+        {
+            var dict = _options.Groups.GetConfigurationsDictionary();
+
+            return Task.FromResult(new ListResultDto<ProductGroupDto>(dict.Select(x =>
+                new ProductGroupDto
+                {
+                    Name = x.Key,
+                    DisplayName = x.Value.DisplayName,
+                    Description = x.Value.Description
+                }
+            ).ToList()));
         }
     }
 }

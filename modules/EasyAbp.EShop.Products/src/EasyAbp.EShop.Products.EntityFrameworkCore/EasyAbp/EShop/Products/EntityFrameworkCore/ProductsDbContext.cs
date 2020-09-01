@@ -3,7 +3,6 @@ using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Categories;
-using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductStores;
@@ -25,7 +24,6 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         public DbSet<ProductAttributeOption> ProductAttributeOptions { get; set; }
         public DbSet<ProductSku> ProductSkus { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductStore> ProductStores { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }

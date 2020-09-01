@@ -11,8 +11,6 @@ namespace EasyAbp.EShop.Products.Permissions
         {
             var moduleGroup = context.AddGroup(ProductsPermissions.GroupName, L("Permission:Products"));
             
-            var productTypes = moduleGroup.AddPermission(ProductsPermissions.ProductTypes.Default, L("Permission:ProductType"));
-            
             var categories = moduleGroup.AddPermission(ProductsPermissions.Categories.Default, L("Permission:Category"));
             categories.AddChild(ProductsPermissions.Categories.CrossStore, L("Permission:CrossStore"));
             categories.AddChild(ProductsPermissions.Categories.Create, L("Permission:Create"));

@@ -7,7 +7,8 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class Product : FullAuditedAggregateRoot<Guid>, IProduct
     {
-        public virtual Guid ProductTypeId { get; protected set; }
+        [NotNull]
+        public virtual string ProductGroupName { get; protected set; }
         
         public virtual Guid ProductDetailId { get; protected set; }
 
@@ -40,7 +41,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public Product(
             Guid id,
-            Guid productTypeId,
+            [NotNull] string productGroupName,
             Guid productDetailId,
             [CanBeNull] string code,
             [NotNull] string displayName,
@@ -52,7 +53,7 @@ namespace EasyAbp.EShop.Products.Products
             int displayOrder
         ) : base(id)
         {
-            ProductTypeId = productTypeId;
+            ProductGroupName = productGroupName;
             ProductDetailId = productDetailId;
             UniqueName = code?.Trim();
             DisplayName = displayName;

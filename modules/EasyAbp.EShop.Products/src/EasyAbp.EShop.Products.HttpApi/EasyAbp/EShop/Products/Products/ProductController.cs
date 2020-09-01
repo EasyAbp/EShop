@@ -94,5 +94,12 @@ namespace EasyAbp.EShop.Products.Products
         {
             return _service.DeleteSkuAsync(id, productSkuId, storeId);
         }
+
+        [HttpGet]
+        [Route("productGroup")]
+        public Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync()
+        {
+            return _service.GetProductGroupListAsync();
+        }
     }
 }

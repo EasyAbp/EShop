@@ -1,6 +1,7 @@
 using EasyAbp.EShop.Products.Products.Dtos;
 using System;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.Products
@@ -24,5 +25,7 @@ namespace EasyAbp.EShop.Products.Products
         Task<ProductDto> GetByCodeAsync(string code, Guid storeId);
 
         Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId);
+
+        Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync();
     }
 }

@@ -8,8 +8,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 {
     public class CreateUpdateProductDto : IValidatableObject
     {
-        [DisplayName("ProductProductTypeId")]
-        public Guid ProductTypeId { get; set; }
+        [DisplayName("ProductProductGroupName")]
+        public string ProductGroupName { get; set; }
         
         [DisplayName("ProductDetailId")]
         public Guid ProductDetailId { get; set; }

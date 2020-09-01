@@ -4,7 +4,6 @@ using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Products.ProductTypes;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,22 +23,19 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         [BindProperty]
         public CreateEditProductViewModel Product { get; set; }
 
-        public ICollection<SelectListItem> ProductTypes { get; set; }
+        public ICollection<SelectListItem> ProductGroups { get; set; }
 
         public ICollection<SelectListItem> Categories { get; set; }
 
-        private readonly IProductTypeAppService _productTypeAppService;
         private readonly ICategoryAppService _categoryAppService;
         private readonly IProductDetailAppService _productDetailAppService;
         private readonly IProductAppService _service;
 
         public CreateModalModel(
-            IProductTypeAppService productTypeAppService,
             ICategoryAppService categoryAppService,
             IProductDetailAppService productDetailAppService,
             IProductAppService service)
         {
-            _productTypeAppService = productTypeAppService;
             _categoryAppService = categoryAppService;
             _productDetailAppService = productDetailAppService;
             _service = service;
@@ -47,10 +43,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         public virtual async Task OnGetAsync(Guid? categoryId)
         {
-            ProductTypes =
-                (await _productTypeAppService.GetListAsync(new PagedAndSortedResultRequestDto
-                { MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount })).Items
-                .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
+            ProductGroups =
+                (await _service.GetProductGroupListAsync()).Items
+                .Select(dto => new SelectListItem(dto.DisplayName, dto.Name)).ToList();
 
             Categories =
                 (await _categoryAppService.GetListAsync(new GetCategoryListDto

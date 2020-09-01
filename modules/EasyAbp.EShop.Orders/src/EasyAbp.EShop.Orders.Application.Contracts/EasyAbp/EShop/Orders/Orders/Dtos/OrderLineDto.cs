@@ -13,7 +13,9 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         
         public DateTime ProductDetailModificationTime { get; set; }
         
-        public string ProductTypeUniqueName { get; set; }
+        public string ProductGroupName { get; set; }
+        
+        public string ProductGroupDisplayName { get; set; }
         
         public string ProductUniqueName { get; set; }
 

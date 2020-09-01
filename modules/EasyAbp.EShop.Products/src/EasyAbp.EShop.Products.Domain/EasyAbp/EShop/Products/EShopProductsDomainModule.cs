@@ -1,4 +1,6 @@
 ﻿using EasyAbp.Abp.Trees;
+using EasyAbp.EShop.Products.Options;
+using EasyAbp.EShop.Products.Options.ProductGroups;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,15 @@ namespace EasyAbp.EShop.Products
                 options.EtoMappings.Add<Product, ProductEto>();
                 
                 options.AutoEventSelectors.Add<Product>();
+            });
+            
+            Configure<EShopProductsOptions>(options =>
+            {
+                options.Groups.Configure<DefaultProductGroup>(group =>
+                {
+                    group.DisplayName = ProductsConsts.DefaultProductGroupDisplayName;
+                    group.Description = ProductsConsts.DefaultProductGroupDescription;
+                });
             });
         }
 

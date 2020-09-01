@@ -16,9 +16,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         public Guid StoreId { get; set; }
 
         [Required]
-        [SelectItems("ProductTypes")]
-        [Display(Name = "ProductType")]
-        public Guid ProductTypeId { get; set; }
+        [SelectItems("ProductGroups")]
+        [Display(Name = "ProductGroupName")]
+        public string ProductGroupName { get; set; }
 
         [SelectItems("Categories")]
         [Display(Name = "ProductCategory")]

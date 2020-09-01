@@ -13,8 +13,6 @@ using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Products.ProductTypes;
-using EasyAbp.EShop.Products.ProductTypes.Dtos;
 using System.Linq;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.DependencyInjection;
@@ -29,7 +27,7 @@ namespace EasyAbp.EShop.Products
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Product, ProductDto>()
-                .Ignore(dto => dto.ProductTypeUniqueName)
+                .Ignore(dto => dto.ProductGroupDisplayName)
                 .Ignore(dto => dto.Sold)
                 .Ignore(dto => dto.MinimumPrice)
                 .Ignore(dto => dto.MaximumPrice);
@@ -64,7 +62,6 @@ namespace EasyAbp.EShop.Products
             CreateMap<UpdateProductSkuDto, ProductSku>(MemberList.Source);
             CreateMap<Category, CategoryDto>();
             CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);
-            CreateMap<ProductType, ProductTypeDto>();
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
