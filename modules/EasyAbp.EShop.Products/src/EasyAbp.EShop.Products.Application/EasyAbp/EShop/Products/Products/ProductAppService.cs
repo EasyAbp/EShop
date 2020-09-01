@@ -2,7 +2,7 @@ using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Products.ProductTypes;
-using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.EShop.Stores.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,6 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IProductManager _productManager;
-        private readonly IProductPriceProvider _productPriceProvider;
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
@@ -34,7 +33,6 @@ namespace EasyAbp.EShop.Products.Products
 
         public ProductAppService(
             IProductManager productManager,
-            IProductPriceProvider productPriceProvider,
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
@@ -42,7 +40,6 @@ namespace EasyAbp.EShop.Products.Products
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
-            _productPriceProvider = productPriceProvider;
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
@@ -66,7 +63,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            await CheckCreatePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             var product = MapToEntity(input);
 
@@ -86,7 +84,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
-            await CheckUpdatePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             await CheckStoreIsProductOwnerAsync(id, input.StoreId);
 
@@ -347,7 +346,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public async Task DeleteAsync(Guid id, Guid storeId)
         {
-            await CheckDeletePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, DeletePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             var product = await GetEntityByIdAsync(id);
 
@@ -368,7 +368,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public async Task<ProductDto> CreateSkuAsync(Guid productId, Guid storeId, CreateProductSkuDto input)
         {
-            await CheckUpdatePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             await CheckStoreIsProductOwnerAsync(productId, storeId);
 
@@ -393,7 +394,8 @@ namespace EasyAbp.EShop.Products.Products
         public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId,
             UpdateProductSkuDto input)
         {
-            await CheckUpdatePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             await CheckStoreIsProductOwnerAsync(productId, storeId);
 
@@ -417,7 +419,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public async Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId)
         {
-            await CheckUpdatePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             await CheckStoreIsProductOwnerAsync(productId, storeId);
 

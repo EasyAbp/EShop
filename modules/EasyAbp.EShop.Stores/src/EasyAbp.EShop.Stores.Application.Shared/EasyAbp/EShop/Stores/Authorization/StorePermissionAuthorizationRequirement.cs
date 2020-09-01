@@ -1,17 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace EasyAbp.EShop.Stores.Permissions
+namespace EasyAbp.EShop.Stores.Authorization
 {
     public class StorePermissionAuthorizationRequirement : IAuthorizationRequirement
     {
-        public StorePermissionAuthorizationRequirement(Guid storeId, string policyName = null)
+        public StorePermissionAuthorizationRequirement(string policyName = null)
         {
-            StoreId = storeId;
             PolicyName = policyName;
         }
-
-        public Guid StoreId { get; }
 
         public string PolicyName { get; }
     }

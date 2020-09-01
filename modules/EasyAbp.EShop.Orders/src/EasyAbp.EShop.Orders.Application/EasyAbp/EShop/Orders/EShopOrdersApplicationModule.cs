@@ -12,6 +12,7 @@ namespace EasyAbp.EShop.Orders
         typeof(EShopOrdersApplicationContractsModule),
         typeof(EShopProductsApplicationContractsModule),
         typeof(EShopStoresDomainSharedModule),
+        typeof(EShopStoresApplicationSharedModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule)
         )]

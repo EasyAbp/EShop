@@ -5,13 +5,13 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner.ViewModels
 {
-    public class CreateEditStoreOwnerViewModel : ExtensibleObject
+    public class CreateEditStoreOwnerViewModel
     {
         [Required]
         public Guid StoreId { get; set; }
 
 
         [Required]
-        public Guid MultiStoreCrudAppService  { get; set; }
+        public Guid OwnerUserId  { get; set; }
     }
 }

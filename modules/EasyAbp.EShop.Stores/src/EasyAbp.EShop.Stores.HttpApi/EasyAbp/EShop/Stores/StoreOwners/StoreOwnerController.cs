@@ -32,14 +32,14 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         }
 
         [HttpPost]
-        public Task<StoreOwnerDto> CreateAsync(StoreOwnerDto input)
+        public Task<StoreOwnerDto> CreateAsync(CreateUpdateStoreOwnerDto input)
         {
             return _service.CreateAsync(input);
         }
         
         [HttpPut]
         [Route("{id}")]
-        public Task<StoreOwnerDto> UpdateAsync(Guid id, StoreOwnerDto input)
+        public Task<StoreOwnerDto> UpdateAsync(Guid id, CreateUpdateStoreOwnerDto input)
         {
             return _service.UpdateAsync(id, input);
         }

@@ -2,7 +2,7 @@ using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.ProductStores;
-using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Threading.Tasks;
@@ -42,22 +42,16 @@ namespace EasyAbp.EShop.Products.ProductInventories
             return ObjectMapper.Map<ProductInventory, ProductInventoryDto>(productInventory);
         }
 
-        [Authorize(ProductsPermissions.ProductInventory.Update)]
         public virtual async Task<ProductInventoryDto> UpdateAsync(UpdateProductInventoryDto input)
         {
-            if (!await AuthorizationService.IsGrantedAsync(ProductsPermissions.ProductInventory.CrossStore))
+            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId,
+                ProductsPermissions.ProductInventory.Update, ProductsPermissions.ProductInventory.CrossStore);
+
+            if (input.StoreId.HasValue)
             {
-                if (!input.StoreId.HasValue)
-                {
-                    throw new AbpValidationException("StoreId should not be null.");
-                }
-
-                await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId.Value,
-                    ProductsPermissions.ProductInventory.Update);
-
-                await _productStoreRepository.GetAsync(input.ProductId, input.StoreId.Value);
+                await CheckStoreIsProductOwnerAsync(input.ProductId, input.StoreId.Value);
             }
-
+            
             var productInventory = await _repository.FindAsync(x => x.ProductSkuId == input.ProductSkuId);
 
             if (productInventory == null)
@@ -71,6 +65,16 @@ namespace EasyAbp.EShop.Products.ProductInventories
             await ChangeInventoryAsync(productInventory, input.ChangedInventory);
 
             return ObjectMapper.Map<ProductInventory, ProductInventoryDto>(productInventory);
+        }
+        
+        protected virtual async Task CheckStoreIsProductOwnerAsync(Guid productId, Guid storeId)
+        {
+            var productStore = await _productStoreRepository.GetAsync(productId, storeId);
+
+            if (!productStore.IsOwner)
+            {
+                throw new StoreIsNotProductOwnerException(productId, storeId);
+            }
         }
 
         protected virtual async Task ChangeInventoryAsync(ProductInventory productInventory, int changedInventory)

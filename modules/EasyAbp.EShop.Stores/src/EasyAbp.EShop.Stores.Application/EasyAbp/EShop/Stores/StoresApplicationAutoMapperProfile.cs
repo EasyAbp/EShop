@@ -16,15 +16,12 @@ namespace EasyAbp.EShop.Stores
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<Store, StoreDto>()
-                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
-            CreateMap<CreateUpdateStoreDto, Store>(MemberList.Source)
-                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
+            CreateMap<Store, StoreDto>();
+            CreateMap<CreateUpdateStoreDto, Store>(MemberList.Source);
 
-            CreateMap<StoreOwner, StoreOwnerDto>()
-                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
-            CreateMap<StoreOwnerDto, StoreOwner>(MemberList.Source)
-                .MapExtraProperties(MappingPropertyDefinitionChecks.Both);
+            CreateMap<StoreOwner, StoreOwnerDto>();
+            CreateMap<CreateUpdateStoreOwnerDto, StoreOwner>(MemberList.Source);
+            
             CreateMap<Transaction, TransactionDto>();
             CreateMap<CreateUpdateTransactionDto, Transaction>(MemberList.Source);
         }

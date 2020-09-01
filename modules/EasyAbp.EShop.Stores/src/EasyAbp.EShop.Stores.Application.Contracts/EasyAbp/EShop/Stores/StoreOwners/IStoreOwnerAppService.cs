@@ -9,7 +9,9 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         ICrudAppService<
             StoreOwnerDto,
             Guid,
-            GetStoreOwnerListDto>
+            GetStoreOwnerListDto,
+            CreateUpdateStoreOwnerDto,
+            CreateUpdateStoreOwnerDto>
     {
     }
 }

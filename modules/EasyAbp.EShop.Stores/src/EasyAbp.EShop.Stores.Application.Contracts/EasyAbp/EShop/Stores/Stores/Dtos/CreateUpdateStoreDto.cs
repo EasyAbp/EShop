@@ -6,7 +6,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.Stores.Dtos
 {
-    public class CreateUpdateStoreDto : ExtensibleEntityDto
+    public class CreateUpdateStoreDto
     {
         [Required]
         [DisplayName("StoreName")]

@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Stores.Permissions;
+﻿using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Application;

@@ -7,7 +7,7 @@ using EasyAbp.EShop.Stores.Stores;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    public class StoreOwnerAppService : MultiStoreCrudAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto>,
+    public class StoreOwnerAppService : MultiStoreCrudAppService<StoreOwner, StoreOwnerDto, Guid, GetStoreOwnerListDto, CreateUpdateStoreOwnerDto, CreateUpdateStoreOwnerDto>,
         IStoreOwnerAppService
     {
         protected override string CreatePolicyName { get; set; } = StoresPermissions.Stores.Manage;
@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             _repository = repository;
         }
 
-        public override async Task<StoreOwnerDto> CreateAsync(StoreOwnerDto input)
+        public override async Task<StoreOwnerDto> CreateAsync(CreateUpdateStoreOwnerDto input)
         {
             if (await _repository.IsExistAsync(input.StoreId, input.OwnerUserId))
             {

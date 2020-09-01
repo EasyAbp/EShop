@@ -12,7 +12,7 @@
     "Menu:StoreOwner": "MenuStoreOwner",
     "CreateStoreOwner": "CreateStoreOwner",
     "EditStoreOwner": "EditStoreOwner",
-    "StoreOwnerDeletionConfirmationMessage": "Are you sure to delete the store owner {0}?"
+    "StoreOwnerDeletionConfirmationMessage": "Are you sure to delete the store owner {0}?",
     "Permission:Transaction": "Transaction",
     "Permission:Create": "Create",
     "Permission:Update": "Update",

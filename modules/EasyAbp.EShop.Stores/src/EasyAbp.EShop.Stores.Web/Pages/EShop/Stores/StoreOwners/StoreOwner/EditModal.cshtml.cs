@@ -31,7 +31,7 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner
         public async Task<IActionResult> OnPostAsync()
         {
             await _storeOwnerAppService.UpdateAsync(Id,
-                ObjectMapper.Map<CreateEditStoreOwnerViewModel, StoreOwnerDto>(StoreOwner));
+                ObjectMapper.Map<CreateEditStoreOwnerViewModel, CreateUpdateStoreOwnerDto>(StoreOwner));
             return NoContent();
         }
     }

@@ -25,7 +25,7 @@ namespace EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var createDto = ObjectMapper.Map<CreateEditStoreOwnerViewModel, StoreOwnerDto>(StoreOwner);
+            var createDto = ObjectMapper.Map<CreateEditStoreOwnerViewModel, CreateUpdateStoreOwnerDto>(StoreOwner);
             var storeOwner = await _storeOwnerAppService.CreateAsync(createDto);
 
             return NoContent();

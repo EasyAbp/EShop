@@ -11,6 +11,7 @@ namespace EasyAbp.EShop.Products
         typeof(EShopProductsDomainModule),
         typeof(EShopProductsApplicationContractsModule),
         typeof(EShopStoresDomainSharedModule),
+        typeof(EShopStoresApplicationSharedModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule),
         typeof(AbpTreesApplicationModule)

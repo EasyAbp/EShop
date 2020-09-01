@@ -5,9 +5,9 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Volo.Abp.Authorization.Permissions;
 
-namespace EasyAbp.EShop.Stores.Permissions
+namespace EasyAbp.EShop.Stores.Authorization
 {
-    public class BasicStorePermissionAuthorizationHandler : AuthorizationHandler<StorePermissionAuthorizationRequirement>
+    public class BasicStorePermissionAuthorizationHandler : AuthorizationHandler<StorePermissionAuthorizationRequirement, StoreInfo>
     {
         private readonly IStoreOwnerStore _storeOwnerStore;
         private readonly IPermissionChecker _permissionChecker;
@@ -19,12 +19,12 @@ namespace EasyAbp.EShop.Stores.Permissions
             _permissionChecker = permissionChecker;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, StorePermissionAuthorizationRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, StorePermissionAuthorizationRequirement requirement, StoreInfo storeInfo)
         {
             var userId = context.User?.FindUserId();
             if (userId.HasValue)
             {
-                var isStoreOwner = await _storeOwnerStore.IsStoreOwnerAsync(requirement.StoreId, userId.Value);
+                var isStoreOwner = await _storeOwnerStore.IsStoreOwnerAsync(storeInfo.StoreId, userId.Value);
 
                 if (isStoreOwner)
                 {
