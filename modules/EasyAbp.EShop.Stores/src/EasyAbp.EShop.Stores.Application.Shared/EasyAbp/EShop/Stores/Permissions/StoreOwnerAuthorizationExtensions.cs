@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Stores.Permissions
 {
     public static class StoreOwnerAuthorizationExtensions
     {
-        public static Task<bool> IsCurrentUserStoreOwnerAsync(this IAuthorizationService authorizationService,
+        public static Task<bool> IsCurrentUserGrantedAsync(this IAuthorizationService authorizationService,
             Guid storeId, string policyName = null, object resource = null)
         {
             return authorizationService.IsGrantedAsync(resource,
@@ -16,7 +16,7 @@ namespace EasyAbp.EShop.Stores.Permissions
         public static async Task<bool> IsMultiStoreGrantedAsync(this IAuthorizationService authorizationService,
             Guid? storeId, string policyName, string crossStorePolicyName, object resource = null)
         {
-            if (storeId.HasValue && await authorizationService.IsCurrentUserStoreOwnerAsync(storeId.Value, policyName))
+            if (storeId.HasValue && await authorizationService.IsCurrentUserGrantedAsync(storeId.Value, policyName))
             {
                 return true;
             }
@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Stores.Permissions
         public static async Task CheckMultiStorePolicyAsync(this IAuthorizationService authorizationService,
             Guid? storeId, string policyName, string crossStorePolicyName, object resource = null)
         {
-            if (storeId.HasValue && await authorizationService.IsCurrentUserStoreOwnerAsync(storeId.Value, policyName, resource))
+            if (storeId.HasValue && await authorizationService.IsCurrentUserGrantedAsync(storeId.Value, policyName, resource))
             {
                 return;
             }
