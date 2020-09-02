@@ -1,10 +1,11 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Categories.Dtos
 {
-    public class CreateUpdateCategoryDto
+    public class CreateUpdateCategoryDto : ExtensibleObject
     {
         [DisplayName("CategoryUniqueName")]
         public string UniqueName { get; set; }

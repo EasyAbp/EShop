@@ -1,8 +1,10 @@
 using System;
+using Volo.Abp.ObjectExtending;
+
 namespace EasyAbp.EShop.Products.ProductInventories.Dtos
 {
     [Serializable]
-    public class UpdateProductInventoryDto
+    public class UpdateProductInventoryDto : ExtensibleObject
     {
         public Guid ProductId { get; set; }
         

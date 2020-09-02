@@ -4,11 +4,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using EasyAbp.EShop.Stores.Stores;
-using Volo.Abp.Data;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
-    public class CreateOrderDto : IHasExtraProperties, IValidatableObject, IMultiStore
+    public class CreateOrderDto : ExtensibleObject, IMultiStore
     {
         [DisplayName("OrderStoreId")]
         public Guid StoreId { get; set; }
@@ -18,12 +18,11 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
 
         [DisplayName("OrderLine")]
         public List<CreateOrderLineDto> OrderLines { get; set; }
-        
-        [DisplayName("OrderExtraProperties")]
-        public Dictionary<string, object> ExtraProperties { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            base.Validate(validationContext);
+            
             if (OrderLines.Count == 0)
             {
                 yield return new ValidationResult(

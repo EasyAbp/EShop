@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos
 {
     [Serializable]
-    public class UpdateBasketItemDto : IValidatableObject
+    public class UpdateBasketItemDto : ExtensibleObject
     {
         public int Quantity { get; set; }
         
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            base.Validate(validationContext);
+            
             if (Quantity <= 0)
             {
                 yield return new ValidationResult(

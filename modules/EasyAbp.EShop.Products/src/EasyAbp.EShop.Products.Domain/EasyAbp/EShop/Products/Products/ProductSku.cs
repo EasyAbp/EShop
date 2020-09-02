@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductSku : FullAuditedEntity<Guid>, IProductSku
+    public class ProductSku : FullAuditedEntity<Guid>, IProductSku, IHasExtraProperties
     {
         [NotNull]
         public virtual string SerializedAttributeOptionIds { get; protected set; }
@@ -25,6 +27,9 @@ namespace EasyAbp.EShop.Products.Products
         
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
+        
+
+        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
         public Guid? ProductDetailId { get; set; }
 

@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Products.ProductInventories.Dtos
 {
     [Serializable]
-    public class ProductInventoryDto : FullAuditedEntityDto<Guid>
+    public class ProductInventoryDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         public Guid ProductId { get; set; }
 

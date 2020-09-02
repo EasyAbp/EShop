@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class ProductAttributeOptionDto : FullAuditedEntityDto<Guid>
+    public class ProductAttributeOptionDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         [Required]
         public string DisplayName { get; set; }

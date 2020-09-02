@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class UpdateProductSkuDto
+    public class UpdateProductSkuDto : ExtensibleObject
     {
         [DisplayName("ProductSkuName")]
         public string Name { get; set; }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Refunds.Dtos
 {
-    public class CreateEShopRefundItemInput
+    public class CreateEShopRefundItemInput : ExtensibleObject
     {
         public Guid OrderId { get; set; }
         

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class CreateUpdateProductAttributeOptionDto
+    public class CreateUpdateProductAttributeOptionDto: ExtensibleObject
     {
         [Required]
         [DisplayName("ProductAttributeOptionDisplayName")]

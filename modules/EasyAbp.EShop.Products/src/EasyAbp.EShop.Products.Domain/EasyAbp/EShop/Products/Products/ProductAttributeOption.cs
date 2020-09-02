@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductAttributeOption : FullAuditedEntity<Guid>, IProductAttributeOption
+    public class ProductAttributeOption : FullAuditedEntity<Guid>, IProductAttributeOption, IHasExtraProperties
     {
         [NotNull]
         public virtual string DisplayName { get; protected set; }
@@ -13,6 +15,8 @@ namespace EasyAbp.EShop.Products.Products
         public virtual string Description { get; protected set; }
         
         public virtual int DisplayOrder { get; protected set; }
+
+        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
         protected ProductAttributeOption() {}
         

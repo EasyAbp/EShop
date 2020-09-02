@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Stores.Transactions.Dtos
 {
     [Serializable]
-    public class TransactionDto : CreationAuditedEntityDto<Guid>
+    public class TransactionDto : ExtensibleCreationAuditedEntityDto<Guid>
     {
         public Guid StoreId { get; set; }
 
