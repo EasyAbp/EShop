@@ -27,6 +27,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public decimal TotalPrice { get; set; }
         
+        public decimal ActualTotalPrice { get; set; }
+
         public decimal RefundAmount { get; set; }
 
         public string CustomerRemark { get; set; }

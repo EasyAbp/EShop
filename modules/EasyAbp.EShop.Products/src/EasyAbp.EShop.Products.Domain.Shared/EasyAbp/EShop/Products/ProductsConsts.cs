@@ -2,6 +2,10 @@
 {
     public static class ProductsConsts
     {
-        public const string DefaultProductType = "Default";
+        public const string DefaultProductGroupName = "Default";
+        
+        public const string DefaultProductGroupDisplayName = "Default";
+        
+        public const string DefaultProductGroupDescription = "";
     }
 }

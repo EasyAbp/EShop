@@ -1,15 +1,15 @@
+using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Payments.Authorization;
+using EasyAbp.EShop.Payments.Payments.Dtos;
+using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.PaymentService.Payments;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Orders.Orders;
-using EasyAbp.EShop.Orders.Orders.Dtos;
-using EasyAbp.EShop.Payments.Authorization;
-using EasyAbp.EShop.Payments.Payments;
-using EasyAbp.EShop.Payments.Payments.Dtos;
-using EasyAbp.PaymentService.Payments;
-using Microsoft.AspNetCore.Authorization;
-using Volo.Abp;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -21,8 +21,8 @@ namespace EasyAbp.EShop.Payments.Payments
     public class PaymentAppService : ReadOnlyAppService<Payment, PaymentDto, Guid, GetPaymentListDto>,
         IPaymentAppService
     {
-        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
-        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Default;
+        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
+        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
 
         private readonly IPayableChecker _payableChecker;
         private readonly IDistributedEventBus _distributedEventBus;
@@ -48,7 +48,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
             if (payment.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
+                await CheckPolicyAsync(GetPolicyName);
             }
 
             return payment;
@@ -71,7 +71,7 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Payments.Manage);
+                await CheckPolicyAsync(GetListPolicyName);
             }
 
             return await base.GetListAsync(input);
@@ -100,7 +100,7 @@ namespace EasyAbp.EShop.Payments.Payments
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
                     ItemKey = order.Id.ToString(),
-                    OriginalPaymentAmount = order.TotalPrice,
+                    OriginalPaymentAmount = order.ActualTotalPrice,
                     ExtraProperties = new Dictionary<string, object> {{"StoreId", order.StoreId.ToString()}}
                 }).ToList()
             };

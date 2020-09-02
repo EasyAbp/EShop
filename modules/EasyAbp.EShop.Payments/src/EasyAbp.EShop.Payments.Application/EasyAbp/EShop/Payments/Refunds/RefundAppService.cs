@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Payments.Authorization;
 using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds.Dtos;
+using EasyAbp.EShop.Stores.Permissions;
+using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.PaymentService.Payments;
 using EasyAbp.PaymentService.Refunds;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Data;
@@ -22,8 +23,8 @@ namespace EasyAbp.EShop.Payments.Refunds
     public class RefundAppService : ReadOnlyAppService<Refund, RefundDto, Guid, GetRefundListDto>,
         IRefundAppService
     {
-        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Refunds.Default;
-        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Refunds.Default;
+        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Refunds.Manage;
+        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Refunds.Manage;
 
         private readonly IOrderAppService _orderAppService;
         private readonly IDistributedEventBus _distributedEventBus;
@@ -54,7 +55,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             
             if (payment.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
+                await CheckPolicyAsync(GetPolicyName);
             }
 
             return refund;
@@ -72,7 +73,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
+                await CheckPolicyAsync(GetListPolicyName);
             }
 
             return await base.GetListAsync(input);

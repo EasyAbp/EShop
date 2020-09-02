@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using EasyAbp.PaymentService.Payments;
+using EasyAbp.EShop.Payments.Payments;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrderPaymentChecker
     {
-        Task<bool> IsValidPaymentAsync(Order order, PaymentEto payment, PaymentItemEto paymentItem);
+        Task<bool> IsValidPaymentAsync(Order order, EShopPaymentEto payment, EShopPaymentItemEto paymentItem);
     }
 }

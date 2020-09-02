@@ -1,14 +1,14 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
-using EasyAbp.EShop.Products.ProductDetails;
-using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
     public class Product : FullAuditedAggregateRoot<Guid>, IProduct
     {
-        public virtual Guid ProductTypeId { get; protected set; }
+        [NotNull]
+        public virtual string ProductGroupName { get; protected set; }
         
         public virtual Guid ProductDetailId { get; protected set; }
 
@@ -41,7 +41,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public Product(
             Guid id,
-            Guid productTypeId,
+            [NotNull] string productGroupName,
             Guid productDetailId,
             [CanBeNull] string code,
             [NotNull] string displayName,
@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Products.Products
             int displayOrder
         ) : base(id)
         {
-            ProductTypeId = productTypeId;
+            ProductGroupName = productGroupName;
             ProductDetailId = productDetailId;
             UniqueName = code?.Trim();
             DisplayName = displayName;

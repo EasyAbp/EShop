@@ -61,17 +61,17 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpPost]
-        [Route("sku")]
-        public Task<ProductDto> CreateSkuAsync(Guid productId, Guid storeId, CreateProductSkuDto input)
+        [Route("{id}/sku")]
+        public Task<ProductDto> CreateSkuAsync(Guid id, Guid storeId, CreateProductSkuDto input)
         {
-            return _service.CreateSkuAsync(productId, storeId, input);
+            return _service.CreateSkuAsync(id, storeId, input);
         }
 
         [HttpPut]
-        [Route("sku")]
-        public Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input)
+        [Route("{id}/sku/{productSkuId}")]
+        public Task<ProductDto> UpdateSkuAsync(Guid id, Guid productSkuId, Guid storeId, UpdateProductSkuDto input)
         {
-            return _service.UpdateSkuAsync(productId, productSkuId, storeId, input);
+            return _service.UpdateSkuAsync(id, productSkuId, storeId, input);
         }
 
         [HttpGet]
@@ -89,10 +89,17 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpDelete]
-        [Route("sku")]
-        public Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId)
+        [Route("{id}/sku/{productSkuId}")]
+        public Task<ProductDto> DeleteSkuAsync(Guid id, Guid productSkuId, Guid storeId)
         {
-            return _service.DeleteSkuAsync(productId, productSkuId, storeId);
+            return _service.DeleteSkuAsync(id, productSkuId, storeId);
+        }
+
+        [HttpGet]
+        [Route("productGroup")]
+        public Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync()
+        {
+            return _service.GetProductGroupListAsync();
         }
     }
 }

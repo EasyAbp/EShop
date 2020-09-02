@@ -1,4 +1,5 @@
 ﻿using EasyAbp.Abp.Trees;
+using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
@@ -9,6 +10,8 @@ namespace EasyAbp.EShop.Products
     [DependsOn(
         typeof(EShopProductsDomainModule),
         typeof(EShopProductsApplicationContractsModule),
+        typeof(EShopStoresDomainSharedModule),
+        typeof(EShopStoresApplicationSharedModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule),
         typeof(AbpTreesApplicationModule)

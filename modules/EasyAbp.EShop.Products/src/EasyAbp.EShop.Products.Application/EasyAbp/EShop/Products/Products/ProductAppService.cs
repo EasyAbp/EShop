@@ -1,12 +1,13 @@
+using EasyAbp.EShop.Products.Permissions;
+using EasyAbp.EShop.Products.Products.Dtos;
+using EasyAbp.EShop.Products.ProductStores;
+using EasyAbp.EShop.Stores.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Permissions;
-using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Products.ProductStores;
-using EasyAbp.EShop.Products.ProductTypes;
-using Microsoft.AspNetCore.Authorization;
+using EasyAbp.EShop.Products.Options;
+using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -14,7 +15,8 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductAppService : CrudAppService<Product, ProductDto, Guid, GetProductListDto, CreateUpdateProductDto, CreateUpdateProductDto>,
+    public class ProductAppService : CrudAppService<Product, ProductDto, Guid, GetProductListDto, CreateUpdateProductDto
+            , CreateUpdateProductDto>,
         IProductAppService
     {
         protected override string CreatePolicyName { get; set; } = ProductsPermissions.Products.Create;
@@ -24,36 +26,31 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IProductManager _productManager;
-        private readonly IProductPriceProvider _productPriceProvider;
+        private readonly EShopProductsOptions _options;
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductStoreRepository _productStoreRepository;
-        private readonly IProductTypeRepository _productTypeRepository;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
             IProductManager productManager,
-            IProductPriceProvider productPriceProvider,
+            IOptions<EShopProductsOptions> options,
             IProductInventoryProvider productInventoryProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductStoreRepository productStoreRepository,
-            IProductTypeRepository productTypeRepository,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
-            _productPriceProvider = productPriceProvider;
+            _options = options.Value;
             _productInventoryProvider = productInventoryProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productStoreRepository = productStoreRepository;
-            _productTypeRepository = productTypeRepository;
             _repository = repository;
         }
 
         protected override IQueryable<Product> CreateFilteredQuery(GetProductListDto input)
         {
-            var query = input.CategoryId.HasValue
-                ? _repository.WithDetails(input.StoreId, input.CategoryId.Value)
-                : _repository.WithDetails(input.StoreId);
+            var query = _repository.WithDetails(input.StoreId, input.CategoryId);
 
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }
@@ -67,36 +64,38 @@ namespace EasyAbp.EShop.Products.Products
 
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            await CheckCreatePolicyAsync();
-            
+            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName,
+                ProductsPermissions.Products.CrossStore);
+
             var product = MapToEntity(input);
 
             TryToSetTenantId(product);
-            
+
             await UpdateProductAttributesAsync(product, input);
-            
+
             await _productManager.CreateAsync(product, input.StoreId, input.CategoryIds);
 
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, input.StoreId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
-        
+
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
-            await CheckUpdatePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             await CheckStoreIsProductOwnerAsync(id, input.StoreId);
-            
+
             var product = await GetEntityByIdAsync(id);
-            
+
             CheckProductIsNotStatic(product);
-            
+
             MapToEntity(input, product);
-            
+
             await UpdateProductAttributesAsync(product, input);
 
             await _productManager.UpdateAsync(product, input.CategoryIds);
@@ -104,7 +103,7 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, input.StoreId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -124,41 +123,45 @@ namespace EasyAbp.EShop.Products.Products
             var isProductSkusEmpty = product.ProductSkus.IsNullOrEmpty();
 
             var usedAttributeOptionIds = new HashSet<Guid>();
-            
-            foreach (var serializedAttributeOptionIds in product.ProductSkus.Select(sku => sku.SerializedAttributeOptionIds))
+
+            foreach (var serializedAttributeOptionIds in product.ProductSkus.Select(sku =>
+                sku.SerializedAttributeOptionIds))
             {
-                foreach (var attributeOptionId in await _attributeOptionIdsSerializer.DeserializeAsync(serializedAttributeOptionIds))
+                foreach (var attributeOptionId in await _attributeOptionIdsSerializer.DeserializeAsync(
+                    serializedAttributeOptionIds))
                 {
                     usedAttributeOptionIds.Add(attributeOptionId);
                 }
             }
-            
+
             foreach (var attributeDto in input.ProductAttributes)
             {
-                var attribute = product.ProductAttributes.FirstOrDefault(a => a.DisplayName == attributeDto.DisplayName);
-                
+                var attribute =
+                    product.ProductAttributes.FirstOrDefault(a => a.DisplayName == attributeDto.DisplayName);
+
                 if (attribute == null)
                 {
                     if (!isProductSkusEmpty)
                     {
                         throw new ProductAttributesModificationFailedException();
                     }
-                    
+
                     attribute = new ProductAttribute(GuidGenerator.Create(),
                         attributeDto.DisplayName, attributeDto.Description);
-                    
+
                     product.ProductAttributes.Add(attribute);
                 }
 
                 foreach (var optionDto in attributeDto.ProductAttributeOptions)
                 {
-                    var option = attribute.ProductAttributeOptions.FirstOrDefault(o => o.DisplayName == optionDto.DisplayName);
+                    var option =
+                        attribute.ProductAttributeOptions.FirstOrDefault(o => o.DisplayName == optionDto.DisplayName);
 
                     if (option == null)
                     {
                         option = new ProductAttributeOption(GuidGenerator.Create(),
                             optionDto.DisplayName, optionDto.Description);
-                    
+
                         attribute.ProductAttributeOptions.Add(option);
                     }
                 }
@@ -184,7 +187,7 @@ namespace EasyAbp.EShop.Products.Products
             {
                 throw new ProductAttributesModificationFailedException();
             }
-            
+
             product.ProductAttributes.RemoveAll(a => removedAttributeNames.Contains(a.DisplayName));
         }
 
@@ -201,34 +204,36 @@ namespace EasyAbp.EShop.Products.Products
         {
             throw new NotSupportedException();
         }
-        
+
         public virtual async Task<ProductDto> GetAsync(Guid id, Guid storeId)
         {
             await CheckGetPolicyAsync();
 
             var product = await GetEntityByIdAsync(id);
-            
+
             if (!product.IsPublished)
             {
                 await CheckStoreIsProductOwnerAsync(product.Id, storeId);
             }
-            
+
             var dto = MapToGetOutputDto(product);
-            
+
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
 
-        protected virtual async Task LoadDtosProductTypeUniqueNameAsync(IEnumerable<ProductDto> dtos)
+        protected virtual Task LoadDtosProductGroupDisplayNameAsync(IEnumerable<ProductDto> dtos)
         {
-            var dict = (await _productTypeRepository.GetListAsync()).ToDictionary(x => x.Id, x => x.UniqueName);
+            var dict = _options.Groups.GetConfigurationsDictionary();
 
             foreach (var dto in dtos)
             {
-                dto.ProductTypeUniqueName = dict[dto.ProductTypeId];
+                dto.ProductGroupDisplayName = dict[dto.ProductGroupName].DisplayName;
             }
+
+            return Task.CompletedTask;
         }
 
         public virtual async Task<ProductDto> GetByCodeAsync(string code, Guid storeId)
@@ -236,16 +241,16 @@ namespace EasyAbp.EShop.Products.Products
             await CheckGetPolicyAsync();
 
             var product = await _repository.GetAsync(x => x.UniqueName == code);
-            
+
             if (!product.IsPublished)
             {
                 await CheckStoreIsProductOwnerAsync(product.Id, storeId);
             }
-            
+
             var dto = MapToGetOutputDto(product);
-            
+
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
@@ -254,9 +259,10 @@ namespace EasyAbp.EShop.Products.Products
         {
             await CheckGetListPolicyAsync();
 
-            // Todo: Check if current user is an admin of the store.
-            var isCurrentUserStoreAdmin = true && await AuthorizationService.IsGrantedAsync(ProductsPermissions.Products.Default);
-            
+            var isCurrentUserStoreAdmin =
+                await AuthorizationService.IsMultiStoreGrantedAsync(input.StoreId,
+                    ProductsPermissions.Products.Default, ProductsPermissions.Products.CrossStore);
+
             if (input.ShowHidden && !isCurrentUserStoreAdmin)
             {
                 throw new NotAllowedToGetProductListWithShowHiddenException();
@@ -264,7 +270,7 @@ namespace EasyAbp.EShop.Products.Products
 
             // Todo: Products cache.
             var query = CreateFilteredQuery(input);
-            
+
             if (!isCurrentUserStoreAdmin)
             {
                 query = query.Where(x => x.IsPublished);
@@ -278,31 +284,32 @@ namespace EasyAbp.EShop.Products.Products
             var products = await AsyncExecuter.ToListAsync(query);
 
             var items = new List<ProductDto>();
-            
+
             foreach (var product in products)
             {
                 var productDto = MapToGetListOutputDto(product);
-                
+
                 await LoadDtoExtraDataAsync(product, productDto, input.StoreId);
 
                 items.Add(productDto);
             }
-            
-            await LoadDtosProductTypeUniqueNameAsync(items);
-            
+
+            await LoadDtosProductGroupDisplayNameAsync(items);
+
             return new PagedResultDto<ProductDto>(totalCount, items);
         }
-        
-        protected virtual async Task<ProductDto> LoadDtoInventoryDataAsync(Product product, ProductDto productDto, Guid storeId)
+
+        protected virtual async Task<ProductDto> LoadDtoInventoryDataAsync(Product product, ProductDto productDto,
+            Guid storeId)
         {
             var inventoryDataDict = await _productInventoryProvider.GetInventoryDataDictionaryAsync(product, storeId);
 
             productDto.Sold = 0;
-            
+
             foreach (var productSkuDto in productDto.ProductSkus)
             {
                 var inventoryData = inventoryDataDict[productSkuDto.Id];
-                
+
                 productSkuDto.Inventory = inventoryData.Inventory;
                 productSkuDto.Sold = inventoryData.Sold;
                 productDto.Sold += productSkuDto.Sold;
@@ -342,10 +349,11 @@ namespace EasyAbp.EShop.Products.Products
 
         public async Task DeleteAsync(Guid id, Guid storeId)
         {
-            await CheckDeletePolicyAsync();
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, DeletePolicyName,
+                ProductsPermissions.Products.CrossStore);
 
             var product = await GetEntityByIdAsync(id);
-            
+
             CheckProductIsNotStatic(product);
 
             await CheckStoreIsProductOwnerAsync(id, storeId);
@@ -363,34 +371,37 @@ namespace EasyAbp.EShop.Products.Products
 
         public async Task<ProductDto> CreateSkuAsync(Guid productId, Guid storeId, CreateProductSkuDto input)
         {
-            await CheckUpdatePolicyAsync();
-            
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
+
             await CheckStoreIsProductOwnerAsync(productId, storeId);
-            
+
             var product = await GetEntityByIdAsync(productId);
 
             CheckProductIsNotStatic(product);
-            
+
             var sku = ObjectMapper.Map<CreateProductSkuDto, ProductSku>(input);
 
             EntityHelper.TrySetId(sku, GuidGenerator.Create);
 
             await _productManager.CreateSkuAsync(product, sku);
-            
+
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
-        
-        public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input)
+
+        public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId,
+            UpdateProductSkuDto input)
         {
-            await CheckUpdatePolicyAsync();
-            
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
+
             await CheckStoreIsProductOwnerAsync(productId, storeId);
-            
+
             var product = await GetEntityByIdAsync(productId);
 
             CheckProductIsNotStatic(product);
@@ -400,23 +411,24 @@ namespace EasyAbp.EShop.Products.Products
             ObjectMapper.Map(input, sku);
 
             await _productManager.UpdateSkuAsync(product, sku);
-            
+
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
         }
 
         public async Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId)
         {
-            await CheckUpdatePolicyAsync();
-            
+            await AuthorizationService.CheckMultiStorePolicyAsync(storeId, UpdatePolicyName,
+                ProductsPermissions.Products.CrossStore);
+
             await CheckStoreIsProductOwnerAsync(productId, storeId);
-            
+
             var product = await GetEntityByIdAsync(productId);
-            
+
             CheckProductIsNotStatic(product);
 
             var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
@@ -426,9 +438,23 @@ namespace EasyAbp.EShop.Products.Products
             var dto = MapToGetOutputDto(product);
             
             await LoadDtoExtraDataAsync(product, dto, storeId);
-            await LoadDtosProductTypeUniqueNameAsync(new[] {dto});
+            await LoadDtosProductGroupDisplayNameAsync(new[] {dto});
 
             return dto;
+        }
+
+        public virtual Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync()
+        {
+            var dict = _options.Groups.GetConfigurationsDictionary();
+
+            return Task.FromResult(new ListResultDto<ProductGroupDto>(dict.Select(x =>
+                new ProductGroupDto
+                {
+                    Name = x.Key,
+                    DisplayName = x.Value.DisplayName,
+                    Description = x.Value.Description
+                }
+            ).ToList()));
         }
     }
 }

@@ -1,5 +1,7 @@
+using EasyAbp.EShop.Stores.Transactions;
 using EasyAbp.EShop.Stores.Stores;
 using System;
+using EasyAbp.EShop.Stores.StoreOwners;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -44,8 +46,27 @@ namespace EasyAbp.EShop.Stores.EntityFrameworkCore
             builder.Entity<Store>(b =>
             {
                 b.ToTable(options.TablePrefix + "Stores", options.Schema);
-                b.ConfigureByConvention(); 
+                b.ConfigureByConvention();
                 /* Configure more properties here */
+            });
+
+            builder.Entity<StoreOwner>(b =>
+            {
+                b.ToTable(options.TablePrefix + "StoreOwners", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+
+                b.HasIndex(x => new {x.OwnerUserId, x.StoreId})
+                    .IsUnique();
+            });
+
+
+            builder.Entity<Transaction>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Transactions", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+                b.Property(x => x.Amount).HasColumnType("decimal(20,8)");
             });
         }
     }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories.Dtos;
 using EasyAbp.EShop.Products.Permissions;
+using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -34,10 +35,7 @@ namespace EasyAbp.EShop.Products.Categories
 
         public override async Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoryListDto input)
         {
-            // Todo: Check if current user is an admin of the store.
-            var isCurrentUserStoreAdmin = true && await AuthorizationService.IsGrantedAsync(ProductsPermissions.Categories.Default);
-            
-            if (input.ShowHidden && !isCurrentUserStoreAdmin)
+            if (input.ShowHidden && !await AuthorizationService.IsGrantedAsync(ProductsPermissions.Categories.ShowHidden))
             {
                 throw new NotAllowedToGetCategoryListWithShowHiddenException();
             }

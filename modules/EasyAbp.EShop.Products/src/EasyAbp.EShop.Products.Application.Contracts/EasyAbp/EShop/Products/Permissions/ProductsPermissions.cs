@@ -6,11 +6,6 @@ namespace EasyAbp.EShop.Products.Permissions
     {
         public const string GroupName = "EasyAbp.EShop.Products";
 
-        public class ProductTypes
-        {
-            public const string Default = GroupName + ".ProductType";
-        }
-        
         public class Categories
         {
             public const string Default = GroupName + ".Category";
@@ -18,6 +13,7 @@ namespace EasyAbp.EShop.Products.Permissions
             public const string Delete = Default + ".Delete";
             public const string Update = Default + ".Update";
             public const string Create = Default + ".Create";
+            public const string ShowHidden = Default + ".ShowHidden";
         }
 
         public class Products

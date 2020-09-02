@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public DateTime ProductDetailModificationTime { get; set; }
         
-        public string ProductTypeUniqueName { get; set; }
+        public string ProductGroupName { get; set; }
         
         public string ProductUniqueName { get; set; }
 
@@ -34,6 +34,8 @@ namespace EasyAbp.EShop.Orders.Orders
         public decimal TotalPrice { get; set; }
         
         public decimal TotalDiscount { get; set; }
+        
+        public decimal ActualTotalPrice { get; set; }
 
         public int Quantity { get; set; }
         

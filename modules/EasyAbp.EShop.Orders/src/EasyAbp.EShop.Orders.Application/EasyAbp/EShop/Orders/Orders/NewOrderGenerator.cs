@@ -44,10 +44,14 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var orderLine in input.OrderLines)
             {
-                orderLines.Add(await GenerateNewOrderLineAsync(orderLine, productDict));
+                orderLines.Add(await GenerateOrderLineAsync(orderLine, productDict, orderExtraProperties));
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
+
+            // Todo: totalPrice may contain other fee.
+            var totalPrice = productTotalPrice;
+            var totalDiscount = orderLines.Select(x => x.TotalDiscount).Sum();
             
             var order = new Order(
                 id: _guidGenerator.Create(),
@@ -56,8 +60,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 customerUserId: _currentUser.GetId(),
                 currency: await GetStoreCurrencyAsync(input.StoreId),
                 productTotalPrice: productTotalPrice,
-                totalDiscount: orderLines.Select(x => x.TotalDiscount).Sum(),
-                totalPrice: productTotalPrice,
+                totalDiscount: totalDiscount,
+                totalPrice: totalPrice,
+                actualTotalPrice: totalPrice - totalDiscount,
                 customerRemark: input.CustomerRemark);
 
             foreach (var orderExtraProperty in orderExtraProperties)
@@ -72,7 +77,7 @@ namespace EasyAbp.EShop.Orders.Orders
             return order;
         }
 
-        protected virtual async Task<OrderLine> GenerateNewOrderLineAsync(CreateOrderLineDto input, Dictionary<Guid, ProductDto> productDict)
+        protected virtual async Task<OrderLine> GenerateOrderLineAsync(CreateOrderLineDto input, Dictionary<Guid, ProductDto> productDict, Dictionary<string, object> orderExtraProperties)
         {
             var product = productDict[input.ProductId];
             var productSku = product.GetSkuById(input.ProductSkuId);
@@ -81,6 +86,8 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, input.Quantity);
             }
+
+            var totalPrice = productSku.Price * input.Quantity;
             
             return new OrderLine(
                 id: _guidGenerator.Create(),
@@ -88,7 +95,8 @@ namespace EasyAbp.EShop.Orders.Orders
                 productSkuId: productSku.Id,
                 productModificationTime: product.LastModificationTime ?? product.CreationTime,
                 productDetailModificationTime: productSku.LastModificationTime ?? productSku.CreationTime,
-                productTypeUniqueName: product.ProductTypeUniqueName,
+                productGroupName: product.ProductGroupName,
+                productGroupDisplayName: product.ProductGroupDisplayName,
                 productUniqueName: product.UniqueName,
                 productDisplayName: product.DisplayName,
                 skuName: productSku.Name,
@@ -96,8 +104,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 mediaResources: product.MediaResources,
                 currency: productSku.Currency,
                 unitPrice: productSku.Price,
-                totalPrice: productSku.Price * input.Quantity,
+                totalPrice: totalPrice,
                 totalDiscount: 0,
+                actualTotalPrice: totalPrice,
                 quantity: input.Quantity
             );
         }

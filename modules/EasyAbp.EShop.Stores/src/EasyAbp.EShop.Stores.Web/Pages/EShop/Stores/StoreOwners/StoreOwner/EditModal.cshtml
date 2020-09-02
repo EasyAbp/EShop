@@ -1,0 +1,20 @@
+@page
+@using EasyAbp.EShop.Stores.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.StoreOwners.StoreOwner
+@inject IHtmlLocalizer<StoresResource> L
+@model EditModalModel
+@{
+    Layout = null;
+}
+<abp-dynamic-form abp-model="StoreOwner" data-ajaxForm="true" asp-page="EditModal">
+    <abp-modal>
+        <abp-modal-header title="@L["EditStore"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-input asp-for="Id" />
+            <abp-form-content />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</abp-dynamic-form>

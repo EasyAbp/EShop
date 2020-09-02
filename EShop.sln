@@ -305,6 +305,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{D261
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EShopSample", "EShopSample", "{FE0A5FD6-AEE7-4738-9A6D-261BF086704D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Stores.Application.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Shared\EasyAbp.EShop.Stores.Application.Shared.csproj", "{06700175-4E04-4993-A1FB-24E7A8835E19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -795,6 +797,10 @@ Global
 		{5929D955-4E2C-4E84-B9D7-F32A3375A1AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5929D955-4E2C-4E84-B9D7-F32A3375A1AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5929D955-4E2C-4E84-B9D7-F32A3375A1AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06700175-4E04-4993-A1FB-24E7A8835E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06700175-4E04-4993-A1FB-24E7A8835E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06700175-4E04-4993-A1FB-24E7A8835E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06700175-4E04-4993-A1FB-24E7A8835E19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -947,6 +953,7 @@ Global
 		{F5CD8112-382D-42AC-9D91-46B91D64FACB} = {9333EF8D-0A21-4586-81EB-9C39ECA2873C}
 		{5929D955-4E2C-4E84-B9D7-F32A3375A1AA} = {9333EF8D-0A21-4586-81EB-9C39ECA2873C}
 		{FE0A5FD6-AEE7-4738-9A6D-261BF086704D} = {D261DC47-83D7-4B7C-941E-E27291C78A52}
+		{06700175-4E04-4993-A1FB-24E7A8835E19} = {8CB54A0E-BAAE-4D10-81B5-6F902A7950EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

@@ -1,0 +1,63 @@
+@page
+@using EasyAbp.EShop.Stores.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Stores.Localization
+@using EasyAbp.EShop.Stores.Web.Menus
+@model EasyAbp.EShop.Stores.Web.Pages.EShop.Stores.Transactions.Transaction.IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<StoresResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["Transaction"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Transaction"].Value);
+    PageLayout.Content.MenuItemName = StoresMenus.Transaction;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Stores/Transactions/Transaction/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Stores/Transactions/Transaction/index.css"/>
+}
+
+<script>
+    var storeId = '@Model.StoreId';
+</script>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Transaction"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(StoresPermissions.Transaction.Create))
+                { 
+                <abp-button id="NewTransactionButton"
+                            text="@L["CreateTransaction"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="TransactionTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["TransactionStoreId"]</th>
+                <th>@L["TransactionOrderId"]</th>
+                <th>@L["TransactionTransactionType"]</th>
+                <th>@L["TransactionActionName"]</th>
+                <th>@L["TransactionCurrency"]</th>
+                <th>@L["TransactionAmount"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

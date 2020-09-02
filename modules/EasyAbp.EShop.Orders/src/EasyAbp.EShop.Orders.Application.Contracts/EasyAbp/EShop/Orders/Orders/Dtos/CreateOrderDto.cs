@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
-    public class CreateOrderDto : IHasExtraProperties, IValidatableObject
+    public class CreateOrderDto : IHasExtraProperties, IValidatableObject, IMultiStore
     {
         [DisplayName("OrderStoreId")]
         public Guid StoreId { get; set; }
