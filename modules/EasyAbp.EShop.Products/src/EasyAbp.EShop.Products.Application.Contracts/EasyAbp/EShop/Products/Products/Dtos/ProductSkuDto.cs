@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class ProductSkuDto : FullAuditedEntityDto<Guid>
+    public class ProductSkuDto : FullAuditedEntityDto<Guid>, IHasExtraProperties
     {
         public List<Guid> AttributeOptionIds { get; set; }
         
@@ -32,5 +33,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public string MediaResources { get; set; }
         
         public Guid? ProductDetailId { get; set; }
+        
+        public Dictionary<string, object> ExtraProperties { get; set; }
     }
 }

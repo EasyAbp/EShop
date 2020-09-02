@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -23,5 +24,7 @@ namespace EasyAbp.EShop.Products.Products
         public string MediaResources { get; set; }
 
         public Guid? ProductDetailId { get; set; }
+        
+        public Dictionary<string, object> ExtraProperties { get; set; }
     }
 }

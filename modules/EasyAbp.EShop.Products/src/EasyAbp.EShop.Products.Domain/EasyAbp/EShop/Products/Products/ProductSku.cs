@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
@@ -26,9 +28,15 @@ namespace EasyAbp.EShop.Products.Products
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
 
-        public Guid? ProductDetailId { get; set; }
+        public virtual Guid? ProductDetailId { get; protected set; }
+        
+        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
-        protected ProductSku() {}
+        protected ProductSku()
+        {
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
+        }
         
         public ProductSku(
             Guid id,
@@ -51,6 +59,9 @@ namespace EasyAbp.EShop.Products.Products
             OrderMaxQuantity = orderMaxQuantity;
             MediaResources = mediaResources;
             ProductDetailId = productDetailId;
+            
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
 
         public void TrimCode()

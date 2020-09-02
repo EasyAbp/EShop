@@ -41,6 +41,7 @@ namespace EasyAbp.EShop.Payments.Payments
         private PaymentItem()
         {
             ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
     }
 }
