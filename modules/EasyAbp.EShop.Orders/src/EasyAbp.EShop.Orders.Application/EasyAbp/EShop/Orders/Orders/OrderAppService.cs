@@ -6,13 +6,10 @@ using EasyAbp.EShop.Orders.Authorization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Stores.Authorization;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Application.Services;
-using Volo.Abp.Authorization;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -87,7 +84,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public override async Task<OrderDto> CreateAsync(CreateOrderDto input)
         {
-            await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
+            await CheckCreatePolicyAsync();
 
             // Todo: Check if the store is open.
 
@@ -134,6 +131,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual async Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
         {
+            await CheckGetPolicyAsync();
+
             var order = await _repository.GetAsync(x => x.OrderNumber == orderNumber);
 
             if (order.CustomerUserId != CurrentUser.GetId())
