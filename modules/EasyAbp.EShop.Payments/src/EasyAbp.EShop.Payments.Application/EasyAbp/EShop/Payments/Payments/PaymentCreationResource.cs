@@ -10,7 +10,5 @@ namespace EasyAbp.EShop.Payments.Payments
         public CreatePaymentDto Input { get; set; }
         
         public List<OrderDto> Orders { get; set; }
-        
-        public CreatePaymentEto CreatePaymentEto { get; set; }
     }
 }

@@ -83,6 +83,15 @@ namespace EasyAbp.EShop.Payments.Payments
             {
                 orders.Add(await _orderAppService.GetAsync(orderId));
             }
+            
+            await AuthorizationService.CheckAsync(
+                new PaymentCreationResource
+                {
+                    Input = input,
+                    Orders = orders
+                },
+                new PaymentOperationAuthorizationRequirement(PaymentOperation.Creation)
+            );
 
             var createPaymentEto = new CreatePaymentEto
             {
@@ -100,14 +109,6 @@ namespace EasyAbp.EShop.Payments.Payments
                 }).ToList()
             };
 
-            await AuthorizationService.CheckAsync(new PaymentCreationResource
-                {
-                    Input = input,
-                    Orders = orders,
-                    CreatePaymentEto = createPaymentEto
-                },
-                new PaymentOperationAuthorizationRequirement(PaymentOperation.Creation));
-            
             await _distributedEventBus.PublishAsync(createPaymentEto);
         }
     }
