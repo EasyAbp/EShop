@@ -1,8 +1,9 @@
 ﻿using System;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public interface IProductSku
+    public interface IProductSku : IHasExtraProperties
     {
         string SerializedAttributeOptionIds { get; }
         

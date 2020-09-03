@@ -31,8 +31,10 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         protected RefundItem()
         {
-            ExtraProperties = new Dictionary<string, object>();
             RefundItemOrderLines = new List<RefundItemOrderLine>();
+            
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
         
         public void SetStoreId(Guid storeId)

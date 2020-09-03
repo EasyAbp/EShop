@@ -44,7 +44,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var orderLine in input.OrderLines)
             {
-                orderLines.Add(await GenerateNewOrderLineAsync(orderLine, productDict));
+                orderLines.Add(await GenerateOrderLineAsync(orderLine, productDict, orderExtraProperties));
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
@@ -77,7 +77,7 @@ namespace EasyAbp.EShop.Orders.Orders
             return order;
         }
 
-        protected virtual async Task<OrderLine> GenerateNewOrderLineAsync(CreateOrderLineDto input, Dictionary<Guid, ProductDto> productDict)
+        protected virtual async Task<OrderLine> GenerateOrderLineAsync(CreateOrderLineDto input, Dictionary<Guid, ProductDto> productDict, Dictionary<string, object> orderExtraProperties)
         {
             var product = productDict[input.ProductId];
             var productSku = product.GetSkuById(input.ProductSkuId);

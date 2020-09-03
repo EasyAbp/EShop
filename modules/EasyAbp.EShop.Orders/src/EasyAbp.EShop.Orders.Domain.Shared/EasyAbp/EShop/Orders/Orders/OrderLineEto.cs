@@ -17,6 +17,8 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public string ProductGroupName { get; set; }
         
+        public string ProductGroupDisplayName { get; set; }
+
         public string ProductUniqueName { get; set; }
 
         public string ProductDisplayName { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {

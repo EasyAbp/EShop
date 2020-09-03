@@ -31,9 +31,15 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
-        public Guid? ProductDetailId { get; set; }
+        public virtual Guid? ProductDetailId { get; protected set; }
+        
+        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
-        protected ProductSku() {}
+        protected ProductSku()
+        {
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
+        }
         
         public ProductSku(
             Guid id,
@@ -56,6 +62,9 @@ namespace EasyAbp.EShop.Products.Products
             OrderMaxQuantity = orderMaxQuantity;
             MediaResources = mediaResources;
             ProductDetailId = productDetailId;
+            
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
 
         public void TrimCode()
