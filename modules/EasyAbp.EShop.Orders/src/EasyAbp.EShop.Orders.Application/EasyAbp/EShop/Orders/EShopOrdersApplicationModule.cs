@@ -1,5 +1,7 @@
-﻿using EasyAbp.EShop.Products;
+﻿using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
@@ -18,6 +20,11 @@ namespace EasyAbp.EShop.Orders
         )]
     public class EShopOrdersApplicationModule : AbpModule
     {
+        public override void PreConfigureServices(ServiceConfigurationContext context)
+        {
+            context.Services.AddSingleton<IAuthorizationHandler, BasicOrderCreationAuthorizationHandler>();
+        }
+
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAutoMapperObjectMapper<EShopOrdersApplicationModule>();

@@ -6,13 +6,10 @@ using EasyAbp.EShop.Orders.Authorization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Stores.Authorization;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Application.Services;
-using Volo.Abp.Authorization;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -28,20 +25,17 @@ namespace EasyAbp.EShop.Orders.Orders
 
         private readonly INewOrderGenerator _newOrderGenerator;
         private readonly IProductAppService _productAppService;
-        private readonly IPurchasableChecker _purchasableChecker;
         private readonly IOrderManager _orderManager;
         private readonly IOrderRepository _repository;
 
         public OrderAppService(
             INewOrderGenerator newOrderGenerator,
             IProductAppService productAppService,
-            IPurchasableChecker purchasableChecker,
             IOrderManager orderManager,
             IOrderRepository repository) : base(repository)
         {
             _newOrderGenerator = newOrderGenerator;
             _productAppService = productAppService;
-            _purchasableChecker = purchasableChecker;
             _orderManager = orderManager;
             _repository = repository;
         }
@@ -87,18 +81,23 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public override async Task<OrderDto> CreateAsync(CreateOrderDto input)
         {
-            await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
+            await CheckCreatePolicyAsync();
 
             // Todo: Check if the store is open.
 
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList(),
                 input.StoreId);
 
-            var orderExtraProperties = new Dictionary<string, object>();
+            await AuthorizationService.CheckAsync(
+                new OrderCreationResource
+                {
+                    Input = input,
+                    ProductDictionary = productDict
+                },
+                new OrderOperationAuthorizationRequirement(OrderOperation.Creation)
+            );
 
-            await _purchasableChecker.CheckAsync(input, productDict, orderExtraProperties);
-
-            var order = await _newOrderGenerator.GenerateAsync(input, productDict, orderExtraProperties);
+            var order = await _newOrderGenerator.GenerateAsync(input, productDict);
 
             await _orderManager.DiscountAsync(order, input.ExtraProperties);
 
@@ -134,6 +133,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual async Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
         {
+            await CheckGetPolicyAsync();
+
             var order = await _repository.GetAsync(x => x.OrderNumber == orderNumber);
 
             if (order.CustomerUserId != CurrentUser.GetId())

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.Products.Dtos;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface INewOrderGenerator
+    public class OrderCreationResource
     {
-        Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict);
+        public CreateOrderDto Input { get; set; }
+        
+        public Dictionary<Guid, ProductDto> ProductDictionary { get; set; }
     }
 }

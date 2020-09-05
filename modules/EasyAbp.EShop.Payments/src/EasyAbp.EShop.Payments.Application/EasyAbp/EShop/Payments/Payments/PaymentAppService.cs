@@ -2,14 +2,12 @@ using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Payments.Authorization;
 using EasyAbp.EShop.Payments.Payments.Dtos;
-using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.PaymentService.Payments;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -24,18 +22,15 @@ namespace EasyAbp.EShop.Payments.Payments
         protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
         protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
 
-        private readonly IPayableChecker _payableChecker;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderAppService _orderAppService;
         private readonly IPaymentRepository _repository;
         
         public PaymentAppService(
-            IPayableChecker payableChecker,
             IDistributedEventBus distributedEventBus,
             IOrderAppService orderAppService,
             IPaymentRepository repository) : base(repository)
         {
-            _payableChecker = payableChecker;
             _distributedEventBus = distributedEventBus;
             _orderAppService = orderAppService;
             _repository = repository;
@@ -88,6 +83,15 @@ namespace EasyAbp.EShop.Payments.Payments
             {
                 orders.Add(await _orderAppService.GetAsync(orderId));
             }
+            
+            await AuthorizationService.CheckAsync(
+                new PaymentCreationResource
+                {
+                    Input = input,
+                    Orders = orders
+                },
+                new PaymentOperationAuthorizationRequirement(PaymentOperation.Creation)
+            );
 
             var createPaymentEto = new CreatePaymentEto
             {
@@ -105,8 +109,6 @@ namespace EasyAbp.EShop.Payments.Payments
                 }).ToList()
             };
 
-            await _payableChecker.CheckAsync(input, orders, createPaymentEto);
-            
             await _distributedEventBus.PublishAsync(createPaymentEto);
         }
     }
