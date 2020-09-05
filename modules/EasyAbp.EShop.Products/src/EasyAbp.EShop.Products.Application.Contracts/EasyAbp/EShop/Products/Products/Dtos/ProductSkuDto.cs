@@ -5,6 +5,7 @@ using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
+    [Serializable]
     public class ProductSkuDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         public List<Guid> AttributeOptionIds { get; set; }

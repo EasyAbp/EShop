@@ -5,6 +5,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Stores.StoreOwners.Dtos
 {
+    [Serializable]
     public class CreateUpdateStoreOwnerDto : ExtensibleObject, IMultiStore
     {
         [Required]

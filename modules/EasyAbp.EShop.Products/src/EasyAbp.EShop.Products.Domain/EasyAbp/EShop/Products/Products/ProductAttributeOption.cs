@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductAttributeOption : FullAuditedEntity<Guid>, IProductAttributeOption, IHasExtraProperties
+    public class ProductAttributeOption : FullAuditedEntity<Guid>, IProductAttributeOption
     {
         [NotNull]
         public virtual string DisplayName { get; protected set; }
@@ -18,7 +18,11 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
-        protected ProductAttributeOption() {}
+        protected ProductAttributeOption()
+        {
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
+        }
         
         public ProductAttributeOption(
             Guid id,
@@ -29,6 +33,9 @@ namespace EasyAbp.EShop.Products.Products
             DisplayName = displayName;
             Description = description;
             DisplayOrder = displayOrder;
+            
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
     }
 }

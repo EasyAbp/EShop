@@ -7,6 +7,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Stores.Stores.Dtos
 {
+    [Serializable]
     public class CreateUpdateStoreDto : ExtensibleObject
     {
         [Required]

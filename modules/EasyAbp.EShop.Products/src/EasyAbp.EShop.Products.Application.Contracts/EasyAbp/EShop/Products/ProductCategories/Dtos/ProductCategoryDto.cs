@@ -3,6 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.ProductCategories.Dtos
 {
+    [Serializable]
     public class ProductCategoryDto : ExtensibleAuditedEntityDto<Guid>
     {
         public Guid CategoryId { get; set; }

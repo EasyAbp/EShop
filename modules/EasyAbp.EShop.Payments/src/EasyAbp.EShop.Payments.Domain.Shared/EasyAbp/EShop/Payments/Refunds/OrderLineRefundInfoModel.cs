@@ -2,6 +2,7 @@
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
+    [Serializable]
     public class OrderLineRefundInfoModel
     {
         public Guid OrderLineId { get; set; }

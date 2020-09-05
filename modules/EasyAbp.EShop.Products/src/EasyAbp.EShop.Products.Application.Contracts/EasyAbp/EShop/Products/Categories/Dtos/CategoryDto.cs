@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Categories.Dtos
 {
+    [Serializable]
     public class CategoryDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         public string UniqueName { get; set; }

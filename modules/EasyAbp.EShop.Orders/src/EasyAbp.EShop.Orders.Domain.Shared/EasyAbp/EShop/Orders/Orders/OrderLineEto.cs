@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
@@ -44,5 +45,7 @@ namespace EasyAbp.EShop.Orders.Orders
         public int RefundedQuantity { get; set; }
         
         public decimal RefundAmount { get; set; }
+        
+        public Dictionary<string, object> ExtraProperties { get; set; }
     }
 }

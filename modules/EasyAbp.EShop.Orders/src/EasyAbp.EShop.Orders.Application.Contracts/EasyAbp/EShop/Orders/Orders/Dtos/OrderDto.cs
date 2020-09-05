@@ -4,6 +4,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
+    [Serializable]
     public class OrderDto : ExtensibleFullAuditedEntityDto<Guid>, IOrder
     {
         public Guid StoreId { get; set; }

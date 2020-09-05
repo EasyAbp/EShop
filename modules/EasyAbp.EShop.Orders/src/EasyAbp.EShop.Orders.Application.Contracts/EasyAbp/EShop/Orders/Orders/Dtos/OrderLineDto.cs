@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
+    [Serializable]
     public class OrderLineDto : FullAuditedEntityDto<Guid>, IOrderLine
     {
         public Guid ProductId { get; set; }
@@ -42,5 +44,7 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public int RefundedQuantity { get; set; }
         
         public decimal RefundAmount { get; set; }
+        
+        public Dictionary<string, object> ExtraProperties { get; set; }
     }
 }

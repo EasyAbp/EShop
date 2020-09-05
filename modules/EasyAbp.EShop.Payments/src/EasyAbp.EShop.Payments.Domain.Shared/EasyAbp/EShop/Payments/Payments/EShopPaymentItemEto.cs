@@ -6,7 +6,7 @@ using Volo.Abp.Data;
 namespace EasyAbp.EShop.Payments.Payments
 {
     [Serializable]
-    public class EShopPaymentItemEto : IPaymentItem, IHasExtraProperties
+    public class EShopPaymentItemEto : IPaymentItem
     {
         #region Base properties
 

@@ -7,6 +7,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
+    [Serializable]
     public class CreateUpdateProductDto : ExtensibleObject
     {
         [DisplayName("ProductProductGroupName")]

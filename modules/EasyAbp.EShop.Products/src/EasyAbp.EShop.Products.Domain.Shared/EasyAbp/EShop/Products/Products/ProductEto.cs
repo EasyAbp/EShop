@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace EasyAbp.EShop.Products.Products
 {
+    [Serializable]
     public class ProductEto : IProduct
     {
         public Guid Id { get; set; }

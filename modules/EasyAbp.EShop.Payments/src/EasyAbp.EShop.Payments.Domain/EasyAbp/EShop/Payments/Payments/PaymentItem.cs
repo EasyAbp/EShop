@@ -8,7 +8,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
-    public class PaymentItem : FullAuditedEntity<Guid>, IPaymentItem, IHasExtraProperties, IMultiStore
+    public class PaymentItem : FullAuditedEntity<Guid>, IPaymentItem, IMultiStore
     {
         #region Base properties
 

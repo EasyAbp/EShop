@@ -1,8 +1,9 @@
 ﻿using System;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IOrderLine
+    public interface IOrderLine : IHasExtraProperties
     {
         Guid ProductId { get; }
         

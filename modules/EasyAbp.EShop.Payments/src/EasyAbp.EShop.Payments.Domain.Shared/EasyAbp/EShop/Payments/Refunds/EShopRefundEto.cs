@@ -7,7 +7,7 @@ using Volo.Abp.MultiTenancy;
 namespace EasyAbp.EShop.Payments.Refunds
 {
     [Serializable]
-    public class EShopRefundEto : IRefund, IMultiTenant, IHasExtraProperties
+    public class EShopRefundEto : IRefund, IMultiTenant
     {
         #region Base properties
 

@@ -5,6 +5,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Categories.Dtos
 {
+    [Serializable]
     public class CreateUpdateCategoryDto : ExtensibleObject
     {
         [DisplayName("CategoryUniqueName")]

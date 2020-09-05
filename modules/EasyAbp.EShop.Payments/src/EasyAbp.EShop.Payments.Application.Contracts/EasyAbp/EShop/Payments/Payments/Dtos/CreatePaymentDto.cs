@@ -6,6 +6,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
+    [Serializable]
     public class CreatePaymentDto : ExtensibleObject
     {
         public string PaymentMethod { get; set; }

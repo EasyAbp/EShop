@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -51,8 +53,14 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual int RefundedQuantity { get; protected set; }
         
         public virtual decimal RefundAmount { get; protected set; }
+        
+        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
 
-        protected OrderLine() {}
+        protected OrderLine()
+        {
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
+        }
 
         public OrderLine(
             Guid id,
@@ -94,6 +102,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
             RefundedQuantity = 0;
             RefundAmount = 0;
+            
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
 
         internal void Refund(int quantity, decimal amount)

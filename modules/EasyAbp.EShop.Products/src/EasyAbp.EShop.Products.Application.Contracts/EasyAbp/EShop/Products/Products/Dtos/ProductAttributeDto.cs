@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
+    [Serializable]
     public class ProductAttributeDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         [Required]

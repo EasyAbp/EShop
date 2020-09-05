@@ -34,6 +34,7 @@ namespace EasyAbp.EShop.Products.Web
                             .Select(a => a.ProductAttributeOptions.Select(o => o.DisplayName).JoinAsString(","))
                             .JoinAsString(Environment.NewLine)));
             CreateMap<CreateEditProductViewModel, CreateUpdateProductDto>()
+                .Ignore(dto => dto.ExtraProperties)
                 .Ignore(dto => dto.ProductDetailId)
                 .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
                 .ForMember(dest => dest.ProductAttributes,
@@ -49,19 +50,24 @@ namespace EasyAbp.EShop.Products.Web
                             })));
             CreateMap<ProductDetailDto, CreateEditProductDetailViewModel>()
                 .Ignore(model => model.StoreId);
-            CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>();
+            CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>()
+                .Ignore(dto => dto.ExtraProperties);
             CreateMap<ProductAttributeDto, CreateEditProductAttributeViewModel>();
-            CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>();
+            CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>()
+                .Ignore(dto => dto.ExtraProperties);
             CreateMap<CreateProductSkuViewModel, CreateProductSkuDto>()
+                .Ignore(dto => dto.ExtraProperties)
                 .ForSourceMember(model => model.Inventory, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.AttributeOptionIds);
-            CreateMap<EditProductSkuViewModel, UpdateProductSkuDto>();
+            CreateMap<EditProductSkuViewModel, UpdateProductSkuDto>()
+                .Ignore(dto => dto.ExtraProperties);
             CreateMap<ProductSkuDto, EditProductSkuViewModel>()
                 .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.Inventory, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate());
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
-            CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>();
+            CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>()
+                .Ignore(dto => dto.ExtraProperties);
             CreateMap<CategoryDto, CreateUpdateCategoryDto>();
         }
     }

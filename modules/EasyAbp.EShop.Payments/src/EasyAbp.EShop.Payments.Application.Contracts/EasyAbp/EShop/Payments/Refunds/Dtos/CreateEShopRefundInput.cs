@@ -7,6 +7,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Refunds.Dtos
 {
+    [Serializable]
     public class CreateEShopRefundInput : ExtensibleObject
     {
         public Guid PaymentId { get; set; }

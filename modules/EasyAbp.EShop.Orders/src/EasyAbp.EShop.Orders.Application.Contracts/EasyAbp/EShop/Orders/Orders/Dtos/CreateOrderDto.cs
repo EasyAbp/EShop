@@ -8,6 +8,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
+    [Serializable]
     public class CreateOrderDto : ExtensibleObject, IMultiStore
     {
         [DisplayName("OrderStoreId")]
