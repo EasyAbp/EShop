@@ -5,7 +5,8 @@ using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class ProductSkuDto : FullAuditedEntityDto<Guid>, IHasExtraProperties
+    [Serializable]
+    public class ProductSkuDto : ExtensibleFullAuditedEntityDto<Guid>
     {
         public List<Guid> AttributeOptionIds { get; set; }
         
@@ -33,7 +34,5 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public string MediaResources { get; set; }
         
         public Guid? ProductDetailId { get; set; }
-        
-        public Dictionary<string, object> ExtraProperties { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    public class RefundItem : FullAuditedEntity<Guid>, IRefundItem, IMultiStore, IHasExtraProperties
+    public class RefundItem : FullAuditedEntity<Guid>, IRefundItem, IMultiStore
     {
         #region Base properties
 

@@ -1,6 +1,8 @@
-﻿namespace EasyAbp.EShop.Products.Products
+﻿using Volo.Abp.Data;
+
+namespace EasyAbp.EShop.Products.Products
 {
-    public interface IProductAttributeOption
+    public interface IProductAttributeOption : IHasExtraProperties
     {
         string DisplayName { get; }
         

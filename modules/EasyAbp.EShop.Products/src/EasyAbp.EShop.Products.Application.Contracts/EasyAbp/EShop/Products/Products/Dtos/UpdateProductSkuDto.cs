@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class UpdateProductSkuDto
+    [Serializable]
+    public class UpdateProductSkuDto : ExtensibleObject
     {
         [DisplayName("ProductSkuName")]
         public string Name { get; set; }
@@ -33,12 +35,5 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         [DisplayName("ProductSkuProductDetailId")]
         public Guid? ProductDetailId { get; set; }
-    }
-    
-    public class CreateProductSkuDto : UpdateProductSkuDto
-    {
-        [Required]
-        [DisplayName("ProductSkuAttributeOptionIds")]
-        public List<Guid> AttributeOptionIds { get; set; }
     }
 }

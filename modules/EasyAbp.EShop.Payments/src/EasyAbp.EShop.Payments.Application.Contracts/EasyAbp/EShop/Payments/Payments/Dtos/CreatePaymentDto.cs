@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
-    public class CreatePaymentDto : IValidatableObject
+    [Serializable]
+    public class CreatePaymentDto : ExtensibleObject
     {
         public string PaymentMethod { get; set; }
 
         public List<Guid> OrderIds { get; set; }
         
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            base.Validate(validationContext);
+            
             if (OrderIds.Count == 0)
             {
                 yield return new ValidationResult(

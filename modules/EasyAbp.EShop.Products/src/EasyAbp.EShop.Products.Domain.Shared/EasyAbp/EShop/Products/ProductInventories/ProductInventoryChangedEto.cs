@@ -3,6 +3,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.ProductInventories
 {
+    [Serializable]
     public class ProductInventoryChangedEto
     {
         public Guid ProductId { get; set; }

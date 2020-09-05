@@ -3,7 +3,8 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.ProductHistories.Dtos
 {
-    public class ProductHistoryDto : EntityDto<Guid>
+    [Serializable]
+    public class ProductHistoryDto : ExtensibleEntityDto<Guid>
     {
         public Guid ProductId { get; set; }
 

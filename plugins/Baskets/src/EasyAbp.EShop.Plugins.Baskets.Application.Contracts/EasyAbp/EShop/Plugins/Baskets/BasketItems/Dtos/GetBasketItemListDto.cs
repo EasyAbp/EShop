@@ -4,6 +4,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos
 {
+    [Serializable]
     public class GetBasketItemListDto : PagedAndSortedResultRequestDto
     {
         [Required]

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public interface IProductAttribute
+    public interface IProductAttribute : IHasExtraProperties
     {
         string DisplayName { get; }
         

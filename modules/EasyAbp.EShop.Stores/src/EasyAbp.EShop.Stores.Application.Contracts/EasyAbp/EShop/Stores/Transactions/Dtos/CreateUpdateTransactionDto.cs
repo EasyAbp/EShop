@@ -1,9 +1,11 @@
 using System;
 using System.ComponentModel;
+using Volo.Abp.ObjectExtending;
+
 namespace EasyAbp.EShop.Stores.Transactions.Dtos
 {
     [Serializable]
-    public class CreateUpdateTransactionDto
+    public class CreateUpdateTransactionDto : ExtensibleObject
     {
         public Guid StoreId { get; set; }
 

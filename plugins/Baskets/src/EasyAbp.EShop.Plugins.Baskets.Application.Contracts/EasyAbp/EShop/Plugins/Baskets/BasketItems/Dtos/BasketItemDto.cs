@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos
 {
     [Serializable]
-    public class BasketItemDto : AuditedEntityDto<Guid>
+    public class BasketItemDto : ExtensibleAuditedEntityDto<Guid>
     {
         public string BasketName { get; set; }
 

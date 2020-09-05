@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Domain" Version="1.1.7" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain" Version="1.1.7" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Domain" Version="1.1.7" />
+    <PackageReference Include="EasyAbp.PaymentService.Domain" Version="1.2.0" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain" Version="1.2.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Domain" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
     <PackageReference Include="Volo.Abp.Identity.Domain" Version="3.0.5" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="3.0.5" />

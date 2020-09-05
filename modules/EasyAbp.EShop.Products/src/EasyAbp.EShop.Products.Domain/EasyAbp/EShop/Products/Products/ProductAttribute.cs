@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
@@ -15,10 +16,14 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual int DisplayOrder { get; protected set; }
 
+        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
+
         public virtual List<ProductAttributeOption> ProductAttributeOptions { get; protected set; }
 
         protected ProductAttribute()
         {
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
         
         public ProductAttribute(
@@ -32,6 +37,9 @@ namespace EasyAbp.EShop.Products.Products
             DisplayOrder = displayOrder;
 
             ProductAttributeOptions = new List<ProductAttributeOption>();
+            
+            ExtraProperties = new Dictionary<string, object>();
+            this.SetDefaultsForExtraProperties();
         }
     }
 }

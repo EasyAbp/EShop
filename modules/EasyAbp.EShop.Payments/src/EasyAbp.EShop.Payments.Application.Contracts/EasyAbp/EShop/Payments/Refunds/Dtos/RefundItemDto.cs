@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Payments.Refunds.Dtos
 {
+    [Serializable]
     public class RefundItemDto : ExtensibleFullAuditedEntityDto<Guid>, IRefundItem
     {
         #region Base properties

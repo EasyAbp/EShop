@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using JetBrains.Annotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Refunds.Dtos
 {
-    public class CreateEShopRefundInput : IValidatableObject
+    [Serializable]
+    public class CreateEShopRefundInput : ExtensibleObject
     {
         public Guid PaymentId { get; set; }
         
@@ -21,8 +23,10 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
         
         public List<CreateEShopRefundItemInput> RefundItems { get; set; } = new List<CreateEShopRefundItemInput>();
         
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            base.Validate(validationContext);
+            
             if (RefundItems.IsNullOrEmpty())
             {
                 yield return new ValidationResult(

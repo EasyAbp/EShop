@@ -7,7 +7,7 @@ using Volo.Abp.MultiTenancy;
 namespace EasyAbp.EShop.Payments.Payments
 {
     [Serializable]
-    public class EShopPaymentEto : IPayment, IMultiTenant, IHasExtraProperties
+    public class EShopPaymentEto : IPayment, IMultiTenant
     {
         #region Base properties
 

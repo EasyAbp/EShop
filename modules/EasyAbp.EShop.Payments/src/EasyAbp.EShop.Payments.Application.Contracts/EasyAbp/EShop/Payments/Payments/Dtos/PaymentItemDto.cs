@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Payments.Payments.Dtos
 {
+    [Serializable]
     public class PaymentItemDto : ExtensibleFullAuditedEntityDto<Guid>, IPaymentItem
     {
         #region Base properties

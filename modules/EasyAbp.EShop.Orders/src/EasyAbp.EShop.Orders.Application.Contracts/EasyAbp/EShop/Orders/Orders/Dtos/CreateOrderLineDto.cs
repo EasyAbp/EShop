@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using Volo.Abp.Data;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
-    public class CreateOrderLineDto
+    [Serializable]
+    public class CreateOrderLineDto : ExtensibleObject
     {
         [DisplayName("OrderLineProductId")]
         public Guid ProductId { get; set; }

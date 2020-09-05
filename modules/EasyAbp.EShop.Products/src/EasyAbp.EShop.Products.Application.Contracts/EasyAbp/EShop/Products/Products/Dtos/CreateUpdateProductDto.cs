@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
-    public class CreateUpdateProductDto : IValidatableObject
+    [Serializable]
+    public class CreateUpdateProductDto : ExtensibleObject
     {
         [DisplayName("ProductProductGroupName")]
         public string ProductGroupName { get; set; }
@@ -44,8 +46,10 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DisplayName("ProductIsPublished")]
         public bool IsPublished { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            base.Validate(validationContext);
+            
             if (ProductAttributes.Select(a => a.DisplayName.Trim()).Distinct().Count() != ProductAttributes.Count)
             {
                 yield return new ValidationResult(

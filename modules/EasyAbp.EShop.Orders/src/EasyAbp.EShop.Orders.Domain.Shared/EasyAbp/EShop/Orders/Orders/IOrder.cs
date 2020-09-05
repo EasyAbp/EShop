@@ -1,9 +1,10 @@
 ﻿using System;
 using EasyAbp.EShop.Stores.Stores;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IOrder : IMultiStore
+    public interface IOrder : IMultiStore, IHasExtraProperties
     {
         string OrderNumber { get; }
         

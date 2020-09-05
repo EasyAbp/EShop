@@ -18,13 +18,16 @@ namespace EasyAbp.EShop.Stores.Web
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<StoreDto, CreateEditStoreViewModel>();
-            CreateMap<CreateEditStoreViewModel, CreateUpdateStoreDto>(MemberList.Source);
+            CreateMap<CreateEditStoreViewModel, CreateUpdateStoreDto>()
+                .Ignore(dto => dto.ExtraProperties);
             
             CreateMap<StoreOwnerDto, CreateEditStoreOwnerViewModel>();
-            CreateMap<CreateEditStoreOwnerViewModel, CreateUpdateStoreOwnerDto>(MemberList.Source);
-            
+            CreateMap<CreateEditStoreOwnerViewModel, CreateUpdateStoreOwnerDto>()
+                .Ignore(dto => dto.ExtraProperties);
+
             CreateMap<TransactionDto, CreateEditTransactionViewModel>();
-            CreateMap<CreateEditTransactionViewModel, CreateUpdateTransactionDto>();
+            CreateMap<CreateEditTransactionViewModel, CreateUpdateTransactionDto>()
+                .Ignore(dto => dto.ExtraProperties);
         }
     }
 }
