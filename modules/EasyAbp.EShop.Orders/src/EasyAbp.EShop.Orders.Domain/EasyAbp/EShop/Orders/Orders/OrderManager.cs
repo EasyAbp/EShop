@@ -50,6 +50,8 @@ namespace EasyAbp.EShop.Orders.Orders
             
             var providers = ServiceProvider.GetServices<IOrderCompletableCheckProvider>();
 
+            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
+            
             foreach (var provider in providers)
             {
                 await provider.CheckAsync(order);
@@ -58,13 +60,16 @@ namespace EasyAbp.EShop.Orders.Orders
             order.SetCompletionTime(_clock.Now);
             order.SetOrderStatus(OrderStatus.Completed);
 
-            _unitOfWorkManager.Current.OnCompleted(async () => await _distributedEventBus.PublishAsync(
-                new OrderCompletedEto
-                {
-                    Order = _objectMapper.Map<Order, OrderEto>(order)
-                }));
+            uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderCompletedEto
+            {
+                Order = _objectMapper.Map<Order, OrderEto>(order)
+            }));
 
-            return await _orderRepository.UpdateAsync(order, true);
+            await _orderRepository.UpdateAsync(order, true);
+
+            await uow.CompleteAsync();
+            
+            return order;
         }
 
         public virtual async Task<Order> CancelAsync(Order order, string cancellationReason)
@@ -79,16 +84,21 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw new OrderIsInWrongStageException(order.Id);
             }
 
+            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
+            
             order.SetCanceled(_clock.Now, cancellationReason);
             order.SetOrderStatus(OrderStatus.Canceled);
-            
-            _unitOfWorkManager.Current.OnCompleted(async () => await _distributedEventBus.PublishAsync(
-                new OrderCanceledEto
-                {
-                    Order = _objectMapper.Map<Order, OrderEto>(order)
-                }));
 
-            return await _orderRepository.UpdateAsync(order, true);
+            uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderCanceledEto
+            {
+                Order = _objectMapper.Map<Order, OrderEto>(order)
+            }));
+
+            await _orderRepository.UpdateAsync(order, true);
+
+            await uow.CompleteAsync();
+
+            return order;
         }
     }
 }

@@ -31,9 +31,10 @@ namespace EasyAbp.EShop.Orders.Orders
             _orderRepository = orderRepository;
         }
         
-        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EShopRefundCompletedEto eventData)
         {
+            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
+            
             using var changeTenant = _currentTenant.Change(eventData.Refund.TenantId);
 
             foreach (var refundItem in eventData.Refund.RefundItems)
@@ -46,13 +47,16 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
 
                 await _orderRepository.UpdateAsync(order, true);
-                
-                _unitOfWorkManager.Current.OnCompleted(async () => await _distributedEventBus.PublishAsync(
+
+                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(
                     new OrderRefundedEto
                     {
                         Order = _objectMapper.Map<Order, OrderEto>(order),
                         Refund = eventData.Refund
-                    }));
+                    })
+                );
+
+                await uow.CompleteAsync();
             }
         }
     }

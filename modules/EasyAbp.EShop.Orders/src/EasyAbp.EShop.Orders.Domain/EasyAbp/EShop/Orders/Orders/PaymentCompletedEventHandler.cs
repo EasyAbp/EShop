@@ -40,7 +40,6 @@ namespace EasyAbp.EShop.Orders.Orders
             _orderRepository = orderRepository;
         }
         
-        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EShopPaymentCompletedEto eventData)
         {
             var payment = eventData.Payment;
@@ -50,6 +49,8 @@ namespace EasyAbp.EShop.Orders.Orders
                 return;
             }
 
+            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
+            
             using var currentTenant = _currentTenant.Change(payment.TenantId);
 
             foreach (var item in payment.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
@@ -74,7 +75,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 await _orderRepository.UpdateAsync(order, true);
 
-                _unitOfWorkManager.Current.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderPaidEto
+                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderPaidEto
                 {
                     Order = _objectMapper.Map<Order, OrderEto>(order),
                     PaymentId = payment.Id,
@@ -82,7 +83,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 }));
             }
             
-            await _unitOfWorkManager.Current.CompleteAsync();
+            await uow.CompleteAsync();
         }
     }
 }
