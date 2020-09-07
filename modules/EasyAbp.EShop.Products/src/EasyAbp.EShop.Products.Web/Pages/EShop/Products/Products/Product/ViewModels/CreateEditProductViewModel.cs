@@ -17,7 +17,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
 
         [Required]
         [SelectItems("ProductGroups")]
-        [Display(Name = "ProductGroupName")]
+        [Display(Name = "ProductProductGroupName")]
         public string ProductGroupName { get; set; }
 
         [SelectItems("Categories")]

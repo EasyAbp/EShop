@@ -1,6 +1,7 @@
 {
   "culture": "tr",
   "texts": {
-    "ManageYourProfile":  "Profil yönetimi" 
+    "Menu:EasyAbpEShop": "EShop",
+    "ManageYourProfile":  "Profil yï¿½netimi" 
   }
 }

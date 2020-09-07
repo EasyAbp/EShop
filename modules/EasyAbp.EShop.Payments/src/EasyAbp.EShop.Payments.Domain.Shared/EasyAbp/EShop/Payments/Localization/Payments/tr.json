@@ -1,13 +1,12 @@
 {
   "culture": "tr",
   "texts": {
+    "Menu:EasyAbpEShop": "EShop",
+    "Menu:PaymentManagement": "Payments",
     "ManageYourProfile": "Profil y�netimi",
-    "Permission:Payments": "Payments",
-    "Menu:Payment": "MenuPayments",
-    "PaymentItemStoreId": "PaymentItemStoreId",
-    "Permission:Refunds": "Refunds",
-    "Menu:Refund": "MenuRefunds",
-    "Menu:RefundItem": "MenuRefundsItem",
-    "RefundItemStoreId": "RefundItemStoreId"
+    "Permission:Payments": "Payment",
+    "PaymentItemStoreId": "Store ID",
+    "Permission:Refunds": "Refund",
+    "RefundItemStoreId": "Store ID"
   }
 }

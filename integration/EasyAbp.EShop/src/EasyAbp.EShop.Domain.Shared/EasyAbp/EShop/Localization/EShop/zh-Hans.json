@@ -1,6 +1,7 @@
 {
   "culture": "zh-Hans",
   "texts": {
+    "Menu:EasyAbpEShop": "EShop 商城",
     "ManageYourProfile":  "管理个人资料" 
   }
 }

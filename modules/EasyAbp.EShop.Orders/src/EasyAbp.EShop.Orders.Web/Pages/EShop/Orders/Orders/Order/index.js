@@ -32,7 +32,8 @@ $(function () {
             { data: "orderNumber" },
             { data: "customerUserId" },
             { data: "orderStatus" },
-            { data: "totalPrice" },
+            { data: "currency" },
+            { data: "actualTotalPrice" },
         ]
     }));
 });

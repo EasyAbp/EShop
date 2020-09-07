@@ -1,13 +1,12 @@
 {
   "culture": "zh-Hant",
   "texts": {
+    "Menu:EasyAbpEShop": "EShop 商城",
+    "Menu:PaymentManagement": "支付",
     "ManageYourProfile": "管理個人資料",
-    "Permission:Payments": "Payments",
-    "Menu:Payment": "MenuPayments",
-    "PaymentItemStoreId": "PaymentItemStoreId",
-    "Permission:Refunds": "Refunds",
-    "Menu:Refund": "MenuRefunds",
-    "Menu:RefundItem": "MenuRefundsItem",
-    "RefundItemStoreId": "RefundItemStoreId"
+    "Permission:Payments": "支付",
+    "PaymentItemStoreId": "店鋪 ID",
+    "Permission:Refunds": "退款",
+    "RefundItemStoreId": "店鋪 ID"
   }
 }

@@ -6,10 +6,10 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.Vi
 {
     public class ChangeProductInventoryViewModel
     {
-        [Display(Name = "ProductInventoryInventory")]
-        public int ChangedInventory { get; set; }
-        
         [Display(Name = "ProductInventoryChangeType")]
         public InventoryChangeType ProductInventoryChangeType { get; set; }
+        
+        [Display(Name = "ProductInventoryChangedInventory")]
+        public int ChangedInventory { get; set; }
     }
 }

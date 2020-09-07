@@ -1,6 +1,7 @@
 {
   "culture": "en",
   "texts": {
+    "Menu:EasyAbpEShop": "EShop",
     "ManageYourProfile":  "Manage your profile" 
   }
 }
