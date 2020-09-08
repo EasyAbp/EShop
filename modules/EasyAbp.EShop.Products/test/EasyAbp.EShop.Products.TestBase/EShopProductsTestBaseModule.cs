@@ -35,6 +35,10 @@ namespace EasyAbp.EShop.Products
                     await scope.ServiceProvider
                         .GetRequiredService<IDataSeeder>()
                         .SeedAsync();
+
+                    await scope.ServiceProvider
+                        .GetRequiredService<ProductsTestDataBuilder>()
+                        .BuildAsync();
                 }
             });
         }
