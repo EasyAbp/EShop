@@ -16,10 +16,6 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         private readonly IOrderAppService _orderAppService;
 
-        private readonly Guid _storeId = Guid.Parse("982C6439-AAC4-CD86-21E0-D89DFE066305");
-        private readonly Guid _productId = Guid.Parse("309A5529-A42A-9E0F-85FA-879B17B70EA1");
-        private readonly Guid _productSkuId = Guid.Parse("309A5529-A42A-9E0F-85FA-879B17B70EA2");
-
         public OrderAppServiceTests()
         {
             _orderAppService = GetRequiredService<IOrderAppService>();
@@ -28,16 +24,16 @@ namespace EasyAbp.EShop.Orders.Orders
         protected override void AfterAddApplication(IServiceCollection services)
         {
             var productAppService = Substitute.For<IProductAppService>();
-            productAppService.GetAsync(_productId, _storeId).Returns(Task.FromResult(new ProductDto
+            productAppService.GetAsync(OrderTestData.Product1Id, OrderTestData.Store1Id).Returns(Task.FromResult(new ProductDto
             {
                 CreationTime = DateTime.Now,
                 IsPublished = true,
-                Id = _productId,
+                Id = OrderTestData.Product1Id,
                 ProductSkus = new List<ProductSkuDto>
                 {
                     new ProductSkuDto
                     {
-                        Id = _productSkuId,
+                        Id = OrderTestData.ProductSku1Id,
                         OrderMinQuantity = 0,
                         OrderMaxQuantity = 100,
                         AttributeOptionIds = new List<Guid>()
@@ -56,13 +52,13 @@ namespace EasyAbp.EShop.Orders.Orders
             var createOrderDto = new CreateOrderDto
             {
                 CustomerRemark = "customer remark",
-                StoreId = _storeId,
+                StoreId = OrderTestData.Store1Id,
                 OrderLines = new List<CreateOrderLineDto>
                 {
                     new CreateOrderLineDto
                     {
-                        ProductId = _productId,
-                        ProductSkuId = _productSkuId,
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
                         Quantity = 10
                     }
                 }
@@ -80,6 +76,64 @@ namespace EasyAbp.EShop.Orders.Orders
                 context.Orders.Count().ShouldBe(1);
                 var order = context.Orders.First();
                 order.CustomerRemark.ShouldBe("customer remark");
+            });
+        }
+
+        [Fact]
+        public async Task Order_Should_Complete()
+        {
+            // Arrange
+            await Should_Create_A_Order();
+            Guid orderId = Guid.Empty;
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.First();
+                orderId = order.Id;
+                order.SetPaidTime(DateTime.Now);
+                order.SetReducedInventoryAfterPaymentTime(DateTime.Now);
+                db.SaveChanges();
+            });
+
+            // Act
+            var response = await _orderAppService.CompleteAsync(orderId);
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.Id.ShouldBe(orderId);
+            response.OrderStatus.ShouldBe(OrderStatus.Completed);
+        }
+
+        [Fact]
+        public async Task Order_Should_Cancel()
+        {
+            // Arrange
+            await Should_Create_A_Order();
+            Guid orderId = Guid.Empty;
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.First();
+                orderId = order.Id;
+            });
+
+            var cancelRequestDto = new CancelOrderInput
+            {
+                CancellationReason = "Repeat orders."
+            };
+
+            // Act
+            var response = await _orderAppService.CancelAsync(orderId, cancelRequestDto);
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.OrderStatus.ShouldBe(OrderStatus.Canceled);
+            response.CancellationReason.ShouldBe("Repeat orders.");
+            
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
+                order.ShouldNotBeNull();
+                order.OrderStatus.ShouldBe(OrderStatus.Canceled);
+                order.CancellationReason.ShouldBe("Repeat orders.");
             });
         }
     }
