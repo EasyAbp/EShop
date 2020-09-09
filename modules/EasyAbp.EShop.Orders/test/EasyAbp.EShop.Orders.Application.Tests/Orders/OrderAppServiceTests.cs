@@ -200,7 +200,7 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var order = db.Orders.First();
                 order.OrderStatus.ShouldNotBe(OrderStatus.Canceled);
-                order.CanceledTime.ShouldNotBeNull();
+                order.CanceledTime.ShouldBeNull();
                 orderId = order.Id;
             });
 
@@ -215,7 +215,7 @@ namespace EasyAbp.EShop.Orders.Orders
             // Assert
             response.ShouldNotBeNull();
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
-            response.CompletionTime.ShouldNotBeNull();
+            response.CanceledTime.ShouldNotBeNull();
             response.CancellationReason.ShouldBe("Repeat orders.");
             
             UsingDbContext(db =>
