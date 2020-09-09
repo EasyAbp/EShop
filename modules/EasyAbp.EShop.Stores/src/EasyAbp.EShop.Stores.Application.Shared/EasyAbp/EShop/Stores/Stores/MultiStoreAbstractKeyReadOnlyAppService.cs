@@ -48,7 +48,7 @@ namespace EasyAbp.EShop.Stores.Stores
 
             await CheckMultiStorePolicyAsync(entity.StoreId, GetPolicyName);
 
-            return MapToGetOutputDto(entity);
+            return await MapToGetOutputDtoAsync(entity);
         }
 
         protected virtual async Task CheckMultiStorePolicyAsync(Guid? storeId, string policyName, bool crossStoreAllowed = true)

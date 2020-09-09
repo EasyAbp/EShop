@@ -75,7 +75,7 @@ namespace EasyAbp.EShop.Stores.Stores
 
             await CheckMultiStorePolicyAsync(entity.StoreId, GetPolicyName);
 
-            return MapToGetOutputDto(entity);
+            return await MapToGetOutputDtoAsync(entity);
         }
         
         public override async Task<TGetOutputDto> CreateAsync(TCreateInput input)
@@ -88,7 +88,7 @@ namespace EasyAbp.EShop.Stores.Stores
 
             await Repository.InsertAsync(entity, autoSave: true);
 
-            return MapToGetOutputDto(entity);
+            return await MapToGetOutputDtoAsync(entity);
         }
 
         public override async Task<TGetOutputDto> UpdateAsync(TKey id, TUpdateInput input)
@@ -99,7 +99,7 @@ namespace EasyAbp.EShop.Stores.Stores
             MapToEntity(input, entity);
             await Repository.UpdateAsync(entity, autoSave: true);
 
-            return MapToGetOutputDto(entity);
+            return await MapToGetOutputDtoAsync(entity);
         }
 
         public override async Task DeleteAsync(TKey id)

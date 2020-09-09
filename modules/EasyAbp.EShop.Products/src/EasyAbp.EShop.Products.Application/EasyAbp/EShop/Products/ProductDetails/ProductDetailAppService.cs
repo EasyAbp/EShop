@@ -47,7 +47,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
             
             await Repository.UpdateAsync(detail, autoSave: true);
 
-            return MapToGetOutputDto(detail);
+            return await MapToGetOutputDtoAsync(detail);
         }
 
         public virtual async Task DeleteAsync(Guid id, Guid storeId)

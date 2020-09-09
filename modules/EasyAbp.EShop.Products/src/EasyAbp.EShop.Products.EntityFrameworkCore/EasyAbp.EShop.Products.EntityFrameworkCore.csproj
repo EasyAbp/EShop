@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="EasyAbp.Abp.Trees.EntityFrameworkCore" Version="1.0.0" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="3.1.0" />
     <ProjectReference Include="..\EasyAbp.EShop.Products.Domain\EasyAbp.EShop.Products.Domain.csproj" />
   </ItemGroup>
 

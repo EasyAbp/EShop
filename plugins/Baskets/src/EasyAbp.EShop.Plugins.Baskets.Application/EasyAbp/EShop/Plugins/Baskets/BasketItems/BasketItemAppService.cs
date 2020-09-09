@@ -71,7 +71,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 }
             }
 
-            return MapToGetOutputDto(item);
+            return await MapToGetOutputDtoAsync(item);
         }
 
         public override async Task<PagedResultDto<BasketItemDto>> GetListAsync(GetBasketItemListDto input)
@@ -129,7 +129,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
             return new PagedResultDto<BasketItemDto>(
                 totalCount,
-                items.Select(MapToGetListOutputDto).ToList()
+                await MapToGetListOutputDtosAsync(items)
             );
         }
         
@@ -201,7 +201,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             
                 await Repository.UpdateAsync(item, autoSave: true);
 
-                return MapToGetOutputDto(item);
+                return await MapToGetOutputDtoAsync(item);
             }
             
             var productSkuDto = productDto.FindSkuById(input.ProductSkuId);
@@ -218,7 +218,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             
             await Repository.InsertAsync(item, autoSave: true);
 
-            return MapToGetOutputDto(item);
+            return await MapToGetOutputDtoAsync(item);
         }
 
         public override async Task<BasketItemDto> UpdateAsync(Guid id, UpdateBasketItemDto input)
@@ -238,7 +238,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             
             await Repository.UpdateAsync(item, autoSave: true);
 
-            return MapToGetOutputDto(item);
+            return await MapToGetOutputDtoAsync(item);
         }
 
         public override async Task DeleteAsync(Guid id)

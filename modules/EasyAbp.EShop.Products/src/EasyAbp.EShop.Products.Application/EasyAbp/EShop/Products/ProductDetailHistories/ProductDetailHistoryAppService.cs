@@ -29,7 +29,7 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories
         {
             await CheckGetPolicyAsync();
             
-            return MapToGetOutputDto(await _repository.GetAsync(productId, modificationTime));
+            return await MapToGetOutputDtoAsync(await _repository.GetAsync(productId, modificationTime));
         }
     }
 }

@@ -76,7 +76,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 await CheckMultiStorePolicyAsync(order.StoreId, GetPolicyName);
             }
 
-            return MapToGetOutputDto(order);
+            return await MapToGetOutputDtoAsync(order);
         }
 
         public override async Task<OrderDto> CreateAsync(CreateOrderDto input)
@@ -103,7 +103,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             await Repository.InsertAsync(order, autoSave: true);
 
-            return MapToGetOutputDto(order);
+            return await MapToGetOutputDtoAsync(order);
         }
 
         protected virtual async Task<Dictionary<Guid, ProductDto>> GetProductDictionaryAsync(
@@ -142,7 +142,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 await CheckMultiStorePolicyAsync(order.StoreId, OrdersPermissions.Orders.Manage);
             }
 
-            return MapToGetOutputDto(order);
+            return await MapToGetOutputDtoAsync(order);
         }
 
         [Authorize(OrdersPermissions.Orders.Complete)]
@@ -157,7 +157,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             order = await _orderManager.CompleteAsync(order);
 
-            return MapToGetOutputDto(order);
+            return await MapToGetOutputDtoAsync(order);
         }
         
         [Authorize(OrdersPermissions.Orders.Cancel)]
@@ -174,7 +174,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             order = await _orderManager.CancelAsync(order, input.CancellationReason);
 
-            return MapToGetOutputDto(order);
+            return await MapToGetOutputDtoAsync(order);
         }
     }
 }

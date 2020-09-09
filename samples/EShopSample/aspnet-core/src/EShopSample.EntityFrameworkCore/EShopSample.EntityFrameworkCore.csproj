@@ -11,18 +11,18 @@
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.EntityFrameworkCore\EasyAbp.EShop.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore\EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopSample.Domain\EShopSample.Domain.csproj" />
-    <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="1.2.2" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="1.2.2" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.EntityFrameworkCore" Version="1.2.2" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="3.0.5" />
+    <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="1.3.0" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="1.3.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.EntityFrameworkCore" Version="1.3.0" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="3.1.0" />
   </ItemGroup>
 
 </Project>
