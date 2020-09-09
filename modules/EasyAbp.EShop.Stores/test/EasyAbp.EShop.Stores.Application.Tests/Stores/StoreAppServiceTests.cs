@@ -47,7 +47,7 @@ namespace EasyAbp.EShop.Stores.Stores
             
             // Assert
             response.ShouldNotBeNull();
-            response.Name.ShouldBe("My Store");
+            response.Name.ShouldBe("My store");
         }
     }
 }

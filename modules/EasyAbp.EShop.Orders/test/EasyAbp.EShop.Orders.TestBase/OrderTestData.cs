@@ -10,5 +10,7 @@ namespace EasyAbp.EShop.Orders
         public static Guid Product1Id { get; } = Guid.NewGuid();
 
         public static Guid ProductSku1Id { get; } = Guid.NewGuid();
+        
+        public static DateTime ProductLastModificationTime { get; } = DateTime.Today;
     }
 }
