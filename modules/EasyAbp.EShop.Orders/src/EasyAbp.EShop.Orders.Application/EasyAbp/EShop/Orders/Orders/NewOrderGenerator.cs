@@ -91,7 +91,7 @@ namespace EasyAbp.EShop.Orders.Orders
             
             var totalPrice = productSku.Price * inputOrderLine.Quantity;
 
-            return new OrderLine(
+            var orderLine = new OrderLine(
                 id: _guidGenerator.Create(),
                 productId: product.Id,
                 productSkuId: productSku.Id,
@@ -111,6 +111,10 @@ namespace EasyAbp.EShop.Orders.Orders
                 actualTotalPrice: totalPrice,
                 quantity: inputOrderLine.Quantity
             );
+            
+            inputOrderLine.MapExtraPropertiesTo(orderLine, MappingPropertyDefinitionChecks.Destination);
+
+            return orderLine;
         }
 
         protected virtual Task<string> GetStoreCurrencyAsync(Guid storeId)
