@@ -9,7 +9,6 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectExtending;
-using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
@@ -17,25 +16,23 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
-        private readonly ICurrentUser _currentUser;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
         private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
 
         public NewOrderGenerator(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
-            ICurrentUser currentUser,
             IOrderNumberGenerator orderNumberGenerator,
             IProductSkuDescriptionProvider productSkuDescriptionProvider)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
-            _currentUser = currentUser;
             _orderNumberGenerator = orderNumberGenerator;
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
         }
-        
-        public virtual async Task<Order> GenerateAsync(CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
+
+        public virtual async Task<Order> GenerateAsync(Guid customerUserId, CreateOrderDto input,
+            Dictionary<Guid, ProductDto> productDict)
         {
             var orderLines = new List<OrderLine>();
 
@@ -56,25 +53,25 @@ namespace EasyAbp.EShop.Orders.Orders
             // Todo: totalPrice may contain other fee.
             var totalPrice = productTotalPrice;
             var totalDiscount = orderLines.Select(x => x.TotalDiscount).Sum();
-            
+
             var order = new Order(
                 id: _guidGenerator.Create(),
                 tenantId: _currentTenant.Id,
                 storeId: input.StoreId,
-                customerUserId: _currentUser.GetId(),
+                customerUserId: customerUserId,
                 currency: storeCurrency,
                 productTotalPrice: productTotalPrice,
                 totalDiscount: totalDiscount,
                 totalPrice: totalPrice,
                 actualTotalPrice: totalPrice - totalDiscount,
                 customerRemark: input.CustomerRemark);
-            
+
             input.MapExtraPropertiesTo(order, MappingPropertyDefinitionChecks.Destination);
 
             order.SetOrderLines(orderLines);
-            
+
             order.SetOrderNumber(await _orderNumberGenerator.CreateAsync(order));
-            
+
             return order;
         }
 
