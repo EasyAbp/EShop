@@ -14,7 +14,10 @@ namespace EasyAbp.EShop.Payments.Payments
         protected override Task HandlePaymentCreationAsync(AuthorizationHandlerContext context,
             PaymentOperationAuthorizationRequirement requirement, PaymentCreationResource resource)
         {
-            if (resource.Orders.Any(order => order.PaymentId.HasValue || order.PaidTime.HasValue))
+            if (resource.Orders.Any(order =>
+                !order.ReducedInventoryAfterPlacingTime.HasValue ||
+                order.PaymentId.HasValue ||
+                order.PaidTime.HasValue))
             {
                 context.Fail();
                 return Task.CompletedTask;
