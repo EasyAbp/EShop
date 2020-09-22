@@ -32,7 +32,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Menus
             if (!basketManagementMenuItem.Items.IsNullOrEmpty())
             {
                 var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == BasketsMenus.ModuleGroupPrefix,
-                    () => new ApplicationMenuItem(BasketsMenus.BasketItem, l["Menu:EasyAbpEShop"]));
+                    () => new ApplicationMenuItem(BasketsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"]));
                 
                 eShopMenuItem.Items.Add(basketManagementMenuItem);
             }

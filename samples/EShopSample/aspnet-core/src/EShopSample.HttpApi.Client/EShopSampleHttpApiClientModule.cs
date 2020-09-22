@@ -1,5 +1,6 @@
 ﻿using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins.Baskets;
+using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.Prepayment;
 using EasyAbp.PaymentService.WeChatPay;
@@ -22,6 +23,7 @@ namespace EShopSample
         typeof(AbpFeatureManagementHttpApiClientModule),
         typeof(EShopHttpApiClientModule),
         typeof(EShopPluginsBasketsHttpApiClientModule),
+        typeof(EShopPluginsCouponsHttpApiClientModule),
         typeof(PaymentServiceHttpApiClientModule),
         typeof(PaymentServiceWeChatPayHttpApiClientModule),
         typeof(PaymentServicePrepaymentHttpApiClientModule)

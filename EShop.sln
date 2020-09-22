@@ -307,6 +307,40 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EShopSample", "EShopSample"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Stores.Application.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Shared\EasyAbp.EShop.Stores.Application.Shared.csproj", "{06700175-4E04-4993-A1FB-24E7A8835E19}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72F34527-9295-4F29-923E-4B075A4F31A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Application", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application\EasyAbp.EShop.Plugins.Coupons.Application.csproj", "{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Application.Contracts", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application.Contracts\EasyAbp.EShop.Plugins.Coupons.Application.Contracts.csproj", "{C7D05698-E509-4F5C-A792-0036190AE6FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Domain", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain\EasyAbp.EShop.Plugins.Coupons.Domain.csproj", "{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Domain.Shared", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain.Shared\EasyAbp.EShop.Plugins.Coupons.Domain.Shared.csproj", "{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.csproj", "{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi\EasyAbp.EShop.Plugins.Coupons.HttpApi.csproj", "{0E22DE0A-032B-442E-AEB2-E299B333BADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi.Client", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.csproj", "{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.MongoDB", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.MongoDB\EasyAbp.EShop.Plugins.Coupons.MongoDB.csproj", "{C97330F5-4634-4865-9D7D-E33F87808938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Web", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Web\EasyAbp.EShop.Plugins.Coupons.Web.csproj", "{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4001814E-A67B-490D-9E13-2FB9A34B0A0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Application.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.Application.Tests\EasyAbp.EShop.Plugins.Coupons.Application.Tests.csproj", "{10675CED-5689-4B2F-895A-E13820928A3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Domain.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.Domain.Tests\EasyAbp.EShop.Plugins.Coupons.Domain.Tests.csproj", "{B29ABA23-37B2-419A-9E3C-F1A8703D584D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests.csproj", "{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp.csproj", "{8B22E009-5ABA-4878-83E5-38154F2B8E2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests\EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests.csproj", "{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.TestBase", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.TestBase\EasyAbp.EShop.Plugins.Coupons.TestBase.csproj", "{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -801,6 +835,66 @@ Global
 		{06700175-4E04-4993-A1FB-24E7A8835E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06700175-4E04-4993-A1FB-24E7A8835E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06700175-4E04-4993-A1FB-24E7A8835E19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7D05698-E509-4F5C-A792-0036190AE6FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7D05698-E509-4F5C-A792-0036190AE6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7D05698-E509-4F5C-A792-0036190AE6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7D05698-E509-4F5C-A792-0036190AE6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E22DE0A-032B-442E-AEB2-E299B333BADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E22DE0A-032B-442E-AEB2-E299B333BADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E22DE0A-032B-442E-AEB2-E299B333BADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E22DE0A-032B-442E-AEB2-E299B333BADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C97330F5-4634-4865-9D7D-E33F87808938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C97330F5-4634-4865-9D7D-E33F87808938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C97330F5-4634-4865-9D7D-E33F87808938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C97330F5-4634-4865-9D7D-E33F87808938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10675CED-5689-4B2F-895A-E13820928A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10675CED-5689-4B2F-895A-E13820928A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10675CED-5689-4B2F-895A-E13820928A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10675CED-5689-4B2F-895A-E13820928A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B29ABA23-37B2-419A-9E3C-F1A8703D584D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B29ABA23-37B2-419A-9E3C-F1A8703D584D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B29ABA23-37B2-419A-9E3C-F1A8703D584D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B29ABA23-37B2-419A-9E3C-F1A8703D584D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B22E009-5ABA-4878-83E5-38154F2B8E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B22E009-5ABA-4878-83E5-38154F2B8E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B22E009-5ABA-4878-83E5-38154F2B8E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B22E009-5ABA-4878-83E5-38154F2B8E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -954,6 +1048,23 @@ Global
 		{5929D955-4E2C-4E84-B9D7-F32A3375A1AA} = {9333EF8D-0A21-4586-81EB-9C39ECA2873C}
 		{FE0A5FD6-AEE7-4738-9A6D-261BF086704D} = {D261DC47-83D7-4B7C-941E-E27291C78A52}
 		{06700175-4E04-4993-A1FB-24E7A8835E19} = {8CB54A0E-BAAE-4D10-81B5-6F902A7950EB}
+		{72F34527-9295-4F29-923E-4B075A4F31A2} = {6D9A736A-DE07-4517-A40A-B26D6ECD1A93}
+		{1EB6504F-7FF0-4628-9D7C-81BDE33D9490} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{C7D05698-E509-4F5C-A792-0036190AE6FF} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{0E22DE0A-032B-442E-AEB2-E299B333BADC} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{C97330F5-4634-4865-9D7D-E33F87808938} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{C11BD71D-FA6B-4833-9CAE-82ED9D857A84} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{4001814E-A67B-490D-9E13-2FB9A34B0A0B} = {6D9A736A-DE07-4517-A40A-B26D6ECD1A93}
+		{10675CED-5689-4B2F-895A-E13820928A3B} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
+		{B29ABA23-37B2-419A-9E3C-F1A8703D584D} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
+		{D81EC4DC-3944-4CFE-875A-5DD07BE487AE} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
+		{8B22E009-5ABA-4878-83E5-38154F2B8E2F} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
+		{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
+		{B076C103-DF0B-464B-A9CB-4BE5CAFEE067} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

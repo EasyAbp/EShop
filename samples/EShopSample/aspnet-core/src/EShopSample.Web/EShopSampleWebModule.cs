@@ -9,6 +9,7 @@ using EasyAbp.EShop.Payments;
 using EasyAbp.EShop.Payments.Web;
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.EShop.Plugins.Baskets.Web;
+using EasyAbp.EShop.Plugins.Coupons.Web;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Products.Web;
 using EasyAbp.EShop.Stores;
@@ -61,6 +62,7 @@ namespace EShopSample.Web
         typeof(AbpAspNetCoreSerilogModule),
         typeof(EShopWebModule),
         typeof(EShopPluginsBasketsWebModule),
+        typeof(EShopPluginsCouponsWebModule),
         typeof(PaymentServiceWebModule),
         typeof(PaymentServiceWeChatPayWebModule),
         typeof(PaymentServicePrepaymentWebModule)
