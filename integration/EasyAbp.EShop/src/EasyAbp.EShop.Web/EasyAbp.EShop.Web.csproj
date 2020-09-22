@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="3.1.2" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Web\EasyAbp.EShop.Orders.Web.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Web\EasyAbp.EShop.Payments.Web.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Web\EasyAbp.EShop.Plugins.Web.csproj" />
