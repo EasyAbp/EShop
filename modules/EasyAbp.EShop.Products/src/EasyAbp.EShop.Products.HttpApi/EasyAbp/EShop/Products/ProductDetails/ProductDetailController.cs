@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.ProductDetails
 {
-    [RemoteService(Name = "EShopProducts")]
+    [RemoteService(Name = "EasyAbpEShopProducts")]
     [Route("/api/eShop/products/productDetail")]
     public class ProductDetailController : ProductsController, IProductDetailAppService
     {

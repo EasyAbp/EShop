@@ -1,6 +1,6 @@
 $(function () {
 
-    var l = abp.localization.getResource('EShopPluginsBaskets');
+    var l = abp.localization.getResource('EasyAbpEShopPluginsBaskets');
 
     var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
     var createModal = new abp.ModalManager(abp.appPath + 'EShop/Plugins/Baskets/BasketItems/BasketItem/CreateModal');

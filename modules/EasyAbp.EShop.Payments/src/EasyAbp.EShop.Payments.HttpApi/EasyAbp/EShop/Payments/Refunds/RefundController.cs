@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    [RemoteService(Name = "EShopPayments")]
+    [RemoteService(Name = "EasyAbpEShopPayments")]
     [Route("/api/eShop/payments/refund")]
     public class RefundController : PaymentsController, IRefundAppService
     {
