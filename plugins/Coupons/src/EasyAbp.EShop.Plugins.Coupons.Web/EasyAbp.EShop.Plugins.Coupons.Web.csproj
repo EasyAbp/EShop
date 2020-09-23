@@ -42,4 +42,10 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Coupons\CouponTemplates\CouponTemplate\CreateModal.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Coupons\CouponTemplates\CouponTemplate\EditModal.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Coupons\CouponTemplates\CouponTemplate\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace EasyAbp.EShop.Plugins.Coupons.Web.Menus
+namespace EasyAbp.EShop.Plugins.Coupons.Web.Menus
 {
     public class CouponsMenus
     {
@@ -8,5 +8,7 @@
 
         //Add your menu items here...
         //public const string Home = Prefix + ".MyNewMenuItem";
+        public const string CouponTemplate = Prefix + ".CouponTemplate";
+        public const string Coupon = Prefix + ".Coupon";
     }
 }

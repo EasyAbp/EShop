@@ -1,6 +1,9 @@
-﻿using System;
+using EasyAbp.EShop.Plugins.Coupons.Coupons;
+using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore
 {
@@ -38,6 +41,27 @@ namespace EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore
                 b.HasIndex(q => q.CreationTime);
             });
             */
+
+
+            builder.Entity<CouponTemplate>(b =>
+            {
+                b.ToTable(options.TablePrefix + "CouponTemplates", options.Schema);
+                b.ConfigureByConvention();
+
+                /* Configure more properties here */
+                b.Property(x => x.ConditionAmount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.DiscountAmount).HasColumnType("decimal(20,8)");
+            });
+
+
+            builder.Entity<Coupon>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Coupons", options.Schema);
+                b.ConfigureByConvention(); 
+                
+                /* Configure more properties here */
+                b.Property(x => x.DiscountedAmount).HasColumnType("decimal(20,8)");
+            });
         }
     }
 }

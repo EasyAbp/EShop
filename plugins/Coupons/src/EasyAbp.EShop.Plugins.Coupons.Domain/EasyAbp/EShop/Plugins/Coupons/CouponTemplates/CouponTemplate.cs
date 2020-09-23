@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -55,5 +55,43 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         public virtual bool IsUnscoped { get; protected set; }
         
         public virtual List<CouponTemplateScope> Scopes { get; protected set; }
+
+        protected CouponTemplate()
+        {
+        }
+
+        public CouponTemplate(
+            Guid id, 
+            Guid? tenantId, 
+            Guid? storeId, 
+            CouponType couponType, 
+            string uniqueName, 
+            string displayName, 
+            string description, 
+            TimeSpan? usableDuration, 
+            DateTime? usableBeginTime, 
+            DateTime? usableEndTime, 
+            decimal conditionAmount, 
+            decimal discountAmount, 
+            bool isCrossProductAllowed, 
+            bool isUnscoped, 
+            List<CouponTemplateScope> scopes
+        ) : base(id)
+        {
+            TenantId = tenantId;
+            StoreId = storeId;
+            CouponType = couponType;
+            UniqueName = uniqueName;
+            DisplayName = displayName;
+            Description = description;
+            UsableDuration = usableDuration;
+            UsableBeginTime = usableBeginTime;
+            UsableEndTime = usableEndTime;
+            ConditionAmount = conditionAmount;
+            DiscountAmount = discountAmount;
+            IsCrossProductAllowed = isCrossProductAllowed;
+            IsUnscoped = isUnscoped;
+            Scopes = scopes;
+        }
     }
 }

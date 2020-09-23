@@ -1,0 +1,61 @@
+@page
+@using EasyAbp.EShop.Plugins.Coupons.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.Coupons.Coupon
+@using EasyAbp.EShop.Plugins.Coupons.Localization
+@using EasyAbp.EShop.Plugins.Coupons.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<CouponsResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["Coupon"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Coupon"].Value);
+    PageLayout.Content.MenuItemName = CouponsMenus.Coupon;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Plugins/Coupons/Coupons/Coupon/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Plugins/Coupons/Coupons/Coupon/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Coupon"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(CouponsPermissions.Coupon.Create))
+                {
+                <abp-button id="NewCouponButton"
+                            text="@L["CreateCoupon"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="CouponTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["CouponCouponTemplateId"]</th>
+                <th>@L["CouponUserId"]</th>
+                <th>@L["CouponOrderId"]</th>
+                <th>@L["CouponUsableBeginTime"]</th>
+                <th>@L["CouponUsableEndTime"]</th>
+                <th>@L["CouponUsedTime"]</th>
+                <th>@L["CouponDiscountedAmount"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

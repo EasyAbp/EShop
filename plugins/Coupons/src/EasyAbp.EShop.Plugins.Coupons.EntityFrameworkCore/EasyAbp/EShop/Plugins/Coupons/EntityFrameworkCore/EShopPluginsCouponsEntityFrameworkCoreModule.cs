@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using EasyAbp.EShop.Plugins.Coupons.Coupons;
+using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -17,6 +19,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
+                options.AddRepository<CouponTemplate, CouponTemplateRepository>();
+                options.AddRepository<Coupon, CouponRepository>();
             });
         }
     }
