@@ -51,8 +51,16 @@ namespace EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore
                 /* Configure more properties here */
                 b.Property(x => x.ConditionAmount).HasColumnType("decimal(20,8)");
                 b.Property(x => x.DiscountAmount).HasColumnType("decimal(20,8)");
+                b.HasMany(typeof(CouponTemplateScope), nameof(CouponTemplate.Scopes));
             });
+            
+            builder.Entity<CouponTemplateScope>(b =>
+            {
+                b.ToTable(options.TablePrefix + "CouponTemplateScopes", options.Schema);
+                b.ConfigureByConvention();
 
+                /* Configure more properties here */
+            });
 
             builder.Entity<Coupon>(b =>
             {

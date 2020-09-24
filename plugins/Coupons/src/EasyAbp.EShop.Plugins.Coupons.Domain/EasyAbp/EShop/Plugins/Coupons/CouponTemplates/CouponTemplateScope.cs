@@ -1,11 +1,10 @@
 ﻿using System;
-using EasyAbp.EShop.Stores.Stores;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
-    public class CouponTemplateScope : FullAuditedEntity<Guid>, IMultiStore
+    public class CouponTemplateScope : FullAuditedEntity<Guid>, ICouponTemplateScope
     {
         public virtual Guid StoreId { get; protected set; }
 

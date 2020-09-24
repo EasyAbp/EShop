@@ -13,6 +13,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore
          * DbSet<Question> Questions { get; }
          */
         DbSet<CouponTemplate> CouponTemplates { get; set; }
+        DbSet<CouponTemplateScope> CouponTemplateScopes { get; set; }
         DbSet<Coupon> Coupons { get; set; }
     }
 }

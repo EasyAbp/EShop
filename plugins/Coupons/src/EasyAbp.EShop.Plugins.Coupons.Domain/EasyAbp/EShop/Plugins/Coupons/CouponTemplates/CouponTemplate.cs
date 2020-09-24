@@ -6,7 +6,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
-    public class CouponTemplate : FullAuditedAggregateRoot<Guid>, IMultiTenant
+    public class CouponTemplate : FullAuditedAggregateRoot<Guid>, ICouponTemplate, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
     
@@ -54,7 +54,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         /// </summary>
         public virtual bool IsUnscoped { get; protected set; }
         
-        public virtual List<CouponTemplateScope> Scopes { get; protected set; }
+        public virtual IEnumerable<ICouponTemplateScope> Scopes { get; protected set; }
 
         protected CouponTemplate()
         {
@@ -75,7 +75,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             decimal discountAmount, 
             bool isCrossProductAllowed, 
             bool isUnscoped, 
-            List<CouponTemplateScope> scopes
+            IEnumerable<CouponTemplateScope> scopes
         ) : base(id)
         {
             TenantId = tenantId;
