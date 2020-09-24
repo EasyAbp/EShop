@@ -12,10 +12,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
 
         public Guid? OrderId { get; set; }
 
-        public DateTime? UsableBeginTime { get; set; }
-
-        public DateTime? UsableEndTime { get; set; }
-
+        public DateTime? ExpirationTime { get; set; }
+        
         public DateTime? UsedTime { get; set; }
 
         public decimal? DiscountedAmount { get; set; }

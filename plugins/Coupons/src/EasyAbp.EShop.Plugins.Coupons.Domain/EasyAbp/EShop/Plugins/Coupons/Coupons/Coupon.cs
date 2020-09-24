@@ -4,7 +4,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 {
-    public class Coupon : FullAuditedAggregateRoot<Guid>, IMultiTenant
+    public class Coupon : FullAuditedAggregateRoot<Guid>, ICoupon, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
         
@@ -13,11 +13,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         public virtual Guid UserId { get; protected set; }
         
         public virtual Guid? OrderId { get; protected set; }
-        
-        public virtual DateTime? UsableBeginTime { get; protected set; }
-        
-        public virtual DateTime? UsableEndTime { get; protected set; }
-        
+
+        public virtual DateTime? ExpirationTime { get; protected set; }
+
         public virtual DateTime? UsedTime { get; protected set; }
         
         public virtual decimal? DiscountedAmount { get; protected set; }
@@ -31,19 +29,18 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             Guid? tenantId, 
             Guid couponTemplateId, 
             Guid userId, 
-            Guid? orderId, 
-            DateTime? usableBeginTime, 
-            DateTime? usableEndTime, 
-            DateTime? usedTime, 
-            decimal? discountedAmount
-        ) : base(id)
+            Guid? orderId,
+            DateTime? expirationTime) : base(id)
         {
             TenantId = tenantId;
             CouponTemplateId = couponTemplateId;
             UserId = userId;
             OrderId = orderId;
-            UsableBeginTime = usableBeginTime;
-            UsableEndTime = usableEndTime;
+            ExpirationTime = expirationTime;
+        }
+
+        public void Use(DateTime? usedTime, decimal? discountedAmount)
+        {
             UsedTime = usedTime;
             DiscountedAmount = discountedAmount;
         }
