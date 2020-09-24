@@ -1,5 +1,6 @@
 ﻿using System;
 using EasyAbp.EShop.Stores.Stores;
+using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
@@ -9,12 +10,18 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         public virtual Guid StoreId { get; protected set; }
 
         /// <summary>
-        /// If this property is set to null, the coupon can be used for all products in the store.
+        /// Specified product group can use the coupon if this property is set.
+        /// </summary>
+        [CanBeNull]
+        public virtual string ProductGroupName { get; protected set; }
+        
+        /// <summary>
+        /// Specified product can use the coupon if this property is set.
         /// </summary>
         public virtual Guid? ProductId { get; protected set; }
         
         /// <summary>
-        /// If this property is set to null, the coupon can be used for all SKUs in the product.
+        /// Specified product SKU can use the coupon if this property is set.
         /// </summary>
         public virtual Guid? ProductSkuId { get; protected set; }
     }
