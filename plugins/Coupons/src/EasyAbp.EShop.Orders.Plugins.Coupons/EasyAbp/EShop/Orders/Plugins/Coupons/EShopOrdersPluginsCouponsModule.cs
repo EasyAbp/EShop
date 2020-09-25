@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop.Orders.Plugins.Coupons.Authorization;
+using EasyAbp.EShop.Orders.Plugins.Coupons.ObjectExtending;
 using EasyAbp.EShop.Plugins.Coupons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,8 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
+            EShopOrdersPluginsCouponsObjectExtensions.Configure();
+
             context.Services.AddSingleton<IAuthorizationHandler, CouponOrderCreationAuthorizationHandler>();
         }
     }

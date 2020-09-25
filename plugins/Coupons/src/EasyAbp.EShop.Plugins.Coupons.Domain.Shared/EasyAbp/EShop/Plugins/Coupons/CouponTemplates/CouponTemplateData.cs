@@ -1,11 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Volo.Abp.Application.Dtos;
 
-namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos
+namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
-    [Serializable]
-    public class CouponTemplateDto : FullAuditedEntityDto<Guid>, ICouponTemplate, IHasCouponTemplateScopes<CouponTemplateScopeDto>
+    public class CouponTemplateData : ICouponTemplate, IHasCouponTemplateScopes<CouponTemplateScopeData>
     {
         public Guid? StoreId { get; set; }
 
@@ -30,7 +28,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos
         public bool IsCrossProductAllowed { get; set; }
 
         public bool IsUnscoped { get; set; }
-        
-        public List<CouponTemplateScopeDto> Scopes { get; set; }
+
+        public List<CouponTemplateScopeData> Scopes { get; set; }
     }
 }

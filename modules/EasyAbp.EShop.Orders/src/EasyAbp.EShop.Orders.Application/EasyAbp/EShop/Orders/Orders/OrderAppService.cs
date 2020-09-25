@@ -99,7 +99,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict);
 
-            await _orderManager.DiscountAsync(order, input.ExtraProperties);
+            await _orderManager.DiscountAsync(order);
 
             await Repository.InsertAsync(order, autoSave: true);
 

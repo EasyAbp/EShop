@@ -6,8 +6,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
     public interface ICouponTemplate
     {
-        Guid? TenantId { get; }
-    
         Guid? StoreId { get; }
 
         CouponType CouponType { get; }
@@ -34,7 +32,5 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         bool IsCrossProductAllowed { get; }
 
         bool IsUnscoped { get; }
-        
-        IEnumerable<ICouponTemplateScope> Scopes { get; }
     }
 }

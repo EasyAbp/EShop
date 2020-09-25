@@ -1,17 +1,15 @@
-using System;
-using Volo.Abp.Application.Dtos;
+﻿using System;
 
-namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos
+namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
-    [Serializable]
-    public class CouponTemplateScopeDto : FullAuditedEntityDto<Guid>, ICouponTemplateScope
+    public class CouponTemplateScopeData : ICouponTemplateScope
     {
         public Guid StoreId { get; set; }
         
         public string ProductGroupName { get; set; }
         
         public Guid? ProductId { get; set; }
-
+        
         public Guid? ProductSkuId { get; set; }
     }
 }

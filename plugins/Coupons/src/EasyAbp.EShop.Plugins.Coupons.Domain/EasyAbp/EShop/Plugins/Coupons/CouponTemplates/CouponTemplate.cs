@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
-    public class CouponTemplate : FullAuditedAggregateRoot<Guid>, ICouponTemplate, IMultiTenant
+    public class CouponTemplate : FullAuditedAggregateRoot<Guid>, ICouponTemplate, IHasCouponTemplateScopes<CouponTemplateScope>, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
     
@@ -54,10 +55,11 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         /// </summary>
         public virtual bool IsUnscoped { get; protected set; }
         
-        public virtual IEnumerable<ICouponTemplateScope> Scopes { get; protected set; }
+        public virtual List<CouponTemplateScope> Scopes { get; protected set; }
 
         protected CouponTemplate()
         {
+            Scopes = new List<CouponTemplateScope>();
         }
 
         public CouponTemplate(
@@ -75,7 +77,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             decimal discountAmount, 
             bool isCrossProductAllowed, 
             bool isUnscoped, 
-            IEnumerable<CouponTemplateScope> scopes
+            List<CouponTemplateScope> scopes
         ) : base(id)
         {
             TenantId = tenantId;
@@ -91,7 +93,24 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             DiscountAmount = discountAmount;
             IsCrossProductAllowed = isCrossProductAllowed;
             IsUnscoped = isUnscoped;
-            Scopes = scopes;
+            Scopes = scopes ?? new List<CouponTemplateScope>();
+        }
+
+        public DateTime? GetCalculatedExpirationTime(IClock clock)
+        {
+            DateTime? expirationTime = null;
+
+            if (UsableDuration.HasValue)
+            {
+                expirationTime = clock.Now + UsableDuration;
+            }
+
+            if (UsableEndTime.HasValue && (expirationTime == null || UsableEndTime.Value < expirationTime))
+            {
+                expirationTime = UsableEndTime;
+            }
+
+            return expirationTime;
         }
     }
 }

@@ -23,5 +23,22 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         /// Specified product SKU can use the coupon if this property is set.
         /// </summary>
         public virtual Guid? ProductSkuId { get; protected set; }
+
+        protected CouponTemplateScope()
+        {
+        }
+        
+        public CouponTemplateScope(
+            Guid id,
+            Guid storeId,
+            [CanBeNull] string productGroupName,
+            Guid? productId,
+            Guid? productSkuId) : base(id)
+        {
+            StoreId = storeId;
+            ProductGroupName = productGroupName;
+            ProductId = productId;
+            ProductSkuId = productSkuId;
+        }
     }
 }

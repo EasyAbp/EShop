@@ -32,16 +32,15 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.Authorization
         protected override async Task HandleOrderCreationAsync(AuthorizationHandlerContext context,
             OrderOperationAuthorizationRequirement requirement, OrderCreationResource resource)
         {
-            var couponId = resource.Input.GetProperty<Guid?>(CouponsConsts.OrderCouponIdPropertyName);
-
-            if (!couponId.HasValue)
+            if (!Guid.TryParse(resource.Input.GetProperty<string>(CouponsConsts.OrderCouponIdPropertyName),
+                out var couponId))
             {
                 return;
             }
 
             var now = _clock.Now;
             
-            var coupon = await _couponLookupService.FindByIdAsync(couponId.Value);
+            var coupon = await _couponLookupService.FindByIdAsync(couponId);
 
             if (coupon == null || coupon.ExpirationTime < now)
             {
@@ -60,7 +59,7 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.Authorization
             }
         }
 
-        protected virtual bool IsOrderInScope(ICouponTemplate couponTemplate, OrderCreationResource resource)
+        protected virtual bool IsOrderInScope(CouponTemplateData couponTemplate, OrderCreationResource resource)
         {
             if (couponTemplate.IsUnscoped)
             {

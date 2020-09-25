@@ -31,11 +31,11 @@ namespace EasyAbp.EShop.Orders.Orders
             _orderRepository = orderRepository;
         }
         
-        public virtual async Task<Order> DiscountAsync(Order order, Dictionary<string, object> inputExtraProperties)
+        public virtual async Task<Order> DiscountAsync(Order order)
         {
             foreach (var provider in ServiceProvider.GetServices<IOrderDiscountProvider>())
             {
-                await provider.DiscountAsync(order, inputExtraProperties);
+                await provider.DiscountAsync(order);
             }
 
             return order;

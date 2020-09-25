@@ -42,6 +42,18 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.ObjectExtending
                             config.AddOrUpdateProperty<Guid?>(CouponsConsts.OrderCouponIdPropertyName);
                         }
                     );
+                
+                ObjectExtensionManager.Instance
+                    .AddOrUpdate(
+                        new[]
+                        {
+                            typeof(Order)
+                        },
+                        config =>
+                        {
+                            config.AddOrUpdateProperty<decimal>(CouponsConsts.OrderCouponDiscountAmountPropertyName);
+                        }
+                    );
             });
         }
     }

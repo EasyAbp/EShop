@@ -39,6 +39,11 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             ExpirationTime = expirationTime;
         }
 
+        public void SetExpirationTime(DateTime? expirationTime)
+        {
+            ExpirationTime = expirationTime;
+        }
+
         public void Use(DateTime? usedTime, decimal? discountedAmount)
         {
             UsedTime = usedTime;
