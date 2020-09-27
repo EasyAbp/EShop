@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.Coupons.
     public class CreateModalModel : CouponsPageModel
     {
         [BindProperty]
-        public CreateEditCouponViewModel ViewModel { get; set; }
+        public CreateCouponViewModel ViewModel { get; set; }
 
         private readonly ICouponAppService _service;
 
@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.Coupons.
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var dto = ObjectMapper.Map<CreateEditCouponViewModel, CreateUpdateCouponDto>(ViewModel);
+            var dto = ObjectMapper.Map<CreateCouponViewModel, CreateCouponDto>(ViewModel);
             await _service.CreateAsync(dto);
             return NoContent();
         }

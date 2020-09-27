@@ -113,16 +113,15 @@ namespace EasyAbp.EShop.Orders.Orders
             RefundAmount += amount;
         }
         
-        internal decimal AddDiscountGetRealDiscountedAmount(decimal expectedDiscountAmount)
+        internal void AddDiscount(decimal expectedDiscountAmount)
         {
-            var realDiscountedAmount = ActualTotalPrice - expectedDiscountAmount >= decimal.Zero
-                ? ActualTotalPrice - expectedDiscountAmount
-                : ActualTotalPrice;
-            
-            TotalDiscount += realDiscountedAmount;
-            ActualTotalPrice -= realDiscountedAmount;
+            TotalDiscount += expectedDiscountAmount;
+            ActualTotalPrice -= expectedDiscountAmount;
 
-            return realDiscountedAmount;
+            if (ActualTotalPrice < decimal.Zero)
+            {
+                throw new DiscountAmountOverflowException();
+            }
         }
     }
 }

@@ -165,16 +165,19 @@ namespace EasyAbp.EShop.Orders.Orders
             return !(!PaymentId.HasValue || PaidTime.HasValue);
         }
 
-        public decimal AddDiscountGetRealDiscountedAmount(Guid orderLineId, decimal expectedDiscountAmount)
+        public void AddDiscount(Guid orderLineId, decimal expectedDiscountAmount)
         {
             var orderLine = OrderLines.Single(x => x.Id == orderLineId);
 
-            var realDiscountedAmount = orderLine.AddDiscountGetRealDiscountedAmount(expectedDiscountAmount);
+            orderLine.AddDiscount(expectedDiscountAmount);
             
-            TotalDiscount += realDiscountedAmount;
-            ActualTotalPrice -= realDiscountedAmount;
+            TotalDiscount += expectedDiscountAmount;
+            ActualTotalPrice -= expectedDiscountAmount;
 
-            return realDiscountedAmount;
+            if (ActualTotalPrice < decimal.Zero)
+            {
+                throw new DiscountAmountOverflowException();
+            }
         }
     }
 }

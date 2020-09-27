@@ -54,7 +54,6 @@ $(function () {
             { data: "usableEndTime" },
             { data: "conditionAmount" },
             { data: "discountAmount" },
-            { data: "isCrossProductAllowed" },
             { data: "isUnscoped" },
         ]
     }));

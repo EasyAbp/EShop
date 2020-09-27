@@ -20,14 +20,14 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         }
 
         [HttpPost]
-        public virtual Task<CouponDto> CreateAsync(CreateUpdateCouponDto input)
+        public virtual Task<CouponDto> CreateAsync(CreateCouponDto input)
         {
             return _service.CreateAsync(input);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public virtual Task<CouponDto> UpdateAsync(Guid id, CreateUpdateCouponDto input)
+        public virtual Task<CouponDto> UpdateAsync(Guid id, UpdateCouponDto input)
         {
             return _service.UpdateAsync(id, input);
         }
@@ -39,6 +39,13 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             return _service.DeleteAsync(id);
         }
 
+        [HttpPost]
+        [Route("{id}/occupy")]
+        public Task<CouponDto> OccupyAsync(Guid id, OccupyCouponInput input)
+        {
+            return _service.OccupyAsync(id, input);
+        }
+
         [HttpGet]
         [Route("{id}")]
         public virtual Task<CouponDto> GetAsync(Guid id)
@@ -47,7 +54,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         }
 
         [HttpGet]
-        public virtual Task<PagedResultDto<CouponDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public virtual Task<PagedResultDto<CouponDto>> GetListAsync(GetCouponListInput input)
         {
             return _service.GetListAsync(input);
         }

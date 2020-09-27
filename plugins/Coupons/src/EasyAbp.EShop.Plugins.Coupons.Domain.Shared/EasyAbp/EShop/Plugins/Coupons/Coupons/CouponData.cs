@@ -6,6 +6,10 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 {
     public class CouponData : ICoupon
     {
+        public Guid Id { get; set; }
+        
+        public Guid? TenantId { get; set; }
+        
         public Guid CouponTemplateId { get; set; }
         
         public Guid UserId { get; set; }

@@ -6,6 +6,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 {
     public interface ICouponLookupService
     {
-        Task<ICoupon> FindByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<CouponData> FindByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

@@ -6,8 +6,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrderManager : IDomainService
     {
-        Task<Order> DiscountAsync(Order order);
-
         Task<Order> CompleteAsync(Order order);
         
         Task<Order> CancelAsync(Order order, string cancellationReason);

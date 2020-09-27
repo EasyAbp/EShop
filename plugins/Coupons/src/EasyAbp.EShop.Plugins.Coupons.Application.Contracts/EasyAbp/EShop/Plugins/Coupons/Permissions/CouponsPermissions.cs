@@ -22,6 +22,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Permissions
         public class Coupon
         {
             public const string Default = GroupName + ".Coupon";
+            public const string Use = Default + ".Use";
+            public const string Manage = Default + ".Manage";
             public const string Update = Default + ".Update";
             public const string Create = Default + ".Create";
             public const string Delete = Default + ".Delete";

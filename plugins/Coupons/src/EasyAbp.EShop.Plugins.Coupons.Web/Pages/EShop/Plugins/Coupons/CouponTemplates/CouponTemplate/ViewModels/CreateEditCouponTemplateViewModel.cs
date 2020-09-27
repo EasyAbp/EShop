@@ -37,9 +37,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.CouponTe
         [Display(Name = "CouponTemplateDiscountAmount")]
         public decimal DiscountAmount { get; set; }
 
-        [Display(Name = "CouponTemplateIsCrossProductAllowed")]
-        public bool IsCrossProductAllowed { get; set; }
-
         [Display(Name = "CouponTemplateIsUnscoped")]
         public bool IsUnscoped { get; set; }
     }

@@ -5,6 +5,10 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
     public class CouponTemplateData : ICouponTemplate, IHasCouponTemplateScopes<CouponTemplateScopeData>
     {
+        public Guid Id { get; set; }
+        
+        public Guid? TenantId { get; set; }
+        
         public Guid? StoreId { get; set; }
 
         public CouponType CouponType { get; set; }
@@ -24,8 +28,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         public decimal ConditionAmount { get; set; }
 
         public decimal DiscountAmount { get; set; }
-
-        public bool IsCrossProductAllowed { get; set; }
 
         public bool IsUnscoped { get; set; }
 

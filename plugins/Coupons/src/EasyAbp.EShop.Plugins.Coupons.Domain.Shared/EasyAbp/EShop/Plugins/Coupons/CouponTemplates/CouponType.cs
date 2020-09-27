@@ -1,5 +1,8 @@
-﻿namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
+﻿using System;
+
+namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
+    [Flags]
     public enum CouponType
     {
         /// <summary>

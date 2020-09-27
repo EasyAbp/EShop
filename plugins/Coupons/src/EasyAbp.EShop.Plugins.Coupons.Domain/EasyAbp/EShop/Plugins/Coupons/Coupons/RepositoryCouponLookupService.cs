@@ -2,22 +2,27 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.ObjectMapping;
 
 namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 {
     public class RepositoryCouponLookupService : ICouponLookupService, ITransientDependency
     {
+        private readonly IObjectMapper _objectMapper;
         private readonly ICouponRepository _couponRepository;
 
         public RepositoryCouponLookupService(
+            IObjectMapper objectMapper,
             ICouponRepository couponRepository)
         {
+            _objectMapper = objectMapper;
             _couponRepository = couponRepository;
         }
         
-        public virtual async Task<ICoupon> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<CouponData> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _couponRepository.FindAsync(id, true, cancellationToken);
+            return _objectMapper.Map<Coupon, CouponData>(
+                await _couponRepository.FindAsync(id, true, cancellationToken));
         }
     }
 }

@@ -9,6 +9,7 @@ using EasyAbp.EShop.Payments;
 using EasyAbp.EShop.Payments.Web;
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.EShop.Plugins.Baskets.Web;
+using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.EShop.Plugins.Coupons.Web;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Products.Web;
@@ -189,6 +190,12 @@ namespace EShopSample.Web
                     options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsBasketsApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Baskets{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Baskets.Application.Contracts"));
                     options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsBasketsApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Baskets{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Baskets.Application"));
                     options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsBasketsWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Baskets{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Baskets.Web"));
+                    
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Domain.Shared"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Domain"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Application.Contracts"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Application"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Web"));
                 });
             }
         }

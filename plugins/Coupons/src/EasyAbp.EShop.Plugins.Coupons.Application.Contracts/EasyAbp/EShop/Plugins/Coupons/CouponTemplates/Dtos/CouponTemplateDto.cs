@@ -27,8 +27,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos
 
         public decimal DiscountAmount { get; set; }
 
-        public bool IsCrossProductAllowed { get; set; }
-
         public bool IsUnscoped { get; set; }
         
         public List<CouponTemplateScopeDto> Scopes { get; set; }

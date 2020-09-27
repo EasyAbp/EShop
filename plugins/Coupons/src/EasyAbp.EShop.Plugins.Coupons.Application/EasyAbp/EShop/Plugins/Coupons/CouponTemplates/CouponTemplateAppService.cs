@@ -26,6 +26,11 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             _repository = repository;
         }
 
+        protected override IQueryable<CouponTemplate> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
+        {
+            return _repository.WithDetails();
+        }
+
         public override async Task<CouponTemplateDto> CreateAsync(CreateUpdateCouponTemplateDto input)
         {
             await CheckCreatePolicyAsync();
@@ -59,11 +64,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
                     inputScoreDto.ProductGroupName, inputScoreDto.ProductId, inputScoreDto.ProductSkuId));
             }
             
-            foreach (var scope in entity.Scopes.Where(scope => !ExistScope(input.Scopes, scope)))
-            {
-                entity.Scopes.Remove(scope);
-            }
-            
+            entity.Scopes.RemoveAll(scope => !ExistScope(input.Scopes, scope));
+
             await Repository.UpdateAsync(entity, autoSave: true);
 
             return await MapToGetOutputDtoAsync(entity);

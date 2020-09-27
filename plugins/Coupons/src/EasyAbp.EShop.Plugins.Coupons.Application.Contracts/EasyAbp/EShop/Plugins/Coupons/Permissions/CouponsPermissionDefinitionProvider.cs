@@ -16,6 +16,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Permissions
             couponTemplatePermission.AddChild(CouponsPermissions.CouponTemplate.Delete, L("Permission:Delete"));
 
             var couponPermission = myGroup.AddPermission(CouponsPermissions.Coupon.Default, L("Permission:Coupon"));
+            couponPermission.AddChild(CouponsPermissions.Coupon.Use, L("Permission:Use"));
+            couponPermission.AddChild(CouponsPermissions.Coupon.Manage, L("Permission:Manage"));
             couponPermission.AddChild(CouponsPermissions.Coupon.Create, L("Permission:Create"));
             couponPermission.AddChild(CouponsPermissions.Coupon.Update, L("Permission:Update"));
             couponPermission.AddChild(CouponsPermissions.Coupon.Delete, L("Permission:Delete"));

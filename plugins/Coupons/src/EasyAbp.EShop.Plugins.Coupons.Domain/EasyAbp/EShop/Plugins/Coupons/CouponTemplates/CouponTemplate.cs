@@ -43,12 +43,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         public virtual decimal ConditionAmount { get; protected set; }
         
         public virtual decimal DiscountAmount { get; protected set; }
-        
-        /// <summary>
-        /// If it is set to true, the coupon can be used when the total price of all the order lines in the order
-        /// with products in scope is greater than or equal to ConditionAmount.
-        /// </summary>
-        public virtual bool IsCrossProductAllowed { get; protected set; }
 
         /// <summary>
         /// The coupon can be used for any product of any store if this property is set to true.
@@ -75,7 +69,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             DateTime? usableEndTime, 
             decimal conditionAmount, 
             decimal discountAmount, 
-            bool isCrossProductAllowed, 
             bool isUnscoped, 
             List<CouponTemplateScope> scopes
         ) : base(id)
@@ -91,7 +84,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             UsableEndTime = usableEndTime;
             ConditionAmount = conditionAmount;
             DiscountAmount = discountAmount;
-            IsCrossProductAllowed = isCrossProductAllowed;
             IsUnscoped = isUnscoped;
             Scopes = scopes ?? new List<CouponTemplateScope>();
         }

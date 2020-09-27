@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -29,16 +28,6 @@ namespace EasyAbp.EShop.Orders.Orders
             _distributedEventBus = distributedEventBus;
             _unitOfWorkManager = unitOfWorkManager;
             _orderRepository = orderRepository;
-        }
-        
-        public virtual async Task<Order> DiscountAsync(Order order)
-        {
-            foreach (var provider in ServiceProvider.GetServices<IOrderDiscountProvider>())
-            {
-                await provider.DiscountAsync(order);
-            }
-
-            return order;
         }
 
         public virtual async Task<Order> CompleteAsync(Order order)

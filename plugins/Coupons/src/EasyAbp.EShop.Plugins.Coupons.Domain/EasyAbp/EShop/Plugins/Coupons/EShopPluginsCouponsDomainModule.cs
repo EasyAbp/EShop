@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.EShop.Orders;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
 using Volo.Abp.Modularity;
@@ -8,7 +9,8 @@ namespace EasyAbp.EShop.Plugins.Coupons
     [DependsOn(
         typeof(AbpAutoMapperModule),
         typeof(AbpDddDomainModule),
-        typeof(EShopPluginsCouponsDomainSharedModule)
+        typeof(EShopPluginsCouponsDomainSharedModule),
+        typeof(EShopOrdersDomainSharedModule)
     )]
     public class EShopPluginsCouponsDomainModule : AbpModule
     {
