@@ -5,5 +5,7 @@
         public const string OrderCouponIdPropertyName = "CouponId";
         
         public const string OrderCouponDiscountAmountPropertyName = "CouponDiscountAmount";
+
+        public const int MaxNotExpiredCouponQuantityPerUser = 100;
     }
 }

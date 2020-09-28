@@ -11,5 +11,12 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
         public Guid? StoreId { get; set; }
         
         public Guid? UserId { get; set; }
+        
+        public bool IncludesExpired { get; set; }
+
+        public GetCouponListInput()
+        {
+            MaxMaxResultCount = CouponsConsts.MaxNotExpiredCouponQuantityPerUser;
+        }
     }
 }

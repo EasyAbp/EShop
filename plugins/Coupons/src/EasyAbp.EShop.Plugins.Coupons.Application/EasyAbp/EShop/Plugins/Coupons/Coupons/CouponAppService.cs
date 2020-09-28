@@ -37,8 +37,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 
         protected override IQueryable<Coupon> CreateFilteredQuery(GetCouponListInput input)
         {
-            return input.AvailableOnly ? _repository.GetAvailableCouponQueryable(Clock) : _repository.AsQueryable()
-                .WhereIf(input.UserId.HasValue, x => x.UserId == input.UserId.Value);
+            return (input.AvailableOnly ? _repository.GetAvailableCouponQueryable(Clock) : _repository.AsQueryable())
+                .WhereIf(input.UserId.HasValue, x => x.UserId == input.UserId.Value)
+                .WhereIf(!input.AvailableOnly && !input.IncludesExpired, x => x.ExpirationTime > Clock.Now);
         }
 
         protected virtual CouponDto FillCouponTemplateData(CouponDto couponDto, CouponTemplate couponTemplate)
@@ -107,7 +108,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             
             coupon.SetExpirationTime(couponTemplate.GetCalculatedExpirationTime(Clock));
 
-            await Repository.InsertAsync(coupon, autoSave: true);
+            await _repository.InsertAsync(coupon, autoSave: true);
 
             return FillCouponTemplateData(await MapToGetOutputDtoAsync(coupon), couponTemplate);
         }
