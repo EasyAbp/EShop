@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Coupons.Permissions;
 using EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
+using EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos;
 using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
@@ -39,21 +41,28 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
                 .WhereIf(input.UserId.HasValue, x => x.UserId == input.UserId.Value);
         }
 
+        protected virtual CouponDto FillCouponTemplateData(CouponDto couponDto, CouponTemplate couponTemplate)
+        {
+            couponDto.CouponTemplate = ObjectMapper.Map<CouponTemplate, CouponTemplateDto>(couponTemplate);
+
+            return couponDto;
+        }
+
         public override async Task<CouponDto> GetAsync(Guid id)
         {
             await CheckGetPolicyAsync();
 
             var coupon = await GetEntityByIdAsync(id);
 
+            var couponTemplate = await _couponTemplateRepository.GetAsync(coupon.CouponTemplateId);
+
             if (coupon.UserId != CurrentUser.GetId())
             {
-                var couponTemplate = await _couponTemplateRepository.GetAsync(coupon.CouponTemplateId);
-
                 await AuthorizationService.CheckMultiStorePolicyAsync(couponTemplate.StoreId,
                     CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
             }
 
-            return await MapToGetOutputDtoAsync(coupon);
+            return FillCouponTemplateData(await MapToGetOutputDtoAsync(coupon), couponTemplate);
         }
 
         public override async Task<PagedResultDto<CouponDto>> GetListAsync(GetCouponListInput input)
@@ -64,7 +73,23 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
                     CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
             }
             
-            return await base.GetListAsync(input);
+            var result = await base.GetListAsync(input);
+
+            var couponTemplateDtoDictionary = new Dictionary<Guid, CouponTemplateDto>();
+
+            foreach (var couponDto in result.Items)
+            {
+                if (!couponTemplateDtoDictionary.ContainsKey(couponDto.CouponTemplateId))
+                {
+                    couponTemplateDtoDictionary.Add(couponDto.CouponTemplateId,
+                        ObjectMapper.Map<CouponTemplate, CouponTemplateDto>(
+                            await _couponTemplateRepository.GetAsync(couponDto.CouponTemplateId)));
+                }
+
+                couponDto.CouponTemplate = couponTemplateDtoDictionary[couponDto.CouponTemplateId];
+            }
+
+            return result;
         }
 
         public override async Task<CouponDto> CreateAsync(CreateCouponDto input)
@@ -84,7 +109,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 
             await Repository.InsertAsync(coupon, autoSave: true);
 
-            return await MapToGetOutputDtoAsync(coupon);
+            return FillCouponTemplateData(await MapToGetOutputDtoAsync(coupon), couponTemplate);
         }
 
         public override async Task<CouponDto> UpdateAsync(Guid id, UpdateCouponDto input)
@@ -102,8 +127,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             
             await Repository.UpdateAsync(coupon, autoSave: true);
             
-            return await MapToGetOutputDtoAsync(coupon);
-
+            return FillCouponTemplateData(await MapToGetOutputDtoAsync(coupon), couponTemplate);
         }
 
         public override async Task DeleteAsync(Guid id)
@@ -135,11 +159,13 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
                 throw new CouponHasBeenOccupiedException();
             }
             
+            var couponTemplate = await _couponTemplateRepository.GetAsync(coupon.CouponTemplateId);
+
             coupon.SetOrderId(input.OrderId);
 
             await _repository.UpdateAsync(coupon, true);
 
-            return ObjectMapper.Map<Coupon, CouponDto>(coupon);
+            return FillCouponTemplateData(await MapToGetOutputDtoAsync(coupon), couponTemplate);
         }
     }
 }

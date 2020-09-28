@@ -1,4 +1,5 @@
 using System;
+using EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
@@ -17,5 +18,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
         public DateTime? UsedTime { get; set; }
 
         public decimal? DiscountedAmount { get; set; }
+        
+        public CouponTemplateDto CouponTemplate { get; set; }
     }
 }

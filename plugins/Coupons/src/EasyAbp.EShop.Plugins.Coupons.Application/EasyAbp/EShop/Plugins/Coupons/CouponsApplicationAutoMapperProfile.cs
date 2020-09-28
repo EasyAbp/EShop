@@ -21,7 +21,8 @@ namespace EasyAbp.EShop.Plugins.Coupons
             CreateMap<CouponTemplateScope, CouponTemplateScopeDto>();
             CreateMap<CreateUpdateCouponTemplateScopeDto, CouponTemplateScope>(MemberList.Source);
             
-            CreateMap<Coupon, CouponDto>();
+            CreateMap<Coupon, CouponDto>()
+                .Ignore(x => x.CouponTemplate);
             CreateMap<CreateCouponDto, Coupon>(MemberList.Source);
             CreateMap<UpdateCouponDto, Coupon>(MemberList.Source);
         }
