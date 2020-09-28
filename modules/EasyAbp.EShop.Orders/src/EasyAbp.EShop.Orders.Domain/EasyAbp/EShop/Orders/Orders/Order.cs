@@ -164,5 +164,20 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             return !(!PaymentId.HasValue || PaidTime.HasValue);
         }
+
+        public void AddDiscount(Guid orderLineId, decimal expectedDiscountAmount)
+        {
+            var orderLine = OrderLines.Single(x => x.Id == orderLineId);
+
+            orderLine.AddDiscount(expectedDiscountAmount);
+            
+            TotalDiscount += expectedDiscountAmount;
+            ActualTotalPrice -= expectedDiscountAmount;
+
+            if (ActualTotalPrice < decimal.Zero)
+            {
+                throw new DiscountAmountOverflowException();
+            }
+        }
     }
 }

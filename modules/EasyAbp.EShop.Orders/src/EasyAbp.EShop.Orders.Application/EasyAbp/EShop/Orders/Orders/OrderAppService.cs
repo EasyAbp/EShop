@@ -8,6 +8,7 @@ using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Users;
@@ -99,11 +100,19 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict);
 
-            await _orderManager.DiscountAsync(order, input.ExtraProperties);
+            await DiscountOrderAsync(order, productDict);
 
             await Repository.InsertAsync(order, autoSave: true);
 
             return await MapToGetOutputDtoAsync(order);
+        }
+        
+        protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, ProductDto> productDict)
+        {
+            foreach (var provider in ServiceProvider.GetServices<IOrderDiscountProvider>())
+            {
+                await provider.DiscountAsync(order, productDict);
+            }
         }
 
         protected virtual async Task<Dictionary<Guid, ProductDto>> GetProductDictionaryAsync(

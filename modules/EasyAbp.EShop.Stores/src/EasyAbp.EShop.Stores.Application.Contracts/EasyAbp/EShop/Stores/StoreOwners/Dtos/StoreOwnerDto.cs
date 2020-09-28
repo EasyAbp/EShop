@@ -6,7 +6,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Stores.StoreOwners.Dtos
 {
     [Serializable]
-    public class StoreOwnerDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiStore
+    public class StoreOwnerDto : ExtensibleAuditedEntityDto<Guid>, IMultiStore
     {
         public Guid StoreId { get; set; }
 

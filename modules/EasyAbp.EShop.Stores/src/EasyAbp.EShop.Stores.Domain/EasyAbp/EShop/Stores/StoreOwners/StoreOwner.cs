@@ -5,7 +5,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    public class StoreOwner : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
+    public class StoreOwner : AuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
     {
         public virtual Guid? TenantId { get; protected set; }
 

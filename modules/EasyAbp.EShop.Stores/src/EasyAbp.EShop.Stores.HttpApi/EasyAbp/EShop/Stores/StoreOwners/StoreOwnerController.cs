@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    [RemoteService(Name = "EShopStoreOwners")]
+    [RemoteService(Name = "EasyAbpEShopStores")]
     [Route("/api/eShop/stores/storeOwner")]
     public class StoreOwnerController : StoresController
     {

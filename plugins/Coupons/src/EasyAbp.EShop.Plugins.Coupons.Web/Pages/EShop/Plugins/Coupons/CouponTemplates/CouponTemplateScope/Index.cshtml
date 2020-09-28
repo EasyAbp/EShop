@@ -1,0 +1,62 @@
+@page
+@using EasyAbp.EShop.Plugins.Coupons.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.CouponTemplates.CouponTemplateScope
+@using EasyAbp.EShop.Plugins.Coupons.Localization
+@using EasyAbp.EShop.Plugins.Coupons.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<CouponsResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["CouponTemplateScope"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:CouponTemplate"].Value);
+    PageLayout.Content.MenuItemName = CouponsMenus.CouponTemplate;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Plugins/Coupons/CouponTemplates/CouponTemplateScope/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Plugins/Coupons/CouponTemplates/CouponTemplateScope/index.css"/>
+}
+
+<script>
+    let couponTemplateId = '@Model.CouponTemplateId';
+</script>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["CouponTemplateScope"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(CouponsPermissions.CouponTemplate.Update))
+                {
+                <abp-button id="NewCouponTemplateScopeButton"
+                            text="@L["CreateCouponTemplateScope"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="CouponTemplateScopeTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["CouponTemplateScopeStoreId"]</th>
+                <th>@L["CouponTemplateScopeProductGroupName"]</th>
+                <th>@L["CouponTemplateScopeProductId"]</th>
+                <th>@L["CouponTemplateScopeProductSkuId"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

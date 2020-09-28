@@ -1,0 +1,65 @@
+@page
+@using EasyAbp.EShop.Plugins.Coupons.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.CouponTemplates.CouponTemplate
+@using EasyAbp.EShop.Plugins.Coupons.Localization
+@using EasyAbp.EShop.Plugins.Coupons.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<CouponsResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["CouponTemplate"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:CouponTemplate"].Value);
+    PageLayout.Content.MenuItemName = CouponsMenus.CouponTemplate;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Plugins/Coupons/CouponTemplates/CouponTemplate/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Plugins/Coupons/CouponTemplates/CouponTemplate/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["CouponTemplate"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+			    @if (await Authorization.IsGrantedAsync(CouponsPermissions.CouponTemplate.Create))
+                {
+                <abp-button id="NewCouponTemplateButton"
+                            text="@L["CreateCouponTemplate"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="CouponTemplateTable" class="nowrap">
+            <thead>
+            <tr>
+                <th>@L["Actions"]</th>
+                <th>@L["CouponTemplateStoreId"]</th>
+                <th>@L["CouponTemplateCouponType"]</th>
+                <th>@L["CouponTemplateUniqueName"]</th>
+                <th>@L["CouponTemplateDisplayName"]</th>
+                <th>@L["CouponTemplateDescription"]</th>
+                <th>@L["CouponTemplateUsableDuration"]</th>
+                <th>@L["CouponTemplateUsableBeginTime"]</th>
+                <th>@L["CouponTemplateUsableEndTime"]</th>
+                <th>@L["CouponTemplateConditionAmount"]</th>
+                <th>@L["CouponTemplateDiscountAmount"]</th>
+                <th>@L["CouponTemplateIsUnscoped"]</th>
+            </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

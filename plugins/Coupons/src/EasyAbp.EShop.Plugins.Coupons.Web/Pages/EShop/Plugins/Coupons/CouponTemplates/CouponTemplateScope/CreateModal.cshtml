@@ -1,0 +1,19 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
+@using EasyAbp.EShop.Plugins.Coupons.Localization
+@inject IHtmlLocalizer<CouponsResource> L
+@model EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.CouponTemplates.CouponTemplateScope.CreateModalModel
+@{
+    Layout = null;
+}
+<abp-dynamic-form abp-model="ViewModel" data-ajaxForm="true" asp-page="CreateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["CreateCouponTemplate"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-input asp-for="CouponTemplateId" />
+            <abp-form-content/>
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</abp-dynamic-form>
