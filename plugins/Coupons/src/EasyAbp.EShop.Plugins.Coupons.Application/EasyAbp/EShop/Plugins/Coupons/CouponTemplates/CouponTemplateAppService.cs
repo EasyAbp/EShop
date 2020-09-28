@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Coupons.Permissions;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos;
+using EasyAbp.EShop.Stores.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -33,8 +35,14 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 
         public override async Task<CouponTemplateDto> CreateAsync(CreateUpdateCouponTemplateDto input)
         {
-            await CheckCreatePolicyAsync();
-
+            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName,
+                CouponsPermissions.CouponTemplate.CrossStore);
+            
+            if (input.Scopes.Any(x => x.StoreId != input.StoreId))
+            {
+                await AuthorizationService.CheckAsync(CouponsPermissions.CouponTemplate.CrossStore);
+            }
+            
             var entity = await MapToEntityAsync(input);
 
             TryToSetTenantId(entity);
@@ -52,9 +60,15 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 
         public override async Task<CouponTemplateDto> UpdateAsync(Guid id, CreateUpdateCouponTemplateDto input)
         {
-            await CheckUpdatePolicyAsync();
-
             var entity = await GetEntityByIdAsync(id);
+            
+            await AuthorizationService.CheckMultiStorePolicyAsync(entity.StoreId, UpdatePolicyName,
+                CouponsPermissions.CouponTemplate.CrossStore);
+
+            if (input.StoreId != entity.StoreId || input.Scopes.Any(x => x.StoreId != input.StoreId))
+            {
+                await AuthorizationService.CheckAsync(CouponsPermissions.CouponTemplate.CrossStore);
+            }
             
             await MapToEntityAsync(input, entity);
 
@@ -70,7 +84,17 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 
             return await MapToGetOutputDtoAsync(entity);
         }
-        
+
+        public override async Task DeleteAsync(Guid id)
+        {
+            var couponTemplate = await GetEntityByIdAsync(id);
+            
+            await AuthorizationService.CheckMultiStorePolicyAsync(couponTemplate.StoreId, DeletePolicyName,
+                CouponsPermissions.CouponTemplate.CrossStore);
+
+            await _repository.DeleteAsync(couponTemplate);
+        }
+
         protected virtual bool ExistScope(IEnumerable<CreateUpdateCouponTemplateScopeDto> scopes, ICouponTemplateScope need)
         {
             return scopes.Any(x => x.StoreId == need.StoreId &&

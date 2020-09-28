@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
@@ -31,8 +32,16 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.CouponTe
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var dto = ObjectMapper.Map<CreateEditCouponTemplateViewModel, CreateUpdateCouponTemplateDto>(ViewModel);
-            await _service.UpdateAsync(Id, dto);
+            var dto = await _service.GetAsync(Id);
+
+            var updateDto =
+                ObjectMapper.Map<CreateEditCouponTemplateViewModel, CreateUpdateCouponTemplateDto>(ViewModel);
+
+            updateDto.Scopes =
+                ObjectMapper.Map<List<CouponTemplateScopeDto>, List<CreateUpdateCouponTemplateScopeDto>>(dto.Scopes);
+            
+            await _service.UpdateAsync(Id, updateDto);
+            
             return NoContent();
         }
     }

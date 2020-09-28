@@ -8,6 +8,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
     {
         public bool AvailableOnly { get; set; }
         
+        public Guid? StoreId { get; set; }
+        
         public Guid? UserId { get; set; }
     }
 }

@@ -21,6 +21,13 @@ $(function () {
                     items:
                         [
                             {
+                                text: l('CouponTemplateScope'),
+                                visible: abp.auth.isGranted('EasyAbp.EShop.Plugins.Coupons.CouponTemplate.Update'),
+                                action: function (data) {
+                                    document.location.href = document.location.origin + '/EShop/Plugins/Coupons/CouponTemplates/CouponTemplateScope/?CouponTemplateId=' + data.record.id;
+                                }
+                            },
+                            {
                                 text: l('Edit'),
                                 visible: abp.auth.isGranted('EasyAbp.EShop.Plugins.Coupons.CouponTemplate.Update'),
                                 action: function (data) {

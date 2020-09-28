@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Coupons.Permissions;
 using EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
+using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Authorization;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Plugins.Coupons.Coupons
@@ -41,21 +43,25 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         {
             await CheckGetPolicyAsync();
 
-            var entity = await GetEntityByIdAsync(id);
+            var coupon = await GetEntityByIdAsync(id);
 
-            if (entity.UserId != CurrentUser.GetId())
+            if (coupon.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(CouponsPermissions.Coupon.Manage);
+                var couponTemplate = await _couponTemplateRepository.GetAsync(coupon.CouponTemplateId);
+
+                await AuthorizationService.CheckMultiStorePolicyAsync(couponTemplate.StoreId,
+                    CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
             }
 
-            return await MapToGetOutputDtoAsync(entity);
+            return await MapToGetOutputDtoAsync(coupon);
         }
 
         public override async Task<PagedResultDto<CouponDto>> GetListAsync(GetCouponListInput input)
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await AuthorizationService.CheckAsync(CouponsPermissions.Coupon.Manage);
+                await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId,
+                    CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
             }
             
             return await base.GetListAsync(input);
@@ -67,21 +73,62 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 
             var couponTemplate = await _couponTemplateRepository.GetAsync(input.CouponTemplateId);
             
-            var entity = await MapToEntityAsync(input);
-
-            TryToSetTenantId(entity);
+            await AuthorizationService.CheckMultiStorePolicyAsync(couponTemplate.StoreId,
+                CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
             
-            entity.SetExpirationTime(couponTemplate.GetCalculatedExpirationTime(Clock));
+            var coupon = await MapToEntityAsync(input);
 
-            await Repository.InsertAsync(entity, autoSave: true);
+            TryToSetTenantId(coupon);
+            
+            coupon.SetExpirationTime(couponTemplate.GetCalculatedExpirationTime(Clock));
 
-            return await MapToGetOutputDtoAsync(entity);
+            await Repository.InsertAsync(coupon, autoSave: true);
+
+            return await MapToGetOutputDtoAsync(coupon);
+        }
+
+        public override async Task<CouponDto> UpdateAsync(Guid id, UpdateCouponDto input)
+        {
+            await CheckUpdatePolicyAsync();
+
+            var coupon = await GetEntityByIdAsync(id);
+            
+            var couponTemplate = await _couponTemplateRepository.GetAsync(coupon.CouponTemplateId);
+
+            await AuthorizationService.CheckMultiStorePolicyAsync(couponTemplate.StoreId,
+                CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
+            
+            await MapToEntityAsync(input, coupon);
+            
+            await Repository.UpdateAsync(coupon, autoSave: true);
+            
+            return await MapToGetOutputDtoAsync(coupon);
+
+        }
+
+        public override async Task DeleteAsync(Guid id)
+        {
+            await CheckDeletePolicyAsync();
+            
+            var coupon = await GetEntityByIdAsync(id);
+            
+            var couponTemplate = await _couponTemplateRepository.GetAsync(coupon.CouponTemplateId);
+
+            await AuthorizationService.CheckMultiStorePolicyAsync(couponTemplate.StoreId,
+                CouponsPermissions.Coupon.Manage, CouponsPermissions.Coupon.CrossStore);
+
+            await _repository.DeleteAsync(coupon, true);
         }
 
         [Authorize(CouponsPermissions.Coupon.Use)]
         public virtual async Task<CouponDto> OccupyAsync(Guid id, OccupyCouponInput input)
         {
             var coupon = await GetEntityByIdAsync(id);
+
+            if (coupon.UserId != CurrentUser.GetId())
+            {
+                throw new AbpAuthorizationException();
+            }
 
             if (coupon.OrderId.HasValue)
             {
