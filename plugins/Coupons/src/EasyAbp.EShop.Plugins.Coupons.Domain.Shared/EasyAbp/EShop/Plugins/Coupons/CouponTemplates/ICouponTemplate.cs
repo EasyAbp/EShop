@@ -29,6 +29,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         
         decimal DiscountAmount { get; }
         
+        [NotNull]
+        string Currency { get; }
+        
         bool IsUnscoped { get; }
     }
 }

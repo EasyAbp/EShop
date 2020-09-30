@@ -19,6 +19,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         public virtual DateTime? UsedTime { get; protected set; }
         
         public virtual decimal? DiscountedAmount { get; protected set; }
+        
+        public virtual string Currency { get; protected set; }
 
         protected Coupon()
         {
@@ -49,10 +51,11 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             ExpirationTime = expirationTime;
         }
 
-        public void SetUsed(DateTime? usedTime, decimal? discountedAmount)
+        public void SetUsed(DateTime? usedTime, decimal? discountedAmount, string currency)
         {
             UsedTime = usedTime;
             DiscountedAmount = discountedAmount;
+            Currency = currency;
         }
     }
 }

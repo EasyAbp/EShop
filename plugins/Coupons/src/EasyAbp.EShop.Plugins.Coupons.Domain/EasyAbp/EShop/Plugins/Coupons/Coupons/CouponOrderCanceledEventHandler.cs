@@ -29,7 +29,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             var coupon = await _couponRepository.GetAsync(couponId);
             
             coupon.SetOrderId(null);
-            coupon.SetUsed(null, null);
+            coupon.SetUsed(null, null, null);
 
             await _couponRepository.UpdateAsync(coupon, true);
         }

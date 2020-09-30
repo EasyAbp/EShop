@@ -28,6 +28,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         public decimal ConditionAmount { get; set; }
 
         public decimal DiscountAmount { get; set; }
+        
+        public string Currency { get; set; }
 
         public bool IsUnscoped { get; set; }
 

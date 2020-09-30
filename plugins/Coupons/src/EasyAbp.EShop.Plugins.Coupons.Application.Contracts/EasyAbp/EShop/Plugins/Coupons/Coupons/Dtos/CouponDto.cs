@@ -19,6 +19,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
 
         public decimal? DiscountedAmount { get; set; }
         
+        public string Currency { get; set; }
+
         public CouponTemplateDto CouponTemplate { get; set; }
     }
 }

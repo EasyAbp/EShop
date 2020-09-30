@@ -20,6 +20,7 @@
     "CouponTemplateUsableEndTime": "Usable end time",
     "CouponTemplateConditionAmount": "Condition amount",
     "CouponTemplateDiscountAmount": "Discount amount",
+    "CouponTemplateCurrency": "Currency",
     "CouponTemplateIsUnscoped": "Unscoped",
     "CreateCouponTemplate": "New",
     "EditCouponTemplate": "Edit",

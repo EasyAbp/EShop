@@ -61,6 +61,7 @@ $(function () {
             { data: "usableEndTime" },
             { data: "conditionAmount" },
             { data: "discountAmount" },
+            { data: "currency" },
             { data: "isUnscoped" },
         ]
     }));

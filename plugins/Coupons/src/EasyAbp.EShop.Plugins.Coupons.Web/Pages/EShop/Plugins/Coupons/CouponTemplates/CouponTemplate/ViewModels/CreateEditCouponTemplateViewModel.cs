@@ -36,6 +36,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web.Pages.EShop.Plugins.Coupons.CouponTe
 
         [Display(Name = "CouponTemplateDiscountAmount")]
         public decimal DiscountAmount { get; set; }
+        
+        [Display(Name = "CouponTemplateCurrency")]
+        public string Currency { get; set; }
 
         [Display(Name = "CouponTemplateIsUnscoped")]
         public bool IsUnscoped { get; set; }

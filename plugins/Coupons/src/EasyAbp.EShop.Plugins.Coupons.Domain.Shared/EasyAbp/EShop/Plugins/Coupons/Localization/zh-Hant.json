@@ -19,6 +19,7 @@
     "CouponTemplateUsableEndTime": "可用截止時間",
     "CouponTemplateConditionAmount": "條件金額",
     "CouponTemplateDiscountAmount": "減免金額",
+    "CouponTemplateCurrency": "幣種",
     "CouponTemplateIsUnscoped": "不限使用範圍",
     "CreateCouponTemplate": "新建",
     "EditCouponTemplate": "編輯",

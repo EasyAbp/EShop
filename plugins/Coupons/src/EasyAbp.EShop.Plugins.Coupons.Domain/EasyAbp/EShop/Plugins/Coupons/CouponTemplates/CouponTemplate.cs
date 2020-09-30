@@ -43,6 +43,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         public virtual decimal ConditionAmount { get; protected set; }
         
         public virtual decimal DiscountAmount { get; protected set; }
+        
+        public virtual string Currency { get; protected set; }
 
         /// <summary>
         /// The coupon can be used for any product of any store if this property is set to true.
@@ -68,7 +70,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             DateTime? usableBeginTime, 
             DateTime? usableEndTime, 
             decimal conditionAmount, 
-            decimal discountAmount, 
+            decimal discountAmount,
+            [NotNull] string currency,
             bool isUnscoped, 
             List<CouponTemplateScope> scopes
         ) : base(id)
@@ -84,6 +87,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             UsableEndTime = usableEndTime;
             ConditionAmount = conditionAmount;
             DiscountAmount = discountAmount;
+            Currency = currency;
             IsUnscoped = isUnscoped;
             Scopes = scopes ?? new List<CouponTemplateScope>();
         }

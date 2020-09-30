@@ -58,7 +58,8 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             var couponTemplate = await _couponTemplateLookupService.FindByIdAsync(coupon.CouponTemplateId);
 
             if (couponTemplate == null ||
-                !IsInUsableTime(couponTemplate, now))
+                !IsInUsableTime(couponTemplate, now) ||
+                !IsCurrencyExpected(couponTemplate, order))
             {
                 throw new CouponTemplateNotFoundOrUnavailableException();
             }
@@ -70,6 +71,11 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             await _couponAppService.OccupyAsync(coupon.Id, new OccupyCouponInput {OrderId = order.Id});
 
             return order;
+        }
+
+        protected virtual bool IsCurrencyExpected(CouponTemplateData couponTemplate, Order order)
+        {
+            return couponTemplate.Currency == order.Currency;
         }
 
         protected virtual void DiscountOrderLines(CouponTemplateData couponTemplate, Order order,

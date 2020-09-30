@@ -41,7 +41,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
                 throw new InvalidCouponOrderIdException(eventData.Entity.Id, coupon.OrderId);
             }
             
-            coupon.SetUsed(_clock.Now, discountAmount);
+            coupon.SetUsed(_clock.Now, discountAmount, eventData.Entity.Currency);
 
             await _couponRepository.UpdateAsync(coupon, true);
         }
