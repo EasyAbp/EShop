@@ -35,6 +35,8 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.ObjectExtending
                         new[]
                         {
                             typeof(Order),
+                            typeof(OrderDto),
+                            typeof(OrderEto),
                             typeof(CreateOrderDto)
                         },
                         config =>
@@ -47,7 +49,9 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.ObjectExtending
                     .AddOrUpdate(
                         new[]
                         {
-                            typeof(Order)
+                            typeof(Order),
+                            typeof(OrderDto),
+                            typeof(OrderEto),
                         },
                         config =>
                         {
