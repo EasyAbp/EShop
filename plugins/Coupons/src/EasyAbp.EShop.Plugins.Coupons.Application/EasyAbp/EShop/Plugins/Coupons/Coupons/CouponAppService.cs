@@ -39,6 +39,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         {
             return (input.AvailableOnly ? _repository.GetAvailableCouponQueryable(Clock) : _repository.AsQueryable())
                 .WhereIf(input.UserId.HasValue, x => x.UserId == input.UserId.Value)
+                .WhereIf(!input.AvailableOnly && !input.IncludesUsed, x => !x.UsedTime.HasValue)
                 .WhereIf(!input.AvailableOnly && !input.IncludesExpired, x => x.ExpirationTime > Clock.Now);
         }
 
