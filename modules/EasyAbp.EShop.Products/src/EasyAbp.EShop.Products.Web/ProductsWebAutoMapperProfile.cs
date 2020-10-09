@@ -5,6 +5,7 @@ using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Categories.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
+using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category.ViewModels;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels;
 using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku.ViewModels;
 using Volo.Abp.AutoMapper;
@@ -68,7 +69,9 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<ProductAttributeOptionDto, CreateEditProductAttributeOptionViewModel>();
             CreateMap<CreateEditProductAttributeOptionViewModel, CreateUpdateProductAttributeOptionDto>()
                 .Ignore(dto => dto.ExtraProperties);
-            CreateMap<CategoryDto, CreateUpdateCategoryDto>();
+            CreateMap<CategoryDto, CreateEditCategoryViewModel>(MemberList.Destination);
+            CreateMap<CreateEditCategoryViewModel, CreateUpdateCategoryDto>()
+                .Ignore(dto => dto.ExtraProperties);
         }
     }
 }

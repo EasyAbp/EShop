@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Categories.Dtos;
+using EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category.ViewModels;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category
 {
@@ -13,7 +14,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category
         public Guid Id { get; set; }
 
         [BindProperty]
-        public CreateUpdateCategoryDto Category { get; set; }
+        public CreateEditCategoryViewModel Category { get; set; }
 
         private readonly ICategoryAppService _service;
 
@@ -25,12 +26,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category
         public async Task OnGetAsync()
         {
             var dto = await _service.GetAsync(Id);
-            Category = ObjectMapper.Map<CategoryDto, CreateUpdateCategoryDto>(dto);
+            Category = ObjectMapper.Map<CategoryDto, CreateEditCategoryViewModel>(dto);
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await _service.UpdateAsync(Id, Category);
+            await _service.UpdateAsync(Id,
+                ObjectMapper.Map<CreateEditCategoryViewModel, CreateUpdateCategoryDto>(Category));
+            
             return NoContent();
         }
     }
