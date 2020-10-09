@@ -14,7 +14,7 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
 
 1. Follow [the document](https://github.com/EasyAbp/PaymentService#installation) to install the dependent PaymentService module.
 
-1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/How-To.md#add-nuget-packages))
+1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-nuget-packages))
 
     * EasyAbp.EShop.Application
     * EasyAbp.EShop.Application.Contracts
@@ -30,7 +30,7 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
     > Please install packages of each sub-module separately if you are using microservices.
     > For example: install only the `EasyAbp.EShop.Products.Application` package.
 
-1. Add `DependsOn(typeof(EShopXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/How-To.md#add-module-dependencies))
+1. Add `DependsOn(typeof(EShopXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-module-dependencies))
 
 1. Add `builder.ConfigureEShop();` to the `OnModelCreating()` method in **MyProjectMigrationsDbContext.cs**.
 
