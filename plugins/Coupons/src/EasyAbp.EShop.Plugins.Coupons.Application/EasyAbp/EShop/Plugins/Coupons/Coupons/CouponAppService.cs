@@ -67,6 +67,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             return FillCouponTemplateData(await MapToGetOutputDtoAsync(coupon), couponTemplate);
         }
 
+        [Authorize]
         public override async Task<PagedResultDto<CouponDto>> GetListAsync(GetCouponListInput input)
         {
             if (input.UserId != CurrentUser.GetId())

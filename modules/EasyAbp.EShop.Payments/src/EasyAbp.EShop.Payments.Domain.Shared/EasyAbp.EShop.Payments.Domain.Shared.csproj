@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Validation" Version="3.1.2" />
-    <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="1.3.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="1.5.1" />
   </ItemGroup>
 
   <ItemGroup>

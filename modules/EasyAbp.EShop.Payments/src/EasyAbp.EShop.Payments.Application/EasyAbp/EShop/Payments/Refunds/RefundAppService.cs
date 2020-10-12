@@ -69,6 +69,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         }
 
         // Todo: should a store owner user see orders of other stores in the same payment/refund?
+        [Authorize]
         public override async Task<PagedResultDto<RefundDto>> GetListAsync(GetRefundListDto input)
         {
             if (input.UserId != CurrentUser.GetId())

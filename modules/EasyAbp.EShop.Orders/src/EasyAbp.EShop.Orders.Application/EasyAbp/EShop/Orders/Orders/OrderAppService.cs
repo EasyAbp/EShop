@@ -58,6 +58,7 @@ namespace EasyAbp.EShop.Orders.Orders
             return query;
         }
 
+        [Authorize]
         public override async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrderListDto input)
         {
             if (input.CustomerUserId != CurrentUser.GetId())
