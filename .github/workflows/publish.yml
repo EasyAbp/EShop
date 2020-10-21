@@ -2,7 +2,8 @@ name: publish to nuget
 on:
   push:
     branches:
-      - master # Default release branch
+      - master
+      - main
 jobs:
   publish:
     runs-on: windows-latest

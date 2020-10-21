@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.6" />
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Coupons.TestBase\EasyAbp.EShop.Plugins.Coupons.TestBase.csproj" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="3.2.1" />
   </ItemGroup>
 
 </Project>

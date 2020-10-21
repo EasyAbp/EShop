@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="3.2.1" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Application.Contracts\EasyAbp.EShop.Products.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Shared\EasyAbp.EShop.Stores.Application.Shared.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Orders.Application.Contracts\EasyAbp.EShop.Orders.Application.Contracts.csproj" />
