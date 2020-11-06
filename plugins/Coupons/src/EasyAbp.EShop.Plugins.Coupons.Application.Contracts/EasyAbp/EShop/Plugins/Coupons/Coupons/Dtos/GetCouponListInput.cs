@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
@@ -16,9 +17,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos
         
         public bool IncludesExpired { get; set; }
 
-        public GetCouponListInput()
-        {
-            MaxMaxResultCount = CouponsConsts.MaxNotExpiredCouponQuantityPerUser;
-        }
+        [Range(1, CouponsConsts.MaxNotExpiredCouponQuantityPerUser)]
+        public override int MaxResultCount { get; set; } = DefaultMaxResultCount;
     }
 }
