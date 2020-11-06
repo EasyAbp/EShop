@@ -8,6 +8,9 @@ namespace EasyAbp.EShop.Products.Categories.Dtos
     [Serializable]
     public class CreateUpdateCategoryDto : ExtensibleObject
     {
+        [DisplayName("CategoryParentId")]
+        public Guid? ParentId { get; set; }
+        
         [DisplayName("CategoryUniqueName")]
         public string UniqueName { get; set; }
         

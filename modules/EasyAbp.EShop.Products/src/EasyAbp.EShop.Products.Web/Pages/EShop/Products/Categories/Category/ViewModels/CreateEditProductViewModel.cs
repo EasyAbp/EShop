@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category.ViewModels
 {
     public class CreateEditCategoryViewModel
     {
+        [Display(Name = "CategoryParentId")]
+        public Guid? ParentId { get; set; }
+        
         [Display(Name = "CategoryUniqueName")]
         public string UniqueName { get; set; }
         

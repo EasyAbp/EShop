@@ -15,13 +15,19 @@ $(function () {
         scrollCollapse: true,
         order: [[1, "asc"]],
         ajax: abp.libs.datatables.createAjax(service.getList, function () {
-            return { showHidden: true }
+            return { parentId: parentId, showHidden: true }
         }),
         columnDefs: [
             {
                 rowAction: {
                     items:
                         [
+                            {
+                                text: l('Subcategory'),
+                                action: function (data) {
+                                    document.location.href = document.location.origin + '/EShop/Products/Categories/Category?ParentId=' + data.record.id;
+                                }
+                            },
                             {
                                 text: l('Product'),
                                 action: function (data) {
@@ -67,6 +73,6 @@ $(function () {
 
     $('#NewCategoryButton').click(function (e) {
         e.preventDefault();
-        createModal.open();
+        createModal.open({ parentId: parentId });
     });
 });

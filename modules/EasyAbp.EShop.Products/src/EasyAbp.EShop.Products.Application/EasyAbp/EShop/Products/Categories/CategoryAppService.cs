@@ -28,7 +28,7 @@ namespace EasyAbp.EShop.Products.Categories
 
         protected override IQueryable<Category> CreateFilteredQuery(GetCategoryListDto input)
         {
-            var query =  base.CreateFilteredQuery(input);
+            var query =  base.CreateFilteredQuery(input).Where(x => x.ParentId == input.ParentId);
             
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }

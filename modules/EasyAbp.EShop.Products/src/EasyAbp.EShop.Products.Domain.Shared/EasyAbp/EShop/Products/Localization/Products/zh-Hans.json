@@ -59,6 +59,8 @@
     "SuccessfullyDeleted": "删除成功",
     "Menu:Category": "商品类目",
     "Category": "商品类目",
+    "Subcategory" : "子类目",
+    "CategoryParentId": "父类目 ID",
     "CategoryUniqueName": "类目编号",
     "CategoryDisplayName": "类目名称",
     "CategoryDescription": "描述",

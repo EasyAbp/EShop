@@ -61,6 +61,8 @@
     "CouponType.Custom": "Custom",
     "Menu:Category": "Category",
     "Category": "Category",
+    "Subcategory" : "Subcategory",
+    "CategoryParentId": "Parent ID",
     "CategoryUniqueName": "Unique name",
     "CategoryDisplayName": "Display name",
     "CategoryDescription": "Description",
