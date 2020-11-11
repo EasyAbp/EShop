@@ -13,10 +13,10 @@ namespace EasyAbp.EShop.Orders.Orders
                 return;
             }
             
-            await HandleOrderCreationAsync(context, requirement, resource);
+            await HandleOrderCancellationAsync(context, requirement, resource);
         }
 
-        protected abstract Task HandleOrderCreationAsync(AuthorizationHandlerContext context,
+        protected abstract Task HandleOrderCancellationAsync(AuthorizationHandlerContext context,
             OrderOperationAuthorizationRequirement requirement, Order resource);
     }
 }

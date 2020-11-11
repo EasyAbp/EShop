@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _currentUser = currentUser;
         }
         
-        protected override async Task HandleOrderCreationAsync(AuthorizationHandlerContext context,
+        protected override async Task HandleOrderCancellationAsync(AuthorizationHandlerContext context,
             OrderOperationAuthorizationRequirement requirement, Order resource)
         {
             if (!await _permissionChecker.IsGrantedAsync(OrdersPermissions.Orders.Cancel))
