@@ -23,6 +23,7 @@ namespace EasyAbp.EShop.Orders
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddSingleton<IAuthorizationHandler, BasicOrderCreationAuthorizationHandler>();
+            context.Services.AddSingleton<IAuthorizationHandler, BasicOrderCancellationAuthorizationHandler>();
         }
 
         public override void ConfigureServices(ServiceConfigurationContext context)

@@ -19,7 +19,6 @@ namespace EasyAbp.EShop.Orders.Orders
     public class OrderAppService : MultiStoreCrudAppService<Order, OrderDto, Guid, GetOrderListDto, CreateOrderDto>,
         IOrderAppService
     {
-        protected override string CreatePolicyName { get; set; } = OrdersPermissions.Orders.Create;
         protected override string GetPolicyName { get; set; } = OrdersPermissions.Orders.Manage;
         protected override string GetListPolicyName { get; set; } = OrdersPermissions.Orders.Manage;
         protected override string CrossStorePolicyName { get; set; } = OrdersPermissions.Orders.CrossStore;
@@ -83,8 +82,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public override async Task<OrderDto> CreateAsync(CreateOrderDto input)
         {
-            await CheckCreatePolicyAsync();
-
             // Todo: Check if the store is open.
 
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList(),
@@ -170,17 +167,14 @@ namespace EasyAbp.EShop.Orders.Orders
             return await MapToGetOutputDtoAsync(order);
         }
         
-        [Authorize(OrdersPermissions.Orders.Cancel)]
         public virtual async Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
         {
             var order = await GetEntityByIdAsync(id);
-
-            if (order.IsPaid() || order.CustomerUserId != CurrentUser.GetId())
-            {
-                await AuthorizationService.CheckAsync(OrdersPermissions.Orders.Manage);
-
-                // Todo: Check if current user is an admin of the store.
-            }
+            
+            await AuthorizationService.CheckAsync(
+                order,
+                new OrderOperationAuthorizationRequirement(OrderOperation.Cancellation)
+            );
 
             order = await _orderManager.CancelAsync(order, input.CancellationReason);
 

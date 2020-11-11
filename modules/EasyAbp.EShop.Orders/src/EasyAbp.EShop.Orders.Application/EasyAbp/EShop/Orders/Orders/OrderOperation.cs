@@ -5,6 +5,7 @@ namespace EasyAbp.EShop.Orders.Orders
     [Flags]
     public enum OrderOperation
     {
-        Creation = 0
+        Creation = 1,
+        Cancellation = 2
     }
 }

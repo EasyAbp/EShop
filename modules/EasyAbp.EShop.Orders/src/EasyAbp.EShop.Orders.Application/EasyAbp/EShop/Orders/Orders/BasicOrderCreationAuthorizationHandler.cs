@@ -2,18 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Orders.Authorization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Volo.Abp.Authorization.Permissions;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     public class BasicOrderCreationAuthorizationHandler : OrderCreationAuthorizationHandler
     {
+        private readonly IPermissionChecker _permissionChecker;
+
+        public BasicOrderCreationAuthorizationHandler(IPermissionChecker permissionChecker)
+        {
+            _permissionChecker = permissionChecker;
+        }
+        
         protected override async Task HandleOrderCreationAsync(AuthorizationHandlerContext context,
             OrderOperationAuthorizationRequirement requirement, OrderCreationResource resource)
         {
+            if (!await _permissionChecker.IsGrantedAsync(OrdersPermissions.Orders.Create))
+            {
+                context.Fail();
+                return;
+            }
+            
             if (!await IsProductsPublishedAsync(resource.Input, resource.ProductDictionary))
             {
                 context.Fail();
