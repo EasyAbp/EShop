@@ -32,13 +32,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 context.Fail();
                 return;
             }
-            
-            if (!resource.IsPaid())
-            {
-                context.Succeed(requirement);
-                return;
-            }
-            
+
             if (resource.CustomerUserId != _currentUser.GetId())
             {
                 if (!await _permissionChecker.IsGrantedAsync(OrdersPermissions.Orders.Manage))
@@ -47,13 +41,18 @@ namespace EasyAbp.EShop.Orders.Orders
                     return;
                 }
 
-
-                if (await _storeOwnerStore.IsStoreOwnerAsync(resource.StoreId, _currentUser.GetId()) ||
-                    await _permissionChecker.IsGrantedAsync(OrdersPermissions.Orders.CrossStore))
+                if (!await _storeOwnerStore.IsStoreOwnerAsync(resource.StoreId, _currentUser.GetId()) &&
+                    !await _permissionChecker.IsGrantedAsync(OrdersPermissions.Orders.CrossStore))
                 {
-                    context.Succeed(requirement);
+                    context.Fail();
                     return;
                 }
+            }
+            
+            if (!resource.IsPaid())
+            {
+                context.Succeed(requirement);
+                return;
             }
         }
     }
