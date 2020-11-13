@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using EasyAbp.Abp.TagHelperPlus.EasySelector;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,12 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductProductGroupName")]
         public string ProductGroupName { get; set; }
 
-        [SelectItems("Categories")]
+        // [SelectItems("Categories")]
+        [EasySelector(
+            getListedDataSourceUrl: ProductsConsts.GetCategorySummaryListedDataSourceUrl,
+            getSingleDataSourceUrl: ProductsConsts.GetCategorySummarySingleDataSourceUrl,
+            keyPropertyName: "id",
+            textPropertyName: "displayName")]
         [Display(Name = "ProductCategory")]
         public List<Guid> CategoryIds { get; set; }
 

@@ -61,6 +61,7 @@ namespace EasyAbp.EShop.Products
                         await attributeOptionIdsSerializer.SerializeAsync(src.AttributeOptionIds)));
             CreateMap<UpdateProductSkuDto, ProductSku>(MemberList.Source);
             CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategorySummaryDto>();
             CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<ProductHistory, ProductHistoryDto>();

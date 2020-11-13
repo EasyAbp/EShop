@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using EasyAbp.Abp.TagHelperPlus;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Products.Web.Menus;
@@ -14,8 +15,9 @@ namespace EasyAbp.EShop.Products.Web
     [DependsOn(
         typeof(EShopProductsHttpApiModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-        typeof(AbpAutoMapperModule)
-        )]
+        typeof(AbpAutoMapperModule),
+        typeof(AbpTagHelperPlusModule)
+    )]
     public class EShopProductsWebModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
