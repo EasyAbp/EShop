@@ -87,9 +87,12 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var provider in providers)
             {
-                var infoModel = await provider.GetAsync(customerUserId, input, productDict);
+                var infoModels = await provider.GetListAsync(customerUserId, input, productDict);
 
-                order.AddOrderExtraFee(infoModel.Fee, infoModel.Name, infoModel.Key);
+                foreach (var infoModel in infoModels)
+                {
+                    order.AddOrderExtraFee(infoModel.Fee, infoModel.Name, infoModel.Key);
+                }
             }
         }
 

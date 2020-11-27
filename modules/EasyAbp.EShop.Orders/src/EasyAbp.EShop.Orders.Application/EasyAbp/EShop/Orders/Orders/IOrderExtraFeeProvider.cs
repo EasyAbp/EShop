@@ -8,6 +8,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrderExtraFeeProvider
     {
-        Task<OrderExtraFeeInfoModel> GetAsync(Guid customerUserId, CreateOrderDto input, Dictionary<Guid, ProductDto> productDict);
+        Task<List<OrderExtraFeeInfoModel>> GetListAsync(Guid customerUserId, CreateOrderDto input, Dictionary<Guid, ProductDto> productDict);
     }
 }
