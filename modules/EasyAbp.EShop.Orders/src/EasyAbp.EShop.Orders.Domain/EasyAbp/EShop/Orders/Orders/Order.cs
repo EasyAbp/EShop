@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EasyAbp.EShop.Stores.Stores;
 using System.Linq;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -10,6 +11,8 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class Order : FullAuditedAggregateRoot<Guid>, IOrder, IMultiTenant
     {
+        public const string ExtraFeeListPropertyName = "ExtraFeeList";
+        
         public virtual Guid? TenantId { get; protected set; }
         
         public virtual Guid StoreId { get; protected set; }
@@ -56,6 +59,8 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual DateTime? ReducedInventoryAfterPaymentTime { get; protected set; }
         
         public virtual List<OrderLine> OrderLines { get; protected set; }
+        
+        public virtual List<OrderExtraFee> OrderExtraFees { get; protected set; }
 
         protected Order()
         {
@@ -88,6 +93,7 @@ namespace EasyAbp.EShop.Orders.Orders
             
             OrderStatus = OrderStatus.Pending;
             OrderLines = new List<OrderLine>();
+            OrderExtraFees = new List<OrderExtraFee>();
         }
 
         public void SetOrderNumber([NotNull] string orderNumber)
@@ -178,6 +184,26 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new DiscountAmountOverflowException();
             }
+        }
+
+        public void AddOrderExtraFee(decimal extraFee, [NotNull] string extraFeeName, [CanBeNull] string extraFeeKey)
+        {
+            if (extraFee <= decimal.Zero)
+            {
+                throw new InvalidOrderExtraFeeException(extraFee);
+            }
+            
+            var orderExtraFee = new OrderExtraFee(Id, extraFeeName, extraFeeKey, extraFee);
+
+            if (OrderExtraFees.Any(x => x.EntityEquals(orderExtraFee)))
+            {
+                throw new DuplicateOrderExtraFeeException(extraFeeName, extraFeeKey);
+            }
+            
+            OrderExtraFees.Add(orderExtraFee);
+
+            TotalPrice += extraFee;
+            ActualTotalPrice += extraFee;
         }
     }
 }

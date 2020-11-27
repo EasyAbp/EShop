@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
@@ -16,17 +17,20 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
         private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
 
         public NewOrderGenerator(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
+            IServiceProvider serviceProvider,
             IOrderNumberGenerator orderNumberGenerator,
             IProductSkuDescriptionProvider productSkuDescriptionProvider)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
+            _serviceProvider = serviceProvider;
             _orderNumberGenerator = orderNumberGenerator;
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
         }
@@ -50,7 +54,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
 
-            // Todo: totalPrice may contain other fee.
             var totalPrice = productTotalPrice;
             var totalDiscount = orderLines.Select(x => x.TotalDiscount).Sum();
 
@@ -68,11 +71,26 @@ namespace EasyAbp.EShop.Orders.Orders
 
             input.MapExtraPropertiesTo(order, MappingPropertyDefinitionChecks.Destination);
 
+            await AddOrderExtraFeesAsync(order, customerUserId, input, productDict);
+
             order.SetOrderLines(orderLines);
 
             order.SetOrderNumber(await _orderNumberGenerator.CreateAsync(order));
 
             return order;
+        }
+
+        protected virtual async Task AddOrderExtraFeesAsync(Order order, Guid customerUserId,
+            CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
+        {
+            var providers = _serviceProvider.GetServices<IOrderExtraFeeProvider>();
+
+            foreach (var provider in providers)
+            {
+                var infoModel = await provider.GetAsync(customerUserId, input, productDict);
+
+                order.AddOrderExtraFee(infoModel.Fee, infoModel.Name, infoModel.Key);
+            }
         }
 
         protected virtual async Task<OrderLine> GenerateOrderLineAsync(CreateOrderDto input,
