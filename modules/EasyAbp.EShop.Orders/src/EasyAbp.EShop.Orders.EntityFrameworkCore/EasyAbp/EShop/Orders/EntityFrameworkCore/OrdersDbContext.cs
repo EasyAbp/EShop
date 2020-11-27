@@ -13,6 +13,7 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
          */
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<OrderExtraFee> OrderExtraFees { get; set; }
 
         public OrdersDbContext(DbContextOptions<OrdersDbContext> options) 
             : base(options)
