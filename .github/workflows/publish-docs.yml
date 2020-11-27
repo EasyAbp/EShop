@@ -1,13 +1,9 @@
 name: publish to easyabp.io
 on:
   push:
-    branches:
-      - master
-      - main
+    branches: [master, main]
   pull_request:
-    branches:
-      - master
-      - main
+    branches: [master, main]
 jobs:
   publish:
     runs-on: ubuntu-latest
