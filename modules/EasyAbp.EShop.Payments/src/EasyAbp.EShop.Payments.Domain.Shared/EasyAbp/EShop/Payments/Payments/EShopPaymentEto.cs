@@ -39,7 +39,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
         public DateTime? CanceledTime { get; set; }
 
-        public Dictionary<string, object> ExtraProperties { get; set; }
+        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         #endregion
 

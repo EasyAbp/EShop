@@ -54,11 +54,11 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual decimal RefundAmount { get; protected set; }
         
-        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
+        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         protected OrderLine()
         {
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
 
@@ -103,7 +103,7 @@ namespace EasyAbp.EShop.Orders.Orders
             RefundedQuantity = 0;
             RefundAmount = 0;
             
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
 

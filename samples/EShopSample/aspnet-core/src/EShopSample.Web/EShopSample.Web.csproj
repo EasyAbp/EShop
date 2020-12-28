@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>EShopSample.Web</RootNamespace>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,9 +38,9 @@
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,17 +50,17 @@
     <ProjectReference Include="..\EShopSample.Application\EShopSample.Application.csproj" />
     <ProjectReference Include="..\EShopSample.HttpApi\EShopSample.HttpApi.csproj" />
     <ProjectReference Include="..\EShopSample.EntityFrameworkCore.DbMigrations\EShopSample.EntityFrameworkCore.DbMigrations.csproj" />
-    <PackageReference Include="EasyAbp.PaymentService.Web" Version="1.7.0" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Web" Version="1.7.0" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Web" Version="1.7.0" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Identity.Web" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Account.Web.IdentityServer" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="3.2.1" />
+    <PackageReference Include="EasyAbp.PaymentService.Web" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Web" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Web" Version="1.8.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Account.Web.IdentityServer" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>

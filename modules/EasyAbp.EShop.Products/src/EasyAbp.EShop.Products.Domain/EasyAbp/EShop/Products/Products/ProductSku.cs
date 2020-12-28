@@ -30,11 +30,11 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual Guid? ProductDetailId { get; protected set; }
         
-        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
+        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         protected ProductSku()
         {
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
         
@@ -60,7 +60,7 @@ namespace EasyAbp.EShop.Products.Products
             MediaResources = mediaResources;
             ProductDetailId = productDetailId;
             
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
 

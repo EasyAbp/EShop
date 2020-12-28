@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         
         public DateTime? CanceledTime { get; set; }
 
-        public Dictionary<string, object> ExtraProperties { get; set; }
+        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         #endregion
 

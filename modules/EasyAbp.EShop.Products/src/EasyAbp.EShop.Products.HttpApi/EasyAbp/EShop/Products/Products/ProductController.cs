@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Products.Products
 {
     [RemoteService(Name = "EasyAbpEShopProducts")]
-    [Route("/api/eShop/products/product")]
+    [Route("/api/e-shop/products/product")]
     public class ProductController : ProductsController, IProductAppService
     {
         private readonly IProductAppService _service;
@@ -82,7 +82,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpGet]
-        [Route("byCode/{storeId}")]
+        [Route("by-code/{storeId}")]
         public Task<ProductDto> GetByCodeAsync(string code, Guid storeId)
         {
             return _service.GetByCodeAsync(code, storeId);
@@ -96,7 +96,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpGet]
-        [Route("productGroup")]
+        [Route("product-group")]
         public Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync()
         {
             return _service.GetProductGroupListAsync();

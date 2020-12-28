@@ -3,7 +3,7 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Web\EasyAbp.EShop.Orders.Web.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Web\EasyAbp.EShop.Payments.Web.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Plugins\src\EasyAbp.EShop.Plugins.Web\EasyAbp.EShop.Plugins.Web.csproj" />
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.*" />
   </ItemGroup>
   
   <ItemGroup>

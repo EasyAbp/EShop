@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Orders.Orders.Dtos
 {
@@ -45,6 +46,6 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         
         public decimal RefundAmount { get; set; }
         
-        public Dictionary<string, object> ExtraProperties { get; set; }
+        public ExtraPropertyDictionary ExtraProperties { get; set; }
     }
 }

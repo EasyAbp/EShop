@@ -27,7 +27,7 @@ namespace EasyAbp.EShop.Payments.Payments
         
         public virtual decimal PendingRefundAmount { get; protected set; }
         
-        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
+        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         #endregion
         
@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Payments.Payments
         
         private PaymentItem()
         {
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
     }

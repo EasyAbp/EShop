@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Orders.Orders
 {
     [RemoteService(Name = "EasyAbpEShopOrders")]
-    [Route("/api/eShop/orders/order")]
+    [Route("/api/e-shop/orders/order")]
     public class OrderController : OrdersController, IOrderAppService
     {
         private readonly IOrderAppService _service;
@@ -54,7 +54,7 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [HttpGet]
-        [Route("byOrderNumber/{orderNumber}")]
+        [Route("by-order-number/{orderNumber}")]
         public Task<OrderDto> GetByOrderNumberAsync(string orderNumber)
         {
             return _service.GetByOrderNumberAsync(orderNumber);

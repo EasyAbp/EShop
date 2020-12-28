@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Volo.Abp.Data;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -51,6 +52,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public List<OrderLineEto> OrderLines { get; set; }
         
-        public Dictionary<string, object> ExtraProperties { get; set; }
+        public ExtraPropertyDictionary ExtraProperties { get; set; }
     }
 }

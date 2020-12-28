@@ -16,13 +16,13 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual int DisplayOrder { get; protected set; }
 
-        public virtual Dictionary<string, object> ExtraProperties { get; protected set; }
+        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         public virtual List<ProductAttributeOption> ProductAttributeOptions { get; protected set; }
 
         protected ProductAttribute()
         {
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
         
@@ -38,7 +38,7 @@ namespace EasyAbp.EShop.Products.Products
 
             ProductAttributeOptions = new List<ProductAttributeOption>();
             
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
     }

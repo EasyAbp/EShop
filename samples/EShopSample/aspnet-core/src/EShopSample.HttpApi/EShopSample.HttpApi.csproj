@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>EShopSample</RootNamespace>
   </PropertyGroup>
 
@@ -15,14 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.HttpApi" Version="1.7.0" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi" Version="1.7.0" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi" Version="1.7.0" />
-    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="3.2.1" />
+    <PackageReference Include="EasyAbp.PaymentService.HttpApi" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi" Version="1.8.0" />
+    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>

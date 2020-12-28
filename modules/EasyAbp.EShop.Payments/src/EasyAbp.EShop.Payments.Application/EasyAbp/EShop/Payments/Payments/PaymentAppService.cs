@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
 
@@ -100,13 +101,13 @@ namespace EasyAbp.EShop.Payments.Payments
                 UserId = CurrentUser.GetId(),
                 PaymentMethod = input.PaymentMethod,
                 Currency = orders.First().Currency,
-                ExtraProperties = new Dictionary<string, object>(),
+                ExtraProperties = new ExtraPropertyDictionary(),
                 PaymentItems = orders.Select(order => new CreatePaymentItemEto
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
                     ItemKey = order.Id.ToString(),
                     OriginalPaymentAmount = order.ActualTotalPrice,
-                    ExtraProperties = new Dictionary<string, object> {{"StoreId", order.StoreId.ToString()}}
+                    ExtraProperties = new ExtraPropertyDictionary {{"StoreId", order.StoreId.ToString()}}
                 }).ToList()
             };
 

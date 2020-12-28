@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         
         public virtual string StaffRemark { get; protected set; }
 
-        public virtual Dictionary<string, object> ExtraProperties { get; set; }
+        public virtual ExtraPropertyDictionary ExtraProperties { get; set; }
 
         #endregion
         
@@ -33,7 +33,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             RefundItemOrderLines = new List<RefundItemOrderLine>();
             
-            ExtraProperties = new Dictionary<string, object>();
+            ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties();
         }
         

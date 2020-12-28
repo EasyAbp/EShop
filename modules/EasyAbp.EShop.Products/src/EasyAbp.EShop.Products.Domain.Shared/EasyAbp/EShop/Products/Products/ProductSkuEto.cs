@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -26,6 +26,6 @@ namespace EasyAbp.EShop.Products.Products
 
         public Guid? ProductDetailId { get; set; }
         
-        public Dictionary<string, object> ExtraProperties { get; set; }
+        public ExtraPropertyDictionary ExtraProperties { get; set; }
     }
 }

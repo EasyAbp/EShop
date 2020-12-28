@@ -123,7 +123,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                     RefundAmount = refundItem.OrderLines.Sum(x => x.TotalAmount),
                     CustomerRemark = refundItem.CustomerRemark,
                     StaffRemark = refundItem.StaffRemark,
-                    ExtraProperties = new Dictionary<string, object>
+                    ExtraProperties = new ExtraPropertyDictionary
                     {
                         {"StoreId", order.StoreId.ToString()},
                         {"OrderId", order.Id.ToString()},

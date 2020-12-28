@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -28,7 +29,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public bool IsHidden { get; set; }
         
-        public Dictionary<string, object> ExtraProperties { get; set; }
+        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         public ICollection<ProductAttributeEto> ProductAttributes { get; set; }
         

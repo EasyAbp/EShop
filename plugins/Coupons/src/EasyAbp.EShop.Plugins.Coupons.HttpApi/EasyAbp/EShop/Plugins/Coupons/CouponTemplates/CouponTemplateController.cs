@@ -9,7 +9,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
 {
     [RemoteService(Name = "EasyAbpEShopPluginsCoupons")]
-    [Route("/api/eShop/plugins/coupons/couponTemplate")]
+    [Route("/api/e-shop/plugins/coupons/coupon-template")]
     public class CouponTemplateController : CouponsController, ICouponTemplateAppService
     {
         private readonly ICouponTemplateAppService _service;

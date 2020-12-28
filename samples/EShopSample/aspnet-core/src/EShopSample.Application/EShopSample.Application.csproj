@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>EShopSample</RootNamespace>
   </PropertyGroup>
 
@@ -17,14 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Application" Version="1.7.0" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="1.7.0" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="1.7.0" />
-    <PackageReference Include="Volo.Abp.Account.Application" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="3.2.1" />
+    <PackageReference Include="EasyAbp.PaymentService.Application" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="1.8.0" />
+    <PackageReference Include="Volo.Abp.Account.Application" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>
