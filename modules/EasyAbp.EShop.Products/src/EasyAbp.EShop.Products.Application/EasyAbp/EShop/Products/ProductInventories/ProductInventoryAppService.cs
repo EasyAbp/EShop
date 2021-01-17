@@ -1,29 +1,27 @@
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using EasyAbp.EShop.Products.Products;
-using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Validation;
 
 namespace EasyAbp.EShop.Products.ProductInventories
 {
     public class ProductInventoryAppService : ApplicationService, IProductInventoryAppService
     {
+        private readonly IProductRepository _productRepository;
         private readonly IProductInventoryRepository _repository;
-        private readonly IProductStoreRepository _productStoreRepository;
         private readonly DefaultProductInventoryProvider _productInventoryProvider;
 
         public ProductInventoryAppService(
+            IProductRepository productRepository,
             IProductInventoryRepository repository,
-            IProductStoreRepository productStoreRepository,
             DefaultProductInventoryProvider productInventoryProvider)
         {
+            _productRepository = productRepository;
             _repository = repository;
-            _productStoreRepository = productStoreRepository;
             _productInventoryProvider = productInventoryProvider;
         }
 
@@ -44,13 +42,10 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
         public virtual async Task<ProductInventoryDto> UpdateAsync(UpdateProductInventoryDto input)
         {
-            await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId,
-                ProductsPermissions.ProductInventory.Update, ProductsPermissions.ProductInventory.CrossStore);
+            var product = await _productRepository.GetAsync(input.ProductId);
 
-            if (input.StoreId.HasValue)
-            {
-                await CheckStoreIsProductOwnerAsync(input.ProductId, input.StoreId.Value);
-            }
+            await AuthorizationService.CheckMultiStorePolicyAsync(product.StoreId,
+                ProductsPermissions.ProductInventory.Update, ProductsPermissions.ProductInventory.CrossStore);
             
             var productInventory = await _repository.FindAsync(x => x.ProductSkuId == input.ProductSkuId);
 
@@ -65,16 +60,6 @@ namespace EasyAbp.EShop.Products.ProductInventories
             await ChangeInventoryAsync(productInventory, input.ChangedInventory);
 
             return ObjectMapper.Map<ProductInventory, ProductInventoryDto>(productInventory);
-        }
-        
-        protected virtual async Task CheckStoreIsProductOwnerAsync(Guid productId, Guid storeId)
-        {
-            var productStore = await _productStoreRepository.GetAsync(productId, storeId);
-
-            if (!productStore.IsOwner)
-            {
-                throw new StoreIsNotProductOwnerException(productId, storeId);
-            }
         }
 
         protected virtual async Task ChangeInventoryAsync(ProductInventory productInventory, int changedInventory)

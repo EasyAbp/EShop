@@ -25,7 +25,7 @@ namespace EasyAbp.EShop.Orders.Orders
         protected override void AfterAddApplication(IServiceCollection services)
         {
             var productAppService = Substitute.For<IProductAppService>();
-            productAppService.GetAsync(OrderTestData.Product1Id, OrderTestData.Store1Id).Returns(Task.FromResult(new ProductDto
+            productAppService.GetAsync(OrderTestData.Product1Id).Returns(Task.FromResult(new ProductDto
             {
                 CreationTime = DateTime.Now,
                 IsPublished = true,

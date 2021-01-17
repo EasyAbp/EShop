@@ -22,37 +22,60 @@
     <abp-style src="/Pages/EShop/Products/Products/Product/index.css"/>
 }
 <script>
-    let storeId = '@Model.StoreId';
-    let categoryId = '@Model.CategoryId';
+    let storeId = '@Model.Filter.StoreId';
+    let categoryId = '@Model.Filter.CategoryId';
 </script>
 
-<abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Product"] - @Model.StoreName</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-                <abp-button id="NewProductButton"
-                            text="@L["CreateProduct"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
-    <abp-card-body>
-        <abp-table striped-rows="true" id="ProductTable" class="nowrap">
-            <thead>
-            <tr>
-                <th>@L["Actions"]</th>
-                <th>@L["ProductProductGroupDisplayName"]</th>
-                <th>@L["ProductUniqueName"]</th>
-                <th>@L["ProductDisplayName"]</th>
-                <th>@L["ProductInventoryStrategy"]</th>
-                <th>@L["ProductSold"]</th>
-                <th>@L["ProductIsPublished"]</th>
-            </tr>
-            </thead>
-        </abp-table>
-    </abp-card-body>
-</abp-card>
+@if (Model.Filter.StoreId == null)
+{
+    <abp-dynamic-form abp-model="Filter" data-ajaxForm="true" asp-page="Index">
+        <abp-card>
+            <abp-card-header>
+                <abp-row>
+                    <abp-column size-md="_6">
+                        <abp-card-title>@L["Product"]</abp-card-title>
+                    </abp-column>
+                </abp-row>
+            </abp-card-header>
+            <abp-card-body>
+                <abp-form-content></abp-form-content>
+            </abp-card-body>
+            <abp-modal-footer>
+                <abp-button id="enter-button" button-type="Primary" text="Enter"/>
+            </abp-modal-footer>
+        </abp-card>
+    </abp-dynamic-form>
+}
+else
+{
+    <abp-card>
+        <abp-card-header>
+            <abp-row>
+                <abp-column size-md="_6">
+                    <abp-card-title>@L["Product"] - @Model.StoreName</abp-card-title>
+                </abp-column>
+                <abp-column size-md="_6" class="text-right">
+                    <abp-button id="NewProductButton"
+                                text="@L["CreateProduct"].Value"
+                                icon="plus"
+                                button-type="Primary" />
+                </abp-column>
+            </abp-row>
+        </abp-card-header>
+        <abp-card-body>
+            <abp-table striped-rows="true" id="ProductTable" class="nowrap">
+                <thead>
+                <tr>
+                    <th>@L["Actions"]</th>
+                    <th>@L["ProductProductGroupDisplayName"]</th>
+                    <th>@L["ProductUniqueName"]</th>
+                    <th>@L["ProductDisplayName"]</th>
+                    <th>@L["ProductInventoryStrategy"]</th>
+                    <th>@L["ProductSold"]</th>
+                    <th>@L["ProductIsPublished"]</th>
+                </tr>
+                </thead>
+            </abp-table>
+        </abp-card-body>
+    </abp-card>
+}

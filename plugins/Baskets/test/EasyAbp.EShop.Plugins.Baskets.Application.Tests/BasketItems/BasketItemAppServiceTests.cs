@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
         public BasketItemAppServiceTests()
         {
-            _basketItemAppService = GetRequiredService<IBasketItemAppService>();
+            // _basketItemAppService = GetRequiredService<IBasketItemAppService>();
         }
 
         [Fact]

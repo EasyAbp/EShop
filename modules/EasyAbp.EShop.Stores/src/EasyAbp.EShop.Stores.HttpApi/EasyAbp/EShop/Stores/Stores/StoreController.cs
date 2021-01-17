@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Stores.Stores
 {
     [RemoteService(Name = "EasyAbpEShopStores")]
-    [Route("/api/e-shop/stores/store")]
+    [Route(StoresConsts.StoreRouteBase)]
     public class StoreController : StoresController, IStoreAppService
     {
         private readonly IStoreAppService _service;
@@ -26,7 +26,7 @@ namespace EasyAbp.EShop.Stores.Stores
         }
 
         [HttpGet]
-        public Task<PagedResultDto<StoreDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public Task<PagedResultDto<StoreDto>> GetListAsync(GetStoreListInput input)
         {
             return _service.GetListAsync(input);
         }

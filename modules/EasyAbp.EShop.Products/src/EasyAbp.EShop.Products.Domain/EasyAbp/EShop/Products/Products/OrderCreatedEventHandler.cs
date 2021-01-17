@@ -59,8 +59,7 @@ namespace EasyAbp.EShop.Products.Products
                     continue;
                 }
 
-                if (!await _productManager.IsInventorySufficientAsync(product, productSku, eventData.Entity.StoreId,
-                    orderLine.Quantity))
+                if (!await _productManager.IsInventorySufficientAsync(product, productSku, orderLine.Quantity))
                 {
                     await PublishResultEventAsync(eventData, false);
                     
@@ -78,8 +77,7 @@ namespace EasyAbp.EShop.Products.Products
 
             foreach (var model in models)
             {
-                if (await _productManager.TryReduceInventoryAsync(model.Product, model.ProductSku, model.StoreId,
-                    model.Quantity, true))
+                if (await _productManager.TryReduceInventoryAsync(model.Product, model.ProductSku, model.Quantity, true))
                 {
                     continue;
                 }

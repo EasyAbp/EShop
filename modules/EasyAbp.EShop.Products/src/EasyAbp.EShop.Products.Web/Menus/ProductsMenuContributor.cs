@@ -24,14 +24,14 @@ namespace EasyAbp.EShop.Products.Web.Menus
 
             var productManagementMenuItem = new ApplicationMenuItem(ProductsMenus.Prefix, l["Menu:ProductManagement"]);
 
-            if (await context.IsGrantedAsync(ProductsPermissions.Categories.Default))
+            if (await context.IsGrantedAsync(ProductsPermissions.Categories.Manage))
             {
                 productManagementMenuItem.AddItem(
                     new ApplicationMenuItem(ProductsMenus.Category, l["Menu:Category"], "/EShop/Products/Categories/Category")
                 );
             }
 
-            if (await context.IsGrantedAsync(ProductsPermissions.Products.Default))
+            if (await context.IsGrantedAsync(ProductsPermissions.Products.Manage))
             {
                 productManagementMenuItem.AddItem(
                     new ApplicationMenuItem(ProductsMenus.Product, l["Menu:Product"], "/EShop/Products/Products/Product")

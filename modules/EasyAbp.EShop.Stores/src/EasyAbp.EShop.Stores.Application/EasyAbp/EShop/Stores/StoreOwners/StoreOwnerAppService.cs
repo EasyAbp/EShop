@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
 using EasyAbp.EShop.Stores.Stores;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
@@ -18,10 +20,15 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         protected override string CrossStorePolicyName { get; set; } = StoresPermissions.Stores.CrossStore;
 
         private readonly IStoreOwnerRepository _repository;
+        private readonly IExternalUserLookupServiceProvider _externalUserLookupServiceProvider;
 
-        public StoreOwnerAppService(IStoreOwnerRepository repository) : base(repository)
+        public StoreOwnerAppService(
+            IStoreOwnerRepository repository,
+            IExternalUserLookupServiceProvider externalUserLookupServiceProvider)
+            : base(repository)
         {
             _repository = repository;
+            _externalUserLookupServiceProvider = externalUserLookupServiceProvider;
         }
 
         public override async Task<StoreOwnerDto> CreateAsync(CreateUpdateStoreOwnerDto input)
@@ -33,7 +40,38 @@ namespace EasyAbp.EShop.Stores.StoreOwners
 
             return await base.CreateAsync(input);
         }
-        
+
+        public override async Task<StoreOwnerDto> GetAsync(Guid id)
+        {
+            var dto = await base.GetAsync(id);
+            
+            var userData = await _externalUserLookupServiceProvider.FindByIdAsync(dto.OwnerUserId);
+
+            if (userData != null)
+            {
+                dto.OwnerUserName = userData.UserName;
+            }
+
+            return dto;
+        }
+
+        public override async Task<PagedResultDto<StoreOwnerDto>> GetListAsync(GetStoreOwnerListDto input)
+        {
+            var result = await base.GetListAsync(input);
+
+            foreach (var dto in result.Items)
+            {
+                var userData = await _externalUserLookupServiceProvider.FindByIdAsync(dto.OwnerUserId);
+
+                if (userData != null)
+                {
+                    dto.OwnerUserName = userData.UserName;
+                }
+            }
+
+            return result;
+        }
+
         protected override IQueryable<StoreOwner> CreateFilteredQuery(GetStoreOwnerListDto input)
         {
             var queryable = Repository.AsQueryable();

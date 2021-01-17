@@ -11,9 +11,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         private readonly IProductAppService _productAppService;
 
         [BindProperty(SupportsGet = true)]
-        public Guid StoreId { get; set; }
-        
-        [BindProperty(SupportsGet = true)]
         public Guid ProductId { get; set; }
         
         public string ProductDisplayName { get; set; }
@@ -25,7 +22,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         
         public virtual async Task OnGetAsync()
         {
-            ProductDisplayName = (await _productAppService.GetAsync(ProductId, StoreId)).DisplayName;
+            ProductDisplayName = (await _productAppService.GetAsync(ProductId)).DisplayName;
         }
     }
 }

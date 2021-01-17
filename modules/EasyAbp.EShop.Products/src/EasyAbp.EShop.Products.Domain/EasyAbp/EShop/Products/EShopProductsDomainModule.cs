@@ -12,7 +12,6 @@ namespace EasyAbp.EShop.Products
 {
     [DependsOn(
         typeof(EShopProductsDomainSharedModule),
-        typeof(EShopStoresDomainSharedModule),
         typeof(AbpTreesDomainModule)
     )]
     public class EShopProductsDomainModule : AbpModule

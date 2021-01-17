@@ -26,12 +26,12 @@ namespace EasyAbp.EShop.Products.Products
             _productInventoryRepository = productInventoryRepository;
         }
         
-        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku)
         {
             return await _productInventoryRepository.GetInventoryDataAsync(productSku.Id);
         }
 
-        public virtual async Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(Product product, Guid storeId)
+        public virtual async Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(Product product)
         {
             var dict = await _productInventoryRepository.GetInventoryDataDictionaryAsync(product.ProductSkus
                 .Select(sku => sku.Id).ToList());
@@ -44,14 +44,14 @@ namespace EasyAbp.EShop.Products.Products
             return dict;
         }
 
-        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool decreaseSold)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, int quantity, bool decreaseSold)
         {
             var productInventory = await _productInventoryRepository.GetAsync(x => x.ProductSkuId == productSku.Id);
             
             return await TryIncreaseInventoryAsync(productInventory, quantity, decreaseSold);
         }
 
-        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold)
+        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity, bool increaseSold)
         {
             var productInventory = await _productInventoryRepository.GetAsync(x => x.ProductSkuId == productSku.Id);
             

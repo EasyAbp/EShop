@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Options.ProductGroups;
 using EasyAbp.EShop.Products.ProductCategories;
-using EasyAbp.EShop.Products.ProductStores;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
 
@@ -13,7 +12,6 @@ namespace EasyAbp.EShop.Products.Products
     public class ProductManager : DomainService, IProductManager
     {
         private readonly IProductRepository _productRepository;
-        private readonly IProductStoreRepository _productStoreRepository;
         private readonly IProductPriceProvider _productPriceProvider;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProvider _productInventoryProvider;
@@ -21,24 +19,21 @@ namespace EasyAbp.EShop.Products.Products
 
         public ProductManager(
             IProductRepository productRepository,
-            IProductStoreRepository productStoreRepository,
             IProductPriceProvider productPriceProvider,
             IProductCategoryRepository productCategoryRepository,
             IProductInventoryProvider productInventoryProvider,
             IProductGroupConfigurationProvider productGroupConfigurationProvider)
         {
             _productRepository = productRepository;
-            _productStoreRepository = productStoreRepository;
             _productPriceProvider = productPriceProvider;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProvider = productInventoryProvider;
             _productGroupConfigurationProvider = productGroupConfigurationProvider;
         }
 
-        public virtual async Task<Product> CreateAsync(Product product, Guid? storeId = null,
-            IEnumerable<Guid> categoryIds = null)
+        public virtual async Task<Product> CreateAsync(Product product, IEnumerable<Guid> categoryIds = null)
         {
-            product.TrimCode();
+            product.TrimUniqueName();
             
             await CheckProductGroupNameAsync(product);
             
@@ -49,11 +44,6 @@ namespace EasyAbp.EShop.Products.Products
             await CheckProductDetailAvailableAsync(product.Id, product.ProductDetailId);
 
             await UpdateProductCategoriesAsync(product.Id, categoryIds);
-
-            if (storeId.HasValue)
-            {
-                await AddProductToStoreAsync(product.Id, storeId.Value);
-            }
 
             return product;
         }
@@ -153,12 +143,6 @@ namespace EasyAbp.EShop.Products.Products
             return await _productRepository.UpdateAsync(product, true);
         }
 
-        protected virtual async Task AddProductToStoreAsync(Guid productId, Guid storeId)
-        {
-            await _productStoreRepository.InsertAsync(new ProductStore(GuidGenerator.Create(), CurrentTenant.Id,
-                storeId, productId, true), true);
-        }
-        
         protected virtual async Task CheckProductUniqueNameAsync(Product product)
         {
             if (product.UniqueName.IsNullOrEmpty())
@@ -201,38 +185,37 @@ namespace EasyAbp.EShop.Products.Products
             }
         }
 
-        public virtual async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity)
+        public virtual async Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, int quantity)
         {
-            var inventoryData = await _productInventoryProvider.GetInventoryDataAsync(product, productSku, storeId);
+            var inventoryData = await _productInventoryProvider.GetInventoryDataAsync(product, productSku);
             
             return product.InventoryStrategy == InventoryStrategy.NoNeed || inventoryData.Inventory - quantity >= 0;
         }
 
-        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku)
         {
-            return await _productInventoryProvider.GetInventoryDataAsync(product, productSku, storeId);
+            return await _productInventoryProvider.GetInventoryDataAsync(product, productSku);
         }
 
-        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool reduceSold)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, int quantity, bool reduceSold)
         {
-            return await _productInventoryProvider.TryIncreaseInventoryAsync(product, productSku, storeId, quantity, reduceSold);
+            return await _productInventoryProvider.TryIncreaseInventoryAsync(product, productSku, quantity, reduceSold);
         }
 
-        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold)
+        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity, bool increaseSold)
         {
-            return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, storeId, quantity,
-                increaseSold);
+            return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, quantity, increaseSold);
         }
 
-        public virtual async Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku, Guid storeId)
+        public virtual async Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku)
         {
-            var price = await _productPriceProvider.GetPriceAsync(product, productSku, storeId);
+            var price = await _productPriceProvider.GetPriceAsync(product, productSku);
 
             var discountedPrice = price;
             
             foreach (var provider in ServiceProvider.GetServices<IProductDiscountProvider>())
             {
-                discountedPrice = await provider.GetDiscountedPriceAsync(product, productSku, storeId, discountedPrice);
+                discountedPrice = await provider.GetDiscountedPriceAsync(product, productSku, discountedPrice);
             }
 
             return new PriceDataModel

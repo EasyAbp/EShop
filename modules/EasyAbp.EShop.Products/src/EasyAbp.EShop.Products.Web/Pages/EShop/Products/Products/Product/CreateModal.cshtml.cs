@@ -17,11 +17,8 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 {
     public class CreateModalModel : ProductsPageModel
     {
-        [BindProperty(SupportsGet = true)]
-        public Guid StoreId { get; set; }
-
         [BindProperty]
-        public CreateEditProductViewModel Product { get; set; }
+        public CreateProductViewModel Product { get; set; }
 
         public ICollection<SelectListItem> ProductGroups { get; set; }
 
@@ -41,7 +38,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             _service = service;
         }
 
-        public virtual async Task OnGetAsync(Guid? categoryId)
+        public virtual async Task OnGetAsync(Guid storeId, Guid? categoryId)
         {
             ProductGroups =
                 (await _service.GetProductGroupListAsync()).Items
@@ -52,12 +49,12 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 { MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount }))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
-            Product = new CreateEditProductViewModel
+            Product = new CreateProductViewModel
             {
-                StoreId = StoreId,
-                ProductDetail = new CreateEditProductDetailViewModel
+                StoreId = storeId,
+                ProductDetail = new CreateProductDetailViewModel
                 {
-                    StoreId = StoreId
+                    StoreId = storeId
                 }
             };
 
@@ -71,9 +68,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         {
             var detail = await _productDetailAppService.CreateAsync(
                 ObjectMapper
-                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
+                    .Map<CreateProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
 
-            var createDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
+            var createDto = ObjectMapper.Map<CreateProductViewModel, CreateUpdateProductDto>(Product);
 
             createDto.ProductDetailId = detail.Id;
 

@@ -11,7 +11,6 @@
     <abp-modal>
         <abp-modal-header title="@L["CreateProductSku"].Value"></abp-modal-header>
         <abp-modal-body>
-            <abp-input asp-for="StoreId" />
             <abp-input asp-for="ProductId" />
             <abp-form-content/>
             @foreach (var attr in Model.Attributes)

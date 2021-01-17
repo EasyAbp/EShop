@@ -6,6 +6,8 @@ namespace EasyAbp.EShop.Products.ProductDetails
 {
     public class ProductDetail : FullAuditedAggregateRoot<Guid>
     {
+        public virtual Guid? StoreId { get; protected set; }
+
         [CanBeNull]
         public virtual string Description { get; protected set; }
 
@@ -13,8 +15,10 @@ namespace EasyAbp.EShop.Products.ProductDetails
         
         public ProductDetail(
             Guid id,
+            Guid? storeId,
             [CanBeNull] string description) : base(id)
         {
+            StoreId = storeId;
             Description = description;
         }
 

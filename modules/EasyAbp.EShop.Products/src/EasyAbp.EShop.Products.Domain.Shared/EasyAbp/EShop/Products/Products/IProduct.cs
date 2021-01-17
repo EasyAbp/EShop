@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public interface IProduct : IHasExtraProperties
+    public interface IProduct : IHasExtraProperties, IMultiStore
     {
         string ProductGroupName { get; }
         

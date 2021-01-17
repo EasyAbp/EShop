@@ -4,7 +4,7 @@ using Volo.Abp.EventBus;
 
 namespace EasyAbp.EShop.Products.ProductHistories
 {
-    public interface IProductHistoryRecorder : ILocalEventHandler<EntityChangedEventData<Product>>
+    public interface IProductHistoryRecorder
     {
         
     }

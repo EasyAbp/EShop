@@ -19,10 +19,9 @@ namespace EasyAbp.EShop.Products.Web
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<ProductDto, CreateEditProductViewModel>()
+            CreateMap<ProductDto, EditProductViewModel>()
                 .Ignore(model => model.CategoryIds)
                 .Ignore(model => model.ProductDetail)
-                .Ignore(model => model.StoreId)
                 .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.ProductDetailId, opt => opt.DoNotValidate())
                 // .Ignore(x => x.ProductAttributes);
@@ -34,7 +33,7 @@ namespace EasyAbp.EShop.Products.Web
                         x.ProductAttributes
                             .Select(a => a.ProductAttributeOptions.Select(o => o.DisplayName).JoinAsString(","))
                             .JoinAsString(Environment.NewLine)));
-            CreateMap<CreateEditProductViewModel, CreateUpdateProductDto>()
+            CreateMap<CreateProductViewModel, CreateUpdateProductDto>()
                 .Ignore(dto => dto.ExtraProperties)
                 .Ignore(dto => dto.ProductDetailId)
                 .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
@@ -49,9 +48,27 @@ namespace EasyAbp.EShop.Products.Web
                                         .Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o =>
                                             new CreateUpdateProductAttributeOptionDto {DisplayName = o}))
                             })));
-            CreateMap<ProductDetailDto, CreateEditProductDetailViewModel>()
-                .Ignore(model => model.StoreId);
-            CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>()
+            CreateMap<EditProductViewModel, CreateUpdateProductDto>()
+                .Ignore(dto => dto.StoreId)
+                .Ignore(dto => dto.ExtraProperties)
+                .Ignore(dto => dto.ProductDetailId)
+                .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
+                .ForMember(dest => dest.ProductAttributes,
+                    opt => opt.MapFrom(x =>
+                        x.ProductAttributeNames.Split(",", StringSplitOptions.RemoveEmptyEntries).Select((s, i) =>
+                            new CreateUpdateProductAttributeDto
+                            {
+                                DisplayName = s,
+                                ProductAttributeOptions = new List<CreateUpdateProductAttributeOptionDto>(
+                                    x.ProductAttributeOptionNames.SplitToLines(StringSplitOptions.RemoveEmptyEntries)[i]
+                                        .Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o =>
+                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o}))
+                            })));
+            CreateMap<ProductDetailDto, CreateProductDetailViewModel>();
+            CreateMap<CreateProductDetailViewModel, CreateUpdateProductDetailDto>()
+                .Ignore(dto => dto.ExtraProperties);
+            CreateMap<EditProductDetailViewModel, CreateUpdateProductDetailDto>()
+                .Ignore(dto => dto.StoreId)
                 .Ignore(dto => dto.ExtraProperties);
             CreateMap<ProductAttributeDto, CreateEditProductAttributeViewModel>();
             CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>()

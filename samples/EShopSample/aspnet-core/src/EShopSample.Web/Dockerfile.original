@@ -1,11 +1,11 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["samples/EShopSample/aspnet-core/src/EShopSample.Web/EShopSample.Web.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.Web/"]
 COPY ["integration/EasyAbp.EShop/src/EasyAbp.EShop.Web/EasyAbp.EShop.Web.csproj", "integration/EasyAbp.EShop/src/EasyAbp.EShop.Web/"]
@@ -41,20 +41,14 @@ COPY ["modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Domain/EasyAbp.
 COPY ["modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.Domain/EasyAbp.EShop.Payments.Domain.csproj", "modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.Domain/"]
 COPY ["modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.Domain/EasyAbp.EShop.Stores.Domain.csproj", "modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.Domain/"]
 COPY ["modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.Application/EasyAbp.EShop.Stores.Application.csproj", "modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.Application/"]
-COPY ["modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.Application.Shared/EasyAbp.EShop.Stores.Application.Shared.csproj", "modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.Application.Shared/"]
 COPY ["modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Application/EasyAbp.EShop.Products.Application.csproj", "modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Application/"]
 COPY ["modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Application/EasyAbp.EShop.Plugins.Application.csproj", "modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.Application/"]
 COPY ["modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.Application/EasyAbp.EShop.Payments.Application.csproj", "modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.Application/"]
 COPY ["modules/EasyAbp.EShop.Orders/src/EasyAbp.EShop.Orders.Application/EasyAbp.EShop.Orders.Application.csproj", "modules/EasyAbp.EShop.Orders/src/EasyAbp.EShop.Orders.Application/"]
 COPY ["samples/EShopSample/aspnet-core/src/EShopSample.Domain/EShopSample.Domain.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.Domain/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Domain/EasyAbp.EShop.Plugins.Coupons.Domain.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Domain/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Domain.Shared/EasyAbp.EShop.Plugins.Coupons.Domain.Shared.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Domain.Shared/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Domain/EasyAbp.EShop.Plugins.Baskets.Domain.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Domain/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Domain.Shared/EasyAbp.EShop.Plugins.Baskets.Domain.Shared.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Domain.Shared/"]
 COPY ["samples/EShopSample/aspnet-core/src/EShopSample.Domain.Shared/EShopSample.Domain.Shared.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.Domain.Shared/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Application/EasyAbp.EShop.Plugins.Coupons.Application.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Application/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Application.Contracts/EasyAbp.EShop.Plugins.Coupons.Application.Contracts.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Application.Contracts/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Orders.Plugins.Coupons/EasyAbp.EShop.Orders.Plugins.Coupons.csproj", "plugins/Coupons/src/EasyAbp.EShop.Orders.Plugins.Coupons/"]
 COPY ["samples/EShopSample/aspnet-core/src/EShopSample.Application.Contracts/EShopSample.Application.Contracts.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.Application.Contracts/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application.Contracts/EasyAbp.EShop.Plugins.Baskets.Application.Contracts.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application.Contracts/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application/EasyAbp.EShop.Plugins.Baskets.Application.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application/"]
@@ -68,12 +62,8 @@ COPY ["modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.EntityFramework
 COPY ["modules/EasyAbp.EShop.Orders/src/EasyAbp.EShop.Orders.EntityFrameworkCore/EasyAbp.EShop.Orders.EntityFrameworkCore.csproj", "modules/EasyAbp.EShop.Orders/src/EasyAbp.EShop.Orders.EntityFrameworkCore/"]
 COPY ["modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.EntityFrameworkCore/EasyAbp.EShop.Payments.EntityFrameworkCore.csproj", "modules/EasyAbp.EShop.Payments/src/EasyAbp.EShop.Payments.EntityFrameworkCore/"]
 COPY ["modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.EntityFrameworkCore/EasyAbp.EShop.Plugins.EntityFrameworkCore.csproj", "modules/EasyAbp.EShop.Plugins/src/EasyAbp.EShop.Plugins.EntityFrameworkCore/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore/EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore/EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore/"]
 COPY ["samples/EShopSample/aspnet-core/src/EShopSample.HttpApi/EShopSample.HttpApi.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.HttpApi/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.HttpApi/EasyAbp.EShop.Plugins.Coupons.HttpApi.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.HttpApi/"]
-COPY ["plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Web/EasyAbp.EShop.Plugins.Coupons.Web.csproj", "plugins/Coupons/src/EasyAbp.EShop.Plugins.Coupons.Web/"]
-COPY Directory.Build.props .
 RUN dotnet restore "samples/EShopSample/aspnet-core/src/EShopSample.Web/EShopSample.Web.csproj"
 COPY . .
 WORKDIR "/src/samples/EShopSample/aspnet-core/src/EShopSample.Web"

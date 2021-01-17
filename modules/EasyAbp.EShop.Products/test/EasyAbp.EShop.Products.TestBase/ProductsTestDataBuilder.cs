@@ -21,7 +21,8 @@ namespace EasyAbp.EShop.Products
 
         public async Task BuildAsync()
         {
-            await _productDetailRepository.InsertAsync(new ProductDetail(ProductsTestData.ProductDetails1Id, "Product Details"));
+            await _productDetailRepository.InsertAsync(new ProductDetail(ProductsTestData.ProductDetails1Id,
+                ProductsTestData.Store1Id, "Product details for store 1"));
         }
     }
 }

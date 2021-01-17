@@ -11,5 +11,7 @@ namespace EasyAbp.EShop.Stores.StoreOwners.Dtos
         public Guid StoreId { get; set; }
 
         public Guid OwnerUserId { get; set; }
+        
+        public string OwnerUserName { get; set; }
     }
 }

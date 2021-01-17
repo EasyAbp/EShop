@@ -14,7 +14,7 @@ $(function () {
         order: [[1, "asc"]],
         ajax: function (requestData, callback, settings) {
             if (callback) {
-                service.get(productId, storeId).then(function (result) {
+                service.get(productId).then(function (result) {
                     callback({
                         recordsTotal: result.productSkus.length,
                         recordsFiltered: result.productSkus.length,
@@ -32,14 +32,14 @@ $(function () {
                                 text: l('Edit'),
                                 visible: abp.auth.isGranted('EasyAbp.EShop.Products.Product.Update'),
                                 action: function (data) {
-                                    editModal.open({ productId: productId, productSkuId: data.record.id, storeId: storeId });
+                                    editModal.open({ productId: productId, productSkuId: data.record.id });
                                 }
                             },
                             {
                                 text: l('ProductInventory'),
                                 visible: abp.auth.isGranted('EasyAbp.EShop.Products.ProductInventory.Update'),
                                 action: function (data) {
-                                    changeInventoryModal.open({ productId: productId, productSkuId: data.record.id, storeId: storeId });
+                                    changeInventoryModal.open({ productId: productId, productSkuId: data.record.id });
                                 }
                             },
                             {
@@ -49,7 +49,7 @@ $(function () {
                                     return l('ProductDeletionConfirmationMessage', data.record.id);
                                 },
                                 action: function (data) {
-                                    service.deleteSku(productId, data.record.id, storeId)
+                                    service.deleteSku(productId, data.record.id)
                                         .then(function () {
                                             abp.notify.info(l('SuccessfullyDeleted'));
                                             dataTable.ajax.reload();
@@ -81,7 +81,7 @@ $(function () {
 
     $('#NewProductSkuButton').click(function (e) {
         e.preventDefault();
-        createModal.open({ storeId: storeId, productId: productId });
+        createModal.open({ productId: productId });
     });
     
     function fillProductSkusContentDescription(product) {

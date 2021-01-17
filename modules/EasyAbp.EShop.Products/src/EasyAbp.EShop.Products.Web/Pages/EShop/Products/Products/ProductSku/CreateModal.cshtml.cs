@@ -16,10 +16,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
     {
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
-        public Guid StoreId { get; set; }
-        
-        [HiddenInput]
-        [BindProperty(SupportsGet = true)]
         public Guid ProductId { get; set; }
         
         [BindProperty]
@@ -43,7 +39,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
 
         public virtual async Task OnGetAsync()
         {
-            var product = await _productAppService.GetAsync(ProductId, StoreId);
+            var product = await _productAppService.GetAsync(ProductId);
 
             Attributes = new Dictionary<string, ICollection<SelectListItem>>();
             
@@ -61,13 +57,12 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
 
             createDto.AttributeOptionIds = SelectedAttributeOptionIdDict.Values.ToList();
             
-            var skuDto = await _productAppService.CreateSkuAsync(ProductId, StoreId, createDto);
+            var skuDto = await _productAppService.CreateSkuAsync(ProductId, createDto);
 
             await _productInventoryAppService.UpdateAsync(new UpdateProductInventoryDto
             {
                 ProductId = ProductId,
                 ProductSkuId = skuDto.Id,
-                StoreId = StoreId,
                 ChangedInventory = ProductSku.Inventory
             });
 
