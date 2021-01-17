@@ -2,13 +2,17 @@
 using EasyAbp.EShop.Products.Products;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
+using Volo.Abp.EventBus;
 using Volo.Abp.Guids;
 using Volo.Abp.Json;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.ProductHistories
 {
-    public class ProductHistoryRecorder : IProductHistoryRecorder, ITransientDependency
+    public class ProductHistoryRecorder :
+        ILocalEventHandler<EntityChangedEventData<Product>>,
+        IProductHistoryRecorder,
+        ITransientDependency
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly IJsonSerializer _jsonSerializer;

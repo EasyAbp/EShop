@@ -9,14 +9,10 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels
 {
-    public class CreateEditProductDetailViewModel
+    public class CreateProductDetailViewModel : EditProductDetailViewModel
     {
         [HiddenInput]
-        [Display(Name = "ProductStore")]
-        public Guid StoreId { get; set; }
-        
-        [TextArea(Rows = 4)]
-        [Display(Name = "ProductDetailDescription")]
-        public string Description { get; set; }
+        [Display(Name = "ProductDetailStoreId")]
+        public Guid? StoreId { get; set; }
     }
 }

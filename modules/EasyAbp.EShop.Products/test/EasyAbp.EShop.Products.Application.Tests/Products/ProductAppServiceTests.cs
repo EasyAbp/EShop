@@ -99,7 +99,7 @@ namespace EasyAbp.EShop.Products.Products
                 productAttributeOptionId = productAttribute.ProductAttributeOptions.First().Id;
             });
 
-            var response = await _productAppService.CreateSkuAsync(productId, ProductsTestData.Store1Id, new CreateProductSkuDto
+            var response = await _productAppService.CreateSkuAsync(productId, new CreateProductSkuDto
             {
                 AttributeOptionIds = new List<Guid> {productAttributeOptionId},
                 Currency = "CNY",

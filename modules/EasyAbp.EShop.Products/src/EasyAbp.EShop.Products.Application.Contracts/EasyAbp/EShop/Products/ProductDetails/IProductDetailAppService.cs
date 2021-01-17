@@ -10,10 +10,9 @@ namespace EasyAbp.EShop.Products.ProductDetails
         ICrudAppService< 
             ProductDetailDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
+            GetProductDetailListInput,
             CreateUpdateProductDetailDto,
             CreateUpdateProductDetailDto>
     {
-        Task DeleteAsync(Guid id, Guid storeId);
     }
 }

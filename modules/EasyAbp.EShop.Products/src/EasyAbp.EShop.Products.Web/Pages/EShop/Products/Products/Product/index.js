@@ -24,13 +24,13 @@ $(function () {
                             {
                                 text: l('ProductSku'),
                                 action: function (data) {
-                                    document.location.href = document.location.origin + '/EShop/Products/Products/ProductSku?ProductId=' + data.record.id + '&StoreId=' + storeId;
+                                    document.location.href = document.location.origin + '/EShop/Products/Products/ProductSku?ProductId=' + data.record.id;
                                 }
                             },
                             {
                                 text: l('Edit'),
                                 action: function (data) {
-                                    editModal.open({ id: data.record.id, storeId: storeId });
+                                    editModal.open({ id: data.record.id });
                                 }
                             },
                             {
@@ -39,7 +39,7 @@ $(function () {
                                     return l('ProductDeletionConfirmationMessage', data.record.id);
                                 },
                                 action: function (data) {
-                                    service.delete(data.record.id, storeId)
+                                    service.delete(data.record.id)
                                         .then(function () {
                                             abp.notify.info(l('SuccessfullyDeleted'));
                                             dataTable.ajax.reload();
@@ -70,4 +70,12 @@ $(function () {
         e.preventDefault();
         createModal.open({ storeId: storeId, categoryId: categoryId });
     });
+
+    $('#enter-button').click(function (e) {
+        e.preventDefault();
+        var storeId = $('#Filter_StoreId').val();
+        var categoryId = $('#Filter_CategoryId').val();
+
+        document.location.href = document.location.origin + document.location.pathname + '?storeId=' + storeId + "&categoryId=" + categoryId;
+    })
 });

@@ -2,6 +2,7 @@
 using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Products.Localization;
+using EasyAbp.EShop.Stores;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
@@ -11,7 +12,8 @@ namespace EasyAbp.EShop.Products
 {
     [DependsOn(
         typeof(AbpValidationModule),
-        typeof(AbpTreesDomainSharedModule)
+        typeof(AbpTreesDomainSharedModule),
+        typeof(EShopStoresDomainSharedModule)
     )]
     public class EShopProductsDomainSharedModule : AbpModule
     {

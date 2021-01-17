@@ -26,7 +26,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
         }
 
         [HttpGet]
-        public Task<PagedResultDto<ProductDetailDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public Task<PagedResultDto<ProductDetailDto>> GetListAsync(GetProductDetailListInput input)
         {
             return _service.GetListAsync(input);
         }
@@ -49,14 +49,6 @@ namespace EasyAbp.EShop.Products.ProductDetails
         public Task DeleteAsync(Guid id)
         {
             return _service.DeleteAsync(id);
-        }
-
-        [HttpDelete]
-        [Route("{id}/abandoned")]
-        [RemoteService(false)]
-        public Task DeleteAsync(Guid id, Guid storeId)
-        {
-            return _service.DeleteAsync(id, storeId);
         }
     }
 }

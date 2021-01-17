@@ -14,10 +14,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
     {
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
-        public Guid StoreId { get; set; }
-        
-        [HiddenInput]
-        [BindProperty(SupportsGet = true)]
         public Guid ProductId { get; set; }
         
         [HiddenInput]
@@ -36,7 +32,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
 
         public virtual async Task OnGetAsync()
         {
-            var product = await _productAppService.GetAsync(ProductId, StoreId);
+            var product = await _productAppService.GetAsync(ProductId);
 
             ProductSku =
                 ObjectMapper.Map<ProductSkuDto, EditProductSkuViewModel>(
@@ -45,7 +41,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            await _productAppService.UpdateSkuAsync(ProductId, ProductSkuId, StoreId,
+            await _productAppService.UpdateSkuAsync(ProductId, ProductSkuId,
                 ObjectMapper.Map<EditProductSkuViewModel, UpdateProductSkuDto>(ProductSku));
             
             return NoContent();

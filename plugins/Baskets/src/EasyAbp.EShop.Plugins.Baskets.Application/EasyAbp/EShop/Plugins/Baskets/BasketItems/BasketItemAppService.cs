@@ -63,7 +63,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
                 if (itemUpdateTime < productUpdateTime)
                 {
-                    var productDto = await _productAppService.GetAsync(item.ProductId, item.StoreId);
+                    var productDto = await _productAppService.GetAsync(item.ProductId);
                     
                     await UpdateProductDataAsync(item.Quantity, item, productDto);
                     
@@ -118,8 +118,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 if (!productDtoDict.ContainsKey(item.ProductId))
                 {
                     // Todo: deleted product cause errors
-                    productDtoDict[item.ProductId] =
-                        await _productAppService.GetAsync(item.ProductId, item.StoreId);
+                    productDtoDict[item.ProductId] = await _productAppService.GetAsync(item.ProductId);
                 }
 
                 await UpdateProductDataAsync(item.Quantity, item, productDtoDict[item.ProductId]);
@@ -189,11 +188,10 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 throw new AbpAuthorizationException();
             }
 
-            var productDto = await _productAppService.GetAsync(input.ProductId, input.StoreId);
+            var productDto = await _productAppService.GetAsync(input.ProductId);
 
             var item = await _repository.FindAsync(x =>
-                x.UserId == userId && x.BasketName == input.BasketName && x.StoreId == input.StoreId &&
-                x.ProductSkuId == input.ProductSkuId);
+                x.UserId == userId && x.BasketName == input.BasketName && x.ProductSkuId == input.ProductSkuId);
 
             if (item != null)
             {
@@ -212,7 +210,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             }
 
             item = new BasketItem(GuidGenerator.Create(), CurrentTenant.Id, input.BasketName, CurrentUser.GetId(),
-                input.StoreId, input.ProductId, input.ProductSkuId);
+                productDto.StoreId, input.ProductId, input.ProductSkuId);
 
             await UpdateProductDataAsync(input.Quantity, item, productDto);
             
@@ -232,7 +230,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 throw new AbpAuthorizationException();
             }
 
-            var productDto = await _productAppService.GetAsync(item.ProductId, item.StoreId);
+            var productDto = await _productAppService.GetAsync(item.ProductId);
 
             await UpdateProductDataAsync(input.Quantity, item, productDto);
             

@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductManager : IDomainService
     {
-        Task<Product> CreateAsync(Product product, Guid? storeId = null, IEnumerable<Guid> categoryIds = null);
+        Task<Product> CreateAsync(Product product, IEnumerable<Guid> categoryIds = null);
 
         Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null);
 
@@ -21,14 +21,14 @@ namespace EasyAbp.EShop.Products.Products
         
         Task<Product> DeleteSkuAsync(Product product, ProductSku productSku);
         
-        Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, Guid storeId, int quantity);
+        Task<bool> IsInventorySufficientAsync(Product product, ProductSku productSku, int quantity);
         
-        Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku, Guid storeId);
+        Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku);
 
-        Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool reduceSold);
+        Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, int quantity, bool reduceSold);
         
-        Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, Guid storeId, int quantity, bool increaseSold);
+        Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity, bool increaseSold);
 
-        Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku, Guid storeId);
+        Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku);
     }
 }

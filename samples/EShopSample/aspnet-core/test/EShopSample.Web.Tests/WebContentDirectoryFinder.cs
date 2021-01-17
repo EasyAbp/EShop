@@ -20,7 +20,7 @@ namespace EShopSample
             }
 
             var directoryInfo = new DirectoryInfo(domainAssemblyDirectoryPath);
-            while (!DirectoryContains(directoryInfo.FullName, "EShopSample.sln"))
+            while (!DirectoryContains(directoryInfo.FullName, "EShop.sln"))
             {
                 if (directoryInfo.Parent == null)
                 {
@@ -30,7 +30,7 @@ namespace EShopSample
                 directoryInfo = directoryInfo.Parent;
             }
 
-            var webFolder = Path.Combine(directoryInfo.FullName, $"src{Path.DirectorySeparatorChar}EShopSample.Web");
+            var webFolder = Path.Combine(directoryInfo.FullName, $"samples{Path.DirectorySeparatorChar}EShopSample{Path.DirectorySeparatorChar}aspnet-core{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EShopSample.Web");
             if (Directory.Exists(webFolder))
             {
                 return webFolder;

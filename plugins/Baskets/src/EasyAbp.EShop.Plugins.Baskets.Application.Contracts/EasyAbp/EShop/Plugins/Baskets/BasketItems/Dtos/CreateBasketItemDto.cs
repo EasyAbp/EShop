@@ -16,8 +16,6 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos
         /// </summary>
         public Guid? UserId { get; set; }
         
-        public Guid StoreId { get; set; }
-
         public Guid ProductId { get; set; }
 
         public Guid ProductSkuId { get; set; }

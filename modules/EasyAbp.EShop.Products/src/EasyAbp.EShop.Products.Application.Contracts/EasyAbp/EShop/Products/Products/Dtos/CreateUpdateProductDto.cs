@@ -3,24 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class CreateUpdateProductDto : ExtensibleObject
+    public class CreateUpdateProductDto : ExtensibleObject, IMultiStore
     {
+        [DisplayName("ProductStoreId")]
+        public Guid StoreId { get; set; }
+        
         [DisplayName("ProductProductGroupName")]
         public string ProductGroupName { get; set; }
         
         [DisplayName("ProductDetailId")]
         public Guid ProductDetailId { get; set; }
-        
-        /// <summary>
-        /// This property is set for adding the store to ProductStore in creation, or for permission checking in update.
-        /// </summary>
-        [DisplayName("ProductStoreId")]
-        public Guid StoreId { get; set; }
 
         [DisplayName("ProductCategory")]
         public ICollection<Guid> CategoryIds { get; set; }

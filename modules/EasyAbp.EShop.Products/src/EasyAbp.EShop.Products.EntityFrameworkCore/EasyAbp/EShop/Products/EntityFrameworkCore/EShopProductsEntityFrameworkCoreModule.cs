@@ -2,7 +2,6 @@ using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.Abp.Trees.EntityFrameworkCore;
 using EasyAbp.EShop.Products.ProductDetailHistories;
 using EasyAbp.EShop.Products.ProductHistories;
-using EasyAbp.EShop.Products.ProductStores;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.ProductDetails;
@@ -31,7 +30,6 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 options.AddRepository<Product, ProductRepository>();
                 options.AddRepository<ProductDetail, ProductDetailRepository>();
                 options.AddRepository<ProductCategory, ProductCategoryRepository>();
-                options.AddRepository<ProductStore, ProductStoreRepository>();
                 options.AddRepository<ProductHistory, ProductHistoryRepository>();
                 options.AddRepository<ProductDetailHistory, ProductDetailHistoryRepository>();
                 options.AddRepository<ProductInventory, ProductInventoryRepository>();

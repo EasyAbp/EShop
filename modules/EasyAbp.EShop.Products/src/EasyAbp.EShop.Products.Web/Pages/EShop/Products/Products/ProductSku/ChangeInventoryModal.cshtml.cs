@@ -16,10 +16,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
         public Guid ProductSkuId { get; set; }
-        
-        [HiddenInput]
-        [BindProperty(SupportsGet = true)]
-        public Guid StoreId { get; set; }
 
         [BindProperty]
         public ChangeProductInventoryViewModel ViewModel { get; set; }
@@ -48,7 +44,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
             {
                 ProductId = ProductId,
                 ProductSkuId = ProductSkuId,
-                StoreId = StoreId,
                 ChangedInventory = ViewModel.ProductInventoryChangeType == InventoryChangeType.IncreaseInventory
                     ? ViewModel.ChangedInventory
                     : -ViewModel.ChangedInventory

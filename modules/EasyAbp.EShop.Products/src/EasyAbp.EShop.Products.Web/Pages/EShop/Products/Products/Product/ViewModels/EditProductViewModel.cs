@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using EasyAbp.Abp.TagHelperPlus.EasySelector;
 using EasyAbp.EShop.Products.Products;
-using EasyAbp.EShop.Products.Products.Dtos;
-using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels
 {
-    public class CreateEditProductViewModel
+    public class EditProductViewModel
     {
-        [HiddenInput]
-        [Display(Name = "ProductStore")]
-        public Guid StoreId { get; set; }
-
         [Required]
         [SelectItems("ProductGroups")]
         [Display(Name = "ProductProductGroupName")]
@@ -37,7 +30,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductDisplayName")]
         public string DisplayName { get; set; }
         
-        public CreateEditProductDetailViewModel ProductDetail { get; set; }
+        public EditProductDetailViewModel ProductDetail { get; set; }
 
         [Required]
         [Placeholder("ProductAttributeNamesPlaceholder")]

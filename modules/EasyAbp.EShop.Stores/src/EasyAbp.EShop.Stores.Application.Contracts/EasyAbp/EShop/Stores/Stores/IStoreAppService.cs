@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Stores.Stores
         ICrudAppService< 
             StoreDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
+            GetStoreListInput,
             CreateUpdateStoreDto,
             CreateUpdateStoreDto>
     {

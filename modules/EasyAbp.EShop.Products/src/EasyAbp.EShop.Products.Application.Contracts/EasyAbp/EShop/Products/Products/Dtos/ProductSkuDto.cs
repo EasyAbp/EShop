@@ -16,9 +16,6 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public decimal? OriginalPrice { get; set; }
         
-        /// <summary>
-        /// Price property in the ProductSku entity.
-        /// </summary>
         public decimal Price { get; set; }
         
         public decimal DiscountedPrice { get; set; }

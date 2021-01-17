@@ -9,6 +9,8 @@ namespace EasyAbp.EShop.Products.Products
     {
         public Guid Id { get; set; }
         
+        public Guid StoreId { get; set; }
+
         public string ProductGroupName { get; set; }
         
         public Guid ProductDetailId { get; set; }

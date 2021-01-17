@@ -4,7 +4,6 @@ $(function () {
 
     var service = easyAbp.eShop.stores.storeOwners.storeOwner;
     var storeService = easyAbp.eShop.stores.stores.store;
-    var userService = volo.abp.identity.identityUser;
     var createModal = new abp.ModalManager(abp.appPath + 'EShop/Stores/StoreOwners/StoreOwner/CreateModal');
     var editModal = new abp.ModalManager(abp.appPath + 'EShop/Stores/StoreOwners/StoreOwner/EditModal');
 
@@ -58,16 +57,7 @@ $(function () {
                 }
             },
             {
-                data: "ownerUserId",
-                render: function (data, type, row, meta) {
-                    var currentCell = $("#StoreOwnerTable").DataTable().cells({"row":meta.row, "column":meta.col}).nodes(0);
-                    userService.get(data).then(
-                        x=>{
-                            $(currentCell).html(x.userName);
-                        }
-                    );
-                    return '...';
-                }
+                data: "ownerUserName"
             }
         ]
     }));

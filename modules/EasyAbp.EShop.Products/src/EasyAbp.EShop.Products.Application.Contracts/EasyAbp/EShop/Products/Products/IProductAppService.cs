@@ -14,17 +14,13 @@ namespace EasyAbp.EShop.Products.Products
             CreateUpdateProductDto,
             CreateUpdateProductDto>
     {
-        Task DeleteAsync(Guid id, Guid storeId);
+        Task<ProductDto> CreateSkuAsync(Guid productId, CreateProductSkuDto input);
 
-        Task<ProductDto> CreateSkuAsync(Guid productId, Guid storeId, CreateProductSkuDto input);
+        Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, UpdateProductSkuDto input);
 
-        Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, Guid storeId, UpdateProductSkuDto input);
-
-        Task<ProductDto> GetAsync(Guid id, Guid storeId);
-
-        Task<ProductDto> GetByCodeAsync(string code, Guid storeId);
-
-        Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId, Guid storeId);
+        Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId);
+        
+        Task<ProductDto> GetByCodeAsync(Guid storeId, string code);
 
         Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync();
     }
