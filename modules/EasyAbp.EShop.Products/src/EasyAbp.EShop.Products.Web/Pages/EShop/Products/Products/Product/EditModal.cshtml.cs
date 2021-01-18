@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         public Guid Id { get; set; }
 
         [BindProperty]
-        public EditProductViewModel Product { get; set; }
+        public CreateEditProductViewModel Product { get; set; }
         
         public ICollection<SelectListItem> ProductGroups { get; set; }
         
@@ -62,7 +62,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
             var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId);
             
-            Product = ObjectMapper.Map<ProductDto, EditProductViewModel>(productDto);
+            Product = ObjectMapper.Map<ProductDto, CreateEditProductViewModel>(productDto);
 
             Product.CategoryIds = (await _productCategoryAppService.GetListAsync(new GetProductCategoryListDto
             {
@@ -70,8 +70,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
             })).Items.Select(x => x.CategoryId).ToList();
 
-            Product.ProductDetail = new EditProductDetailViewModel
+            Product.ProductDetail = new CreateEditProductDetailViewModel
             {
+                StoreId = detailDto.StoreId,
                 Description = detailDto.Description
             };
         }
@@ -84,9 +85,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
             await _productDetailAppService.UpdateAsync(detail.Id,
                 ObjectMapper
-                    .Map<EditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
+                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
 
-            var updateProductDto = ObjectMapper.Map<EditProductViewModel, CreateUpdateProductDto>(Product);
+            var updateProductDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
 
             updateProductDto.ProductDetailId = detail.Id;
             

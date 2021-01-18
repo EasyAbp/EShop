@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EasyAbp.Abp.TagHelperPlus.EasySelector;
 using EasyAbp.EShop.Products.Products;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewModels
 {
-    public class EditProductViewModel
+    public class CreateEditProductViewModel : IValidatableObject
     {
+        [HiddenInput]
+        [Display(Name = "ProductStoreId")]
+        public Guid StoreId { get; set; }
+        
         [Required]
         [SelectItems("ProductGroups")]
         [Display(Name = "ProductProductGroupName")]
@@ -30,7 +35,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Display(Name = "ProductDisplayName")]
         public string DisplayName { get; set; }
         
-        public EditProductDetailViewModel ProductDetail { get; set; }
+        public CreateEditProductDetailViewModel ProductDetail { get; set; }
 
         [Required]
         [Placeholder("ProductAttributeNamesPlaceholder")]
@@ -54,5 +59,16 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         
         [Display(Name = "ProductIsPublished")]
         public bool IsPublished { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (StoreId != ProductDetail.StoreId)
+            {
+                yield return new ValidationResult(
+                    "The StoreId should be same as the ProductDetail.StoreId.",
+                    new[] {"StoreId"}
+                );
+            }
+        }
     }
 }

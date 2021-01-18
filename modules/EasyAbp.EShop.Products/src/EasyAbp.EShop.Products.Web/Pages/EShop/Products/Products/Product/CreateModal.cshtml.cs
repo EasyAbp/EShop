@@ -18,7 +18,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
     public class CreateModalModel : ProductsPageModel
     {
         [BindProperty]
-        public CreateProductViewModel Product { get; set; }
+        public CreateEditProductViewModel Product { get; set; }
 
         public ICollection<SelectListItem> ProductGroups { get; set; }
 
@@ -49,10 +49,10 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 { MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount }))?.Items
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
-            Product = new CreateProductViewModel
+            Product = new CreateEditProductViewModel
             {
                 StoreId = storeId,
-                ProductDetail = new CreateProductDetailViewModel
+                ProductDetail = new CreateEditProductDetailViewModel
                 {
                     StoreId = storeId
                 }
@@ -68,9 +68,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         {
             var detail = await _productDetailAppService.CreateAsync(
                 ObjectMapper
-                    .Map<CreateProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
+                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
 
-            var createDto = ObjectMapper.Map<CreateProductViewModel, CreateUpdateProductDto>(Product);
+            var createDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
 
             createDto.ProductDetailId = detail.Id;
 
