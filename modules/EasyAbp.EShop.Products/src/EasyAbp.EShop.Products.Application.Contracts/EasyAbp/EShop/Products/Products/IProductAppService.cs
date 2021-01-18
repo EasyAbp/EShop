@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Products.Products
         ICrudAppService< 
             ProductDto, 
             Guid, 
-            GetProductListDto,
+            GetProductListInput,
             CreateUpdateProductDto,
             CreateUpdateProductDto>
     {

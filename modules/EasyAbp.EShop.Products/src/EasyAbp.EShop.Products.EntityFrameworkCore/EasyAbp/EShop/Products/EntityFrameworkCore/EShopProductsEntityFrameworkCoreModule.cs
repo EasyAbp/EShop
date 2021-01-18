@@ -33,6 +33,7 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 options.AddRepository<ProductHistory, ProductHistoryRepository>();
                 options.AddRepository<ProductDetailHistory, ProductDetailHistoryRepository>();
                 options.AddRepository<ProductInventory, ProductInventoryRepository>();
+                options.AddRepository<ProductView, ProductViewRepository>();
             });
         }
     }

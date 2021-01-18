@@ -48,17 +48,17 @@ namespace EasyAbp.EShop.Products.Products
         {
             var productInventory = await _productInventoryRepository.GetAsync(x => x.ProductSkuId == productSku.Id);
             
-            return await TryIncreaseInventoryAsync(productInventory, quantity, decreaseSold);
+            return await TryIncreaseInventoryAsync(product, productInventory, quantity, decreaseSold);
         }
 
         public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity, bool increaseSold)
         {
             var productInventory = await _productInventoryRepository.GetAsync(x => x.ProductSkuId == productSku.Id);
             
-            return await TryReduceInventoryAsync(productInventory, quantity, increaseSold);
+            return await TryReduceInventoryAsync(product, productInventory, quantity, increaseSold);
         }
         
-        public virtual async Task<bool> TryIncreaseInventoryAsync(ProductInventory productInventory, int quantity, bool decreaseSold)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductInventory productInventory, int quantity, bool decreaseSold)
         {
             if (quantity < 0)
             {
@@ -75,16 +75,16 @@ namespace EasyAbp.EShop.Products.Products
             using var uow = _unitOfWorkManager.Begin(isTransactional: true);
             
             await _productInventoryRepository.UpdateAsync(productInventory, true);
-            
-            PublishInventoryChangedEventOnUowCompleted(uow, productInventory.ProductId, productInventory.ProductSkuId,
-                originalInventory, productInventory.Inventory, productInventory.Sold);
+
+            PublishInventoryChangedEventOnUowCompleted(uow, product.StoreId, productInventory.ProductId,
+                productInventory.ProductSkuId, originalInventory, productInventory.Inventory, productInventory.Sold);
 
             await uow.CompleteAsync();
             
             return true;
         }
 
-        public virtual async Task<bool> TryReduceInventoryAsync(ProductInventory productInventory, int quantity, bool increaseSold)
+        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductInventory productInventory, int quantity, bool increaseSold)
         {
             if (quantity < 0)
             {
@@ -102,19 +102,20 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productInventoryRepository.UpdateAsync(productInventory, true);
 
-            PublishInventoryChangedEventOnUowCompleted(uow, productInventory.ProductId, productInventory.ProductSkuId,
-                originalInventory, productInventory.Inventory, productInventory.Sold);
+            PublishInventoryChangedEventOnUowCompleted(uow, product.StoreId, productInventory.ProductId,
+                productInventory.ProductSkuId, originalInventory, productInventory.Inventory, productInventory.Sold);
 
             await uow.CompleteAsync();
 
             return true;
         }
 
-        protected virtual void PublishInventoryChangedEventOnUowCompleted(IUnitOfWork uow, Guid productId,
+        protected virtual void PublishInventoryChangedEventOnUowCompleted(IUnitOfWork uow, Guid storeId, Guid productId,
             Guid productSkuId, int originalInventory, int newInventory, long sold)
         {
             uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new ProductInventoryChangedEto
             {
+                StoreId = storeId,
                 ProductId = productId,
                 ProductSkuId = productSkuId,
                 OriginalInventory = originalInventory,

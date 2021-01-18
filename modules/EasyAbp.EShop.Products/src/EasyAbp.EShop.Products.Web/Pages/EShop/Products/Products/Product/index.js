@@ -3,6 +3,7 @@ $(function () {
     var l = abp.localization.getResource('EasyAbpEShopProducts');
 
     var service = easyAbp.eShop.products.products.product;
+    var viewService = easyAbp.eShop.products.products.productView;
     var createModal = new abp.ModalManager(abp.appPath + 'EShop/Products/Products/Product/CreateModal');
     var editModal = new abp.ModalManager(abp.appPath + 'EShop/Products/Products/Product/EditModal');
 
@@ -13,7 +14,7 @@ $(function () {
         searching: false,
         autoWidth: false,
         scrollCollapse: true,
-        ajax: abp.libs.datatables.createAjax(service.getList, function () {
+        ajax: abp.libs.datatables.createAjax(viewService.getList, function () {
             return { storeId: storeId, categoryId: categoryId, showHidden: true }
         }),
         columnDefs: [
