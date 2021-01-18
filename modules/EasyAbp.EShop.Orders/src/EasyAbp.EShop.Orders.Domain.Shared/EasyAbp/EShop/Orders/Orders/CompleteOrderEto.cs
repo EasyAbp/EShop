@@ -9,5 +9,11 @@ namespace EasyAbp.EShop.Orders.Orders
         public Guid? TenantId { get; set; }
 
         public Guid OrderId { get; set; }
+
+        public CompleteOrderEto(Guid? tenantId, Guid orderId)
+        {
+            TenantId = tenantId;
+            OrderId = orderId;
+        }
     }
 }

@@ -84,10 +84,8 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             uow.OnCompleted(async () =>
             {
-                await _distributedEventBus.PublishAsync(new EShopPaymentCanceledEto
-                {
-                    Payment = _objectMapper.Map<Payment, EShopPaymentEto>(payment)
-                });
+                await _distributedEventBus.PublishAsync(
+                    new EShopPaymentCanceledEto(_objectMapper.Map<Payment, EShopPaymentEto>(payment)));
             });
         }
 
@@ -95,10 +93,8 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             uow.OnCompleted(async () =>
             {
-                await _distributedEventBus.PublishAsync(new EShopPaymentCompletedEto
-                {
-                    Payment = _objectMapper.Map<Payment, EShopPaymentEto>(payment)
-                });
+                await _distributedEventBus.PublishAsync(
+                    new EShopPaymentCompletedEto(_objectMapper.Map<Payment, EShopPaymentEto>(payment)));
             });
         }
 

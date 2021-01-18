@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using EasyAbp.PaymentService.Refunds;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    public class Refund : FullAuditedAggregateRoot<Guid>, IRefund
+    public class Refund : FullAuditedAggregateRoot<Guid>, IRefund, IMultiTenant
     {
         #region Base properties
 

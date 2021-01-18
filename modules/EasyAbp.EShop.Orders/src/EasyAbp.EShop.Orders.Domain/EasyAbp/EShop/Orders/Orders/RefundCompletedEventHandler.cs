@@ -49,11 +49,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 await _orderRepository.UpdateAsync(order, true);
 
                 uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(
-                    new OrderRefundedEto
-                    {
-                        Order = _objectMapper.Map<Order, OrderEto>(order),
-                        Refund = eventData.Refund
-                    })
+                    new OrderRefundedEto(_objectMapper.Map<Order, OrderEto>(order), eventData.Refund))
                 );
 
                 await uow.CompleteAsync();

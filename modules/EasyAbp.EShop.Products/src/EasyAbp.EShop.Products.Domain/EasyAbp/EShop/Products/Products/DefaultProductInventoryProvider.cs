@@ -76,8 +76,9 @@ namespace EasyAbp.EShop.Products.Products
             
             await _productInventoryRepository.UpdateAsync(productInventory, true);
 
-            PublishInventoryChangedEventOnUowCompleted(uow, product.StoreId, productInventory.ProductId,
-                productInventory.ProductSkuId, originalInventory, productInventory.Inventory, productInventory.Sold);
+            PublishInventoryChangedEventOnUowCompleted(uow, product.TenantId, product.StoreId,
+                productInventory.ProductId, productInventory.ProductSkuId, originalInventory,
+                productInventory.Inventory, productInventory.Sold);
 
             await uow.CompleteAsync();
             
@@ -102,26 +103,26 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productInventoryRepository.UpdateAsync(productInventory, true);
 
-            PublishInventoryChangedEventOnUowCompleted(uow, product.StoreId, productInventory.ProductId,
-                productInventory.ProductSkuId, originalInventory, productInventory.Inventory, productInventory.Sold);
+            PublishInventoryChangedEventOnUowCompleted(uow, product.TenantId, product.StoreId,
+                productInventory.ProductId, productInventory.ProductSkuId, originalInventory,
+                productInventory.Inventory, productInventory.Sold);
 
             await uow.CompleteAsync();
 
             return true;
         }
 
-        protected virtual void PublishInventoryChangedEventOnUowCompleted(IUnitOfWork uow, Guid storeId, Guid productId,
-            Guid productSkuId, int originalInventory, int newInventory, long sold)
+        protected virtual void PublishInventoryChangedEventOnUowCompleted(IUnitOfWork uow, Guid? tenantId, Guid storeId,
+            Guid productId, Guid productSkuId, int originalInventory, int newInventory, long sold)
         {
-            uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new ProductInventoryChangedEto
-            {
-                StoreId = storeId,
-                ProductId = productId,
-                ProductSkuId = productSkuId,
-                OriginalInventory = originalInventory,
-                NewInventory = newInventory,
-                Sold = sold
-            }));
+            uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new ProductInventoryChangedEto(
+                tenantId,
+                storeId,
+                productId,
+                productSkuId,
+                originalInventory,
+                newInventory,
+                sold)));
         }
     }
 }

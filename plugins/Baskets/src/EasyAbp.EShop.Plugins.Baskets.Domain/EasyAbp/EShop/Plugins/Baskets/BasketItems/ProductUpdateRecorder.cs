@@ -15,13 +15,16 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
     public class ProductUpdateRecorder : IProductUpdateRecorder, ITransientDependency
     {
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ICurrentTenant _currentTenant;
         private readonly IProductUpdateRepository _productUpdateRepository;
 
         public ProductUpdateRecorder(
             IGuidGenerator guidGenerator,
+            ICurrentTenant currentTenant,
             IProductUpdateRepository productUpdateRepository)
         {
             _guidGenerator = guidGenerator;
+            _currentTenant = currentTenant;
             _productUpdateRepository = productUpdateRepository;
         }
         
@@ -46,7 +49,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
             if (entity == null)
             {
-                entity = new ProductUpdate(_guidGenerator.Create(), skuId);
+                entity = new ProductUpdate(_guidGenerator.Create(), _currentTenant.Id, skuId);
 
                 await _productUpdateRepository.InsertAsync(entity);
             }

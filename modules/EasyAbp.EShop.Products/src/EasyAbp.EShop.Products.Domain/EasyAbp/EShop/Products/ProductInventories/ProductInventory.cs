@@ -1,10 +1,13 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.ProductInventories
 {
-    public class ProductInventory : FullAuditedAggregateRoot<Guid>
+    public class ProductInventory : FullAuditedAggregateRoot<Guid>, IMultiTenant
     {
+        public virtual Guid? TenantId { get; protected set; }
+
         public virtual Guid ProductId { get; protected set; }
         
         public virtual Guid ProductSkuId { get; protected set; }
@@ -19,11 +22,13 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
         public ProductInventory(
             Guid id,
+            Guid? tenantId,
             Guid productId,
             Guid productSkuId,
             int inventory,
             long sold) : base(id)
         {
+            TenantId = tenantId;
             ProductId = productId;
             ProductSkuId = productSkuId;
             Inventory = inventory;

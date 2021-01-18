@@ -1,10 +1,13 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProduct
+    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProduct, IMultiTenant
     {
+        public virtual Guid? TenantId { get; protected set; }
+
         #region Properties of IProduct
 
         public virtual Guid StoreId { get; protected set; }
@@ -45,6 +48,7 @@ namespace EasyAbp.EShop.Products.Products
         
         public ProductView(
             Guid id,
+            Guid? tenantId,
             Guid storeId,
             string productGroupName,
             Guid productDetailId,
@@ -62,6 +66,7 @@ namespace EasyAbp.EShop.Products.Products
             long sold
         ) : base(id)
         {
+            TenantId = tenantId;
             StoreId = storeId;
             ProductGroupName = productGroupName;
             ProductDetailId = productDetailId;

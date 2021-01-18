@@ -4,7 +4,7 @@ using Volo.Abp.Data;
 namespace EasyAbp.EShop.Products.Products
 {
     [Serializable]
-    public class  ProductSkuEto : IProductSku
+    public class ProductSkuEto : IProductSku
     {
         public Guid Id { get; set; }
 

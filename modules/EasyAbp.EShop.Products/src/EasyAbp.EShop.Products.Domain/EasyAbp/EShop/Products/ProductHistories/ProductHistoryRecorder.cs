@@ -5,6 +5,7 @@ using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;
 using Volo.Abp.Guids;
 using Volo.Abp.Json;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.ProductHistories
@@ -15,15 +16,18 @@ namespace EasyAbp.EShop.Products.ProductHistories
         ITransientDependency
     {
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ICurrentTenant _currentTenant;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IProductHistoryRepository _productHistoryRepository;
 
         public ProductHistoryRecorder(
             IGuidGenerator guidGenerator,
+            ICurrentTenant currentTenant,
             IJsonSerializer jsonSerializer,
             IProductHistoryRepository productHistoryRepository)
         {
             _guidGenerator = guidGenerator;
+            _currentTenant = currentTenant;
             _jsonSerializer = jsonSerializer;
             _productHistoryRepository = productHistoryRepository;
         }
@@ -35,8 +39,8 @@ namespace EasyAbp.EShop.Products.ProductHistories
 
             var serializedEntityData = _jsonSerializer.Serialize(eventData.Entity);
 
-            await _productHistoryRepository.InsertAsync(new ProductHistory(_guidGenerator.Create(), eventData.Entity.Id,
-                modificationTime, serializedEntityData));
+            await _productHistoryRepository.InsertAsync(new ProductHistory(_guidGenerator.Create(), _currentTenant.Id,
+                eventData.Entity.Id, modificationTime, serializedEntityData));
         }
     }
 }

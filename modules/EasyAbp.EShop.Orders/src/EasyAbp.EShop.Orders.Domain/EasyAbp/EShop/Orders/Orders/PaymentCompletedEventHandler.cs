@@ -75,12 +75,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 await _orderRepository.UpdateAsync(order, true);
 
-                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderPaidEto
-                {
-                    Order = _objectMapper.Map<Order, OrderEto>(order),
-                    PaymentId = payment.Id,
-                    PaymentItemId = item.Id
-                }));
+                uow.OnCompleted(async () =>
+                    await _distributedEventBus.PublishAsync(new OrderPaidEto(_objectMapper.Map<Order, OrderEto>(order),
+                        payment.Id, item.Id)));
             }
             
             await uow.CompleteAsync();

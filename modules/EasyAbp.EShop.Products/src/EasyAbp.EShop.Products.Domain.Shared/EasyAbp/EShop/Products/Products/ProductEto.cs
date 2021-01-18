@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Volo.Abp.Data;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.Products
 {
     [Serializable]
-    public class ProductEto : IProduct
+    public class ProductEto : IProduct, IMultiTenant
     {
+        public Guid? TenantId { get; set; }
+
         public Guid Id { get; set; }
         
         public Guid StoreId { get; set; }

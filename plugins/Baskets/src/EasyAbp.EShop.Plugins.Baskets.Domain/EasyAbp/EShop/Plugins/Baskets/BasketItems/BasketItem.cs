@@ -5,7 +5,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public class BasketItem : AuditedAggregateRoot<Guid>, IMultiTenant, IProductData
+    public class BasketItem : AuditedAggregateRoot<Guid>, IProductData, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
         

@@ -49,10 +49,9 @@ namespace EasyAbp.EShop.Orders.Orders
             order.SetCompletionTime(_clock.Now);
             order.SetOrderStatus(OrderStatus.Completed);
 
-            uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderCompletedEto
-            {
-                Order = _objectMapper.Map<Order, OrderEto>(order)
-            }));
+            uow.OnCompleted(async () =>
+                await _distributedEventBus.PublishAsync(
+                    new OrderCompletedEto(_objectMapper.Map<Order, OrderEto>(order))));
 
             await _orderRepository.UpdateAsync(order, true);
 
@@ -78,10 +77,9 @@ namespace EasyAbp.EShop.Orders.Orders
             order.SetCanceled(_clock.Now, cancellationReason);
             order.SetOrderStatus(OrderStatus.Canceled);
 
-            uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new OrderCanceledEto
-            {
-                Order = _objectMapper.Map<Order, OrderEto>(order)
-            }));
+            uow.OnCompleted(async () =>
+                await _distributedEventBus.PublishAsync(
+                    new OrderCanceledEto(_objectMapper.Map<Order, OrderEto>(order))));
 
             await _orderRepository.UpdateAsync(order, true);
 

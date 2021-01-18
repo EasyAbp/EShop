@@ -32,7 +32,8 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
             if (productInventory == null)
             {
-                productInventory = new ProductInventory(GuidGenerator.Create(), productId, productSkuId, 0, 0);
+                productInventory = new ProductInventory(GuidGenerator.Create(), CurrentTenant.Id, productId,
+                    productSkuId, 0, 0);
 
                 await _repository.InsertAsync(productInventory, true);
             }
@@ -52,7 +53,8 @@ namespace EasyAbp.EShop.Products.ProductInventories
             if (productInventory == null)
             {
                 productInventory =
-                    new ProductInventory(GuidGenerator.Create(), input.ProductId, input.ProductSkuId, 0, 0);
+                    new ProductInventory(GuidGenerator.Create(), CurrentTenant.Id, input.ProductId, input.ProductSkuId,
+                        0, 0);
 
                 await _repository.InsertAsync(productInventory, true);
             }
