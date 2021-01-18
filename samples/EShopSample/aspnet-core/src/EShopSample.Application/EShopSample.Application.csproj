@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Application" Version="1.8.0" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="1.8.0" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="1.8.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Application" Version="1.10.0" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="1.10.0" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="1.10.0" />
     <PackageReference Include="Volo.Abp.Account.Application" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="$(AbpVersion)" />
