@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
                 
-                b.HasIndex(x => x.UniqueName).IsUnique();
+                b.HasIndex(x => x.UniqueName);
             });
             
             builder.Entity<ProductDetail>(b =>
@@ -92,6 +92,7 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
 
+                // Todo: soft delete support?
                 b.HasIndex(x => x.UniqueName).IsUnique();
             });
 
@@ -128,6 +129,20 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 /* Configure more properties here */
 
                 b.HasIndex(x => x.ProductSkuId);
+            });
+
+
+            builder.Entity<ProductView>(b =>
+            {
+                b.ToTable(options.TablePrefix + "ProductViews", options.Schema);
+                b.ConfigureByConvention(); 
+
+                /* Configure more properties here */
+                
+                b.HasIndex(x => x.UniqueName);
+                
+                b.Property(x => x.MinimumPrice).HasColumnType("decimal(20,8)");
+                b.Property(x => x.MaximumPrice).HasColumnType("decimal(20,8)");
             });
         }
     }

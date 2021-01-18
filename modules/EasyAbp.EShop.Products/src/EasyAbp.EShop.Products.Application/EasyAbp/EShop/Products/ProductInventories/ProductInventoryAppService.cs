@@ -57,17 +57,18 @@ namespace EasyAbp.EShop.Products.ProductInventories
                 await _repository.InsertAsync(productInventory, true);
             }
 
-            await ChangeInventoryAsync(productInventory, input.ChangedInventory);
+            await ChangeInventoryAsync(product, productInventory, input.ChangedInventory);
 
             return ObjectMapper.Map<ProductInventory, ProductInventoryDto>(productInventory);
         }
 
-        protected virtual async Task ChangeInventoryAsync(ProductInventory productInventory, int changedInventory)
+        protected virtual async Task ChangeInventoryAsync(Product product, ProductInventory productInventory,
+            int changedInventory)
         {
             if (changedInventory >= 0)
             {
-                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(productInventory, changedInventory,
-                    false))
+                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(product, productInventory,
+                    changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);
@@ -75,8 +76,8 @@ namespace EasyAbp.EShop.Products.ProductInventories
             }
             else
             {
-                if (!await _productInventoryProvider.TryReduceInventoryAsync(productInventory, -changedInventory, false)
-                )
+                if (!await _productInventoryProvider.TryReduceInventoryAsync(product, productInventory,
+                    -changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);

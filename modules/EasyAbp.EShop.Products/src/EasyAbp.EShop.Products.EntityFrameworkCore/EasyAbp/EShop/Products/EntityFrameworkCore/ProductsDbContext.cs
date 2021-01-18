@@ -27,6 +27,7 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
         public DbSet<ProductHistory> ProductHistories { get; set; }
         public DbSet<ProductDetailHistory> ProductDetailHistories { get; set; }
         public DbSet<ProductInventory> ProductInventories { get; set; }
+        public DbSet<ProductView> ProductViews { get; set; }
 
         public ProductsDbContext(DbContextOptions<ProductsDbContext> options) 
             : base(options)

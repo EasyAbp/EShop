@@ -5,7 +5,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class GetProductListDto : PagedAndSortedResultRequestDto
+    public class GetProductListInput : PagedAndSortedResultRequestDto
     {
         [Required]
         public Guid StoreId { get; set; }

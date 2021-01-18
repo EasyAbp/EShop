@@ -67,6 +67,8 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
             CreateMap<ProductInventory, ProductInventoryDto>();
+            CreateMap<ProductView, ProductViewDto>();
+            CreateMap<ProductDto, ProductView>(MemberList.Destination);
         }
     }
 }

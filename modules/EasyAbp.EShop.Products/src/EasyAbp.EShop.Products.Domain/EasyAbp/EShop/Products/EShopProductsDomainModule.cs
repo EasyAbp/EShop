@@ -5,6 +5,7 @@ using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.Caching;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.Modularity;
 
@@ -12,6 +13,7 @@ namespace EasyAbp.EShop.Products
 {
     [DependsOn(
         typeof(EShopProductsDomainSharedModule),
+        typeof(AbpCachingModule),
         typeof(AbpTreesDomainModule)
     )]
     public class EShopProductsDomainModule : AbpModule

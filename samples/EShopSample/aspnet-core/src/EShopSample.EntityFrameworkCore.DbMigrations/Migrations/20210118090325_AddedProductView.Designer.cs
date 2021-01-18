@@ -4,15 +4,17 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    partial class EShopSampleMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210118090325_AddedProductView")]
+    partial class AddedProductView
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1629,13 +1631,13 @@ namespace EShopSample.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("MaximumPrice")
-                        .HasColumnType("decimal(20,8)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("MediaResources")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("MinimumPrice")
-                        .HasColumnType("decimal(20,8)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");

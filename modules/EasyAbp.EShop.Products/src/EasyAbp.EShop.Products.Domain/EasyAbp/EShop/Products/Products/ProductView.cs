@@ -1,59 +1,65 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class Product : FullAuditedAggregateRoot<Guid>, IProduct
+    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProduct
     {
+        #region Properties of IProduct
+
         public virtual Guid StoreId { get; protected set; }
 
-        [NotNull]
         public virtual string ProductGroupName { get; protected set; }
-        
+
         public virtual Guid ProductDetailId { get; protected set; }
 
-        [CanBeNull]
         public virtual string UniqueName { get; protected set; }
 
-        [NotNull]
         public virtual string DisplayName { get; protected set; }
-        
+
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
-        
-        [CanBeNull]
+
         public virtual string MediaResources { get; protected set; }
 
         public virtual int DisplayOrder { get; protected set; }
 
         public virtual bool IsPublished { get; protected set; }
-        
-        public virtual bool IsStatic { get; protected set; }
-        
-        public virtual bool IsHidden { get; protected set; }
-        
-        public virtual List<ProductAttribute> ProductAttributes { get; protected set; }
-        
-        public virtual List<ProductSku> ProductSkus { get; protected set; }
 
-        protected Product()
+        public virtual bool IsStatic { get; protected set; }
+
+        public virtual bool IsHidden { get; protected set; }
+
+        #endregion
+        
+        public virtual string ProductGroupDisplayName { get; protected set; }
+        
+        public virtual decimal? MinimumPrice { get; protected set; }
+        
+        public virtual decimal? MaximumPrice { get; protected set; }
+        
+        public virtual long Sold { get; protected set; }
+        
+        protected ProductView()
         {
         }
-
-        public Product(
+        
+        public ProductView(
             Guid id,
             Guid storeId,
-            [NotNull] string productGroupName,
+            string productGroupName,
             Guid productDetailId,
-            [CanBeNull] string uniqueName,
-            [NotNull] string displayName,
+            string uniqueName,
+            string displayName,
             InventoryStrategy inventoryStrategy,
             bool isPublished,
             bool isStatic,
             bool isHidden,
-            [CanBeNull] string mediaResources,
-            int displayOrder
+            string mediaResources,
+            int displayOrder,
+            string productGroupDisplayName,
+            decimal? minimumPrice,
+            decimal? maximumPrice,
+            long sold
         ) : base(id)
         {
             StoreId = storeId;
@@ -68,19 +74,15 @@ namespace EasyAbp.EShop.Products.Products
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
             
-            ProductAttributes = new List<ProductAttribute>();
-            ProductSkus = new List<ProductSku>();
+            ProductGroupDisplayName = productGroupDisplayName;
+            MinimumPrice = minimumPrice;
+            MaximumPrice = maximumPrice;
+            Sold = sold;
         }
-
-        public void InitializeNullCollections()
+        
+        public void SetSold(long sold)
         {
-            ProductAttributes ??= new List<ProductAttribute>();
-            ProductSkus ??= new List<ProductSku>();
-        }
-
-        public void TrimUniqueName()
-        {
-            UniqueName = UniqueName?.Trim();
+            Sold = sold;
         }
     }
 }

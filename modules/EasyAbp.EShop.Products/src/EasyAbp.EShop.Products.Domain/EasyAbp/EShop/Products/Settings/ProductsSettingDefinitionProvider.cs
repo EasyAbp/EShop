@@ -9,6 +9,8 @@ namespace EasyAbp.EShop.Products.Settings
             /* Define module settings here.
              * Use names from ProductsSettings class.
              */
+
+            context.Add(new SettingDefinition(ProductsSettings.ProductView.CacheDurationSeconds, "60"));
         }
     }
 }

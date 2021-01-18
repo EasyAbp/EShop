@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [HttpGet]
-        public Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
+        public Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListInput input)
         {
             return _service.GetListAsync(input);
         }
