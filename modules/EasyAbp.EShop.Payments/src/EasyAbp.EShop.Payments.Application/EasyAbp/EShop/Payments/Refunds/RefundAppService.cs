@@ -31,7 +31,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         private readonly IPaymentRepository _paymentRepository;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IRefundRepository _repository;
-        
+
         public RefundAppService(
             IOrderAppService orderAppService,
             IDistributedEventBus distributedEventBus,
@@ -52,7 +52,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             var refund = await base.GetAsync(id);
 
             var payment = await _paymentRepository.GetAsync(refund.PaymentId);
-            
+
             if (payment.UserId != CurrentUser.GetId())
             {
                 await CheckPolicyAsync(GetPolicyName);
@@ -60,7 +60,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             return refund;
         }
-        
+
         protected override IQueryable<Refund> CreateFilteredQuery(GetRefundListDto input)
         {
             var query = input.UserId.HasValue ? _repository.GetQueryableByUserId(input.UserId.Value) : _repository;
@@ -85,7 +85,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
 
             var payment = await _paymentRepository.GetAsync(input.PaymentId);
-            
+
             var createRefundInput = new CreateRefundInput
             {
                 PaymentId = input.PaymentId,
@@ -93,7 +93,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 CustomerRemark = input.CustomerRemark,
                 StaffRemark = input.StaffRemark
             };
-            
+
             foreach (var refundItem in input.RefundItems)
             {
                 var order = await _orderAppService.GetAsync(refundItem.OrderId);
@@ -110,7 +110,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 foreach (var orderLineRefundInfoModel in refundItem.OrderLines)
                 {
                     var orderLine = order.OrderLines.Single(x => x.Id == orderLineRefundInfoModel.OrderLineId);
-                    
+
                     if (orderLine.RefundedQuantity + orderLineRefundInfoModel.Quantity > orderLine.Quantity)
                     {
                         throw new InvalidRefundQuantityException(orderLineRefundInfoModel.Quantity);
@@ -132,11 +132,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 });
             }
 
-            await _distributedEventBus.PublishAsync(new RefundPaymentEto
-            {
-                TenantId = CurrentTenant.Id,
-                CreateRefundInput = createRefundInput
-            });
+            await _distributedEventBus.PublishAsync(new RefundPaymentEto(tenantId: CurrentTenant.Id, createRefundInput));
         }
     }
 }
