@@ -83,7 +83,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 await AuthorizationService.CheckAsync(BasketsPermissions.BasketItem.Manage);
             }
 
-            var query = CreateFilteredQuery(input);
+            var query = await CreateFilteredQueryAsync(input);
 
             var totalCount = await AsyncExecuter.CountAsync(query);
 
@@ -170,7 +170,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             }
         }
 
-        protected override IQueryable<BasketItem> CreateFilteredQuery(GetBasketItemListDto input)
+        protected override async Task<IQueryable<BasketItem>> CreateFilteredQueryAsync(GetBasketItemListDto input)
         {
             var userId = input.UserId ?? CurrentUser.GetId();
             

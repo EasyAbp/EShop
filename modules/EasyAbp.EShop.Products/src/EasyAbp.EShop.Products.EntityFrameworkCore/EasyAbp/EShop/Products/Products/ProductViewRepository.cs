@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,9 @@ namespace EasyAbp.EShop.Products.Products
         {
         }
 
-        public override IQueryable<ProductView> WithDetails()
+        public override async Task<IQueryable<ProductView>> WithDetailsAsync()
         {
-            return base.GetQueryable().IncludeDetails();
+            return (await base.GetQueryableAsync()).IncludeDetails();
         }
 
         public IQueryable<ProductView> GetQueryable(Guid categoryId)

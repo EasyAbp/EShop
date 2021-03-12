@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -13,9 +14,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         {
         }
 
-        public override IQueryable<CouponTemplate> WithDetails()
+        public override async Task<IQueryable<CouponTemplate>> WithDetailsAsync()
         {
-            return base.WithDetails().Include(x => x.Scopes);
+            return (await base.WithDetailsAsync()).Include(x => x.Scopes);
         }
     }
 }

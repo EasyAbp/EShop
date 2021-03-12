@@ -19,13 +19,13 @@ namespace EasyAbp.EShop.Products.ProductCategories
         public virtual async Task<List<ProductCategory>> GetListByCategoryIdAsync(Guid categoryId,
             CancellationToken cancellationToken = default)
         {
-            return await GetQueryable().Where(pc => pc.CategoryId == categoryId).ToListAsync(cancellationToken);
+            return await (await GetQueryableAsync()).Where(pc => pc.CategoryId == categoryId).ToListAsync(cancellationToken);
         }
 
         public virtual async Task<List<ProductCategory>> GetListByProductIdAsync(Guid productId,
             CancellationToken cancellationToken = default)
         {
-            return await GetQueryable().Where(pc => pc.ProductId == productId).ToListAsync(cancellationToken);
+            return await (await GetQueryableAsync()).Where(pc => pc.ProductId == productId).ToListAsync(cancellationToken);
         }
     }
 }

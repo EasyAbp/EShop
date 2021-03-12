@@ -60,12 +60,12 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             return refund;
         }
-        
-        protected override IQueryable<Refund> CreateFilteredQuery(GetRefundListDto input)
-        {
-            var query = input.UserId.HasValue ? _repository.GetQueryableByUserId(input.UserId.Value) : _repository;
 
-            return query;
+        protected override async Task<IQueryable<Refund>> CreateFilteredQueryAsync(GetRefundListDto input)
+        {
+            return input.UserId.HasValue
+                ? await _repository.GetQueryableByUserIdAsync(input.UserId.Value)
+                : _repository;
         }
 
         // Todo: should a store owner user see orders of other stores in the same payment/refund?
@@ -132,11 +132,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 });
             }
 
-            await _distributedEventBus.PublishAsync(new RefundPaymentEto
-            {
-                TenantId = CurrentTenant.Id,
-                CreateRefundInput = createRefundInput
-            });
+            await _distributedEventBus.PublishAsync(new RefundPaymentEto(CurrentTenant.Id, createRefundInput));
         }
     }
 }

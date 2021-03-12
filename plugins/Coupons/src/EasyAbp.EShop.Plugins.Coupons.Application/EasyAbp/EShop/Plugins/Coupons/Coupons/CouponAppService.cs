@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             _repository = repository;
         }
 
-        protected override IQueryable<Coupon> CreateFilteredQuery(GetCouponListInput input)
+        protected override async Task<IQueryable<Coupon>> CreateFilteredQueryAsync(GetCouponListInput input)
         {
             return (input.AvailableOnly ? _repository.GetAvailableCouponQueryable(Clock) : _repository.AsQueryable())
                 .WhereIf(input.UserId.HasValue, x => x.UserId == input.UserId.Value)

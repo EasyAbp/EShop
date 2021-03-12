@@ -72,7 +72,7 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             return result;
         }
 
-        protected override IQueryable<StoreOwner> CreateFilteredQuery(GetStoreOwnerListDto input)
+        protected override async Task<IQueryable<StoreOwner>> CreateFilteredQueryAsync(GetStoreOwnerListDto input)
         {
             var queryable = Repository.AsQueryable();
 

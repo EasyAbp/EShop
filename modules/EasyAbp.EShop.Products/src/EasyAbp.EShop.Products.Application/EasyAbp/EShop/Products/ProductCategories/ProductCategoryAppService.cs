@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
             _repository = repository;
         }
 
-        protected override IQueryable<ProductCategory> CreateFilteredQuery(GetProductCategoryListDto input)
+        protected override async Task<IQueryable<ProductCategory>> CreateFilteredQueryAsync(GetProductCategoryListDto input)
         {
             var queryable = Repository.AsQueryable();
             

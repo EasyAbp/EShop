@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.Transactions.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -23,9 +24,9 @@ namespace EasyAbp.EShop.Stores.Transactions
             _repository = repository;
         }
 
-        protected override IQueryable<Transaction> CreateFilteredQuery(GetTransactionListInput input)
+        protected override async Task<IQueryable<Transaction>> CreateFilteredQueryAsync(GetTransactionListInput input)
         {
-            return base.CreateFilteredQuery(input).Where(x => x.StoreId == input.StoreId);
+            return (await base.CreateFilteredQueryAsync(input)).Where(x => x.StoreId == input.StoreId);
         }
     }
 }

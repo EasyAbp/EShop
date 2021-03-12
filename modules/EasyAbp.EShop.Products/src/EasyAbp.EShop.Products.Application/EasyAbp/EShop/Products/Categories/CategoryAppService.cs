@@ -27,9 +27,9 @@ namespace EasyAbp.EShop.Products.Categories
             _repository = repository;
         }
 
-        protected override IQueryable<Category> CreateFilteredQuery(GetCategoryListDto input)
+        protected override async Task<IQueryable<Category>> CreateFilteredQueryAsync(GetCategoryListDto input)
         {
-            var query =  base.CreateFilteredQuery(input).Where(x => x.ParentId == input.ParentId);
+            var query = (await base.CreateFilteredQueryAsync(input)).Where(x => x.ParentId == input.ParentId);
             
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
         }

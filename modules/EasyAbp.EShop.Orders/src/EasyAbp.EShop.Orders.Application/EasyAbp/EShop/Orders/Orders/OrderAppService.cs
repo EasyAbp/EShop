@@ -40,9 +40,9 @@ namespace EasyAbp.EShop.Orders.Orders
             _repository = repository;
         }
 
-        protected override IQueryable<Order> CreateFilteredQuery(GetOrderListDto input)
+        protected override async Task<IQueryable<Order>> CreateFilteredQueryAsync(GetOrderListDto input)
         {
-            var query = _repository.WithDetails();
+            var query = await _repository.WithDetailsAsync();
 
             if (input.StoreId.HasValue)
             {

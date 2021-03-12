@@ -30,7 +30,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
             _repository = repository;
         }
 
-        protected override IQueryable<ProductDetail> CreateFilteredQuery(GetProductDetailListInput input)
+        protected override async Task<IQueryable<ProductDetail>> CreateFilteredQueryAsync(GetProductDetailListInput input)
         {
             return _repository.WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value);
         }
@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
             await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName,
                 ProductsPermissions.Products.CrossStore);
             
-            var query = CreateFilteredQuery(input);
+            var query = await CreateFilteredQueryAsync(input);
 
             var totalCount = await AsyncExecuter.CountAsync(query);
 
