@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -13,9 +14,9 @@ namespace EasyAbp.EShop.Payments.Payments
         {
         }
 
-        public override IQueryable<Payment> WithDetails()
+        public override async Task<IQueryable<Payment>> WithDetailsAsync()
         {
-            return base.WithDetails().Include(x => x.PaymentItems);
+            return (await base.WithDetailsAsync()).Include(x => x.PaymentItems);
         }
     }
 }

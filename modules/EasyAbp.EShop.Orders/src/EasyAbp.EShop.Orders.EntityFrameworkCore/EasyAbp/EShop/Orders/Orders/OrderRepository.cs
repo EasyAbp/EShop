@@ -16,9 +16,9 @@ namespace EasyAbp.EShop.Orders.Orders
         {
         }
 
-        public override IQueryable<Order> WithDetails()
+        public override async Task<IQueryable<Order>> WithDetailsAsync()
         {
-            return base.WithDetails()
+            return (await base.WithDetailsAsync())
                 .Include(x => x.OrderLines)
                 .Include(x => x.OrderExtraFees);
         }

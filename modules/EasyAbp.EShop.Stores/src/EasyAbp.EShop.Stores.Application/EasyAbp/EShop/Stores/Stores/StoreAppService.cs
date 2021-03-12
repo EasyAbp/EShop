@@ -29,14 +29,14 @@ namespace EasyAbp.EShop.Stores.Stores
             _repository = repository;
         }
 
-        protected virtual async Task<IQueryable<Store>> CreateFilteredQueryAsync(GetStoreListInput input)
+        protected override async Task<IQueryable<Store>> CreateFilteredQueryAsync(GetStoreListInput input)
         {
             if (!input.OnlyManageable || await _permissionChecker.IsGrantedAsync(StoresPermissions.Stores.CrossStore))
             {
                 return _repository.AsQueryable();
             }
 
-            return _repository.GetQueryableOnlyOwnStore(CurrentUser.GetId());
+            return await _repository.GetQueryableOnlyOwnStoreAsync(CurrentUser.GetId());
         }
 
         public override async Task<PagedResultDto<StoreDto>> GetListAsync(GetStoreListInput input)

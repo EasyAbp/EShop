@@ -50,11 +50,11 @@ namespace EasyAbp.EShop.Products.Products
             _repository = repository;
         }
 
-        protected override IQueryable<Product> CreateFilteredQuery(GetProductListInput input)
+        protected override async Task<IQueryable<Product>> CreateFilteredQueryAsync(GetProductListInput input)
         {
             var query = input.CategoryId.HasValue
                 ? _repository.WithDetails(input.CategoryId.Value)
-                : _repository.WithDetails();
+                : (await _repository.WithDetailsAsync());
 
             return query
                 .Where(x => x.StoreId == input.StoreId)
@@ -267,7 +267,7 @@ namespace EasyAbp.EShop.Products.Products
             }
 
             // Todo: Products cache.
-            var query = CreateFilteredQuery(input);
+            var query = await CreateFilteredQueryAsync(input);
 
             if (!isCurrentUserStoreAdmin)
             {

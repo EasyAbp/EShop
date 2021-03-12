@@ -18,7 +18,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.ProductUpdates
 
         public async Task<List<ProductUpdate>> GetListByProductSkuIdsAsync(IEnumerable<Guid> productSkuIds, CancellationToken cancellationToken = default)
         {
-            return await GetQueryable().Where(x => productSkuIds.Contains(x.ProductSkuId))
+            return await (await GetQueryableAsync()).Where(x => productSkuIds.Contains(x.ProductSkuId))
                 .ToListAsync(cancellationToken: cancellationToken);
         }
     }

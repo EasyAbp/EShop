@@ -10,6 +10,6 @@ namespace EasyAbp.EShop.Stores.Stores
     {
         Task<Store> FindDefaultStoreAsync(CancellationToken cancellationToken = default);
 
-        IQueryable<Store> GetQueryableOnlyOwnStore(Guid userId);
+        Task<IQueryable<Store>> GetQueryableOnlyOwnStoreAsync(Guid userId);
     }
 }

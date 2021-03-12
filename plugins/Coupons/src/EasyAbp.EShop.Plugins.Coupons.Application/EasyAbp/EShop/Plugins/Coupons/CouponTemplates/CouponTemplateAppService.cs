@@ -28,9 +28,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             _repository = repository;
         }
 
-        protected override IQueryable<CouponTemplate> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
+        protected override async Task<IQueryable<CouponTemplate>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
         {
-            return _repository.WithDetails();
+            return (await _repository.WithDetailsAsync());
         }
 
         public override async Task<CouponTemplateDto> CreateAsync(CreateUpdateCouponTemplateDto input)

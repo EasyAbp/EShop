@@ -31,7 +31,7 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task CheckUniqueNameAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
         {
-            if (await DbSet.AnyAsync(
+            if (await (await GetDbSetAsync()).AnyAsync(
                 x => x.StoreId == entity.StoreId && x.UniqueName == entity.UniqueName && x.Id != entity.Id,
                 cancellationToken))
             {
@@ -39,9 +39,9 @@ namespace EasyAbp.EShop.Products.Products
             }
         }
 
-        public override IQueryable<Product> WithDetails()
+        public override async Task<IQueryable<Product>> WithDetailsAsync()
         {
-            return base.WithDetails()
+            return (await base.WithDetailsAsync())
                 .Include(x => x.ProductAttributes).ThenInclude(x => x.ProductAttributeOptions)
                 .Include(x => x.ProductSkus);
         }

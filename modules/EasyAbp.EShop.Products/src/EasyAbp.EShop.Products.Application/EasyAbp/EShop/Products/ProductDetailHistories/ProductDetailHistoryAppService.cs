@@ -20,9 +20,9 @@ namespace EasyAbp.EShop.Products.ProductDetailHistories
             _repository = repository;
         }
 
-        protected override IQueryable<ProductDetailHistory> CreateFilteredQuery(GetProductDetailHistoryListDto input)
+        protected override async Task<IQueryable<ProductDetailHistory>> CreateFilteredQueryAsync(GetProductDetailHistoryListDto input)
         {
-            return base.CreateFilteredQuery(input).Where(x => x.ProductDetailId == input.ProductDetailId);
+            return (await base.CreateFilteredQueryAsync(input)).Where(x => x.ProductDetailId == input.ProductDetailId);
         }
 
         public async Task<ProductDetailHistoryDto> GetByTimeAsync(Guid productId, DateTime modificationTime)

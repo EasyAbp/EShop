@@ -50,9 +50,9 @@ namespace EasyAbp.EShop.Payments.Payments
             return payment;
         }
 
-        protected override IQueryable<Payment> CreateFilteredQuery(GetPaymentListDto input)
+        protected override async Task<IQueryable<Payment>> CreateFilteredQueryAsync(GetPaymentListDto input)
         {
-            var query = base.CreateFilteredQuery(input);
+            var query = await base.CreateFilteredQueryAsync(input);
 
             if (input.UserId.HasValue)
             {
@@ -96,18 +96,18 @@ namespace EasyAbp.EShop.Payments.Payments
             );
 
             var createPaymentEto = new CreatePaymentEto(
-                tenantId: CurrentTenant.Id,
-                userId: CurrentUser.GetId(), paymentMethod: input.PaymentMethod, currency: orders.First().Currency,
-                paymentItems: orders.Select(order => new CreatePaymentItemEto
+                CurrentTenant.Id,
+                CurrentUser.GetId(),
+                input.PaymentMethod,
+                orders.First().Currency,
+                orders.Select(order => new CreatePaymentItemEto
                 {
                     ItemType = PaymentsConsts.PaymentItemType,
                     ItemKey = order.Id.ToString(),
                     OriginalPaymentAmount = order.ActualTotalPrice,
-                    ExtraProperties = new ExtraPropertyDictionary { { "StoreId", order.StoreId.ToString() } }
-                }).ToList())
-            {
-                ExtraProperties = new ExtraPropertyDictionary()
-            };
+                    ExtraProperties = new ExtraPropertyDictionary {{"StoreId", order.StoreId.ToString()}}
+                }).ToList()
+            );
 
             await _distributedEventBus.PublishAsync(createPaymentEto);
         }
