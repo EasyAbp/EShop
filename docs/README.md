@@ -54,23 +54,23 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
 
 * Place an Order
     * We have not yet provided relevant UI for this action.
-    * Use the API `/api/eShop/orders/order` (POST) to create a new order.
+    * Use the API `/api/e-shop/orders/order` (POST) to create a new order.
 
 * Pay for the Order
     * We have not yet provided relevant UI for this action.
-    * Use the API `/api/eShop/payments/payment` (POST) to create a pending new payment for your order.
+    * Use the API `/api/e-shop/payments/payment` (POST) to create a pending new payment for your order.
         * You can pay for multiple orders at once.
         * You need to decide one of the payment methods provided by the [EasyAbp.PaymentService](https://easyabp.io/modules/PaymentService/) module.
-    * Use the API `/api/eShop/orders/order/{id}` (GET) get the order, then you can get the "paymentId" in the result.
-    * Use the API `/api/paymentService/payment/{id}/pay` (POST) to complete the payment.
+    * Use the API `/api/e-shop/orders/order/{id}` (GET) get the order, then you can get the "paymentId" in the result.
+    * Use the API `/api/payment-service/payment/{id}/pay` (POST) to complete the payment.
         * "id" is the "paymentId" we got above.
         * Different payment methods require different "extraProperties" for this API. Read the [document](https://easyabp.io/modules/PaymentService/) of the EasyAbp.PaymentService module to learn more.
 
 * Complete the Order
     * We have not yet provided relevant UI for this action.
-    * Use the API `/api/paymentService/payment/{id}/pay` (POST) to complete the payment.
+    * Use the API `/api/e-shop/orders/order/{id}/complete` (POST) to complete the order.
         * The customer should have permission to complete the order himself.
-        * For some product group, you may want to prohibit users from completing orders themselves, and automatically complete orders through some system rules.
+        * You need to override the "CompleteAsync" method of the "OrderAppService" if you want to prohibit users from completing orders themselves for some specific product groups but complete them through automated processes.
 
 ## Advanced Usages
 
