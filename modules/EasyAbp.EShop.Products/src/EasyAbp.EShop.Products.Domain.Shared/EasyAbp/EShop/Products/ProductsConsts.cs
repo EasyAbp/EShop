@@ -8,7 +8,7 @@
         
         public const string DefaultProductGroupDescription = "";
 
-        public const string CategoryRouteBase = "/api/eShop/products/category";
+        public const string CategoryRouteBase = "/api/e-shop/products/category";
         
         public const string GetCategorySummaryListedDataSourceUrl = CategoryRouteBase + "/summary";
         

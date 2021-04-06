@@ -67,7 +67,7 @@ namespace EasyAbp.EShop
                 httpClient.SetBearerToken(accessToken);
 
                 var url = _configuration["RemoteServices:EShop:BaseUrl"] +
-                          "api/EShop/sample/authorized";
+                          "api/e-shop/sample/authorized";
 
                 var responseMessage = await httpClient.GetAsync(url);
                 if (responseMessage.IsSuccessStatusCode)
@@ -128,7 +128,7 @@ namespace EasyAbp.EShop
                 httpClient.SetBearerToken(tokenResponse.AccessToken);
 
                 var url = _configuration["RemoteServices:EShop:BaseUrl"] +
-                          "api/EShop/sample/authorized";
+                          "api/e-shop/sample/authorized";
 
                 var responseMessage = await httpClient.GetAsync(url);
                 if (responseMessage.IsSuccessStatusCode)
