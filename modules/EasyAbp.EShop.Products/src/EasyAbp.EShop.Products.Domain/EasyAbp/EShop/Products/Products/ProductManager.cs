@@ -152,7 +152,7 @@ namespace EasyAbp.EShop.Products.Products
 
             if (await _productRepository.FindAsync(x => x.UniqueName == product.UniqueName && x.Id != product.Id) != null)
             {
-                throw new ProductCodeDuplicatedException(product.UniqueName);
+                throw new DuplicatedProductUniqueNameException(product.UniqueName);
             }
         }
         

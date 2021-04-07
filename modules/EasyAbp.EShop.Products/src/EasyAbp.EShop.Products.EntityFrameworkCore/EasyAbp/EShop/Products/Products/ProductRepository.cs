@@ -31,6 +31,11 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task CheckUniqueNameAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
         {
+            if (entity.UniqueName.IsNullOrEmpty())
+            {
+                return;
+            }
+            
             if (await (await GetDbSetAsync()).AnyAsync(
                 x => x.StoreId == entity.StoreId && x.UniqueName == entity.UniqueName && x.Id != entity.Id,
                 cancellationToken))
