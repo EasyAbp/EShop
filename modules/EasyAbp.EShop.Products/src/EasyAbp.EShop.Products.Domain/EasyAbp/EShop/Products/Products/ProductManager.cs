@@ -145,15 +145,7 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task CheckProductUniqueNameAsync(Product product)
         {
-            if (product.UniqueName.IsNullOrEmpty())
-            {
-                return;
-            }
-
-            if (await _productRepository.FindAsync(x => x.UniqueName == product.UniqueName && x.Id != product.Id) != null)
-            {
-                throw new DuplicatedProductUniqueNameException(product.UniqueName);
-            }
+            await _productRepository.CheckUniqueNameAsync(product);
         }
         
         protected virtual async Task CheckProductDetailAvailableAsync(Guid currentProductId, Guid desiredProductDetailId)

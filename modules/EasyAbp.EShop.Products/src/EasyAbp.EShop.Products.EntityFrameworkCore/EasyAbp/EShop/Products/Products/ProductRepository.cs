@@ -29,7 +29,7 @@ namespace EasyAbp.EShop.Products.Products
             return await base.InsertAsync(entity, autoSave, cancellationToken);
         }
 
-        protected virtual async Task CheckUniqueNameAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
+        public virtual async Task CheckUniqueNameAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
         {
             if (entity.UniqueName.IsNullOrEmpty())
             {
