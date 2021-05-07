@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.Abp.Trees.EntityFrameworkCore" Version="2.2.2" />
+    <PackageReference Include="EasyAbp.Abp.Trees.EntityFrameworkCore" Version="$(EasyAbpAbpTreesModuleVersion)" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
     <ProjectReference Include="..\EasyAbp.EShop.Products.Domain\EasyAbp.EShop.Products.Domain.csproj" />
   </ItemGroup>

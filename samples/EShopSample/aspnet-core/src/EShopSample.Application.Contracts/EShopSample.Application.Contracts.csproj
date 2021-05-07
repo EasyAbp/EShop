@@ -15,15 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Application.Contracts" Version="1.10.1" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application.Contracts" Version="1.10.1" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application.Contracts" Version="1.10.1" />
+    <PackageReference Include="EasyAbp.PaymentService.Application.Contracts" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application.Contracts" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application.Contracts" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.ObjectExtending" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>

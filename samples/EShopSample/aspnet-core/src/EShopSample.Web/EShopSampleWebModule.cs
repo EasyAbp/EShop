@@ -30,6 +30,7 @@ using EShopSample.Localization;
 using EShopSample.MultiTenancy;
 using EShopSample.Web.Menus;
 using Microsoft.OpenApi.Models;
+using NUglify.JavaScript.Syntax;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
@@ -40,9 +41,12 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity.Web;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.SettingManagement.Web;
+using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI.Navigation;
@@ -60,6 +64,9 @@ namespace EShopSample.Web
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
+        typeof(AbpFeatureManagementWebModule),
+        typeof(AbpSettingManagementWebModule),
+        typeof(AbpSwashbuckleModule),
         typeof(AbpAspNetCoreSerilogModule),
         typeof(EShopWebModule),
         typeof(EShopPluginsBasketsWebModule),
@@ -120,11 +127,11 @@ namespace EShopSample.Web
         private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddAuthentication()
-                .AddIdentityServerAuthentication(options =>
+                .AddJwtBearer(options =>
                 {
                     options.Authority = configuration["AuthServer:Authority"];
                     options.RequireHttpsMetadata = false;
-                    options.ApiName = "EShopSample";
+                    options.Audience = "EShopSample";
                 });
         }
 
@@ -243,26 +250,6 @@ namespace EShopSample.Web
                     options.SwaggerDoc("v1", new OpenApiInfo { Title = "EShopSample API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                     options.CustomSchemaIds(type => type.FullName);
-                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference()
-                                {
-                                    Id = "Bearer",
-                                    Type = ReferenceType.SecurityScheme
-                                }
-                            }, Array.Empty<string>()
-                        }
-                    });
-
-                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                    {
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey
-                    });
                 }
             );
         }
@@ -272,17 +259,20 @@ namespace EShopSample.Web
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
 
-            app.UseCorrelationId();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+
+            app.UseAbpRequestLocalization();
+
+            if (!env.IsDevelopment())
             {
                 app.UseErrorPage();
             }
-            app.UseVirtualFiles();
+
+            app.UseCorrelationId();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
@@ -291,9 +281,10 @@ namespace EShopSample.Web
             {
                 app.UseMultiTenancy();
             }
+
+            app.UseUnitOfWork();
             app.UseIdentityServer();
             app.UseAuthorization();
-            app.UseAbpRequestLocalization();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {

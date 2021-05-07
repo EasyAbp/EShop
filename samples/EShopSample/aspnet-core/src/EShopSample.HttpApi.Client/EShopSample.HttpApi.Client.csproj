@@ -15,14 +15,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.HttpApi.Client" Version="1.10.1" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi.Client" Version="1.10.1" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi.Client" Version="1.10.1" />
+    <PackageReference Include="EasyAbp.PaymentService.HttpApi.Client" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi.Client" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi.Client" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi.Client" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>

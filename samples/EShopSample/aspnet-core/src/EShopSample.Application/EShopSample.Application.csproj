@@ -17,14 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PaymentService.Application" Version="1.10.1" />
-    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="1.10.1" />
-    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="1.10.1" />
+    <PackageReference Include="EasyAbp.PaymentService.Application" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.Account.Application" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>
