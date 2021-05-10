@@ -159,7 +159,7 @@ namespace EasyAbp.EShop.Products.Products
                     }
 
                     attribute = new ProductAttribute(GuidGenerator.Create(),
-                        attributeDto.DisplayName, attributeDto.Description);
+                        attributeDto.DisplayName, attributeDto.Description, attributeDto.DisplayOrder);
 
                     product.ProductAttributes.Add(attribute);
                 }
@@ -172,7 +172,7 @@ namespace EasyAbp.EShop.Products.Products
                     if (option == null)
                     {
                         option = new ProductAttributeOption(GuidGenerator.Create(),
-                            optionDto.DisplayName, optionDto.Description);
+                            optionDto.DisplayName, optionDto.Description, optionDto.DisplayOrder);
 
                         attribute.ProductAttributeOptions.Add(option);
                     }
