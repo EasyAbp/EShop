@@ -35,9 +35,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         {
             var clock = ServiceProvider.GetRequiredService<IClock>();
 
-            var notExpiredCouponQuantity =
-                await (await GetDbSetAsync()).CountAsync(x => x.UserId == entity.UserId && x.ExpirationTime > clock.Now,
-                    cancellationToken);
+            var notExpiredCouponQuantity = await (await GetDbSetAsync()).CountAsync(
+                x => x.UserId == entity.UserId && (!x.ExpirationTime.HasValue || x.ExpirationTime.Value > clock.Now),
+                cancellationToken);
             
             if (notExpiredCouponQuantity >= CouponsConsts.MaxNotExpiredCouponQuantityPerUser)
             {
