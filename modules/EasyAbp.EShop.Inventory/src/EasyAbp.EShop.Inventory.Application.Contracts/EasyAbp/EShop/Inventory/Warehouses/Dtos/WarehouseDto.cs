@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop.Inventory.Instocks.Dtos;
+using EasyAbp.EShop.Inventory.Inventories;
 using EasyAbp.EShop.Inventory.Outstocks.Dtos;
 using EasyAbp.EShop.Inventory.Reallocations.Dtos;
 using EasyAbp.EShop.Inventory.StockHistories.Dtos;

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <doc>
     <assembly>
         <name>EasyAbp.EShop.Inventory.HttpApi</name>
@@ -41,7 +41,7 @@
             <param name="id">The id<see cref="T:System.Guid"/>.</param>
             <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
         </member>
-        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.GetListAsync(EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput)">
             <summary>
             列表
             </summary>
@@ -93,7 +93,7 @@
             <param name="id">The id<see cref="T:System.Guid"/>.</param>
             <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
         </member>
-        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.GetListAsync(EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput)">
             <summary>
             列表
             </summary>
@@ -145,7 +145,7 @@
             <param name="id">The id<see cref="T:System.Guid"/>.</param>
             <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
         </member>
-        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.GetListAsync(EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput)">
             <summary>
             列表
             </summary>
@@ -197,7 +197,7 @@
             <param name="id">The id<see cref="T:System.Guid"/>.</param>
             <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
         </member>
-        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.GetListAsync(EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput)">
             <summary>
             列表
             </summary>
@@ -249,7 +249,7 @@
             <param name="id">The id<see cref="T:System.Guid"/>.</param>
             <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
         </member>
-        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.GetListAsync(EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput)">
             <summary>
             列表
             </summary>

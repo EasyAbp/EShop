@@ -1,4 +1,5 @@
-﻿using EasyAbp.EShop.Stores.Stores;
+﻿using EasyAbp.EShop.Inventory.Inventories;
+using EasyAbp.EShop.Stores.Stores;
 using System;
 using System.ComponentModel;
 using Volo.Abp.ObjectExtending;

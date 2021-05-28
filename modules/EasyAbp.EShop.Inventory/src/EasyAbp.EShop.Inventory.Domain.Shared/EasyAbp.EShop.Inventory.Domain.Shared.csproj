@@ -1,38 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\common.props" />
+	<Import Project="..\..\common.props" />
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Inventory</RootNamespace>
-    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>EasyAbp.EShop.Inventory</RootNamespace>
+		<GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>EasyAbp.EShop.Inventory.Domain.Shared.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>EasyAbp.EShop.Inventory.Domain.Shared.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Volo.Abp.Validation" Version="$(AbpVersion)" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+		<PackageReference Include="Volo.Abp.Validation" Version="$(AbpVersion)" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.*" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.*" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="EasyAbp\EShop\Inventory\Localization\Inventory\*.json" />
-    <Content Remove="EasyAbp\EShop\Inventory\Localization\Inventory\*.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="EasyAbp\EShop\Inventory\Localization\Inventory\*.json" />
+		<Content Remove="EasyAbp\EShop\Inventory\Localization\Inventory\*.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Domain.Shared\EasyAbp.EShop.Stores.Domain.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Domain.Shared\EasyAbp.EShop.Stores.Domain.Shared.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="EasyAbp.EShop.Inventory.Domain.Shared.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
+	<ItemGroup>
+		<None Update="EasyAbp.EShop.Inventory.Domain.Shared.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
