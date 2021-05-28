@@ -305,43 +305,81 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{D261
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EShopSample", "EShopSample", "{FE0A5FD6-AEE7-4738-9A6D-261BF086704D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Stores.Application.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Shared\EasyAbp.EShop.Stores.Application.Shared.csproj", "{06700175-4E04-4993-A1FB-24E7A8835E19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.Application.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Shared\EasyAbp.EShop.Stores.Application.Shared.csproj", "{06700175-4E04-4993-A1FB-24E7A8835E19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72F34527-9295-4F29-923E-4B075A4F31A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Application", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application\EasyAbp.EShop.Plugins.Coupons.Application.csproj", "{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Application", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application\EasyAbp.EShop.Plugins.Coupons.Application.csproj", "{1EB6504F-7FF0-4628-9D7C-81BDE33D9490}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Application.Contracts", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application.Contracts\EasyAbp.EShop.Plugins.Coupons.Application.Contracts.csproj", "{C7D05698-E509-4F5C-A792-0036190AE6FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Application.Contracts", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application.Contracts\EasyAbp.EShop.Plugins.Coupons.Application.Contracts.csproj", "{C7D05698-E509-4F5C-A792-0036190AE6FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Domain", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain\EasyAbp.EShop.Plugins.Coupons.Domain.csproj", "{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Domain", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain\EasyAbp.EShop.Plugins.Coupons.Domain.csproj", "{4DBC9216-80FD-4E71-BCB3-0F1ADA63AEC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Domain.Shared", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain.Shared\EasyAbp.EShop.Plugins.Coupons.Domain.Shared.csproj", "{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Domain.Shared", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain.Shared\EasyAbp.EShop.Plugins.Coupons.Domain.Shared.csproj", "{31F1DC02-5790-4FAD-A8F2-0D6F9FE21F00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.csproj", "{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.csproj", "{EE6B9D10-7038-4CDE-A6BF-3941AFD84D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi\EasyAbp.EShop.Plugins.Coupons.HttpApi.csproj", "{0E22DE0A-032B-442E-AEB2-E299B333BADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi\EasyAbp.EShop.Plugins.Coupons.HttpApi.csproj", "{0E22DE0A-032B-442E-AEB2-E299B333BADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi.Client", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.csproj", "{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi.Client", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.csproj", "{85D39FAB-A9A8-4942-BF94-A6061FCFBF7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.MongoDB", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.MongoDB\EasyAbp.EShop.Plugins.Coupons.MongoDB.csproj", "{C97330F5-4634-4865-9D7D-E33F87808938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.MongoDB", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.MongoDB\EasyAbp.EShop.Plugins.Coupons.MongoDB.csproj", "{C97330F5-4634-4865-9D7D-E33F87808938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Web", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Web\EasyAbp.EShop.Plugins.Coupons.Web.csproj", "{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Web", "plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Web\EasyAbp.EShop.Plugins.Coupons.Web.csproj", "{C11BD71D-FA6B-4833-9CAE-82ED9D857A84}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4001814E-A67B-490D-9E13-2FB9A34B0A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Application.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.Application.Tests\EasyAbp.EShop.Plugins.Coupons.Application.Tests.csproj", "{10675CED-5689-4B2F-895A-E13820928A3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Application.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.Application.Tests\EasyAbp.EShop.Plugins.Coupons.Application.Tests.csproj", "{10675CED-5689-4B2F-895A-E13820928A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.Domain.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.Domain.Tests\EasyAbp.EShop.Plugins.Coupons.Domain.Tests.csproj", "{B29ABA23-37B2-419A-9E3C-F1A8703D584D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.Domain.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.Domain.Tests\EasyAbp.EShop.Plugins.Coupons.Domain.Tests.csproj", "{B29ABA23-37B2-419A-9E3C-F1A8703D584D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests.csproj", "{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.Tests.csproj", "{D81EC4DC-3944-4CFE-875A-5DD07BE487AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp.csproj", "{8B22E009-5ABA-4878-83E5-38154F2B8E2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.ConsoleTestApp.csproj", "{8B22E009-5ABA-4878-83E5-38154F2B8E2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests\EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests.csproj", "{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests\EasyAbp.EShop.Plugins.Coupons.MongoDB.Tests.csproj", "{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Coupons.TestBase", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.TestBase\EasyAbp.EShop.Plugins.Coupons.TestBase.csproj", "{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Coupons.TestBase", "plugins\Coupons\test\EasyAbp.EShop.Plugins.Coupons.TestBase\EasyAbp.EShop.Plugins.Coupons.TestBase.csproj", "{B076C103-DF0B-464B-A9CB-4BE5CAFEE067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Plugins.Coupons", "plugins\Coupons\src\EasyAbp.EShop.Orders.Plugins.Coupons\EasyAbp.EShop.Orders.Plugins.Coupons.csproj", "{3C385657-8365-470F-9F4F-30F31F9FCA42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Orders.Plugins.Coupons", "plugins\Coupons\src\EasyAbp.EShop.Orders.Plugins.Coupons\EasyAbp.EShop.Orders.Plugins.Coupons.csproj", "{3C385657-8365-470F-9F4F-30F31F9FCA42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventories", "Inventories", "{FC7B8C88-AECB-4F67-92D2-0CFF850D2257}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{84AFCAE7-314F-4A0B-935C-3344039573A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A7C24513-C746-4F57-BA99-246BC7B7599D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Application.Contracts", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.Application.Contracts\EasyAbp.EShop.Inventory.Application.Contracts.csproj", "{F6DE1D21-7AB5-4529-B4AB-848405CFBB44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Blazor.Server", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.Blazor.Server\EasyAbp.EShop.Inventory.Blazor.Server.csproj", "{0A6F4E55-F7D2-487F-9E0F-00A1AABBEFF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Blazor.WebAssembly", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.Blazor.WebAssembly\EasyAbp.EShop.Inventory.Blazor.WebAssembly.csproj", "{A4C31ED0-C363-4F43-9C8F-D09062FDF5FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Domain", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.Domain\EasyAbp.EShop.Inventory.Domain.csproj", "{1EF25319-90A1-429F-AC2F-DE6DF4FBC358}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Domain.Shared", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.Domain.Shared\EasyAbp.EShop.Inventory.Domain.Shared.csproj", "{5B63A013-BEA2-431F-A41D-E2FECD59CB9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.EntityFrameworkCore", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.EntityFrameworkCore\EasyAbp.EShop.Inventory.EntityFrameworkCore.csproj", "{1A7CF7A7-9775-4A77-BF43-775D40EC3BDF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.HttpApi", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.HttpApi\EasyAbp.EShop.Inventory.HttpApi.csproj", "{5AA19507-1EC1-4882-AEE9-11B8832D757B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.HttpApi.Client", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.HttpApi.Client\EasyAbp.EShop.Inventory.HttpApi.Client.csproj", "{3E98A630-C634-4D28-882B-433980D2F9B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.MongoDB", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.MongoDB\EasyAbp.EShop.Inventory.MongoDB.csproj", "{0FE44C9C-476E-4F10-8502-709E3617C82E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Application", "modules\EasyAbp.EShop.Inventory\src\EasyAbp.EShop.Inventory.Application\EasyAbp.EShop.Inventory.Application.csproj", "{703DCD92-FA77-4574-B014-960D53FD146F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Application.Tests", "modules\EasyAbp.EShop.Inventory\test\EasyAbp.EShop.Inventory.Application.Tests\EasyAbp.EShop.Inventory.Application.Tests.csproj", "{3A1A2F15-7EAD-4E47-878E-D7BD0C5AE6F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.Domain.Tests", "modules\EasyAbp.EShop.Inventory\test\EasyAbp.EShop.Inventory.Domain.Tests\EasyAbp.EShop.Inventory.Domain.Tests.csproj", "{D274C17B-4A95-4FA6-8598-38EDD74096B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.EntityFrameworkCore.Tests", "modules\EasyAbp.EShop.Inventory\test\EasyAbp.EShop.Inventory.EntityFrameworkCore.Tests\EasyAbp.EShop.Inventory.EntityFrameworkCore.Tests.csproj", "{27A34F58-5A86-4C68-AE7F-65B7B310F786}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.HttpApi.Client.ConsoleTestApp", "modules\EasyAbp.EShop.Inventory\test\EasyAbp.EShop.Inventory.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Inventory.HttpApi.Client.ConsoleTestApp.csproj", "{929A34D6-D9D8-455B-8172-B71DD47E00C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.MongoDB.Tests", "modules\EasyAbp.EShop.Inventory\test\EasyAbp.EShop.Inventory.MongoDB.Tests\EasyAbp.EShop.Inventory.MongoDB.Tests.csproj", "{A3D5AD3E-D838-4769-A3A9-CACB689CAAF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Inventory.TestBase", "modules\EasyAbp.EShop.Inventory\test\EasyAbp.EShop.Inventory.TestBase\EasyAbp.EShop.Inventory.TestBase.csproj", "{229A2C8E-7F6C-41EA-B04D-DEB3B8FB2769}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -901,6 +939,70 @@ Global
 		{3C385657-8365-470F-9F4F-30F31F9FCA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C385657-8365-470F-9F4F-30F31F9FCA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C385657-8365-470F-9F4F-30F31F9FCA42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6DE1D21-7AB5-4529-B4AB-848405CFBB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6DE1D21-7AB5-4529-B4AB-848405CFBB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6DE1D21-7AB5-4529-B4AB-848405CFBB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6DE1D21-7AB5-4529-B4AB-848405CFBB44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6F4E55-F7D2-487F-9E0F-00A1AABBEFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6F4E55-F7D2-487F-9E0F-00A1AABBEFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6F4E55-F7D2-487F-9E0F-00A1AABBEFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6F4E55-F7D2-487F-9E0F-00A1AABBEFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C31ED0-C363-4F43-9C8F-D09062FDF5FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C31ED0-C363-4F43-9C8F-D09062FDF5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C31ED0-C363-4F43-9C8F-D09062FDF5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C31ED0-C363-4F43-9C8F-D09062FDF5FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EF25319-90A1-429F-AC2F-DE6DF4FBC358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EF25319-90A1-429F-AC2F-DE6DF4FBC358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EF25319-90A1-429F-AC2F-DE6DF4FBC358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EF25319-90A1-429F-AC2F-DE6DF4FBC358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B63A013-BEA2-431F-A41D-E2FECD59CB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B63A013-BEA2-431F-A41D-E2FECD59CB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B63A013-BEA2-431F-A41D-E2FECD59CB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B63A013-BEA2-431F-A41D-E2FECD59CB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A7CF7A7-9775-4A77-BF43-775D40EC3BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A7CF7A7-9775-4A77-BF43-775D40EC3BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A7CF7A7-9775-4A77-BF43-775D40EC3BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A7CF7A7-9775-4A77-BF43-775D40EC3BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AA19507-1EC1-4882-AEE9-11B8832D757B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA19507-1EC1-4882-AEE9-11B8832D757B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA19507-1EC1-4882-AEE9-11B8832D757B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA19507-1EC1-4882-AEE9-11B8832D757B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E98A630-C634-4D28-882B-433980D2F9B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E98A630-C634-4D28-882B-433980D2F9B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E98A630-C634-4D28-882B-433980D2F9B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E98A630-C634-4D28-882B-433980D2F9B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE44C9C-476E-4F10-8502-709E3617C82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE44C9C-476E-4F10-8502-709E3617C82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE44C9C-476E-4F10-8502-709E3617C82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE44C9C-476E-4F10-8502-709E3617C82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{703DCD92-FA77-4574-B014-960D53FD146F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703DCD92-FA77-4574-B014-960D53FD146F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703DCD92-FA77-4574-B014-960D53FD146F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703DCD92-FA77-4574-B014-960D53FD146F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1A2F15-7EAD-4E47-878E-D7BD0C5AE6F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1A2F15-7EAD-4E47-878E-D7BD0C5AE6F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1A2F15-7EAD-4E47-878E-D7BD0C5AE6F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1A2F15-7EAD-4E47-878E-D7BD0C5AE6F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D274C17B-4A95-4FA6-8598-38EDD74096B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D274C17B-4A95-4FA6-8598-38EDD74096B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D274C17B-4A95-4FA6-8598-38EDD74096B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D274C17B-4A95-4FA6-8598-38EDD74096B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A34F58-5A86-4C68-AE7F-65B7B310F786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A34F58-5A86-4C68-AE7F-65B7B310F786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A34F58-5A86-4C68-AE7F-65B7B310F786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A34F58-5A86-4C68-AE7F-65B7B310F786}.Release|Any CPU.Build.0 = Release|Any CPU
+		{929A34D6-D9D8-455B-8172-B71DD47E00C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{929A34D6-D9D8-455B-8172-B71DD47E00C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{929A34D6-D9D8-455B-8172-B71DD47E00C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{929A34D6-D9D8-455B-8172-B71DD47E00C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D5AD3E-D838-4769-A3A9-CACB689CAAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D5AD3E-D838-4769-A3A9-CACB689CAAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D5AD3E-D838-4769-A3A9-CACB689CAAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D5AD3E-D838-4769-A3A9-CACB689CAAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{229A2C8E-7F6C-41EA-B04D-DEB3B8FB2769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229A2C8E-7F6C-41EA-B04D-DEB3B8FB2769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229A2C8E-7F6C-41EA-B04D-DEB3B8FB2769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229A2C8E-7F6C-41EA-B04D-DEB3B8FB2769}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1072,6 +1174,25 @@ Global
 		{86CAD303-A0E5-42C9-89A5-61D9AAA4AD8F} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
 		{B076C103-DF0B-464B-A9CB-4BE5CAFEE067} = {4001814E-A67B-490D-9E13-2FB9A34B0A0B}
 		{3C385657-8365-470F-9F4F-30F31F9FCA42} = {72F34527-9295-4F29-923E-4B075A4F31A2}
+		{FC7B8C88-AECB-4F67-92D2-0CFF850D2257} = {7FA8569F-8D62-4C13-9C8A-98DADA1F09A0}
+		{84AFCAE7-314F-4A0B-935C-3344039573A7} = {FC7B8C88-AECB-4F67-92D2-0CFF850D2257}
+		{A7C24513-C746-4F57-BA99-246BC7B7599D} = {FC7B8C88-AECB-4F67-92D2-0CFF850D2257}
+		{F6DE1D21-7AB5-4529-B4AB-848405CFBB44} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{0A6F4E55-F7D2-487F-9E0F-00A1AABBEFF8} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{A4C31ED0-C363-4F43-9C8F-D09062FDF5FE} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{1EF25319-90A1-429F-AC2F-DE6DF4FBC358} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{5B63A013-BEA2-431F-A41D-E2FECD59CB9B} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{1A7CF7A7-9775-4A77-BF43-775D40EC3BDF} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{5AA19507-1EC1-4882-AEE9-11B8832D757B} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{3E98A630-C634-4D28-882B-433980D2F9B2} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{0FE44C9C-476E-4F10-8502-709E3617C82E} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{703DCD92-FA77-4574-B014-960D53FD146F} = {84AFCAE7-314F-4A0B-935C-3344039573A7}
+		{3A1A2F15-7EAD-4E47-878E-D7BD0C5AE6F8} = {A7C24513-C746-4F57-BA99-246BC7B7599D}
+		{D274C17B-4A95-4FA6-8598-38EDD74096B8} = {A7C24513-C746-4F57-BA99-246BC7B7599D}
+		{27A34F58-5A86-4C68-AE7F-65B7B310F786} = {A7C24513-C746-4F57-BA99-246BC7B7599D}
+		{929A34D6-D9D8-455B-8172-B71DD47E00C8} = {A7C24513-C746-4F57-BA99-246BC7B7599D}
+		{A3D5AD3E-D838-4769-A3A9-CACB689CAAF8} = {A7C24513-C746-4F57-BA99-246BC7B7599D}
+		{229A2C8E-7F6C-41EA-B04D-DEB3B8FB2769} = {A7C24513-C746-4F57-BA99-246BC7B7599D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
