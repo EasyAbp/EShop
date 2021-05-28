@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyAbp.EShop.Inventory.Application.Contracts</name>
+    </assembly>
+    <members>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.WarehouseId">
+            <summary>
+            仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.Filter">
+            <summary>
+            筛选
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.SupplierId">
+            <summary>
+            供应商ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.CreationStartTime">
+            <summary>
+            创建时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.CreationEndTime">
+            <summary>
+            创建时间结束
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.InstockStartTime">
+            <summary>
+            入库时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.GetInstockListInput.InstockEndTime">
+            <summary>
+            入库时间结束
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto">
+            <summary>
+            入库数据模型
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.InstockTime">
+            <summary>
+            入库时间
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.UnitPrice">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.Units">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.OperatorName">
+            <summary>
+            操作人姓名
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.WarehouseId">
+            <summary>
+            仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockDto.SupplierId">
+            <summary>
+            供应商ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.WarehouseId">
+            <summary>
+            仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.Filter">
+            <summary>
+            筛选
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.CreationStartTime">
+            <summary>
+            创建时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.CreationEndTime">
+            <summary>
+            创建时间结束
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.OutstockStartTime">
+            <summary>
+            出库时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.GetOutstockListInput.OutstockEndTime">
+            <summary>
+            出库时间结束
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto">
+            <summary>
+            出库数据模型
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.OutstockTime">
+            <summary>
+            出库时间
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.UnitPrice">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.Units">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.OperatorName">
+            <summary>
+            操作人姓名
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.WarehouseId">
+            <summary>
+            仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockDto.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.SourceWarehouseId">
+            <summary>
+            调出仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.DestinationWarehouseId">
+            <summary>
+            调入仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.Filter">
+            <summary>
+            筛选
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.CreationStartTime">
+            <summary>
+            创建时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.CreationEndTime">
+            <summary>
+            创建时间结束
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.ReallocationStartTime">
+            <summary>
+            调拨时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.Dtos.GetReallocationListInput.ReallocationEndTime">
+            <summary>
+            调拨时间结束
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput.WarehouseId">
+            <summary>
+            仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput.Filter">
+            <summary>
+            筛选
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput.CreationStartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.Dtos.GetStockHistoryListInput.CreationEndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput">
+            <summary>
+            获取库存筛选条件
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.IsEnabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.WarehouseId">
+            <summary>
+            仓库ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.StoreId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.Filter">
+            <summary>
+            筛选
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.CreationStartTime">
+            <summary>
+            创建时间开始
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.Dtos.GetStockListInput.CreationEndTime">
+            <summary>
+            创建时间结束
+            </summary>
+        </member>
+    </members>
+</doc>

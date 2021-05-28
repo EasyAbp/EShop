@@ -1,0 +1,320 @@
+﻿<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyAbp.EShop.Inventory.HttpApi</name>
+    </assembly>
+    <members>
+        <member name="T:EasyAbp.EShop.Inventory.Instocks.InstockController">
+            <summary>
+            入库记录控制器
+            </summary>
+        </member>
+        <member name="F:EasyAbp.EShop.Inventory.Instocks.InstockController._service">
+            <summary>
+            Defines the _service.
+            </summary>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.#ctor(EasyAbp.EShop.Inventory.Instocks.IInstockAppService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EasyAbp.EShop.Inventory.Instocks.InstockController"/> class.
+            </summary>
+            <param name="service">The service<see cref="T:EasyAbp.EShop.Inventory.Instocks.IInstockAppService"/>.</param>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.CreateAsync(EasyAbp.EShop.Inventory.Instocks.Dtos.InstockCreateDto)">
+            <summary>
+            创建
+            </summary>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockCreateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.DeleteAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.GetAsync(System.Guid)">
+            <summary>
+            详情
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+            <summary>
+            列表
+            </summary>
+            <param name="input">The input<see cref="T:Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto"/>.</param>
+            <returns>The <see cref="!:Task&lt;PagedResultDto&lt;InstockDto&gt;&gt;"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Instocks.InstockController.UpdateAsync(System.Guid,EasyAbp.EShop.Inventory.Instocks.Dtos.InstockUpdateDto)">
+            <summary>
+            编辑
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Instocks.Dtos.InstockUpdateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Outstocks.OutstockController">
+            <summary>
+            出库记录控制器
+            </summary>
+        </member>
+        <member name="F:EasyAbp.EShop.Inventory.Outstocks.OutstockController._service">
+            <summary>
+            Defines the _service.
+            </summary>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.#ctor(EasyAbp.EShop.Inventory.Outstocks.IOutstockAppService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EasyAbp.EShop.Inventory.Outstocks.OutstockController"/> class.
+            </summary>
+            <param name="service">The service<see cref="T:EasyAbp.EShop.Inventory.Outstocks.IOutstockAppService"/>.</param>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.CreateAsync(EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockCreateDto)">
+            <summary>
+            创建
+            </summary>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockCreateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.DeleteAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.GetAsync(System.Guid)">
+            <summary>
+            详情
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+            <summary>
+            列表
+            </summary>
+            <param name="input">The input<see cref="T:Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto"/>.</param>
+            <returns>The <see cref="!:Task&lt;PagedResultDto&lt;OutstockDto&gt;&gt;"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Outstocks.OutstockController.UpdateAsync(System.Guid,EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockUpdateDto)">
+            <summary>
+            编辑
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Outstocks.Dtos.OutstockUpdateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Reallocations.ReallocationController">
+            <summary>
+            调库记录控制器
+            </summary>
+        </member>
+        <member name="F:EasyAbp.EShop.Inventory.Reallocations.ReallocationController._service">
+            <summary>
+            Defines the _service.
+            </summary>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.#ctor(EasyAbp.EShop.Inventory.Reallocations.IReallocationAppService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EasyAbp.EShop.Inventory.Reallocations.ReallocationController"/> class.
+            </summary>
+            <param name="service">The service<see cref="T:EasyAbp.EShop.Inventory.Reallocations.IReallocationAppService"/>.</param>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.CreateAsync(EasyAbp.EShop.Inventory.Reallocations.Dtos.ReallocationCreateDto)">
+            <summary>
+            创建
+            </summary>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Reallocations.Dtos.ReallocationCreateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.DeleteAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.GetAsync(System.Guid)">
+            <summary>
+            详情
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+            <summary>
+            列表
+            </summary>
+            <param name="input">The input<see cref="T:Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto"/>.</param>
+            <returns>The <see cref="!:Task&lt;PagedResultDto&lt;ReallocationDto&gt;&gt;"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Reallocations.ReallocationController.UpdateAsync(System.Guid,EasyAbp.EShop.Inventory.Reallocations.Dtos.ReallocationUpdateDto)">
+            <summary>
+            编辑
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Reallocations.Dtos.ReallocationUpdateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController">
+            <summary>
+            库存历史记录控制器
+            </summary>
+        </member>
+        <member name="F:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController._service">
+            <summary>
+            Defines the _service.
+            </summary>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.#ctor(EasyAbp.EShop.Inventory.StockHistories.IStockHistoryAppService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController"/> class.
+            </summary>
+            <param name="service">The service<see cref="T:EasyAbp.EShop.Inventory.StockHistories.IStockHistoryAppService"/>.</param>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.CreateAsync(EasyAbp.EShop.Inventory.StockHistories.Dtos.StockHistoryCreateDto)">
+            <summary>
+            创建
+            </summary>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.StockHistories.Dtos.StockHistoryCreateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.DeleteAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.GetAsync(System.Guid)">
+            <summary>
+            详情
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+            <summary>
+            列表
+            </summary>
+            <param name="input">The input<see cref="T:Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto"/>.</param>
+            <returns>The <see cref="!:Task&lt;PagedResultDto&lt;StockHistoryDto&gt;&gt;"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.StockHistories.StockHistoryController.UpdateAsync(System.Guid,EasyAbp.EShop.Inventory.StockHistories.Dtos.StockHistoryUpdateDto)">
+            <summary>
+            编辑
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.StockHistories.Dtos.StockHistoryUpdateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Stocks.StockController">
+            <summary>
+            库存存品控制器
+            </summary>
+        </member>
+        <member name="F:EasyAbp.EShop.Inventory.Stocks.StockController._service">
+            <summary>
+            Defines the _service.
+            </summary>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.#ctor(EasyAbp.EShop.Inventory.Stocks.IStockAppService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EasyAbp.EShop.Inventory.Stocks.StockController"/> class.
+            </summary>
+            <param name="service">The service<see cref="T:EasyAbp.EShop.Inventory.Stocks.IStockAppService"/>.</param>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.CreateAsync(EasyAbp.EShop.Inventory.Stocks.Dtos.StockCreateDto)">
+            <summary>
+            创建
+            </summary>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Stocks.Dtos.StockCreateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.DeleteAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.GetAsync(System.Guid)">
+            <summary>
+            详情
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+            <summary>
+            列表
+            </summary>
+            <param name="input">The input<see cref="T:Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto"/>.</param>
+            <returns>The <see cref="!:Task&lt;PagedResultDto&lt;StockDto&gt;&gt;"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Stocks.StockController.UpdateAsync(System.Guid,EasyAbp.EShop.Inventory.Stocks.Dtos.StockUpdateDto)">
+            <summary>
+            编辑
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Stocks.Dtos.StockUpdateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Warehouses.WarehouseController">
+            <summary>
+            库房控制器
+            </summary>
+        </member>
+        <member name="F:EasyAbp.EShop.Inventory.Warehouses.WarehouseController._service">
+            <summary>
+            Defines the _service.
+            </summary>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Warehouses.WarehouseController.#ctor(EasyAbp.EShop.Inventory.Warehouses.IWarehouseAppService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EasyAbp.EShop.Inventory.Warehouses.WarehouseController"/> class.
+            </summary>
+            <param name="service">The service<see cref="T:EasyAbp.EShop.Inventory.Warehouses.IWarehouseAppService"/>.</param>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Warehouses.WarehouseController.CreateAsync(EasyAbp.EShop.Inventory.Warehouses.Dtos.WarehouseCreateDto)">
+            <summary>
+            创建
+            </summary>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Warehouses.Dtos.WarehouseCreateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Warehouses.WarehouseController.DeleteAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Warehouses.WarehouseController.GetAsync(System.Guid)">
+            <summary>
+            详情
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Warehouses.WarehouseController.GetListAsync(Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto)">
+            <summary>
+            列表
+            </summary>
+            <param name="input">The input<see cref="T:Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto"/>.</param>
+            <returns>The <see cref="!:Task&lt;PagedResultDto&lt;WarehouseDto&gt;&gt;"/>.</returns>
+        </member>
+        <member name="M:EasyAbp.EShop.Inventory.Warehouses.WarehouseController.UpdateAsync(System.Guid,EasyAbp.EShop.Inventory.Warehouses.Dtos.WarehouseUpdateDto)">
+            <summary>
+            编辑
+            </summary>
+            <param name="id">The id<see cref="T:System.Guid"/>.</param>
+            <param name="input">The input<see cref="T:EasyAbp.EShop.Inventory.Warehouses.Dtos.WarehouseUpdateDto"/>.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+        </member>
+    </members>
+</doc>

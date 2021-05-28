@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyAbp.EShop.Inventory.Domain.Shared</name>
+    </assembly>
+    <members>
+        <member name="T:EasyAbp.EShop.Inventory.Instocks.IInstock">
+            <summary>
+            入库接口
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.InstockTime">
+            <summary>
+            入库时间
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.ProductSkuId">
+            <summary>
+            产品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.ProductId">
+            <summary>
+            商品SPU
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.UnitPrice">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.Units">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.OperatorName">
+            <summary>
+            入库人
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Instocks.IInstock.SupplierId">
+            <summary>
+            供应商 ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Inventories.Address.Street">
+            <summary>
+            街道地址
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Inventories.Address.Area">
+            <summary>
+            区/县
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Inventories.Address.City">
+            <summary>
+            市
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Inventories.Address.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Outstocks.IOutstock">
+            <summary>
+            出库单
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.OutstockTime">
+            <summary>
+            出库时间
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.ProductSkuId">
+            <summary>
+            商品SKU ID
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.ProductId">
+            <summary>
+            商品SPU
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.UnitPrice">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.Units">
+            <summary>
+            Gets the Units.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.OperatorName">
+            <summary>
+            Gets the OperatorName.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Outstocks.IOutstock.Description">
+            <summary>
+            Gets the Description.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Reallocations.IReallocation.ProductId">
+            <summary>
+            商品SPU
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.StockHistories.IStockHistory">
+            <summary>
+            库存存品历史记录
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.IStockHistory.LockedQuantity">
+            <summary>
+            Gets the LockedQuantity
+            锁定库存数量.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.IStockHistory.ProductId">
+            <summary>
+            商品SPU
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.IStockHistory.ProductSkuId">
+            <summary>
+            Gets the ProductSkuId.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.IStockHistory.Quantity">
+            <summary>
+            Gets the Quantity.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.IStockHistory.AdjustedQuantity">
+            <summary>
+            Gets the AdjustedQuantity.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.StockHistories.IStockHistory.Description">
+            <summary>
+            Gets the Description.
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Stocks.IStock">
+            <summary>
+            存品接口
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.LockedQuantity">
+            <summary>
+            锁定库存数量.
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.ProductId">
+            <summary>
+            商品SPU
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.ProductSkuId">
+            <summary>
+            商品SKU
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.Quantity">
+            <summary>
+            库存数
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.DisplayOrder">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.IsEnabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Stocks.IStock.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="T:EasyAbp.EShop.Inventory.Suppliers.ISupplier">
+            <summary>
+            供应商接口
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Suppliers.ISupplier.Name">
+            <summary>
+            名字
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Suppliers.ISupplier.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Suppliers.ISupplier.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Suppliers.ISupplier.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Suppliers.ISupplier.ContactPhoneNumber">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:EasyAbp.EShop.Inventory.Suppliers.ISupplier.BusinessScope">
+            <summary>
+            经营范围
+            </summary>
+        </member>
+    </members>
+</doc>

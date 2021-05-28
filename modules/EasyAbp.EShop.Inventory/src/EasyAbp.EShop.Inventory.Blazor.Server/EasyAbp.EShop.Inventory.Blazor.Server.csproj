@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.AspNetCore.Components.Server.Theming" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="EasyAbp.EShop.Inventory.Blazor" Version="4.3.0" />
+    </ItemGroup>
+
+</Project>
