@@ -1,6 +1,7 @@
 ﻿using EasyAbp.EShop.Inventory.Inventories;
 using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Data;
+using Address = EasyAbp.EShop.Inventory.Inventories.Address;
 
 namespace EasyAbp.EShop.Inventory.Warehouses
 {
