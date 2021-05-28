@@ -4,11 +4,11 @@ using EasyAbp.EShop.Inventory.Outstocks;
 using EasyAbp.EShop.Inventory.Reallocations;
 using EasyAbp.EShop.Inventory.StockHistories;
 using EasyAbp.EShop.Inventory.Stocks;
-using EasyAbp.EShop.Stores.Stores;
 using System;
 using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
+using Address = EasyAbp.EShop.Inventory.Inventories.Address;
 
 namespace EasyAbp.EShop.Inventory.Warehouses
 {
@@ -37,6 +37,7 @@ namespace EasyAbp.EShop.Inventory.Warehouses
         public virtual List<Outstock> Outstocks { get; protected set; }
 
         public virtual List<Reallocation> Reallocations { get; protected set; }
+
         protected Warehouse()
         {
         }

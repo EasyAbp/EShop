@@ -3,6 +3,7 @@ using EasyAbp.EShop.Stores.Stores;
 using System;
 using System.ComponentModel;
 using Volo.Abp.ObjectExtending;
+using Address = EasyAbp.EShop.Inventory.Inventories.Address;
 
 namespace EasyAbp.EShop.Inventory.Warehouses.Dtos
 {

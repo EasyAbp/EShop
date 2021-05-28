@@ -1,13 +1,12 @@
 ﻿using EasyAbp.EShop.Inventory.Instocks.Dtos;
-using EasyAbp.EShop.Inventory.Inventories;
 using EasyAbp.EShop.Inventory.Outstocks.Dtos;
 using EasyAbp.EShop.Inventory.Reallocations.Dtos;
 using EasyAbp.EShop.Inventory.StockHistories.Dtos;
 using EasyAbp.EShop.Inventory.Stocks.Dtos;
-using EasyAbp.EShop.Stores.Stores;
 using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
+using Address = EasyAbp.EShop.Inventory.Inventories.Address;
 
 namespace EasyAbp.EShop.Inventory.Warehouses.Dtos
 {
