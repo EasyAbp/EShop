@@ -24,5 +24,7 @@ namespace EasyAbp.EShop.Products.Categories.Dtos
         public string Description { get; set; }
 
         public string MediaResources { get; set; }
+        
+        public bool IsHidden { get; set; }
     }
 }
