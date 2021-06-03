@@ -91,9 +91,6 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Categories", options.Schema);
                 b.ConfigureByConvention(); 
                 /* Configure more properties here */
-
-                // Todo: soft delete support?
-                b.HasIndex(x => x.UniqueName).IsUnique();
             });
 
             builder.Entity<ProductCategory>(b =>

@@ -64,6 +64,7 @@
     "CategoryDisplayName": "類目名稱",
     "CategoryDescription": "描述",
     "CategoryMediaResources": "多媒體資源",
+    "CategoryIsHidden": "隱藏",
     "CreateCategory": "新建",
     "EditCategory": "編輯",
     "CategoryDeletionConfirmationMessage": "確認刪除類目 {0}?",
