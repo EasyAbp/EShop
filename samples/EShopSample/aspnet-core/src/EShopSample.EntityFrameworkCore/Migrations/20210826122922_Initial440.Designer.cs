@@ -10,18 +10,18 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopSample.Migrations
 {
-    [DbContext(typeof(EShopSampleMigrationsDbContext))]
-    [Migration("20210118090325_AddedProductView")]
-    partial class AddedProductView
+    [DbContext(typeof(EShopSampleDbContext))]
+    [Migration("20210826122922_Initial440")]
+    partial class Initial440
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.9")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.Order", b =>
                 {
@@ -507,7 +507,8 @@ namespace EShopSample.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
@@ -749,6 +750,10 @@ namespace EShopSample.Migrations
 
                     b.Property<Guid>("ProductSkuId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
@@ -1054,15 +1059,11 @@ namespace EShopSample.Migrations
                         .HasColumnName("TenantId");
 
                     b.Property<string>("UniqueName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
-
-                    b.HasIndex("UniqueName")
-                        .IsUnique()
-                        .HasFilter("[UniqueName] IS NOT NULL");
 
                     b.ToTable("EasyAbpEShopProductsCategories");
                 });
@@ -1142,6 +1143,10 @@ namespace EShopSample.Migrations
                     b.Property<string>("SerializedEntityData")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ModificationTime");
@@ -1203,6 +1208,10 @@ namespace EShopSample.Migrations
                     b.Property<Guid?>("StoreId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
                     b.HasKey("Id");
 
                     b.ToTable("EasyAbpEShopProductsProductDetails");
@@ -1232,6 +1241,10 @@ namespace EShopSample.Migrations
 
                     b.Property<string>("SerializedEntityData")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
@@ -1299,6 +1312,10 @@ namespace EShopSample.Migrations
 
                     b.Property<long>("Sold")
                         .HasColumnType("bigint");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
@@ -1382,6 +1399,10 @@ namespace EShopSample.Migrations
 
                     b.Property<Guid>("StoreId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.Property<string>("UniqueName")
                         .HasColumnType("nvarchar(450)");
@@ -1631,13 +1652,13 @@ namespace EShopSample.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("MaximumPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(20,8)");
 
                     b.Property<string>("MediaResources")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("MinimumPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(20,8)");
 
                     b.Property<Guid>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
@@ -1653,6 +1674,10 @@ namespace EShopSample.Migrations
 
                     b.Property<Guid>("StoreId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.Property<string>("UniqueName")
                         .HasColumnType("nvarchar(450)");
@@ -2038,6 +2063,15 @@ namespace EShopSample.Migrations
 
                     b.Property<decimal>("LockedBalance")
                         .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid?>("PendingTopUpPaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("PendingWithdrawalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("PendingWithdrawalRecordId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier")
@@ -2695,9 +2729,7 @@ namespace EShopSample.Migrations
                         .HasColumnName("CorrelationId");
 
                     b.Property<string>("Exceptions")
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)")
-                        .HasColumnName("Exceptions");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExecutionDuration")
                         .HasColumnType("int")
@@ -2991,7 +3023,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.Identity.IdentityClaimType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -3038,7 +3069,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.Identity.IdentityLinkUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("SourceTenantId")
@@ -3065,7 +3095,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -3142,7 +3171,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.Identity.IdentitySecurityLog", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Action")
@@ -3217,7 +3245,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
@@ -3497,7 +3524,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnit", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -4489,7 +4515,6 @@ namespace EShopSample.Migrations
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")

@@ -56,7 +56,7 @@ namespace EShopSample.EntityFrameworkCore
             Configure<AbpDbContextOptions>(options =>
             {
                 /* The main point to change your DBMS.
-                 * See also EShopSampleMigrationsDbContextFactory for EF Core tooling. */
+                 * See also EShopSampleDbContextFactory for EF Core tooling. */
                 options.UseSqlServer();
             });
         }
