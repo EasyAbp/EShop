@@ -52,12 +52,11 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
     * Use the product management page to create new a product.
     * Click the "SKU" item in the actions button of the product you created and then create an SKU.
 
-* Place an Order
-    * We have not yet provided relevant UI for this action.
+* Place an Order (We have not yet provided UI for this step.)
     * Use the API `/api/e-shop/orders/order` (POST) to create a new order.
 
-* Pay for the Order
-    * We have not yet provided relevant UI for this action.
+* Pay for the Order (We have not yet provided UI for this step.)
+    * Wait for the inventory reduction to be completed, get the order and ensure the Order.ReducedInventoryAfterPlacingTime is not null.
     * Use the API `/api/e-shop/payments/payment` (POST) to create a pending new payment for your order.
         * You can pay for multiple orders at once.
         * You need to decide one of the payment methods provided by the [EasyAbp.PaymentService](https://easyabp.io/modules/PaymentService/) module.
