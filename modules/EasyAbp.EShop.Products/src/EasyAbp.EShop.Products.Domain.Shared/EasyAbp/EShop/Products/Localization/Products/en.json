@@ -67,6 +67,7 @@
     "CategoryDisplayName": "Display name",
     "CategoryDescription": "Description",
     "CategoryMediaResources": "Media resources",
+    "CategoryIsHidden": "Hidden",
     "CreateCategory": "New",
     "EditCategory": "Edit",
     "CategoryDeletionConfirmationMessage": "Are you sure to delete the category {0}?",

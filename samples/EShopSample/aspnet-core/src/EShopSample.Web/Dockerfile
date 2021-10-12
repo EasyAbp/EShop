@@ -60,7 +60,6 @@ COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application.Contracts/E
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application/EasyAbp.EShop.Plugins.Baskets.Application.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Application/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Web/EasyAbp.EShop.Plugins.Baskets.Web.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.Web/"]
 COPY ["plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.HttpApi/EasyAbp.EShop.Plugins.Baskets.HttpApi.csproj", "plugins/Baskets/src/EasyAbp.EShop.Plugins.Baskets.HttpApi/"]
-COPY ["samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore.DbMigrations/EShopSample.EntityFrameworkCore.DbMigrations.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore.DbMigrations/"]
 COPY ["samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore/EShopSample.EntityFrameworkCore.csproj", "samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore/"]
 COPY ["integration/EasyAbp.EShop/src/EasyAbp.EShop.EntityFrameworkCore/EasyAbp.EShop.EntityFrameworkCore.csproj", "integration/EasyAbp.EShop/src/EasyAbp.EShop.EntityFrameworkCore/"]
 COPY ["modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.EntityFrameworkCore/EasyAbp.EShop.Stores.EntityFrameworkCore.csproj", "modules/EasyAbp.EShop.Stores/src/EasyAbp.EShop.Stores.EntityFrameworkCore/"]

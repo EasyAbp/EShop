@@ -105,7 +105,7 @@ stages:
        displayName: 'update database'
        inputs:
         script: | 
-          dotnet ef database update --project samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore.DbMigrations/EShopSample.EntityFrameworkCore.DbMigrations.csproj -s samples/EShopSample/aspnet-core/src/EShopSample.Web/EShopSample.Web.csproj
+          dotnet ef database update --project samples/EShopSample/aspnet-core/src/EShopSample.EntityFrameworkCore/EShopSample.EntityFrameworkCore.csproj -s samples/EShopSample/aspnet-core/src/EShopSample.Web/EShopSample.Web.csproj
      
      - task: CmdLine@2
        inputs:

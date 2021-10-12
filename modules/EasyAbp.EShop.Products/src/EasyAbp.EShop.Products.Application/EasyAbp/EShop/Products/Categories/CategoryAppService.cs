@@ -20,10 +20,14 @@ namespace EasyAbp.EShop.Products.Categories
         protected override string GetPolicyName { get; set; } = null;
         protected override string GetListPolicyName { get; set; } = null;
 
+        private readonly ICategoryManager _categoryManager;
         private readonly ICategoryRepository _repository;
 
-        public CategoryAppService(ICategoryRepository repository) : base(repository)
+        public CategoryAppService(
+            ICategoryManager categoryManager,
+            ICategoryRepository repository) : base(repository)
         {
+            _categoryManager = categoryManager;
             _repository = repository;
         }
 
@@ -32,6 +36,18 @@ namespace EasyAbp.EShop.Products.Categories
             var query = (await base.CreateFilteredQueryAsync(input)).Where(x => x.ParentId == input.ParentId);
             
             return input.ShowHidden ? query : query.Where(x => !x.IsHidden);
+        }
+
+        protected override async Task<Category> MapToEntityAsync(CreateUpdateCategoryDto createInput)
+        {
+            return await _categoryManager.CreateAsync(createInput.ParentId, createInput.UniqueName,
+                createInput.DisplayName, createInput.Description, createInput.MediaResources, createInput.IsHidden);
+        }
+
+        protected override async Task MapToEntityAsync(CreateUpdateCategoryDto updateInput, Category entity)
+        {
+            await _categoryManager.UpdateAsync(entity, updateInput.ParentId, updateInput.UniqueName,
+                updateInput.DisplayName, updateInput.Description, updateInput.MediaResources, updateInput.IsHidden);
         }
 
         public override async Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoryListDto input)

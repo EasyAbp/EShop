@@ -57,7 +57,7 @@ namespace EShopSample.Web
     [DependsOn(
         typeof(EShopSampleHttpApiModule),
         typeof(EShopSampleApplicationModule),
-        typeof(EShopSampleEntityFrameworkCoreDbMigrationsModule),
+        typeof(EShopSampleEntityFrameworkCoreModule),
         typeof(AbpAutofacModule),
         typeof(AbpIdentityWebModule),
         typeof(AbpAccountWebIdentityServerModule),

@@ -59,7 +59,7 @@ $(function () {
             { data: "uniqueName" },
             { data: "displayName" },
             { data: "description" },
-            { data: "mediaResources" },
+            { data: "isHidden" },
         ]
     }));
 

@@ -52,7 +52,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             if (_productGroupConfigurationProvider.Get(product.ProductGroupName) == null)
             {
-                throw new NonexistentProductGroupException(product.DisplayName);
+                throw new NonexistentProductGroupException(product.ProductGroupName);
             }
             
             return Task.CompletedTask;

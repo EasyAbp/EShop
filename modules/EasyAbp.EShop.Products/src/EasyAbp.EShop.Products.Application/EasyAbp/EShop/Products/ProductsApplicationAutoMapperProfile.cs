@@ -62,13 +62,12 @@ namespace EasyAbp.EShop.Products
             CreateMap<UpdateProductSkuDto, ProductSku>(MemberList.Source);
             CreateMap<Category, CategoryDto>();
             CreateMap<Category, CategorySummaryDto>();
-            CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
             CreateMap<ProductInventory, ProductInventoryDto>();
             CreateMap<ProductView, ProductViewDto>();
-            CreateMap<ProductDto, ProductView>(MemberList.Destination);
+            CreateMap<Product, ProductView>(MemberList.Destination);
         }
     }
 }

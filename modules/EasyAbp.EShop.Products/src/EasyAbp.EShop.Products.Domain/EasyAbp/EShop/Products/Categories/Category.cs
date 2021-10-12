@@ -44,17 +44,31 @@ namespace EasyAbp.EShop.Products.Categories
         {
         }
 
-        public Category(
+        internal Category(
             Guid id,
             Guid? tenantId,
+            Guid? parentId,
             string uniqueName,
             string displayName,
             string description,
             string mediaResources,
             bool isHidden
-        ) :base(id)
+        ) : base(id)
         {
             TenantId = tenantId;
+
+            Update(parentId, uniqueName, displayName, description, mediaResources, isHidden);
+        }
+
+        internal void Update(
+            Guid? parentId,
+            string uniqueName,
+            string displayName,
+            string description,
+            string mediaResources,
+            bool isHidden)
+        {
+            ParentId = parentId;
             UniqueName = uniqueName;
             DisplayName = displayName;
             Description = description;
