@@ -59,6 +59,12 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         
         [Display(Name = "ProductIsPublished")]
         public bool IsPublished { get; set; }
+        
+        [Display(Name = "ProductIsHidden")]
+        public bool IsHidden { get; set; }
+        
+        [Display(Name = "ProductPaymentExpireIn")]
+        public TimeSpan? PaymentExpireIn { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Domain.Shared\EasyAbp.EShop.Payments.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Orders.Domain.Shared\EasyAbp.EShop.Orders.Domain.Shared.csproj" />

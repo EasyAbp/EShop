@@ -9,16 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
+using Volo.Abp.Timing;
 using Xunit;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     public class OrderAppServiceTests : OrdersApplicationTestBase
     {
+        private readonly IClock _clock;
         private readonly IOrderAppService _orderAppService;
 
         public OrderAppServiceTests()
         {
+            _clock = GetRequiredService<IClock>();
             _orderAppService = GetRequiredService<IOrderAppService>();
         }
 
@@ -224,6 +227,225 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.ShouldNotBeNull();
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CancellationReason.ShouldBe("Repeat orders.");
+            });
+        }
+
+        [Fact]
+        public async Task Unpaid_Order_Should_Be_Auto_Canceled_When_Payment_Is_Canceled()
+        {
+            // Arrange
+            await Order_Should_Be_Created();
+            Guid orderId = Guid.Empty;
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.First();
+                orderId = order.Id;
+                order.SetPaymentId(Guid.NewGuid());
+                db.SaveChanges();
+            });
+
+            // Act
+            var now = _clock.Now;
+
+            UsingDbContext(async db =>
+            {
+                var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+                var order = await orderRepository.GetAsync(orderId);
+                order.SetPaymentExpiration(now);
+                order.SetPaymentId(null);
+                await orderRepository.UpdateAsync(order, true);
+            });
+            
+            var response = await _orderAppService.GetAsync(orderId);
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.PaymentId.ShouldBeNull();
+            response.PaymentExpiration.ShouldBe(now);
+            response.OrderStatus.ShouldBe(OrderStatus.Canceled);
+            response.CanceledTime.ShouldNotBeNull();
+            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
+                order.ShouldNotBeNull();
+                order.PaymentId.ShouldBeNull();
+                order.PaymentExpiration.ShouldBe(now);
+                order.OrderStatus.ShouldBe(OrderStatus.Canceled);
+                order.CanceledTime.ShouldNotBeNull();
+                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            });
+        }
+
+                [Fact]
+        public async Task Paid_Order_Should_Not_Be_Auto_Canceled_When_Payment_Overtime()
+        {
+            // Arrange
+            await Order_Should_Be_Created();
+            Guid orderId = Guid.Empty;
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.First();
+                orderId = order.Id;
+                order.SetPaymentId(Guid.NewGuid());
+                order.SetPaidTime(_clock.Now);
+                order.SetOrderStatus(OrderStatus.Processing);
+                db.SaveChanges();
+            });
+
+            // Act
+            var now = _clock.Now;
+
+            UsingDbContext(async db =>
+            {
+                var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+                var order = await orderRepository.GetAsync(orderId);
+                order.SetPaymentExpiration(now);
+                await orderRepository.UpdateAsync(order, true);
+            });
+
+            UsingDbContext(async db =>
+            {
+                var backgroundJob = ServiceProvider.GetRequiredService<UnpaidOrderAutoCancelJob>();
+                await backgroundJob.ExecuteAsync(new UnpaidOrderAutoCancelArgs
+                {
+                    TenantId = null,
+                    OrderId = orderId
+                });
+            });
+
+            var response = await _orderAppService.GetAsync(orderId);
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.PaymentId.ShouldNotBeNull();
+            response.PaymentExpiration.ShouldBe(now);
+            response.OrderStatus.ShouldBe(OrderStatus.Processing);
+            response.CanceledTime.ShouldBeNull();
+            response.CancellationReason.ShouldBeNull();
+            
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
+                order.ShouldNotBeNull();
+                order.PaymentId.ShouldNotBeNull();
+                order.PaymentExpiration.ShouldBe(now);
+                order.OrderStatus.ShouldBe(OrderStatus.Processing);
+                order.CanceledTime.ShouldBeNull();
+                order.CancellationReason.ShouldBeNull();
+            });
+        }
+        
+        [Fact]
+        public async Task Unpaid_Order_Should_Be_Auto_Canceled_When_Payment_Overtime()
+        {
+            // Arrange
+            await Order_Should_Be_Created();
+            Guid orderId = Guid.Empty;
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.First();
+                orderId = order.Id;
+            });
+
+            // Act
+            var now = _clock.Now;
+
+            UsingDbContext(async db =>
+            {
+                var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+                var order = await orderRepository.GetAsync(orderId);
+                order.SetPaymentExpiration(now);
+                await orderRepository.UpdateAsync(order, true);
+            });
+
+            UsingDbContext(async db =>
+            {
+                var backgroundJob = ServiceProvider.GetRequiredService<UnpaidOrderAutoCancelJob>();
+                await backgroundJob.ExecuteAsync(new UnpaidOrderAutoCancelArgs
+                {
+                    TenantId = null,
+                    OrderId = orderId
+                });
+            });
+
+            var response = await _orderAppService.GetAsync(orderId);
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.PaymentId.ShouldBeNull();
+            response.PaymentExpiration.ShouldBe(now);
+            response.OrderStatus.ShouldBe(OrderStatus.Canceled);
+            response.CanceledTime.ShouldNotBeNull();
+            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
+                order.ShouldNotBeNull();
+                order.PaymentId.ShouldBeNull();
+                order.PaymentExpiration.ShouldBe(now);
+                order.OrderStatus.ShouldBe(OrderStatus.Canceled);
+                order.CanceledTime.ShouldNotBeNull();
+                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            });
+        }
+        
+        [Fact]
+        public async Task Payment_Pending_Order_Should_Be_Auto_Canceled_When_Payment_Overtime()
+        {
+            // Arrange
+            await Order_Should_Be_Created();
+            Guid orderId = Guid.Empty;
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.First();
+                orderId = order.Id;
+                order.SetPaymentId(Guid.NewGuid());
+                db.SaveChanges();
+            });
+
+            // Act
+            var now = _clock.Now;
+
+            UsingDbContext(async db =>
+            {
+                var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+                var order = await orderRepository.GetAsync(orderId);
+                order.SetPaymentExpiration(now);
+                await orderRepository.UpdateAsync(order, true);
+            });
+
+            UsingDbContext(async db =>
+            {
+                var backgroundJob = ServiceProvider.GetRequiredService<UnpaidOrderAutoCancelJob>();
+                await backgroundJob.ExecuteAsync(new UnpaidOrderAutoCancelArgs
+                {
+                    TenantId = null,
+                    OrderId = orderId
+                });
+            });
+
+            var response = await _orderAppService.GetAsync(orderId);
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.PaymentId.ShouldBeNull();
+            response.PaymentExpiration.ShouldBe(now);
+            response.OrderStatus.ShouldBe(OrderStatus.Canceled);
+            response.CanceledTime.ShouldNotBeNull();
+            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            
+            UsingDbContext(db =>
+            {
+                var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
+                order.ShouldNotBeNull();
+                order.PaymentId.ShouldBeNull();
+                order.PaymentExpiration.ShouldBe(now);
+                order.OrderStatus.ShouldBe(OrderStatus.Canceled);
+                order.CanceledTime.ShouldNotBeNull();
+                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
             });
         }
     }

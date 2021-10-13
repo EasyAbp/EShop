@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Settings;
+﻿using System;
+using Volo.Abp.Settings;
 
 namespace EasyAbp.EShop.Products.Settings
 {
@@ -10,7 +11,17 @@ namespace EasyAbp.EShop.Products.Settings
              * Use names from ProductsSettings class.
              */
 
-            context.Add(new SettingDefinition(ProductsSettings.ProductView.CacheDurationSeconds, "60"));
+            context.Add(
+                new SettingDefinition(
+                    ProductsSettings.ProductView.CacheDurationSeconds,
+                    "60"
+                ),
+                new SettingDefinition(
+                    ProductsSettings.Product.DefaultPaymentExpireIn,
+                    TimeSpan.FromMinutes(15).ToString(),
+                    isVisibleToClients: true
+                )
+            );
         }
     }
 }

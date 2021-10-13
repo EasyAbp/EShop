@@ -13,5 +13,7 @@
         public const string GetCategorySummaryListedDataSourceUrl = CategoryRouteBase + "/summary";
         
         public const string GetCategorySummarySingleDataSourceUrl = CategoryRouteBase + "/{id}";
+        
+        public const string DefaultPaymentExpireInSettingName = "EasyAbp.EShop.Products.Product.DefaultPaymentExpireIn";
     }
 }

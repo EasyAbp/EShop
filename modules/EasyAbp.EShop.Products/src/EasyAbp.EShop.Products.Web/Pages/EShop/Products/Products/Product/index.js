@@ -56,6 +56,7 @@ $(function () {
             { data: "inventoryStrategy" },
             { data: "sold" },
             { data: "isPublished" },
+            { data: "isHidden" },
         ]
     }));
 

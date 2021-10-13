@@ -36,6 +36,8 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual bool IsHidden { get; protected set; }
         
+        public virtual TimeSpan? PaymentExpireIn { get; protected set; }
+        
         public virtual List<ProductAttribute> ProductAttributes { get; protected set; }
         
         public virtual List<ProductSku> ProductSkus { get; protected set; }
@@ -56,6 +58,7 @@ namespace EasyAbp.EShop.Products.Products
             bool isPublished,
             bool isStatic,
             bool isHidden,
+            TimeSpan? paymentExpireIn,
             [CanBeNull] string mediaResources,
             int displayOrder
         ) : base(id)
@@ -70,6 +73,7 @@ namespace EasyAbp.EShop.Products.Products
             IsPublished = isPublished;
             IsStatic = isStatic;
             IsHidden = isHidden;
+            PaymentExpireIn = paymentExpireIn;
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
             
