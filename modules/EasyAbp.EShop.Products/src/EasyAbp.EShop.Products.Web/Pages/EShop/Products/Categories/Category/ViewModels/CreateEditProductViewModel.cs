@@ -20,5 +20,8 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Categories.Category.Vi
 
         [Display(Name = "CategoryMediaResources")]
         public string MediaResources { get; set; }
+
+        [Display(Name = "CategoryIsHidden")]
+        public bool IsHidden { get; set; }
     }
 }

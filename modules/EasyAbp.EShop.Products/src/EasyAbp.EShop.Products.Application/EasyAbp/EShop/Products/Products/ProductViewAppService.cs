@@ -20,18 +20,18 @@ namespace EasyAbp.EShop.Products.Products
 
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IDistributedCache<ProductViewCacheItem> _cache;
-        private readonly IProductAppService _productAppService;
+        private readonly IProductRepository _productRepository;
         private readonly IProductViewRepository _repository;
         
         public ProductViewAppService(
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
             IDistributedCache<ProductViewCacheItem> cache,
-            IProductAppService productAppService,
+            IProductRepository productRepository,
             IProductViewRepository repository) : base(repository)
         {
             _productViewCacheKeyProvider = productViewCacheKeyProvider;
             _cache = cache;
-            _productAppService = productAppService;
+            _productRepository = productRepository;
             _repository = repository;
         }
         
@@ -96,18 +96,15 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task BuildStoreProductViewsAsync(Guid storeId)
         {
-            var resultDto = await _productAppService.GetListAsync(new GetProductListInput
-            {
-                StoreId = storeId
-            });
+            var products = await _productRepository.GetListAsync(x => x.StoreId == storeId);
 
             using var uow = UnitOfWorkManager.Begin(true, true);
 
             await _repository.DeleteAsync(x => x.StoreId == storeId, true);
 
-            foreach (var product in resultDto.Items)
+            foreach (var product in products)
             {
-                await _repository.InsertAsync(ObjectMapper.Map<ProductDto, ProductView>(product));
+                await _repository.InsertAsync(ObjectMapper.Map<Product, ProductView>(product));
             }
 
             await uow.CompleteAsync();

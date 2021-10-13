@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Settings;
 
 namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 {
@@ -62,6 +63,12 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
             {
                 Product.CategoryIds = new List<Guid>(new[] { categoryId.Value });
             }
+
+            var paymentExpireInString =
+                await SettingProvider.GetOrNullAsync(ProductsConsts.DefaultPaymentExpireInSettingName);
+
+            Product.PaymentExpireIn =
+                !paymentExpireInString.IsNullOrEmpty() ? TimeSpan.Parse(paymentExpireInString) : null;
         }
 
         public virtual async Task<IActionResult> OnPostAsync()

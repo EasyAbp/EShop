@@ -234,11 +234,11 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
-        public virtual async Task<ProductDto> GetByCodeAsync(Guid storeId, string code)
+        public virtual async Task<ProductDto> GetByUniqueNameAsync(Guid storeId, string uniqueName)
         {
             await CheckGetPolicyAsync();
 
-            var product = await _repository.GetAsync(x => x.UniqueName == code);
+            var product = await _repository.GetAsync(x => x.UniqueName == uniqueName);
 
             if (!product.IsPublished)
             {

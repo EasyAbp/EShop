@@ -8,11 +8,18 @@
          * public const string MySettingName = GroupName + ".MySettingName";
          */
 
-        public class ProductView
+        public static class ProductView
         {
             private const string ProductViewGroupName = GroupName + ".GroupName"; 
             
             public const string CacheDurationSeconds = ProductViewGroupName + ".CacheDuration";
+        }
+        
+        public static class Product
+        {
+            private const string ProductGroupName = GroupName + ".Product";
+
+            public const string DefaultPaymentExpireIn = ProductGroupName + ".DefaultPaymentExpireIn";
         }
     }
 }

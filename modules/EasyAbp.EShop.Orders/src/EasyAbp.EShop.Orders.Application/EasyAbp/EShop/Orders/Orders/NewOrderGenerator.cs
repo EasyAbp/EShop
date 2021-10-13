@@ -10,11 +10,13 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectExtending;
+using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     public class NewOrderGenerator : INewOrderGenerator, ITransientDependency
     {
+        private readonly IClock _clock;
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
         private readonly IServiceProvider _serviceProvider;
@@ -22,12 +24,14 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
 
         public NewOrderGenerator(
+            IClock clock,
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
             IServiceProvider serviceProvider,
             IOrderNumberGenerator orderNumberGenerator,
             IProductSkuDescriptionProvider productSkuDescriptionProvider)
         {
+            _clock = clock;
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
             _serviceProvider = serviceProvider;
@@ -53,6 +57,8 @@ namespace EasyAbp.EShop.Orders.Orders
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
+            
+            var paymentExpireIn = orderLines.Select(x => productDict[x.ProductId].GetSkuPaymentExpireIn(x.ProductSkuId)).Min();
 
             var totalPrice = productTotalPrice;
             var totalDiscount = orderLines.Select(x => x.TotalDiscount).Sum();
@@ -67,7 +73,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 totalDiscount: totalDiscount,
                 totalPrice: totalPrice,
                 actualTotalPrice: totalPrice - totalDiscount,
-                customerRemark: input.CustomerRemark);
+                customerRemark: input.CustomerRemark,
+                paymentExpiration: paymentExpireIn.HasValue ? _clock.Now.Add(paymentExpireIn.Value) : null
+            );
 
             input.MapExtraPropertiesTo(order, MappingPropertyDefinitionChecks.Destination);
 

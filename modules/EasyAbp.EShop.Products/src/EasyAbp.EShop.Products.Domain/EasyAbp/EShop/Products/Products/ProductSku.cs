@@ -25,6 +25,8 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual int OrderMaxQuantity { get; protected set; }
         
+        public virtual TimeSpan? PaymentExpireIn { get; protected set; }
+
         [CanBeNull]
         public virtual string MediaResources { get; protected set; }
 
@@ -47,6 +49,7 @@ namespace EasyAbp.EShop.Products.Products
             decimal price,
             int orderMinQuantity,
             int orderMaxQuantity,
+            TimeSpan? paymentExpireIn,
             [CanBeNull] string mediaResources,
             Guid? productDetailId) : base(id)
         {
@@ -57,6 +60,7 @@ namespace EasyAbp.EShop.Products.Products
             Price = price;
             OrderMinQuantity = orderMinQuantity;
             OrderMaxQuantity = orderMaxQuantity;
+            PaymentExpireIn = paymentExpireIn;
             MediaResources = mediaResources;
             ProductDetailId = productDetailId;
             

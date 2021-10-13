@@ -7,7 +7,7 @@ namespace EShopSample.DbMigrator
 {
     [DependsOn(
         typeof(AbpAutofacModule),
-        typeof(EShopSampleEntityFrameworkCoreDbMigrationsModule),
+        typeof(EShopSampleEntityFrameworkCoreModule),
         typeof(EShopSampleApplicationContractsModule)
         )]
     public class EShopSampleDbMigratorModule : AbpModule

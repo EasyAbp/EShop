@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EShopSample.EntityFrameworkCore.DbMigrations\EShopSample.EntityFrameworkCore.DbMigrations.csproj" />
+    <ProjectReference Include="..\..\src\EShopSample.EntityFrameworkCore\EShopSample.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopSample.TestBase\EShopSample.TestBase.csproj" />
   </ItemGroup>
 

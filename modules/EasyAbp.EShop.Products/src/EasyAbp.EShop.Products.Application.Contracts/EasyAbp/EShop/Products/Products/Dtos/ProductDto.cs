@@ -32,6 +32,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public bool IsHidden { get; set; }
         
+        public TimeSpan? PaymentExpireIn { get; set; }
+
         public long Sold { get; set; }
         
         public decimal? MinimumPrice { get; set; }
@@ -50,6 +52,13 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public ProductSkuDto FindSkuById(Guid skuId)
         {
             return ProductSkus.FirstOrDefault(x => x.Id == skuId);
+        }
+
+        public TimeSpan? GetSkuPaymentExpireIn(Guid skuId)
+        {
+            var sku = GetSkuById(skuId);
+
+            return sku.PaymentExpireIn ?? PaymentExpireIn;
         }
     }
 }
