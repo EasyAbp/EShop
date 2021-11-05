@@ -51,9 +51,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(
                     new OrderRefundedEto(_objectMapper.Map<Order, OrderEto>(order), eventData.Refund))
                 );
-
-                await uow.CompleteAsync();
             }
+            
+            await uow.CompleteAsync();
         }
     }
 }
