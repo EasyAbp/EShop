@@ -44,5 +44,7 @@ namespace EasyAbp.EShop.Orders.Orders
         DateTime? ReducedInventoryAfterPlacingTime { get; }
         
         DateTime? ReducedInventoryAfterPaymentTime { get; }
+        
+        DateTime? PaymentExpiration { get; }
     }
 }
