@@ -2,6 +2,7 @@
 using EasyAbp.EShop.Products.ProductDetails;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
+using Volo.Abp.EventBus;
 using Volo.Abp.Guids;
 using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
@@ -9,7 +10,10 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.ProductDetailHistories
 {
-    public class ProductDetailHistoryRecorder : IProductDetailHistoryRecorder, ITransientDependency
+    public class ProductDetailHistoryRecorder :
+        IProductDetailHistoryRecorder,
+        ILocalEventHandler<EntityChangedEventData<ProductDetail>>,
+        ITransientDependency
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;

@@ -1,10 +1,10 @@
 ﻿<Project>
   <PropertyGroup>
 
-    <AbpVersion>4.4.0</AbpVersion>
-    <EasyAbpAbpTreesModuleVersion>2.4.0</EasyAbpAbpTreesModuleVersion>
-    <EasyAbpPaymentServiceModuleVersion>1.10.3</EasyAbpPaymentServiceModuleVersion>
-    <EasyAbpAbpTagHelperPlusModuleVersion>0.7.1</EasyAbpAbpTagHelperPlusModuleVersion>
+    <AbpVersion>5.0.1</AbpVersion>
+    <EasyAbpAbpTreesModuleVersion>2.5.1</EasyAbpAbpTreesModuleVersion>
+    <EasyAbpPaymentServiceModuleVersion>2.0.1</EasyAbpPaymentServiceModuleVersion>
+    <EasyAbpAbpTagHelperPlusModuleVersion>0.8.1</EasyAbpAbpTagHelperPlusModuleVersion>
 
   </PropertyGroup>
 </Project>

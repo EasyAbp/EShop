@@ -37,10 +37,13 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 
         protected override async Task<IQueryable<Coupon>> CreateFilteredQueryAsync(GetCouponListInput input)
         {
-            return (input.AvailableOnly ? _repository.GetAvailableCouponQueryable(Clock) : _repository.AsQueryable())
+            return (input.AvailableOnly
+                    ? _repository.GetAvailableCouponQueryable(Clock)
+                    : await _repository.GetQueryableAsync())
                 .WhereIf(input.UserId.HasValue, x => x.UserId == input.UserId.Value)
                 .WhereIf(!input.AvailableOnly && !input.IncludesUsed, x => !x.UsedTime.HasValue)
-                .WhereIf(!input.AvailableOnly && !input.IncludesExpired, x => !x.ExpirationTime.HasValue || x.ExpirationTime.Value > Clock.Now);
+                .WhereIf(!input.AvailableOnly && !input.IncludesExpired,
+                    x => !x.ExpirationTime.HasValue || x.ExpirationTime.Value > Clock.Now);
         }
 
         protected virtual CouponDto FillCouponTemplateData(CouponDto couponDto, CouponTemplate couponTemplate)

@@ -2,6 +2,7 @@
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EasyAbp.EShop.Plugins.Coupons
 {
@@ -12,7 +13,7 @@ namespace EasyAbp.EShop.Plugins.Coupons
     )]
     public class EShopPluginsCouponsHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "EasyAbpEShopPluginsCoupons";
+        public const string RemoteServiceName = EShopPluginsCouponsRemoteServiceConsts.RemoteServiceName;
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
@@ -26,6 +27,11 @@ namespace EasyAbp.EShop.Plugins.Coupons
                 typeof(EShopPluginsCouponsApplicationContractsModule).Assembly,
                 RemoteServiceName
             );
+            
+            Configure<AbpVirtualFileSystemOptions>(options =>
+            {
+                options.FileSets.AddEmbedded<EShopPluginsCouponsApplicationContractsModule>();
+            });
         }
     }
 }

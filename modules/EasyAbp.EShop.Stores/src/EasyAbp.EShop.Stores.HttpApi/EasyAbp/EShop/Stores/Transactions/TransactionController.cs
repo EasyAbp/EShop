@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.Transactions
 {
-    [RemoteService(Name = "EasyAbpEShopStores")]
+    [RemoteService(Name = EShopStoresRemoteServiceConsts.RemoteServiceName)]
     [Route("/api/e-shop/stores/transaction")]
     public class TransactionController : StoresController, ITransactionAppService
     {

@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\..\..\common.props" />
-
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>EasyAbp.EShop.Stores</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Stores.Application\EasyAbp.EShop.Stores.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Stores.Domain.Tests\EasyAbp.EShop.Stores.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
   </ItemGroup>
 
 </Project>

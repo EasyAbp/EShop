@@ -1,9 +1,11 @@
 ﻿using EasyAbp.EShop.Plugins.Baskets.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Plugins.Baskets
 {
-    public abstract class BasketsController : AbpController
+    [Area(EShopPluginsBasketsRemoteServiceConsts.ModuleName)]
+    public abstract class BasketsController : AbpControllerBase
     {
         protected BasketsController()
         {

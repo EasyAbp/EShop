@@ -3,7 +3,7 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
@@ -22,11 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EasyAbp.EShop.HttpApi\EasyAbp.EShop.HttpApi.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Application.Contracts\EasyAbp.EShop.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.*" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.*" />
   </ItemGroup>
   
   <ItemGroup>

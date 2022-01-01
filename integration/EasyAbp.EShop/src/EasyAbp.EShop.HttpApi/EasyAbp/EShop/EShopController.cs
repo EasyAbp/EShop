@@ -1,9 +1,11 @@
 ﻿using EasyAbp.EShop.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop
 {
-    public abstract class EShopController : AbpController
+    [Area(EShopRemoteServiceConsts.ModuleName)]
+    public abstract class EShopController : AbpControllerBase
     {
         protected EShopController()
         {

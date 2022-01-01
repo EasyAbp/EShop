@@ -6,6 +6,7 @@ using EasyAbp.EShop.Products.Options.ProductGroups;
 using EasyAbp.EShop.Products.ProductCategories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -31,6 +32,7 @@ namespace EasyAbp.EShop.Products.Products
             _productGroupConfigurationProvider = productGroupConfigurationProvider;
         }
 
+        [UnitOfWork(true)]
         public virtual async Task<Product> CreateAsync(Product product, IEnumerable<Guid> categoryIds = null)
         {
             product.TrimUniqueName();
@@ -58,6 +60,7 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
+        [UnitOfWork(true)]
         public virtual async Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null)
         {
             await CheckProductGroupNameAsync(product);
@@ -73,6 +76,7 @@ namespace EasyAbp.EShop.Products.Products
             return product;
         }
 
+        [UnitOfWork(true)]
         public virtual async Task DeleteAsync(Product product)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(product.Id));
@@ -80,6 +84,7 @@ namespace EasyAbp.EShop.Products.Products
             await _productRepository.DeleteAsync(product, true);
         }
         
+        [UnitOfWork(true)]
         public virtual async Task DeleteAsync(Guid id)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(id));
@@ -87,6 +92,7 @@ namespace EasyAbp.EShop.Products.Products
             await _productRepository.DeleteAsync(id, true);
         }
 
+        [UnitOfWork]
         public virtual async Task<Product> CreateSkuAsync(Product product, ProductSku productSku)
         {
             // productSku.SetSerializedAttributeOptionIds(await _attributeOptionIdsSerializer.FormatAsync(productSku.SerializedAttributeOptionIds));
@@ -129,6 +135,7 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
+        [UnitOfWork]
         public virtual async Task<Product> UpdateSkuAsync(Product product, ProductSku productSku)
         {
             await CheckProductSkuNameUniqueAsync(product, productSku);
@@ -136,6 +143,7 @@ namespace EasyAbp.EShop.Products.Products
             return await _productRepository.UpdateAsync(product, true);
         }
 
+        [UnitOfWork]
         public virtual async Task<Product> DeleteSkuAsync(Product product, ProductSku productSku)
         {
             product.ProductSkus.Remove(productSku);
@@ -143,11 +151,13 @@ namespace EasyAbp.EShop.Products.Products
             return await _productRepository.UpdateAsync(product, true);
         }
 
+        [UnitOfWork]
         protected virtual async Task CheckProductUniqueNameAsync(Product product)
         {
             await _productRepository.CheckUniqueNameAsync(product);
         }
         
+        [UnitOfWork]
         protected virtual async Task CheckProductDetailAvailableAsync(Guid currentProductId, Guid desiredProductDetailId)
         {
             var otherOwner = await _productRepository.FindAsync(x =>
@@ -161,6 +171,7 @@ namespace EasyAbp.EShop.Products.Products
             }
         }
         
+        [UnitOfWork(true)]
         protected virtual async Task UpdateProductCategoriesAsync(Guid productId, IEnumerable<Guid> categoryIds)
         {
             await _productCategoryRepository.DeleteAsync(x => x.ProductId.Equals(productId));
@@ -199,13 +210,14 @@ namespace EasyAbp.EShop.Products.Products
             return await _productInventoryProvider.TryReduceInventoryAsync(product, productSku, quantity, increaseSold);
         }
 
+        [UnitOfWork]
         public virtual async Task<PriceDataModel> GetProductPriceAsync(Product product, ProductSku productSku)
         {
             var price = await _productPriceProvider.GetPriceAsync(product, productSku);
 
             var discountedPrice = price;
             
-            foreach (var provider in ServiceProvider.GetServices<IProductDiscountProvider>())
+            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IProductDiscountProvider>>())
             {
                 discountedPrice = await provider.GetDiscountedPriceAsync(product, productSku, discountedPrice);
             }

@@ -13,7 +13,7 @@ using EasyAbp.EShop.Plugins.Coupons.Permissions;
 namespace EasyAbp.EShop.Plugins.Coupons.Web
 {
     [DependsOn(
-        typeof(EShopPluginsCouponsHttpApiModule),
+        typeof(EShopPluginsCouponsApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
         )]

@@ -64,7 +64,7 @@ namespace EasyAbp.EShop.Products.Categories
         {
             await CheckGetListPolicyAsync();
             
-            var query = _repository.AsQueryable();
+            var query = await _repository.GetQueryableAsync();
             
             var totalCount = await AsyncExecuter.CountAsync(query);
 

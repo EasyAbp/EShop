@@ -106,7 +106,7 @@ namespace EasyAbp.EShop.Orders.Orders
         
         protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, ProductDto> productDict)
         {
-            foreach (var provider in ServiceProvider.GetServices<IOrderDiscountProvider>())
+            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IOrderDiscountProvider>>())
             {
                 await provider.DiscountAsync(order, productDict);
             }

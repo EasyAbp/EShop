@@ -5,7 +5,7 @@ namespace EShopSample.Controllers
 {
     /* Inherit your controllers from this class.
      */
-    public abstract class EShopSampleController : AbpController
+    public abstract class EShopSampleController : AbpControllerBase
     {
         protected EShopSampleController()
         {

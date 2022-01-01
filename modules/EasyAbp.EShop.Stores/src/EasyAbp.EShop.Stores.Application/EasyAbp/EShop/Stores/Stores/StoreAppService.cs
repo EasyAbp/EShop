@@ -33,7 +33,7 @@ namespace EasyAbp.EShop.Stores.Stores
         {
             if (!input.OnlyManageable || await _permissionChecker.IsGrantedAsync(StoresPermissions.Stores.CrossStore))
             {
-                return _repository.AsQueryable();
+                return await _repository.GetQueryableAsync();
             }
 
             return await _repository.GetQueryableOnlyOwnStoreAsync(CurrentUser.GetId());

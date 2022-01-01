@@ -3,8 +3,8 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Plugins</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>

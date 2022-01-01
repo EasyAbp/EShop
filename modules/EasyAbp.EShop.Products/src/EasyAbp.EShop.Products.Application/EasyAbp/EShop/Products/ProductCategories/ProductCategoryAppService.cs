@@ -22,7 +22,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
 
         protected override async Task<IQueryable<ProductCategory>> CreateFilteredQueryAsync(GetProductCategoryListDto input)
         {
-            var queryable = Repository.AsQueryable();
+            var queryable = await Repository.GetQueryableAsync();
             
             if (input.CategoryId.HasValue)
             {

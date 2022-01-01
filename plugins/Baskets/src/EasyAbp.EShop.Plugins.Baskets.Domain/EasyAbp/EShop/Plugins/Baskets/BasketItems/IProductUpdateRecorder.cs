@@ -5,9 +5,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public interface IProductUpdateRecorder :
-        IDistributedEventHandler<EntityUpdatedEto<ProductEto>>,
-        IDistributedEventHandler<ProductInventoryChangedEto>
+    public interface IProductUpdateRecorder
     {
         
     }

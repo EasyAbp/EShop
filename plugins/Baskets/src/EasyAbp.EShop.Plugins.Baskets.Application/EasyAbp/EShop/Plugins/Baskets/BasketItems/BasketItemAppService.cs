@@ -174,7 +174,8 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         {
             var userId = input.UserId ?? CurrentUser.GetId();
             
-            return ReadOnlyRepository.Where(item => item.UserId == userId && item.BasketName == input.BasketName);
+            return (await ReadOnlyRepository.GetQueryableAsync())
+                .Where(item => item.UserId == userId && item.BasketName == input.BasketName);
         }
 
         public override async Task<BasketItemDto> CreateAsync(CreateBasketItemDto input)

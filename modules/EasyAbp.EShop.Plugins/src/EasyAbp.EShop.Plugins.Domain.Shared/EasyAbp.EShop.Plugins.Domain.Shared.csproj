@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Plugins</RootNamespace>
+    <RootNamespace />
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
@@ -13,12 +13,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\cs.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\en.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\pl.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\pt-BR.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\sl.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\tr.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\vi.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\zh-Hans.json" />
+    <EmbeddedResource Include="EasyAbp\EShop\Plugins\Localization\Plugins\zh-Hant.json" />
     <EmbeddedResource Include="Localization\Plugins\*.json" />
     <Content Remove="Localization\Plugins\*.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.*" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.*" />
   </ItemGroup>
 
 </Project>

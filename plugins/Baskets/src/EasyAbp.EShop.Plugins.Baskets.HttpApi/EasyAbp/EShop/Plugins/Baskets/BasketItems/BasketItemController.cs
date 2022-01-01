@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    [RemoteService(Name = "EasyAbpEShopPluginsBaskets")]
+    [RemoteService(Name = EShopPluginsBasketsRemoteServiceConsts.RemoteServiceName)]
     [Route("/api/e-shop/plugins/baskets/basket-item")]
     public class BasketItemController : BasketsController, IBasketItemAppService
     {

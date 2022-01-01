@@ -8,7 +8,10 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
 {
-    public class StoreOwnerCacheItemInvalidator : ILocalEventHandler<EntityChangedEventData<StoreOwner>>, ITransientDependency
+    // Todo: should use distributed event.
+    public class StoreOwnerCacheItemInvalidator :
+        ILocalEventHandler<EntityChangedEventData<StoreOwner>>,
+        ITransientDependency
     {
         protected ICurrentTenant CurrentTenant { get; }
 

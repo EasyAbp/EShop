@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -30,6 +31,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _orderRepository = orderRepository;
         }
 
+        [UnitOfWork]
         public virtual async Task<Order> CompleteAsync(Order order)
         {
             if (order.CompletionTime.HasValue || !order.ReducedInventoryAfterPaymentTime.HasValue)
@@ -37,10 +39,8 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw new OrderIsInWrongStageException(order.Id);
             }
             
-            var providers = ServiceProvider.GetServices<IOrderCompletableCheckProvider>();
+            var providers = LazyServiceProvider.LazyGetService<IEnumerable<IOrderCompletableCheckProvider>>();
 
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             foreach (var provider in providers)
             {
                 await provider.CheckAsync(order);
@@ -49,17 +49,15 @@ namespace EasyAbp.EShop.Orders.Orders
             order.SetCompletionTime(_clock.Now);
             order.SetOrderStatus(OrderStatus.Completed);
 
-            uow.OnCompleted(async () =>
-                await _distributedEventBus.PublishAsync(
-                    new OrderCompletedEto(_objectMapper.Map<Order, OrderEto>(order))));
-
             await _orderRepository.UpdateAsync(order, true);
 
-            await uow.CompleteAsync();
-            
+            await _distributedEventBus.PublishAsync(new OrderCompletedEto(_objectMapper.Map<Order, OrderEto>(order)));
+
             return order;
         }
 
+        // Todo: should handler the inventory rollback.
+        [UnitOfWork]
         public virtual async Task<Order> CancelAsync(Order order, string cancellationReason)
         {
             if (order.CanceledTime.HasValue)
@@ -72,18 +70,12 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw new OrderIsInWrongStageException(order.Id);
             }
 
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             order.SetCanceled(_clock.Now, cancellationReason);
             order.SetOrderStatus(OrderStatus.Canceled);
-
-            uow.OnCompleted(async () =>
-                await _distributedEventBus.PublishAsync(
-                    new OrderCanceledEto(_objectMapper.Map<Order, OrderEto>(order))));
-
+            
             await _orderRepository.UpdateAsync(order, true);
-
-            await uow.CompleteAsync();
+            
+            await _distributedEventBus.PublishAsync(new OrderCanceledEto(_objectMapper.Map<Order, OrderEto>(order)));
 
             return order;
         }

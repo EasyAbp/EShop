@@ -11,6 +11,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EShopSample
 {
@@ -38,6 +39,11 @@ namespace EShopSample
                 typeof(EShopSampleApplicationContractsModule).Assembly,
                 RemoteServiceName
             );
+            
+            Configure<AbpVirtualFileSystemOptions>(options =>
+            {
+                options.FileSets.AddEmbedded<EShopSampleApplicationContractsModule>();
+            });
         }
     }
 }

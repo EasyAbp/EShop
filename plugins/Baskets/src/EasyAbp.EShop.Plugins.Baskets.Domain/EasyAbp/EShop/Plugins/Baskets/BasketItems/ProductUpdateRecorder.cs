@@ -6,13 +6,18 @@ using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.Products;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
+using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public class ProductUpdateRecorder : IProductUpdateRecorder, ITransientDependency
+    public class ProductUpdateRecorder :
+        IProductUpdateRecorder,
+        IDistributedEventHandler<EntityUpdatedEto<ProductEto>>,
+        IDistributedEventHandler<ProductInventoryChangedEto>,
+        ITransientDependency
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
@@ -43,6 +48,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             await UpdateAsync(eventData.ProductSkuId);
         }
         
+        [UnitOfWork(true)]
         protected virtual async Task UpdateAsync(Guid skuId)
         {
             var entity = await _productUpdateRepository.FindAsync(x => x.ProductSkuId == skuId);

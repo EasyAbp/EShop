@@ -13,7 +13,7 @@ using EasyAbp.EShop.Plugins.Baskets.Permissions;
 namespace EasyAbp.EShop.Plugins.Baskets.Web
 {
     [DependsOn(
-        typeof(EShopPluginsBasketsHttpApiModule),
+        typeof(EShopPluginsBasketsApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
         )]

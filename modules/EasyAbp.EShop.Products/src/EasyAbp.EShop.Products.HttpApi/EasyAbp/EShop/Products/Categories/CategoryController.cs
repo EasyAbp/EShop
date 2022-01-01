@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Categories
 {
-    [RemoteService(Name = "EasyAbpEShopProducts")]
+    [RemoteService(Name = EShopProductsRemoteServiceConsts.RemoteServiceName)]
     [Route(ProductsConsts.CategoryRouteBase)]
     public class CategoryController : ProductsController, ICategoryAppService
     {

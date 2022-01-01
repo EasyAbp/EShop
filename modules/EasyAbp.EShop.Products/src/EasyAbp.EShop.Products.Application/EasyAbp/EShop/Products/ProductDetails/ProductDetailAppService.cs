@@ -32,7 +32,8 @@ namespace EasyAbp.EShop.Products.ProductDetails
 
         protected override async Task<IQueryable<ProductDetail>> CreateFilteredQueryAsync(GetProductDetailListInput input)
         {
-            return _repository.WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value);
+            return (await _repository.GetQueryableAsync())
+                .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value);
         }
 
         public override async Task<PagedResultDto<ProductDetailDto>> GetListAsync(GetProductDetailListInput input)

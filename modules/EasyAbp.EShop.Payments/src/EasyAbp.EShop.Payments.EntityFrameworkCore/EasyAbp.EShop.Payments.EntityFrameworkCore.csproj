@@ -3,17 +3,13 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
     <ProjectReference Include="..\EasyAbp.EShop.Payments.Domain\EasyAbp.EShop.Payments.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EasyAbp\EShop\Payments" />
   </ItemGroup>
 
 </Project>

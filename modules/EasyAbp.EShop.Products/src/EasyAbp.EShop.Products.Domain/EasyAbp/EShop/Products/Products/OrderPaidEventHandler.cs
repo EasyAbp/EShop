@@ -31,10 +31,9 @@ namespace EasyAbp.EShop.Products.Products
             _productManager = productManager;
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(OrderPaidEto eventData)
         {
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             using var changeTenant = _currentTenant.Change(eventData.Order.TenantId);
 
             var models = new List<ConsumeInventoryModel>();
@@ -48,7 +47,7 @@ namespace EasyAbp.EShop.Products.Products
 
                 if (productSku == null)
                 {
-                    await PublishResultEventAsync(eventData, false);
+                    await PublishInventoryReductionResultEventAsync(eventData, false);
                     
                     return;
                 }
@@ -60,7 +59,7 @@ namespace EasyAbp.EShop.Products.Products
 
                 if (!await _productManager.IsInventorySufficientAsync(product, productSku, orderLine.Quantity))
                 {
-                    await PublishResultEventAsync(eventData, false);
+                    await PublishInventoryReductionResultEventAsync(eventData, false);
                     
                     return;
                 }
@@ -81,19 +80,17 @@ namespace EasyAbp.EShop.Products.Products
                     continue;
                 }
 
-                await uow.RollbackAsync();
+                await _unitOfWorkManager.Current.RollbackAsync();
                 
-                await PublishResultEventAsync(eventData, false);
+                await PublishInventoryReductionResultEventAsync(eventData, false, true);
                 
                 return;
             }
 
-            await uow.CompleteAsync();
-            
-            await PublishResultEventAsync(eventData, true);
+            await PublishInventoryReductionResultEventAsync(eventData, true);
         }
 
-        protected virtual async Task PublishResultEventAsync(OrderPaidEto orderPaidEto, bool isSuccess)
+        protected virtual async Task PublishInventoryReductionResultEventAsync(OrderPaidEto orderPaidEto, bool isSuccess, bool publishNow = false)
         {
             await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPaidResultEto
             {
@@ -102,7 +99,7 @@ namespace EasyAbp.EShop.Products.Products
                 PaymentId = orderPaidEto.PaymentId,
                 PaymentItemId = orderPaidEto.PaymentItemId,
                 IsSuccess = isSuccess
-            });
+            }, !publishNow, !publishNow);
         }
     }
 }

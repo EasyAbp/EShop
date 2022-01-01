@@ -13,32 +13,29 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IObjectMapper _objectMapper;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderRepository _orderRepository;
 
         public RefundCompletedEventHandler(
             ICurrentTenant currentTenant,
             IObjectMapper objectMapper,
-            IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
             IOrderRepository orderRepository)
         {
             _currentTenant = currentTenant;
             _objectMapper = objectMapper;
-            _unitOfWorkManager = unitOfWorkManager;
             _distributedEventBus = distributedEventBus;
             _orderRepository = orderRepository;
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EShopRefundCompletedEto eventData)
         {
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             using var changeTenant = _currentTenant.Change(eventData.Refund.TenantId);
 
             foreach (var refundItem in eventData.Refund.RefundItems)
             {
+                // Todo: what if Order.PaymentId != eventData.Refund.PaymentId?
                 var order = await _orderRepository.GetAsync(refundItem.OrderId);
 
                 foreach (var eto in refundItem.RefundItemOrderLines)
@@ -48,12 +45,9 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 await _orderRepository.UpdateAsync(order, true);
 
-                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(
-                    new OrderRefundedEto(_objectMapper.Map<Order, OrderEto>(order), eventData.Refund))
-                );
+                await _distributedEventBus.PublishAsync(
+                    new OrderRefundedEto(_objectMapper.Map<Order, OrderEto>(order), eventData.Refund));
             }
-            
-            await uow.CompleteAsync();
         }
     }
 }

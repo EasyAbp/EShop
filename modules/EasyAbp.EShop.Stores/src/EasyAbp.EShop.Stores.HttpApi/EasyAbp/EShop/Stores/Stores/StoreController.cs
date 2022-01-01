@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Stores.Stores
 {
-    [RemoteService(Name = "EasyAbpEShopStores")]
+    [RemoteService(Name = EShopStoresRemoteServiceConsts.RemoteServiceName)]
     [Route(StoresConsts.StoreRouteBase)]
     public class StoreController : StoresController, IStoreAppService
     {

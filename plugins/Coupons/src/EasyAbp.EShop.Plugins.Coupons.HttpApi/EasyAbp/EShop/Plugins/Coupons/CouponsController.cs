@@ -1,9 +1,11 @@
 ﻿using EasyAbp.EShop.Plugins.Coupons.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Plugins.Coupons
 {
-    public abstract class CouponsController : AbpController
+    [Area(EShopPluginsCouponsRemoteServiceConsts.ModuleName)]
+    public abstract class CouponsController : AbpControllerBase
     {
         protected CouponsController()
         {

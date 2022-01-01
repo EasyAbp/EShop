@@ -10,7 +10,7 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class OrderCreatedEventHandler : IOrderCreatedEventHandler, ITransientDependency
+    public class OrderCreatedEventHandler : IDistributedEventHandler<EntityCreatedEto<OrderEto>>, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
@@ -32,10 +32,9 @@ namespace EasyAbp.EShop.Products.Products
             _productManager = productManager;
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
         {
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
             var models = new List<ConsumeInventoryModel>();
@@ -49,7 +48,7 @@ namespace EasyAbp.EShop.Products.Products
 
                 if (productSku == null)
                 {
-                    await PublishResultEventAsync(eventData, false);
+                    await PublishInventoryReductionResultEventAsync(eventData, false);
                     
                     return;
                 }
@@ -61,7 +60,7 @@ namespace EasyAbp.EShop.Products.Products
 
                 if (!await _productManager.IsInventorySufficientAsync(product, productSku, orderLine.Quantity))
                 {
-                    await PublishResultEventAsync(eventData, false);
+                    await PublishInventoryReductionResultEventAsync(eventData, false);
                     
                     return;
                 }
@@ -82,26 +81,25 @@ namespace EasyAbp.EShop.Products.Products
                     continue;
                 }
 
-                await uow.RollbackAsync();
+                // Todo: should release unused inventory since (external) inventory providers may not be transactional.
+                await _unitOfWorkManager.Current.RollbackAsync();
                 
-                await PublishResultEventAsync(eventData, false);
+                await PublishInventoryReductionResultEventAsync(eventData, false, true);
                 
                 return;
             }
 
-            await uow.CompleteAsync();
-            
-            await PublishResultEventAsync(eventData, true);
+            await PublishInventoryReductionResultEventAsync(eventData, true);
         }
         
-        protected virtual async Task PublishResultEventAsync(EntityCreatedEto<OrderEto> orderCreatedEto, bool isSuccess)
+        protected virtual async Task PublishInventoryReductionResultEventAsync(EntityCreatedEto<OrderEto> orderCreatedEto, bool isSuccess, bool publishNow = false)
         {
             await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPlacedResultEto
             {
                 TenantId = orderCreatedEto.Entity.TenantId,
                 OrderId = orderCreatedEto.Entity.Id,
                 IsSuccess = isSuccess
-            });
+            }, !publishNow, !publishNow);
         }
     }
 }

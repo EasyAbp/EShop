@@ -3,13 +3,17 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>EasyAbp.EShop.Plugins</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Domain\EasyAbp.EShop.Plugins.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EasyAbp\EShop\Plugins" />
   </ItemGroup>
 
 </Project>

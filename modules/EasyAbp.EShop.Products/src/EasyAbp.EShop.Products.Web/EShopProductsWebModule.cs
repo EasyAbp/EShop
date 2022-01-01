@@ -13,7 +13,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Products.Web
 {
     [DependsOn(
-        typeof(EShopProductsHttpApiModule),
+        typeof(EShopProductsApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule),
         typeof(AbpTagHelperPlusModule)

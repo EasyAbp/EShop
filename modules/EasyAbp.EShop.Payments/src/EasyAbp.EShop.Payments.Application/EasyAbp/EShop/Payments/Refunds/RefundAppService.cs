@@ -65,7 +65,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             return input.UserId.HasValue
                 ? await _repository.GetQueryableByUserIdAsync(input.UserId.Value)
-                : _repository;
+                : await _repository.GetQueryableAsync();
         }
 
         // Todo: should a store owner user see orders of other stores in the same payment/refund?

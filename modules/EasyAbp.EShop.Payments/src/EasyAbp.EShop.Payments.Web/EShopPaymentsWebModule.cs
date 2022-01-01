@@ -12,7 +12,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Payments.Web
 {
     [DependsOn(
-        typeof(EShopPaymentsHttpApiModule),
+        typeof(EShopPaymentsApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
     )]

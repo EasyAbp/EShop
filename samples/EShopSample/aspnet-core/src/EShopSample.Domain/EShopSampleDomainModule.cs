@@ -2,6 +2,7 @@
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.PaymentService;
+using EasyAbp.PaymentService.Options;
 using EasyAbp.PaymentService.Payments;
 using EasyAbp.PaymentService.Prepayment;
 using EasyAbp.PaymentService.Prepayment.Options;
@@ -57,16 +58,18 @@ namespace EShopSample
                 options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
 
+            ConfigurePaymentService();
             ConfigurePaymentServicePrepayment();
         }
-        
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
-        {
-            var resolver = context.ServiceProvider.GetService<IPaymentServiceResolver>();
 
-            resolver.TryRegisterProvider(FreePaymentServiceProvider.PaymentMethod, typeof(FreePaymentServiceProvider));
-            resolver.TryRegisterProvider(WeChatPayPaymentServiceProvider.PaymentMethod, typeof(WeChatPayPaymentServiceProvider));
-            resolver.TryRegisterProvider(PrepaymentPaymentServiceProvider.PaymentMethod, typeof(PrepaymentPaymentServiceProvider));
+        private void ConfigurePaymentService()
+        {
+            Configure<PaymentServiceOptions>(options =>
+            {
+                options.Providers.Configure<FreePaymentServiceProvider>(FreePaymentServiceProvider.PaymentMethod);
+                options.Providers.Configure<WeChatPayPaymentServiceProvider>(WeChatPayPaymentServiceProvider.PaymentMethod);
+                options.Providers.Configure<PrepaymentPaymentServiceProvider>(PrepaymentPaymentServiceProvider.PaymentMethod);
+            });
         }
         
         private void ConfigurePaymentServicePrepayment()

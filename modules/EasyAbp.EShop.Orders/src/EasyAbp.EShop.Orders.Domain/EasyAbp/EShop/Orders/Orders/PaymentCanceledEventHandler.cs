@@ -33,6 +33,11 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var order = await _orderRepository.GetAsync(Guid.Parse(paymentItem.ItemKey));
 
+                if (order.PaymentId != eventData.Payment.Id)
+                {
+                    continue;
+                }
+                
                 order.SetPaymentId(null);
 
                 await _orderRepository.UpdateAsync(order, true);

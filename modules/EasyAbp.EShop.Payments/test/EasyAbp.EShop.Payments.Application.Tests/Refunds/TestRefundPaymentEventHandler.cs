@@ -3,7 +3,7 @@ using EasyAbp.PaymentService.Payments;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
-namespace EasyAbp.EShop.Payments.Payments
+namespace EasyAbp.EShop.Payments.Refunds
 {
     public class TestRefundPaymentEventHandler : IDistributedEventHandler<RefundPaymentEto>, ISingletonDependency
     {

@@ -1,9 +1,11 @@
 ﻿using EasyAbp.EShop.Payments.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Payments
 {
-    public abstract class PaymentsController : AbpController
+    [Area(EShopPaymentsRemoteServiceConsts.ModuleName)]
+    public abstract class PaymentsController : AbpControllerBase
     {
         protected PaymentsController()
         {

@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    [RemoteService(Name = "EasyAbpEShopProducts")]
+    [RemoteService(Name = EShopProductsRemoteServiceConsts.RemoteServiceName)]
     [Route("/api/e-shop/products/product/view")]
     public class ProductViewController : ProductsController, IProductViewAppService
     {

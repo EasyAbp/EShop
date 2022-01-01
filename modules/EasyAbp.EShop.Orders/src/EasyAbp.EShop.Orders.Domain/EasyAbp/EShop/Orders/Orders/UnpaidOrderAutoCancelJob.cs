@@ -27,7 +27,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _distributedEventBus = distributedEventBus;
         }
         
-        [UnitOfWork]
+        [UnitOfWork(true)]
         public override async Task ExecuteAsync(UnpaidOrderAutoCancelArgs args)
         {
             using var changeTenant = _currentTenant.Change(args.TenantId);
@@ -41,7 +41,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (order.IsInPayment())
             {
-                // Cancel the payment and cancel the order in EasyAbp.EShop.Orders.Orders.PaymentCanceledEventHandler
+                // Cancel the payment and then cancel the order in EasyAbp.EShop.Orders.Orders.PaymentCanceledEventHandler
                 await _distributedEventBus.PublishAsync(new CancelPaymentEto(args.TenantId, order.PaymentId!.Value));
             }
             else

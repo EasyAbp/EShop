@@ -26,4 +26,9 @@
     <PackageReference Include="Volo.Abp.SettingManagement.HttpApi.Client" Version="$(AbpVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="**\*generate-proxy.json" />
+    <Content Remove="**\*generate-proxy.json" />
+  </ItemGroup>
+
 </Project>

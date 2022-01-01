@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    [RemoteService(Name = "EasyAbpEShopOrders")]
+    [RemoteService(Name = EShopOrdersRemoteServiceConsts.RemoteServiceName)]
     [Route("/api/e-shop/orders/order")]
     public class OrderController : OrdersController, IOrderAppService
     {

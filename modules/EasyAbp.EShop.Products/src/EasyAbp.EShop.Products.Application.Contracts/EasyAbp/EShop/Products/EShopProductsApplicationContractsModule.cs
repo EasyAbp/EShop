@@ -3,6 +3,7 @@ using Volo.Abp.Application;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Authorization;
+using Volo.Abp.Json;
 
 namespace EasyAbp.EShop.Products
 {
@@ -10,6 +11,7 @@ namespace EasyAbp.EShop.Products
         typeof(EShopProductsDomainSharedModule),
         typeof(AbpDddApplicationContractsModule),
         typeof(AbpAuthorizationModule),
+        typeof(AbpJsonModule),
         typeof(AbpTreesApplicationContractsModule)
     )]
     public class EShopProductsApplicationContractsModule : AbpModule

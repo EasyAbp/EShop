@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EasyAbp.EShop.Orders
 {
@@ -9,7 +10,7 @@ namespace EasyAbp.EShop.Orders
         typeof(AbpHttpClientModule))]
     public class EShopOrdersHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "EShopOrders";
+        public const string RemoteServiceName = EShopOrdersRemoteServiceConsts.RemoteServiceName;
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
@@ -17,6 +18,11 @@ namespace EasyAbp.EShop.Orders
                 typeof(EShopOrdersApplicationContractsModule).Assembly,
                 RemoteServiceName
             );
+            
+            Configure<AbpVirtualFileSystemOptions>(options =>
+            {
+                options.FileSets.AddEmbedded<EShopOrdersApplicationContractsModule>();
+            });
         }
     }
 }

@@ -17,4 +17,9 @@
     <ProjectReference Include="..\EasyAbp.EShop.Application.Contracts\EasyAbp.EShop.Application.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="**\*generate-proxy.json" />
+    <Content Remove="**\*generate-proxy.json" />
+  </ItemGroup>
+
 </Project>

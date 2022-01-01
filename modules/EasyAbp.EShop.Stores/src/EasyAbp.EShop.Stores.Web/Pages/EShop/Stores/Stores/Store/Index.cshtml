@@ -31,7 +31,7 @@
             <abp-column size-md="_6">
                 <abp-card-title>@L["Store"]</abp-card-title>
             </abp-column>
-            <abp-column size-md="_6" class="text-right">
+            <abp-column size-md="_6" class="text-end">
 			    @if (await Authorization.IsGrantedAsync(StoresPermissions.Stores.Create))
                 { 
                 <abp-button id="NewStoreButton"

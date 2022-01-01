@@ -27,7 +27,6 @@ namespace EasyAbp.EShop.Payments.Refunds
         private readonly ICurrentTenant _currentTenant;
         private readonly IGuidGenerator _guidGenerator;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IRefundRepository _refundRepository;
@@ -37,7 +36,6 @@ namespace EasyAbp.EShop.Payments.Refunds
             ICurrentTenant currentTenant,
             IGuidGenerator guidGenerator,
             IJsonSerializer jsonSerializer,
-            IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
             IPaymentRepository paymentRepository,
             IRefundRepository refundRepository)
@@ -46,16 +44,14 @@ namespace EasyAbp.EShop.Payments.Refunds
             _currentTenant = currentTenant;
             _guidGenerator = guidGenerator;
             _jsonSerializer = jsonSerializer;
-            _unitOfWorkManager = unitOfWorkManager;
             _distributedEventBus = distributedEventBus;
             _paymentRepository = paymentRepository;
             _refundRepository = refundRepository;
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<RefundEto> eventData)
         {
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
             
             var refund = await _refundRepository.FindAsync(eventData.Entity.Id);
@@ -89,19 +85,16 @@ namespace EasyAbp.EShop.Payments.Refunds
             
             if (refund.CompletedTime.HasValue)
             {
-                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new EShopRefundCompletedEto
+                await _distributedEventBus.PublishAsync(new EShopRefundCompletedEto
                 {
                     Refund = _objectMapper.Map<Refund, EShopRefundEto>(refund)
-                }));
+                });
             }
-
-            await uow.CompleteAsync();
         }
         
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityUpdatedEto<RefundEto> eventData)
         {
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
             
             var refund = await _refundRepository.FindAsync(eventData.Entity.Id);
@@ -111,13 +104,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 return;
             }
 
-            if (eventData.Entity.CompletedTime.HasValue && !refund.CompletedTime.HasValue)
-            {
-                uow.OnCompleted(async () => await _distributedEventBus.PublishAsync(new EShopRefundCompletedEto
-                {
-                    Refund = _objectMapper.Map<Refund, EShopRefundEto>(refund)
-                }));
-            }
+            var publishRefundCompleted = eventData.Entity.CompletedTime.HasValue && !refund.CompletedTime.HasValue;
                 
             _objectMapper.Map(eventData.Entity, refund);
 
@@ -148,7 +135,13 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             await _refundRepository.UpdateAsync(refund, true);
 
-            await uow.CompleteAsync();
+            if (publishRefundCompleted)
+            {
+                await _distributedEventBus.PublishAsync(new EShopRefundCompletedEto
+                {
+                    Refund = _objectMapper.Map<Refund, EShopRefundEto>(refund)
+                });
+            }
         }
 
         protected virtual void FillRefundItemOrderLines(Refund refund)

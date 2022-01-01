@@ -8,8 +8,10 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductViewSoldDataUpdater : IDistributedEventHandler<ProductInventoryChangedEto>,
-        IProductViewSoldDataUpdater, ITransientDependency
+    public class ProductViewSoldDataUpdater :
+        IDistributedEventHandler<ProductInventoryChangedEto>,
+        IProductViewSoldDataUpdater,
+        ITransientDependency
     {
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IDistributedCache<ProductViewCacheItem> _cache;
@@ -22,7 +24,7 @@ namespace EasyAbp.EShop.Products.Products
             _cache = cache;
         }
         
-        public async Task HandleEventAsync(ProductInventoryChangedEto eventData)
+        public virtual async Task HandleEventAsync(ProductInventoryChangedEto eventData)
         {
             await ClearProductViewCacheAsync(eventData.StoreId);
         }

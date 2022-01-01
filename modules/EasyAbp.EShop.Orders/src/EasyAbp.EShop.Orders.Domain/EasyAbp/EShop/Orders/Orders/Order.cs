@@ -127,8 +127,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public void SetPaymentId(Guid? paymentId)
         {
-            AddLocalEvent(new OrderPaymentIdChangedEto(TenantId, this, PaymentId, paymentId));
-            
             PaymentId = paymentId;
         }
 

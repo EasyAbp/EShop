@@ -22,24 +22,22 @@ namespace EasyAbp.EShop.Payments.Payments
     {
         private readonly IObjectMapper _objectMapper;
         private readonly ICurrentTenant _currentTenant;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IDistributedEventBus _distributedEventBus;
 
         public PaymentSynchronizer(
             IObjectMapper objectMapper,
             ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
             IPaymentRepository paymentRepository,
             IDistributedEventBus distributedEventBus)
         {
             _objectMapper = objectMapper;
             _currentTenant = currentTenant;
-            _unitOfWorkManager = unitOfWorkManager;
             _paymentRepository = paymentRepository;
             _distributedEventBus = distributedEventBus;
         }
 
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<PaymentEto> eventData)
         {
             if (eventData.Entity.PaymentItems.All(item => item.ItemType != PaymentsConsts.PaymentItemType))
@@ -47,8 +45,6 @@ namespace EasyAbp.EShop.Payments.Payments
                 return;
             }
             
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
             var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
@@ -69,35 +65,28 @@ namespace EasyAbp.EShop.Payments.Payments
             
             if (payment.CompletionTime.HasValue)
             {
-                PublishPaymentCompletedEventOnUowCompleted(uow, payment);
+                await PublishPaymentCompletedEventAsync(payment);
             }
 
             if (payment.CanceledTime.HasValue)
             {
-                PublishPaymentCanceledEventOnUowCompleted(uow, payment);
+                await PublishPaymentCanceledEventAsync(payment);
             }
-            
-            await uow.CompleteAsync();
         }
 
-        protected virtual void PublishPaymentCanceledEventOnUowCompleted(IUnitOfWork uow, Payment payment)
+        protected virtual async Task PublishPaymentCanceledEventAsync(Payment payment)
         {
-            uow.OnCompleted(async () =>
-            {
-                await _distributedEventBus.PublishAsync(
-                    new EShopPaymentCanceledEto(_objectMapper.Map<Payment, EShopPaymentEto>(payment)));
-            });
+            await _distributedEventBus.PublishAsync(
+                new EShopPaymentCanceledEto(_objectMapper.Map<Payment, EShopPaymentEto>(payment)));
         }
 
-        protected virtual void PublishPaymentCompletedEventOnUowCompleted(IUnitOfWork uow, Payment payment)
+        protected virtual async Task PublishPaymentCompletedEventAsync(Payment payment)
         {
-            uow.OnCompleted(async () =>
-            {
-                await _distributedEventBus.PublishAsync(
-                    new EShopPaymentCompletedEto(_objectMapper.Map<Payment, EShopPaymentEto>(payment)));
-            });
+            await _distributedEventBus.PublishAsync(
+                new EShopPaymentCompletedEto(_objectMapper.Map<Payment, EShopPaymentEto>(payment)));
         }
 
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityUpdatedEto<PaymentEto> eventData)
         {
             if (eventData.Entity.PaymentItems.All(item => item.ItemType != PaymentsConsts.PaymentItemType))
@@ -105,8 +94,6 @@ namespace EasyAbp.EShop.Payments.Payments
                 return;
             }
             
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
             var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
@@ -115,17 +102,11 @@ namespace EasyAbp.EShop.Payments.Payments
             {
                 return;
             }
-            
-            if (eventData.Entity.CompletionTime.HasValue && !payment.CompletionTime.HasValue)
-            {
-                PublishPaymentCompletedEventOnUowCompleted(uow, payment);
-            }
-            
-            if (eventData.Entity.CanceledTime.HasValue && !payment.CanceledTime.HasValue)
-            {
-                PublishPaymentCanceledEventOnUowCompleted(uow, payment);
-            }
-                
+
+            var publishCompletedEvent = eventData.Entity.CompletionTime.HasValue && !payment.CompletionTime.HasValue;
+
+            var publishCanceledEvent = eventData.Entity.CanceledTime.HasValue && !payment.CanceledTime.HasValue;
+
             _objectMapper.Map(eventData.Entity, payment);
 
             foreach (var etoItem in eventData.Entity.PaymentItems)
@@ -151,8 +132,16 @@ namespace EasyAbp.EShop.Payments.Payments
             payment.PaymentItems.RemoveAll(i => !etoPaymentItemIds.Contains(i.Id));
 
             await _paymentRepository.UpdateAsync(payment, true);
-            
-            await uow.CompleteAsync();
+
+            if (publishCompletedEvent)
+            {
+                await PublishPaymentCompletedEventAsync(payment);
+            }
+
+            if (publishCanceledEvent)
+            {
+                await PublishPaymentCanceledEventAsync(payment);
+            }
         }
 
         protected virtual void FillPaymentItemStoreId(PaymentItem item)
@@ -165,10 +154,9 @@ namespace EasyAbp.EShop.Payments.Payments
             item.SetStoreId(storeId);
         }
 
+        [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityDeletedEto<PaymentEto> eventData)
         {
-            using var uow = _unitOfWorkManager.Begin(isTransactional: true);
-            
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
             
             var payment = await _paymentRepository.FindAsync(eventData.Entity.Id);
@@ -179,8 +167,6 @@ namespace EasyAbp.EShop.Payments.Payments
             }
             
             await _paymentRepository.DeleteAsync(payment, true);
-
-            await uow.CompleteAsync();
         }
     }
 }
