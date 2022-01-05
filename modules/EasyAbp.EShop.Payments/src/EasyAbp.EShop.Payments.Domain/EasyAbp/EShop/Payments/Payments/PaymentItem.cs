@@ -40,9 +40,10 @@ namespace EasyAbp.EShop.Payments.Payments
             StoreId = storeId;
         }
         
-        private PaymentItem()
+        protected PaymentItem()
         {
             ExtraProperties = new ExtraPropertyDictionary();
+            
             this.SetDefaultsForExtraProperties();
         }
     }

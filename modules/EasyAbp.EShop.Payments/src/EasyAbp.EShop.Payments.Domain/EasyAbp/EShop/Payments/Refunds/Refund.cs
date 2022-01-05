@@ -42,7 +42,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         
         public virtual List<RefundItem> RefundItems { get; protected set; }
 
-        private Refund()
+        protected Refund()
         {
             
         }
