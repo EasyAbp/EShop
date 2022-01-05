@@ -117,19 +117,19 @@ namespace EasyAbp.EShop.Payments.Refunds
                     }
                 }
 
-                createRefundInput.RefundItems.Add(new CreateRefundItemInput
+                var eto = new CreateRefundItemInput
                 {
                     PaymentItemId = paymentItem.Id,
                     RefundAmount = refundItem.OrderLines.Sum(x => x.TotalAmount),
                     CustomerRemark = refundItem.CustomerRemark,
-                    StaffRemark = refundItem.StaffRemark,
-                    ExtraProperties = new ExtraPropertyDictionary
-                    {
-                        {"StoreId", order.StoreId.ToString()},
-                        {"OrderId", order.Id.ToString()},
-                        {"OrderLines", _jsonSerializer.Serialize(refundItem.OrderLines)}
-                    }
-                });
+                    StaffRemark = refundItem.StaffRemark
+                };
+
+                eto.SetProperty("StoreId", order.StoreId.ToString());
+                eto.SetProperty("OrderId", order.Id.ToString());
+                eto.SetProperty("OrderLines", _jsonSerializer.Serialize(refundItem.OrderLines));
+
+                createRefundInput.RefundItems.Add(eto);
             }
 
             await _distributedEventBus.PublishAsync(new RefundPaymentEto(CurrentTenant.Id, createRefundInput));

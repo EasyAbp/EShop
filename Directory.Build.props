@@ -3,7 +3,7 @@
 
     <AbpVersion>5.0.1</AbpVersion>
     <EasyAbpAbpTreesModuleVersion>2.5.1</EasyAbpAbpTreesModuleVersion>
-    <EasyAbpPaymentServiceModuleVersion>2.0.4</EasyAbpPaymentServiceModuleVersion>
+    <EasyAbpPaymentServiceModuleVersion>2.0.5</EasyAbpPaymentServiceModuleVersion>
     <EasyAbpAbpTagHelperPlusModuleVersion>0.8.1</EasyAbpAbpTagHelperPlusModuleVersion>
 
   </PropertyGroup>

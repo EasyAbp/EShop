@@ -95,18 +95,26 @@ namespace EasyAbp.EShop.Payments.Payments
                 new PaymentOperationAuthorizationRequirement(PaymentOperation.Creation)
             );
 
+            var paymentItems = orders.Select(order =>
+            {
+                var eto = new CreatePaymentItemEto
+                {
+                    ItemType = PaymentsConsts.PaymentItemType,
+                    ItemKey = order.Id.ToString(),
+                    OriginalPaymentAmount = order.ActualTotalPrice
+                };
+                
+                eto.SetProperty("StoreId", order.StoreId.ToString());
+
+                return eto;
+            }).ToList();
+            
             var createPaymentEto = new CreatePaymentEto(
                 CurrentTenant.Id,
                 CurrentUser.GetId(),
                 input.PaymentMethod,
                 orders.First().Currency,
-                orders.Select(order => new CreatePaymentItemEto
-                {
-                    ItemType = PaymentsConsts.PaymentItemType,
-                    ItemKey = order.Id.ToString(),
-                    OriginalPaymentAmount = order.ActualTotalPrice,
-                    ExtraProperties = new ExtraPropertyDictionary {{"StoreId", order.StoreId.ToString()}}
-                }).ToList()
+                paymentItems
             );
 
             await _distributedEventBus.PublishAsync(createPaymentEto);
