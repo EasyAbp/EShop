@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using EasyAbp.EShop.Stores.Stores;
 using EasyAbp.PaymentService.Payments;
 using JetBrains.Annotations;
@@ -27,6 +28,7 @@ namespace EasyAbp.EShop.Payments.Payments
         
         public virtual decimal PendingRefundAmount { get; protected set; }
         
+        [JsonInclude]
         public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         #endregion

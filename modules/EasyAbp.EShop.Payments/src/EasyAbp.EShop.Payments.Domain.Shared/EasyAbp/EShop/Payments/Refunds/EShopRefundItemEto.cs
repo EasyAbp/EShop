@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using EasyAbp.PaymentService.Refunds;
 using Volo.Abp.Data;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    [Serializable]
-    public class EShopRefundItemEto : IRefundItem
+    public class EShopRefundItemEto : ExtensibleObject, IRefundItem
     {
         #region Base properties
 
@@ -19,8 +19,6 @@ namespace EasyAbp.EShop.Payments.Refunds
         public string CustomerRemark { get; set; }
         
         public string StaffRemark { get; set; }
-        
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         #endregion
         

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Volo.Abp.Data;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    [Serializable]
-    public class ProductEto : IProduct, IMultiTenant
+    public class ProductEto : ExtensibleObject, IProduct, IMultiTenant
     {
         public Guid? TenantId { get; set; }
 
@@ -33,8 +33,6 @@ namespace EasyAbp.EShop.Products.Products
         public bool IsStatic { get; set; }
 
         public bool IsHidden { get; set; }
-        
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         public ICollection<ProductAttributeEto> ProductAttributes { get; set; }
         

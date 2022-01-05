@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using EasyAbp.PaymentService.Payments;
 using Volo.Abp.Data;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
-    [Serializable]
-    public class EShopPaymentItemEto : IPaymentItem
+    public class EShopPaymentItemEto : ExtensibleObject, IPaymentItem
     {
         #region Base properties
 
@@ -25,8 +25,6 @@ namespace EasyAbp.EShop.Payments.Payments
         public decimal RefundAmount { get; set; }
         
         public decimal PendingRefundAmount { get; set; }
-        
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         #endregion
         

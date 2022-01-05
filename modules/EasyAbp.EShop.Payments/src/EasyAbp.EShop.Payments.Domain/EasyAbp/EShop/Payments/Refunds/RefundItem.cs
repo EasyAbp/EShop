@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using EasyAbp.EShop.Stores.Stores;
 using EasyAbp.PaymentService.Refunds;
 using Volo.Abp.Data;
@@ -19,6 +20,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         
         public virtual string StaffRemark { get; protected set; }
 
+        [JsonInclude]
         public virtual ExtraPropertyDictionary ExtraProperties { get; set; }
 
         #endregion

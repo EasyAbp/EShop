@@ -1,10 +1,10 @@
 ﻿using System;
 using Volo.Abp.Data;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    [Serializable]
-    public class OrderLineEto : IOrderLine
+    public class OrderLineEto : ExtensibleObject, IOrderLine
     {
         public Guid Id { get; set; }
 
@@ -45,7 +45,5 @@ namespace EasyAbp.EShop.Orders.Orders
         public int RefundedQuantity { get; set; }
         
         public decimal RefundAmount { get; set; }
-        
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
     }
 }

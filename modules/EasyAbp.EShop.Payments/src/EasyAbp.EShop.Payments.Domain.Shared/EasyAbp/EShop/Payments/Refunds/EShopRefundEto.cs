@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using EasyAbp.PaymentService.Refunds;
 using Volo.Abp.Data;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Refunds
 {
-    [Serializable]
-    public class EShopRefundEto : IRefund, IMultiTenant
+    public class EShopRefundEto : ExtensibleObject, IRefund, IMultiTenant
     {
         #region Base properties
 
@@ -34,8 +34,6 @@ namespace EasyAbp.EShop.Payments.Refunds
         public DateTime? CompletedTime { get; set; }
         
         public DateTime? CanceledTime { get; set; }
-
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
         
         #endregion
 

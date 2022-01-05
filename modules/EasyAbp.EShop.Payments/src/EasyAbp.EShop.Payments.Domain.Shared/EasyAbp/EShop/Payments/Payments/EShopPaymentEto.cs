@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using EasyAbp.PaymentService.Payments;
 using Volo.Abp.Data;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Payments.Payments
 {
-    [Serializable]
-    public class EShopPaymentEto : IPayment, IMultiTenant
+    public class EShopPaymentEto : ExtensibleObject, IPayment, IMultiTenant
     {
         #region Base properties
 
@@ -39,8 +39,6 @@ namespace EasyAbp.EShop.Payments.Payments
 
         public DateTime? CanceledTime { get; set; }
 
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
-        
         #endregion
 
         public List<EShopPaymentItemEto> PaymentItems { get; set; } = new List<EShopPaymentItemEto>();

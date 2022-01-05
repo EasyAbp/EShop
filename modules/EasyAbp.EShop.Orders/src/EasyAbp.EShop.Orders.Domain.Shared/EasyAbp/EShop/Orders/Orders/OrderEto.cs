@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Volo.Abp.Auditing;
 using Volo.Abp.Data;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     [Serializable]
-    public class OrderEto : IOrder, IFullAuditedObject, IMultiTenant
+    public class OrderEto : ExtensibleObject, IOrder, IFullAuditedObject, IMultiTenant
     {
         public Guid Id { get; set; }
         
@@ -55,7 +56,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public List<OrderLineEto> OrderLines { get; set; }
         
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
         public DateTime CreationTime { get; set; }
         
         public Guid? CreatorId { get; set; }
