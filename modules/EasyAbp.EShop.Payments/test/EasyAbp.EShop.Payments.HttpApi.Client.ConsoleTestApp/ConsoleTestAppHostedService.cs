@@ -10,14 +10,14 @@ namespace EasyAbp.EShop.Payments.HttpApi.Client.ConsoleTestApp
     {
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var application = AbpApplicationFactory.Create<EShopPaymentsConsoleApiClientModule>())
+            using (var application = await AbpApplicationFactory.CreateAsync<EShopPaymentsConsoleApiClientModule>())
             {
-                application.Initialize();
+                await application.InitializeAsync();
 
                 var demo = application.ServiceProvider.GetRequiredService<ClientDemoService>();
                 await demo.RunAsync();
 
-                application.Shutdown();
+                await application.ShutdownAsync();
             }
         }
 

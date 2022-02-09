@@ -30,7 +30,7 @@ namespace EShopSample
         {
             context.Services.PreConfigure<IMvcBuilder>(builder =>
             {
-                builder.PartManager.ApplicationParts.Add(new AssemblyPart(typeof(EShopSampleWebModule).Assembly));
+                builder.PartManager.ApplicationParts.Add(new CompiledRazorAssemblyPart(typeof(EShopSampleWebModule).Assembly));
             });
         }
 
