@@ -65,7 +65,7 @@
     "CouponType.Custom": "Custom",
     "Menu:Category": "Category",
     "Category": "Category",
-    "Subcategory" : "Subcategory",
+    "Subcategory": "Subcategory",
     "CategoryParentId": "Parent ID",
     "CategoryUniqueName": "Unique name",
     "CategoryDisplayName": "Display name",
@@ -82,6 +82,13 @@
     "IncreaseInventory": "Increase",
     "DecreaseInventory": "Decrease",
     "ProductInventoryInventory": "Inventory",
-    "ChangeProductInventory": "Change inventory"
+    "ChangeProductInventory": "Change inventory",
+    "EasyAbp.EShop.Products.ErrorCodes:DuplicateCategoryUniqueName": "The category unique name '{uniqueName}' is duplicated.",
+    "EasyAbp.EShop.Products.ErrorCodes:DuplicatedProductUniqueName": "The product unique name '{uniqueName}' is duplicated.",
+    "EasyAbp.EShop.Products.ErrorCodes:InventoryChangeFailed": "Inventory of product {productId} (SKU: {productSkuId}) cannot be changed by {changedInventory} from {originalInventory}",
+    "EasyAbp.EShop.Products.ErrorCodes:NonexistentProductGroup": "The specified product group ({productGroupName}) is nonexistent.",
+    "EasyAbp.EShop.Products.ErrorCodes:ProductDetailHasBeenUsed": "ProductDetail {productDetailId} has been used.",
+    "EasyAbp.EShop.Products.ErrorCodes:ProductSkuCodeDuplicated": "Sku code {code} is duplicate for the product {productId}",
+    "EasyAbp.EShop.Products.ErrorCodes:ProductSkuDuplicated": "Sku {serializedAttributeOptionIds} is duplicate for the product {productId}"
   }
 }

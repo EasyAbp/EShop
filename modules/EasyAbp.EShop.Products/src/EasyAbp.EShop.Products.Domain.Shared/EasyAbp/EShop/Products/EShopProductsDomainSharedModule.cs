@@ -34,7 +34,7 @@ namespace EasyAbp.EShop.Products
 
             Configure<AbpExceptionLocalizationOptions>(options =>
             {
-                options.MapCodeNamespace("EasyAbp.EShop.Products", typeof(ProductsResource));
+                options.MapCodeNamespace("EasyAbp.EShop.Products.ErrorCodes", typeof(ProductsResource));
             });
         }
     }

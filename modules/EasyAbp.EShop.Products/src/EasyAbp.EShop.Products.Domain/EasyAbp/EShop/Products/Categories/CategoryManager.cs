@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Products.Categories
         {
             if (await _repository.AnyAsync(x => x.UniqueName == uniqueName))
             {
-                throw new DuplicateCategoryUniqueNameException();
+                throw new DuplicateCategoryUniqueNameException(uniqueName);
             }
 
             return new Category(GuidGenerator.Create(), CurrentTenant.Id, parentId, uniqueName, displayName,
@@ -31,7 +31,7 @@ namespace EasyAbp.EShop.Products.Categories
         {
             if (await _repository.AnyAsync(x => x.UniqueName == uniqueName && x.Id != entity.Id))
             {
-                throw new DuplicateCategoryUniqueNameException();
+                throw new DuplicateCategoryUniqueNameException(uniqueName);
             }
             
             entity.Update(parentId, uniqueName, displayName, description, mediaResources, isHidden);
