@@ -9,6 +9,12 @@
         public const string ProductDetailHasBeenUsed = "EasyAbp.EShop.Products:ProductDetailHasBeenUsed";
         public const string ProductSkuCodeDuplicated = "EasyAbp.EShop.Products:ProductSkuCodeDuplicated";
         public const string ProductSkuDuplicated = "EasyAbp.EShop.Products:ProductSkuDuplicated";
-        //Add your business exception error codes here...
+        public const string NotAllowedToGetCategoryListWithShowHidden = "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden";
+        public const string NotAllowedToGetProductListWithShowHidden = "EasyAbp.EShop.Products:NotAllowedToGetProductListWithShowHidden";
+        public const string ProductAttributeOptionsDeletionFailed = "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed";
+        public const string ProductAttributesModificationFailed = "EasyAbp.EShop.Products:ProductAttributesModificationFailed";
+        public const string StaticProductCannotBeModified = "EasyAbp.EShop.Products:StaticProductCannotBeModified";
+        public const string StoreIsNotProductOwner = "EasyAbp.EShop.Products:StoreIsNotProductOwner";
+        public const string InventoryInsufficient = "EasyAbp.EShop.Products:InventoryInsufficient";
     }
 }

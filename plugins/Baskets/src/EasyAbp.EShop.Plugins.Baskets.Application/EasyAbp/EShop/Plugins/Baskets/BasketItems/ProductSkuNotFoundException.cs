@@ -5,9 +5,10 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
     public class ProductSkuNotFoundException : BusinessException
     {
-        public ProductSkuNotFoundException(Guid productId, Guid productSkuId) : base(
-            message: $"Product {productId} (SKU: {productSkuId}) not found.")
+        public ProductSkuNotFoundException(Guid productId, Guid productSkuId) : base(BasketsErrorCodes.ProductSkuNotFound)
         {
+            WithData(nameof(productId), productId);
+            WithData(nameof(productSkuId), productSkuId);
         }
     }
 }

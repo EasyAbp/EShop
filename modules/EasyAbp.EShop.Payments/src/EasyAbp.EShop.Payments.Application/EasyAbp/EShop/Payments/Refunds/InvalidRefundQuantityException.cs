@@ -4,9 +4,9 @@ namespace EasyAbp.EShop.Payments.Refunds
 {
     public class InvalidRefundQuantityException : BusinessException
     {
-        public InvalidRefundQuantityException(int quantity)
-            : base("InvalidRefundQuantity", $"The refund quantity ({quantity}) is invalid.")
+        public InvalidRefundQuantityException(int quantity) : base(PaymentsErrorCodes.InvalidRefundQuantity)
         {
+            WithData(nameof(quantity), quantity);
         }
     }
 }

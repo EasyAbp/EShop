@@ -5,10 +5,9 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class CurrencyIsLimitException : BusinessException
     {
-        public CurrencyIsLimitException(string expectedCurrency) : base(
-            "CurrencyIsLimit",
-            $"Only the specified currency {expectedCurrency} is allowed.")
+        public CurrencyIsLimitException(string expectedCurrency) : base(OrdersErrorCodes.CurrencyIsLimit)
         {
+            WithData(nameof(expectedCurrency), expectedCurrency);
         }
     }
 }

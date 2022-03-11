@@ -5,8 +5,9 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class OrderIsInWrongStageException : BusinessException
     {
-        public OrderIsInWrongStageException(Guid orderId) : base(message: $"The order {orderId} is in the wrong stage.")
+        public OrderIsInWrongStageException(Guid orderId) : base(OrdersErrorCodes.OrderIsInWrongStage)
         {
+            WithData(nameof(orderId), orderId);
         }
     }
 }
