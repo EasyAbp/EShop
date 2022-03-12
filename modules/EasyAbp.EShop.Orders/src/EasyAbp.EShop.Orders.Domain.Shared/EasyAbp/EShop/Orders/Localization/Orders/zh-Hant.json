@@ -40,6 +40,15 @@
     "OrderLineTotalPrice": "總價",
     "OrderLineTotalDiscount": "總折扣",
     "OrderLineActualTotalPrice": "折後總價",
-    "OrderLineQuantity": "數量"
+    "OrderLineQuantity": "數量",
+    "EasyAbp.EShop.Orders:CurrencyIsLimit": "只允許指定的{expectedCurrency}貨幣",
+    "EasyAbp.EShop.Orders:OrderLineInvalidQuantity": "產品{productId}(SKU: {productSkuId})的{quantity}數量無效",
+    "EasyAbp.EShop.Orders:DiscountAmountOverflow": "折扣金額溢出",
+    "EasyAbp.EShop.Orders:DuplicateOrderExtraFee": "額外費用{extraFeeName}(key: {extraFeeKey})已經存在",
+    "EasyAbp.EShop.Orders:InvalidOrderExtraFee": "額外費用{extraFee}無效",
+    "EasyAbp.EShop.Orders:InvalidPayment": "付款{paymentId}有無效的訂單配置{orderId}",
+    "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金額({amount})無效",
+    "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款數量({quantity})無效",
+    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "訂單{orderId}處於錯誤的階段"
   }
 }

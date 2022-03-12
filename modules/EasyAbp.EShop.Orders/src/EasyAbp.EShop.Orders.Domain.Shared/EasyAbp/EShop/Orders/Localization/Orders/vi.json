@@ -39,6 +39,15 @@
     "OrderLineTotalPrice": "Total price",
     "OrderLineTotalDiscount": "Total discount",
     "OrderLineActualTotalPrice": "Actual total price",
-    "OrderLineQuantity": "Quantity"
+    "OrderLineQuantity": "Quantity",
+    "EasyAbp.EShop.Orders:CurrencyIsLimit": "Only the specified currency {expectedCurrency} is allowed.",
+    "EasyAbp.EShop.Orders:OrderLineInvalidQuantity": "Invalid quantity {quantity} for product {productId} (SKU: {productSkuId}).",
+    "EasyAbp.EShop.Orders:DiscountAmountOverflow": "The discount amount overflow.",
+    "EasyAbp.EShop.Orders:DuplicateOrderExtraFee": "The extra fee {extraFeeName} (key: {extraFeeKey}) is existed.",
+    "EasyAbp.EShop.Orders:InvalidOrderExtraFee": "The extra fee {extraFee} is invalid.",
+    "EasyAbp.EShop.Orders:InvalidPayment": "The payment {paymentId} has invalid configurations for the order {orderId}.",
+    "EasyAbp.EShop.Orders:InvalidRefundAmount": "The refund amount ({amount}) is invalid.",
+    "EasyAbp.EShop.Orders:InvalidRefundQuantity": "The refund quantity ({quantity}) is invalid.",
+    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "The order {orderId} is in the wrong stage."
   }
 }

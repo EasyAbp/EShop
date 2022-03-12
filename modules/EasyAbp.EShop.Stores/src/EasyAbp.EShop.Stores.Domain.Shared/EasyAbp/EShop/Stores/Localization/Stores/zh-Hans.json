@@ -31,6 +31,7 @@
     "TransactionAmount": "金额",
     "CreateTransaction": "新建",
     "EditTransaction": "编辑",
-    "TransactionDeletionConfirmationMessage": "确认删除交易记录 {0}?"
+    "TransactionDeletionConfirmationMessage": "确认删除交易记录 {0}?",
+    "EasyAbp.EShop.Stores:StoreOwnerDuplicated": "商店{storeId}的所有者{ownerUserId}重复"
   }
 }

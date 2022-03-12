@@ -28,7 +28,6 @@
     "EditBasketItem": "Edit",
     "BasketItemDeletionConfirmationMessage": "Are you sure to delete the basket item {0}?",
     "SuccessfullyDeleted": "Successfully deleted",
-    "EasyAbp.EShop.Plugins.Baskets:ProductSkuNotFound": "Product {productId} (SKU: {productSkuId}) not found.",
-
+    "EasyAbp.EShop.Plugins.Baskets:ProductSkuNotFound": "Product {productId} (SKU: {productSkuId}) not found."
   }
 }

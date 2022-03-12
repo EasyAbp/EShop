@@ -27,6 +27,7 @@
     "CreateBasketItem": "新建",
     "EditBasketItem": "編輯",
     "BasketItemDeletionConfirmationMessage": "確認刪除購物車項 {0}?",
-    "SuccessfullyDeleted": "刪除成功"
+    "SuccessfullyDeleted": "刪除成功",
+    "EasyAbp.EShop.Plugins.Baskets:ProductSkuNotFound": "商品{productId}(SKU: {productSkuId})未找到"
   }
 }

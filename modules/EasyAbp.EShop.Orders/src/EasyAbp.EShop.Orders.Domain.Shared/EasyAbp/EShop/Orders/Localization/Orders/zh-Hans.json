@@ -40,6 +40,15 @@
     "OrderLineTotalPrice": "总价",
     "OrderLineTotalDiscount": "总折扣",
     "OrderLineActualTotalPrice": "折后总价",
-    "OrderLineQuantity": "数量"
+    "OrderLineQuantity": "数量",
+    "EasyAbp.EShop.Orders:CurrencyIsLimit": "只允许指定的{expectedCurrency}货币",
+    "EasyAbp.EShop.Orders:OrderLineInvalidQuantity": "产品{productId}(SKU: {productSkuId})的{quantity}数量无效",
+    "EasyAbp.EShop.Orders:DiscountAmountOverflow": "折扣金额溢出",
+    "EasyAbp.EShop.Orders:DuplicateOrderExtraFee": "额外费用{extraFeeName}(key: {extraFeeKey})已经存在",
+    "EasyAbp.EShop.Orders:InvalidOrderExtraFee": "额外费用{extraFee}无效",
+    "EasyAbp.EShop.Orders:InvalidPayment": "付款{paymentId}有无效的订单配置{orderId}",
+    "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金额({amount})无效",
+    "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款数量({quantity})无效",
+    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "订单{orderId}处于错误的阶段"
   }
 }
