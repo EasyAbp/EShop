@@ -2,6 +2,6 @@
 {
     public static class StoresErrorCodes
     {
-        //Add your business exception error codes here...
+        public const string StoreOwnerDuplicated = "EasyAbp.EShop.Stores:StoreOwnerDuplicated";
     }
 }

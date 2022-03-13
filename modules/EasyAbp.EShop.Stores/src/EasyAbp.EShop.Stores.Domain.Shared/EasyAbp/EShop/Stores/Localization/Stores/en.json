@@ -34,6 +34,7 @@
     "TransactionAmount": "Amount",
     "CreateTransaction": "New",
     "EditTransaction": "Edit",
-    "TransactionDeletionConfirmationMessage": "Are you sure to delete the transaction {0}?"
+    "TransactionDeletionConfirmationMessage": "Are you sure to delete the transaction {0}?",
+    "EasyAbp.EShop.Stores:StoreOwnerDuplicated": "Owner {ownerUserId} is duplicate for the store {storeId}."
   }
 }

@@ -62,7 +62,7 @@
     "SuccessfullyDeleted": "刪除成功",
     "Menu:Category": "商品類目",
     "Category": "商品類目",
-    "Subcategory" : "子類目",
+    "Subcategory": "子類目",
     "CategoryParentId": "父類目 ID",
     "CategoryUniqueName": "類目編號",
     "CategoryDisplayName": "類目名稱",
@@ -79,6 +79,20 @@
     "IncreaseInventory": "加庫存",
     "DecreaseInventory": "減庫存",
     "ProductInventoryInventory": "庫存數",
-    "ChangeProductInventory": "調整庫存數"
+    "ChangeProductInventory": "調整庫存數",
+    "EasyAbp.EShop.Products:DuplicateCategoryUniqueName": "唯一的類別名稱'{uniqueName}'重復",
+    "EasyAbp.EShop.Products:DuplicatedProductUniqueName": "唯一的產品名稱'{uniqueName}'重復",
+    "EasyAbp.EShop.Products:InventoryChangeFailed": "產品{productId} (SKU: {productSkuId})的庫存不能由{originalInventory}中的{changedInventory}更改",
+    "EasyAbp.EShop.Products:NonexistentProductGroup": "指定的產品組({productGroupName})不存在",
+    "EasyAbp.EShop.Products:ProductDetailHasBeenUsed": "商品詳情{productDetailId}已被使用",
+    "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "商品{productId}的Sku代碼{code}重復",
+    "EasyAbp.EShop.Products:ProductSkuDuplicated": "商品{productId}的Sku{serializedAttributeOptionIds}重復",
+    "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "您沒有權限獲取帶有隱藏類別的類別列表",
+    "EasyAbp.EShop.Products:NotAllowedToGetProductListWithShowHidden": "您沒有權限獲取包含隱藏產品的產品列表",
+    "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed": "請確保沒有使用您想要刪除的屬性選項的sku",
+    "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "請先確保Sku為空再修改商品的屬性",
+    "EasyAbp.EShop.Products:StaticProductCannotBeModified": "不能修改靜態商品{productId}",
+    "EasyAbp.EShop.Products:StoreIsNotProductOwner": "商店{storeId}不是商品{productId}的所有者 ",
+    "EasyAbp.EShop.Products:InventoryInsufficient": "產品{productId} (SKU: {productSkuId})的庫存不足，需要數量{quantity}，但是只有數量{inventory}"
   }
 }

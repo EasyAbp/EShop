@@ -4,10 +4,10 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class DuplicatedProductUniqueNameException : BusinessException
     {
-        public DuplicatedProductUniqueNameException(string uniqueName) : base("DuplicatedProductUniqueName",
-            $"The product unique name \"{uniqueName}\" is duplicated.")
+        public DuplicatedProductUniqueNameException(string uniqueName) 
+            : base(ProductsErrorCodes.DuplicatedProductUniqueName)
         {
-
+            WithData(nameof(uniqueName), uniqueName);
         }
     }
 }

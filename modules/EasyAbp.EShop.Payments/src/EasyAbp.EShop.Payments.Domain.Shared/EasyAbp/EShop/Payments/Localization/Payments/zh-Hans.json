@@ -7,6 +7,11 @@
     "Permission:Payments": "支付",
     "PaymentItemStoreId": "店铺 ID",
     "Permission:Refunds": "退款",
-    "RefundItemStoreId": "店铺 ID"
+    "RefundItemStoreId": "店铺 ID",
+    "EasyAbp.EShop.Payments:MultiStorePaymentNotSupported": "应该为每个商店创建支付",
+    "EasyAbp.EShop.Payments:InvalidRefundQuantity": "退款数量({quantity})无效",
+    "EasyAbp.EShop.Payments:OrderIsNotInSpecifiedPayment": "订单({orderId})不在指定的支付({paymentId})中",
+    "EasyAbp.EShop.Payments:OrderIdNotFound": "无法从ExtraProperties获得有效的OrderId",
+    "EasyAbp.EShop.Payments:StoreIdNotFound": "无法从ExtraProperties获得有效的StoreId"
   }
 }

@@ -47,6 +47,12 @@
     "CouponDiscountedAmount": "實際抵扣金額",
     "CreateCoupon": "新建",
     "EditCoupon": "編輯",
-    "CouponDeletionConfirmationMessage": "確認刪除優惠券 {0}?"
+    "CouponDeletionConfirmationMessage": "確認刪除優惠券 {0}?",
+    "EasyAbp.EShop.Plugins.Coupons:CouponNotFoundOrHasExpired": "優惠券未找到或已過期",
+    "EasyAbp.EShop.Plugins.Coupons:CouponTemplateNotFoundOrUnavailable": "優惠券模板未找到或不可用",
+    "EasyAbp.EShop.Plugins.Coupons:OrderDoesNotMeetCouponUsageCondition": "訂單不符合優惠券使用條件",
+    "EasyAbp.EShop.Plugins.Coupons:CouponHasBeenOccupied": "優惠券已被占用",
+    "EasyAbp.EShop.Plugins.Coupons:InvalidCouponOrderId": "預期的訂單ID是{expectedOrderId}，但實際的訂單ID是{actualOrderId}",
+    "EasyAbp.EShop.Plugins.Coupons:UserCouponQuantityExceedsLimit": "用戶的優惠券數量超過限製:{maxQuantity}"
   }
 }

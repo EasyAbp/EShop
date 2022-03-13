@@ -4,8 +4,7 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class DiscountAmountOverflowException : BusinessException
     {
-        public DiscountAmountOverflowException()
-            : base("DiscountAmountOverflow", $"The discount amount overflow.")
+        public DiscountAmountOverflowException() : base(OrdersErrorCodes.DiscountAmountOverflow)
         {
         }
     }

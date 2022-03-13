@@ -2,6 +2,6 @@
 {
     public static class BasketsErrorCodes
     {
-        //Add your business exception error codes here...
+        public const string ProductSkuNotFound = "EasyAbp.EShop.Plugins.Baskets:ProductSkuNotFound";
     }
 }

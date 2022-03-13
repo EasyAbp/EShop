@@ -45,6 +45,12 @@
     "CouponDiscountedAmount": "Discounted amount",
     "CreateCoupon": "New",
     "EditCoupon": "Edit",
-    "CouponDeletionConfirmationMessage": "Are you sure to delete the coupon {0}?"
+    "CouponDeletionConfirmationMessage": "Are you sure to delete the coupon {0}?",
+    "EasyAbp.EShop.Plugins.Coupons:CouponNotFoundOrHasExpired": "Coupon not found or has expired.",
+    "EasyAbp.EShop.Plugins.Coupons:CouponTemplateNotFoundOrUnavailable": "Coupon template not found or unavailable.",
+    "EasyAbp.EShop.Plugins.Coupons:OrderDoesNotMeetCouponUsageCondition": "Order does not meet the coupon usage condition.",
+    "EasyAbp.EShop.Plugins.Coupons:CouponHasBeenOccupied": "Coupon has been occupied.",
+    "EasyAbp.EShop.Plugins.Coupons:InvalidCouponOrderId": "The expected order ID is {expectedOrderId}, but the actual order ID is {actualOrderId}.",
+    "EasyAbp.EShop.Plugins.Coupons:UserCouponQuantityExceedsLimit": "User's coupon quantity exceeds the limit: {maxQuantity}."
   }
 }

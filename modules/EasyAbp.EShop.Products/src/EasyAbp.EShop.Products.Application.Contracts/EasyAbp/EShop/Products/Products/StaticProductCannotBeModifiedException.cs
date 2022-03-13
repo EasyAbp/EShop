@@ -5,9 +5,9 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class StaticProductCannotBeModifiedException : BusinessException
     {
-        public StaticProductCannotBeModifiedException(Guid productId) : base(
-            message: $"Cannot modify the static product: {productId}")
+        public StaticProductCannotBeModifiedException(Guid productId) : base(ProductsErrorCodes.StaticProductCannotBeModified)
         {
+            WithData(nameof(productId), productId);
         }
     }
 }
