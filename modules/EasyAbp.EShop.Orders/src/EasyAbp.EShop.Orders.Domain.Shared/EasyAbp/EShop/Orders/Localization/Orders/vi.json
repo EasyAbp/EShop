@@ -40,7 +40,7 @@
     "OrderLineTotalDiscount": "Total discount",
     "OrderLineActualTotalPrice": "Actual total price",
     "OrderLineQuantity": "Quantity",
-    "EasyAbp.EShop.Orders:CurrencyIsLimit": "Only the specified currency {expectedCurrency} is allowed.",
+    "EasyAbp.EShop.Orders:UnexpectedCurrency": "Only the specified currency {expectedCurrency} is allowed.",
     "EasyAbp.EShop.Orders:OrderLineInvalidQuantity": "Invalid quantity {quantity} for product {productId} (SKU: {productSkuId}).",
     "EasyAbp.EShop.Orders:DiscountAmountOverflow": "The discount amount overflow.",
     "EasyAbp.EShop.Orders:DuplicateOrderExtraFee": "The extra fee {extraFeeName} (key: {extraFeeKey}) is existed.",

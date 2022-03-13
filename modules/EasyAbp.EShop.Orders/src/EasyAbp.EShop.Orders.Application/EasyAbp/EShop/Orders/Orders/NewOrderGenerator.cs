@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (orderLines.Any(x => x.Currency != storeCurrency))
             {
-                throw new CurrencyIsLimitException(storeCurrency);
+                throw new UnexpectedCurrencyException(storeCurrency);
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();

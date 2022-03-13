@@ -41,7 +41,7 @@
     "OrderLineTotalDiscount": "總折扣",
     "OrderLineActualTotalPrice": "折後總價",
     "OrderLineQuantity": "數量",
-    "EasyAbp.EShop.Orders:CurrencyIsLimit": "只允許指定的{expectedCurrency}貨幣",
+    "EasyAbp.EShop.Orders:UnexpectedCurrency": "只允許指定的{expectedCurrency}貨幣",
     "EasyAbp.EShop.Orders:OrderLineInvalidQuantity": "產品{productId}(SKU: {productSkuId})的{quantity}數量無效",
     "EasyAbp.EShop.Orders:DiscountAmountOverflow": "折扣金額溢出",
     "EasyAbp.EShop.Orders:DuplicateOrderExtraFee": "額外費用{extraFeeName}(key: {extraFeeKey})已經存在",

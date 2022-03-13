@@ -2,7 +2,7 @@
 {
     public static class OrdersErrorCodes
     {
-        public const string CurrencyIsLimit = "EasyAbp.EShop.Orders:CurrencyIsLimit";
+        public const string UnexpectedCurrency = "EasyAbp.EShop.Orders:UnexpectedCurrency";
         public const string OrderLineInvalidQuantity = "EasyAbp.EShop.Orders:OrderLineInvalidQuantity";
         public const string DiscountAmountOverflow = "EasyAbp.EShop.Orders:DiscountAmountOverflow";
         public const string DuplicateOrderExtraFee = "EasyAbp.EShop.Orders:DuplicateOrderExtraFee";
