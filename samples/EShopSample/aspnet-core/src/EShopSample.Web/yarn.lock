@@ -610,17 +610,10 @@ datatables.net-bs5@^1.10.25:
     datatables.net ">=1.10.25"
     jquery ">=1.7"
 
-datatables.net@>=1.10.25:
-  version "1.11.3"
-  resolved "https://registry.npmmirror.com/datatables.net/download/datatables.net-1.11.3.tgz#80e691036efcd62467558ee64c07dd566cb761b4"
-  integrity sha1-gOaRA2781iRnVY7mTAfdVmy3YbQ=
-  dependencies:
-    jquery ">=1.7"
-
-datatables.net@^1.10.21:
-  version "1.10.21"
-  resolved "https://registry.npm.taobao.org/datatables.net/download/datatables.net-1.10.21.tgz#f1d35c8e5c3eb7f5caef39e80cd5b836a8c77103"
-  integrity sha1-8dNcjlw+t/XK7znoDNW4NqjHcQM=
+datatables.net@>=1.10.25, datatables.net@^1.10.21:
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.11.5.tgz#858a69953a01e1d5b18786769802117b04b8e3c9"
+  integrity sha512-nlFst2xfwSWaQgaOg5sXVG3cxYC0tH8E8d65289w9ROgF2TmLULOOpcdMpyxxUim/qEwVSEem42RjkTWEpr3eA==
   dependencies:
     jquery ">=1.7"
 
@@ -1376,12 +1369,7 @@ jquery-validation@^1.19.2:
   resolved "https://registry.npm.taobao.org/jquery-validation/download/jquery-validation-1.19.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjquery-validation%2Fdownload%2Fjquery-validation-1.19.2.tgz#c602831b0d8c5881400af424e872757ce241eff9"
   integrity sha1-xgKDGw2MWIFACvQk6HJ1fOJB7/k=
 
-jquery@>=1.12.0, "jquery@>=1.5.0 <4.0", jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.8:
-  version "3.5.1"
-  resolved "https://registry.npm.taobao.org/jquery/download/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
-  integrity sha1-17TQjhv9uGrS8aPQOeoXMEcXq7U=
-
-jquery@~3.6.0:
+jquery@>=1.12.0, "jquery@>=1.5.0 <4.0", jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.8, jquery@~3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
   integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
