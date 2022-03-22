@@ -74,5 +74,12 @@ namespace EasyAbp.EShop.Orders.Orders
             return _service.CancelAsync(id, input);
 
         }
+
+        [HttpPut]
+        [Route("{id}/staff-remark")]
+        public virtual Task<OrderDto> UpdateStaffRemarkAsync(Guid id, UpdateStaffRemarkInput input)
+        {
+            return _service.UpdateStaffRemarkAsync(id, input);
+        }
     }
 }

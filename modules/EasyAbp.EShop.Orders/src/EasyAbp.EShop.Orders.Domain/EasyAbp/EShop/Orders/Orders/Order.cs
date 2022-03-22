@@ -214,5 +214,10 @@ namespace EasyAbp.EShop.Orders.Orders
             TotalPrice += extraFee;
             ActualTotalPrice += extraFee;
         }
+
+        public void SetStaffRemark(string staffRemark)
+        {
+            StaffRemark = staffRemark;
+        }
     }
 }

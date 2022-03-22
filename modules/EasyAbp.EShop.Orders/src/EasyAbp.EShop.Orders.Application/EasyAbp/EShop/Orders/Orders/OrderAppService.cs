@@ -8,7 +8,6 @@ using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Users;
@@ -176,6 +175,19 @@ namespace EasyAbp.EShop.Orders.Orders
             );
 
             order = await _orderManager.CancelAsync(order, input.CancellationReason);
+
+            return await MapToGetOutputDtoAsync(order);
+        }
+
+        public virtual async Task<OrderDto> UpdateStaffRemarkAsync(Guid id, UpdateStaffRemarkInput input)
+        {
+            var order = await GetEntityByIdAsync(id);
+
+            await CheckMultiStorePolicyAsync(order.StoreId, OrdersPermissions.Orders.Manage);
+
+            order.SetStaffRemark(input.StaffRemark);
+            
+            await Repository.UpdateAsync(order, true);
 
             return await MapToGetOutputDtoAsync(order);
         }
