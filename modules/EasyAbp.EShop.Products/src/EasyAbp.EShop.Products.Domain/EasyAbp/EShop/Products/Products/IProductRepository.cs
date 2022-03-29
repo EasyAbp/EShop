@@ -8,9 +8,9 @@ namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductRepository : IRepository<Product, Guid>
     {
-        IQueryable<Product> GetQueryable(Guid categoryId);
+        Task<IQueryable<Product>> GetQueryableAsync(Guid categoryId);
 
-        IQueryable<Product> WithDetails(Guid categoryId);
+        Task<IQueryable<Product>> WithDetailsAsync(Guid categoryId);
 
         Task CheckUniqueNameAsync(Product entity, CancellationToken cancellationToken = new CancellationToken());
     }

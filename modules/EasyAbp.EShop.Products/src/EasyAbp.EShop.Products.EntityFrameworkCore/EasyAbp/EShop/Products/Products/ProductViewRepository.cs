@@ -18,20 +18,20 @@ namespace EasyAbp.EShop.Products.Products
             return (await base.GetQueryableAsync()).IncludeDetails();
         }
 
-        public IQueryable<ProductView> GetQueryable(Guid categoryId)
+        public virtual async Task<IQueryable<ProductView>> GetQueryableAsync(Guid categoryId)
         {
-            return JoinProductCategories(DbSet, categoryId);
+            return await JoinProductCategoriesAsync(DbSet, categoryId);
         }
 
-        public IQueryable<ProductView> WithDetails(Guid categoryId)
+        public virtual async Task<IQueryable<ProductView>> WithDetailsAsync(Guid categoryId)
         {
-            return JoinProductCategories(WithDetails(), categoryId);
+            return await JoinProductCategoriesAsync(await WithDetailsAsync(), categoryId);
         }
         
-        protected virtual IQueryable<ProductView> JoinProductCategories(IQueryable<ProductView> queryable, Guid categoryId)
+        protected virtual async Task<IQueryable<ProductView>> JoinProductCategoriesAsync(IQueryable<ProductView> queryable, Guid categoryId)
         {
             return queryable.Join(
-                DbContext.ProductCategories.Where(productCategory => productCategory.CategoryId == categoryId),
+                (await GetDbContextAsync()).ProductCategories.Where(productCategory => productCategory.CategoryId == categoryId),
                 product => product.Id,
                 productCategory => productCategory.ProductId,
                 (product, productCategory) => product

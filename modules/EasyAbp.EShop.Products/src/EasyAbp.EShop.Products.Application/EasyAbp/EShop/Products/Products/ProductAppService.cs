@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Products.Products
         protected override async Task<IQueryable<Product>> CreateFilteredQueryAsync(GetProductListInput input)
         {
             var query = input.CategoryId.HasValue
-                ? _repository.WithDetails(input.CategoryId.Value)
+                ? await _repository.WithDetailsAsync(input.CategoryId.Value)
                 : (await _repository.WithDetailsAsync());
 
             return query
@@ -329,7 +329,7 @@ namespace EasyAbp.EShop.Products.Products
             {
                 var productSkuDto = productDto.ProductSkus.First(x => x.Id == productSku.Id);
 
-                var priceDataModel = await _productManager.GetProductPriceAsync(product, productSku);
+                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);
                 
                 productSkuDto.Price = priceDataModel.Price;
                 productSkuDto.DiscountedPrice = priceDataModel.DiscountedPrice;

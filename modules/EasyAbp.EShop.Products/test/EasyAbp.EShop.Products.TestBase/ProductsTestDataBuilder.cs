@@ -1,17 +1,30 @@
+using System;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.Products;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Threading;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products
 {
     public class ProductsTestDataBuilder : ITransientDependency
     {
+        private readonly IProductManager _productManager;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IProductDetailRepository _productDetailRepository;
+        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
 
-        public ProductsTestDataBuilder(IProductDetailRepository productDetailRepository)
+        public ProductsTestDataBuilder(
+            IProductManager productManager,
+            IUnitOfWorkManager unitOfWorkManager,
+            IProductDetailRepository productDetailRepository,
+            IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
         {
+            _productManager = productManager;
+            _unitOfWorkManager = unitOfWorkManager;
             _productDetailRepository = productDetailRepository;
+            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
         }
 
         public void Build()
@@ -21,8 +34,49 @@ namespace EasyAbp.EShop.Products
 
         public async Task BuildAsync()
         {
-            await _productDetailRepository.InsertAsync(new ProductDetail(ProductsTestData.ProductDetails1Id, null,
-                ProductsTestData.Store1Id, "Product details for store 1"));
+            using var uow = _unitOfWorkManager.Begin();
+            
+            var productDetail1 = await _productDetailRepository.InsertAsync(
+                new ProductDetail(ProductsTestData.ProductDetails1Id, null, ProductsTestData.Store1Id,
+                    "Product details for store 1"), true);
+            
+            var productDetail2 = await _productDetailRepository.InsertAsync(
+                new ProductDetail(ProductsTestData.ProductDetails2Id, null, ProductsTestData.Store1Id,
+                    "Product details for store 1"), true);
+
+            var product = new Product(ProductsTestData.Product1Id, null, ProductsTestData.Store1Id, "Default",
+                productDetail1.Id, "Cake", "Cake", InventoryStrategy.NoNeed, true, false, false, null, null, 0);
+
+            var attribute = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null);
+
+            attribute.ProductAttributeOptions.AddRange(new[]
+            {
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option2Id, "M", null),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null)
+            });
+
+            product.ProductAttributes.Add(attribute);
+            
+            await _productManager.CreateAsync(product);
+
+            var productSku1 = new ProductSku(ProductsTestData.Product1Sku1Id,
+                await _attributeOptionIdsSerializer.SerializeAsync(new[]
+                    { ProductsTestData.Product1Attribute1Option1Id }), null, "CNY", null, 1m, 1, 10, null, null, null);
+            
+            var productSku2 = new ProductSku(ProductsTestData.Product1Sku2Id,
+                await _attributeOptionIdsSerializer.SerializeAsync(new[]
+                    { ProductsTestData.Product1Attribute1Option2Id }), null, "CNY", null, 2m, 1, 10, null, null, null);
+            
+            var productSku3 = new ProductSku(ProductsTestData.Product1Sku3Id,
+                await _attributeOptionIdsSerializer.SerializeAsync(new[]
+                    { ProductsTestData.Product1Attribute1Option3Id }), null, "CNY", null, 3m, 1, 10, null, null, null);
+            
+            await _productManager.CreateSkuAsync(product, productSku1);
+            await _productManager.CreateSkuAsync(product, productSku2);
+            await _productManager.CreateSkuAsync(product, productSku3);
+
+            await uow.CompleteAsync();
         }
     }
 }

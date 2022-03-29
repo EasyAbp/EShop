@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Products.CacheItems;
@@ -20,17 +21,20 @@ namespace EasyAbp.EShop.Products.Products
 
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IDistributedCache<ProductViewCacheItem> _cache;
+        private readonly IProductManager _productManager;
         private readonly IProductRepository _productRepository;
         private readonly IProductViewRepository _repository;
         
         public ProductViewAppService(
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
             IDistributedCache<ProductViewCacheItem> cache,
+            IProductManager productManager,
             IProductRepository productRepository,
             IProductViewRepository repository) : base(repository)
         {
             _productViewCacheKeyProvider = productViewCacheKeyProvider;
             _cache = cache;
+            _productManager = productManager;
             _productRepository = productRepository;
             _repository = repository;
         }
@@ -38,8 +42,8 @@ namespace EasyAbp.EShop.Products.Products
         protected override async Task<IQueryable<ProductView>> CreateFilteredQueryAsync(GetProductListInput input)
         {
             var query = input.CategoryId.HasValue
-                ? _repository.WithDetails(input.CategoryId.Value)
-                : (await _repository.WithDetailsAsync());
+                ? await _repository.WithDetailsAsync(input.CategoryId.Value)
+                : await _repository.WithDetailsAsync();
 
             return query
                 .Where(x => x.StoreId == input.StoreId)
@@ -96,7 +100,7 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual async Task BuildStoreProductViewsAsync(Guid storeId)
         {
-            var products = await _productRepository.GetListAsync(x => x.StoreId == storeId);
+            var products = await _productRepository.GetListAsync(x => x.StoreId == storeId, true);
 
             using var uow = UnitOfWorkManager.Begin(true, true);
 
@@ -104,9 +108,14 @@ namespace EasyAbp.EShop.Products.Products
 
             foreach (var product in products)
             {
-                await _repository.InsertAsync(ObjectMapper.Map<Product, ProductView>(product));
+                var productView = ObjectMapper.Map<Product, ProductView>(product);
+
+                await FillPriceInfoWithRealPriceAsync(product, productView);
+                
+                await _repository.InsertAsync(productView);
             }
 
+            await uow.SaveChangesAsync();
             await uow.CompleteAsync();
 
             await _cache.SetAsync(await GetCacheKeyAsync(storeId), new ProductViewCacheItem(),
@@ -115,6 +124,33 @@ namespace EasyAbp.EShop.Products.Products
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(Convert.ToInt32(
                         await SettingProvider.GetOrNullAsync(ProductsSettings.ProductView.CacheDurationSeconds)))
                 });
+        }
+        
+        protected virtual async Task FillPriceInfoWithRealPriceAsync(Product product, ProductView productView)
+        {
+            if (product.ProductSkus.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            decimal? min = null, max = null;
+            
+            foreach (var productSku in product.ProductSkus)
+            {
+                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);
+
+                if (min is null || priceDataModel.Price < min.Value)
+                {
+                    min = productSku.Price;
+                }
+
+                if (max is null || priceDataModel.Price > max.Value)
+                {
+                    max = productSku.Price;
+                }
+            }
+
+            productView.SetPrices(min, max);
         }
     }
 }

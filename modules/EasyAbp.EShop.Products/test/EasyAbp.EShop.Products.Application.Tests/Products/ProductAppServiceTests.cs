@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [Fact]
-        public async Task Should_Create_A_Product()
+        public async Task Should_Create_Product()
         {
             // Arrange
             _eShopProductsOptions.Groups.Configure("Default Group Name", x =>
@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Products.Products
             var requestDto = new CreateUpdateProductDto
             {
                 ProductGroupName = "Default Group Name",
-                ProductDetailId = ProductsTestData.ProductDetails1Id,
+                ProductDetailId = ProductsTestData.ProductDetails2Id,
                 StoreId = ProductsTestData.Store1Id,
                 UniqueName = "Unique Pencil",
                 DisplayName = "Pencil",
@@ -78,9 +78,9 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [Fact]
-        public async Task Should_Create_A_Sku()
+        public async Task Should_Create_Skus()
         {
-            await Should_Create_A_Product();
+            await Should_Create_Product();
             Guid productId = default;
             Guid productAttributeOptionId = default;
             UsingDbContext(db =>
@@ -110,6 +110,7 @@ namespace EasyAbp.EShop.Products.Products
             
             response.ShouldNotBeNull();
             response.MinimumPrice.ShouldBe(1m);
+            response.MaximumPrice.ShouldBe(1m);
             response.ProductSkus.Count.ShouldBe(1);
 
             var responseSku = response.ProductSkus.First();
@@ -119,7 +120,29 @@ namespace EasyAbp.EShop.Products.Products
             responseSku.AttributeOptionIds.First().ShouldBe(productAttributeOptionId);
             responseSku.OrderMinQuantity.ShouldBe(1);
             responseSku.OrderMaxQuantity.ShouldBe(10);
+        }
+
+        [Fact]
+        public async Task Should_Get_Product_Min_Max_Prices()
+        {
+            var getListResult = await _productAppService.GetListAsync(new GetProductListInput
+            {
+                StoreId = ProductsTestData.Store1Id
+            });
             
+            getListResult.Items.ShouldNotBeEmpty();
+
+            var productDto = getListResult.Items.FirstOrDefault(x => x.Id == ProductsTestData.Product1Id);
+
+            productDto.ShouldNotBeNull();
+            productDto.MinimumPrice.ShouldBe(1m);
+            productDto.MaximumPrice.ShouldBe(3m);
+            
+            var getResult = await _productAppService.GetAsync(ProductsTestData.Product1Id);
+
+            getResult.ShouldNotBeNull();
+            getResult.MinimumPrice.ShouldBe(1m);
+            getResult.MaximumPrice.ShouldBe(3m);
         }
     }
 }

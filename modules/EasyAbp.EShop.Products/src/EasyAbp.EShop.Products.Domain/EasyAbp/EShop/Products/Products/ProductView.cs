@@ -89,5 +89,11 @@ namespace EasyAbp.EShop.Products.Products
         {
             Sold = sold;
         }
+        
+        public void SetPrices(decimal? minimumPrice, decimal? maximumPrice)
+        {
+            MinimumPrice = minimumPrice;
+            MaximumPrice = maximumPrice;
+        }
     }
 }
