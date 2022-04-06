@@ -9,6 +9,10 @@ namespace EasyAbp.EShop.Plugins.Baskets.Settings
             /* Define module settings here.
              * Use names from BasketsSettings class.
              */
+            context.Add(new SettingDefinition(
+                BasketsSettings.EnableServerSideBasketsName,
+                true.ToString(),
+                isVisibleToClients: true));
         }
     }
 }

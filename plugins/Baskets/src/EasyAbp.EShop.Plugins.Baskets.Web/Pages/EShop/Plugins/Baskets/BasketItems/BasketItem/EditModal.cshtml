@@ -1,8 +1,13 @@
 @page
 @using EasyAbp.EShop.Plugins.Baskets.Localization
+@using EasyAbp.EShop.Plugins.Baskets.Permissions
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.Settings
 @inject IHtmlLocalizer<BasketsResource> L
+@inject IAuthorizationService _authorizationService
+@inject ISettingProvider _settingProvider
 @model EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem.EditModalModel
 @{
     Layout = null;
@@ -17,3 +22,48 @@
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
 </abp-dynamic-form>
+
+<script>
+    var localStorageItemKey = localStorageItemKey || "EShopBasket:" + basketName;
+
+    $(document).ready(function() {
+        if (@(Model.ServerSide ? "true" : "false")) return;
+        
+        var $form = $("form");
+        $form.off('submit');
+        $form.on('submit', function(e){
+            e.preventDefault();
+            var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
+            var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
+            var index = basketItems.findIndex(x => x.id === '@Model.Id');
+            basketItems[index].quantity = parseInt(getFormData()['quantity']);
+            service.generateClientSideData({ items: [ basketItems[index] ] }, {
+                success: function (responseText, statusText, xhr, form) {
+                    localStorage.setItem(localStorageItemKey, JSON.stringify(basketItems));
+                    $form.trigger('abp-ajax-success',
+                    {
+                        responseText: responseText,
+                        statusText: statusText,
+                        xhr: xhr,
+                        $form: form
+                    })
+                }
+            });
+        });
+    });
+    
+    String.prototype.toCamelCase = function() {
+        return this.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
+            if (p2) return p2.toUpperCase();
+            return p1.toLowerCase();        
+        });
+    };
+    
+    function getFormData() {
+        const PREFIX = "ViewModel.";
+        return $('form').serializeArray().reduce(function(obj, item) {
+            obj[item.name.slice(PREFIX.length).toCamelCase()] = item.value;
+            return obj;
+        }, {});
+    }
+</script>

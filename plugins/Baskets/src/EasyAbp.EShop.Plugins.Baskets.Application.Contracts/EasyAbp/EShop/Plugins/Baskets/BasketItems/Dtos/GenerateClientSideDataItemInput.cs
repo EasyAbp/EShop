@@ -6,15 +6,15 @@ using Volo.Abp.ObjectExtending;
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos
 {
     [Serializable]
-    public class CreateBasketItemDto : ExtensibleObject
+    public class GenerateClientSideDataItemInput : ExtensibleObject
     {
-        public string BasketName { get; set; } = BasketsConsts.DefaultBasketName;
-        
         /// <summary>
-        /// Specify the basket item owner user ID. Use current user ID if this property is null.
+        /// Reuse Id if set.
         /// </summary>
-        public Guid? UserId { get; set; }
+        public Guid? Id { get; set; }
         
+        public string BasketName { get; set; } = BasketsConsts.DefaultBasketName;
+
         public Guid ProductId { get; set; }
 
         public Guid ProductSkuId { get; set; }

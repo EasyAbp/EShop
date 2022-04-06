@@ -8,13 +8,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketIt
     {
         [Display(Name = "BasketItemBasketName")]
         public string BasketName { get; set; } = BasketsConsts.DefaultBasketName;
-        
-        /// <summary>
-        /// Specify the basket item owner user ID. Use current user ID if this property is null.
-        /// </summary>
-        [Display(Name = "BasketItemUserId")]
-        public Guid? UserId { get; set; }
-        
+
         [Display(Name = "BasketItemStoreId")]
         public Guid StoreId { get; set; }
 

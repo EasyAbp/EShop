@@ -5,11 +5,10 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public class BasketItem : AuditedAggregateRoot<Guid>, IProductData, IMultiTenant
+    public class BasketItem : AuditedAggregateRoot<Guid>, IBasketItem, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
         
-        [NotNull]
         public virtual string BasketName { get; protected set; }
         
         public virtual Guid UserId { get; protected set; }
@@ -87,9 +86,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             Inventory = productData.Inventory;
         }
 
-        public void SetIsInvalid(bool isForSale)
+        public void SetIsInvalid(bool isInvalid)
         {
-            IsInvalid = isForSale;
+            IsInvalid = isInvalid;
         }
     }
 }
