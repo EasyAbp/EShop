@@ -12,6 +12,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Payments.Payments
@@ -116,6 +117,8 @@ namespace EasyAbp.EShop.Payments.Payments
                 orders.First().Currency,
                 paymentItems
             );
+            
+            input.MapExtraPropertiesTo(createPaymentEto);
 
             await _distributedEventBus.PublishAsync(createPaymentEto);
         }
