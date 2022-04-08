@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web
              * into multiple profile classes for a better organization. */
             CreateMap<ClientSideBasketItemModel, GenerateClientSideDataItemInput>()
                 .Ignore(dto => dto.ExtraProperties);
-            CreateMap<IBasketItem, EditBasketItemViewModel>();
+            CreateMap<BasketItemDto, EditBasketItemViewModel>();
             CreateMap<CreateBasketItemViewModel, CreateBasketItemDto>()
                 .Ignore(dto => dto.UserId)
                 .Ignore(dto => dto.ExtraProperties);
