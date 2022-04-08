@@ -53,10 +53,17 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         }
 
         [HttpDelete]
-        [Route("in-bulk")]
-        public Task DeleteInBulkAsync(IEnumerable<Guid> ids)
+        [Route("batch")]
+        public Task BatchDeleteAsync(IEnumerable<Guid> ids)
         {
-            return _service.DeleteInBulkAsync(ids);
+            return _service.BatchDeleteAsync(ids);
+        }
+
+        [HttpPost]
+        [Route("generate-client-side-data")]
+        public Task<ListResultDto<ClientSideBasketItemModel>> GenerateClientSideDataAsync(GenerateClientSideDataInput input)
+        {
+            return _service.GenerateClientSideDataAsync(input);
         }
     }
 }

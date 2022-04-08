@@ -1,8 +1,13 @@
 @page
 @using EasyAbp.EShop.Plugins.Baskets.Localization
+@using EasyAbp.EShop.Plugins.Baskets.Permissions
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.Settings
 @inject IHtmlLocalizer<BasketsResource> L
+@inject IAuthorizationService _authorizationService
+@inject ISettingProvider _settingProvider
 @model EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem.EditModalModel
 @{
     Layout = null;
@@ -17,3 +22,36 @@
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
 </abp-dynamic-form>
+
+<script>
+    var localStorageItemKey = localStorageItemKey || "EShopBasket:" + basketName;
+
+    $(document).ready(function() {
+        if (@(Model.ServerSide ? "true" : "false")) return;
+        
+        var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
+        var index = basketItems.findIndex(x => x.id === '@Model.Id');
+
+        $('#ViewModel_Quantity').val(basketItems[index].quantity);
+        
+        var $form = $("form");
+        $form.off('submit');
+        $form.on('submit', function(e){
+            e.preventDefault();
+            var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
+            basketItems[index].quantity = parseInt($form.serializeFormToObject().viewModel.quantity);
+            service.generateClientSideData({ items: [ basketItems[index] ] }, {
+                success: function (responseText, statusText, xhr, form) {
+                    localStorage.setItem(localStorageItemKey, JSON.stringify(basketItems));
+                    $form.trigger('abp-ajax-success',
+                    {
+                        responseText: responseText,
+                        statusText: statusText,
+                        xhr: xhr,
+                        $form: form
+                    })
+                }
+            });
+        });
+    });
+</script>

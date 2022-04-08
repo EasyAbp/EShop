@@ -1,4 +1,5 @@
 @page
+@using System.Security.Principal
 @using EasyAbp.EShop.Plugins.Baskets.Permissions
 @using EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem
 @using EasyAbp.EShop.Plugins.Baskets.Localization
@@ -36,13 +37,10 @@
                 <abp-card-title>@L["BasketItem"]</abp-card-title>
             </abp-column>
             <abp-column size-md="_6" class="text-end">
-			    @if (await Authorization.IsGrantedAsync(BasketsPermissions.BasketItem.Create))
-                { 
                 <abp-button id="NewBasketItemButton"
                             text="@L["CreateBasketItem"].Value"
                             icon="plus"
                             button-type="Primary" />
-                }
             </abp-column>
         </abp-row>
     </abp-card-header>
@@ -52,7 +50,6 @@
             <tr>
                 <th>@L["Actions"]</th>
                 <th>@L["BasketItemBasketName"]</th>
-                <th>@L["BasketItemUserId"]</th>
                 <th>@L["BasketItemStoreId"]</th>
                 <th>@L["BasketItemProductId"]</th>
                 <th>@L["BasketItemProductSkuId"]</th>

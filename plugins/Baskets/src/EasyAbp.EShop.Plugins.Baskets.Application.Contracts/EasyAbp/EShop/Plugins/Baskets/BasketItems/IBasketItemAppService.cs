@@ -15,6 +15,8 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             CreateBasketItemDto,
             UpdateBasketItemDto>
     {
-        Task DeleteInBulkAsync(IEnumerable<Guid> ids);
+        Task BatchDeleteAsync(IEnumerable<Guid> ids);
+
+        Task<ListResultDto<ClientSideBasketItemModel>> GenerateClientSideDataAsync(GenerateClientSideDataInput input);
     }
 }

@@ -24,14 +24,14 @@ $(function () {
                         [
                             {
                                 text: l('Edit'),
-                                visible: abp.auth.isGranted('Stores.Transaction.Update'),
+                                visible: abp.auth.isGranted('EasyAbp.EShop.Stores.Transaction.Update'),
                                 action: function (data) {
                                     editModal.open({ id: data.record.id });
                                 }
                             },
                             {
                                 text: l('Delete'),
-                                visible: abp.auth.isGranted('Stores.Transaction.Delete'),
+                                visible: abp.auth.isGranted('EasyAbp.EShop.Stores.Transaction.Delete'),
                                 confirmMessage: function (data) {
                                     return l('TransactionDeletionConfirmationMessage', data.record.id);
                                 },

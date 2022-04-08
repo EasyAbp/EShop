@@ -8,7 +8,6 @@ using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
-using EasyAbp.EShop.Plugins.Baskets.Permissions;
 
 namespace EasyAbp.EShop.Plugins.Baskets.Web
 {
@@ -45,6 +44,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web
             });
 
             context.Services.AddAutoMapperObjectMapper<EShopPluginsBasketsWebModule>();
+            
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<EShopPluginsBasketsWebModule>(validate: true);

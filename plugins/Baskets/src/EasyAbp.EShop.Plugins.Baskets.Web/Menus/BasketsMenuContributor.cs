@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Baskets.Localization;
-using EasyAbp.EShop.Plugins.Baskets.Permissions;
 using Volo.Abp.UI.Navigation;
 
 namespace EasyAbp.EShop.Plugins.Baskets.Web.Menus
@@ -22,12 +21,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Menus
 
             var basketManagementMenuItem = new ApplicationMenuItem(BasketsMenus.Prefix, l["Menu:BasketManagement"]);
 
-            if (await context.IsGrantedAsync(BasketsPermissions.BasketItem.Default))
-            {
-                basketManagementMenuItem.AddItem(
-                    new ApplicationMenuItem(BasketsMenus.BasketItem, l["Menu:BasketItem"], $"/EShop/Plugins/Baskets/BasketItems/BasketItem?basketName={BasketsConsts.DefaultBasketName}&userId=")
-                );
-            }
+            basketManagementMenuItem.AddItem(
+                new ApplicationMenuItem(BasketsMenus.BasketItem, l["Menu:BasketItem"], $"/EShop/Plugins/Baskets/BasketItems/BasketItem?basketName={BasketsConsts.DefaultBasketName}&userId=")
+            );
             
             if (!basketManagementMenuItem.Items.IsNullOrEmpty())
             {

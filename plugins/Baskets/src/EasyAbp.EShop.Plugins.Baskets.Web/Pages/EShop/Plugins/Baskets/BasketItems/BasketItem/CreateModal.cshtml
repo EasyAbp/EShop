@@ -1,12 +1,18 @@
 @page
 @using EasyAbp.EShop.Plugins.Baskets.Localization
+@using EasyAbp.EShop.Plugins.Baskets.Permissions
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.Settings
 @inject IHtmlLocalizer<BasketsResource> L
+@inject IAuthorizationService _authorizationService
+@inject ISettingProvider _settingProvider
 @model EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem.CreateModalModel
 @{
     Layout = null;
 }
+
 <abp-dynamic-form abp-model="ViewModel" data-ajaxForm="true" asp-page="CreateModal">
     <abp-modal>
         <abp-modal-header title="@L["CreateBasketItem"].Value"></abp-modal-header>
@@ -16,3 +22,43 @@
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
 </abp-dynamic-form>
+
+<script>
+    var localStorageItemKey = localStorageItemKey || "EShopBasket:" + basketName;
+
+    $(document).ready(function() {
+        if (@(Model.ServerSide ? "true" : "false")) return;
+        
+        var $form = $("form");
+        $form.off('submit');
+        $form.on('submit', function(e){
+            e.preventDefault();
+            var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
+            service.generateClientSideData({ items: [ $form.serializeFormToObject().viewModel ] }, {
+                success: function (responseText, statusText, xhr, form) {
+                    var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
+                    basketItems = pushOrUpdateBasketItem(basketItems, responseText.items[0])
+                    localStorage.setItem(localStorageItemKey, JSON.stringify(basketItems));
+                    $form.trigger('abp-ajax-success',
+                    {
+                        responseText: responseText,
+                        statusText: statusText,
+                        xhr: xhr,
+                        $form: form
+                    })
+                }
+            });
+        });
+    });
+    
+    function pushOrUpdateBasketItem(basketItems, item) {
+        var index = basketItems.findIndex(x => x.storeId === item.storeId && x.productId === item.productId && x.productSkuId === item.productSkuId);
+        if (index >= 0) {
+            basketItems[index].quantity += item.quantity;
+        } else {
+            basketItems.push(item);
+        }
+        
+        return basketItems;
+    }
+</script>
