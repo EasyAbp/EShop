@@ -29,14 +29,17 @@
     $(document).ready(function() {
         if (@(Model.ServerSide ? "true" : "false")) return;
         
+        var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
+        var index = basketItems.findIndex(x => x.id === '@Model.Id');
+
+        $('#ViewModel_Quantity').val(basketItems[index].quantity);
+        
         var $form = $("form");
         $form.off('submit');
         $form.on('submit', function(e){
             e.preventDefault();
             var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
-            var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
-            var index = basketItems.findIndex(x => x.id === '@Model.Id');
-            basketItems[index].quantity = parseInt(getFormData()['quantity']);
+            basketItems[index].quantity = parseInt($form.serializeFormToObject().viewModel.quantity);
             service.generateClientSideData({ items: [ basketItems[index] ] }, {
                 success: function (responseText, statusText, xhr, form) {
                     localStorage.setItem(localStorageItemKey, JSON.stringify(basketItems));
@@ -51,19 +54,4 @@
             });
         });
     });
-    
-    String.prototype.toCamelCase = function() {
-        return this.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
-            if (p2) return p2.toUpperCase();
-            return p1.toLowerCase();        
-        });
-    };
-    
-    function getFormData() {
-        const PREFIX = "ViewModel.";
-        return $('form').serializeArray().reduce(function(obj, item) {
-            obj[item.name.slice(PREFIX.length).toCamelCase()] = item.value;
-            return obj;
-        }, {});
-    }
 </script>
