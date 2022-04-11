@@ -126,6 +126,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 id: _guidGenerator.Create(),
                 productId: product.Id,
                 productSkuId: productSku.Id,
+                productDetailId: productDetailId,
                 productModificationTime: product.LastModificationTime ?? product.CreationTime,
                 productDetailModificationTime: productDetail?.LastModificationTime ?? productDetail?.CreationTime,
                 productGroupName: product.ProductGroupName,

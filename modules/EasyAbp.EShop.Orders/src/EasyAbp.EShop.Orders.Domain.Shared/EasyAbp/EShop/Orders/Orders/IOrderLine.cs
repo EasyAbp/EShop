@@ -9,6 +9,8 @@ namespace EasyAbp.EShop.Orders.Orders
         
         Guid ProductSkuId { get; }
         
+        Guid? ProductDetailId { get; }
+        
         DateTime ProductModificationTime { get; }
         
         DateTime? ProductDetailModificationTime { get; }
