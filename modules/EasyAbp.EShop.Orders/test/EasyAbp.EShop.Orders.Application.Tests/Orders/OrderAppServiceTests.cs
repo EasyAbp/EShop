@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -33,10 +35,12 @@ namespace EasyAbp.EShop.Orders.Orders
                 CreationTime = DateTime.Now,
                 IsPublished = true,
                 Id = OrderTestData.Product1Id,
+                StoreId = OrderTestData.Store1Id,
                 ProductGroupName = "Default",
                 ProductGroupDisplayName = "Default",
                 UniqueName = "Pencil",
                 DisplayName = "Hello pencil",
+                ProductDetailId = OrderTestData.ProductDetail1Id,
                 ProductSkus = new List<ProductSkuDto>
                 {
                     new ProductSkuDto
@@ -48,6 +52,18 @@ namespace EasyAbp.EShop.Orders.Orders
                         AttributeOptionIds = new List<Guid>(),
                         Price = 1m,
                         Currency = "CNY",
+                        ProductDetailId = null
+                    },
+                    new ProductSkuDto
+                    {
+                        Id = OrderTestData.ProductSku2Id,
+                        Name = "My SKU 2",
+                        OrderMinQuantity = 0,
+                        OrderMaxQuantity = 100,
+                        AttributeOptionIds = new List<Guid>(),
+                        Price = 2m,
+                        Currency = "CNY",
+                        ProductDetailId = OrderTestData.ProductDetail2Id
                     }
                 },
                 InventoryStrategy = InventoryStrategy.NoNeed,
@@ -55,6 +71,28 @@ namespace EasyAbp.EShop.Orders.Orders
             }));
 
             services.AddTransient(_ => productAppService);
+            
+            var productDetailAppService = Substitute.For<IProductDetailAppService>();
+
+            productDetailAppService.GetAsync(OrderTestData.ProductDetail1Id).Returns(Task.FromResult(
+                new ProductDetailDto
+                {
+                    Id = OrderTestData.ProductDetail1Id,
+                    CreationTime = OrderTestData.ProductDetailLastModificationTime,
+                    LastModificationTime = OrderTestData.ProductDetailLastModificationTime,
+                    StoreId = OrderTestData.Store1Id,
+                    Description = "My Details 1"
+                }));
+
+            productDetailAppService.GetAsync(OrderTestData.ProductDetail2Id).Returns(Task.FromResult(
+                new ProductDetailDto
+                {
+                    Id = OrderTestData.ProductDetail2Id,
+                    StoreId = OrderTestData.Store1Id,
+                    Description = "My Details 2"
+                }));
+
+            services.AddTransient(_ => productDetailAppService);
         }
 
         [Fact]
@@ -76,8 +114,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
             };
 
+            OrderDto createResponse = null;
             // Act
-            var createResponse = await _orderAppService.CreateAsync(createOrderDto);
+            await WithUnitOfWorkAsync(async () =>
+            {
+                createResponse = await _orderAppService.CreateAsync(createOrderDto);
+            });
+
             var response = await _orderAppService.GetAsync(createResponse.Id);
 
             // Assert
@@ -118,6 +161,7 @@ namespace EasyAbp.EShop.Orders.Orders
             responseOrderLine.Currency.ShouldBe("CNY");
             responseOrderLine.Quantity.ShouldBe(10);
             responseOrderLine.ProductModificationTime.ShouldBe(OrderTestData.ProductLastModificationTime);
+            responseOrderLine.ProductDetailModificationTime.ShouldBe(OrderTestData.ProductDetailLastModificationTime);
             responseOrderLine.RefundAmount.ShouldBe(0m);
             responseOrderLine.RefundedQuantity.ShouldBe(0);
 
