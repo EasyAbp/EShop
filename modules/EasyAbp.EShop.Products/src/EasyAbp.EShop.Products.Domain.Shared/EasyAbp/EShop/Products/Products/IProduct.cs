@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         string ProductGroupName { get; }
         
-        Guid ProductDetailId { get; }
+        Guid? ProductDetailId { get; }
 
         string UniqueName { get; }
 

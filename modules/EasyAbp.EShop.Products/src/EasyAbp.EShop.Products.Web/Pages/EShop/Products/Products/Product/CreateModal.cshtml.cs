@@ -73,15 +73,18 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var detail = await _productDetailAppService.CreateAsync(
-                ObjectMapper
-                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
-
             var createDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
 
-            createDto.ProductDetailId = detail.Id;
+            if (Product.ProductDetail.HasContent())
+            {
+                var detail = await _productDetailAppService.CreateAsync(
+                    ObjectMapper
+                        .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
 
-            var product = await _service.CreateAsync(createDto);
+                createDto.ProductDetailId = detail.Id;
+            }
+
+            await _service.CreateAsync(createDto);
 
             return NoContent();
         }

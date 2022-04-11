@@ -18,5 +18,10 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [TextArea(Rows = 4)]
         [Display(Name = "ProductDetailDescription")]
         public string Description { get; set; }
+
+        public bool HasContent()
+        {
+            return !Description.IsNullOrEmpty();
+        }
     }
 }

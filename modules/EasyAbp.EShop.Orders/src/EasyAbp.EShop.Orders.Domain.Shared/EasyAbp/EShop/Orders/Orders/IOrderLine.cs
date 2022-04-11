@@ -11,7 +11,7 @@ namespace EasyAbp.EShop.Orders.Orders
         
         DateTime ProductModificationTime { get; }
         
-        DateTime ProductDetailModificationTime { get; }
+        DateTime? ProductDetailModificationTime { get; }
         
         string ProductGroupName { get; }
         

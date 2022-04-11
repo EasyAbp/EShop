@@ -84,7 +84,6 @@
     "EasyAbp.EShop.Products:DuplicatedProductUniqueName": "唯一的产品名称'{uniqueName}'重复",
     "EasyAbp.EShop.Products:InventoryChangeFailed": "产品{productId} (SKU: {productSkuId})的库存不能由{originalInventory}中的{changedInventory}更改",
     "EasyAbp.EShop.Products:NonexistentProductGroup": "指定的产品组({productGroupName})不存在",
-    "EasyAbp.EShop.Products:ProductDetailHasBeenUsed": "商品详情{productDetailId}已被使用",
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "商品{productId}的Sku代码{code}重复",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "商品{productId}的Sku{serializedAttributeOptionIds}重复",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "您没有权限获取带有隐藏类别的类别列表",

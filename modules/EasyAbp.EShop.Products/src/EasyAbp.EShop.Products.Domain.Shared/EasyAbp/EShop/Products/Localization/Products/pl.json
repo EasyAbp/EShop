@@ -86,7 +86,6 @@
     "EasyAbp.EShop.Products:DuplicatedProductUniqueName": "The product unique name '{uniqueName}' is duplicated.",
     "EasyAbp.EShop.Products:InventoryChangeFailed": "Inventory of product {productId} (SKU: {productSkuId}) cannot be changed by {changedInventory} from {originalInventory}",
     "EasyAbp.EShop.Products:NonexistentProductGroup": "The specified product group ({productGroupName}) is nonexistent.",
-    "EasyAbp.EShop.Products:ProductDetailHasBeenUsed": "ProductDetail {productDetailId} has been used.",
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "Sku code {code} is duplicate for the product {productId}",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "Sku {serializedAttributeOptionIds} is duplicate for the product {productId}",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "You have no permission to get category list with hidden categories.",

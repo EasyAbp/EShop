@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual DateTime ProductModificationTime { get; protected set; }
         
-        public virtual DateTime ProductDetailModificationTime { get; protected set; }
+        public virtual DateTime? ProductDetailModificationTime { get; protected set; }
 
         [NotNull]
         public virtual string ProductGroupName { get; protected set; }
@@ -69,7 +69,7 @@ namespace EasyAbp.EShop.Orders.Orders
             Guid productId,
             Guid productSkuId,
             DateTime productModificationTime,
-            DateTime productDetailModificationTime,
+            DateTime? productDetailModificationTime,
             [NotNull] string productGroupName,
             [NotNull] string productGroupDisplayName,
             [CanBeNull] string productUniqueName,
