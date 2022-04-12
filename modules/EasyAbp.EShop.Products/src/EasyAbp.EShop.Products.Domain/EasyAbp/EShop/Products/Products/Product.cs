@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Products.Products
         [NotNull]
         public virtual string ProductGroupName { get; protected set; }
         
-        public virtual Guid ProductDetailId { get; protected set; }
+        public virtual Guid? ProductDetailId { get; protected set; }
 
         [CanBeNull]
         public virtual string UniqueName { get; protected set; }
@@ -51,7 +51,7 @@ namespace EasyAbp.EShop.Products.Products
             Guid? tenantId,
             Guid storeId,
             [NotNull] string productGroupName,
-            Guid productDetailId,
+            Guid? productDetailId,
             [CanBeNull] string uniqueName,
             [NotNull] string displayName,
             InventoryStrategy inventoryStrategy,

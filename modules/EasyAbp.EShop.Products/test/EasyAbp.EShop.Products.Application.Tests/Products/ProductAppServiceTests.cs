@@ -4,9 +4,11 @@ using System.Linq;
 using Shouldly;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Options;
+using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Volo.Abp.Domain.Entities;
 using Xunit;
 
 namespace EasyAbp.EShop.Products.Products
@@ -20,18 +22,19 @@ namespace EasyAbp.EShop.Products.Products
         {
             _productAppService = GetRequiredService<IProductAppService>();
             _eShopProductsOptions = GetRequiredService<IOptions<EShopProductsOptions>>().Value;
-        }
-
-        [Fact]
-        public async Task Should_Create_Product()
-        {
+            
             // Arrange
             _eShopProductsOptions.Groups.Configure("Default Group Name", x =>
             {
                 x.DisplayName = "Default Group Name";
                 x.Description = "Default Description";
             });
+        }
 
+        [Fact]
+        public async Task Should_Create_Product()
+        {
+            // Arrange
             var requestDto = new CreateUpdateProductDto
             {
                 ProductGroupName = "Default Group Name",
@@ -143,6 +146,67 @@ namespace EasyAbp.EShop.Products.Products
             getResult.ShouldNotBeNull();
             getResult.MinimumPrice.ShouldBe(1m);
             getResult.MaximumPrice.ShouldBe(3m);
+        }
+        
+        [Fact]
+        public async Task Should_Check_ProductDetailId()
+        {
+            var wrongProductDetailId = Guid.NewGuid();
+            
+            var requestDto = new CreateUpdateProductDto
+            {
+                ProductGroupName = "Default Group Name",
+                StoreId = ProductsTestData.Store1Id,
+                UniqueName = "Unique Pencil",
+                DisplayName = "Pencil",
+                ProductDetailId = wrongProductDetailId,
+                InventoryStrategy = InventoryStrategy.NoNeed,
+                DisplayOrder = 0,
+                IsPublished = true,
+                ProductAttributes = new List<CreateUpdateProductAttributeDto>
+                {
+                    new CreateUpdateProductAttributeDto
+                    {
+                        DisplayName = "Default Attribute 1",
+                        Description = "Default Description 1",
+                        DisplayOrder = 1,
+                        ProductAttributeOptions = new List<CreateUpdateProductAttributeOptionDto>
+                        {
+                            new CreateUpdateProductAttributeOptionDto
+                            {
+                                DisplayName = "Option 1"
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            (await Should.ThrowAsync<EntityNotFoundException>(async () =>
+            {
+                await _productAppService.CreateAsync(requestDto);
+            })).EntityType.ShouldBe(typeof(ProductDetail));
+        }
+        
+        [Fact]
+        public async Task Should_Check_Sku_ProductDetailId()
+        {
+            await Should_Create_Product();
+
+            var wrongProductDetailId = Guid.NewGuid();
+
+            (await Should.ThrowAsync<EntityNotFoundException>(async () =>
+            {
+                await _productAppService.CreateSkuAsync(ProductsTestData.Product1Id, new CreateProductSkuDto
+                {
+                    AttributeOptionIds = new List<Guid> {ProductsTestData.Product1Attribute1Option4Id},
+                    ProductDetailId = wrongProductDetailId,
+                    Currency = "CNY",
+                    Price = 10m,
+                    OrderMinQuantity = 1,
+                    OrderMaxQuantity = 10
+                });
+            })).EntityType.ShouldBe(typeof(ProductDetail));
         }
     }
 }

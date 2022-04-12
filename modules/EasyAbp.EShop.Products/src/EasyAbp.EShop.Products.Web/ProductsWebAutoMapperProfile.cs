@@ -51,16 +51,23 @@ namespace EasyAbp.EShop.Products.Web
             CreateMap<ProductDetailDto, CreateEditProductDetailViewModel>();
             CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>()
                 .Ignore(dto => dto.ExtraProperties);
+            CreateMap<CreateEditSkuProductDetailViewModel, CreateUpdateProductDetailDto>()
+                .Ignore(dto => dto.ExtraProperties);
             CreateMap<ProductAttributeDto, CreateEditProductAttributeViewModel>();
             CreateMap<CreateEditProductAttributeViewModel, CreateUpdateProductAttributeDto>()
                 .Ignore(dto => dto.ExtraProperties);
             CreateMap<CreateProductSkuViewModel, CreateProductSkuDto>()
                 .Ignore(dto => dto.ExtraProperties)
+                .Ignore(dto => dto.ProductDetailId)
+                .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
                 .ForSourceMember(model => model.Inventory, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.AttributeOptionIds);
             CreateMap<EditProductSkuViewModel, UpdateProductSkuDto>()
+                .Ignore(dto => dto.ProductDetailId)
+                .ForSourceMember(model => model.ProductDetail, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.ExtraProperties);
             CreateMap<ProductSkuDto, EditProductSkuViewModel>()
+                .Ignore(x => x.ProductDetail)
                 .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.Inventory, opt => opt.DoNotValidate())
                 .ForSourceMember(dto => dto.Sold, opt => opt.DoNotValidate());

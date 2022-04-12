@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Authorization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Stores.Stores;
@@ -24,17 +26,20 @@ namespace EasyAbp.EShop.Orders.Orders
 
         private readonly INewOrderGenerator _newOrderGenerator;
         private readonly IProductAppService _productAppService;
+        private readonly IProductDetailAppService _productDetailAppService;
         private readonly IOrderManager _orderManager;
         private readonly IOrderRepository _repository;
 
         public OrderAppService(
             INewOrderGenerator newOrderGenerator,
             IProductAppService productAppService,
+            IProductDetailAppService productDetailAppService,
             IOrderManager orderManager,
             IOrderRepository repository) : base(repository)
         {
             _newOrderGenerator = newOrderGenerator;
             _productAppService = productAppService;
+            _productDetailAppService = productDetailAppService;
             _orderManager = orderManager;
             _repository = repository;
         }
@@ -94,7 +99,18 @@ namespace EasyAbp.EShop.Orders.Orders
                 new OrderOperationAuthorizationRequirement(OrderOperation.Creation)
             );
 
-            var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict);
+            var productDetailIds = input.OrderLines
+                .Select(dto =>
+                    productDict[dto.ProductId].GetSkuById(dto.ProductSkuId).ProductDetailId ??
+                    productDict[dto.ProductId].ProductDetailId)
+                .Where(x => x.HasValue)
+                .Select(x => x.Value)
+                .ToList();
+            
+            var productDetailDict = await GetProductDetailDictionaryAsync(productDetailIds);
+
+            // Todo: Can we use IProductDataScopedCache/IProductDetailDataScopedCache instead of productDict/productDetailDict?
+            var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict, productDetailDict);
 
             await DiscountOrderAsync(order, productDict);
 
@@ -116,9 +132,22 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var dict = new Dictionary<Guid, ProductDto>();
 
-            foreach (var productId in productIds.Distinct().ToList())
+            foreach (var productId in productIds.Distinct())
             {
                 dict.Add(productId, await _productAppService.GetAsync(productId));
+            }
+
+            return dict;
+        }
+
+        protected virtual async Task<Dictionary<Guid, ProductDetailDto>> GetProductDetailDictionaryAsync(
+            IEnumerable<Guid> productDetailIds)
+        {
+            var dict = new Dictionary<Guid, ProductDetailDto>();
+
+            foreach (var productDetailId in productDetailIds.Distinct())
+            {
+                dict.Add(productDetailId, await _productDetailAppService.GetAsync(productDetailId));
             }
 
             return dict;

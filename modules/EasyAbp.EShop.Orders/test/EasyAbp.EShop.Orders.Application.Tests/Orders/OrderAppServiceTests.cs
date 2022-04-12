@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -33,10 +35,12 @@ namespace EasyAbp.EShop.Orders.Orders
                 CreationTime = DateTime.Now,
                 IsPublished = true,
                 Id = OrderTestData.Product1Id,
+                StoreId = OrderTestData.Store1Id,
                 ProductGroupName = "Default",
                 ProductGroupDisplayName = "Default",
                 UniqueName = "Pencil",
                 DisplayName = "Hello pencil",
+                ProductDetailId = OrderTestData.ProductDetail1Id,
                 ProductSkus = new List<ProductSkuDto>
                 {
                     new ProductSkuDto
@@ -48,6 +52,18 @@ namespace EasyAbp.EShop.Orders.Orders
                         AttributeOptionIds = new List<Guid>(),
                         Price = 1m,
                         Currency = "CNY",
+                        ProductDetailId = null
+                    },
+                    new ProductSkuDto
+                    {
+                        Id = OrderTestData.ProductSku2Id,
+                        Name = "My SKU 2",
+                        OrderMinQuantity = 0,
+                        OrderMaxQuantity = 100,
+                        AttributeOptionIds = new List<Guid>(),
+                        Price = 2m,
+                        Currency = "CNY",
+                        ProductDetailId = OrderTestData.ProductDetail2Id
                     }
                 },
                 InventoryStrategy = InventoryStrategy.NoNeed,
@@ -55,6 +71,28 @@ namespace EasyAbp.EShop.Orders.Orders
             }));
 
             services.AddTransient(_ => productAppService);
+            
+            var productDetailAppService = Substitute.For<IProductDetailAppService>();
+
+            productDetailAppService.GetAsync(OrderTestData.ProductDetail1Id).Returns(Task.FromResult(
+                new ProductDetailDto
+                {
+                    Id = OrderTestData.ProductDetail1Id,
+                    CreationTime = OrderTestData.ProductDetailLastModificationTime,
+                    LastModificationTime = OrderTestData.ProductDetailLastModificationTime,
+                    StoreId = OrderTestData.Store1Id,
+                    Description = "My Details 1"
+                }));
+
+            productDetailAppService.GetAsync(OrderTestData.ProductDetail2Id).Returns(Task.FromResult(
+                new ProductDetailDto
+                {
+                    Id = OrderTestData.ProductDetail2Id,
+                    StoreId = OrderTestData.Store1Id,
+                    Description = "My Details 2"
+                }));
+
+            services.AddTransient(_ => productDetailAppService);
         }
 
         [Fact]
@@ -72,55 +110,26 @@ namespace EasyAbp.EShop.Orders.Orders
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku1Id,
                         Quantity = 10
+                    },
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku2Id,
+                        Quantity = 1
                     }
                 }
             };
 
+            OrderDto createResponse = null;
             // Act
-            var createResponse = await _orderAppService.CreateAsync(createOrderDto);
+            await WithUnitOfWorkAsync(async () =>
+            {
+                createResponse = await _orderAppService.CreateAsync(createOrderDto);
+            });
+
             var response = await _orderAppService.GetAsync(createResponse.Id);
 
             // Assert
-            response.ShouldNotBeNull();
-            response.Currency.ShouldBe("CNY");
-            response.CanceledTime.ShouldBeNull();
-            response.CancellationReason.ShouldBeNullOrEmpty();
-            response.CompletionTime.ShouldBeNull();
-            response.CustomerRemark.ShouldBe("customer remark");
-            response.OrderNumber.ShouldNotBeNull();
-            response.OrderStatus.ShouldBe(OrderStatus.Pending);
-            response.PaidTime.ShouldBeNull();
-            response.PaymentId.ShouldBeNull();
-            response.RefundAmount.ShouldBe(0m);
-            response.StaffRemark.ShouldBeNullOrEmpty();
-            response.StoreId.ShouldBe(OrderTestData.Store1Id);
-            response.TotalDiscount.ShouldBe(0m);
-            response.TotalPrice.ShouldBe(10m);
-            response.ActualTotalPrice.ShouldBe(10m);
-            response.CustomerUserId.ShouldBe(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"));
-            response.ProductTotalPrice.ShouldBe(10m);
-            response.ReducedInventoryAfterPaymentTime.ShouldBeNull();
-            response.ReducedInventoryAfterPlacingTime.ShouldNotBeNull();
-            response.OrderLines.Count.ShouldBe(1);
-
-            var responseOrderLine = response.OrderLines.First();
-            responseOrderLine.ProductId.ShouldBe(OrderTestData.Product1Id);
-            responseOrderLine.ProductSkuId.ShouldBe(OrderTestData.ProductSku1Id);
-            responseOrderLine.ProductDisplayName.ShouldBe("Hello pencil");
-            responseOrderLine.ProductUniqueName.ShouldBe("Pencil");
-            responseOrderLine.ProductGroupName.ShouldBe("Default");
-            responseOrderLine.ProductGroupDisplayName.ShouldBe("Default");
-            responseOrderLine.SkuName.ShouldBe("My SKU");
-            responseOrderLine.UnitPrice.ShouldBe(1m);
-            responseOrderLine.TotalPrice.ShouldBe(10m);
-            responseOrderLine.TotalDiscount.ShouldBe(0m);
-            responseOrderLine.ActualTotalPrice.ShouldBe(10m);
-            responseOrderLine.Currency.ShouldBe("CNY");
-            responseOrderLine.Quantity.ShouldBe(10);
-            responseOrderLine.ProductModificationTime.ShouldBe(OrderTestData.ProductLastModificationTime);
-            responseOrderLine.RefundAmount.ShouldBe(0m);
-            responseOrderLine.RefundedQuantity.ShouldBe(0);
-
             UsingDbContext(context =>
             {
                 context.Orders.Count().ShouldBe(1);
@@ -139,31 +148,36 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.StaffRemark.ShouldBeNullOrEmpty();
                 order.StoreId.ShouldBe(OrderTestData.Store1Id);
                 order.TotalDiscount.ShouldBe(0m);
-                order.TotalPrice.ShouldBe(10m);
-                order.ActualTotalPrice.ShouldBe(10m);
+                order.TotalPrice.ShouldBe(12m);
+                order.ActualTotalPrice.ShouldBe(12m);
                 order.CustomerUserId.ShouldBe(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"));
-                order.ProductTotalPrice.ShouldBe(10m);
+                order.ProductTotalPrice.ShouldBe(12m);
                 order.ReducedInventoryAfterPaymentTime.ShouldBeNull();
                 order.ReducedInventoryAfterPlacingTime.ShouldNotBeNull();
-                order.OrderLines.Count.ShouldBe(1);
+                order.OrderLines.Count.ShouldBe(2);
 
-                var orderLine = order.OrderLines.First();
-                orderLine.ProductId.ShouldBe(OrderTestData.Product1Id);
-                orderLine.ProductSkuId.ShouldBe(OrderTestData.ProductSku1Id);
-                orderLine.ProductDisplayName.ShouldBe("Hello pencil");
-                orderLine.ProductUniqueName.ShouldBe("Pencil");
-                orderLine.ProductGroupName.ShouldBe("Default");
-                orderLine.ProductGroupDisplayName.ShouldBe("Default");
-                orderLine.SkuName.ShouldBe("My SKU");
-                orderLine.UnitPrice.ShouldBe(1m);
-                orderLine.TotalPrice.ShouldBe(10m);
-                orderLine.TotalDiscount.ShouldBe(0m);
-                orderLine.ActualTotalPrice.ShouldBe(10m);
-                orderLine.Currency.ShouldBe("CNY");
-                orderLine.Quantity.ShouldBe(10);
-                orderLine.ProductModificationTime.ShouldBe(OrderTestData.ProductLastModificationTime);
-                orderLine.RefundAmount.ShouldBe(0m);
-                orderLine.RefundedQuantity.ShouldBe(0);
+                var orderLine1 = response.OrderLines.Single(x => x.ProductSkuId == OrderTestData.ProductSku1Id);
+                orderLine1.ProductId.ShouldBe(OrderTestData.Product1Id);
+                orderLine1.ProductSkuId.ShouldBe(OrderTestData.ProductSku1Id);
+                orderLine1.ProductDetailId.ShouldBe(OrderTestData.ProductDetail1Id);
+                orderLine1.ProductDisplayName.ShouldBe("Hello pencil");
+                orderLine1.ProductUniqueName.ShouldBe("Pencil");
+                orderLine1.ProductGroupName.ShouldBe("Default");
+                orderLine1.ProductGroupDisplayName.ShouldBe("Default");
+                orderLine1.SkuName.ShouldBe("My SKU");
+                orderLine1.UnitPrice.ShouldBe(1m);
+                orderLine1.TotalPrice.ShouldBe(10m);
+                orderLine1.TotalDiscount.ShouldBe(0m);
+                orderLine1.ActualTotalPrice.ShouldBe(10m);
+                orderLine1.Currency.ShouldBe("CNY");
+                orderLine1.Quantity.ShouldBe(10);
+                orderLine1.ProductModificationTime.ShouldBe(OrderTestData.ProductLastModificationTime);
+                orderLine1.ProductDetailModificationTime.ShouldBe(OrderTestData.ProductDetailLastModificationTime);
+                orderLine1.RefundAmount.ShouldBe(0m);
+                orderLine1.RefundedQuantity.ShouldBe(0);
+                
+                var orderLine2 = response.OrderLines.Single(x => x.ProductSkuId == OrderTestData.ProductSku2Id);
+                orderLine2.ProductDetailId.ShouldBe(OrderTestData.ProductDetail2Id);
             });
         }
 

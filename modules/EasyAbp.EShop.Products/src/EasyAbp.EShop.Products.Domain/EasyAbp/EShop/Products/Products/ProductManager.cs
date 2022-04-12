@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Options.ProductGroups;
 using EasyAbp.EShop.Products.ProductCategories;
+using EasyAbp.EShop.Products.ProductDetails;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Uow;
 
@@ -14,6 +16,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductPriceProvider _productPriceProvider;
+        private readonly IProductDetailRepository _productDetailRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProvider _productInventoryProvider;
         private readonly IProductGroupConfigurationProvider _productGroupConfigurationProvider;
@@ -21,12 +24,14 @@ namespace EasyAbp.EShop.Products.Products
         public ProductManager(
             IProductRepository productRepository,
             IProductPriceProvider productPriceProvider,
+            IProductDetailRepository productDetailRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductInventoryProvider productInventoryProvider,
             IProductGroupConfigurationProvider productGroupConfigurationProvider)
         {
             _productRepository = productRepository;
             _productPriceProvider = productPriceProvider;
+            _productDetailRepository = productDetailRepository;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProvider = productInventoryProvider;
             _productGroupConfigurationProvider = productGroupConfigurationProvider;
@@ -43,7 +48,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productRepository.InsertAsync(product, autoSave: true);
 
-            await CheckProductDetailAvailableAsync(product.Id, product.ProductDetailId);
+            await CheckProductDetailAsync(product);
 
             await UpdateProductCategoriesAsync(product.Id, categoryIds);
 
@@ -69,7 +74,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productRepository.UpdateAsync(product, autoSave: true);
 
-            await CheckProductDetailAvailableAsync(product.Id, product.ProductDetailId);
+            await CheckProductDetailAsync(product);
 
             await UpdateProductCategoriesAsync(product.Id, categoryIds);
 
@@ -101,9 +106,11 @@ namespace EasyAbp.EShop.Products.Products
 
             await CheckProductSkuNameUniqueAsync(product, productSku);
             
-            productSku.TrimCode();
+            productSku.TrimName();
             
             product.ProductSkus.AddIfNotContains(productSku);
+            
+            await CheckProductDetailAsync(product);
             
             return await _productRepository.UpdateAsync(product, true);
         }
@@ -140,6 +147,8 @@ namespace EasyAbp.EShop.Products.Products
         {
             await CheckProductSkuNameUniqueAsync(product, productSku);
 
+            await CheckProductDetailAsync(product);
+
             return await _productRepository.UpdateAsync(product, true);
         }
 
@@ -157,17 +166,27 @@ namespace EasyAbp.EShop.Products.Products
             await _productRepository.CheckUniqueNameAsync(product);
         }
         
-        [UnitOfWork]
-        protected virtual async Task CheckProductDetailAvailableAsync(Guid currentProductId, Guid desiredProductDetailId)
+        protected virtual async Task CheckProductDetailAsync(Product product)
         {
-            var otherOwner = await _productRepository.FindAsync(x =>
-                x.ProductDetailId == desiredProductDetailId && x.Id != currentProductId);
-
-            // Todo: should also check ProductSku owner
-            
-            if (otherOwner != null)
+            if (product.ProductDetailId.HasValue)
             {
-                throw new ProductDetailHasBeenUsedException(desiredProductDetailId);
+                await CheckProductDetailExistAsync(product.ProductDetailId.Value, product.StoreId);
+            }
+            
+            foreach (var sku in product.ProductSkus.Where(x => x.ProductDetailId.HasValue))
+            {
+                await CheckProductDetailExistAsync(sku.ProductDetailId!.Value, product.StoreId);
+            }
+        }
+        
+        [UnitOfWork]
+        protected virtual async Task CheckProductDetailExistAsync(Guid productDetailId, Guid storeId)
+        {
+            var productDetail = await _productDetailRepository.GetAsync(productDetailId);
+
+            if (productDetail.StoreId.HasValue && productDetail.StoreId.Value != storeId)
+            {
+                throw new EntityNotFoundException(typeof(ProductDetail), productDetailId);
             }
         }
         

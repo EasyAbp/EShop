@@ -4,6 +4,7 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleDbContext))]
-    partial class EShopSampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220411111127_MadeProductDetailIdNullable")]
+    partial class MadeProductDetailIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,9 +214,6 @@ namespace EShopSample.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ProductDetailModificationTime")

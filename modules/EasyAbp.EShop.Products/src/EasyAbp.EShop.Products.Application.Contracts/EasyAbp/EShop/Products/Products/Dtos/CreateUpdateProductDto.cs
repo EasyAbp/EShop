@@ -18,7 +18,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public string ProductGroupName { get; set; }
         
         [DisplayName("ProductDetailId")]
-        public Guid ProductDetailId { get; set; }
+        public Guid? ProductDetailId { get; set; }
 
         [DisplayName("ProductCategory")]
         public ICollection<Guid> CategoryIds { get; set; }

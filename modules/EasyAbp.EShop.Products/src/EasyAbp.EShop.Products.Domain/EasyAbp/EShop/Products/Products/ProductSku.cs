@@ -70,7 +70,7 @@ namespace EasyAbp.EShop.Products.Products
             this.SetDefaultsForExtraProperties();
         }
 
-        internal void TrimCode()
+        internal void TrimName()
         {
             Name = Name?.Trim();
         }

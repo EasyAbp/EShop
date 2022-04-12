@@ -59,8 +59,6 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 .Select(dto => new SelectListItem(dto.DisplayName, dto.Id.ToString())).ToList();
 
             var productDto = await _service.GetAsync(Id);
-
-            var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId);
             
             Product = ObjectMapper.Map<ProductDto, CreateEditProductViewModel>(productDto);
 
@@ -70,26 +68,51 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
                 MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
             })).Items.Select(x => x.CategoryId).ToList();
 
-            Product.ProductDetail = new CreateEditProductDetailViewModel
+            if (productDto.ProductDetailId.HasValue)
             {
-                StoreId = detailDto.StoreId,
-                Description = detailDto.Description
-            };
+                var detailDto = await _productDetailAppService.GetAsync(productDto.ProductDetailId.Value);
+
+                Product.ProductDetail = new CreateEditProductDetailViewModel
+                {
+                    StoreId = detailDto.StoreId,
+                    Description = detailDto.Description
+                };
+            }
         }
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var product = await _service.GetAsync(Id);
-
-            var detail = await _productDetailAppService.GetAsync(product.ProductDetailId);
-
-            await _productDetailAppService.UpdateAsync(detail.Id,
-                ObjectMapper
-                    .Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(Product.ProductDetail));
+            var originalProduct = await _service.GetAsync(Id);
 
             var updateProductDto = ObjectMapper.Map<CreateEditProductViewModel, CreateUpdateProductDto>(Product);
 
-            updateProductDto.ProductDetailId = detail.Id;
+            if (Product.ProductDetail.HasContent())
+            {
+                if (originalProduct.ProductDetailId.HasValue)
+                {
+                    var detail = await _productDetailAppService.GetAsync(originalProduct.ProductDetailId.Value);
+
+                    await _productDetailAppService.UpdateAsync(detail.Id,
+                        ObjectMapper.Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(
+                            Product.ProductDetail));
+                    
+                    updateProductDto.ProductDetailId = detail.Id;
+                }
+                else
+                {
+                    var detail = await _productDetailAppService.CreateAsync(
+                        ObjectMapper.Map<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>(
+                            Product.ProductDetail));
+
+                    updateProductDto.ProductDetailId = detail.Id;
+                }
+            }
+            else if (originalProduct.ProductDetailId.HasValue)
+            {
+                await _productDetailAppService.DeleteAsync(originalProduct.ProductDetailId.Value);
+                
+                updateProductDto.ProductDetailId = null;
+            }
             
             await _service.UpdateAsync(Id, updateProductDto);
             return NoContent();

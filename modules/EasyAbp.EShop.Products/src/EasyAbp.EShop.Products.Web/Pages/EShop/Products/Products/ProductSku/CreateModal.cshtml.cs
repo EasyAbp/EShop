@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.ProductDetails;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using EasyAbp.EShop.Products.Products;
@@ -27,13 +29,16 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         public Dictionary<string, ICollection<SelectListItem>> Attributes { get; set; }
 
         private readonly IProductInventoryAppService _productInventoryAppService;
+        private readonly IProductDetailAppService _productDetailAppService;
         private readonly IProductAppService _productAppService;
 
         public CreateModalModel(
             IProductInventoryAppService productInventoryAppService,
+            IProductDetailAppService productDetailAppService,
             IProductAppService productAppService)
         {
             _productInventoryAppService = productInventoryAppService;
+            _productDetailAppService = productDetailAppService;
             _productAppService = productAppService;
         }
 
@@ -56,6 +61,15 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
             var createDto = ObjectMapper.Map<CreateProductSkuViewModel, CreateProductSkuDto>(ProductSku);
 
             createDto.AttributeOptionIds = SelectedAttributeOptionIdDict.Values.ToList();
+            
+            if (ProductSku.ProductDetail.HasContent())
+            {
+                var detail = await _productDetailAppService.CreateAsync(
+                    ObjectMapper.Map<CreateEditSkuProductDetailViewModel, CreateUpdateProductDetailDto>(ProductSku
+                        .ProductDetail));
+
+                createDto.ProductDetailId = detail.Id;
+            }
             
             var skuDto = await _productAppService.CreateSkuAsync(ProductId, createDto);
 

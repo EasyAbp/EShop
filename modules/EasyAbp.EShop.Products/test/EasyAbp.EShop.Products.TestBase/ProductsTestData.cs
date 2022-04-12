@@ -12,6 +12,8 @@ namespace EasyAbp.EShop.Products
         
         public static Guid Product1Id { get; } = Guid.NewGuid();
         
+        public static Guid Product2Id { get; } = Guid.NewGuid();
+        
         public static Guid Product1Attribute1Id { get; } = Guid.NewGuid();
         
         public static Guid Product1Attribute1Option1Id { get; } = Guid.NewGuid();
@@ -19,6 +21,8 @@ namespace EasyAbp.EShop.Products
         public static Guid Product1Attribute1Option2Id { get; } = Guid.NewGuid();
         
         public static Guid Product1Attribute1Option3Id { get; } = Guid.NewGuid();
+        
+        public static Guid Product1Attribute1Option4Id { get; } = Guid.NewGuid();
         
         public static Guid Product1Sku1Id { get; } = Guid.NewGuid();
         

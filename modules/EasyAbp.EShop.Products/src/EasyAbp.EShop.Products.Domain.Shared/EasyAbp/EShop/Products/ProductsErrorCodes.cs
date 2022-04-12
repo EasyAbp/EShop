@@ -6,7 +6,6 @@
         public const string DuplicatedProductUniqueName = "EasyAbp.EShop.Products:DuplicatedProductUniqueName";
         public const string InventoryChangeFailed = "EasyAbp.EShop.Products:InventoryChangeFailed";
         public const string NonexistentProductGroup = "EasyAbp.EShop.Products:NonexistentProductGroup";
-        public const string ProductDetailHasBeenUsed = "EasyAbp.EShop.Products:ProductDetailHasBeenUsed";
         public const string ProductSkuCodeDuplicated = "EasyAbp.EShop.Products:ProductSkuCodeDuplicated";
         public const string ProductSkuDuplicated = "EasyAbp.EShop.Products:ProductSkuDuplicated";
         public const string NotAllowedToGetCategoryListWithShowHidden = "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden";

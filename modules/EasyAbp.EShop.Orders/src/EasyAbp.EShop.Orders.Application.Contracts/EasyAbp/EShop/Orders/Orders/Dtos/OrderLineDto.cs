@@ -13,9 +13,11 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         
         public Guid ProductSkuId { get; set; }
         
+        public Guid? ProductDetailId { get; set; }
+
         public DateTime ProductModificationTime { get; set; }
         
-        public DateTime ProductDetailModificationTime { get; set; }
+        public DateTime? ProductDetailModificationTime { get; set; }
         
         public string ProductGroupName { get; set; }
         

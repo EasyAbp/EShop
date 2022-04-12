@@ -19,14 +19,11 @@ namespace EasyAbp.EShop.Products.ProductDetails
         protected override string GetPolicyName { get; set; } = null;
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
 
-        private readonly IProductRepository _productRepository;
         private readonly IProductDetailRepository _repository;
 
         public ProductDetailAppService(
-            IProductRepository productRepository,
             IProductDetailRepository repository) : base(repository)
         {
-            _productRepository = productRepository;
             _repository = repository;
         }
 
@@ -75,19 +72,17 @@ namespace EasyAbp.EShop.Products.ProductDetails
         {
             await CheckUpdatePolicyAsync();
 
-            var product = await _productRepository.GetAsync(x => x.ProductDetailId == id);
+            var detail = await GetEntityByIdAsync(id);
 
-            await AuthorizationService.CheckMultiStorePolicyAsync(product.StoreId, UpdatePolicyName,
+            await AuthorizationService.CheckMultiStorePolicyAsync(detail.StoreId, UpdatePolicyName,
                 ProductsPermissions.Products.CrossStore);
             
-            if (input.StoreId != product.StoreId)
+            if (input.StoreId != detail.StoreId)
             {
                 await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName,
                     ProductsPermissions.Products.CrossStore);
             }
             
-            var detail = await GetEntityByIdAsync(id);
-
             MapToEntity(input, detail);
             
             await Repository.UpdateAsync(detail, autoSave: true);
@@ -99,9 +94,9 @@ namespace EasyAbp.EShop.Products.ProductDetails
         {
             await CheckDeletePolicyAsync();
             
-            var product = await _productRepository.GetAsync(x => x.ProductDetailId == id);
+            var detail = await GetEntityByIdAsync(id);
 
-            await AuthorizationService.CheckMultiStorePolicyAsync(product.StoreId, DeletePolicyName,
+            await AuthorizationService.CheckMultiStorePolicyAsync(detail.StoreId, DeletePolicyName,
                 ProductsPermissions.Products.CrossStore);
 
             await Repository.DeleteAsync(id);

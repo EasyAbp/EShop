@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,13 +41,13 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         public virtual async Task<Order> GenerateAsync(Guid customerUserId, CreateOrderDto input,
-            Dictionary<Guid, ProductDto> productDict)
+            Dictionary<Guid, ProductDto> productDict, Dictionary<Guid, ProductDetailDto> productDetailDict)
         {
             var orderLines = new List<OrderLine>();
 
             foreach (var inputOrderLine in input.OrderLines)
             {
-                orderLines.Add(await GenerateOrderLineAsync(input, inputOrderLine, productDict));
+                orderLines.Add(await GenerateOrderLineAsync(input, inputOrderLine, productDict, productDetailDict));
             }
 
             var storeCurrency = await GetStoreCurrencyAsync(input.StoreId);
@@ -105,10 +106,14 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         protected virtual async Task<OrderLine> GenerateOrderLineAsync(CreateOrderDto input,
-            CreateOrderLineDto inputOrderLine, Dictionary<Guid, ProductDto> productDict)
+            CreateOrderLineDto inputOrderLine, Dictionary<Guid, ProductDto> productDict,
+            Dictionary<Guid, ProductDetailDto> productDetailDict)
         {
             var product = productDict[inputOrderLine.ProductId];
             var productSku = product.GetSkuById(inputOrderLine.ProductSkuId);
+
+            var productDetailId = productSku.ProductDetailId ?? product.ProductDetailId;
+            var productDetail = productDetailId.HasValue ? productDetailDict[productDetailId.Value] : null;
 
             if (!inputOrderLine.Quantity.IsBetween(productSku.OrderMinQuantity, productSku.OrderMaxQuantity))
             {
@@ -121,8 +126,9 @@ namespace EasyAbp.EShop.Orders.Orders
                 id: _guidGenerator.Create(),
                 productId: product.Id,
                 productSkuId: productSku.Id,
+                productDetailId: productDetailId,
                 productModificationTime: product.LastModificationTime ?? product.CreationTime,
-                productDetailModificationTime: productSku.LastModificationTime ?? productSku.CreationTime,
+                productDetailModificationTime: productDetail?.LastModificationTime ?? productDetail?.CreationTime,
                 productGroupName: product.ProductGroupName,
                 productGroupDisplayName: product.ProductGroupDisplayName,
                 productUniqueName: product.UniqueName,

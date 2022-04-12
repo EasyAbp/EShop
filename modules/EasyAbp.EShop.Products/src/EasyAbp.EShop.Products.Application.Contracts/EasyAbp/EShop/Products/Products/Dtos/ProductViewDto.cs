@@ -11,7 +11,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public string ProductGroupName { get; set; }
 
-        public Guid ProductDetailId { get; set; }
+        public Guid? ProductDetailId { get; set; }
 
         public string UniqueName { get; set; }
 
