@@ -53,7 +53,8 @@ namespace EasyAbp.EShop.Products
             {
                 new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null),
                 new ProductAttributeOption(ProductsTestData.Product1Attribute1Option2Id, "M", null),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null)
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option4Id, "XL", null)
             });
 
             product.ProductAttributes.Add(attribute);

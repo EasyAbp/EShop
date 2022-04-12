@@ -106,9 +106,11 @@ namespace EasyAbp.EShop.Products.Products
 
             await CheckProductSkuNameUniqueAsync(product, productSku);
             
-            productSku.TrimCode();
+            productSku.TrimName();
             
             product.ProductSkus.AddIfNotContains(productSku);
+            
+            await CheckProductDetailAsync(product);
             
             return await _productRepository.UpdateAsync(product, true);
         }
@@ -144,6 +146,8 @@ namespace EasyAbp.EShop.Products.Products
         public virtual async Task<Product> UpdateSkuAsync(Product product, ProductSku productSku)
         {
             await CheckProductSkuNameUniqueAsync(product, productSku);
+
+            await CheckProductDetailAsync(product);
 
             return await _productRepository.UpdateAsync(product, true);
         }
