@@ -25,7 +25,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _distributedEventBus = distributedEventBus;
         }
         
-        public async Task HandleEventAsync(CancelPaymentEto eventData)
+        public virtual async Task HandleEventAsync(CancelPaymentEto eventData)
         {
             await _distributedEventBus.PublishAsync(new EShopPaymentCanceledEto(new EShopPaymentEto
             {
