@@ -1,15 +1,14 @@
 using EasyAbp.EShop.Payments.Authorization;
 using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds.Dtos;
-using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.PaymentService.Payments;
 using EasyAbp.PaymentService.Refunds;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Data;
@@ -105,7 +104,8 @@ namespace EasyAbp.EShop.Payments.Refunds
                     throw new OrderIsNotInSpecifiedPaymentException(order.Id, payment.Id);
                 }
 
-                // Todo: Check if current user is an admin of the store.
+                await AuthorizationService.CheckMultiStorePolicyAsync(paymentItem.StoreId,
+                    PaymentsPermissions.Refunds.Manage, PaymentsPermissions.Refunds.CrossStore);
 
                 foreach (var orderLineRefundInfoModel in refundItem.OrderLines)
                 {

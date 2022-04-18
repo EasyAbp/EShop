@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop.Payments.Payments;
+using EasyAbp.EShop.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
@@ -10,6 +11,7 @@ namespace EasyAbp.EShop.Payments
     [DependsOn(
         typeof(EShopPaymentsDomainModule),
         typeof(EShopPaymentsApplicationContractsModule),
+        typeof(EShopStoresApplicationSharedModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule)
         )]
