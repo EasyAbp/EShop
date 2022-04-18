@@ -11,8 +11,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class Order : FullAuditedAggregateRoot<Guid>, IOrder, IMultiTenant
     {
-        public const string ExtraFeeListPropertyName = "ExtraFeeList";
-        
         public virtual Guid? TenantId { get; protected set; }
         
         public virtual Guid StoreId { get; protected set; }
