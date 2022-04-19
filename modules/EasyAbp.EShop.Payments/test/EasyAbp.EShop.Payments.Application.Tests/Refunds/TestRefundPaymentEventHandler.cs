@@ -9,9 +9,12 @@ namespace EasyAbp.EShop.Payments.Refunds
     {
         public bool IsEventPublished { get; protected set; }
         
+        public RefundPaymentEto EventData { get; protected set; }
+        
         public Task HandleEventAsync(RefundPaymentEto eventData)
         {
             IsEventPublished = true;
+            EventData = eventData;
             
             return Task.CompletedTask;
         }

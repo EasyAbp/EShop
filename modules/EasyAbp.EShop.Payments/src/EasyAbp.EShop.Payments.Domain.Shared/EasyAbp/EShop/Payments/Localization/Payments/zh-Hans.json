@@ -11,6 +11,8 @@
     "EasyAbp.EShop.Payments:MultiStorePaymentNotSupported": "应该为每个商店创建支付",
     "EasyAbp.EShop.Payments:InvalidRefundQuantity": "退款数量({quantity})无效",
     "EasyAbp.EShop.Payments:OrderIsNotInSpecifiedPayment": "订单({orderId})不在指定的支付({paymentId})中",
+    "EasyAbp.EShop.Payments:AnotherRefundTaskIsOnGoing": "支付({id})存在进行中的退款任务",
+    "EasyAbp.EShop.Payments:InvalidRefundAmount": "退款金额({refundAmount})对于支付(id: {paymentId}, item id: {paymentItemId})不正确",
     "EasyAbp.EShop.Payments:OrderIdNotFound": "无法从ExtraProperties获得有效的OrderId",
     "EasyAbp.EShop.Payments:StoreIdNotFound": "无法从ExtraProperties获得有效的StoreId"
   }

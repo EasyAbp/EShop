@@ -40,7 +40,12 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 foreach (var eto in refundItem.RefundItemOrderLines)
                 {
-                    order.Refund(eto.OrderLineId, eto.RefundedQuantity, eto.RefundAmount);
+                    order.RefundOrderLine(eto.OrderLineId, eto.RefundedQuantity, eto.RefundAmount);
+                }
+
+                foreach (var eto in refundItem.RefundItemOrderExtraFees)
+                {
+                    order.RefundOrderExtraFee(eto.Name, eto.Key, eto.RefundAmount);
                 }
 
                 await _orderRepository.UpdateAsync(order, true);

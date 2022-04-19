@@ -5,6 +5,12 @@ namespace EasyAbp.EShop.Orders
 {
     public class OrderTestData
     {
+        public static Guid Order1Id { get; } = Guid.NewGuid();
+        
+        public static Guid OrderLine1Id { get; } = Guid.NewGuid();
+        
+        public static Guid Payment1Id { get; } = Guid.NewGuid();
+        
         public static Guid Store1Id { get; } = Guid.NewGuid();
 
         public static Guid Product1Id { get; } = Guid.NewGuid();

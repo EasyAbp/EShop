@@ -30,10 +30,13 @@ namespace EasyAbp.EShop.Payments.Refunds
         public virtual Guid OrderId { get; protected set; }
         
         public virtual List<RefundItemOrderLine> RefundItemOrderLines { get; protected set; }
+        
+        public virtual List<RefundItemOrderExtraFee> RefundItemOrderExtraFees { get; protected set; }
 
         protected RefundItem()
         {
             RefundItemOrderLines = new List<RefundItemOrderLine>();
+            RefundItemOrderExtraFees = new List<RefundItemOrderExtraFee>();
             
             ExtraProperties = new ExtraPropertyDictionary();
             

@@ -15,6 +15,8 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual string Key { get; protected set; }
         
         public virtual decimal Fee { get; protected set; }
+        
+        public virtual decimal RefundAmount { get; protected set; }
 
         protected OrderExtraFee()
         {
@@ -30,6 +32,11 @@ namespace EasyAbp.EShop.Orders.Orders
             Name = name;
             Key = key;
             Fee = fee;
+        }
+        
+        internal void Refund(decimal amount)
+        {
+            RefundAmount += amount;
         }
         
         public override object[] GetKeys()

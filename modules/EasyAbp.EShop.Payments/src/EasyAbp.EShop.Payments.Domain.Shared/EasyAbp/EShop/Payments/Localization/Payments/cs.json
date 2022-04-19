@@ -10,6 +10,8 @@
     "EasyAbp.EShop.Payments:MultiStorePaymentNotSupported": "Should create payments for each store.",
     "EasyAbp.EShop.Payments:InvalidRefundQuantity": "The refund quantity ({quantity}) is invalid.",
     "EasyAbp.EShop.Payments:OrderIsNotInSpecifiedPayment": "The order ({orderId}) is not in the specified payment ({paymentId}).",
+    "EasyAbp.EShop.Payments:AnotherRefundTaskIsOnGoing": "Payment ({id}) has another ongoing refund task.",
+    "EasyAbp.EShop.Payments:InvalidRefundAmount": "Refund amount ({refundAmount}) is invalid for the payment (id: {paymentId}, item id: {paymentItemId}).",
     "EasyAbp.EShop.Payments:OrderIdNotFound": "Cannot get valid OrderId from ExtraProperties.",
     "EasyAbp.EShop.Payments:StoreIdNotFound": "Cannot get valid StoreId from ExtraProperties."
   }

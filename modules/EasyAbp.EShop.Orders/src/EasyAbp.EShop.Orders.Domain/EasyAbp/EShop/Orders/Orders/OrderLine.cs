@@ -115,6 +115,11 @@ namespace EasyAbp.EShop.Orders.Orders
 
         internal void Refund(int quantity, decimal amount)
         {
+            if (RefundedQuantity + quantity > Quantity)
+            {
+                throw new InvalidRefundQuantityException(quantity);
+            }
+            
             RefundedQuantity += quantity;
             RefundAmount += amount;
         }

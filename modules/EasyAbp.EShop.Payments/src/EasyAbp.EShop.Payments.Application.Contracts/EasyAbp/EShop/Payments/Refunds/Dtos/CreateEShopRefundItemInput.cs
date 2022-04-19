@@ -16,6 +16,8 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
         [CanBeNull]
         public string StaffRemark { get; set; }
         
-        public List<OrderLineRefundInfoModel> OrderLines { get; set; } = new List<OrderLineRefundInfoModel>();
+        public List<OrderLineRefundInfoModel> OrderLines { get; set; } = new();
+        
+        public List<OrderExtraFeeRefundInfoModel> OrderExtraFees { get; set; } = new();
     }
 }
