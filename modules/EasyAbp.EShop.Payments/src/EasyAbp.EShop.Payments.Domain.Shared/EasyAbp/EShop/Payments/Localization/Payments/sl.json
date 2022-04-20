@@ -14,6 +14,8 @@
     "EasyAbp.EShop.Payments:AnotherRefundTaskIsOnGoing": "Payment ({id}) has another ongoing refund task.",
     "EasyAbp.EShop.Payments:InvalidRefundAmount": "Refund amount ({refundAmount}) is invalid for the payment (id: {paymentId}, item id: {paymentItemId}).",
     "EasyAbp.EShop.Payments:OrderIdNotFound": "Cannot get valid OrderId from ExtraProperties.",
-    "EasyAbp.EShop.Payments:StoreIdNotFound": "Cannot get valid StoreId from ExtraProperties."
+    "EasyAbp.EShop.Payments:StoreIdNotFound": "Cannot get valid StoreId from ExtraProperties.",
+    "EasyAbp.EShop.Payments:OrderLineNotFound": "There is no such an order line. (order ID: {orderId}, order line ID: {orderLineId})",
+    "EasyAbp.EShop.Payments:OrderExtraFeeNotFound": "There is no such an order extra fee. (order ID: {orderId}, name: {name}, key: {key})"
   }
 }

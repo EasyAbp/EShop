@@ -9,5 +9,7 @@
         public const string InvalidRefundAmount = "EasyAbp.EShop.Payments:InvalidRefundAmount";
         public const string OrderIdNotFound = "EasyAbp.EShop.Payments:OrderIdNotFound";
         public const string StoreIdNotFound = "EasyAbp.EShop.Payments:StoreIdNotFound";
+        public const string OrderLineNotFound = "EasyAbp.EShop.Payments:OrderLineNotFound";
+        public const string OrderExtraFeeNotFound = "EasyAbp.EShop.Payments:OrderExtraFeeNotFound";
     }
 }

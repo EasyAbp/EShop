@@ -122,11 +122,26 @@ namespace EasyAbp.EShop.Payments.Refunds
 
                 foreach (var model in refundItem.OrderLines)
                 {
-                    var orderLine = order.OrderLines.Single(x => x.Id == model.OrderLineId);
+                    var orderLine = order.OrderLines.Find(x => x.Id == model.OrderLineId);
 
+                    if (orderLine is null)
+                    {
+                        throw new OrderLineNotFoundException(order.Id, model.OrderLineId);
+                    }
+                    
                     if (orderLine.RefundedQuantity + model.Quantity > orderLine.Quantity)
                     {
                         throw new InvalidRefundQuantityException(model.Quantity);
+                    }
+                }
+
+                foreach (var model in refundItem.OrderExtraFees)
+                {
+                    var orderExtraFee = order.OrderExtraFees.Find(x => x.Name == model.Name && x.Key == model.Key);
+
+                    if (orderExtraFee is null)
+                    {
+                        throw new OrderExtraFeeNotFoundException(order.Id, model.Name, model.Key);
                     }
                 }
 

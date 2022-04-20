@@ -95,12 +95,21 @@ namespace EasyAbp.EShop.Payments.Refunds
                 StoreId = PaymentsTestData.Store1,
                 OrderLines = new List<OrderLineDto>
                 {
-                    new OrderLineDto
+                    new()
                     {
                         Id = PaymentsTestData.OrderLine1,
                         Currency = "CNY",
                         ActualTotalPrice = 1m,
                         Quantity = 1
+                    }
+                },
+                OrderExtraFees = new List<OrderExtraFeeDto>
+                {
+                    new()
+                    {
+                        Name = "Name",
+                        Key = "Key",
+                        Fee = 5m
                     }
                 },
                 PaymentId = PaymentsTestData.Payment1
@@ -295,6 +304,74 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             // Act & Assert
             await Should.ThrowAsync<AnotherRefundTaskIsOnGoingException>(async () =>
+            {
+                await _refundAppService.CreateAsync(request);
+            });
+        }
+
+        [Fact]
+        public async Task Should_Check_OrderLines_Exist_When_Refunding()
+        {
+            // Arrange
+            var request = new CreateEShopRefundInput
+            {
+                DisplayReason = "Reason",
+                CustomerRemark = "Customer Remark",
+                PaymentId = PaymentsTestData.Payment1,
+                StaffRemark = "StaffRemark",
+                RefundItems = new List<CreateEShopRefundItemInput>
+                {
+                    new()
+                    {
+                        CustomerRemark = "CustomerRemark",
+                        OrderId = PaymentsTestData.Order1,
+                        StaffRemark = "StaffRemark",
+                        OrderLines = new List<OrderLineRefundInfoModel>
+                        {
+                            new()
+                            {
+                                OrderLineId = Guid.NewGuid(),
+                                Quantity = 1,
+                                TotalAmount = 1m
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        [Fact]
+        public async Task Should_Check_OrderExtraFees_Exist_When_Refunding()
+        {
+            // Arrange
+            var request = new CreateEShopRefundInput
+            {
+                DisplayReason = "Reason",
+                CustomerRemark = "Customer Remark",
+                PaymentId = PaymentsTestData.Payment1,
+                StaffRemark = "StaffRemark",
+                RefundItems = new List<CreateEShopRefundItemInput>
+                {
+                    new()
+                    {
+                        CustomerRemark = "CustomerRemark",
+                        OrderId = PaymentsTestData.Order1,
+                        StaffRemark = "StaffRemark",
+                        OrderExtraFees = new List<OrderExtraFeeRefundInfoModel>
+                        {
+                            new()
+                            {
+                                Name = "FakeName",
+                                Key = "FakeKey",
+                                TotalAmount = 0.6m
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Act & Assert
+            await Should.ThrowAsync<OrderExtraFeeNotFoundException>(async () =>
             {
                 await _refundAppService.CreateAsync(request);
             });
