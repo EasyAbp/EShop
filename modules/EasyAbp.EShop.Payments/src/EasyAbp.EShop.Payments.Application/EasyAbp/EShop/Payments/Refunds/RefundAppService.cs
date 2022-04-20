@@ -1,15 +1,14 @@
 using EasyAbp.EShop.Payments.Authorization;
 using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds.Dtos;
-using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.PaymentService.Payments;
 using EasyAbp.PaymentService.Refunds;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Data;
@@ -86,6 +85,11 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             var payment = await _paymentRepository.GetAsync(input.PaymentId);
 
+            if (payment.PendingRefundAmount != decimal.Zero)
+            {
+                throw new AnotherRefundTaskIsOnGoingException(payment.Id);
+            }
+
             var createRefundInput = new CreateRefundInput
             {
                 PaymentId = input.PaymentId,
@@ -104,23 +108,47 @@ namespace EasyAbp.EShop.Payments.Refunds
                 {
                     throw new OrderIsNotInSpecifiedPaymentException(order.Id, payment.Id);
                 }
+                
+                await AuthorizationService.CheckMultiStorePolicyAsync(paymentItem.StoreId,
+                    PaymentsPermissions.Refunds.Manage, PaymentsPermissions.Refunds.CrossStore);
 
-                // Todo: Check if current user is an admin of the store.
+                var refundAmount = refundItem.OrderLines.Sum(x => x.TotalAmount) +
+                                   refundItem.OrderExtraFees.Sum(x => x.TotalAmount);
 
-                foreach (var orderLineRefundInfoModel in refundItem.OrderLines)
+                if (refundAmount + paymentItem.RefundAmount > paymentItem.ActualPaymentAmount)
                 {
-                    var orderLine = order.OrderLines.Single(x => x.Id == orderLineRefundInfoModel.OrderLineId);
+                    throw new InvalidRefundAmountException(payment.Id, paymentItem.Id, refundAmount);
+                }
 
-                    if (orderLine.RefundedQuantity + orderLineRefundInfoModel.Quantity > orderLine.Quantity)
+                foreach (var model in refundItem.OrderLines)
+                {
+                    var orderLine = order.OrderLines.Find(x => x.Id == model.OrderLineId);
+
+                    if (orderLine is null)
                     {
-                        throw new InvalidRefundQuantityException(orderLineRefundInfoModel.Quantity);
+                        throw new OrderLineNotFoundException(order.Id, model.OrderLineId);
+                    }
+                    
+                    if (orderLine.RefundedQuantity + model.Quantity > orderLine.Quantity)
+                    {
+                        throw new InvalidRefundQuantityException(model.Quantity);
+                    }
+                }
+
+                foreach (var model in refundItem.OrderExtraFees)
+                {
+                    var orderExtraFee = order.OrderExtraFees.Find(x => x.Name == model.Name && x.Key == model.Key);
+
+                    if (orderExtraFee is null)
+                    {
+                        throw new OrderExtraFeeNotFoundException(order.Id, model.Name, model.Key);
                     }
                 }
 
                 var eto = new CreateRefundItemInput
                 {
                     PaymentItemId = paymentItem.Id,
-                    RefundAmount = refundItem.OrderLines.Sum(x => x.TotalAmount),
+                    RefundAmount = refundAmount,
                     CustomerRemark = refundItem.CustomerRemark,
                     StaffRemark = refundItem.StaffRemark
                 };
@@ -128,6 +156,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 eto.SetProperty("StoreId", order.StoreId.ToString());
                 eto.SetProperty("OrderId", order.Id.ToString());
                 eto.SetProperty("OrderLines", _jsonSerializer.Serialize(refundItem.OrderLines));
+                eto.SetProperty("OrderExtraFees", _jsonSerializer.Serialize(refundItem.OrderExtraFees));
 
                 createRefundInput.RefundItems.Add(eto);
             }

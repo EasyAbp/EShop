@@ -35,11 +35,36 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
                 );
             }
             
-            if (RefundItems.Any(x => x.OrderLines.IsNullOrEmpty()))
+            if (RefundItems.Any(x => x.OrderLines.IsNullOrEmpty() && x.OrderExtraFees.IsNullOrEmpty()))
             {
                 yield return new ValidationResult(
-                    "RefundItem.OrderLines should not be empty!",
-                    new[] { nameof(CreateEShopRefundItemInput.OrderLines) }
+                    "RefundItem.OrderLines and RefundItem.OrderExtraFees should not both be empty!",
+                    new[]
+                    {
+                        nameof(CreateEShopRefundItemInput.OrderLines), nameof(CreateEShopRefundItemInput.OrderExtraFees)
+                    }
+                );
+            }
+
+            if (RefundItems.SelectMany(x => x.OrderLines).Any(x => x.TotalAmount <= decimal.Zero))
+            {
+                yield return new ValidationResult(
+                    "RefundAmount should be greater than 0.",
+                    new[]
+                    {
+                        nameof(OrderLineRefundInfoModel.TotalAmount)
+                    }
+                );
+            }
+
+            if (RefundItems.SelectMany(x => x.OrderExtraFees).Any(x => x.TotalAmount <= decimal.Zero))
+            {
+                yield return new ValidationResult(
+                    "RefundAmount should be greater than 0.",
+                    new[]
+                    {
+                        nameof(OrderExtraFeeRefundInfoModel.TotalAmount)
+                    }
                 );
             }
         }

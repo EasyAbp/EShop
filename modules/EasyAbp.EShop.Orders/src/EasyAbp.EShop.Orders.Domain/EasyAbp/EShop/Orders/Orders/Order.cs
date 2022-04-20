@@ -11,8 +11,6 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public class Order : FullAuditedAggregateRoot<Guid>, IOrder, IMultiTenant
     {
-        public const string ExtraFeeListPropertyName = "ExtraFeeList";
-        
         public virtual Guid? TenantId { get; protected set; }
         
         public virtual Guid StoreId { get; protected set; }
@@ -156,7 +154,7 @@ namespace EasyAbp.EShop.Orders.Orders
             return PaidTime.HasValue;
         }
 
-        public void Refund(Guid orderLineId, int quantity, decimal amount)
+        public void RefundOrderLine(Guid orderLineId, int quantity, decimal amount)
         {
             if (amount <= decimal.Zero)
             {
@@ -165,12 +163,21 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var orderLine = OrderLines.Single(x => x.Id == orderLineId);
 
-            if (orderLine.RefundedQuantity + quantity > orderLine.Quantity)
+            orderLine.Refund(quantity, amount);
+
+            RefundAmount += amount;
+        }
+
+        public void RefundOrderExtraFee([NotNull] string extraFeeName, [CanBeNull] string extraFeeKey, decimal amount)
+        {
+            if (amount <= decimal.Zero)
             {
-                throw new InvalidRefundQuantityException(quantity);
+                throw new InvalidRefundAmountException(amount);
             }
 
-            orderLine.Refund(quantity, amount);
+            var extraFee = OrderExtraFees.Single(x => x.Name == extraFeeName && x.Key == extraFeeKey);
+
+            extraFee.Refund(amount);
 
             RefundAmount += amount;
         }

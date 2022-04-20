@@ -80,7 +80,8 @@ namespace EasyAbp.EShop.Payments.Refunds
             });
 
             FillRefundItemOrderLines(refund);
-                
+            FillRefundItemOrderExtraFees(refund);
+
             await _refundRepository.InsertAsync(refund, true);
             
             if (refund.CompletedTime.HasValue)
@@ -132,6 +133,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             refund.RefundItems.RemoveAll(i => !etoRefundItemIds.Contains(i.Id));
 
             FillRefundItemOrderLines(refund);
+            FillRefundItemOrderExtraFees(refund);
 
             await _refundRepository.UpdateAsync(refund, true);
 
@@ -170,6 +172,38 @@ namespace EasyAbp.EShop.Payments.Refunds
                     var orderLineIds = orderLineInfoModels.Select(i => i.OrderLineId).ToList();
 
                     refundItem.RefundItemOrderLines.RemoveAll(i => !orderLineIds.Contains(i.OrderLineId));
+                }
+            }
+        }
+
+        protected virtual void FillRefundItemOrderExtraFees(Refund refund)
+        {
+            foreach (var refundItem in refund.RefundItems)
+            {
+                var orderExtraFeeInfoModels =
+                    _jsonSerializer.Deserialize<List<OrderExtraFeeRefundInfoModel>>(
+                        refundItem.GetProperty<string>("OrderExtraFees"));
+                
+                foreach (var orderExtraFeeInfoModel in orderExtraFeeInfoModels)
+                {
+                    var refundItemOrderExtraFeeEntity =
+                        refundItem.RefundItemOrderExtraFees.FirstOrDefault(x =>
+                            x.Name == orderExtraFeeInfoModel.Name &&
+                            x.Key == orderExtraFeeInfoModel.Key);
+
+                    if (refundItemOrderExtraFeeEntity == null)
+                    {
+                        refundItemOrderExtraFeeEntity = new RefundItemOrderExtraFee(_guidGenerator.Create(),
+                            orderExtraFeeInfoModel.Name, orderExtraFeeInfoModel.Key,
+                            orderExtraFeeInfoModel.TotalAmount);
+                        
+                        refundItem.RefundItemOrderExtraFees.Add(refundItemOrderExtraFeeEntity);
+                    }
+
+                    var orderExtraFeeIds = orderExtraFeeInfoModels.Select(i => new { i.Name, i.Key }).ToList();
+
+                    refundItem.RefundItemOrderExtraFees.RemoveAll(
+                        i => !orderExtraFeeIds.Contains(new { i.Name, i.Key }));
                 }
             }
         }

@@ -11,7 +11,11 @@
     "EasyAbp.EShop.Payments:MultiStorePaymentNotSupported": "應該為每個商店創建支付",
     "EasyAbp.EShop.Payments:InvalidRefundQuantity": "退款數量({quantity})無效",
     "EasyAbp.EShop.Payments:OrderIsNotInSpecifiedPayment": "訂單({orderId})不在指定的支付({paymentId})中",
+    "EasyAbp.EShop.Payments:AnotherRefundTaskIsOnGoing": "支付({id})存在進行中的退款任務",
+    "EasyAbp.EShop.Payments:InvalidRefundAmount": "退款金額({refundAmount})對於支付(id: {paymentId}, item id: {paymentItemId})不正確",
     "EasyAbp.EShop.Payments:OrderIdNotFound": "無法從ExtraProperties獲得有效的OrderId",
-    "EasyAbp.EShop.Payments:StoreIdNotFound": "無法從ExtraProperties獲得有效的StoreId"
+    "EasyAbp.EShop.Payments:StoreIdNotFound": "無法從ExtraProperties獲得有效的StoreId",
+    "EasyAbp.EShop.Payments:OrderLineNotFound": "不存在的訂單項 (訂單ID: {orderId}, 訂單項ID: {orderLineId})",
+    "EasyAbp.EShop.Payments:OrderExtraFeeNotFound": "不存在的訂單項 (訂單ID: {orderId}, name: {name}, key: {key})"
   }
 }
