@@ -72,6 +72,7 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
                 b.ConfigureByConvention();
                 /* Configure more properties here */
                 b.Property(x => x.Fee).HasColumnType("decimal(20,8)");
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
                 b.HasKey(x => new {x.OrderId, x.Name, x.Key});
             });
         }

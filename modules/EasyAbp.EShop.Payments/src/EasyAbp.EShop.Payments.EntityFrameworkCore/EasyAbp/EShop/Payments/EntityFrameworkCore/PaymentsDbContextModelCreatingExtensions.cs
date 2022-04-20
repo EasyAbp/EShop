@@ -89,6 +89,14 @@ namespace EasyAbp.EShop.Payments.EntityFrameworkCore
                 /* Configure more properties here */
                 b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
             });
+            
+            builder.Entity<RefundItemOrderExtraFee>(b =>
+            {
+                b.ToTable(options.TablePrefix + "RefundItemOrderExtraFees", options.Schema);
+                b.ConfigureByConvention(); 
+                /* Configure more properties here */
+                b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
+            });
         }
     }
 }
