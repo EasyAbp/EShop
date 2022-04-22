@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.CacheItems;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Settings;
+using EasyAbp.EShop.Stores.Stores;
 using Microsoft.Extensions.Caching.Distributed;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -13,7 +15,7 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductViewAppService : ReadOnlyAppService<ProductView, ProductViewDto, Guid, GetProductListInput>,
+    public class ProductViewAppService : MultiStoreReadOnlyAppService<ProductView, ProductViewDto, Guid, GetProductListInput>,
         IProductViewAppService
     {
         protected override string GetPolicyName { get; set; } = null;
@@ -47,12 +49,18 @@ namespace EasyAbp.EShop.Products.Products
 
             return query
                 .Where(x => x.StoreId == input.StoreId)
-                .WhereIf(!input.ShowHidden, x => !x.IsHidden);
+                .WhereIf(!input.ShowHidden, x => !x.IsHidden)
+                .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
         }
 
         public override async Task<PagedResultDto<ProductViewDto>> GetListAsync(GetProductListInput input)
         {
             await CheckGetListPolicyAsync();
+            
+            if (input.ShowHidden || input.ShowUnpublished)
+            {
+                await CheckMultiStorePolicyAsync(input.StoreId, ProductsPermissions.Products.Manage);
+            }
 
             if (await _cache.GetAsync(await GetCacheKeyAsync(input.StoreId), true) == null)
             {

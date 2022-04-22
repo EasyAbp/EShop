@@ -13,5 +13,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public Guid? CategoryId { get; set; }
         
         public bool ShowHidden { get; set; }
+        
+        public bool ShowUnpublished { get; set; }
     }
 }

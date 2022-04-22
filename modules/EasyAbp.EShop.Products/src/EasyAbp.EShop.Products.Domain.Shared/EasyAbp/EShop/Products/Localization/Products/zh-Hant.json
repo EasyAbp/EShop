@@ -86,7 +86,6 @@
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "商品{productId}的Sku代碼{code}重復",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "商品{productId}的Sku{serializedAttributeOptionIds}重復",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "您沒有權限獲取帶有隱藏類別的類別列表",
-    "EasyAbp.EShop.Products:NotAllowedToGetProductListWithShowHidden": "您沒有權限獲取包含隱藏產品的產品列表",
     "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed": "請確保沒有使用您想要刪除的屬性選項的sku",
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "請先確保Sku為空再修改商品的屬性",
     "EasyAbp.EShop.Products:StaticProductCannotBeModified": "不能修改靜態商品{productId}",

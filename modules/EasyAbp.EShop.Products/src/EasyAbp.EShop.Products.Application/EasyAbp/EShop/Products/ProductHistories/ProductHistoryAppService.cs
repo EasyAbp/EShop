@@ -11,7 +11,7 @@ namespace EasyAbp.EShop.Products.ProductHistories
     public class ProductHistoryAppService : ReadOnlyAppService<ProductHistory, ProductHistoryDto, Guid, GetProductHistoryListDto>,
         IProductHistoryAppService
     {
-        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
+        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Manage;
 
         private readonly IProductHistoryRepository _repository;
 
