@@ -16,7 +16,11 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         public override async Task<IQueryable<Refund>> WithDetailsAsync()
         {
-            return (await base.WithDetailsAsync()).Include(x => x.RefundItems);
+            return (await base.WithDetailsAsync())
+                .Include(x => x.RefundItems)
+                    .ThenInclude(x => x.RefundItemOrderLines)
+                .Include(x => x.RefundItems)
+                    .ThenInclude(x => x.RefundItemOrderExtraFees);
         }
 
         public virtual async Task<IQueryable<Refund>> GetQueryableByUserIdAsync(Guid userId)
