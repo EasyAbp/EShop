@@ -1,6 +1,5 @@
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Stores.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +57,8 @@ namespace EasyAbp.EShop.Products.Products
 
             return query
                 .Where(x => x.StoreId == input.StoreId)
-                .WhereIf(!input.ShowHidden, x => !x.IsHidden);
+                .WhereIf(!input.ShowHidden, x => !x.IsHidden)
+                .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
         }
 
         protected override Product MapToEntity(CreateUpdateProductDto createInput)
@@ -257,22 +257,13 @@ namespace EasyAbp.EShop.Products.Products
         {
             await CheckGetListPolicyAsync();
 
-            var isCurrentUserStoreAdmin =
-                await AuthorizationService.IsMultiStoreGrantedAsync(input.StoreId,
-                    ProductsPermissions.Products.Default, ProductsPermissions.Products.CrossStore);
-
-            if (input.ShowHidden && !isCurrentUserStoreAdmin)
+            if (input.ShowHidden || input.ShowUnpublished)
             {
-                throw new NotAllowedToGetProductListWithShowHiddenException();
+                await CheckMultiStorePolicyAsync(input.StoreId, ProductsPermissions.Products.Manage);
             }
 
             // Todo: Products cache.
             var query = await CreateFilteredQueryAsync(input);
-
-            if (!isCurrentUserStoreAdmin)
-            {
-                query = query.Where(x => x.IsPublished);
-            }
 
             var totalCount = await AsyncExecuter.CountAsync(query);
 

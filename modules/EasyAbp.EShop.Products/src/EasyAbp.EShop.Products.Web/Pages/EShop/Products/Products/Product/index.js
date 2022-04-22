@@ -15,7 +15,7 @@ $(function () {
         autoWidth: false,
         scrollCollapse: true,
         ajax: abp.libs.datatables.createAjax(viewService.getList, function () {
-            return { storeId: storeId, categoryId: categoryId, showHidden: true }
+            return { storeId: storeId, categoryId: categoryId, showHidden: true, showUnpublished: true }
         }),
         columnDefs: [
             {

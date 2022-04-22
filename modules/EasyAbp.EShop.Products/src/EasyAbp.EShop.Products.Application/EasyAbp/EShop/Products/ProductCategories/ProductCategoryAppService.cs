@@ -11,7 +11,7 @@ namespace EasyAbp.EShop.Products.ProductCategories
     public class ProductCategoryAppService : ReadOnlyAppService<ProductCategory, ProductCategoryDto, Guid, GetProductCategoryListDto>,
         IProductCategoryAppService
     {
-        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
+        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Manage;
         
         private readonly IProductCategoryRepository _repository;
 

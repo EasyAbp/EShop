@@ -86,7 +86,6 @@
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "商品{productId}的Sku代码{code}重复",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "商品{productId}的Sku{serializedAttributeOptionIds}重复",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "您没有权限获取带有隐藏类别的类别列表",
-    "EasyAbp.EShop.Products:NotAllowedToGetProductListWithShowHidden": "您没有权限获取包含隐藏产品的产品列表",
     "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed": "请确保没有使用您想要删除的属性选项的sku",
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "请先确保Sku为空再修改商品的属性",
     "EasyAbp.EShop.Products:StaticProductCannotBeModified": "不能修改静态商品{productId}",

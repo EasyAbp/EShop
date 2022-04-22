@@ -17,7 +17,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
         protected override string DeletePolicyName { get; set; } = ProductsPermissions.Products.Delete;
         protected override string UpdatePolicyName { get; set; } = ProductsPermissions.Products.Update;
         protected override string GetPolicyName { get; set; } = null;
-        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Default;
+        protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Manage;
 
         private readonly IProductDetailRepository _repository;
 

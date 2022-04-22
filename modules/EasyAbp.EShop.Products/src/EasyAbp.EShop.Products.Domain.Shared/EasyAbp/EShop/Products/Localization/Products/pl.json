@@ -88,7 +88,6 @@
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "Sku code {code} is duplicate for the product {productId}",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "Sku {serializedAttributeOptionIds} is duplicate for the product {productId}",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "You have no permission to get category list with hidden categories.",
-    "EasyAbp.EShop.Products:NotAllowedToGetProductListWithShowHidden": "You have no permission to get product list with hidden products.",
     "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed": "Should ensure there are no SKUs using the attribute option which you want to delete.",
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "Should ensure SKUs are empty if you want to modify attributes of a product.",
     "EasyAbp.EShop.Products:StaticProductCannotBeModified": "Cannot modify the static product: {productId}",
