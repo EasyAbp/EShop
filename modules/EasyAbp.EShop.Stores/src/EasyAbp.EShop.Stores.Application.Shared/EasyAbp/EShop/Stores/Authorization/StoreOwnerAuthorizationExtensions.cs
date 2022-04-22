@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authorization;
 
 namespace EasyAbp.EShop.Stores.Authorization
@@ -7,14 +8,14 @@ namespace EasyAbp.EShop.Stores.Authorization
     public static class StoreOwnerAuthorizationExtensions
     {
         public static Task<bool> IsCurrentUserGrantedAsync(this IAuthorizationService authorizationService,
-            Guid storeId, string policyName = null)
+            Guid storeId, [CanBeNull] string policyName = null)
         {
             return authorizationService.IsGrantedAsync(new StoreInfo {StoreId = storeId},
                 new StorePermissionAuthorizationRequirement(policyName));
         }
 
         public static async Task<bool> IsMultiStoreGrantedAsync(this IAuthorizationService authorizationService,
-            Guid? storeId, string policyName, string crossStorePolicyName)
+            Guid? storeId, [CanBeNull] string policyName, [NotNull] string crossStorePolicyName)
         {
             if (storeId.HasValue && await authorizationService.IsCurrentUserGrantedAsync(storeId.Value, policyName))
             {
@@ -22,18 +23,18 @@ namespace EasyAbp.EShop.Stores.Authorization
             }
 
             return await authorizationService.IsGrantedAsync(crossStorePolicyName)
-                   && await authorizationService.IsGrantedAsync(policyName);
+                   && (policyName.IsNullOrEmpty() || await authorizationService.IsGrantedAsync(policyName));
         }
         
         public static Task CheckMultiStorePolicyAsync(this IAuthorizationService authorizationService,
-            Guid storeId, string policyName)
+            Guid storeId, [CanBeNull] string policyName)
         {
             return authorizationService.CheckAsync(new StoreInfo {StoreId = storeId},
                 new StorePermissionAuthorizationRequirement(policyName));
         }
 
         public static async Task CheckMultiStorePolicyAsync(this IAuthorizationService authorizationService,
-            Guid? storeId, string policyName, string crossStorePolicyName)
+            Guid? storeId, [CanBeNull] string policyName, [NotNull] string crossStorePolicyName)
         {
             if (storeId.HasValue && await authorizationService.IsCurrentUserGrantedAsync(storeId.Value, policyName))
             {
@@ -41,6 +42,12 @@ namespace EasyAbp.EShop.Stores.Authorization
             }
 
             await authorizationService.CheckAsync(crossStorePolicyName);
+            
+            if (string.IsNullOrEmpty(policyName))
+            {
+                return;
+            }
+            
             await authorizationService.CheckAsync(policyName);
         }
     }
