@@ -26,8 +26,8 @@ namespace EasyAbp.EShop.Payments.Refunds
         
         public Guid OrderId { get; set; }
         
-        public List<RefundItemOrderLineEto> RefundItemOrderLines { get; set; } = new();
+        public List<RefundItemOrderLineEto> OrderLines { get; set; } = new();
         
-        public List<RefundItemOrderExtraFeeEto> RefundItemOrderExtraFees { get; set; } = new();
+        public List<RefundItemOrderExtraFeeEto> OrderExtraFees { get; set; } = new();
     }
 }

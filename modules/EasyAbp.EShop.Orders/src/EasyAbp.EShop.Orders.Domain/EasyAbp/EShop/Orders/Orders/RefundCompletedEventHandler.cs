@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.Refunds;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectMapping;
@@ -38,12 +37,12 @@ namespace EasyAbp.EShop.Orders.Orders
                 // Todo: what if Order.PaymentId != eventData.Refund.PaymentId?
                 var order = await _orderRepository.GetAsync(refundItem.OrderId);
 
-                foreach (var eto in refundItem.RefundItemOrderLines)
+                foreach (var eto in refundItem.OrderLines)
                 {
                     order.RefundOrderLine(eto.OrderLineId, eto.RefundedQuantity, eto.RefundAmount);
                 }
 
-                foreach (var eto in refundItem.RefundItemOrderExtraFees)
+                foreach (var eto in refundItem.OrderExtraFees)
                 {
                     order.RefundOrderExtraFee(eto.Name, eto.Key, eto.RefundAmount);
                 }

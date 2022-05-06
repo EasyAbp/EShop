@@ -152,12 +152,12 @@ namespace EasyAbp.EShop.Payments.Refunds
             {
                 var orderLineInfoModels =
                     _jsonSerializer.Deserialize<List<OrderLineRefundInfoModel>>(
-                        refundItem.GetProperty<string>("OrderLines"));
+                        refundItem.GetProperty<string>(nameof(RefundItem.OrderLines)));
                 
                 foreach (var orderLineInfoModel in orderLineInfoModels)
                 {
                     var refundItemOrderLineEntity =
-                        refundItem.RefundItemOrderLines.FirstOrDefault(x =>
+                        refundItem.OrderLines.FirstOrDefault(x =>
                             x.OrderLineId == orderLineInfoModel.OrderLineId);
 
                     if (refundItemOrderLineEntity == null)
@@ -166,12 +166,12 @@ namespace EasyAbp.EShop.Payments.Refunds
                             orderLineInfoModel.OrderLineId, orderLineInfoModel.Quantity,
                             orderLineInfoModel.TotalAmount);
                         
-                        refundItem.RefundItemOrderLines.Add(refundItemOrderLineEntity);
+                        refundItem.OrderLines.Add(refundItemOrderLineEntity);
                     }
 
                     var orderLineIds = orderLineInfoModels.Select(i => i.OrderLineId).ToList();
 
-                    refundItem.RefundItemOrderLines.RemoveAll(i => !orderLineIds.Contains(i.OrderLineId));
+                    refundItem.OrderLines.RemoveAll(i => !orderLineIds.Contains(i.OrderLineId));
                 }
             }
         }
@@ -182,12 +182,12 @@ namespace EasyAbp.EShop.Payments.Refunds
             {
                 var orderExtraFeeInfoModels =
                     _jsonSerializer.Deserialize<List<OrderExtraFeeRefundInfoModel>>(
-                        refundItem.GetProperty<string>("OrderExtraFees"));
+                        refundItem.GetProperty<string>(nameof(RefundItem.OrderExtraFees)));
                 
                 foreach (var orderExtraFeeInfoModel in orderExtraFeeInfoModels)
                 {
                     var refundItemOrderExtraFeeEntity =
-                        refundItem.RefundItemOrderExtraFees.FirstOrDefault(x =>
+                        refundItem.OrderExtraFees.FirstOrDefault(x =>
                             x.Name == orderExtraFeeInfoModel.Name &&
                             x.Key == orderExtraFeeInfoModel.Key);
 
@@ -197,12 +197,12 @@ namespace EasyAbp.EShop.Payments.Refunds
                             orderExtraFeeInfoModel.Name, orderExtraFeeInfoModel.Key,
                             orderExtraFeeInfoModel.TotalAmount);
                         
-                        refundItem.RefundItemOrderExtraFees.Add(refundItemOrderExtraFeeEntity);
+                        refundItem.OrderExtraFees.Add(refundItemOrderExtraFeeEntity);
                     }
 
                     var orderExtraFeeIds = orderExtraFeeInfoModels.Select(i => new { i.Name, i.Key }).ToList();
 
-                    refundItem.RefundItemOrderExtraFees.RemoveAll(
+                    refundItem.OrderExtraFees.RemoveAll(
                         i => !orderExtraFeeIds.Contains(new { i.Name, i.Key }));
                 }
             }
@@ -210,22 +210,24 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         protected virtual void FillRefundItemStoreId(RefundItem item)
         {
-            if (!Guid.TryParse(item.GetProperty<string>("StoreId"), out var storeId))
+            var storeId = item.GetProperty<Guid?>(nameof(RefundItem.StoreId));
+            if (storeId is null)
             {
                 throw new StoreIdNotFoundException();
             }
                     
-            item.SetStoreId(storeId);
+            item.SetStoreId(storeId.Value);
         }
         
         protected virtual void FillRefundItemOrderId(RefundItem item)
         {
-            if (!Guid.TryParse(item.GetProperty<string>("OrderId"), out var orderId))
+            var orderId = item.GetProperty<Guid?>(nameof(RefundItem.OrderId));
+            if (orderId is null)
             {
                 throw new OrderIdNotFoundException();
             }
             
-            item.SetOrderId(orderId);
+            item.SetOrderId(orderId.Value);
         }
         
         [UnitOfWork(true)]

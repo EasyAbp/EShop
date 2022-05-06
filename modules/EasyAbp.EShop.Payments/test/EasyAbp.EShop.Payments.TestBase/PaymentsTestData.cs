@@ -17,5 +17,9 @@ namespace EasyAbp.EShop.Payments
         public static Guid Payment2 { get; } = Guid.NewGuid();
         
         public static Guid PaymentItem1 { get; } = Guid.NewGuid();
+        
+        public static Guid Refund1 { get; } = Guid.NewGuid();
+        
+        public static Guid RefundItem1 { get; } = Guid.NewGuid();
     }
 }

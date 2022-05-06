@@ -105,7 +105,7 @@ namespace EasyAbp.EShop.Payments.Payments
                     OriginalPaymentAmount = order.ActualTotalPrice
                 };
                 
-                eto.SetProperty("StoreId", order.StoreId.ToString());
+                eto.SetProperty(nameof(PaymentItem.StoreId), order.StoreId);
 
                 return eto;
             }).ToList();

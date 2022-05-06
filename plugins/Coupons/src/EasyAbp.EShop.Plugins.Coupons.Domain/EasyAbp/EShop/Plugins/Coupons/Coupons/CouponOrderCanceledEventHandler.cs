@@ -20,13 +20,13 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(OrderCanceledEto eventData)
         {
-            if (!Guid.TryParse(eventData.Order.GetProperty<string>(CouponsConsts.OrderCouponIdPropertyName),
-                out var couponId))
+            var couponId = eventData.Order.GetProperty<Guid?>(CouponsConsts.OrderCouponIdPropertyName);
+            if (couponId is null)
             {
                 return;
             }
 
-            var coupon = await _couponRepository.GetAsync(couponId);
+            var coupon = await _couponRepository.GetAsync(couponId.Value);
             
             coupon.SetOrderId(null);
             coupon.SetUsed(null, null, null);

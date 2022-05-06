@@ -146,12 +146,14 @@ namespace EasyAbp.EShop.Payments.Payments
 
         protected virtual void FillPaymentItemStoreId(PaymentItem item)
         {
-            if (!Guid.TryParse(item.GetProperty<string>("StoreId"), out var storeId))
+            var storeId = item.GetProperty<Guid?>(nameof(PaymentItem.StoreId));
+            
+            if (storeId is null)
             {
                 throw new StoreIdNotFoundException();
             }
             
-            item.SetStoreId(storeId);
+            item.SetStoreId(storeId.Value);
         }
 
         [UnitOfWork(true)]
