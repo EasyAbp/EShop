@@ -20,6 +20,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         protected override string GetPolicyName { get; set; } = null;
         protected override string GetListPolicyName { get; set; } = null;
+        protected override string CrossStorePolicyName { get; set; } = ProductsPermissions.Products.CrossStore;
 
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IDistributedCache<ProductViewCacheItem> _cache;
