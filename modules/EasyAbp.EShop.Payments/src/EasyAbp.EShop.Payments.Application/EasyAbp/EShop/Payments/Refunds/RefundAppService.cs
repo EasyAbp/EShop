@@ -153,10 +153,10 @@ namespace EasyAbp.EShop.Payments.Refunds
                     StaffRemark = refundItem.StaffRemark
                 };
 
-                eto.SetProperty("StoreId", order.StoreId.ToString());
-                eto.SetProperty("OrderId", order.Id.ToString());
-                eto.SetProperty("OrderLines", _jsonSerializer.Serialize(refundItem.OrderLines));
-                eto.SetProperty("OrderExtraFees", _jsonSerializer.Serialize(refundItem.OrderExtraFees));
+                eto.SetProperty(nameof(RefundItem.StoreId), order.StoreId);
+                eto.SetProperty(nameof(RefundItem.OrderId), order.Id);
+                eto.SetProperty(nameof(RefundItem.OrderLines), _jsonSerializer.Serialize(refundItem.OrderLines));
+                eto.SetProperty(nameof(RefundItem.OrderExtraFees), _jsonSerializer.Serialize(refundItem.OrderExtraFees));
 
                 createRefundInput.RefundItems.Add(eto);
             }

@@ -26,15 +26,15 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
         {
-            if (!Guid.TryParse(eventData.Entity.GetProperty<string>(CouponsConsts.OrderCouponIdPropertyName),
-                out var couponId))
+            var couponId = eventData.Entity.GetProperty<Guid?>(CouponsConsts.OrderCouponIdPropertyName);
+            if (couponId is null)
             {
                 return;
             }
             
             var discountAmount = eventData.Entity.GetProperty<decimal>(CouponsConsts.OrderCouponDiscountAmountPropertyName);
 
-            var coupon = await _couponRepository.GetAsync(couponId);
+            var coupon = await _couponRepository.GetAsync(couponId.Value);
 
             if (coupon.OrderId != eventData.Entity.Id)
             {

@@ -35,15 +35,15 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
         
         public virtual async Task<Order> DiscountAsync(Order order, Dictionary<Guid, ProductDto> productDict)
         {
-            if (!Guid.TryParse(order.GetProperty<string>(CouponsConsts.OrderCouponIdPropertyName),
-                out var couponId))
+            var couponId = order.GetProperty<Guid?>(CouponsConsts.OrderCouponIdPropertyName);
+            if (couponId is null)
             {
                 return order;
             }
 
             var now = _clock.Now;
 
-            var coupon = await _couponLookupService.FindByIdAsync(couponId);
+            var coupon = await _couponLookupService.FindByIdAsync(couponId.Value);
 
             if (coupon == null || coupon.ExpirationTime.HasValue && coupon.ExpirationTime.Value < now)
             {

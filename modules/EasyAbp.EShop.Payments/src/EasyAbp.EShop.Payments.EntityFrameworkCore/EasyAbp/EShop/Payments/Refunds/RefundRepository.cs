@@ -18,9 +18,9 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             return (await base.WithDetailsAsync())
                 .Include(x => x.RefundItems)
-                    .ThenInclude(x => x.RefundItemOrderLines)
+                    .ThenInclude(x => x.OrderLines)
                 .Include(x => x.RefundItems)
-                    .ThenInclude(x => x.RefundItemOrderExtraFees);
+                    .ThenInclude(x => x.OrderExtraFees);
         }
 
         public virtual async Task<IQueryable<Refund>> GetQueryableByUserIdAsync(Guid userId)

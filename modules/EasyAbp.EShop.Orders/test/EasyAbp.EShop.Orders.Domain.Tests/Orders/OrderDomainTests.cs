@@ -93,7 +93,7 @@ namespace EasyAbp.EShop.Orders.Orders
                             RefundAmount = 0.3m,
                             StoreId = OrderTestData.Store1Id,
                             OrderId = OrderTestData.Order1Id,
-                            RefundItemOrderLines = new List<RefundItemOrderLineEto>
+                            OrderLines = new List<RefundItemOrderLineEto>
                             {
                                 new()
                                 {
@@ -102,7 +102,7 @@ namespace EasyAbp.EShop.Orders.Orders
                                     RefundAmount = 0.2m
                                 }
                             },
-                            RefundItemOrderExtraFees = new List<RefundItemOrderExtraFeeEto>
+                            OrderExtraFees = new List<RefundItemOrderExtraFeeEto>
                             {
                                 new()
                                 {
@@ -151,7 +151,7 @@ namespace EasyAbp.EShop.Orders.Orders
                                 RefundAmount = -1m,
                                 StoreId = OrderTestData.Store1Id,
                                 OrderId = OrderTestData.Order1Id,
-                                RefundItemOrderLines = new List<RefundItemOrderLineEto>
+                                OrderLines = new List<RefundItemOrderLineEto>
                                 {
                                     new()
                                     {
@@ -192,7 +192,7 @@ namespace EasyAbp.EShop.Orders.Orders
                                 RefundAmount = 0.3m,
                                 StoreId = OrderTestData.Store1Id,
                                 OrderId = OrderTestData.Order1Id,
-                                RefundItemOrderLines = new List<RefundItemOrderLineEto>
+                                OrderLines = new List<RefundItemOrderLineEto>
                                 {
                                     new()
                                     {
