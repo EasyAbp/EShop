@@ -5,7 +5,7 @@ using Volo.Abp.Modularity;
 namespace EasyAbp.EShop.Orders.Plugins.Coupons
 {
     [DependsOn(
-        typeof(EShopOrdersDomainModule),
+        typeof(EShopOrdersApplicationModule),
         typeof(EShopPluginsCouponsApplicationContractsModule)
     )]
     public class EShopOrdersPluginsCouponsModule : AbpModule
