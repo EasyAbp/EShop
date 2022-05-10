@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Application.Contracts\EasyAbp.EShop.Plugins.Booking.Application.Contracts.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Domain\EasyAbp.EShop.Plugins.Booking.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
