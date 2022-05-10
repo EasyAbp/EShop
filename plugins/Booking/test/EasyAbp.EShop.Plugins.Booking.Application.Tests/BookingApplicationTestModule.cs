@@ -3,7 +3,7 @@
 namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
-    typeof(BookingApplicationModule),
+    typeof(EShopPluginsBookingApplicationModule),
     typeof(BookingDomainTestModule)
     )]
 public class BookingApplicationTestModule : AbpModule

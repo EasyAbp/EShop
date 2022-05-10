@@ -10,6 +10,6 @@ public abstract class BookingPageModel : AbpPageModel
     protected BookingPageModel()
     {
         LocalizationResourceType = typeof(BookingResource);
-        ObjectMapperContext = typeof(BookingWebModule);
+        ObjectMapperContext = typeof(EShopPluginsBookingWebModule);
     }
 }

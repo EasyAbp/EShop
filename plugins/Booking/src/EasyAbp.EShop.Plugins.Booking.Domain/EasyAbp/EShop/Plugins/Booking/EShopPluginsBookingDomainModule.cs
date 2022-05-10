@@ -5,9 +5,9 @@ namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
     typeof(AbpDddDomainModule),
-    typeof(BookingDomainSharedModule)
+    typeof(EShopPluginsBookingDomainSharedModule)
 )]
-public class BookingDomainModule : AbpModule
+public class EShopPluginsBookingDomainModule : AbpModule
 {
 
 }

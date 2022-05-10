@@ -8,13 +8,13 @@ namespace EasyAbp.EShop.Plugins.Booking;
     typeof(AbpStudioModuleInstallerModule),
     typeof(AbpVirtualFileSystemModule)
     )]
-public class BookingInstallerModule : AbpModule
+public class EShopPluginsBookingInstallerModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<BookingInstallerModule>();
+            options.FileSets.AddEmbedded<EShopPluginsBookingInstallerModule>();
         });
     }
 }

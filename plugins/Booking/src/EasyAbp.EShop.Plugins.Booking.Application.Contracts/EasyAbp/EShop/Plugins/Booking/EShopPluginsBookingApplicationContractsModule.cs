@@ -5,11 +5,11 @@ using Volo.Abp.Authorization;
 namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
-    typeof(BookingDomainSharedModule),
+    typeof(EShopPluginsBookingDomainSharedModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpAuthorizationModule)
     )]
-public class BookingApplicationContractsModule : AbpModule
+public class EShopPluginsBookingApplicationContractsModule : AbpModule
 {
 
 }

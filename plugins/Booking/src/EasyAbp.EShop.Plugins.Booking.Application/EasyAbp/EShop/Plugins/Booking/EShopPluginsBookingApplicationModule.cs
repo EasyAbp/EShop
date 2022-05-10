@@ -6,19 +6,19 @@ using Volo.Abp.Application;
 namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
-    typeof(BookingDomainModule),
-    typeof(BookingApplicationContractsModule),
+    typeof(EShopPluginsBookingDomainModule),
+    typeof(EShopPluginsBookingApplicationContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule)
     )]
-public class BookingApplicationModule : AbpModule
+public class EShopPluginsBookingApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<BookingApplicationModule>();
+        context.Services.AddAutoMapperObjectMapper<EShopPluginsBookingApplicationModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<BookingApplicationModule>(validate: true);
+            options.AddMaps<EShopPluginsBookingApplicationModule>(validate: true);
         });
     }
 }

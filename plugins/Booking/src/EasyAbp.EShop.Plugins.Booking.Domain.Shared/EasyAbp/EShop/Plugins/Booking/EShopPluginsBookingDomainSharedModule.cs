@@ -11,13 +11,13 @@ namespace EasyAbp.EShop.Plugins.Booking;
 [DependsOn(
     typeof(AbpValidationModule)
 )]
-public class BookingDomainSharedModule : AbpModule
+public class EShopPluginsBookingDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<BookingDomainSharedModule>();
+            options.FileSets.AddEmbedded<EShopPluginsBookingDomainSharedModule>();
         });
 
         Configure<AbpLocalizationOptions>(options =>

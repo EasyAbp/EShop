@@ -8,15 +8,15 @@ using Microsoft.Extensions.DependencyInjection;
 namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
-    typeof(BookingApplicationContractsModule),
+    typeof(EShopPluginsBookingApplicationContractsModule),
     typeof(AbpAspNetCoreMvcModule))]
-public class BookingHttpApiModule : AbpModule
+public class EShopPluginsBookingHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         PreConfigure<IMvcBuilder>(mvcBuilder =>
         {
-            mvcBuilder.AddApplicationPartIfNotExists(typeof(BookingHttpApiModule).Assembly);
+            mvcBuilder.AddApplicationPartIfNotExists(typeof(EShopPluginsBookingHttpApiModule).Assembly);
         });
     }
 

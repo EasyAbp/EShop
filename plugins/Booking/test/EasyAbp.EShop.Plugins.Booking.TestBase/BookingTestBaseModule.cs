@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Plugins.Booking;
     typeof(AbpAutofacModule),
     typeof(AbpTestBaseModule),
     typeof(AbpAuthorizationModule),
-    typeof(BookingDomainModule)
+    typeof(EShopPluginsBookingDomainModule)
     )]
 public class BookingTestBaseModule : AbpModule
 {

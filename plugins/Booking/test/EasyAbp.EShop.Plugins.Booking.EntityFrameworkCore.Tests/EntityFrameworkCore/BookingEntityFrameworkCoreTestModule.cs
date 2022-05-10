@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 
 [DependsOn(
     typeof(BookingTestBaseModule),
-    typeof(BookingEntityFrameworkCoreModule),
+    typeof(EShopPluginsBookingEntityFrameworkCoreModule),
     typeof(AbpEntityFrameworkCoreSqliteModule)
     )]
 public class BookingEntityFrameworkCoreTestModule : AbpModule

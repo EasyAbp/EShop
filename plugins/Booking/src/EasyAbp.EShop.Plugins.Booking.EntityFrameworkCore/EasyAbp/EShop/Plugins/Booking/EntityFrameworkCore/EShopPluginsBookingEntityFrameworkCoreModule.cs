@@ -5,10 +5,10 @@ using Volo.Abp.Modularity;
 namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 
 [DependsOn(
-    typeof(BookingDomainModule),
+    typeof(EShopPluginsBookingDomainModule),
     typeof(AbpEntityFrameworkCoreModule)
 )]
-public class BookingEntityFrameworkCoreModule : AbpModule
+public class EShopPluginsBookingEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

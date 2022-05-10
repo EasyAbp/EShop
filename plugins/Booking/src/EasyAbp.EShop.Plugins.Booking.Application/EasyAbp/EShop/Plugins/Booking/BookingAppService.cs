@@ -8,6 +8,6 @@ public abstract class BookingAppService : ApplicationService
     protected BookingAppService()
     {
         LocalizationResource = typeof(BookingResource);
-        ObjectMapperContext = typeof(BookingApplicationModule);
+        ObjectMapperContext = typeof(EShopPluginsBookingApplicationModule);
     }
 }

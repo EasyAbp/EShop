@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
     typeof(AbpAutofacModule),
-    typeof(BookingHttpApiClientModule),
+    typeof(EShopPluginsBookingHttpApiClientModule),
     typeof(AbpHttpClientIdentityModelModule)
     )]
 public class BookingConsoleApiClientModule : AbpModule

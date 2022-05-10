@@ -13,22 +13,22 @@ using EasyAbp.EShop.Plugins.Booking.Permissions;
 namespace EasyAbp.EShop.Plugins.Booking.Web;
 
 [DependsOn(
-    typeof(BookingApplicationContractsModule),
+    typeof(EShopPluginsBookingApplicationContractsModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
     typeof(AbpAutoMapperModule)
     )]
-public class BookingWebModule : AbpModule
+public class EShopPluginsBookingWebModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
-            options.AddAssemblyResource(typeof(BookingResource), typeof(BookingWebModule).Assembly);
+            options.AddAssemblyResource(typeof(BookingResource), typeof(EShopPluginsBookingWebModule).Assembly);
         });
 
         PreConfigure<IMvcBuilder>(mvcBuilder =>
         {
-            mvcBuilder.AddApplicationPartIfNotExists(typeof(BookingWebModule).Assembly);
+            mvcBuilder.AddApplicationPartIfNotExists(typeof(EShopPluginsBookingWebModule).Assembly);
         });
     }
 
@@ -41,13 +41,13 @@ public class BookingWebModule : AbpModule
 
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<BookingWebModule>();
+            options.FileSets.AddEmbedded<EShopPluginsBookingWebModule>();
         });
 
-        context.Services.AddAutoMapperObjectMapper<BookingWebModule>();
+        context.Services.AddAutoMapperObjectMapper<EShopPluginsBookingWebModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<BookingWebModule>(validate: true);
+            options.AddMaps<EShopPluginsBookingWebModule>(validate: true);
         });
 
         Configure<RazorPagesOptions>(options =>

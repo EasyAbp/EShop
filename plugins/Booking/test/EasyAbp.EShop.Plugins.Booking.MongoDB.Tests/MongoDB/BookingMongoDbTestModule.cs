@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Plugins.Booking.MongoDB;
 
 [DependsOn(
     typeof(BookingTestBaseModule),
-    typeof(BookingMongoDbModule)
+    typeof(EShopPluginsBookingMongoDbModule)
     )]
 public class BookingMongoDbTestModule : AbpModule
 {
