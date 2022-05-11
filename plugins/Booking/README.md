@@ -1,1 +1,1 @@
-/docs/plugins/booking/README.md
+../../docs/plugins/booking/README.md
