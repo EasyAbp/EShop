@@ -342,9 +342,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Plugins.Coupons", "plugins\Coupons\src\EasyAbp.EShop.Orders.Plugins.Coupons\EasyAbp.EShop.Orders.Plugins.Coupons.csproj", "{3C385657-8365-470F-9F4F-30F31F9FCA42}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Booking", "Booking", "{CE945F1D-6636-47D5-A619-C16C4E14CF8C}"
-	ProjectSection(SolutionItems) = preProject
-		plugins\Booking\README.md = plugins\Booking\README.md
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8C4583C-034E-47AF-B7EC-1A34EE288E2F}"
 EndProject
