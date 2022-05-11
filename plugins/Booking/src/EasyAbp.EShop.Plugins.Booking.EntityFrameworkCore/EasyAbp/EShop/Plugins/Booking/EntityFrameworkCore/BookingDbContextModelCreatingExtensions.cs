@@ -5,7 +5,7 @@ namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 
 public static class BookingDbContextModelCreatingExtensions
 {
-    public static void ConfigureBooking(
+    public static void ConfigureEShopPluginsBooking(
         this ModelBuilder builder)
     {
         Check.NotNull(builder, nameof(builder));

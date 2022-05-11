@@ -100,6 +100,7 @@ We can customize some features to use EShop in complex application scenarios.
 * Plugin modules
   * Baskets
   * Coupons
+  * [Booking](/plugins/Booking)
 
 ## Roadmap
 

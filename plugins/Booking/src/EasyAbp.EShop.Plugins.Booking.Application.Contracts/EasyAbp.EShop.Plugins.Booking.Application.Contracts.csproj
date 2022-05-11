@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\..\..\..\..\EasyAbp.BookingService\src\EasyAbp.BookingService.Domain.Shared\EasyAbp.BookingService.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Application.Contracts\EasyAbp.EShop.Orders.Application.Contracts.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Domain.Shared\EasyAbp.EShop.Plugins.Booking.Domain.Shared.csproj" />
   </ItemGroup>
 

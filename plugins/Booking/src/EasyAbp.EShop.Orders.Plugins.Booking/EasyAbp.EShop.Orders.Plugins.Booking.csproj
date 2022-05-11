@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Application\EasyAbp.EShop.Orders.Application.csproj" />
+        <ProjectReference Include="..\EasyAbp.EShop.Orders.Plugins.Booking.Shared\EasyAbp.EShop.Orders.Plugins.Booking.Shared.csproj" />
+        <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Application.Contracts\EasyAbp.EShop.Plugins.Booking.Application.Contracts.csproj" />
+    </ItemGroup>
+
+</Project>

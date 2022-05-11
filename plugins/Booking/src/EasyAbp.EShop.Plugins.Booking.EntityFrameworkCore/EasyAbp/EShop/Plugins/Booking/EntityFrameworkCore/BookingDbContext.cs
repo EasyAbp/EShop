@@ -21,6 +21,6 @@ public class BookingDbContext : AbpDbContext<BookingDbContext>, IBookingDbContex
     {
         base.OnModelCreating(builder);
 
-        builder.ConfigureBooking();
+        builder.ConfigureEShopPluginsBooking();
     }
 }
