@@ -1,11 +1,10 @@
 ﻿using System;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Orders.Orders.Dtos;
-using EasyAbp.EShop.Plugins.Booking;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
 
-namespace EasyAbp.EShop.Orders.Plugins.Booking.ObjectExtending
+namespace EasyAbp.EShop.Orders.Booking.ObjectExtending
 {
     public static class EShopOrdersPluginsBookingObjectExtensions
     {

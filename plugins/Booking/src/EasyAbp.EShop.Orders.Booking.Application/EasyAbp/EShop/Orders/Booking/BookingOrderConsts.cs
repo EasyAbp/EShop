@@ -1,4 +1,4 @@
-namespace EasyAbp.EShop.Orders.Plugins.Booking;
+namespace EasyAbp.EShop.Orders.Booking;
 
 public class BookingOrderConsts
 {

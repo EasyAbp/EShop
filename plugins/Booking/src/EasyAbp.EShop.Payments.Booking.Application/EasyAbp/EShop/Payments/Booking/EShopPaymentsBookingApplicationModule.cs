@@ -1,13 +1,13 @@
 ﻿using EasyAbp.EShop.Plugins.Booking;
 using Volo.Abp.Modularity;
 
-namespace EasyAbp.EShop.Payments.Plugins.Booking
+namespace EasyAbp.EShop.Payments.Booking
 {
     [DependsOn(
         typeof(EShopPaymentsApplicationModule),
         typeof(EShopPluginsBookingApplicationContractsModule)
     )]
-    public class EShopPaymentsPluginsBookingModule : AbpModule
+    public class EShopPaymentsBookingApplicationModule : AbpModule
     {
     }
 }

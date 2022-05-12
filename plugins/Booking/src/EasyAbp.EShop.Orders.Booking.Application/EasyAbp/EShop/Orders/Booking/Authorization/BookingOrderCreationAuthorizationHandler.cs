@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Plugins.Booking.BookingProductGroupDefinitions;
 using Microsoft.AspNetCore.Authorization;
-using Volo.Abp.Data;
 
-namespace EasyAbp.EShop.Orders.Plugins.Booking.Authorization
+namespace EasyAbp.EShop.Orders.Booking.Authorization
 {
     public class BookingOrderCreationAuthorizationHandler : OrderCreationAuthorizationHandler
     {
@@ -49,7 +47,7 @@ namespace EasyAbp.EShop.Orders.Plugins.Booking.Authorization
                     // Todo: Invoke IProductAssetCategoryAppService to check the mapping.
                 }
                 
-                // Todo: Invoke IAssetOccupancyAppService to check the booking info.
+                // Todo: Invoke IAssetOccupancyAppService (in EasyAbp.EShop.Plugins.Booking, not EasyAbp.BookingService) to check the booking info.
             }
         }
     }

@@ -3,7 +3,7 @@ using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Payments.Payments;
 using Microsoft.AspNetCore.Authorization;
 
-namespace EasyAbp.EShop.Payments.Plugins.Booking.Authorization
+namespace EasyAbp.EShop.Payments.Booking.Authorization
 {
     public class BookingPaymentCreationAuthorizationHandler : PaymentCreationAuthorizationHandler
     {
@@ -28,7 +28,7 @@ namespace EasyAbp.EShop.Payments.Plugins.Booking.Authorization
                         }
                     }
                 
-                    // Todo: Invoke IAssetOccupancyAppService to check the booking info.
+                    // Todo: Invoke IAssetOccupancyAppService (in EasyAbp.EShop.Plugins.Booking, not EasyAbp.BookingService) to check the booking info.
                 }
             }
         }

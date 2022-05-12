@@ -12,8 +12,8 @@ A booking-business plugin for EShop. It extends EShop to use the [EasyAbp.Bookin
 
 1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-nuget-packages))
 
-    * EasyAbp.EShop.Orders.Plugins.Booking (install at EasyAbp.EShop.Orders.Application location)
-    * (Optional) EasyAbp.EShop.Payments.Plugins.Booking (install at EasyAbp.EShop.Payments.Application location)
+    * EasyAbp.EShop.Orders.Booking.Application (install at EasyAbp.EShop.Orders.Application location)
+    * (Optional) EasyAbp.EShop.Payments.Booking.Application (install at EasyAbp.EShop.Payments.Application location)
     * EasyAbp.EShop.Plugins.Booking.Application
     * EasyAbp.EShop.Plugins.Booking.Application
     * EasyAbp.EShop.Plugins.Booking.Application.Contracts

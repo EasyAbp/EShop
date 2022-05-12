@@ -1,13 +1,11 @@
-using System;
 using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetOccupancies;
 using EasyAbp.EShop.Orders.Orders;
-using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Uow;
 
-namespace EasyAbp.EShop.Orders.Plugins.Booking.EventHandlers;
+namespace EasyAbp.EShop.Orders.Booking.EventHandlers;
 
 public class BulkAssetOccupancyResultEventHandler : IDistributedEventHandler<BulkAssetOccupancyResultEto>, ITransientDependency
 {

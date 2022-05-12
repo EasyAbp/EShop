@@ -383,9 +383,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dev-temp", "dev-temp", "{D0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.BookingService.Domain.Shared", "..\EasyAbp.BookingService\src\EasyAbp.BookingService.Domain.Shared\EasyAbp.BookingService.Domain.Shared.csproj", "{772637D4-25D2-406D-9A0F-6C0506F9D97A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Plugins.Booking", "plugins\Booking\src\EasyAbp.EShop.Orders.Plugins.Booking\EasyAbp.EShop.Orders.Plugins.Booking.csproj", "{C0399352-1278-4D91-8D4E-7491FD77C18B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Orders.Booking.Application\EasyAbp.EShop.Orders.Booking.Application.csproj", "{C0399352-1278-4D91-8D4E-7491FD77C18B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Payments.Plugins.Booking", "plugins\Booking\src\EasyAbp.EShop.Payments.Plugins.Booking\EasyAbp.EShop.Payments.Plugins.Booking.csproj", "{4480BFAF-C981-4242-A509-EDA6F572E45C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Payments.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Payments.Booking.Application\EasyAbp.EShop.Payments.Booking.Application.csproj", "{4480BFAF-C981-4242-A509-EDA6F572E45C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
