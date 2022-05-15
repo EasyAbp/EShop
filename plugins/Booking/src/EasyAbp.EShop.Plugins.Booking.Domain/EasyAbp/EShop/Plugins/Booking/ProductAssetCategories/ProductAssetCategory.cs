@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -19,6 +20,8 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
     
     public virtual Guid AssetCategoryId { get; protected set; }
     
+    public virtual Guid PeriodSchemeId { get; protected set; }
+    
     /// <summary>
     /// When will this mapping start taking effect.
     /// </summary>
@@ -31,7 +34,13 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
     public virtual DateTime? ToTime { get; protected set; }
     
     /// <summary>
+    /// Price for any period.
     /// Fall back to the price of ProductSku if <c>null</c>.
     /// </summary>
     public virtual decimal? Price { get; protected set; }
+    
+    /// <summary>
+    /// Customize prices for specified periods.
+    /// </summary>
+    public List<ProductAssetCategoryPeriod> Periods { get; protected set; }
 }
