@@ -14,7 +14,7 @@ public class EShopPluginsBookingHttpApiClientModule : AbpModule
     {
         context.Services.AddHttpClientProxies(
             typeof(EShopPluginsBookingApplicationContractsModule).Assembly,
-            BookingRemoteServiceConsts.RemoteServiceName
+            EShopPluginsBookingRemoteServiceConsts.RemoteServiceName
         );
 
         Configure<AbpVirtualFileSystemOptions>(options =>

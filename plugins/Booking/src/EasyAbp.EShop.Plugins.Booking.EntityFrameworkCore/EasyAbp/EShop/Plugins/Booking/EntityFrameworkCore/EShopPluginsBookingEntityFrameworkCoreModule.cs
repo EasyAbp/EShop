@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.ProductAssets;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -17,6 +19,8 @@ public class EShopPluginsBookingEntityFrameworkCoreModule : AbpModule
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
+                options.AddRepository<ProductAsset, ProductAssetRepository>();
+                options.AddRepository<ProductAssetCategory, ProductAssetCategoryRepository>();
         });
     }
 }

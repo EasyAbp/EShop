@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using EasyAbp.EShop.Plugins.Booking.Shared;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -43,4 +45,58 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
     /// Customize prices for specified periods.
     /// </summary>
     public List<ProductAssetCategoryPeriod> Periods { get; protected set; }
+
+    protected ProductAssetCategory()
+    {
+        Periods = new List<ProductAssetCategoryPeriod>();
+    }
+
+    public ProductAssetCategory(
+        Guid id,
+        Guid? tenantId,
+        Guid productId,
+        Guid productSkuId,
+        Guid assetCategoryId,
+        Guid periodSchemeId,
+        DateTime fromTime,
+        DateTime? toTime,
+        decimal? price,
+        List<ProductAssetCategoryPeriod> periods
+    ) : base(id)
+    {
+        TenantId = tenantId;
+        ProductId = productId;
+        ProductSkuId = productSkuId;
+        AssetCategoryId = assetCategoryId;
+        PeriodSchemeId = periodSchemeId;
+        FromTime = fromTime;
+        ToTime = toTime;
+        Price = price;
+        Periods = periods ?? new List<ProductAssetCategoryPeriod>();
+    }
+    
+    public void AddPeriod(ProductAssetCategoryPeriod productAssetCategoryPeriod)
+    {
+        if (FindPeriod(productAssetCategoryPeriod.PeriodId) is not null)
+        {
+            throw new DuplicatePeriodException(productAssetCategoryPeriod.PeriodId);
+        }
+
+        Periods.Add(productAssetCategoryPeriod);
+    }
+
+    public void RemovePeriod(Guid periodId)
+    {
+        Periods.Remove(GetPeriod(periodId));
+    }
+
+    public ProductAssetCategoryPeriod GetPeriod(Guid periodId)
+    {
+        return FindPeriod(periodId) ?? throw new PeriodNotFoundException(periodId);
+    }
+
+    public ProductAssetCategoryPeriod FindPeriod(Guid periodId)
+    {
+        return Periods.FirstOrDefault(x => x.PeriodId == periodId);
+    }
 }

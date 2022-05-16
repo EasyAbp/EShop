@@ -4,7 +4,7 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Plugins.Booking;
 
-[Area(BookingRemoteServiceConsts.ModuleName)]
+[Area(EShopPluginsBookingRemoteServiceConsts.ModuleName)]
 public abstract class BookingController : AbpControllerBase
 {
     protected BookingController()

@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.ProductAssets;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 
@@ -29,5 +32,41 @@ public static class BookingDbContextModelCreatingExtensions
             b.HasIndex(q => q.CreationTime);
         });
         */
+
+            builder.Entity<ProductAsset>(b =>
+            {
+                b.ToTable(BookingDbProperties.DbTablePrefix + "ProductAssets", BookingDbProperties.DbSchema);
+                b.ConfigureByConvention(); 
+
+                /* Configure more properties here */
+                b.Property(x => x.Price).HasColumnType("decimal(20,8)");
+            });
+
+            builder.Entity<ProductAssetPeriod>(b =>
+            {
+                b.ToTable(BookingDbProperties.DbTablePrefix + "ProductAssetPeriods", BookingDbProperties.DbSchema);
+                b.ConfigureByConvention(); 
+
+                /* Configure more properties here */
+                b.Property(x => x.Price).HasColumnType("decimal(20,8)");
+            });
+
+            builder.Entity<ProductAssetCategoryPeriod>(b =>
+            {
+                b.ToTable(BookingDbProperties.DbTablePrefix + "ProductAssetCategoryPeriods", BookingDbProperties.DbSchema);
+                b.ConfigureByConvention(); 
+
+                /* Configure more properties here */
+                b.Property(x => x.Price).HasColumnType("decimal(20,8)");
+            });
+
+            builder.Entity<ProductAssetCategory>(b =>
+            {
+                b.ToTable(BookingDbProperties.DbTablePrefix + "ProductAssetCategories", BookingDbProperties.DbSchema);
+                b.ConfigureByConvention(); 
+
+                /* Configure more properties here */
+                b.Property(x => x.Price).HasColumnType("decimal(20,8)");
+            });
     }
 }

@@ -2,5 +2,6 @@
 
 public static class BookingErrorCodes
 {
-    //Add your business exception error codes here...
+    public const string PeriodNotFound = "EasyAbp.EShop.Plugins.Booking:PeriodNotFound";
+    public const string DuplicatePeriod = "EasyAbp.EShop.Plugins.Booking:DuplicatePeriod";
 }

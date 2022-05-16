@@ -1,6 +1,6 @@
 ﻿namespace EasyAbp.EShop.Plugins.Booking;
 
-public class BookingRemoteServiceConsts
+public class EShopPluginsBookingRemoteServiceConsts
 {
     public const string RemoteServiceName = "EasyAbpEShopPluginsBooking";
 
