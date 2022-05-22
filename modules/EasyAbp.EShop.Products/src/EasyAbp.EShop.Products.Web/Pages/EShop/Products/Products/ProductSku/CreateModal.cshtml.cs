@@ -71,12 +71,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
                 createDto.ProductDetailId = detail.Id;
             }
             
-            var skuDto = await _productAppService.CreateSkuAsync(ProductId, createDto);
+            var product = await _productAppService.CreateSkuAsync(ProductId, createDto);
+            var productSku = product.ProductSkus
+                .Single(x => !x.AttributeOptionIds.Except(createDto.AttributeOptionIds).Any());
 
             await _productInventoryAppService.UpdateAsync(new UpdateProductInventoryDto
             {
-                ProductId = ProductId,
-                ProductSkuId = skuDto.Id,
+                ProductId = product.Id,
+                ProductSkuId = productSku.Id,
                 ChangedInventory = ProductSku.Inventory
             });
 
