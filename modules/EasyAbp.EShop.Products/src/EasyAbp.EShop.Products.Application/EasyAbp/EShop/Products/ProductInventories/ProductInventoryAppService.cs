@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Products.ProductInventories
 {
@@ -32,6 +33,13 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
             if (productInventory == null)
             {
+                var product = await _productRepository.GetAsync(productId);
+
+                if (!product.ProductSkus.Exists(x => x.Id == productSkuId))
+                {
+                    throw new EntityNotFoundException(typeof(ProductSku), productSkuId);
+                }
+                
                 productInventory = new ProductInventory(GuidGenerator.Create(), CurrentTenant.Id, productId,
                     productSkuId, 0, 0);
 
@@ -44,6 +52,11 @@ namespace EasyAbp.EShop.Products.ProductInventories
         public virtual async Task<ProductInventoryDto> UpdateAsync(UpdateProductInventoryDto input)
         {
             var product = await _productRepository.GetAsync(input.ProductId);
+
+            if (!product.ProductSkus.Exists(x => x.Id == input.ProductSkuId))
+            {
+                throw new EntityNotFoundException(typeof(ProductSku), input.ProductSkuId);
+            }
 
             await AuthorizationService.CheckMultiStorePolicyAsync(product.StoreId,
                 ProductsPermissions.ProductInventory.Update, ProductsPermissions.ProductInventory.CrossStore);
