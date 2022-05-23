@@ -34,8 +34,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public bool IsHidden { get; set; }
         
-        public ICollection<ProductAttributeEto> ProductAttributes { get; set; }
+        public List<ProductAttributeEto> ProductAttributes { get; set; }
         
-        public ICollection<ProductSkuEto> ProductSkus { get; set; }
+        public List<ProductSkuEto> ProductSkus { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace EasyAbp.EShop.Products.Products
         
         public int DisplayOrder { get; set; }
         
-        public ICollection<ProductAttributeOptionEto> ProductAttributeOptions { get; set; }
+        public List<ProductAttributeOptionEto> ProductAttributeOptions { get; set; }
     }
 }

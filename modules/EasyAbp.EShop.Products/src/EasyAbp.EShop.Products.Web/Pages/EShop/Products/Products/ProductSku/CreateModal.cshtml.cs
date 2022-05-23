@@ -26,7 +26,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         [BindProperty]
         public Dictionary<string, Guid> SelectedAttributeOptionIdDict { get; set; }
         
-        public Dictionary<string, ICollection<SelectListItem>> Attributes { get; set; }
+        public Dictionary<string, List<SelectListItem>> Attributes { get; set; }
 
         private readonly IProductInventoryAppService _productInventoryAppService;
         private readonly IProductDetailAppService _productDetailAppService;
@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.ProductSku
         {
             var product = await _productAppService.GetAsync(ProductId);
 
-            Attributes = new Dictionary<string, ICollection<SelectListItem>>();
+            Attributes = new Dictionary<string, List<SelectListItem>>();
             
             foreach (var attribute in product.ProductAttributes.ToList())
             {
