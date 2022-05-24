@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
-using Volo.Abp.Uow;
 using Xunit;
 
 namespace EasyAbp.EShop.Products.Products
@@ -127,8 +126,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [Fact]
-        [UnitOfWork]
-        public virtual async Task Should_Create_Sku()
+        public async Task Should_Create_Sku()
         {
             var product1 = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
 
@@ -149,8 +147,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [Fact]
-        [UnitOfWork]
-        public virtual async Task Should_Throw_If_Create_Sku_With_Incorrect_AttributeOptionIds()
+        public async Task Should_Throw_If_Create_Sku_With_Incorrect_AttributeOptionIds()
         {
             var product1 = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
 
