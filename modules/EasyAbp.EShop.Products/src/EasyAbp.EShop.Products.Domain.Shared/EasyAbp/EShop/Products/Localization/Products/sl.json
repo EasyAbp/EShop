@@ -88,6 +88,7 @@
     "EasyAbp.EShop.Products:NonexistentProductGroup": "The specified product group ({productGroupName}) is nonexistent.",
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "Sku code {code} is duplicate for the product {productId}",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "Sku {serializedAttributeOptionIds} is duplicate for the product {productId}",
+    "EasyAbp.EShop.Products:ProductSkuIncorrectAttributeOptions": "Sku {serializedAttributeOptionIds} is incorrect for the product {productId}",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "You have no permission to get category list with hidden categories.",
     "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed": "Should ensure there are no SKUs using the attribute option which you want to delete.",
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "Should ensure SKUs are empty if you want to modify attributes of a product.",

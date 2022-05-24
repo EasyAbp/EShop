@@ -85,6 +85,7 @@
     "EasyAbp.EShop.Products:NonexistentProductGroup": "指定的產品組({productGroupName})不存在",
     "EasyAbp.EShop.Products:ProductSkuCodeDuplicated": "商品{productId}的Sku代碼{code}重復",
     "EasyAbp.EShop.Products:ProductSkuDuplicated": "商品{productId}的Sku{serializedAttributeOptionIds}重復",
+    "EasyAbp.EShop.Products:ProductSkuIncorrectAttributeOptions": "商品{productId}的Sku{serializedAttributeOptionIds}不正確",
     "EasyAbp.EShop.Products:NotAllowedToGetCategoryListWithShowHidden": "您沒有權限獲取帶有隱藏類別的類別列表",
     "EasyAbp.EShop.Products:ProductAttributeOptionsDeletionFailed": "請確保沒有使用您想要刪除的屬性選項的sku",
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "請先確保Sku為空再修改商品的屬性",

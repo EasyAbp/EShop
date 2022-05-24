@@ -19,6 +19,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductDetailRepository _productDetailRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProvider _productInventoryProvider;
+        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductGroupConfigurationProvider _productGroupConfigurationProvider;
 
         public ProductManager(
@@ -27,6 +28,7 @@ namespace EasyAbp.EShop.Products.Products
             IProductDetailRepository productDetailRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductInventoryProvider productInventoryProvider,
+            IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductGroupConfigurationProvider productGroupConfigurationProvider)
         {
             _productRepository = productRepository;
@@ -34,6 +36,7 @@ namespace EasyAbp.EShop.Products.Products
             _productDetailRepository = productDetailRepository;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProvider = productInventoryProvider;
+            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productGroupConfigurationProvider = productGroupConfigurationProvider;
         }
 
@@ -131,15 +134,25 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
-        protected virtual Task CheckSkuAttributeOptionsAsync(Product product, ProductSku productSku)
+        protected virtual async Task CheckSkuAttributeOptionsAsync(Product product, ProductSku productSku)
         {
+            var attributeOptionIds =
+                (await _attributeOptionIdsSerializer.DeserializeAsync(productSku.SerializedAttributeOptionIds))
+                .ToList();
+
+            if (!product.ProductAttributes.TrueForAll(attribute =>
+                    attribute.ProductAttributeOptions.Select(option => option.Id).Intersect(attributeOptionIds)
+                        .Count() == 1))
+            {
+                throw new ProductSkuIncorrectAttributeOptionsException(product.Id,
+                    productSku.SerializedAttributeOptionIds);
+            }
+
             if (product.ProductSkus.Where(sku => sku.Id != productSku.Id).FirstOrDefault(sku =>
-                sku.SerializedAttributeOptionIds.Equals(productSku.SerializedAttributeOptionIds)) != null)
+                    sku.SerializedAttributeOptionIds.Equals(productSku.SerializedAttributeOptionIds)) != null)
             {
                 throw new ProductSkuDuplicatedException(product.Id, productSku.SerializedAttributeOptionIds);
             }
-
-            return Task.CompletedTask;
         }
 
         [UnitOfWork]
