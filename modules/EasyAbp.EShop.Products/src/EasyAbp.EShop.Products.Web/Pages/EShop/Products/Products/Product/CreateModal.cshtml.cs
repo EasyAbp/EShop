@@ -21,9 +21,9 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product
         [BindProperty]
         public CreateEditProductViewModel Product { get; set; }
 
-        public ICollection<SelectListItem> ProductGroups { get; set; }
+        public List<SelectListItem> ProductGroups { get; set; }
 
-        public ICollection<SelectListItem> Categories { get; set; }
+        public List<SelectListItem> Categories { get; set; }
 
         private readonly ICategoryAppService _categoryAppService;
         private readonly IProductDetailAppService _productDetailAppService;
