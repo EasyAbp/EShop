@@ -41,8 +41,7 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
                     assetId: assetId.Value,
                     date: date.Value,
                     startingTime: startingTime.Value,
-                    duration: duration.Value,
-                    occupierUserId: eventData.Order.CustomerUserId
+                    duration: duration.Value
                 ));
             }
             else if (assetCategoryId.HasValue)
@@ -51,13 +50,13 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
                     assetCategoryId: assetCategoryId.Value,
                     date: date.Value,
                     startingTime: startingTime.Value,
-                    duration: duration.Value,
-                    occupierUserId: eventData.Order.CustomerUserId
+                    duration: duration.Value
                 ));
             }
         }
 
-        var eto = new BulkOccupyAssetEto(eventData.TenantId, occupyModels, occupyByCategoryModels);
+        var eto = new BulkOccupyAssetEto(eventData.TenantId, eventData.Order.CustomerUserId, occupyModels,
+            occupyByCategoryModels);
 
         eto.SetBookingOrderId(eventData.Order.Id);
         
