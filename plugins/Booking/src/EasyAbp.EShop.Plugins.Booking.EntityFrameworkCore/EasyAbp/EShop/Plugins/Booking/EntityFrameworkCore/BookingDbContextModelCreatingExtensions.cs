@@ -1,3 +1,4 @@
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,15 @@ public static class BookingDbContextModelCreatingExtensions
 
                 /* Configure more properties here */
                 b.Property(x => x.Price).HasColumnType("decimal(20,8)");
+            });
+
+
+            builder.Entity<StoreAssetCategory>(b =>
+            {
+                b.ToTable(BookingDbProperties.DbTablePrefix + "StoreAssetCategories", BookingDbProperties.DbSchema);
+                b.ConfigureByConvention(); 
+
+                /* Configure more properties here */
             });
     }
 }

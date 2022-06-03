@@ -49,6 +49,14 @@
     "EditProductAssetCategoryPeriod": "Edit",
     "ProductAssetCategoryPeriodDeletionConfirmationMessage": "Are you sure to delete the product asset category period {0}?",
     "EasyAbp.EShop.Plugins.Booking:PeriodNotFound": "Period {id} not found.",
-    "EasyAbp.EShop.Plugins.Booking:DuplicatePeriod": "Period {id} exists."
+    "EasyAbp.EShop.Plugins.Booking:DuplicatePeriod": "Period {id} exists.",
+    "Permission:StoreAssetCategory": "Store assets",
+    "Menu:StoreAssetCategory": "Store assets",
+    "StoreAssetCategory": "Store assets",
+    "StoreAssetCategoryStoreId": "Store ID",
+    "StoreAssetCategoryAssetCategoryId": "Asset category ID",
+    "CreateStoreAssetCategory": "New",
+    "EditStoreAssetCategory": "Edit",
+    "StoreAssetCategoryDeletionConfirmationMessage": "Are you sure to delete the store asset category {0}?"
   }
 }

@@ -1,4 +1,4 @@
-﻿namespace EasyAbp.EShop.Plugins.Booking.Web.Menus;
+namespace EasyAbp.EShop.Plugins.Booking.Web.Menus;
 
 public class BookingMenus
 {
@@ -11,4 +11,5 @@ public class BookingMenus
 
     public const string ProductAsset = Prefix + ".ProductAsset";
     public const string ProductAssetCategory = Prefix + ".ProductAssetCategory";
+        public const string StoreAssetCategory = Prefix + ".StoreAssetCategory";
 }

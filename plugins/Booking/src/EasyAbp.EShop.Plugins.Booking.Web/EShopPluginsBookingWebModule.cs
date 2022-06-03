@@ -1,22 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using EasyAbp.Abp.TagHelperPlus;
+using EasyAbp.BookingService;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using EasyAbp.EShop.Plugins.Booking.Localization;
 using EasyAbp.EShop.Plugins.Booking.Web.Menus;
+using EasyAbp.EShop.Products;
+using EasyAbp.EShop.Stores;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
-using EasyAbp.EShop.Plugins.Booking.Permissions;
 
 namespace EasyAbp.EShop.Plugins.Booking.Web;
 
 [DependsOn(
+    typeof(AbpTagHelperPlusModule),
+    typeof(BookingServiceApplicationContractsModule),
+    typeof(EShopProductsApplicationContractsModule),
+    typeof(EShopStoresApplicationContractsModule),
     typeof(EShopPluginsBookingApplicationContractsModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
     typeof(AbpAutoMapperModule)
-    )]
+)]
 public class EShopPluginsBookingWebModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

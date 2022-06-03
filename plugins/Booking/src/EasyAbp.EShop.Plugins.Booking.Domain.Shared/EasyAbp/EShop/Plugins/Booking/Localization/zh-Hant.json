@@ -49,6 +49,14 @@
     "EditProductAssetCategoryPeriod": "編輯",
     "ProductAssetCategoryPeriodDeletionConfirmationMessage": "確認刪除資產類目時段價格 {0}?",
     "EasyAbp.EShop.Plugins.Booking:PeriodNotFound": "時段 {id} 不存在。",
-    "EasyAbp.EShop.Plugins.Booking:DuplicatePeriod": "時段 {id} 已存在。"
+    "EasyAbp.EShop.Plugins.Booking:DuplicatePeriod": "時段 {id} 已存在。",
+    "Permission:StoreAssetCategory": "店鋪資產",
+    "Menu:StoreAssetCategory": "店鋪資產",
+    "StoreAssetCategory": "店鋪資產",
+    "StoreAssetCategoryStoreId": "店鋪 ID",
+    "StoreAssetCategoryAssetCategoryId": "資產目錄 ID",
+    "CreateStoreAssetCategory": "新建",
+    "EditStoreAssetCategory": "編輯",
+    "StoreAssetCategoryDeletionConfirmationMessage": "確認刪除店鋪資產 {0}?"
   }
 }

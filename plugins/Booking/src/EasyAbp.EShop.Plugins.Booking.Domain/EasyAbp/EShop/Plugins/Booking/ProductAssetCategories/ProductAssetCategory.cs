@@ -48,7 +48,6 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
 
     protected ProductAssetCategory()
     {
-        Periods = new List<ProductAssetCategoryPeriod>();
     }
 
     public ProductAssetCategory(

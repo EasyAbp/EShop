@@ -6,7 +6,9 @@ using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategory.ViewModels;
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategoryPeriod.ViewModels;
+using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.StoreAssetCategories.StoreAssetCategory.ViewModels;
 
 namespace EasyAbp.EShop.Plugins.Booking.Web;
 
@@ -32,5 +34,8 @@ public class BookingWebAutoMapperProfile : Profile
         CreateMap<ProductAssetCategoryPeriodDto, EditProductAssetCategoryPeriodViewModel>();
         CreateMap<CreateProductAssetCategoryPeriodViewModel, CreateProductAssetCategoryPeriodDto>();
         CreateMap<EditProductAssetCategoryPeriodViewModel, UpdateProductAssetCategoryPeriodDto>();
+
+        CreateMap<StoreAssetCategoryDto, CreateEditStoreAssetCategoryViewModel>();
+        CreateMap<CreateEditStoreAssetCategoryViewModel, CreateUpdateStoreAssetCategoryDto>();
     }
 }

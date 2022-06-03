@@ -3,6 +3,7 @@ using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
 
 namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 
@@ -16,4 +17,5 @@ public interface IBookingDbContext : IEfCoreDbContext
         DbSet<ProductAssetPeriod> ProductAssetPeriods { get; set; }
         DbSet<ProductAssetCategoryPeriod> ProductAssetCategoryPeriods { get; set; }
         DbSet<ProductAssetCategory> ProductAssetCategories { get; set; }
+        DbSet<StoreAssetCategory> StoreAssetCategories { get; set; }
 }

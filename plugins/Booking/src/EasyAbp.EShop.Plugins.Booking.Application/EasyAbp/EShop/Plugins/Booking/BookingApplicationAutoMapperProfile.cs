@@ -2,6 +2,8 @@ using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories.Dtos;
 using AutoMapper;
 
 namespace EasyAbp.EShop.Plugins.Booking;
@@ -28,5 +30,8 @@ public class BookingApplicationAutoMapperProfile : Profile
         CreateMap<ProductAssetCategoryPeriod, ProductAssetCategoryPeriodDto>();
         CreateMap<CreateProductAssetCategoryPeriodDto, ProductAssetCategoryPeriod>(MemberList.Source);
         CreateMap<UpdateProductAssetCategoryPeriodDto, ProductAssetCategoryPeriod>(MemberList.Source);
+
+        CreateMap<StoreAssetCategory, StoreAssetCategoryDto>();
+        CreateMap<CreateUpdateStoreAssetCategoryDto, StoreAssetCategory>(MemberList.Source);
     }
 }
