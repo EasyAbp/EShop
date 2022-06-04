@@ -14,6 +14,7 @@ public class BookingPermissions
     public class ProductAsset
     {
         public const string Default = GroupName + ".ProductAsset";
+        public const string Manage = Default + ".Manage";
         public const string Update = Default + ".Update";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
@@ -22,6 +23,7 @@ public class BookingPermissions
     public class ProductAssetCategory
     {
         public const string Default = GroupName + ".ProductAssetCategory";
+        public const string Manage = Default + ".Manage";
         public const string Update = Default + ".Update";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";

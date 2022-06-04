@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
     [Serializable]
     public class ProductAssetCategoryDto : AuditedEntityDto<Guid>
     {
+        public Guid StoreId { get; set; }
+
         public Guid ProductId { get; set; }
 
         public Guid ProductSkuId { get; set; }

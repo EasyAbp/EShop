@@ -1,11 +1,15 @@
 using System;
-
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssets.ProductAsset.ViewModels
 {
     public class CreateProductAssetViewModel
     {
+        [HiddenInput]
+        [Display(Name = "ProductAssetStoreId")]
+        public Guid StoreId { get; set; }
+
         [Display(Name = "ProductAssetProductId")]
         public Guid ProductId { get; set; }
 

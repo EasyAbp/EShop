@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductA
 {
     public class CreateModalModel : BookingPageModel
     {
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public CreateProductAssetViewModel ViewModel { get; set; }
 
         private readonly IProductAssetAppService _service;

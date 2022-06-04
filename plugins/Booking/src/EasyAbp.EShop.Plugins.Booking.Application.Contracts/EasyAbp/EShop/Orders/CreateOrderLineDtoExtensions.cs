@@ -16,6 +16,16 @@ public static class CreateOrderLineDtoExtensions
         return orderLine.GetProperty<Guid?>(BookingOrderProperties.OrderLineBookingAssetCategoryId);
     }
     
+    public static Guid? FindBookingPeriodSchemeId(this CreateOrderLineDto orderLine)
+    {
+        return orderLine.GetProperty<Guid?>(BookingOrderProperties.OrderLineBookingPeriodSchemeId);
+    }
+    
+    public static Guid? FindBookingPeriodId(this CreateOrderLineDto orderLine)
+    {
+        return orderLine.GetProperty<Guid?>(BookingOrderProperties.OrderLineBookingPeriodId);
+    }
+    
     public static DateTime? FindBookingDate(this CreateOrderLineDto orderLine)
     {
         return orderLine.GetProperty<DateTime?>(BookingOrderProperties.OrderLineBookingDate);

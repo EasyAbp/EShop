@@ -15,7 +15,17 @@ public static class OrderLineExtensions
     {
         return orderLine.GetProperty<Guid?>(BookingOrderProperties.OrderLineBookingAssetCategoryId);
     }
+
+    public static Guid? FindBookingPeriodSchemeId(this IOrderLine orderLine)
+    {
+        return orderLine.GetProperty<Guid?>(BookingOrderProperties.OrderLineBookingPeriodSchemeId);
+    }
     
+    public static Guid? FindBookingPeriodId(this IOrderLine orderLine)
+    {
+        return orderLine.GetProperty<Guid?>(BookingOrderProperties.OrderLineBookingPeriodId);
+    }
+
     public static DateTime? FindBookingDate(this IOrderLine orderLine)
     {
         return orderLine.GetProperty<DateTime?>(BookingOrderProperties.OrderLineBookingDate);

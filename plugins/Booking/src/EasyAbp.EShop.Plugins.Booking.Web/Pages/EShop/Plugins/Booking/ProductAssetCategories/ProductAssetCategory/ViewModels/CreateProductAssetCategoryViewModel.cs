@@ -1,10 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategory.ViewModels
 {
     public class CreateProductAssetCategoryViewModel
     {
+        [HiddenInput]
+        [Display(Name = "ProductAssetCategoryStoreId")]
+        public Guid StoreId { get; set; }
+
         [Display(Name = "ProductAssetCategoryProductId")]
         public Guid ProductId { get; set; }
 

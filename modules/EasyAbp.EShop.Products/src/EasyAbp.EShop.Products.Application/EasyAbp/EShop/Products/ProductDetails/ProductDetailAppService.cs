@@ -83,7 +83,7 @@ namespace EasyAbp.EShop.Products.ProductDetails
                     ProductsPermissions.Products.CrossStore);
             }
             
-            MapToEntity(input, detail);
+            await MapToEntityAsync(input, detail);
             
             await Repository.UpdateAsync(detail, autoSave: true);
 

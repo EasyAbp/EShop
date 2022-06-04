@@ -62,7 +62,7 @@ namespace EasyAbp.EShop.Stores.Stores
         where TEntity : class, IEntity, IMultiStore
         where TCreateInput : IMultiStore
     {        
-        protected virtual string CrossStorePolicyName { get; set; }
+        protected abstract string CrossStorePolicyName { get; set; }
         
         protected MultiStoreAbstractKeyCrudAppService(IRepository<TEntity> repository)
             : base(repository)
@@ -82,7 +82,7 @@ namespace EasyAbp.EShop.Stores.Stores
         {
             await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
-            var entity = MapToEntity(input);
+            var entity = await MapToEntityAsync(input);
 
             TryToSetTenantId(entity);
 
@@ -96,7 +96,7 @@ namespace EasyAbp.EShop.Stores.Stores
             var entity = await GetEntityByIdAsync(id);
             await CheckMultiStorePolicyAsync(entity.StoreId, UpdatePolicyName);
             
-            MapToEntity(input, entity);
+            await MapToEntityAsync(input, entity);
             await Repository.UpdateAsync(entity, autoSave: true);
 
             return await MapToGetOutputDtoAsync(entity);
@@ -109,7 +109,6 @@ namespace EasyAbp.EShop.Stores.Stores
 
             await DeleteByIdAsync(id);
         }
-
 
         protected virtual async Task CheckMultiStorePolicyAsync(Guid? storeId, string policyName, bool crossStoreAllowed = true)
         {

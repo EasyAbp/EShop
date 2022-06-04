@@ -1,11 +1,13 @@
-﻿using EasyAbp.EShop.Orders.Booking.ObjectExtending;
+﻿using EasyAbp.BookingService;
+using EasyAbp.EShop.Orders.Booking.ObjectExtending;
 using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Orders.Booking
 {
     [DependsOn(
         typeof(EShopOrdersApplicationModule),
-        typeof(EShopOrdersApplicationContractsModule)
+        typeof(EShopOrdersApplicationContractsModule),
+        typeof(BookingServiceApplicationContractsModule)
     )]
     public class EShopOrdersBookingApplicationModule : AbpModule
     {

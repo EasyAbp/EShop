@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
-using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
@@ -10,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
         ICrudAppService< 
             ProductAssetCategoryDto, 
             Guid, 
-            PagedAndSortedResultRequestDto,
+            GetProductAssetCategoryDto,
             CreateProductAssetCategoryDto,
             UpdateProductAssetCategoryDto>
     {

@@ -14,7 +14,9 @@ $(function () {
         autoWidth: false,
         scrollCollapse: true,
         order: [[0, "asc"]],
-        ajax: abp.libs.datatables.createAjax(service.getList),
+        ajax: abp.libs.datatables.createAjax(service.getList, function () {
+            return { storeId: storeId }
+        }),
         columnDefs: [
             {
                 rowAction: {
@@ -91,6 +93,13 @@ $(function () {
 
     $('#NewProductAssetButton').click(function (e) {
         e.preventDefault();
-        createModal.open();
+        createModal.open({ storeId: storeId });
     });
+
+    $('#enter-button').click(function (e) {
+        e.preventDefault();
+        var storeId = $('#Filter_StoreId').val();
+
+        document.location.href = document.location.origin + document.location.pathname + '?storeId=' + storeId;
+    })
 });

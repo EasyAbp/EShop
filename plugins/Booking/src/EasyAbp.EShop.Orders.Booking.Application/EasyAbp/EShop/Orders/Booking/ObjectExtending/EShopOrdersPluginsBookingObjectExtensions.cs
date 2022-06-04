@@ -42,6 +42,8 @@ namespace EasyAbp.EShop.Orders.Booking.ObjectExtending
                         {
                             config.AddOrUpdateProperty<Guid?>(BookingOrderProperties.OrderLineBookingAssetId);
                             config.AddOrUpdateProperty<Guid?>(BookingOrderProperties.OrderLineBookingAssetCategoryId);
+                            config.AddOrUpdateProperty<Guid?>(BookingOrderProperties.OrderLineBookingPeriodSchemeId);
+                            config.AddOrUpdateProperty<Guid?>(BookingOrderProperties.OrderLineBookingPeriodId);
                             config.AddOrUpdateProperty<DateTime?>(BookingOrderProperties.OrderLineBookingDate);
                             config.AddOrUpdateProperty<TimeSpan?>(BookingOrderProperties.OrderLineBookingStartingTime);
                             config.AddOrUpdateProperty<TimeSpan?>(BookingOrderProperties.OrderLineBookingDuration);

@@ -25,24 +25,51 @@
     <abp-style src="/Pages/EShop/Plugins/Booking/ProductAssets/ProductAsset/index.css"/>
 }
 
-<abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["ProductAsset"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-			    @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAsset.Create))
-                {
-                <abp-button id="NewProductAssetButton"
-                            text="@L["CreateProductAsset"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
-    <abp-card-body>
-        <abp-table striped-rows="true" id="ProductAssetTable" class="nowrap"/>
-    </abp-card-body>
-</abp-card>
+<script>
+    let storeId = '@Model.Filter.StoreId';
+</script>
+
+@if (Model.Filter.StoreId == null)
+{
+    <abp-dynamic-form abp-model="Filter" data-ajaxForm="true" asp-page="Index">
+        <abp-card>
+            <abp-card-header>
+                <abp-row>
+                    <abp-column size-md="_6">
+                        <abp-card-title>@L["ProductAsset"]</abp-card-title>
+                    </abp-column>
+                </abp-row>
+            </abp-card-header>
+            <abp-card-body>
+                <abp-form-content></abp-form-content>
+            </abp-card-body>
+            <abp-modal-footer>
+                <abp-button id="enter-button" button-type="Primary" text="Enter"/>
+            </abp-modal-footer>
+        </abp-card>
+    </abp-dynamic-form>
+}
+else
+{
+    <abp-card>
+        <abp-card-header>
+            <abp-row>
+                <abp-column size-md="_6">
+                    <abp-card-title>@L["ProductAsset"]</abp-card-title>
+                </abp-column>
+                <abp-column size-md="_6" class="text-end">
+                    @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAsset.Create))
+                    {
+                        <abp-button id="NewProductAssetButton"
+                                    text="@L["CreateProductAsset"].Value"
+                                    icon="plus"
+                                    button-type="Primary"/>
+                    }
+                </abp-column>
+            </abp-row>
+        </abp-card-header>
+        <abp-card-body>
+            <abp-table striped-rows="true" id="ProductAssetTable" class="nowrap"/>
+        </abp-card-body>
+    </abp-card>
+}

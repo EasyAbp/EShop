@@ -61,16 +61,9 @@ namespace EasyAbp.EShop.Products.Products
                 .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
         }
 
-        protected override Product MapToEntity(CreateUpdateProductDto createInput)
-        {
-            var product = base.MapToEntity(createInput);
-
-            return product;
-        }
-
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            var product = MapToEntity(input);
+            var product = await MapToEntityAsync(input);
 
             await CheckMultiStorePolicyAsync(product.StoreId, CreatePolicyName);
 
@@ -111,7 +104,7 @@ namespace EasyAbp.EShop.Products.Products
             
             CheckProductIsNotStatic(product);
 
-            MapToEntity(input, product);
+            await MapToEntityAsync(input, product);
 
             await UpdateProductAttributesAsync(product, input);
 

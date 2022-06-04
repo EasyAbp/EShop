@@ -1,12 +1,15 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using EasyAbp.EShop.Stores.Stores;
 
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
 {
     [Serializable]
-    public class CreateProductAssetCategoryDto
+    public class CreateProductAssetCategoryDto : IMultiStore
     {
+        public Guid StoreId { get; set; }
+
         public Guid ProductId { get; set; }
 
         public Guid ProductSkuId { get; set; }

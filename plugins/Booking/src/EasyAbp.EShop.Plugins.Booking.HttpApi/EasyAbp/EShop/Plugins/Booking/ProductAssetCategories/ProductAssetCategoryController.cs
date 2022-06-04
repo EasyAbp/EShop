@@ -4,7 +4,6 @@ using Volo.Abp.Application.Dtos;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
-using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
 {
@@ -70,7 +69,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
 
         [HttpGet]
         [Route("")]
-        public virtual Task<PagedResultDto<ProductAssetCategoryDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public virtual Task<PagedResultDto<ProductAssetCategoryDto>> GetListAsync(GetProductAssetCategoryDto input)
         {
             return _service.GetListAsync(input);
         }

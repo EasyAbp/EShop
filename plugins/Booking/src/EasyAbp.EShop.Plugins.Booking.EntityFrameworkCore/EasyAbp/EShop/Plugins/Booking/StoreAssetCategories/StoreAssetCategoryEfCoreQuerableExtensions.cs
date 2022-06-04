@@ -12,9 +12,7 @@ namespace EasyAbp.EShop.Plugins.Booking.StoreAssetCategories
                 return queryable;
             }
 
-            return queryable
-                // .Include(x => x.xxx) // TODO: AbpHelper generated
-                ;
+            return queryable;
         }
     }
 }

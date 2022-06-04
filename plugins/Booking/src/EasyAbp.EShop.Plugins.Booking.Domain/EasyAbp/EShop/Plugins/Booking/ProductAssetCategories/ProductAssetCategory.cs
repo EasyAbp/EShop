@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EasyAbp.EShop.Plugins.Booking.Shared;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -12,9 +13,11 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 /// Set which SKU can use to book a specified asset category.
 /// The matched <see cref="ProductAssetCategory"/> with the larger <see cref="FromTime"/> takes precedence.
 /// </summary>
-public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
+public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiStore, IMultiTenant
 {
     public virtual Guid? TenantId { get; protected set; }
+    
+    public virtual Guid StoreId { get; protected set; }
     
     public virtual Guid ProductId { get; protected set; }
     
@@ -53,6 +56,7 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
     public ProductAssetCategory(
         Guid id,
         Guid? tenantId,
+        Guid storeId,
         Guid productId,
         Guid productSkuId,
         Guid assetCategoryId,
@@ -64,6 +68,7 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
     ) : base(id)
     {
         TenantId = tenantId;
+        StoreId = storeId;
         ProductId = productId;
         ProductSkuId = productSkuId;
         AssetCategoryId = assetCategoryId;
@@ -71,7 +76,15 @@ public class ProductAssetCategory : AuditedAggregateRoot<Guid>, IMultiTenant
         FromTime = fromTime;
         ToTime = toTime;
         Price = price;
+
         Periods = periods ?? new List<ProductAssetCategoryPeriod>();
+    }
+    
+    internal void Update(DateTime fromTime, DateTime? toTime, decimal? price)
+    {
+        FromTime = fromTime;
+        ToTime = toTime;
+        Price = price;
     }
     
     public void AddPeriod(ProductAssetCategoryPeriod productAssetCategoryPeriod)

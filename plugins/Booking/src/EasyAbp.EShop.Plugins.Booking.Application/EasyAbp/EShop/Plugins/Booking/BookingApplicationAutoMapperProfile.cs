@@ -16,16 +16,12 @@ public class BookingApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
         CreateMap<ProductAsset, ProductAssetDto>();
-        CreateMap<CreateProductAssetDto, ProductAsset>(MemberList.Source);
-        CreateMap<UpdateProductAssetDto, ProductAsset>(MemberList.Source);
 
         CreateMap<ProductAssetPeriod, ProductAssetPeriodDto>();
         CreateMap<CreateProductAssetPeriodDto, ProductAssetPeriod>(MemberList.Source);
         CreateMap<UpdateProductAssetPeriodDto, ProductAssetPeriod>(MemberList.Source);
 
         CreateMap<ProductAssetCategory, ProductAssetCategoryDto>();
-        CreateMap<CreateProductAssetCategoryDto, ProductAssetCategory>(MemberList.Source);
-        CreateMap<UpdateProductAssetCategoryDto, ProductAssetCategory>(MemberList.Source);
 
         CreateMap<ProductAssetCategoryPeriod, ProductAssetCategoryPeriodDto>();
         CreateMap<CreateProductAssetCategoryPeriodDto, ProductAssetCategoryPeriod>(MemberList.Source);

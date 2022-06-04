@@ -41,16 +41,4 @@
     <Content Remove="wwwroot\**\*.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\EShop\Plugins" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Booking\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="Pages\EShop\Plugins\Booking\Index.cshtml" />
-  </ItemGroup>
-
 </Project>

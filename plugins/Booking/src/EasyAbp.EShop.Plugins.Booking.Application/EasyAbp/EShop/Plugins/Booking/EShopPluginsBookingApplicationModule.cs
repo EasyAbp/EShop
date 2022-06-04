@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.BookingService;
+using EasyAbp.EShop.Products;
+using EasyAbp.EShop.Stores;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
@@ -6,8 +9,11 @@ using Volo.Abp.Application;
 namespace EasyAbp.EShop.Plugins.Booking;
 
 [DependsOn(
+    typeof(EShopStoresApplicationSharedModule),
+    typeof(EShopProductsApplicationContractsModule),
     typeof(EShopPluginsBookingDomainModule),
     typeof(EShopPluginsBookingApplicationContractsModule),
+    typeof(BookingServiceApplicationContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule)
     )]
