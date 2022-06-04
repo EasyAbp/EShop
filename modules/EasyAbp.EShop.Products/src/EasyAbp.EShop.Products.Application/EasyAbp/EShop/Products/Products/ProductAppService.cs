@@ -444,5 +444,32 @@ namespace EasyAbp.EShop.Products.Products
                 }
             ).ToList()));
         }
+
+        protected override ProductDto MapToGetOutputDto(Product entity)
+        {
+            var productDto = base.MapToGetOutputDto(entity);
+
+            return SortAttributesAndOptions(productDto);
+        }
+
+        protected override ProductDto MapToGetListOutputDto(Product entity)
+        {
+            var productDto = base.MapToGetListOutputDto(entity);
+
+            return SortAttributesAndOptions(productDto);
+        }
+
+        protected virtual ProductDto SortAttributesAndOptions(ProductDto productDto)
+        {
+            productDto.ProductAttributes = productDto.ProductAttributes.OrderByDescending(x => x.DisplayOrder).ToList();
+
+            foreach (var productAttributeDto in productDto.ProductAttributes)
+            {
+                productAttributeDto.ProductAttributeOptions = productAttributeDto.ProductAttributeOptions
+                    .OrderByDescending(x => x.DisplayOrder).ToList();
+            }
+
+            return productDto;
+        }
     }
 }

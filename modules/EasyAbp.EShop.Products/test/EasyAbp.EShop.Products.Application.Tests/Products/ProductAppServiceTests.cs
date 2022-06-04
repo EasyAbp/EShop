@@ -199,7 +199,8 @@ namespace EasyAbp.EShop.Products.Products
             {
                 await _productAppService.CreateSkuAsync(ProductsTestData.Product1Id, new CreateProductSkuDto
                 {
-                    AttributeOptionIds = new List<Guid> {ProductsTestData.Product1Attribute1Option4Id},
+                    AttributeOptionIds = new List<Guid>
+                        { ProductsTestData.Product1Attribute1Option4Id, ProductsTestData.Product1Attribute2Option1Id },
                     ProductDetailId = wrongProductDetailId,
                     Currency = "CNY",
                     Price = 10m,
@@ -207,6 +208,28 @@ namespace EasyAbp.EShop.Products.Products
                     OrderMaxQuantity = 10
                 });
             })).EntityType.ShouldBe(typeof(ProductDetail));
+        }
+
+        [Fact]
+        public async Task Should_Get_Orderly_ProductAttributes_And_ProductAttributeOptions()
+        {
+            var productDto = await _productAppService.GetAsync(ProductsTestData.Product1Id);
+
+            productDto.ProductAttributes.Count.ShouldBe(2);
+
+            var size = productDto.ProductAttributes[0];
+            var color = productDto.ProductAttributes[1];
+
+            size.DisplayName.ShouldBe("Size");
+            color.DisplayName.ShouldBe("Color");
+
+            size.ProductAttributeOptions[0].DisplayName.ShouldBe("S");
+            size.ProductAttributeOptions[1].DisplayName.ShouldBe("M");
+            size.ProductAttributeOptions[2].DisplayName.ShouldBe("L");
+            size.ProductAttributeOptions[3].DisplayName.ShouldBe("XL");
+
+            color.ProductAttributeOptions[0].DisplayName.ShouldBe("Red");
+            color.ProductAttributeOptions[1].DisplayName.ShouldBe("Green");
         }
     }
 }

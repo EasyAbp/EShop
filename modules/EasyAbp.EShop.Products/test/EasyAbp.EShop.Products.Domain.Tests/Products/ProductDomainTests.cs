@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,11 +12,13 @@ namespace EasyAbp.EShop.Products.Products
     {
         private IProductRepository ProductRepository { get; }
         private IProductManager ProductManager { get; }
+        private IAttributeOptionIdsSerializer AttributeOptionIdsSerializer { get; }
 
         public ProductDomainTests()
         {
             ProductRepository = ServiceProvider.GetRequiredService<IProductRepository>();
             ProductManager = ServiceProvider.GetRequiredService<IProductManager>();
+            AttributeOptionIdsSerializer = ServiceProvider.GetRequiredService<IAttributeOptionIdsSerializer>();
         }
 
         [Fact]
@@ -120,6 +123,65 @@ namespace EasyAbp.EShop.Products.Products
 
                 sku1.ProductDetailId.ShouldBeNull();
             });
+        }
+
+        [Fact]
+        public async Task Should_Create_Sku()
+        {
+            var product1 = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
+
+            var attributeOptionIds = new[]
+            {
+                ProductsTestData.Product1Attribute1Option4Id,
+                ProductsTestData.Product1Attribute2Option2Id
+            };
+            
+            await Should.NotThrowAsync(async () =>
+            {
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(attributeOptionIds));
+            });
+
+            var serializedAttributeOptionIds = await AttributeOptionIdsSerializer.SerializeAsync(attributeOptionIds);
+
+            product1.ProductSkus.Count(x => x.SerializedAttributeOptionIds == serializedAttributeOptionIds).ShouldBe(1);
+        }
+
+        [Fact]
+        public async Task Should_Throw_If_Create_Sku_With_Incorrect_AttributeOptionIds()
+        {
+            var product1 = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
+
+            await Should.ThrowAsync<ProductSkuIncorrectAttributeOptionsException>(async () =>
+            {
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new[]
+                {
+                    ProductsTestData.Product1Attribute1Option1Id // need 2 options but input 1
+                }));
+            });
+
+            await Should.ThrowAsync<ProductSkuIncorrectAttributeOptionsException>(async () =>
+            {
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new[]
+                {
+                    ProductsTestData.Product1Attribute1Option1Id,
+                    Guid.NewGuid() // a nonexistent option
+                }));
+            });
+
+            await Should.ThrowAsync<ProductSkuIncorrectAttributeOptionsException>(async () =>
+            {
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new[]
+                {
+                    ProductsTestData.Product1Attribute1Option1Id,
+                    ProductsTestData.Product1Attribute1Option2Id // 2 options from attribute1
+                }));
+            });
+        }
+
+        private async Task<ProductSku> CreateTestSkuAsync(IEnumerable<Guid> attributeOptionIds)
+        {
+            return new ProductSku(Guid.NewGuid(), await AttributeOptionIdsSerializer.SerializeAsync(attributeOptionIds),
+                "test-sku", "CNY", null, 0m, 1, 10, null, null, null);
         }
     }
 }

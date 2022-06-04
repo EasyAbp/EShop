@@ -40,9 +40,9 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public decimal? MaximumPrice { get; set; }
 
-        public ICollection<ProductAttributeDto> ProductAttributes { get; set; }
+        public List<ProductAttributeDto> ProductAttributes { get; set; }
         
-        public ICollection<ProductSkuDto> ProductSkus { get; set; }
+        public List<ProductSkuDto> ProductSkus { get; set; }
 
         public ProductSkuDto GetSkuById(Guid skuId)
         {

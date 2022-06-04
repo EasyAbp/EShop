@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Products.Categories.Dtos
         
         public Guid? ParentId { get; set; }
         
-        public ICollection<CategoryDto> Children { get; set; }
+        public List<CategoryDto> Children { get; set; }
 
         public string Description { get; set; }
 
