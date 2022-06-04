@@ -13,7 +13,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
 {
     public class ProductAssetAppService : MultiStoreCrudAppService<ProductAsset, ProductAssetDto
-            , Guid, GetProductAssetDto, CreateProductAssetDto, UpdateProductAssetDto>,
+            , Guid, GetProductAssetListDto, CreateProductAssetDto, UpdateProductAssetDto>,
         IProductAssetAppService
     {
         protected override string CrossStorePolicyName { get; set; } = BookingPermissions.ProductAsset.Manage;
@@ -43,7 +43,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
             _productAssetManager = productAssetManager;
         }
 
-        protected override async Task<IQueryable<ProductAsset>> CreateFilteredQueryAsync(GetProductAssetDto input)
+        protected override async Task<IQueryable<ProductAsset>> CreateFilteredQueryAsync(GetProductAssetListDto input)
         {
             return (await base.CreateFilteredQueryAsync(input))
                 .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId)
@@ -54,7 +54,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
         }
 
         public override async Task<PagedResultDto<ProductAssetDto>> GetListAsync(
-            GetProductAssetDto input)
+            GetProductAssetListDto input)
         {
             await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
             

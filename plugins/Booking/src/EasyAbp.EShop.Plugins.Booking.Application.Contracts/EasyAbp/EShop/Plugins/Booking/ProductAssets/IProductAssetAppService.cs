@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
         ICrudAppService< 
             ProductAssetDto, 
             Guid, 
-            GetProductAssetDto,
+            GetProductAssetListDto,
             CreateProductAssetDto,
             UpdateProductAssetDto>
     {

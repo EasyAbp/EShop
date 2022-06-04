@@ -69,7 +69,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
 
         [HttpGet]
         [Route("")]
-        public virtual Task<PagedResultDto<ProductAssetDto>> GetListAsync(GetProductAssetDto input)
+        public virtual Task<PagedResultDto<ProductAssetDto>> GetListAsync(GetProductAssetListDto input)
         {
             return _service.GetListAsync(input);
         }

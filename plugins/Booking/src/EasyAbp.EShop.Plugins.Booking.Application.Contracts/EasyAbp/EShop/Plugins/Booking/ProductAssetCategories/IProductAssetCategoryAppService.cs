@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
         ICrudAppService< 
             ProductAssetCategoryDto, 
             Guid, 
-            GetProductAssetCategoryDto,
+            GetProductAssetCategoryListDto,
             CreateProductAssetCategoryDto,
             UpdateProductAssetCategoryDto>
     {

@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 
 [Serializable]
-public class GetProductAssetCategoryDto : PagedAndSortedResultRequestDto
+public class GetProductAssetCategoryListDto : PagedAndSortedResultRequestDto
 {
     public Guid? StoreId { get; set; }
 
