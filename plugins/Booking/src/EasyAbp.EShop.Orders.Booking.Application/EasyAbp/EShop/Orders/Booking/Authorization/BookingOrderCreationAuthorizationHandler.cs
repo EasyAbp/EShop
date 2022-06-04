@@ -75,17 +75,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
                         return;
                     }
 
-                    var bookingDate =
-                        Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
-
-                    var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
-                        BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
-
-                    var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
-                        BookingOrderProperties.OrderLineBookingDuration)!.Value;
-
-                    models.Add(new OccupyAssetInfoModel(
-                        assetId.Value, bookingDate, bookingStartingTime, bookingDuration));
+                    models.Add(CreateOccupyAssetInfoModel(assetId.Value, orderLine));
                 } 
                 else if (assetCategoryId is not null)
                 {
@@ -95,17 +85,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
                         return;
                     }
                     
-                    var bookingDate =
-                        Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
-
-                    var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
-                        BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
-
-                    var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
-                        BookingOrderProperties.OrderLineBookingDuration)!.Value;
-
-                    byCategoryModels.Add(new OccupyAssetByCategoryInfoModel(
-                        assetCategoryId.Value, bookingDate, bookingStartingTime, bookingDuration));
+                    byCategoryModels.Add(CreateOccupyAssetByCategoryInfoModel(assetCategoryId.Value, orderLine));
                 }
                 else
                 {
@@ -130,6 +110,36 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
             }
         }
 
+        protected virtual OccupyAssetInfoModel CreateOccupyAssetInfoModel(Guid assetId, CreateOrderLineDto orderLine)
+        {
+            var bookingDate =
+                Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
+
+            var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
+                BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
+
+            var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
+                BookingOrderProperties.OrderLineBookingDuration)!.Value;
+
+            return new OccupyAssetInfoModel(assetId, bookingDate, bookingStartingTime, bookingDuration);
+        }
+
+        protected virtual OccupyAssetByCategoryInfoModel CreateOccupyAssetByCategoryInfoModel(Guid assetCategoryId,
+            CreateOrderLineDto orderLine)
+        {
+            var bookingDate =
+                Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
+
+            var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
+                BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
+
+            var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
+                BookingOrderProperties.OrderLineBookingDuration)!.Value;
+
+            return new OccupyAssetByCategoryInfoModel(
+                assetCategoryId, bookingDate, bookingStartingTime, bookingDuration);
+        }
+        
         protected virtual async Task<bool> IsAssetInfoValidAsync(CreateOrderLineDto orderLine,
             OrderCreationResource resource)
         {
