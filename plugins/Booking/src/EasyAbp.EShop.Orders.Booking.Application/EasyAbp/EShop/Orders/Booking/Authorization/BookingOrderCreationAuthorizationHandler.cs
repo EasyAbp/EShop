@@ -13,6 +13,8 @@ using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 
@@ -22,6 +24,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
     {
         private readonly IPeriodSchemeAppService _periodSchemeAppService;
         private readonly IProductAssetAppService _productAssetAppService;
+        private readonly IStoreAssetCategoryAppService _storeAssetCategoryAppService;
         private readonly IProductAssetCategoryAppService _productAssetCategoryAppService;
         private readonly IAssetOccupancyAppService _assetOccupancyAppService;
         private readonly IBookingProductGroupDefinitionAppService _definitionAppService;
@@ -29,12 +32,14 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         public BookingOrderCreationAuthorizationHandler(
             IPeriodSchemeAppService periodSchemeAppService,
             IProductAssetAppService productAssetAppService,
+            IStoreAssetCategoryAppService storeAssetCategoryAppService,
             IProductAssetCategoryAppService productAssetCategoryAppService,
             IAssetOccupancyAppService assetOccupancyAppService,
             IBookingProductGroupDefinitionAppService definitionAppService)
         {
             _periodSchemeAppService = periodSchemeAppService;
             _productAssetAppService = productAssetAppService;
+            _storeAssetCategoryAppService = storeAssetCategoryAppService;
             _productAssetCategoryAppService = productAssetCategoryAppService;
             _assetOccupancyAppService = assetOccupancyAppService;
             _definitionAppService = definitionAppService;
@@ -141,8 +146,10 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         protected virtual async Task<bool> IsAssetInfoValidAsync(CreateOrderLineDto orderLine,
             OrderCreationResource resource)
         {
+            // Todo: check store to asset mapping.
+
             var productAsset = (await _productAssetAppService.GetListAsync(
-                new GetProductAssetDto
+                new GetProductAssetListDto
                 {
                     MaxResultCount = 1,
                     StoreId = resource.Input.StoreId,
@@ -159,8 +166,20 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         protected virtual async Task<bool> IsAssetCategoryInfoValidAsync(CreateOrderLineDto orderLine,
             OrderCreationResource resource)
         {
+            var mapping = (await _storeAssetCategoryAppService.GetListAsync(new GetStoreAssetCategoryListDto
+            {
+                MaxResultCount = 1,
+                StoreId = resource.Input.StoreId,
+                AssetCategoryId = orderLine.GetBookingAssetCategoryId()
+            })).Items.FirstOrDefault();
+
+            if (mapping is null)
+            {
+                return false;
+            }
+            
             var productAssetCategory = (await _productAssetCategoryAppService.GetListAsync(
-                new GetProductAssetCategoryDto
+                new GetProductAssetCategoryListDto
                 {
                     MaxResultCount = 1,
                     StoreId = resource.Input.StoreId,
