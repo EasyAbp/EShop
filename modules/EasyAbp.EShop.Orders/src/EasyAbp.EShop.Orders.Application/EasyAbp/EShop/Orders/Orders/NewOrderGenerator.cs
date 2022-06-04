@@ -23,6 +23,7 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IServiceProvider _serviceProvider;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
         private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
+        private readonly IEnumerable<IOrderLinePriceOverrider> _orderLinePriceOverriders;
 
         public NewOrderGenerator(
             IClock clock,
@@ -30,7 +31,8 @@ namespace EasyAbp.EShop.Orders.Orders
             ICurrentTenant currentTenant,
             IServiceProvider serviceProvider,
             IOrderNumberGenerator orderNumberGenerator,
-            IProductSkuDescriptionProvider productSkuDescriptionProvider)
+            IProductSkuDescriptionProvider productSkuDescriptionProvider,
+            IEnumerable<IOrderLinePriceOverrider> orderLinePriceOverriders)
         {
             _clock = clock;
             _guidGenerator = guidGenerator;
@@ -38,6 +40,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _serviceProvider = serviceProvider;
             _orderNumberGenerator = orderNumberGenerator;
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
+            _orderLinePriceOverriders = orderLinePriceOverriders;
         }
 
         public virtual async Task<Order> GenerateAsync(Guid customerUserId, CreateOrderDto input,
@@ -119,8 +122,10 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, inputOrderLine.Quantity);
             }
+
+            var unitPrice = await GetUnitPriceAsync(input, inputOrderLine, product, productSku);
             
-            var totalPrice = productSku.Price * inputOrderLine.Quantity;
+            var totalPrice = unitPrice * inputOrderLine.Quantity;
 
             var orderLine = new OrderLine(
                 id: _guidGenerator.Create(),
@@ -137,7 +142,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 skuDescription: await _productSkuDescriptionProvider.GenerateAsync(product, productSku),
                 mediaResources: product.MediaResources,
                 currency: productSku.Currency,
-                unitPrice: productSku.Price,
+                unitPrice: unitPrice,
                 totalPrice: totalPrice,
                 totalDiscount: 0,
                 actualTotalPrice: totalPrice,
@@ -147,6 +152,23 @@ namespace EasyAbp.EShop.Orders.Orders
             inputOrderLine.MapExtraPropertiesTo(orderLine, MappingPropertyDefinitionChecks.Destination);
 
             return orderLine;
+        }
+
+        protected virtual async Task<decimal> GetUnitPriceAsync(CreateOrderDto input, CreateOrderLineDto inputOrderLine,
+            ProductDto product, ProductSkuDto productSku)
+        {
+            foreach (var overrider in _orderLinePriceOverriders)
+            {
+                var overridenUnitPrice =
+                    await overrider.GetUnitPriceOrNullAsync(input, inputOrderLine, product, productSku);
+
+                if (overridenUnitPrice is not null)
+                {
+                    return overridenUnitPrice.Value;
+                }
+            }
+
+            return productSku.Price;
         }
 
         protected virtual Task<string> GetStoreCurrencyAsync(Guid storeId)

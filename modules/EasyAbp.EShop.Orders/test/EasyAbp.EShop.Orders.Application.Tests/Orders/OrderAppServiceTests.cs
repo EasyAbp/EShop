@@ -292,7 +292,7 @@ namespace EasyAbp.EShop.Orders.Orders
             });
         }
 
-                [Fact]
+        [Fact]
         public async Task Paid_Order_Should_Not_Be_Auto_Canceled_When_Payment_Overtime()
         {
             // Arrange
@@ -460,6 +460,42 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
                 order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            });
+        }
+
+        [Fact]
+        public async Task Should_Override_Unit_Price()
+        {
+            var createOrderDto = new CreateOrderDto
+            {
+                CustomerRemark = "customer remark",
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new()
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 10
+                    },
+                    new()
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku2Id,
+                        Quantity = 2
+                    }
+                }
+            };
+            
+            await WithUnitOfWorkAsync(async () =>
+            {
+                var order = await _orderAppService.CreateAsync(createOrderDto);
+                var orderLine = order.OrderLines.Find(x => x.ProductSkuId == OrderTestData.ProductSku2Id);
+                
+                order.ProductTotalPrice.ShouldBe(10 * 1m + 2 * TestOrderLinePriceOverrider.Sku2UnitPrice);
+                orderLine.ShouldNotBeNull();
+                orderLine.UnitPrice.ShouldBe(TestOrderLinePriceOverrider.Sku2UnitPrice);
+                orderLine.TotalPrice.ShouldBe(orderLine.Quantity * orderLine.UnitPrice);
             });
         }
     }
