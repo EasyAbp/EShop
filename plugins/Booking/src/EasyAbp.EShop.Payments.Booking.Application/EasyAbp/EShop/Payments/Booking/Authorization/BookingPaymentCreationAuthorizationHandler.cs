@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -80,17 +81,7 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
                         return false;
                     }
 
-                    var bookingDate =
-                        Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
-
-                    var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
-                        BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
-
-                    var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
-                        BookingOrderProperties.OrderLineBookingDuration)!.Value;
-
-                    models.Add(new OccupyAssetInfoModel(
-                        assetId.Value, bookingDate, bookingStartingTime, bookingDuration));
+                    models.Add(CreateOccupyAssetInfoModel(assetId.Value, orderLine));
                 }
                 else if (assetCategoryId is not null)
                 {
@@ -99,17 +90,7 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
                         return false;
                     }
 
-                    var bookingDate =
-                        Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
-
-                    var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
-                        BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
-
-                    var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
-                        BookingOrderProperties.OrderLineBookingDuration)!.Value;
-
-                    byCategoryModels.Add(new OccupyAssetByCategoryInfoModel(
-                        assetCategoryId.Value, bookingDate, bookingStartingTime, bookingDuration));
+                    byCategoryModels.Add(CreateOccupyAssetByCategoryInfoModel(assetCategoryId.Value, orderLine));
                 }
                 else
                 {
@@ -133,6 +114,27 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
 
             return true;
         }
+        
+        protected virtual OccupyAssetInfoModel CreateOccupyAssetInfoModel(Guid assetId, OrderLineDto orderLine)
+        {
+            return new OccupyAssetInfoModel(
+                assetId,
+                orderLine.GetBookingDate(),
+                orderLine.GetBookingStartingTime(),
+                orderLine.GetBookingDuration()
+            );
+        }
+
+        protected virtual OccupyAssetByCategoryInfoModel CreateOccupyAssetByCategoryInfoModel(Guid assetCategoryId,
+            OrderLineDto orderLine)
+        {
+            return new OccupyAssetByCategoryInfoModel(
+                assetCategoryId,
+                orderLine.GetBookingDate(),
+                orderLine.GetBookingStartingTime(),
+                orderLine.GetBookingDuration()
+            );
+        }
 
         protected virtual async Task<bool> IsAssetInfoValidAsync(OrderDto order, OrderLineDto orderLine)
         {
@@ -143,8 +145,8 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
                     StoreId = order.StoreId,
                     ProductId = orderLine.ProductId,
                     ProductSkuId = orderLine.ProductSkuId,
-                    AssetId = orderLine.FindBookingAssetId(),
-                    PeriodSchemeId = orderLine.FindBookingPeriodSchemeId()
+                    AssetId = orderLine.GetBookingAssetId(),
+                    PeriodSchemeId = orderLine.GetBookingPeriodSchemeId()
                 }
             )).Items.FirstOrDefault();
 
@@ -160,8 +162,8 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
                     StoreId = order.StoreId,
                     ProductId = orderLine.ProductId,
                     ProductSkuId = orderLine.ProductSkuId,
-                    AssetCategoryId = orderLine.FindBookingAssetCategoryId(),
-                    PeriodSchemeId = orderLine.FindBookingPeriodSchemeId()
+                    AssetCategoryId = orderLine.GetBookingAssetCategoryId(),
+                    PeriodSchemeId = orderLine.GetBookingPeriodSchemeId()
                 }
             )).Items.FirstOrDefault();
 
@@ -170,15 +172,10 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
 
         protected virtual async Task<bool> IsPeriodInfoValidAsync(OrderLineDto orderLine)
         {
-            var periodSchemeId = orderLine.FindBookingPeriodSchemeId();
-            var periodId = orderLine.FindBookingPeriodId();
+            var periodSchemeId = orderLine.GetBookingPeriodSchemeId();
+            var periodId = orderLine.GetBookingPeriodId();
 
-            if (periodSchemeId is null || periodId is null)
-            {
-                return false;
-            }
-
-            var periodScheme = await _periodSchemeAppService.GetAsync(periodSchemeId.Value);
+            var periodScheme = await _periodSchemeAppService.GetAsync(periodSchemeId);
             var period = periodScheme.Periods.Find(x => x.Id == periodId);
 
             return period is not null;

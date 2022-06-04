@@ -119,32 +119,23 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
 
         protected virtual OccupyAssetInfoModel CreateOccupyAssetInfoModel(Guid assetId, CreateOrderLineDto orderLine)
         {
-            var bookingDate =
-                Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
-
-            var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
-                BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
-
-            var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
-                BookingOrderProperties.OrderLineBookingDuration)!.Value;
-
-            return new OccupyAssetInfoModel(assetId, bookingDate, bookingStartingTime, bookingDuration);
+            return new OccupyAssetInfoModel(
+                assetId,
+                orderLine.GetBookingDate(),
+                orderLine.GetBookingStartingTime(),
+                orderLine.GetBookingDuration()
+            );
         }
 
         protected virtual OccupyAssetByCategoryInfoModel CreateOccupyAssetByCategoryInfoModel(Guid assetCategoryId,
             CreateOrderLineDto orderLine)
         {
-            var bookingDate =
-                Check.NotNull(orderLine.FindBookingDate(), BookingOrderProperties.OrderLineBookingDate)!.Value;
-
-            var bookingStartingTime = Check.NotNull(orderLine.FindBookingStartingTime(),
-                BookingOrderProperties.OrderLineBookingStartingTime)!.Value;
-
-            var bookingDuration = Check.NotNull(orderLine.FindBookingDuration(),
-                BookingOrderProperties.OrderLineBookingDuration)!.Value;
-
             return new OccupyAssetByCategoryInfoModel(
-                assetCategoryId, bookingDate, bookingStartingTime, bookingDuration);
+                assetCategoryId,
+                orderLine.GetBookingDate(),
+                orderLine.GetBookingStartingTime(),
+                orderLine.GetBookingDuration()
+            );
         }
         
         protected virtual async Task<bool> IsAssetInfoValidAsync(CreateOrderLineDto orderLine,
@@ -157,8 +148,8 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
                     StoreId = resource.Input.StoreId,
                     ProductId = orderLine.ProductId,
                     ProductSkuId = orderLine.ProductSkuId,
-                    AssetId = orderLine.FindBookingAssetId(),
-                    PeriodSchemeId = orderLine.FindBookingPeriodSchemeId()
+                    AssetId = orderLine.GetBookingAssetId(),
+                    PeriodSchemeId = orderLine.GetBookingPeriodSchemeId()
                 }
             )).Items.FirstOrDefault();
 
@@ -175,8 +166,8 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
                     StoreId = resource.Input.StoreId,
                     ProductId = orderLine.ProductId,
                     ProductSkuId = orderLine.ProductSkuId,
-                    AssetCategoryId = orderLine.FindBookingAssetCategoryId(),
-                    PeriodSchemeId = orderLine.FindBookingPeriodSchemeId()
+                    AssetCategoryId = orderLine.GetBookingAssetCategoryId(),
+                    PeriodSchemeId = orderLine.GetBookingPeriodSchemeId()
                 }
             )).Items.FirstOrDefault();
 
@@ -185,15 +176,10 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         
         protected virtual async Task<bool> IsPeriodInfoValidAsync(CreateOrderLineDto orderLine)
         {
-            var periodSchemeId = orderLine.FindBookingPeriodSchemeId();
-            var periodId = orderLine.FindBookingPeriodId();
-            
-            if (periodSchemeId is null || periodId is null)
-            {
-                return false;
-            }
+            var periodSchemeId = orderLine.GetBookingPeriodSchemeId();
+            var periodId = orderLine.GetBookingPeriodId();
 
-            var periodScheme = await _periodSchemeAppService.GetAsync(periodSchemeId.Value);
+            var periodScheme = await _periodSchemeAppService.GetAsync(periodSchemeId);
             var period = periodScheme.Periods.Find(x => x.Id == periodId);
 
             return period is not null;
