@@ -22,10 +22,10 @@ public class BookingPermissionDefinitionProvider : PermissionDefinitionProvider
         productAssetCategoryPermission.AddChild(BookingPermissions.ProductAssetCategory.Update, L("Permission:Update"));
         productAssetCategoryPermission.AddChild(BookingPermissions.ProductAssetCategory.Delete, L("Permission:Delete"));
 
-        var storeAssetCategoryPermission = myGroup.AddPermission(BookingPermissions.StoreAssetCategory.Default, L("Permission:StoreAssetCategory"));
-        storeAssetCategoryPermission.AddChild(BookingPermissions.StoreAssetCategory.Create, L("Permission:Create"));
-        storeAssetCategoryPermission.AddChild(BookingPermissions.StoreAssetCategory.Update, L("Permission:Update"));
-        storeAssetCategoryPermission.AddChild(BookingPermissions.StoreAssetCategory.Delete, L("Permission:Delete"));
+        var grantedStorePermission = myGroup.AddPermission(BookingPermissions.GrantedStore.Default, L("Permission:GrantedStore"));
+        grantedStorePermission.AddChild(BookingPermissions.GrantedStore.Create, L("Permission:Create"));
+        grantedStorePermission.AddChild(BookingPermissions.GrantedStore.Update, L("Permission:Update"));
+        grantedStorePermission.AddChild(BookingPermissions.GrantedStore.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

@@ -1,4 +1,4 @@
-using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.GrantedStores;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +22,7 @@ public class EShopPluginsBookingEntityFrameworkCoreModule : AbpModule
                  */
                 options.AddRepository<ProductAsset, ProductAssetRepository>();
                 options.AddRepository<ProductAssetCategory, ProductAssetCategoryRepository>();
-                options.AddRepository<StoreAssetCategory, StoreAssetCategoryRepository>();
+                options.AddRepository<GrantedStore, GrantedStoreRepository>();
         });
     }
 }

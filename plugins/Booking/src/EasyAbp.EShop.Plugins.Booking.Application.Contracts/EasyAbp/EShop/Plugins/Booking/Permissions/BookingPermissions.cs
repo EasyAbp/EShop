@@ -29,9 +29,9 @@ public class BookingPermissions
         public const string Delete = Default + ".Delete";
     }
 
-    public class StoreAssetCategory
+    public class GrantedStore
     {
-        public const string Default = GroupName + ".StoreAssetCategory";
+        public const string Default = GroupName + ".GrantedStore";
         public const string Update = Default + ".Update";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";

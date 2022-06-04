@@ -55,13 +55,15 @@
     "EasyAbp.EShop.Plugins.Booking:ConflictingProductAsset": "Exist conflicting product asset mapping.",
     "EasyAbp.EShop.Plugins.Booking:ConflictingProductAssetCategory": "Exist conflicting product asset category mapping.",
     "EasyAbp.EShop.Plugins.Booking:WrongStoreIdForProduct": "Wrong StoreId {storeId} for product {productId}.",
-    "Permission:StoreAssetCategory": "Store assets",
-    "Menu:StoreAssetCategory": "Store assets",
-    "StoreAssetCategory": "Store assets",
-    "StoreAssetCategoryStoreId": "Store ID",
-    "StoreAssetCategoryAssetCategoryId": "Asset category ID",
-    "CreateStoreAssetCategory": "New",
-    "EditStoreAssetCategory": "Edit",
-    "StoreAssetCategoryDeletionConfirmationMessage": "Are you sure to delete the store asset category {0}?"
+    "Permission:GrantedStore": "Store assets",
+    "Menu:GrantedStore": "Store assets",
+    "GrantedStore": "Store assets",
+    "GrantedStoreStoreId": "Store ID",
+    "GrantedStoreAssetId": "Asset ID",
+    "GrantedStoreAssetCategoryId": "Asset category ID",
+    "GrantedStoreAllowAll": "Allow all",
+    "CreateGrantedStore": "New",
+    "EditGrantedStore": "Edit",
+    "GrantedStoreDeletionConfirmationMessage": "Are you sure to delete the store asset category {0}?"
   }
 }

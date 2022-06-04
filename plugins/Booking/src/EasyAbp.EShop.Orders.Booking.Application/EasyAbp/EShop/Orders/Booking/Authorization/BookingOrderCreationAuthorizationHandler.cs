@@ -13,8 +13,8 @@ using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
-using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
-using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories.Dtos;
+using EasyAbp.EShop.Plugins.Booking.GrantedStores;
+using EasyAbp.EShop.Plugins.Booking.GrantedStores.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 
@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
     {
         private readonly IPeriodSchemeAppService _periodSchemeAppService;
         private readonly IProductAssetAppService _productAssetAppService;
-        private readonly IStoreAssetCategoryAppService _storeAssetCategoryAppService;
+        private readonly IGrantedStoreAppService _grantedStoreAppService;
         private readonly IProductAssetCategoryAppService _productAssetCategoryAppService;
         private readonly IAssetOccupancyAppService _assetOccupancyAppService;
         private readonly IBookingProductGroupDefinitionAppService _definitionAppService;
@@ -32,14 +32,14 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         public BookingOrderCreationAuthorizationHandler(
             IPeriodSchemeAppService periodSchemeAppService,
             IProductAssetAppService productAssetAppService,
-            IStoreAssetCategoryAppService storeAssetCategoryAppService,
+            IGrantedStoreAppService grantedStoreAppService,
             IProductAssetCategoryAppService productAssetCategoryAppService,
             IAssetOccupancyAppService assetOccupancyAppService,
             IBookingProductGroupDefinitionAppService definitionAppService)
         {
             _periodSchemeAppService = periodSchemeAppService;
             _productAssetAppService = productAssetAppService;
-            _storeAssetCategoryAppService = storeAssetCategoryAppService;
+            _grantedStoreAppService = grantedStoreAppService;
             _productAssetCategoryAppService = productAssetCategoryAppService;
             _assetOccupancyAppService = assetOccupancyAppService;
             _definitionAppService = definitionAppService;
@@ -146,7 +146,26 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         protected virtual async Task<bool> IsAssetInfoValidAsync(CreateOrderLineDto orderLine,
             OrderCreationResource resource)
         {
-            // Todo: check store to asset mapping.
+            var mapping = (await _grantedStoreAppService.GetListAsync(new GetGrantedStoreListDto
+            {
+                MaxResultCount = 1,
+                StoreId = resource.Input.StoreId,
+                AssetId = orderLine.GetBookingAssetId()
+            })).Items.FirstOrDefault();
+
+            if (mapping is null)
+            {
+                mapping = (await _grantedStoreAppService.GetListAsync(new GetGrantedStoreListDto
+                {
+                    MaxResultCount = 1,
+                    AllowAll = true
+                })).Items.FirstOrDefault();
+            }
+
+            if (mapping is null)
+            {
+                return false;
+            }
 
             var productAsset = (await _productAssetAppService.GetListAsync(
                 new GetProductAssetListDto
@@ -166,12 +185,21 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         protected virtual async Task<bool> IsAssetCategoryInfoValidAsync(CreateOrderLineDto orderLine,
             OrderCreationResource resource)
         {
-            var mapping = (await _storeAssetCategoryAppService.GetListAsync(new GetStoreAssetCategoryListDto
+            var mapping = (await _grantedStoreAppService.GetListAsync(new GetGrantedStoreListDto
             {
                 MaxResultCount = 1,
                 StoreId = resource.Input.StoreId,
                 AssetCategoryId = orderLine.GetBookingAssetCategoryId()
             })).Items.FirstOrDefault();
+
+            if (mapping is null)
+            {
+                mapping = (await _grantedStoreAppService.GetListAsync(new GetGrantedStoreListDto
+                {
+                    MaxResultCount = 1,
+                    AllowAll = true
+                })).Items.FirstOrDefault();
+            }
 
             if (mapping is null)
             {

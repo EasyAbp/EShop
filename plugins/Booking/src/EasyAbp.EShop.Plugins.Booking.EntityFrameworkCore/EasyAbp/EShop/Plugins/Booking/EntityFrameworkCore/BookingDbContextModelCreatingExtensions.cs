@@ -1,4 +1,4 @@
-using EasyAbp.EShop.Plugins.Booking.StoreAssetCategories;
+using EasyAbp.EShop.Plugins.Booking.GrantedStores;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using Microsoft.EntityFrameworkCore;
@@ -71,9 +71,9 @@ public static class BookingDbContextModelCreatingExtensions
             });
 
 
-            builder.Entity<StoreAssetCategory>(b =>
+            builder.Entity<GrantedStore>(b =>
             {
-                b.ToTable(BookingDbProperties.DbTablePrefix + "StoreAssetCategories", BookingDbProperties.DbSchema);
+                b.ToTable(BookingDbProperties.DbTablePrefix + "GrantedStores", BookingDbProperties.DbSchema);
                 b.ConfigureByConvention(); 
 
                 /* Configure more properties here */

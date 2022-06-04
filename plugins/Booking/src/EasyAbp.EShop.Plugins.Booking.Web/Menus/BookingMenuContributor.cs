@@ -25,11 +25,11 @@ public class BookingMenuContributor : IMenuContributor
         var bookingMenuItem = new ApplicationMenuItem(BookingMenus.Prefix, l["Menu:Booking"]);
 
         
-        if (await context.IsGrantedAsync(BookingPermissions.StoreAssetCategory.Default))
+        if (await context.IsGrantedAsync(BookingPermissions.GrantedStore.Default))
         {
             bookingMenuItem.AddItem(
-                new ApplicationMenuItem(BookingMenus.StoreAssetCategory, l["Menu:StoreAssetCategory"],
-                    "/EShop/Plugins/Booking/StoreAssetCategories/StoreAssetCategory")
+                new ApplicationMenuItem(BookingMenus.GrantedStore, l["Menu:GrantedStore"],
+                    "/EShop/Plugins/Booking/GrantedStores/GrantedStore")
             );
         }
 

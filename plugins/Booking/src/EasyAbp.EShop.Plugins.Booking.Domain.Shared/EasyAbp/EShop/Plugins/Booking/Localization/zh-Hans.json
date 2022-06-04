@@ -55,13 +55,15 @@
     "EasyAbp.EShop.Plugins.Booking:ConflictingProductAsset": "存在冲突的产品资产映射。",
     "EasyAbp.EShop.Plugins.Booking:ConflictingProductAssetCategory": "存在冲突的产品资产映射。",
     "EasyAbp.EShop.Plugins.Booking:WrongStoreIdForProduct": "错误的店铺 ID {storeId} 之于产品 {productId}。",
-    "Permission:StoreAssetCategory": "店铺资产",
-    "Menu:StoreAssetCategory": "店铺资产",
-    "StoreAssetCategory": "店铺资产",
-    "StoreAssetCategoryStoreId": "店铺 ID",
-    "StoreAssetCategoryAssetCategoryId": "资产目录 ID",
-    "CreateStoreAssetCategory": "新建",
-    "EditStoreAssetCategory": "编辑",
-    "StoreAssetCategoryDeletionConfirmationMessage": "确认删除店铺资产 {0}?"
+    "Permission:GrantedStore": "店铺资产",
+    "Menu:GrantedStore": "店铺资产",
+    "GrantedStore": "店铺资产",
+    "GrantedStoreStoreId": "店铺 ID",
+    "GrantedStoreAssetId": "资产 ID",
+    "GrantedStoreAssetCategoryId": "资产目录 ID",
+    "GrantedStoreAllowAll": "允许所有",
+    "CreateGrantedStore": "新建",
+    "EditGrantedStore": "编辑",
+    "GrantedStoreDeletionConfirmationMessage": "确认删除店铺资产 {0}?"
   }
 }
