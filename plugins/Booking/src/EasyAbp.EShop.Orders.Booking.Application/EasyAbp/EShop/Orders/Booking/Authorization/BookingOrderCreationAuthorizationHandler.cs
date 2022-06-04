@@ -53,6 +53,13 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
                 return;
             }
 
+            // Quantity of order lines for booking should be 1.
+            if (bookingOrderLines.Any(x => x.Quantity != 1))
+            {
+                context.Fail();
+                return;
+            }
+
             var models = new List<OccupyAssetInfoModel>();
             var byCategoryModels = new List<OccupyAssetByCategoryInfoModel>();
 
