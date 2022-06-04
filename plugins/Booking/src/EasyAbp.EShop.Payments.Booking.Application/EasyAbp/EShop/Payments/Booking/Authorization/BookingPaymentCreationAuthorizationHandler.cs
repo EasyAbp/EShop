@@ -9,10 +9,6 @@ using EasyAbp.BookingService.PeriodSchemes;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Payments.Payments;
-using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
-using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
-using EasyAbp.EShop.Plugins.Booking.ProductAssets;
-using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 
@@ -21,19 +17,13 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
     public class BookingPaymentCreationAuthorizationHandler : PaymentCreationAuthorizationHandler
     {
         private readonly IPeriodSchemeAppService _periodSchemeAppService;
-        private readonly IProductAssetAppService _productAssetAppService;
-        private readonly IProductAssetCategoryAppService _productAssetCategoryAppService;
         private readonly IAssetOccupancyAppService _assetOccupancyAppService;
 
         public BookingPaymentCreationAuthorizationHandler(
             IPeriodSchemeAppService periodSchemeAppService,
-            IProductAssetAppService productAssetAppService,
-            IProductAssetCategoryAppService productAssetCategoryAppService,
             IAssetOccupancyAppService assetOccupancyAppService)
         {
             _periodSchemeAppService = periodSchemeAppService;
-            _productAssetAppService = productAssetAppService;
-            _productAssetCategoryAppService = productAssetCategoryAppService;
             _assetOccupancyAppService = assetOccupancyAppService;
         }
 
@@ -76,20 +66,10 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
 
                 if (assetId is not null)
                 {
-                    if (!await IsAssetInfoValidAsync(order, orderLine))
-                    {
-                        return false;
-                    }
-
                     models.Add(CreateOccupyAssetInfoModel(assetId.Value, orderLine));
                 }
                 else if (assetCategoryId is not null)
                 {
-                    if (!await IsAssetCategoryInfoValidAsync(order, orderLine))
-                    {
-                        return false;
-                    }
-
                     byCategoryModels.Add(CreateOccupyAssetByCategoryInfoModel(assetCategoryId.Value, orderLine));
                 }
                 else
@@ -134,40 +114,6 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
                 orderLine.GetBookingStartingTime(),
                 orderLine.GetBookingDuration()
             );
-        }
-
-        protected virtual async Task<bool> IsAssetInfoValidAsync(OrderDto order, OrderLineDto orderLine)
-        {
-            var productAsset = (await _productAssetAppService.GetListAsync(
-                new GetProductAssetDto
-                {
-                    MaxResultCount = 1,
-                    StoreId = order.StoreId,
-                    ProductId = orderLine.ProductId,
-                    ProductSkuId = orderLine.ProductSkuId,
-                    AssetId = orderLine.GetBookingAssetId(),
-                    PeriodSchemeId = orderLine.GetBookingPeriodSchemeId()
-                }
-            )).Items.FirstOrDefault();
-
-            return productAsset is not null;
-        }
-
-        protected virtual async Task<bool> IsAssetCategoryInfoValidAsync(OrderDto order, OrderLineDto orderLine)
-        {
-            var productAssetCategory = (await _productAssetCategoryAppService.GetListAsync(
-                new GetProductAssetCategoryDto
-                {
-                    MaxResultCount = 1,
-                    StoreId = order.StoreId,
-                    ProductId = orderLine.ProductId,
-                    ProductSkuId = orderLine.ProductSkuId,
-                    AssetCategoryId = orderLine.GetBookingAssetCategoryId(),
-                    PeriodSchemeId = orderLine.GetBookingPeriodSchemeId()
-                }
-            )).Items.FirstOrDefault();
-
-            return productAssetCategory is not null;
         }
 
         protected virtual async Task<bool> IsPeriodInfoValidAsync(OrderLineDto orderLine)
