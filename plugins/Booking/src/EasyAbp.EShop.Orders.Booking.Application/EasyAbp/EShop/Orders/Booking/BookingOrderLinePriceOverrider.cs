@@ -44,7 +44,7 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
         CreateOrderLineDto inputOrderLine)
     {
         var productAsset = (await _productAssetAppService.GetListAsync(
-            new GetProductAssetDto
+            new GetProductAssetListDto
             {
                 MaxResultCount = 1,
                 StoreId = input.StoreId,
@@ -70,7 +70,7 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
         CreateOrderLineDto inputOrderLine)
     {
         var productAssetCategory = (await _productAssetCategoryAppService.GetListAsync(
-            new GetProductAssetCategoryDto
+            new GetProductAssetCategoryListDto
             {
                 MaxResultCount = 1,
                 StoreId = input.StoreId,
