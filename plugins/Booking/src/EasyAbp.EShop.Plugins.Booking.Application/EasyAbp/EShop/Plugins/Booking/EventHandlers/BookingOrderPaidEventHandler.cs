@@ -21,7 +21,7 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
     {
         var occupyModels = new List<OccupyAssetInfoModel>();
         var occupyByCategoryModels = new List<OccupyAssetByCategoryInfoModel>();
-        
+
         foreach (var orderLine in eventData.Order.OrderLines)
         {
             var assetId = orderLine.FindBookingAssetId();
@@ -55,11 +55,11 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
             }
         }
 
-        var eto = new BulkOccupyAssetEto(eventData.TenantId, eventData.Order.CustomerUserId, occupyModels,
-            occupyByCategoryModels);
+        var eto = new BulkOccupyAssetEto(eventData.TenantId, eventData.Order.Id, eventData.Order.CustomerUserId,
+            occupyModels, occupyByCategoryModels);
 
         eto.SetBookingOrderId(eventData.Order.Id);
-        
+
         await _distributedEventBus.PublishAsync(eto);
     }
 }
