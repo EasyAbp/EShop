@@ -19,21 +19,21 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
         }
 
         [HttpPost]
-        [Route("period/{productAssetId}")]
+        [Route("{productAssetId}/period")]
         public virtual Task<ProductAssetDto> CreatePeriodAsync(Guid productAssetId, CreateProductAssetPeriodDto input)
         {
             return _service.CreatePeriodAsync(productAssetId, input);
         }
 
         [HttpPut]
-        [Route("period")]
+        [Route("{productAssetId}/period/{periodId}")]
         public virtual Task<ProductAssetDto> UpdatePeriodAsync(Guid productAssetId, Guid periodId, UpdateProductAssetPeriodDto input)
         {
             return _service.UpdatePeriodAsync(productAssetId, periodId, input);
         }
 
         [HttpDelete]
-        [Route("period")]
+        [Route("{productAssetId}/period/{periodId}")]
         public virtual Task<ProductAssetDto> DeletePeriodAsync(Guid productAssetId, Guid periodId)
         {
             return _service.DeletePeriodAsync(productAssetId, periodId);
