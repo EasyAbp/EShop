@@ -5,6 +5,7 @@
     <EasyAbpAbpTreesModuleVersion>2.5.3</EasyAbpAbpTreesModuleVersion>
     <EasyAbpPaymentServiceModuleVersion>2.0.11</EasyAbpPaymentServiceModuleVersion>
     <EasyAbpAbpTagHelperPlusModuleVersion>0.8.2</EasyAbpAbpTagHelperPlusModuleVersion>
+    <DaprSdkVersion>1.7.0</DaprSdkVersion>
 
   </PropertyGroup>
 </Project>
