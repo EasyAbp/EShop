@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -13,6 +14,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly ILogger<OrderPaidEventHandler> _logger;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IProductRepository _productRepository;
         private readonly IProductManager _productManager;
@@ -20,24 +22,26 @@ namespace EasyAbp.EShop.Products.Products
         public OrderPaidEventHandler(
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
+            ILogger<OrderPaidEventHandler> logger,
             IDistributedEventBus distributedEventBus,
             IProductRepository productRepository,
             IProductManager productManager)
         {
             _currentTenant = currentTenant;
             _unitOfWorkManager = unitOfWorkManager;
+            _logger = logger;
             _distributedEventBus = distributedEventBus;
             _productRepository = productRepository;
             _productManager = productManager;
         }
-        
+
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(OrderPaidEto eventData)
         {
             using var changeTenant = _currentTenant.Change(eventData.Order.TenantId);
 
             var models = new List<ConsumeInventoryModel>();
-                
+
             foreach (var orderLine in eventData.Order.OrderLines)
             {
                 // Todo: Should use ProductHistory.
@@ -48,10 +52,10 @@ namespace EasyAbp.EShop.Products.Products
                 if (productSku == null)
                 {
                     await PublishInventoryReductionResultEventAsync(eventData, false);
-                    
+
                     return;
                 }
-                    
+
                 if (product.InventoryStrategy != InventoryStrategy.ReduceAfterPayment)
                 {
                     continue;
@@ -60,37 +64,56 @@ namespace EasyAbp.EShop.Products.Products
                 if (!await _productManager.IsInventorySufficientAsync(product, productSku, orderLine.Quantity))
                 {
                     await PublishInventoryReductionResultEventAsync(eventData, false);
-                    
+
                     return;
                 }
 
-                models.Add(new ConsumeInventoryModel
-                {
-                    Product = product,
-                    ProductSku = productSku,
-                    StoreId = eventData.Order.StoreId,
-                    Quantity = orderLine.Quantity
-                });
+                models.Add(new ConsumeInventoryModel(product, productSku, eventData.Order.StoreId, orderLine.Quantity));
             }
 
             foreach (var model in models)
             {
-                if (await _productManager.TryReduceInventoryAsync(model.Product, model.ProductSku, model.Quantity, true))
+                if (await _productManager.TryReduceInventoryAsync(
+                        model.Product, model.ProductSku, model.Quantity, true))
                 {
                     continue;
                 }
 
+                await TryRollbackInventoriesAsync(models);
+
                 await _unitOfWorkManager.Current.RollbackAsync();
-                
+
                 await PublishInventoryReductionResultEventAsync(eventData, false, true);
-                
+
                 return;
             }
 
             await PublishInventoryReductionResultEventAsync(eventData, true);
         }
 
-        protected virtual async Task PublishInventoryReductionResultEventAsync(OrderPaidEto orderPaidEto, bool isSuccess, bool publishNow = false)
+        protected virtual async Task<bool> TryRollbackInventoriesAsync(IEnumerable<ConsumeInventoryModel> models)
+        {
+            var result = true;
+
+            foreach (var model in models.Where(x => x.Consumed))
+            {
+                if (await _productManager.TryIncreaseInventoryAsync(
+                        model.Product, model.ProductSku, model.Quantity, true))
+                {
+                    continue;
+                }
+
+                result = false;
+                _logger.LogWarning(
+                    "OrderPaidEventHandler: inventory rollback failed! productId = {productId}, productSkuId = {productSkuId}, quantity = {quantity}, reduceSold = {reduceSold}",
+                    model.Product.Id, model.ProductSku.Id, model.Quantity, true);
+            }
+
+            return result;
+        }
+
+        protected virtual async Task PublishInventoryReductionResultEventAsync(OrderPaidEto orderPaidEto,
+            bool isSuccess, bool publishNow = false)
         {
             await _distributedEventBus.PublishAsync(new ProductInventoryReductionAfterOrderPaidResultEto
             {

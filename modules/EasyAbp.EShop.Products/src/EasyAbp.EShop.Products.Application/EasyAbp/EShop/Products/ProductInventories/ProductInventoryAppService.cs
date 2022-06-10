@@ -39,7 +39,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
                 {
                     throw new EntityNotFoundException(typeof(ProductSku), productSkuId);
                 }
-                
+
                 productInventory = new ProductInventory(GuidGenerator.Create(), CurrentTenant.Id, productId,
                     productSkuId, 0, 0);
 
@@ -60,7 +60,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
             await AuthorizationService.CheckMultiStorePolicyAsync(product.StoreId,
                 ProductsPermissions.ProductInventory.Update, ProductsPermissions.ProductInventory.CrossStore);
-            
+
             var productInventory = await _repository.FindAsync(x => x.ProductSkuId == input.ProductSkuId);
 
             if (productInventory == null)
@@ -80,10 +80,12 @@ namespace EasyAbp.EShop.Products.ProductInventories
         protected virtual async Task ChangeInventoryAsync(Product product, ProductInventory productInventory,
             int changedInventory)
         {
+            var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id,
+                productInventory.ProductSkuId);
+
             if (changedInventory >= 0)
             {
-                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(product, productInventory,
-                    changedInventory, false))
+                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(model, changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);
@@ -91,8 +93,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
             }
             else
             {
-                if (!await _productInventoryProvider.TryReduceInventoryAsync(product, productInventory,
-                    -changedInventory, false))
+                if (!await _productInventoryProvider.TryReduceInventoryAsync(model, -changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);

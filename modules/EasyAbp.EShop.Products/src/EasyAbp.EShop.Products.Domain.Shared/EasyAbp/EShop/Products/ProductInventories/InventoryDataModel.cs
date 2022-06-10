@@ -1,4 +1,4 @@
-﻿namespace EasyAbp.EShop.Products.Products
+﻿namespace EasyAbp.EShop.Products.ProductInventories
 {
     public class InventoryDataModel
     {

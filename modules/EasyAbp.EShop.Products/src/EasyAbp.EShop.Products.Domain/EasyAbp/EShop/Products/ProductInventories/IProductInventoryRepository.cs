@@ -11,6 +11,6 @@ namespace EasyAbp.EShop.Products.ProductInventories
     {
         Task<InventoryDataModel> GetInventoryDataAsync(Guid productSkuId, CancellationToken cancellationToken = default);
         
-        Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(List<Guid> productSkuIds, CancellationToken cancellationToken = default);
+        Task<Dictionary<Guid, InventoryDataModel>> GetSkuIdInventoryDataMappingAsync(List<Guid> productSkuIds, CancellationToken cancellationToken = default);
     }
 }

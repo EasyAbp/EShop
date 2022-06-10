@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.ProductInventories;
 using Volo.Abp.Domain.Services;
 
 namespace EasyAbp.EShop.Products.Products
