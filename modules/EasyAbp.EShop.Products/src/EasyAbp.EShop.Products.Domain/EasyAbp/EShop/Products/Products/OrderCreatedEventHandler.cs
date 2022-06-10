@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
@@ -15,6 +16,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly ICurrentTenant _currentTenant;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;
+        private readonly ILogger<OrderCreatedEventHandler> _logger;
         private readonly IProductRepository _productRepository;
         private readonly IProductManager _productManager;
 
@@ -22,12 +24,14 @@ namespace EasyAbp.EShop.Products.Products
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
+            ILogger<OrderCreatedEventHandler> logger,
             IProductRepository productRepository,
             IProductManager productManager)
         {
             _currentTenant = currentTenant;
             _unitOfWorkManager = unitOfWorkManager;
             _distributedEventBus = distributedEventBus;
+            _logger = logger;
             _productRepository = productRepository;
             _productManager = productManager;
         }
@@ -65,31 +69,50 @@ namespace EasyAbp.EShop.Products.Products
                     return;
                 }
 
-                models.Add(new ConsumeInventoryModel
-                {
-                    Product = product,
-                    ProductSku = productSku,
-                    StoreId = eventData.Entity.StoreId,
-                    Quantity = orderLine.Quantity
-                });
+                models.Add(new ConsumeInventoryModel(
+                    product, productSku, eventData.Entity.StoreId, orderLine.Quantity));
+
             }
 
             foreach (var model in models)
             {
-                if (await _productManager.TryReduceInventoryAsync(model.Product, model.ProductSku, model.Quantity, true))
+                if (await _productManager.TryReduceInventoryAsync(
+                        model.Product, model.ProductSku, model.Quantity, true))
                 {
                     continue;
                 }
 
-                // Todo: should release unused inventory since (external) inventory providers may not be transactional.
+                await TryRollbackInventoriesAsync(models);
+
                 await _unitOfWorkManager.Current.RollbackAsync();
-                
+
                 await PublishInventoryReductionResultEventAsync(eventData, false, true);
-                
+
                 return;
             }
 
             await PublishInventoryReductionResultEventAsync(eventData, true);
+        }
+        
+        protected virtual async Task<bool> TryRollbackInventoriesAsync(IEnumerable<ConsumeInventoryModel> models)
+        {
+            var result = true;
+
+            foreach (var model in models.Where(x => x.Consumed))
+            {
+                if (await _productManager.TryIncreaseInventoryAsync(
+                        model.Product, model.ProductSku, model.Quantity, true))
+                {
+                    continue;
+                }
+
+                result = false;
+                _logger.LogWarning(
+                    "OrderCreatedEventHandler: inventory rollback failed! productId = {productId}, productSkuId = {productSkuId}, quantity = {quantity}, reduceSold = {reduceSold}",
+                    model.Product.Id, model.ProductSku.Id, model.Quantity, true);
+            }
+
+            return result;
         }
         
         protected virtual async Task PublishInventoryReductionResultEventAsync(EntityCreatedEto<OrderEto> orderCreatedEto, bool isSuccess, bool publishNow = false)
