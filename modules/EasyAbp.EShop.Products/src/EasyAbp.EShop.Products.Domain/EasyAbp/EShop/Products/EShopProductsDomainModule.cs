@@ -24,10 +24,10 @@ namespace EasyAbp.EShop.Products
             Configure<AbpDistributedEntityEventOptions>(options =>
             {
                 options.EtoMappings.Add<Product, ProductEto>();
-                
+
                 options.AutoEventSelectors.Add<Product>();
             });
-            
+
             Configure<EShopProductsOptions>(options =>
             {
                 options.Groups.Configure<DefaultProductGroup>(group =>
@@ -35,6 +35,16 @@ namespace EasyAbp.EShop.Products
                     group.DisplayName = ProductsConsts.DefaultProductGroupDisplayName;
                     group.Description = ProductsConsts.DefaultProductGroupDescription;
                 });
+
+                options.InventoryProviders.Configure(
+                    DefaultProductInventoryProvider.DefaultProductInventoryProviderName, provider =>
+                    {
+                        provider.DisplayName =
+                            DefaultProductInventoryProvider.DefaultProductInventoryProviderDisplayName;
+                        provider.Description =
+                            DefaultProductInventoryProvider.DefaultProductInventoryProviderDescription;
+                        provider.ProviderType = typeof(DefaultProductInventoryProvider);
+                    });
             });
         }
 

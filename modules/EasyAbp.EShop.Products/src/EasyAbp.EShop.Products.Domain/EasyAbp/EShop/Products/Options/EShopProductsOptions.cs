@@ -1,17 +1,21 @@
-﻿using System;
+﻿using EasyAbp.EShop.Products.Options.InventoryProviders;
 using EasyAbp.EShop.Products.Options.ProductGroups;
+using EasyAbp.EShop.Products.Products;
+using JetBrains.Annotations;
 
 namespace EasyAbp.EShop.Products.Options
 {
     public class EShopProductsOptions
     {
-        public ProductGroupConfigurations Groups { get; }
+        public ProductGroupConfigurations Groups { get; } = new();
 
-        public Type DefaultFileDownloadProviderType { get; set; }
-        
-        public EShopProductsOptions()
-        {
-            Groups = new ProductGroupConfigurations();
-        }
+        public InventoryProviderConfigurations InventoryProviders { get; } = new();
+
+        /// <summary>
+        /// If the value is <c>null</c>, it will fall back to DefaultProductInventoryProviderName
+        /// in the <see cref="DefaultProductInventoryProvider"/>.
+        /// </summary>
+        [CanBeNull]
+        public string DefaultInventoryProviderName { get; set; }
     }
 }

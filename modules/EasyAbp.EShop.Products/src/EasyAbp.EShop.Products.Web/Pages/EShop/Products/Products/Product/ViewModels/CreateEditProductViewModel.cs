@@ -50,7 +50,11 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
 
         [Display(Name = "ProductInventoryStrategy")]
         public InventoryStrategy InventoryStrategy { get; set; }
-        
+
+        [Placeholder("ProductInventoryProviderNamePlaceholder")]
+        [Display(Name = "ProductInventoryProviderName")]
+        public string InventoryProviderName { get; set; }
+
         [Display(Name = "ProductDisplayOrder")]
         public int DisplayOrder { get; set; }
 

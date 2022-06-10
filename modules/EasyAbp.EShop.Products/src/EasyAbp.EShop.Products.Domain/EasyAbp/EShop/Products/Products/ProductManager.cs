@@ -6,7 +6,6 @@ using EasyAbp.EShop.Products.Options.ProductGroups;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductInventories;
-using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Uow;
@@ -19,7 +18,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductPriceProvider _productPriceProvider;
         private readonly IProductDetailRepository _productDetailRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
-        private readonly IProductInventoryProvider _productInventoryProvider;
+        private readonly IProductInventoryProviderResolver _productInventoryProviderResolver;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductGroupConfigurationProvider _productGroupConfigurationProvider;
 
@@ -28,7 +27,7 @@ namespace EasyAbp.EShop.Products.Products
             IProductPriceProvider productPriceProvider,
             IProductDetailRepository productDetailRepository,
             IProductCategoryRepository productCategoryRepository,
-            IProductInventoryProvider productInventoryProvider,
+            IProductInventoryProviderResolver productInventoryProviderResolver,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductGroupConfigurationProvider productGroupConfigurationProvider)
         {
@@ -36,7 +35,7 @@ namespace EasyAbp.EShop.Products.Products
             _productPriceProvider = productPriceProvider;
             _productDetailRepository = productDetailRepository;
             _productCategoryRepository = productCategoryRepository;
-            _productInventoryProvider = productInventoryProvider;
+            _productInventoryProviderResolver = productInventoryProviderResolver;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productGroupConfigurationProvider = productGroupConfigurationProvider;
         }
@@ -47,6 +46,8 @@ namespace EasyAbp.EShop.Products.Products
             product.TrimUniqueName();
 
             await CheckProductGroupNameAsync(product);
+
+            await CheckInventoryProviderNameAsync(product);
 
             await CheckProductUniqueNameAsync(product);
 
@@ -69,10 +70,25 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
+        protected virtual async Task CheckInventoryProviderNameAsync(Product product)
+        {
+            if (product.InventoryProviderName.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            if (!await _productInventoryProviderResolver.ExistProviderAsync(product.InventoryProviderName!))
+            {
+                throw new NonexistentInventoryProviderException(product.InventoryProviderName);
+            }
+        }
+
         [UnitOfWork(true)]
         public virtual async Task<Product> UpdateAsync(Product product, IEnumerable<Guid> categoryIds = null)
         {
             await CheckProductGroupNameAsync(product);
+
+            await CheckInventoryProviderNameAsync(product);
 
             await CheckProductUniqueNameAsync(product);
 
@@ -225,7 +241,8 @@ namespace EasyAbp.EShop.Products.Products
         {
             var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, productSku.Id);
 
-            var inventoryData = await _productInventoryProvider.GetInventoryDataAsync(model);
+            var inventoryData =
+                await (await _productInventoryProviderResolver.GetAsync(product)).GetInventoryDataAsync(model);
 
             return product.InventoryStrategy == InventoryStrategy.NoNeed || inventoryData.Inventory - quantity >= 0;
         }
@@ -234,7 +251,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, productSku.Id);
 
-            return await _productInventoryProvider.GetInventoryDataAsync(model);
+            return await (await _productInventoryProviderResolver.GetAsync(product)).GetInventoryDataAsync(model);
         }
 
         public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, int quantity,
@@ -242,7 +259,8 @@ namespace EasyAbp.EShop.Products.Products
         {
             var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, productSku.Id);
 
-            return await _productInventoryProvider.TryIncreaseInventoryAsync(model, quantity, reduceSold);
+            return await (await _productInventoryProviderResolver.GetAsync(product))
+                .TryIncreaseInventoryAsync(model, quantity, reduceSold);
         }
 
         public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity,
@@ -250,7 +268,8 @@ namespace EasyAbp.EShop.Products.Products
         {
             var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, productSku.Id);
 
-            return await _productInventoryProvider.TryReduceInventoryAsync(model, quantity, increaseSold);
+            return await (await _productInventoryProviderResolver.GetAsync(product))
+                .TryReduceInventoryAsync(model, quantity, increaseSold);
         }
 
         public virtual async Task<PriceDataModel> GetRealPriceAsync(Product product, ProductSku productSku)

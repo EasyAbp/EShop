@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using EasyAbp.EShop.Products.Options.ProductGroups;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -9,37 +10,39 @@ namespace EasyAbp.EShop.Products.Products
     public class Product : FullAuditedAggregateRoot<Guid>, IProduct, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
-        
+
         public virtual Guid StoreId { get; protected set; }
 
-        [NotNull]
-        public virtual string ProductGroupName { get; protected set; }
-        
+        [NotNull] public virtual string ProductGroupName { get; protected set; }
+
         public virtual Guid? ProductDetailId { get; protected set; }
 
-        [CanBeNull]
-        public virtual string UniqueName { get; protected set; }
+        [CanBeNull] public virtual string UniqueName { get; protected set; }
 
-        [NotNull]
-        public virtual string DisplayName { get; protected set; }
-        
+        [NotNull] public virtual string DisplayName { get; protected set; }
+
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
-        
-        [CanBeNull]
-        public virtual string MediaResources { get; protected set; }
+
+        /// <summary>
+        /// If the value is <c>null</c>, it will fall back to DefaultInventoryProviderName
+        /// in the <see cref="ProductGroupConfiguration"/>.
+        /// </summary>
+        public virtual string InventoryProviderName { get; protected set; }
+
+        [CanBeNull] public virtual string MediaResources { get; protected set; }
 
         public virtual int DisplayOrder { get; protected set; }
 
         public virtual bool IsPublished { get; protected set; }
-        
+
         public virtual bool IsStatic { get; protected set; }
-        
+
         public virtual bool IsHidden { get; protected set; }
-        
+
         public virtual TimeSpan? PaymentExpireIn { get; protected set; }
-        
+
         public virtual List<ProductAttribute> ProductAttributes { get; protected set; }
-        
+
         public virtual List<ProductSku> ProductSkus { get; protected set; }
 
         protected Product()
@@ -55,6 +58,7 @@ namespace EasyAbp.EShop.Products.Products
             [CanBeNull] string uniqueName,
             [NotNull] string displayName,
             InventoryStrategy inventoryStrategy,
+            [CanBeNull] string inventoryProviderName,
             bool isPublished,
             bool isStatic,
             bool isHidden,
@@ -70,13 +74,14 @@ namespace EasyAbp.EShop.Products.Products
             UniqueName = uniqueName?.Trim();
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
+            InventoryProviderName = inventoryProviderName;
             IsPublished = isPublished;
             IsStatic = isStatic;
             IsHidden = isHidden;
             PaymentExpireIn = paymentExpireIn;
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
-            
+
             ProductAttributes = new List<ProductAttribute>();
             ProductSkus = new List<ProductSku>();
         }

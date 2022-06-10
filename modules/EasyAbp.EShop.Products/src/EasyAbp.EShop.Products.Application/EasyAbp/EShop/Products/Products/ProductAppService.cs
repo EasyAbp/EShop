@@ -29,7 +29,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductManager _productManager;
         private readonly IDistributedCache<ProductViewCacheItem> _cache;
         private readonly EShopProductsOptions _options;
-        private readonly IProductInventoryProvider _productInventoryProvider;
+        private readonly IProductInventoryProviderResolver _productInventoryProviderResolver;
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductRepository _repository;
@@ -38,7 +38,7 @@ namespace EasyAbp.EShop.Products.Products
             IProductManager productManager,
             IOptions<EShopProductsOptions> options,
             IDistributedCache<ProductViewCacheItem> cache,
-            IProductInventoryProvider productInventoryProvider,
+            IProductInventoryProviderResolver productInventoryProviderResolver,
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
             IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductRepository repository) : base(repository)
@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Products.Products
             _productManager = productManager;
             _cache = cache;
             _options = options.Value;
-            _productInventoryProvider = productInventoryProvider;
+            _productInventoryProviderResolver = productInventoryProviderResolver;
             _productViewCacheKeyProvider = productViewCacheKeyProvider;
             _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _repository = repository;
@@ -290,7 +290,9 @@ namespace EasyAbp.EShop.Products.Products
             var models = product.ProductSkus.Select(x =>
                 new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, x.Id)).ToList();
 
-            var inventoryDataDict = await _productInventoryProvider.GetSkuIdInventoryDataMappingAsync(models);
+            var inventoryProvider = await _productInventoryProviderResolver.GetAsync(product);
+
+            var inventoryDataDict = await inventoryProvider.GetSkuIdInventoryDataMappingAsync(models);
 
             productDto.Sold = 0;
 
