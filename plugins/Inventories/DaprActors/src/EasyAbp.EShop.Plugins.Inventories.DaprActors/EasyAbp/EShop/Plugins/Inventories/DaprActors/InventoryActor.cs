@@ -6,18 +6,20 @@ namespace EasyAbp.EShop.Plugins.Inventories.DaprActors;
 
 public class InventoryActor : Actor, IInventoryActor
 {
+    public static string InventoryStateName { get; set; } = "i";
+    
     public InventoryActor(ActorHost host) : base(host)
     {
     }
 
     protected override async Task OnActivateAsync()
     {
-        await StateManager.TryAddStateAsync(Id.GetId(), new InventoryStateModel());
+        await StateManager.TryAddStateAsync(InventoryStateName, new InventoryStateModel());
     }
 
     public virtual async Task<InventoryStateModel> GetInventoryStateAsync()
     {
-        return await StateManager.GetStateAsync<InventoryStateModel>(Id.GetId());
+        return await StateManager.GetStateAsync<InventoryStateModel>(InventoryStateName);
     }
 
     public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold)
