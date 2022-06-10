@@ -14,16 +14,16 @@ namespace EasyAbp.EShop.Products.ProductInventories
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductInventoryRepository _repository;
-        private readonly DefaultProductInventoryProvider _productInventoryProvider;
+        private readonly DefaultProductInventoryProvider _defaultProductInventoryProvider;
 
         public ProductInventoryAppService(
             IProductRepository productRepository,
             IProductInventoryRepository repository,
-            DefaultProductInventoryProvider productInventoryProvider)
+            DefaultProductInventoryProvider defaultProductInventoryProvider)
         {
             _productRepository = productRepository;
             _repository = repository;
-            _productInventoryProvider = productInventoryProvider;
+            _defaultProductInventoryProvider = defaultProductInventoryProvider;
         }
 
         [Authorize(ProductsPermissions.ProductInventory.Default)]
@@ -85,7 +85,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
             if (changedInventory >= 0)
             {
-                if (!await _productInventoryProvider.TryIncreaseInventoryAsync(model, changedInventory, false))
+                if (!await _defaultProductInventoryProvider.TryIncreaseInventoryAsync(model, changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);
@@ -93,7 +93,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
             }
             else
             {
-                if (!await _productInventoryProvider.TryReduceInventoryAsync(model, -changedInventory, false))
+                if (!await _defaultProductInventoryProvider.TryReduceInventoryAsync(model, -changedInventory, false))
                 {
                     throw new InventoryChangeFailedException(productInventory.ProductId, productInventory.ProductSkuId,
                         productInventory.Inventory, changedInventory);

@@ -25,13 +25,12 @@ namespace EasyAbp.EShop.Products.Products
         public async Task Should_Set_ProductDetailId()
         {
             var product2 = new Product(ProductsTestData.Product2Id, null, ProductsTestData.Store1Id, "Default",
-                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, true, false, false, null,
-                null, 0);
-
+                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, null, true, false, false,
+                null, null, 0);
             await ProductManager.CreateAsync(product2);
 
             product2 = await ProductRepository.GetAsync(product2.Id);
-            
+
             product2.ProductDetailId.ShouldBe(ProductsTestData.ProductDetails2Id);
         }
 
@@ -42,9 +41,9 @@ namespace EasyAbp.EShop.Products.Products
             {
                 var product1 = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
                 var sku1 = product1.ProductSkus.Single(x => x.Id == ProductsTestData.Product1Sku1Id);
-            
+
                 sku1.ProductDetailId.ShouldBeNull();
-            
+
                 typeof(ProductSku).GetProperty(nameof(ProductSku.ProductDetailId))!.SetValue(sku1,
                     ProductsTestData.ProductDetails1Id);
 
@@ -65,20 +64,20 @@ namespace EasyAbp.EShop.Products.Products
             product1.ProductDetailId.ShouldBe(ProductsTestData.ProductDetails1Id);
 
             var product2 = new Product(ProductsTestData.Product2Id, null, ProductsTestData.Store1Id, "Default",
-                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, true, false, false, null,
-                null, 0);
+                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, null, true, false, false,
+                null, null, 0);
 
             await ProductManager.CreateAsync(product2);
 
             product2 = await ProductRepository.GetAsync(product2.Id);
-            
+
             product2.ProductDetailId.ShouldBe(ProductsTestData.ProductDetails2Id);
 
             typeof(Product).GetProperty(nameof(Product.ProductDetailId))!.SetValue(product2,
                 ProductsTestData.ProductDetails1Id);
-            
+
             await ProductManager.UpdateAsync(product2);
-            
+
             product2 = await ProductRepository.GetAsync(product2.Id);
 
             product2.ProductDetailId.ShouldBe(ProductsTestData.ProductDetails1Id);
@@ -88,17 +87,17 @@ namespace EasyAbp.EShop.Products.Products
         public async Task Should_Remove_ProductDetailId()
         {
             await Should_Set_ProductDetailId();
-            
+
             var product2 = await ProductRepository.GetAsync(ProductsTestData.Product2Id);
 
             product2.ProductDetailId.ShouldNotBeNull();
-            
+
             typeof(Product).GetProperty(nameof(Product.ProductDetailId))!.SetValue(product2, null);
 
             await ProductManager.UpdateAsync(product2);
 
             product2 = await ProductRepository.GetAsync(product2.Id);
-            
+
             product2.ProductDetailId.ShouldBeNull();
         }
 
@@ -135,7 +134,7 @@ namespace EasyAbp.EShop.Products.Products
                 ProductsTestData.Product1Attribute1Option4Id,
                 ProductsTestData.Product1Attribute2Option2Id
             };
-            
+
             await Should.NotThrowAsync(async () =>
             {
                 await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(attributeOptionIds));
@@ -176,6 +175,23 @@ namespace EasyAbp.EShop.Products.Products
                     ProductsTestData.Product1Attribute1Option2Id // 2 options from attribute1
                 }));
             });
+        }
+
+        [Fact]
+        public async Task Should_Use_Fake_Inventory_Provider()
+        {
+            var product2 = new Product(ProductsTestData.Product2Id, null, ProductsTestData.Store1Id, "Default",
+                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, "Fake", true, false,
+                false, null, null, 0);
+
+            await ProductManager.CreateAsync(product2);
+
+            var fakeSku = new ProductSku(Guid.NewGuid(), "", null, "", null, 0m, 1, 1, null, null, null);
+
+            var inventoryDataModel = await ProductManager.GetInventoryDataAsync(product2, fakeSku);
+
+            inventoryDataModel.ShouldNotBeNull();
+            inventoryDataModel.Inventory.ShouldBe(9998);
         }
 
         private async Task<ProductSku> CreateTestSkuAsync(IEnumerable<Guid> attributeOptionIds)

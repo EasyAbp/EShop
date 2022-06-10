@@ -34,7 +34,10 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         [DisplayName("ProductInventoryStrategy")]
         public InventoryStrategy InventoryStrategy { get; set; }
-        
+
+        [DisplayName("ProductInventoryProviderName")]
+        public string InventoryProviderName { get; set; }
+
         [DisplayName("ProductDisplayOrder")]
         public int DisplayOrder { get; set; }
 

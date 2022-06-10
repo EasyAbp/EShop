@@ -13,23 +13,26 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class DefaultProductInventoryProvider : IProductInventoryProvider, ITransientDependency
     {
+        public static string DefaultProductInventoryProviderName { get; set; } = "Default";
+        public static string DefaultProductInventoryProviderDisplayName { get; set; } = "Default";
+        public static string DefaultProductInventoryProviderDescription { get; set; } = "Default";
+
+        public string InventoryProviderName { get; } = DefaultProductInventoryProviderName;
+
         // Todo: should use IProductInventoryStore.
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IProductInventoryRepository _productInventoryRepository;
 
         public DefaultProductInventoryProvider(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
             IProductInventoryRepository productInventoryRepository)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
-            _unitOfWorkManager = unitOfWorkManager;
             _distributedEventBus = distributedEventBus;
             _productInventoryRepository = productInventoryRepository;
         }
