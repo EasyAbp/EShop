@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.Inventories.DaprActors;
 
 [DependsOn(
     typeof(AbpAspNetCoreModule),
-    typeof(EShopProductsDomainSharedModule)
+    typeof(EShopPluginsInventoriesDaprActorsModule)
 )]
 public class EShopPluginsInventoriesDaprActorsAspNetCoreModule : AbpModule
 {
