@@ -17,6 +17,8 @@ EShop product-inventory implementation of [Dapr Actors](https://docs.dapr.io/dev
 
 2. Add `DependsOn(typeof(EShopXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-module-dependencies))
 
+3. Configure a state store for the inventory actor. ([see how](https://docs.dapr.io/reference/api/state_api/#configuring-state-store-for-actors))
+
 ## Usage
 
 1. Configure the DaprActors inventory provider as default.
