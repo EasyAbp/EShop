@@ -48,7 +48,7 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
 
 * Define a Product Group (optional)
     * Product group is used to classify different types of products, so we can customize different behavior for them, for example, products of the "GiftCard" product group could automatically send the card number and password to the customer's mailbox.
-    * EShop provides a [default product group](https://github.com/EasyAbp/EShop/blob/master/modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Domain/EasyAbp/EShop/Products/EShopProductsDomainModule.cs#L29-L36).
+    * EShop provides a [default product group](https://github.com/EasyAbp/EShop/blob/master/modules/EasyAbp.EShop.Products/src/EasyAbp.EShop.Products.Domain/EasyAbp/EShop/Products/EShopProductsDomainModule.cs#L33-L37).
     * Refer to the configuration of the default product group and define a new product group.
 
 * Create a Product
@@ -102,6 +102,8 @@ We can customize some features to use EShop in complex application scenarios.
 * Plugin modules
   * Baskets
   * Coupons
+  * Inventories
+    * [DaprActors](/plugins/inventories/dapr-actors)
 
 ## Roadmap
 
