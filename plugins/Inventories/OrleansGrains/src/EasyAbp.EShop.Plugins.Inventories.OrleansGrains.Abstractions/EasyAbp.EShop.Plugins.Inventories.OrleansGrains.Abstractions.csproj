@@ -1,18 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\..\..\..\common.props" />
+  <Import Project="..\..\..\..\..\common.props" />
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace />
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(OrleansVersion)" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(OrleansVersion)" />
+    <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="$(OrleansVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
+  </ItemGroup>
 
 </Project>
