@@ -359,6 +359,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.Dapr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Inventories.DaprActors.AspNetCore", "plugins\Inventories\DaprActors\src\EasyAbp.EShop.Plugins.Inventories.DaprActors.AspNetCore\EasyAbp.EShop.Plugins.Inventories.DaprActors.AspNetCore.csproj", "{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Inventories.OrleansGrains", "plugins\Inventories\OrleansGrains\src\EasyAbp.EShop.Plugins.Inventories.OrleansGrains\EasyAbp.EShop.Plugins.Inventories.OrleansGrains.csproj", "{83F6434F-74DC-4389-870D-46510E28C029}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrleansGrains", "OrleansGrains", "{88D17635-75D7-48A1-B622-E6FB3DCACEF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8E978749-7972-4703-8A94-6A90080C78DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Inventories.OrleansGrains.Abstractions", "plugins\Inventories\OrleansGrains\src\EasyAbp.EShop.Plugins.Inventories.OrleansGrains.Abstractions\EasyAbp.EShop.Plugins.Inventories.OrleansGrains.Abstractions.csproj", "{AB3477DB-3457-4167-A086-BAD104D69604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Inventories.OrleansGrains.Silo", "plugins\Inventories\OrleansGrains\src\EasyAbp.EShop.Plugins.Inventories.OrleansGrains.Silo\EasyAbp.EShop.Plugins.Inventories.OrleansGrains.Silo.csproj", "{0D613460-A0AD-4EAF-B719-785FE65E97E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.OrleansGrainsInventory.Domain", "plugins\Inventories\OrleansGrains\src\EasyAbp.EShop.Products.OrleansGrainsInventory.Domain\EasyAbp.EShop.Products.OrleansGrainsInventory.Domain.csproj", "{DB1C55BF-0C0D-488C-9AFC-992A3DED2EAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F58B6EEF-5AFF-4B79-BC71-A2D8C71F5E77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.OrleansGrainsInventory.Domain.Tests", "plugins\Inventories\OrleansGrains\test\EasyAbp.EShop.Products.OrleansGrainsInventory.Domain.Tests\EasyAbp.EShop.Products.OrleansGrainsInventory.Domain.Tests.csproj", "{D652EBF0-27CA-44C2-BB78-F446B87377C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -933,6 +949,26 @@ Global
 		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83F6434F-74DC-4389-870D-46510E28C029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83F6434F-74DC-4389-870D-46510E28C029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83F6434F-74DC-4389-870D-46510E28C029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83F6434F-74DC-4389-870D-46510E28C029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB3477DB-3457-4167-A086-BAD104D69604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB3477DB-3457-4167-A086-BAD104D69604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB3477DB-3457-4167-A086-BAD104D69604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB3477DB-3457-4167-A086-BAD104D69604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D613460-A0AD-4EAF-B719-785FE65E97E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D613460-A0AD-4EAF-B719-785FE65E97E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D613460-A0AD-4EAF-B719-785FE65E97E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D613460-A0AD-4EAF-B719-785FE65E97E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB1C55BF-0C0D-488C-9AFC-992A3DED2EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB1C55BF-0C0D-488C-9AFC-992A3DED2EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB1C55BF-0C0D-488C-9AFC-992A3DED2EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB1C55BF-0C0D-488C-9AFC-992A3DED2EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D652EBF0-27CA-44C2-BB78-F446B87377C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D652EBF0-27CA-44C2-BB78-F446B87377C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D652EBF0-27CA-44C2-BB78-F446B87377C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D652EBF0-27CA-44C2-BB78-F446B87377C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1112,6 +1148,14 @@ Global
 		{485204B1-7603-4EA0-B3A4-73CB89B0D5BC} = {6E6FE4B9-4117-4F57-B219-EE47E4046096}
 		{733C51A3-19C8-45C4-8B22-3FD40CAF4EFB} = {485204B1-7603-4EA0-B3A4-73CB89B0D5BC}
 		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884} = {F468A386-5660-4888-981A-6ECF15182D32}
+		{88D17635-75D7-48A1-B622-E6FB3DCACEF8} = {9AC27747-E175-487F-92C9-434DEE543273}
+		{8E978749-7972-4703-8A94-6A90080C78DE} = {88D17635-75D7-48A1-B622-E6FB3DCACEF8}
+		{83F6434F-74DC-4389-870D-46510E28C029} = {8E978749-7972-4703-8A94-6A90080C78DE}
+		{AB3477DB-3457-4167-A086-BAD104D69604} = {8E978749-7972-4703-8A94-6A90080C78DE}
+		{0D613460-A0AD-4EAF-B719-785FE65E97E8} = {8E978749-7972-4703-8A94-6A90080C78DE}
+		{DB1C55BF-0C0D-488C-9AFC-992A3DED2EAD} = {8E978749-7972-4703-8A94-6A90080C78DE}
+		{F58B6EEF-5AFF-4B79-BC71-A2D8C71F5E77} = {88D17635-75D7-48A1-B622-E6FB3DCACEF8}
+		{D652EBF0-27CA-44C2-BB78-F446B87377C7} = {F58B6EEF-5AFF-4B79-BC71-A2D8C71F5E77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
