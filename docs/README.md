@@ -104,6 +104,7 @@ We can customize some features to use EShop in complex application scenarios.
   * Coupons
   * Inventories
     * [DaprActors](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/DaprActors)
+    * [OrleansGrains](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/OrleansGrains)
 
 ## Roadmap
 
