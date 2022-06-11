@@ -289,7 +289,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.PaymentExpiration.ShouldBe(now);
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
-            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             
             UsingDbContext(db =>
             {
@@ -299,7 +299,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.PaymentExpiration.ShouldBe(now);
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
-                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+                order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
 
@@ -403,7 +403,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.PaymentExpiration.ShouldBe(now);
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
-            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             
             UsingDbContext(db =>
             {
@@ -413,7 +413,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.PaymentExpiration.ShouldBe(now);
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
-                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+                order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
         
@@ -460,7 +460,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.PaymentExpiration.ShouldBe(now);
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
-            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             
             UsingDbContext(db =>
             {
@@ -470,7 +470,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.PaymentExpiration.ShouldBe(now);
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
-                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+                order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
 
