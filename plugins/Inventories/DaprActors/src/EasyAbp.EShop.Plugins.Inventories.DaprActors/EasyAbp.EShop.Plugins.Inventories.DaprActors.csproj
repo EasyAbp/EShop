@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\..\..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EasyAbp.EShop.Plugins.Inventories.DaprActors.Abstractions\EasyAbp.EShop.Plugins.Inventories.DaprActors.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapr.Actors" Version="$(DaprSdkVersion)" />
+    </ItemGroup>
+
+</Project>

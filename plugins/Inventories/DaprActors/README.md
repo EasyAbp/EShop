@@ -1,0 +1,1 @@
+../../../docs/plugins/inventories/dapr-actors/README.md
