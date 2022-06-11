@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dapr.Actors.AspNetCore" Version="$(DaprSdkVersion)" />
+        <PackageReference Include="Dapr.Actors" Version="$(DaprSdkVersion)" />
     </ItemGroup>
 
 </Project>

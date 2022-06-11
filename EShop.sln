@@ -357,6 +357,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{485204B1-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.DaprActorsInventory.Domain.Tests", "plugins\Inventories\DaprActors\test\EasyAbp.EShop.Products.DaprActorsInventory.Domain.Tests\EasyAbp.EShop.Products.DaprActorsInventory.Domain.Tests.csproj", "{733C51A3-19C8-45C4-8B22-3FD40CAF4EFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Inventories.DaprActors.AspNetCore", "plugins\Inventories\DaprActors\src\EasyAbp.EShop.Plugins.Inventories.DaprActors.AspNetCore\EasyAbp.EShop.Plugins.Inventories.DaprActors.AspNetCore.csproj", "{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -927,6 +929,10 @@ Global
 		{733C51A3-19C8-45C4-8B22-3FD40CAF4EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{733C51A3-19C8-45C4-8B22-3FD40CAF4EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{733C51A3-19C8-45C4-8B22-3FD40CAF4EFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1105,6 +1111,7 @@ Global
 		{6CD1A8B5-8AB7-4A31-8333-024A7FB602D1} = {F468A386-5660-4888-981A-6ECF15182D32}
 		{485204B1-7603-4EA0-B3A4-73CB89B0D5BC} = {6E6FE4B9-4117-4F57-B219-EE47E4046096}
 		{733C51A3-19C8-45C4-8B22-3FD40CAF4EFB} = {485204B1-7603-4EA0-B3A4-73CB89B0D5BC}
+		{3F0EA314-CCF4-4BB2-A8C1-79FAE4442884} = {F468A386-5660-4888-981A-6ECF15182D32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
