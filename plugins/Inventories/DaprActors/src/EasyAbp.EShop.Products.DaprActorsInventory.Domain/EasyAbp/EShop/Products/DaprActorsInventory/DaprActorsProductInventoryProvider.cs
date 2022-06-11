@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapr.Actors;
-using Dapr.Actors.Client;
 using EasyAbp.EShop.Plugins.Inventories.DaprActors;
 using EasyAbp.EShop.Products.ProductInventories;
 using Microsoft.Extensions.Logging;
@@ -21,15 +20,19 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
     public static string ActorType { get; set; } = "InventoryActor";
 
     private readonly ILogger<DaprActorsProductInventoryProvider> _logger;
+    protected IInventoryActorProvider InventoryActorProvider { get; }
 
-    public DaprActorsProductInventoryProvider(ILogger<DaprActorsProductInventoryProvider> logger)
+    public DaprActorsProductInventoryProvider(
+        IInventoryActorProvider inventoryActorProvider,
+        ILogger<DaprActorsProductInventoryProvider> logger)
     {
+        InventoryActorProvider = inventoryActorProvider;
         _logger = logger;
     }
 
     public virtual async Task<InventoryDataModel> GetInventoryDataAsync(InventoryQueryModel model)
     {
-        var actor = GetActor(model);
+        var actor = await GetActorAsync(model);
 
         var stateModel = await actor.GetInventoryStateAsync();
 
@@ -56,7 +59,7 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
     public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
         bool decreaseSold)
     {
-        var actor = GetActor(model);
+        var actor = await GetActorAsync(model);
 
         try
         {
@@ -74,7 +77,7 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
 
     public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold)
     {
-        var actor = GetActor(model);
+        var actor = await GetActorAsync(model);
 
         var stateModel = await actor.GetInventoryStateAsync();
 
@@ -97,9 +100,9 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
         return true;
     }
 
-    protected virtual IInventoryActor GetActor(InventoryQueryModel model)
+    protected virtual async Task<IInventoryActor> GetActorAsync(InventoryQueryModel model)
     {
-        return ActorProxy.Create<IInventoryActor>(GetActorId(model), ActorType);
+        return await InventoryActorProvider.GetAsync(GetActorId(model), ActorType);
     }
 
     protected virtual ActorId GetActorId(InventoryQueryModel model)
