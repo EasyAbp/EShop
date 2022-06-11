@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Plugins.Inventories.DaprActors;
 public class InventoryActor : Actor, IInventoryActor
 {
     public static string InventoryStateName { get; set; } = "i";
-    
+
     public InventoryActor(ActorHost host) : base(host)
     {
     }
@@ -27,6 +27,8 @@ public class InventoryActor : Actor, IInventoryActor
         var state = await GetInventoryStateAsync();
 
         InternalIncreaseInventory(state, quantity, decreaseSold);
+
+        await SetInventoryStateAsync(state);
     }
 
     public async Task ReduceInventoryAsync(int quantity, bool increaseSold)
@@ -34,6 +36,13 @@ public class InventoryActor : Actor, IInventoryActor
         var state = await GetInventoryStateAsync();
 
         InternalReduceInventory(state, quantity, increaseSold);
+
+        await SetInventoryStateAsync(state);
+    }
+
+    protected virtual async Task SetInventoryStateAsync(InventoryStateModel state)
+    {
+        await StateManager.SetStateAsync(InventoryStateName, state);
     }
 
     protected virtual void InternalIncreaseInventory(InventoryStateModel stateModel, int quantity, bool decreaseSold)
