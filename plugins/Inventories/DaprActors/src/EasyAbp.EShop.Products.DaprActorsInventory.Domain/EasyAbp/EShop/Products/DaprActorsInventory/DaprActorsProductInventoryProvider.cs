@@ -17,8 +17,6 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
 
     public string InventoryProviderName { get; } = DaprActorsProductInventoryProviderName;
 
-    public static string ActorType { get; set; } = "InventoryActor";
-
     private readonly ILogger<DaprActorsProductInventoryProvider> _logger;
     protected IInventoryActorProvider InventoryActorProvider { get; }
 
@@ -102,7 +100,7 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
 
     protected virtual async Task<IInventoryActor> GetActorAsync(InventoryQueryModel model)
     {
-        return await InventoryActorProvider.GetAsync(GetActorId(model), ActorType);
+        return await InventoryActorProvider.GetAsync(GetActorId(model));
     }
 
     protected virtual ActorId GetActorId(InventoryQueryModel model)

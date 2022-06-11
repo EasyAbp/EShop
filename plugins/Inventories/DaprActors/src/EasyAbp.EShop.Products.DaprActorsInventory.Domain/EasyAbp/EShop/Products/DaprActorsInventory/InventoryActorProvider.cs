@@ -8,8 +8,10 @@ namespace EasyAbp.EShop.Products.DaprActorsInventory;
 
 public class InventoryActorProvider : IInventoryActorProvider, ITransientDependency
 {
-    public virtual Task<IInventoryActor> GetAsync(ActorId actorId, string actorType)
+    public static string ActorType { get; set; } = "InventoryActor";
+
+    public virtual Task<IInventoryActor> GetAsync(ActorId actorId)
     {
-        return Task.FromResult(ActorProxy.Create<IInventoryActor>(actorId, actorType));
+        return Task.FromResult(ActorProxy.Create<IInventoryActor>(actorId, ActorType));
     }
 }

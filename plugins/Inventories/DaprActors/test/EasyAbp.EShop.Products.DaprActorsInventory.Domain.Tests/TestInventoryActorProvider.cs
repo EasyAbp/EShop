@@ -19,7 +19,7 @@ public class TestInventoryActorProvider : IInventoryActorProvider, ITransientDep
         _serviceProvider = serviceProvider;
     }
     
-    public Task<IInventoryActor> GetAsync(ActorId actorId, string actorType)
+    public Task<IInventoryActor> GetAsync(ActorId actorId)
     {
         return Task.FromResult(Actor ??= _serviceProvider.GetRequiredService<FakeInventoryActor>());
     }
