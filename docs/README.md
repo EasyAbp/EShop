@@ -103,7 +103,7 @@ We can customize some features to use EShop in complex application scenarios.
   * Baskets
   * Coupons
   * Inventories
-    * [DaprActors](/docs/plugins/inventories/dapr-actors)
+    * [DaprActors](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/DaprActors)
 
 ## Roadmap
 
