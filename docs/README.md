@@ -103,7 +103,7 @@ We can customize some features to use EShop in complex application scenarios.
   * Baskets
   * Coupons
   * Inventories
-    * [DaprActors](/plugins/inventories/dapr-actors)
+    * [DaprActors](/docs/plugins/inventories/dapr-actors)
 
 ## Roadmap
 
