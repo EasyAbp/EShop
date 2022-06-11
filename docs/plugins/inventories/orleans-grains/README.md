@@ -26,14 +26,7 @@ EShop product-inventory implementation of [Orleans Grains](https://docs.microsof
        .UseOrleans(c =>
        {
            c.UseLocalhostClustering()   // for test only
-           .AddMemoryGrainStorage(InventoryGrain.StorageProviderName)   // for test only
-           .Configure<ClusterOptions>(options =>
-           {
-               options.ClusterId = "my-first-cluster";
-               options.ServiceId = "MyEShopApp";
-           })
-           .ConfigureApplicationParts(
-               parts => parts.AddApplicationPart(typeof(InventoryGrain).Assembly).WithReferences());
+           c.AddMemoryGrainStorage(InventoryGrain.StorageProviderName);   // for test only
        });
    ```
 
