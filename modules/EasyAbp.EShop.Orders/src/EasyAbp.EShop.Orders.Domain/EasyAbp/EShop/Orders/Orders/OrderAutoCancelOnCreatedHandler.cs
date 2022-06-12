@@ -3,6 +3,7 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
@@ -10,14 +11,17 @@ namespace EasyAbp.EShop.Orders.Orders
         IDistributedEventHandler<EntityCreatedEto<OrderEto>>,
         ITransientDependency
     {
+        private readonly IClock _clock;
         private readonly IBackgroundJobManager _backgroundJobManager;
 
         public OrderAutoCancelOnCreatedHandler(
+            IClock clock,
             IBackgroundJobManager backgroundJobManager)
         {
+            _clock = clock;
             _backgroundJobManager = backgroundJobManager;
         }
-        
+
         public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
         {
             if (!eventData.Entity.PaymentExpiration.HasValue)
@@ -33,7 +37,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             await _backgroundJobManager.EnqueueAsync(
                 args: args,
-                delay: eventData.Entity.PaymentExpiration.Value.Subtract(eventData.Entity.CreationTime)    // Todo: use a absolute time.
+                delay: eventData.Entity.PaymentExpiration.Value.Subtract(_clock.Now) // Todo: use a absolute time.
             );
         }
     }
