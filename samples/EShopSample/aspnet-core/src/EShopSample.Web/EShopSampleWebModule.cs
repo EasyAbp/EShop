@@ -30,13 +30,14 @@ using EShopSample.Localization;
 using EShopSample.MultiTenancy;
 using EShopSample.Web.Menus;
 using Microsoft.OpenApi.Models;
-using NUglify.JavaScript.Syntax;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
@@ -61,7 +62,7 @@ namespace EShopSample.Web
         typeof(AbpAutofacModule),
         typeof(AbpIdentityWebModule),
         typeof(AbpAccountWebIdentityServerModule),
-        typeof(AbpAspNetCoreMvcUiBasicThemeModule),
+        typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpFeatureManagementWebModule),
@@ -98,6 +99,7 @@ namespace EShopSample.Web
             var configuration = context.Services.GetConfiguration();
 
             ConfigureUrls(configuration);
+            ConfigureBundles();
             ConfigureAuthentication(context, configuration);
             ConfigureAutoMapper();
             ConfigureVirtualFileSystem(hostingEnvironment);
@@ -105,22 +107,16 @@ namespace EShopSample.Web
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
-            ConfigureConventionalControllers();
         }
 
-        private void ConfigureConventionalControllers()
+        private void ConfigureBundles()
         {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
+            Configure<AbpBundlingOptions>(options =>
             {
-                options.ConventionalControllers.Create(typeof(EShopSampleApplicationModule).Assembly);
-            });
-        }
-
-        private void ConfigureUrls(IConfiguration configuration)
-        {
-            Configure<AppUrlOptions>(options =>
-            {
-                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+                options.StyleBundles.Configure(
+                    LeptonXLiteThemeBundles.Styles.Global,
+                    bundle => { bundle.AddFiles("/global-styles.css"); }
+                );
             });
         }
 
@@ -130,9 +126,17 @@ namespace EShopSample.Web
                 .AddJwtBearer(options =>
                 {
                     options.Authority = configuration["AuthServer:Authority"];
-                    options.RequireHttpsMetadata = false;
+                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                     options.Audience = "EShopSample";
                 });
+        }
+
+        private void ConfigureUrls(IConfiguration configuration)
+        {
+            Configure<AppUrlOptions>(options =>
+            {
+                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+            });
         }
 
         private void ConfigureAutoMapper()
@@ -272,7 +276,6 @@ namespace EShopSample.Web
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
-            app.UseJwtTokenMiddleware();
 
             if (MultiTenancyConsts.IsEnabled)
             {
