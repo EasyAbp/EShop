@@ -15,8 +15,8 @@ namespace EasyAbp.EShop.Stores
             _storeDataSeeder = storeDataSeeder;
         }
         
-        [UnitOfWork(true)]
-        public async Task SeedAsync(DataSeedContext context)
+        [UnitOfWork]
+        public virtual async Task SeedAsync(DataSeedContext context)
         {
             await _storeDataSeeder.SeedAsync(context);
         }
