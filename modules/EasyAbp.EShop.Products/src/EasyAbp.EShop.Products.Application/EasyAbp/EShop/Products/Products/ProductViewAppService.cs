@@ -51,7 +51,8 @@ namespace EasyAbp.EShop.Products.Products
             return query
                 .Where(x => x.StoreId == input.StoreId)
                 .WhereIf(!input.ShowHidden, x => !x.IsHidden)
-                .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
+                .WhereIf(!input.ShowUnpublished, x => x.IsPublished)
+                .OrderBy(x => x.DisplayOrder);
         }
 
         public override async Task<PagedResultDto<ProductViewDto>> GetListAsync(GetProductListInput input)

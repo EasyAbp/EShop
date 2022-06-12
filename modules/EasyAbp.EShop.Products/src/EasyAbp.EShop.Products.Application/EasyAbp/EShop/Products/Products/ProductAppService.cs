@@ -61,7 +61,8 @@ namespace EasyAbp.EShop.Products.Products
             return query
                 .Where(x => x.StoreId == input.StoreId)
                 .WhereIf(!input.ShowHidden, x => !x.IsHidden)
-                .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
+                .WhereIf(!input.ShowUnpublished, x => x.IsPublished)
+                .OrderBy(x => x.DisplayOrder);
         }
 
         protected override Product MapToEntity(CreateUpdateProductDto createInput)
@@ -481,12 +482,12 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual ProductDto SortAttributesAndOptions(ProductDto productDto)
         {
-            productDto.ProductAttributes = productDto.ProductAttributes.OrderByDescending(x => x.DisplayOrder).ToList();
+            productDto.ProductAttributes = productDto.ProductAttributes.OrderBy(x => x.DisplayOrder).ToList();
 
             foreach (var productAttributeDto in productDto.ProductAttributes)
             {
                 productAttributeDto.ProductAttributeOptions = productAttributeDto.ProductAttributeOptions
-                    .OrderByDescending(x => x.DisplayOrder).ToList();
+                    .OrderBy(x => x.DisplayOrder).ToList();
             }
 
             return productDto;

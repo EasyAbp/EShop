@@ -34,6 +34,8 @@ namespace EasyAbp.EShop.Products.ProductCategories
                 queryable = queryable.Where(x => x.ProductId == input.ProductId);
             }
 
+            queryable = queryable.OrderBy(x => x.DisplayOrder);
+
             return queryable;
         }
 
