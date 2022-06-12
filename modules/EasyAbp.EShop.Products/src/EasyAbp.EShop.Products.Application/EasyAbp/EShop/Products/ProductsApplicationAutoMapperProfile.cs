@@ -9,8 +9,6 @@ using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
-using EasyAbp.EShop.Products.ProductInventories;
-using EasyAbp.EShop.Products.ProductInventories.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using System.Linq;
@@ -65,7 +63,6 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductCategory, ProductCategoryDto>();
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
-            CreateMap<ProductInventory, ProductInventoryDto>();
             CreateMap<ProductView, ProductViewDto>();
             CreateMap<Product, ProductView>(MemberList.Destination);
         }

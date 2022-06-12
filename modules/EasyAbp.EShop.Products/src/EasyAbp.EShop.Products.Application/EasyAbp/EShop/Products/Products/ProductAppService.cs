@@ -442,6 +442,29 @@ namespace EasyAbp.EShop.Products.Products
             ).ToList()));
         }
 
+        public virtual async Task<ChangeProductInventoryResultDto> ChangeInventoryAsync(Guid id, Guid productSkuId,
+            ChangeProductInventoryDto input)
+        {
+            var product = await GetEntityByIdAsync(id);
+            var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
+
+            var changed = input.ChangedInventory switch
+            {
+                > 0 => await _productManager.TryIncreaseInventoryAsync(product, sku, input.ChangedInventory, false),
+                < 0 => await _productManager.TryReduceInventoryAsync(product, sku, -1 * input.ChangedInventory, false),
+                _ => false
+            };
+
+            var model = await _productManager.GetInventoryDataAsync(product, sku);
+
+            return new ChangeProductInventoryResultDto
+            {
+                Changed = changed,
+                ChangedInventory = input.ChangedInventory,
+                CurrentInventory = model.Inventory
+            };
+        }
+
         protected override ProductDto MapToGetOutputDto(Product entity)
         {
             var productDto = base.MapToGetOutputDto(entity);

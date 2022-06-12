@@ -7,9 +7,9 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductAppService :
-        ICrudAppService< 
-            ProductDto, 
-            Guid, 
+        ICrudAppService<
+            ProductDto,
+            Guid,
             GetProductListInput,
             CreateUpdateProductDto,
             CreateUpdateProductDto>
@@ -19,9 +19,12 @@ namespace EasyAbp.EShop.Products.Products
         Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, UpdateProductSkuDto input);
 
         Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId);
-        
+
         Task<ProductDto> GetByUniqueNameAsync(Guid storeId, string uniqueName);
 
         Task<ListResultDto<ProductGroupDto>> GetProductGroupListAsync();
+
+        Task<ChangeProductInventoryResultDto> ChangeInventoryAsync(Guid id, Guid productSkuId,
+            ChangeProductInventoryDto input);
     }
 }

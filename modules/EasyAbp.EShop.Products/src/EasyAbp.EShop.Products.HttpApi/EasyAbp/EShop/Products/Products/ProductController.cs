@@ -93,5 +93,13 @@ namespace EasyAbp.EShop.Products.Products
         {
             return _service.GetProductGroupListAsync();
         }
+
+        [HttpPost]
+        [Route("{id}/sku/{productSkuId}/change-inventory")]
+        public Task<ChangeProductInventoryResultDto> ChangeInventoryAsync(Guid id, Guid productSkuId,
+            ChangeProductInventoryDto input)
+        {
+            return _service.ChangeInventoryAsync(id, productSkuId, input);
+        }
     }
 }
