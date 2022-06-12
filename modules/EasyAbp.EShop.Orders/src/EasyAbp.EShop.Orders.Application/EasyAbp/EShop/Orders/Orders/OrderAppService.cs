@@ -90,6 +90,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList());
 
+            ThrowIfExistFlashSalesProduct(productDict);
+            
             await AuthorizationService.CheckAsync(
                 new OrderCreationResource
                 {
@@ -118,7 +120,15 @@ namespace EasyAbp.EShop.Orders.Orders
 
             return await MapToGetOutputDtoAsync(order);
         }
-        
+
+        protected virtual void ThrowIfExistFlashSalesProduct(Dictionary<Guid, ProductDto> productDict)
+        {
+            if (productDict.Any(x => x.Value.InventoryStrategy is InventoryStrategy.FlashSales))
+            {
+                throw new BusinessException(OrdersErrorCodes.ExistFlashSalesProduct);
+            }
+        }
+
         protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, ProductDto> productDict)
         {
             foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IOrderDiscountProvider>>())
