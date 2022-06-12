@@ -13,15 +13,15 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleDbContext))]
-    [Migration("20220210064700_UpgradedToAbp5_1_3")]
-    partial class UpgradedToAbp5_1_3
+    [Migration("20220612113639_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -159,6 +159,9 @@ namespace EShopSample.Migrations
                     b.Property<decimal>("Fee")
                         .HasColumnType("decimal(20,8)");
 
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(20,8)");
+
                     b.HasKey("OrderId", "Name", "Key");
 
                     b.ToTable("EasyAbpEShopOrdersOrderExtraFees", (string)null);
@@ -216,7 +219,10 @@ namespace EShopSample.Migrations
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ProductDetailModificationTime")
+                    b.Property<Guid?>("ProductDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ProductDetailModificationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ProductDisplayName")
@@ -589,6 +595,31 @@ namespace EShopSample.Migrations
                     b.ToTable("EasyAbpEShopPaymentsRefundItems", (string)null);
                 });
 
+            modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItemOrderExtraFee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid?>("RefundItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RefundItemId");
+
+                    b.ToTable("EasyAbpEShopPaymentsRefundItemOrderExtraFees", (string)null);
+                });
+
             modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItemOrderLine", b =>
                 {
                     b.Property<Guid>("Id")
@@ -766,6 +797,233 @@ namespace EShopSample.Migrations
                     b.HasIndex("ProductSkuId");
 
                     b.ToTable("EasyAbpEShopPluginsBasketsProductUpdates", (string)null);
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.GrantedStores.GrantedStore", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("AllowAll")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("AssetCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AssetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EasyAbpEShopPluginsBookingGrantedStores", (string)null);
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssetCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime>("FromTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<Guid>("PeriodSchemeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductSkuId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<DateTime?>("ToTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EasyAbpEShopPluginsBookingProductAssetCategories", (string)null);
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategoryPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PeriodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid?>("ProductAssetCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductAssetCategoryId");
+
+                    b.ToTable("EasyAbpEShopPluginsBookingProductAssetCategoryPeriods", (string)null);
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssets.ProductAsset", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime>("FromTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<Guid>("PeriodSchemeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductSkuId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<DateTime?>("ToTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EasyAbpEShopPluginsBookingProductAssets", (string)null);
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssets.ProductAssetPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PeriodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<Guid?>("ProductAssetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductAssetId");
+
+                    b.ToTable("EasyAbpEShopPluginsBookingProductAssetPeriods", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Plugins.Coupons.Coupons.Coupon", b =>
@@ -1368,6 +1626,9 @@ namespace EShopSample.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
+                    b.Property<string>("InventoryProviderName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("InventoryStrategy")
                         .HasColumnType("int");
 
@@ -1400,7 +1661,7 @@ namespace EShopSample.Migrations
                     b.Property<TimeSpan?>("PaymentExpireIn")
                         .HasColumnType("time");
 
-                    b.Property<Guid>("ProductDetailId")
+                    b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ProductGroupName")
@@ -1651,6 +1912,9 @@ namespace EShopSample.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
+                    b.Property<string>("InventoryProviderName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("InventoryStrategy")
                         .HasColumnType("int");
 
@@ -1672,7 +1936,7 @@ namespace EShopSample.Migrations
                     b.Property<decimal?>("MinimumPrice")
                         .HasColumnType("decimal(20,8)");
 
-                    b.Property<Guid>("ProductDetailId")
+                    b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ProductGroupDisplayName")
@@ -4651,11 +4915,32 @@ namespace EShopSample.Migrations
                         .HasForeignKey("RefundId");
                 });
 
+            modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItemOrderExtraFee", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Payments.Refunds.RefundItem", null)
+                        .WithMany("OrderExtraFees")
+                        .HasForeignKey("RefundItemId");
+                });
+
             modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItemOrderLine", b =>
                 {
                     b.HasOne("EasyAbp.EShop.Payments.Refunds.RefundItem", null)
-                        .WithMany("RefundItemOrderLines")
+                        .WithMany("OrderLines")
                         .HasForeignKey("RefundItemId");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategoryPeriod", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategory", null)
+                        .WithMany("Periods")
+                        .HasForeignKey("ProductAssetCategoryId");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssets.ProductAssetPeriod", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Plugins.Booking.ProductAssets.ProductAsset", null)
+                        .WithMany("Periods")
+                        .HasForeignKey("ProductAssetId");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Plugins.Coupons.CouponTemplates.CouponTemplateScope", b =>
@@ -5005,7 +5290,19 @@ namespace EShopSample.Migrations
 
             modelBuilder.Entity("EasyAbp.EShop.Payments.Refunds.RefundItem", b =>
                 {
-                    b.Navigation("RefundItemOrderLines");
+                    b.Navigation("OrderExtraFees");
+
+                    b.Navigation("OrderLines");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategory", b =>
+                {
+                    b.Navigation("Periods");
+                });
+
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Booking.ProductAssets.ProductAsset", b =>
+                {
+                    b.Navigation("Periods");
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Plugins.Coupons.CouponTemplates.CouponTemplate", b =>

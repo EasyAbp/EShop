@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EShopSample.Migrations
 {
-    public partial class InitialAbp501 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,9 +18,11 @@ namespace EShopSample.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    TenantName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TenantName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     ImpersonatorUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ImpersonatorUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ImpersonatorTenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ImpersonatorTenantName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     ExecutionTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExecutionDuration = table.Column<int>(type: "int", nullable: false),
                     ClientIpAddress = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
@@ -437,6 +439,80 @@ namespace EShopSample.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EasyAbpEShopPluginsBookingGrantedStores",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AssetCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AllowAll = table.Column<bool>(type: "bit", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EasyAbpEShopPluginsBookingGrantedStores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EasyAbpEShopPluginsBookingProductAssetCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductSkuId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssetCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PeriodSchemeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(20,8)", nullable: true),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EasyAbpEShopPluginsBookingProductAssetCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EasyAbpEShopPluginsBookingProductAssets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductSkuId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PeriodSchemeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(20,8)", nullable: true),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EasyAbpEShopPluginsBookingProductAssets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EasyAbpEShopPluginsCouponsCoupons",
                 columns: table => new
                 {
@@ -642,10 +718,11 @@ namespace EShopSample.Migrations
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductGroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UniqueName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InventoryStrategy = table.Column<int>(type: "int", nullable: false),
+                    InventoryProviderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MediaResources = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisplayOrder = table.Column<int>(type: "int", nullable: false),
                     IsPublished = table.Column<bool>(type: "bit", nullable: false),
@@ -675,10 +752,11 @@ namespace EShopSample.Migrations
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductGroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UniqueName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InventoryStrategy = table.Column<int>(type: "int", nullable: false),
+                    InventoryProviderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MediaResources = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisplayOrder = table.Column<int>(type: "int", nullable: false),
                     IsPublished = table.Column<bool>(type: "bit", nullable: false),
@@ -1445,7 +1523,8 @@ namespace EShopSample.Migrations
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Key = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Fee = table.Column<decimal>(type: "decimal(20,8)", nullable: false)
+                    Fee = table.Column<decimal>(type: "decimal(20,8)", nullable: false),
+                    RefundAmount = table.Column<decimal>(type: "decimal(20,8)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1465,8 +1544,9 @@ namespace EShopSample.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductSkuId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProductDetailModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProductDetailModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ProductGroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductGroupDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductUniqueName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -1563,6 +1643,44 @@ namespace EShopSample.Migrations
                         name: "FK_EasyAbpEShopPaymentsRefundItems_EasyAbpEShopPaymentsRefunds_RefundId",
                         column: x => x.RefundId,
                         principalTable: "EasyAbpEShopPaymentsRefunds",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EasyAbpEShopPluginsBookingProductAssetCategoryPeriods",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PeriodId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(20,8)", nullable: false),
+                    ProductAssetCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EasyAbpEShopPluginsBookingProductAssetCategoryPeriods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EasyAbpEShopPluginsBookingProductAssetCategoryPeriods_EasyAbpEShopPluginsBookingProductAssetCategories_ProductAssetCategoryId",
+                        column: x => x.ProductAssetCategoryId,
+                        principalTable: "EasyAbpEShopPluginsBookingProductAssetCategories",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EasyAbpEShopPluginsBookingProductAssetPeriods",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PeriodId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(20,8)", nullable: false),
+                    ProductAssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EasyAbpEShopPluginsBookingProductAssetPeriods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EasyAbpEShopPluginsBookingProductAssetPeriods_EasyAbpEShopPluginsBookingProductAssets_ProductAssetId",
+                        column: x => x.ProductAssetId,
+                        principalTable: "EasyAbpEShopPluginsBookingProductAssets",
                         principalColumn: "Id");
                 });
 
@@ -2059,6 +2177,26 @@ namespace EShopSample.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EasyAbpEShopPaymentsRefundItemOrderExtraFees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefundAmount = table.Column<decimal>(type: "decimal(20,8)", nullable: false),
+                    RefundItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EasyAbpEShopPaymentsRefundItemOrderExtraFees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EasyAbpEShopPaymentsRefundItemOrderExtraFees_EasyAbpEShopPaymentsRefundItems_RefundItemId",
+                        column: x => x.RefundItemId,
+                        principalTable: "EasyAbpEShopPaymentsRefundItems",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EasyAbpEShopPaymentsRefundItemOrderLines",
                 columns: table => new
                 {
@@ -2282,6 +2420,11 @@ namespace EShopSample.Migrations
                 column: "PaymentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EasyAbpEShopPaymentsRefundItemOrderExtraFees_RefundItemId",
+                table: "EasyAbpEShopPaymentsRefundItemOrderExtraFees",
+                column: "RefundItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EasyAbpEShopPaymentsRefundItemOrderLines_RefundItemId",
                 table: "EasyAbpEShopPaymentsRefundItemOrderLines",
                 column: "RefundItemId");
@@ -2300,6 +2443,16 @@ namespace EShopSample.Migrations
                 name: "IX_EasyAbpEShopPluginsBasketsProductUpdates_ProductSkuId",
                 table: "EasyAbpEShopPluginsBasketsProductUpdates",
                 column: "ProductSkuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EasyAbpEShopPluginsBookingProductAssetCategoryPeriods_ProductAssetCategoryId",
+                table: "EasyAbpEShopPluginsBookingProductAssetCategoryPeriods",
+                column: "ProductAssetCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EasyAbpEShopPluginsBookingProductAssetPeriods_ProductAssetId",
+                table: "EasyAbpEShopPluginsBookingProductAssetPeriods",
+                column: "ProductAssetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EasyAbpEShopPluginsCouponsCouponTemplateScopes_CouponTemplateId",
@@ -2502,6 +2655,9 @@ namespace EShopSample.Migrations
                 name: "EasyAbpEShopPaymentsPaymentItems");
 
             migrationBuilder.DropTable(
+                name: "EasyAbpEShopPaymentsRefundItemOrderExtraFees");
+
+            migrationBuilder.DropTable(
                 name: "EasyAbpEShopPaymentsRefundItemOrderLines");
 
             migrationBuilder.DropTable(
@@ -2509,6 +2665,15 @@ namespace EShopSample.Migrations
 
             migrationBuilder.DropTable(
                 name: "EasyAbpEShopPluginsBasketsProductUpdates");
+
+            migrationBuilder.DropTable(
+                name: "EasyAbpEShopPluginsBookingGrantedStores");
+
+            migrationBuilder.DropTable(
+                name: "EasyAbpEShopPluginsBookingProductAssetCategoryPeriods");
+
+            migrationBuilder.DropTable(
+                name: "EasyAbpEShopPluginsBookingProductAssetPeriods");
 
             migrationBuilder.DropTable(
                 name: "EasyAbpEShopPluginsCouponsCoupons");
@@ -2656,6 +2821,12 @@ namespace EShopSample.Migrations
 
             migrationBuilder.DropTable(
                 name: "EasyAbpEShopPaymentsRefundItems");
+
+            migrationBuilder.DropTable(
+                name: "EasyAbpEShopPluginsBookingProductAssetCategories");
+
+            migrationBuilder.DropTable(
+                name: "EasyAbpEShopPluginsBookingProductAssets");
 
             migrationBuilder.DropTable(
                 name: "EasyAbpEShopPluginsCouponsCouponTemplates");
