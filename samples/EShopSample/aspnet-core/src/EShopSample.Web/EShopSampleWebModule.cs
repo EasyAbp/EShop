@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins;
 using EasyAbp.EShop.Plugins.Web;
@@ -99,6 +100,7 @@ namespace EShopSample.Web
 
             ConfigureUrls(configuration);
             ConfigureBundles();
+            ConfigureAuthentication(context, configuration);
             ConfigureAutoMapper();
             ConfigureVirtualFileSystem(hostingEnvironment);
             ConfigureLocalizationServices();
@@ -116,6 +118,17 @@ namespace EShopSample.Web
                     bundle => { bundle.AddFiles("/global-styles.css"); }
                 );
             });
+        }
+
+        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+        {
+            context.Services.AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = configuration["AuthServer:Authority"];
+                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                    options.Audience = "EShopSample";
+                });
         }
 
         private void ConfigureUrls(IConfiguration configuration)
@@ -266,7 +279,6 @@ namespace EShopSample.Web
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
-            app.UseJwtTokenMiddleware();
 
             if (MultiTenancyConsts.IsEnabled)
             {
