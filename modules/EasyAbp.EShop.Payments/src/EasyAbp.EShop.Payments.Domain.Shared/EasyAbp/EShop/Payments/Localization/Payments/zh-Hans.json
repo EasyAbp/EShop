@@ -3,7 +3,6 @@
   "texts": {
     "Menu:EasyAbpEShop": "EShop 商城",
     "Menu:PaymentManagement": "支付",
-    "ManageYourProfile": "管理个人资料",
     "Permission:Payments": "支付",
     "PaymentItemStoreId": "店铺 ID",
     "Permission:Refunds": "退款",
