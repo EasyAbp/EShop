@@ -49,6 +49,7 @@
     "EasyAbp.EShop.Orders:InvalidPayment": "付款{paymentId}有無效的訂單配置{orderId}",
     "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金額({amount})無效",
     "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款數量({quantity})無效",
-    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "訂單{orderId}處於錯誤的階段"
+    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "訂單{orderId}處於錯誤的階段",
+    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清單中不允許存在閃購產品"
   }
 }

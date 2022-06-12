@@ -11,5 +11,6 @@
         public const string InvalidRefundAmount = "EasyAbp.EShop.Orders:InvalidRefundAmount";
         public const string InvalidRefundQuantity = "EasyAbp.EShop.Orders:InvalidRefundQuantity";
         public const string OrderIsInWrongStage = "EasyAbp.EShop.Orders:OrderIsInWrongStage";
+        public const string ExistFlashSalesProduct = "EasyAbp.EShop.Orders:ExistFlashSalesProduct";
     }
 }
