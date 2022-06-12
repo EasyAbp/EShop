@@ -1,0 +1,111 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "EasyAbp.EShop.Plugins.FlashSales.Domain.Shared": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Domain.Shared/EasyAbp.EShop.Plugins.FlashSales.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Domain": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Domain/EasyAbp.EShop.Plugins.FlashSales.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Application.Contracts": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Application.Contracts/EasyAbp.EShop.Plugins.FlashSales.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Application": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Application/EasyAbp.EShop.Plugins.FlashSales.Application.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore/EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.MongoDB": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.MongoDB/EasyAbp.EShop.Plugins.FlashSales.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.HttpApi": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.HttpApi/EasyAbp.EShop.Plugins.FlashSales.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client/EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.TestBase": {
+      "path": "test/EasyAbp.EShop.Plugins.FlashSales.TestBase/EasyAbp.EShop.Plugins.FlashSales.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore.Tests/EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.MongoDB.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.FlashSales.MongoDB.Tests/EasyAbp.EShop.Plugins.FlashSales.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Domain.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.FlashSales.Domain.Tests/EasyAbp.EShop.Plugins.FlashSales.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Application.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.FlashSales.Application.Tests/EasyAbp.EShop.Plugins.FlashSales.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.HttpApi.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.HttpApi.Host/EasyAbp.EShop.Plugins.FlashSales.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Web": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Web/EasyAbp.EShop.Plugins.FlashSales.Web.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client.ConsoleTestApp/EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Web.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.Web.Host/EasyAbp.EShop.Plugins.FlashSales.Web.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.IdentityServer": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.IdentityServer/EasyAbp.EShop.Plugins.FlashSales.IdentityServer.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Host.Shared": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.Host.Shared/EasyAbp.EShop.Plugins.FlashSales.Host.Shared.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Web.Unified": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.Web.Unified/EasyAbp.EShop.Plugins.FlashSales.Web.Unified.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Blazor": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Blazor/EasyAbp.EShop.Plugins.FlashSales.Blazor.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Blazor.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.Blazor.Host/EasyAbp.EShop.Plugins.FlashSales.Blazor.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Blazor.Server": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Blazor.Server/EasyAbp.EShop.Plugins.FlashSales.Blazor.Server.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Blazor.WebAssembly": {
+      "path": "src/EasyAbp.EShop.Plugins.FlashSales.Blazor.WebAssembly/EasyAbp.EShop.Plugins.FlashSales.Blazor.WebAssembly.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.FlashSales.Blazor.Server.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.FlashSales.Blazor.Server.Host/EasyAbp.EShop.Plugins.FlashSales.Blazor.Server.Host.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

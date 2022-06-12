@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <RootNamespace>EasyAbp.EShop.Plugins.FlashSales</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Studio.ModuleInstaller" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.VirtualFileSystem" Version="$(AbpVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\..\EasyAbp.EShop.Plugins.FlashSales.abpmdl.json" />
+    <EmbeddedResource Include="..\..\EasyAbp.EShop.Plugins.FlashSales.abpmdl.json" />
+  </ItemGroup>
+
+</Project>

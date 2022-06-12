@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.FlashSales.Application\EasyAbp.EShop.Plugins.FlashSales.Application.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Plugins.FlashSales.Domain.Tests\EasyAbp.EShop.Plugins.FlashSales.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+  </ItemGroup>
+
+</Project>
