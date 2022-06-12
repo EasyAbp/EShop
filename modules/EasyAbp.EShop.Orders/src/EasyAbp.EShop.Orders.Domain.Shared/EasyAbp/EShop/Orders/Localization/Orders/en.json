@@ -48,6 +48,7 @@
     "EasyAbp.EShop.Orders:InvalidPayment": "The payment {paymentId} has invalid configurations for the order {orderId}.",
     "EasyAbp.EShop.Orders:InvalidRefundAmount": "The refund amount ({amount}) is invalid.",
     "EasyAbp.EShop.Orders:InvalidRefundQuantity": "The refund quantity ({quantity}) is invalid.",
-    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "The order {orderId} is in the wrong stage."
+    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "The order {orderId} is in the wrong stage.",
+    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "Exist unexpected flash-sales product"
   }
 }

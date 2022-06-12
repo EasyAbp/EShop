@@ -7,6 +7,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         NoNeed = 1,
         ReduceAfterPlacing = 2,
-        ReduceAfterPayment = 4
+        ReduceAfterPayment = 4,
+        FlashSales = 8
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
+using Volo.Abp;
 using Volo.Abp.Timing;
 using Xunit;
 
@@ -21,6 +22,8 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IClock _clock;
         private readonly IOrderAppService _orderAppService;
 
+        private ProductDto Product1 { get; set; }
+
         public OrderAppServiceTests()
         {
             _clock = GetRequiredService<IClock>();
@@ -29,8 +32,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         protected override void AfterAddApplication(IServiceCollection services)
         {
-            var productAppService = Substitute.For<IProductAppService>();
-            productAppService.GetAsync(OrderTestData.Product1Id).Returns(Task.FromResult(new ProductDto
+            Product1 = new ProductDto
             {
                 CreationTime = DateTime.Now,
                 IsPublished = true,
@@ -79,10 +81,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 },
                 InventoryStrategy = InventoryStrategy.NoNeed,
                 LastModificationTime = OrderTestData.ProductLastModificationTime
-            }));
+            };
+
+            var productAppService = Substitute.For<IProductAppService>();
+            productAppService.GetAsync(OrderTestData.Product1Id).Returns(Task.FromResult(Product1));
 
             services.AddTransient(_ => productAppService);
-            
+
             var productDetailAppService = Substitute.For<IProductDetailAppService>();
 
             productDetailAppService.GetAsync(OrderTestData.ProductDetail1Id).Returns(Task.FromResult(
@@ -186,7 +191,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 orderLine1.ProductDetailModificationTime.ShouldBe(OrderTestData.ProductDetailLastModificationTime);
                 orderLine1.RefundAmount.ShouldBe(0m);
                 orderLine1.RefundedQuantity.ShouldBe(0);
-                
+
                 var orderLine2 = response.OrderLines.Single(x => x.ProductSkuId == OrderTestData.ProductSku2Id);
                 orderLine2.ProductDetailId.ShouldBe(OrderTestData.ProductDetail2Id);
             });
@@ -245,7 +250,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
             response.CancellationReason.ShouldBe("Repeat orders.");
-            
+
             UsingDbContext(db =>
             {
                 var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
@@ -280,7 +285,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.SetPaymentId(null);
                 await orderRepository.UpdateAsync(order, true);
             });
-            
+
             var response = await _orderAppService.GetAsync(orderId);
 
             // Assert
@@ -290,7 +295,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
             response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
-            
+
             UsingDbContext(db =>
             {
                 var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
@@ -349,7 +354,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.OrderStatus.ShouldBe(OrderStatus.Processing);
             response.CanceledTime.ShouldBeNull();
             response.CancellationReason.ShouldBeNull();
-            
+
             UsingDbContext(db =>
             {
                 var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
@@ -361,7 +366,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.CancellationReason.ShouldBeNull();
             });
         }
-        
+
         [Fact]
         public async Task Unpaid_Order_Should_Be_Auto_Canceled_When_Payment_Overtime()
         {
@@ -404,7 +409,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
             response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
-            
+
             UsingDbContext(db =>
             {
                 var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
@@ -416,7 +421,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
-        
+
         [Fact]
         public async Task Payment_Pending_Order_Should_Be_Auto_Canceled_When_Payment_Overtime()
         {
@@ -461,7 +466,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
             response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
-            
+
             UsingDbContext(db =>
             {
                 var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
@@ -497,17 +502,47 @@ namespace EasyAbp.EShop.Orders.Orders
                     }
                 }
             };
-            
+
             await WithUnitOfWorkAsync(async () =>
             {
                 var order = await _orderAppService.CreateAsync(createOrderDto);
                 var orderLine = order.OrderLines.Find(x => x.ProductSkuId == OrderTestData.ProductSku3Id);
-                
+
                 order.ProductTotalPrice.ShouldBe(10 * 1m + 2 * TestOrderLinePriceOverrider.Sku3UnitPrice);
                 orderLine.ShouldNotBeNull();
                 orderLine.UnitPrice.ShouldBe(TestOrderLinePriceOverrider.Sku3UnitPrice);
                 orderLine.TotalPrice.ShouldBe(orderLine.Quantity * orderLine.UnitPrice);
             });
+        }
+
+        [Fact]
+        public async Task Should_Not_Create_Order_With_Flash_Sales_Products()
+        {
+            var createOrderDto = new CreateOrderDto
+            {
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new()
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 1
+                    }
+                }
+            };
+
+            Product1.InventoryStrategy = InventoryStrategy.FlashSales;
+
+            await WithUnitOfWorkAsync(async () =>
+            {
+                var exception =
+                    await Should.ThrowAsync<BusinessException>(() => _orderAppService.CreateAsync(createOrderDto));
+
+                exception.Code.ShouldBe(OrdersErrorCodes.ExistFlashSalesProduct);
+            });
+
+            Product1.InventoryStrategy = InventoryStrategy.NoNeed;
         }
     }
 }

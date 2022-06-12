@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Inventories.OrleansGrains;
 using EasyAbp.EShop.Products.ProductInventories;
 using Microsoft.Extensions.Logging;
+using Orleans;
 using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Products.OrleansGrainsInventory;
@@ -17,13 +18,13 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
     public string InventoryProviderName { get; } = OrleansGrainsProductInventoryProviderName;
 
     private readonly ILogger<OrleansGrainsProductInventoryProvider> _logger;
-    protected IInventoryGrainProvider InventoryGrainProvider { get; }
+    protected IGrainFactory GrainFactory { get; }
 
     public OrleansGrainsProductInventoryProvider(
-        IInventoryGrainProvider inventoryGrainProvider,
+        IGrainFactory grainFactory,
         ILogger<OrleansGrainsProductInventoryProvider> logger)
     {
-        InventoryGrainProvider = inventoryGrainProvider;
+        GrainFactory = grainFactory;
         _logger = logger;
     }
 
@@ -97,9 +98,9 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
         return true;
     }
 
-    protected virtual async Task<IInventoryGrain> GetGrainAsync(InventoryQueryModel model)
+    protected virtual Task<IInventoryGrain> GetGrainAsync(InventoryQueryModel model)
     {
-        return await InventoryGrainProvider.GetAsync(GetGrainId(model));
+        return Task.FromResult(GrainFactory.GetGrain<IInventoryGrain>(GetGrainId(model)));
     }
 
     protected virtual string GetGrainId(InventoryQueryModel model)
