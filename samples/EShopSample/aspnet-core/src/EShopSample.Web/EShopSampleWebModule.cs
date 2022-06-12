@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins;
 using EasyAbp.EShop.Plugins.Web;
@@ -30,13 +29,14 @@ using EShopSample.Localization;
 using EShopSample.MultiTenancy;
 using EShopSample.Web.Menus;
 using Microsoft.OpenApi.Models;
-using NUglify.JavaScript.Syntax;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
@@ -61,7 +61,7 @@ namespace EShopSample.Web
         typeof(AbpAutofacModule),
         typeof(AbpIdentityWebModule),
         typeof(AbpAccountWebIdentityServerModule),
-        typeof(AbpAspNetCoreMvcUiBasicThemeModule),
+        typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpFeatureManagementWebModule),
@@ -98,21 +98,23 @@ namespace EShopSample.Web
             var configuration = context.Services.GetConfiguration();
 
             ConfigureUrls(configuration);
-            ConfigureAuthentication(context, configuration);
+            ConfigureBundles();
             ConfigureAutoMapper();
             ConfigureVirtualFileSystem(hostingEnvironment);
             ConfigureLocalizationServices();
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
-            ConfigureConventionalControllers();
         }
 
-        private void ConfigureConventionalControllers()
+        private void ConfigureBundles()
         {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
+            Configure<AbpBundlingOptions>(options =>
             {
-                options.ConventionalControllers.Create(typeof(EShopSampleApplicationModule).Assembly);
+                options.StyleBundles.Configure(
+                    LeptonXLiteThemeBundles.Styles.Global,
+                    bundle => { bundle.AddFiles("/global-styles.css"); }
+                );
             });
         }
 
@@ -122,17 +124,6 @@ namespace EShopSample.Web
             {
                 options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
             });
-        }
-
-        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
-        {
-            context.Services.AddAuthentication()
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = configuration["AuthServer:Authority"];
-                    options.RequireHttpsMetadata = false;
-                    options.Audience = "EShopSample";
-                });
         }
 
         private void ConfigureAutoMapper()
