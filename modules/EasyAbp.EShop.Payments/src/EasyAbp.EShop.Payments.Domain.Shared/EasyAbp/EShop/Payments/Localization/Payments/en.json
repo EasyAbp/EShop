@@ -3,7 +3,6 @@
   "texts": {
     "Menu:EasyAbpEShop": "EShop",
     "Menu:PaymentManagement": "Payments",
-    "ManageYourProfile": "Manage your profile",
     "Permission:Payments": "Payment",
     "PaymentItemStoreId": "Store ID",
     "Permission:Refunds": "Refund",

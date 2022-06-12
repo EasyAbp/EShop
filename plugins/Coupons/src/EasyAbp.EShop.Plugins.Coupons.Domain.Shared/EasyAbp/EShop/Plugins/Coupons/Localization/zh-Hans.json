@@ -1,7 +1,6 @@
 {
   "culture": "zh-Hans",
   "texts": {
-    "ManageYourProfile": "管理个人资料",
     "Menu:CouponManagement": "优惠券",
     "Permission:CouponTemplate": "优惠券模板",
     "Permission:Create": "新建",
