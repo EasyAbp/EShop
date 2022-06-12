@@ -45,7 +45,7 @@ namespace EasyAbp.EShop.Products
                     "Product details for store 1"), true);
 
             var product = new Product(ProductsTestData.Product1Id, null, ProductsTestData.Store1Id, "Default",
-                productDetail1.Id, "Cake", "Cake", InventoryStrategy.NoNeed, true, false, false, null, null, 0);
+                productDetail1.Id, "Cake", "Cake", InventoryStrategy.NoNeed, null, true, false, false, null, null, 0);
 
             var attribute1 = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null, 2);
             var attribute2 = new ProductAttribute(ProductsTestData.Product1Attribute2Id, "Color", null, 1);

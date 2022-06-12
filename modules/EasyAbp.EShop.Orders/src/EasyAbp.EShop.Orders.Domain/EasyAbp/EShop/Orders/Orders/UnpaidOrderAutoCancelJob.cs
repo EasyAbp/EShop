@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Orders.Orders
             }
             else
             {
-                await _orderManager.CancelAsync(order, OrdersConsts.CancellationReason);
+                await _orderManager.CancelAsync(order, OrdersConsts.UnpaidAutoCancellationReason);
             }
         }
     }

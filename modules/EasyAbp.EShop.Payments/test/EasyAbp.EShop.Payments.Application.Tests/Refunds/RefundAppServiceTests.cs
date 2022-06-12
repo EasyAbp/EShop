@@ -47,7 +47,8 @@ namespace EasyAbp.EShop.Payments.Refunds
                 paymentItemType.GetProperty(nameof(PaymentItem.ActualPaymentAmount))?.SetValue(paymentItem, 1m);
                 paymentItemType.GetProperty(nameof(PaymentItem.ItemType))?.SetValue(paymentItem, PaymentsConsts.PaymentItemType);
                 paymentItemType.GetProperty(nameof(PaymentItem.ItemKey))?.SetValue(paymentItem, PaymentsTestData.Order1.ToString());
-                paymentItem.ExtraProperties.Add(nameof(paymentItem.StoreId), PaymentsTestData.Store1);
+                paymentItemType.GetProperty(nameof(PaymentItem.StoreId))?.SetValue(paymentItem, PaymentsTestData.Store1);
+                // paymentItem.ExtraProperties.Add(nameof(paymentItem.StoreId), PaymentsTestData.Store1);
 
                 var payment = Activator.CreateInstance(paymentType, true) as Payment;
                 payment.ShouldNotBeNull();
@@ -75,7 +76,9 @@ namespace EasyAbp.EShop.Payments.Refunds
                     ?.SetValue(paymentItem, PaymentsConsts.PaymentItemType);
                 paymentItemType.GetProperty(nameof(PaymentItem.ItemKey))
                     ?.SetValue(paymentItem, PaymentsTestData.Order1.ToString());
-                paymentItem.ExtraProperties.Add(nameof(paymentItem.StoreId), PaymentsTestData.Store1);
+                paymentItemType.GetProperty(nameof(PaymentItem.StoreId))
+                    ?.SetValue(paymentItem, PaymentsTestData.Store1);
+                // paymentItem.ExtraProperties.Add(nameof(paymentItem.StoreId), PaymentsTestData.Store1);
 
                 var payment = Activator.CreateInstance(paymentType, true) as Payment;
                 payment.ShouldNotBeNull();
@@ -182,10 +185,9 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             // Act & Assert
             await _refundAppService.CreateAsync(request);
-            
-            _testRefundPaymentEventHandler.IsEventPublished.ShouldBe(true);
 
-            var eventData = _testRefundPaymentEventHandler.EventData;
+            var eventData = TestRefundPaymentEventHandler.LastEto;
+            TestRefundPaymentEventHandler.LastEto = null;
             eventData.ShouldNotBeNull();
             eventData.CreateRefundInput.RefundItems.Count.ShouldBe(1);
             

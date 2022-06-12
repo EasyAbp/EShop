@@ -32,7 +32,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             if (_clock.Now > eventData.Entity.PaymentExpiration.Value && !eventData.Entity.CanceledTime.HasValue)
             {
-                await _orderManager.CancelAsync(eventData.Entity, OrdersConsts.CancellationReason);
+                await _orderManager.CancelAsync(eventData.Entity, OrdersConsts.UnpaidAutoCancellationReason);
             }
         }
     }

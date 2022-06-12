@@ -64,6 +64,17 @@ namespace EasyAbp.EShop.Orders.Orders
                         Price = 2m,
                         Currency = "CNY",
                         ProductDetailId = OrderTestData.ProductDetail2Id
+                    },
+                    new ProductSkuDto
+                    {
+                        Id = OrderTestData.ProductSku3Id,
+                        Name = "My SKU 3",
+                        OrderMinQuantity = 0,
+                        OrderMaxQuantity = 100,
+                        AttributeOptionIds = new List<Guid>(),
+                        Price = 3m,
+                        Currency = "CNY",
+                        ProductDetailId = OrderTestData.ProductDetail2Id
                     }
                 },
                 InventoryStrategy = InventoryStrategy.NoNeed,
@@ -278,7 +289,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.PaymentExpiration.ShouldBe(now);
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
-            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             
             UsingDbContext(db =>
             {
@@ -288,7 +299,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.PaymentExpiration.ShouldBe(now);
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
-                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+                order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
 
@@ -392,7 +403,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.PaymentExpiration.ShouldBe(now);
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
-            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             
             UsingDbContext(db =>
             {
@@ -402,7 +413,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.PaymentExpiration.ShouldBe(now);
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
-                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+                order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
         
@@ -449,7 +460,7 @@ namespace EasyAbp.EShop.Orders.Orders
             response.PaymentExpiration.ShouldBe(now);
             response.OrderStatus.ShouldBe(OrderStatus.Canceled);
             response.CanceledTime.ShouldNotBeNull();
-            response.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+            response.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             
             UsingDbContext(db =>
             {
@@ -459,7 +470,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.PaymentExpiration.ShouldBe(now);
                 order.OrderStatus.ShouldBe(OrderStatus.Canceled);
                 order.CanceledTime.ShouldNotBeNull();
-                order.CancellationReason.ShouldBe(OrdersConsts.CancellationReason);
+                order.CancellationReason.ShouldBe(OrdersConsts.UnpaidAutoCancellationReason);
             });
         }
 
@@ -481,7 +492,7 @@ namespace EasyAbp.EShop.Orders.Orders
                     new()
                     {
                         ProductId = OrderTestData.Product1Id,
-                        ProductSkuId = OrderTestData.ProductSku2Id,
+                        ProductSkuId = OrderTestData.ProductSku3Id,
                         Quantity = 2
                     }
                 }
@@ -490,11 +501,11 @@ namespace EasyAbp.EShop.Orders.Orders
             await WithUnitOfWorkAsync(async () =>
             {
                 var order = await _orderAppService.CreateAsync(createOrderDto);
-                var orderLine = order.OrderLines.Find(x => x.ProductSkuId == OrderTestData.ProductSku2Id);
+                var orderLine = order.OrderLines.Find(x => x.ProductSkuId == OrderTestData.ProductSku3Id);
                 
-                order.ProductTotalPrice.ShouldBe(10 * 1m + 2 * TestOrderLinePriceOverrider.Sku2UnitPrice);
+                order.ProductTotalPrice.ShouldBe(10 * 1m + 2 * TestOrderLinePriceOverrider.Sku3UnitPrice);
                 orderLine.ShouldNotBeNull();
-                orderLine.UnitPrice.ShouldBe(TestOrderLinePriceOverrider.Sku2UnitPrice);
+                orderLine.UnitPrice.ShouldBe(TestOrderLinePriceOverrider.Sku3UnitPrice);
                 orderLine.TotalPrice.ShouldBe(orderLine.Quantity * orderLine.UnitPrice);
             });
         }

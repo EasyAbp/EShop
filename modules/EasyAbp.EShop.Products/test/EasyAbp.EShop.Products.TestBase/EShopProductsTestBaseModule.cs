@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.EShop.Products.Options;
+using EasyAbp.EShop.Products.Options.ProductGroups;
+using EasyAbp.EShop.Products.Products;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
@@ -19,6 +22,17 @@ namespace EasyAbp.EShop.Products
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAlwaysAllowAuthorization();
+            
+            Configure<EShopProductsOptions>(options =>
+            {
+                options.InventoryProviders.Configure(
+                    "Fake", provider =>
+                    {
+                        provider.DisplayName = "Fake";
+                        provider.Description = "For tests";
+                        provider.ProviderType = typeof(FakeProductInventoryProvider);
+                    });
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\..\..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\EasyAbp.EShop.Plugins.Inventories.OrleansGrains\EasyAbp.EShop.Plugins.Inventories.OrleansGrains.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Orleans.Server" Version="$(OrleansVersion)" />
+    </ItemGroup>
+
+</Project>

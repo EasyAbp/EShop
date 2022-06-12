@@ -22,6 +22,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
 
+        public string InventoryProviderName { get; protected set; }
+
         public virtual string MediaResources { get; protected set; }
 
         public virtual int DisplayOrder { get; protected set; }
@@ -33,19 +35,19 @@ namespace EasyAbp.EShop.Products.Products
         public virtual bool IsHidden { get; protected set; }
 
         #endregion
-        
+
         public virtual string ProductGroupDisplayName { get; protected set; }
-        
+
         public virtual decimal? MinimumPrice { get; protected set; }
-        
+
         public virtual decimal? MaximumPrice { get; protected set; }
-        
+
         public virtual long Sold { get; protected set; }
-        
+
         protected ProductView()
         {
         }
-        
+
         public ProductView(
             Guid id,
             Guid? tenantId,
@@ -55,6 +57,7 @@ namespace EasyAbp.EShop.Products.Products
             string uniqueName,
             string displayName,
             InventoryStrategy inventoryStrategy,
+            string inventoryProviderName,
             bool isPublished,
             bool isStatic,
             bool isHidden,
@@ -73,23 +76,24 @@ namespace EasyAbp.EShop.Products.Products
             UniqueName = uniqueName?.Trim();
             DisplayName = displayName;
             InventoryStrategy = inventoryStrategy;
+            InventoryProviderName = inventoryProviderName;
             IsPublished = isPublished;
             IsStatic = isStatic;
             IsHidden = isHidden;
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
-            
+
             ProductGroupDisplayName = productGroupDisplayName;
             MinimumPrice = minimumPrice;
             MaximumPrice = maximumPrice;
             Sold = sold;
         }
-        
+
         public void SetSold(long sold)
         {
             Sold = sold;
         }
-        
+
         public void SetPrices(decimal? minimumPrice, decimal? maximumPrice)
         {
             MinimumPrice = minimumPrice;

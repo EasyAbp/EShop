@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.EntityFrameworkCore;
-using EasyAbp.EShop.Products.Products;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -29,9 +28,9 @@ namespace EasyAbp.EShop.Products.ProductInventories
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(List<Guid> productSkuIds, CancellationToken cancellationToken = default)
+        public async Task<Dictionary<Guid, InventoryDataModel>> GetSkuIdInventoryDataMappingAsync(List<Guid> productSkuIds, CancellationToken cancellationToken = default)
         {
-            return await GetQueryable()
+            return await (await GetQueryableAsync())
                 .Where(x => productSkuIds.Contains(x.ProductSkuId))
                 .ToDictionaryAsync(x => x.ProductSkuId, x => new InventoryDataModel
                 {

@@ -56,7 +56,6 @@ namespace EasyAbp.EShop.Orders.Orders
             return order;
         }
 
-        // Todo: should handler the inventory rollback.
         [UnitOfWork]
         public virtual async Task<Order> CancelAsync(Order order, string cancellationReason)
         {

@@ -22,6 +22,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         
         public InventoryStrategy InventoryStrategy { get; set; }
         
+        public string InventoryProviderName { get; set; }
+
         public string MediaResources { get; set; }
         
         public int DisplayOrder { get; set; }

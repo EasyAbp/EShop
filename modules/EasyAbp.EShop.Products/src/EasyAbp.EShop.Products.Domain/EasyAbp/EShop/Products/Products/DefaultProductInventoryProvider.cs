@@ -13,70 +13,77 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class DefaultProductInventoryProvider : IProductInventoryProvider, ITransientDependency
     {
+        public static string DefaultProductInventoryProviderName { get; set; } = "Default";
+        public static string DefaultProductInventoryProviderDisplayName { get; set; } = "Default";
+        public static string DefaultProductInventoryProviderDescription { get; set; } = "Default";
+
+        public string InventoryProviderName { get; } = DefaultProductInventoryProviderName;
+
         // Todo: should use IProductInventoryStore.
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IProductInventoryRepository _productInventoryRepository;
 
         public DefaultProductInventoryProvider(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
             IDistributedEventBus distributedEventBus,
             IProductInventoryRepository productInventoryRepository)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
-            _unitOfWorkManager = unitOfWorkManager;
             _distributedEventBus = distributedEventBus;
             _productInventoryRepository = productInventoryRepository;
         }
-        
+
         [UnitOfWork]
-        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(Product product, ProductSku productSku)
+        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(InventoryQueryModel model)
         {
-            return await _productInventoryRepository.GetInventoryDataAsync(productSku.Id);
+            return await _productInventoryRepository.GetInventoryDataAsync(model.ProductSkuId);
         }
 
         [UnitOfWork]
-        public virtual async Task<Dictionary<Guid, InventoryDataModel>> GetInventoryDataDictionaryAsync(Product product)
+        public virtual async Task<Dictionary<Guid, InventoryDataModel>> GetSkuIdInventoryDataMappingAsync(
+            IList<InventoryQueryModel> models)
         {
-            var dict = await _productInventoryRepository.GetInventoryDataDictionaryAsync(product.ProductSkus
-                .Select(sku => sku.Id).ToList());
+            var dict = await _productInventoryRepository.GetSkuIdInventoryDataMappingAsync(
+                models.Select(x => x.ProductSkuId).ToList());
 
-            foreach (var sku in product.ProductSkus)
+            foreach (var model in models)
             {
-                dict.GetOrAdd(sku.Id, () => new InventoryDataModel());
+                dict.GetOrAdd(model.ProductSkuId, () => new InventoryDataModel());
             }
 
             return dict;
         }
 
         [UnitOfWork(true)]
-        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductSku productSku, int quantity, bool decreaseSold)
+        public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
+            bool decreaseSold)
         {
-            var productInventory = await GetOrCreateProductInventoryAsync(product.Id, productSku.Id);
-            
-            return await TryIncreaseInventoryAsync(product, productInventory, quantity, decreaseSold);
+            var productInventory = await GetOrCreateProductInventoryAsync(model.ProductId, model.ProductSkuId);
+
+            return await TryIncreaseInventoryAsync(model, productInventory, quantity, decreaseSold);
         }
 
         [UnitOfWork(true)]
-        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity, bool increaseSold)
+        public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity,
+            bool increaseSold)
         {
-            var productInventory = await GetOrCreateProductInventoryAsync(product.Id, productSku.Id);
-            
-            return await TryReduceInventoryAsync(product, productInventory, quantity, increaseSold);
+            var productInventory = await GetOrCreateProductInventoryAsync(model.ProductId, model.ProductSkuId);
+
+            return await TryReduceInventoryAsync(model, productInventory, quantity, increaseSold);
         }
-        
+
         [UnitOfWork]
-        protected virtual async Task<ProductInventory> GetOrCreateProductInventoryAsync(Guid productId, Guid productSkuId)
+        protected virtual async Task<ProductInventory> GetOrCreateProductInventoryAsync(Guid productId,
+            Guid productSkuId)
         {
             var productInventory =
                 await _productInventoryRepository.FindAsync(x =>
                     x.ProductId == productId && x.ProductSkuId == productSkuId);
-            
+
             if (productInventory is null)
             {
                 productInventory = new ProductInventory(_guidGenerator.Create(), _currentTenant.Id, productId,
@@ -87,15 +94,16 @@ namespace EasyAbp.EShop.Products.Products
 
             return productInventory;
         }
-        
+
         [UnitOfWork(true)]
-        public virtual async Task<bool> TryIncreaseInventoryAsync(Product product, ProductInventory productInventory, int quantity, bool decreaseSold)
+        protected virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model,
+            ProductInventory productInventory, int quantity, bool decreaseSold)
         {
             if (quantity < 0)
             {
                 return false;
             }
-            
+
             var originalInventory = productInventory.Inventory;
 
             if (!productInventory.TryIncreaseInventory(quantity, decreaseSold))
@@ -105,15 +113,16 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productInventoryRepository.UpdateAsync(productInventory, true);
 
-            await PublishInventoryChangedEventAsync(product.TenantId, product.StoreId,
+            await PublishInventoryChangedEventAsync(model.TenantId, model.StoreId,
                 productInventory.ProductId, productInventory.ProductSkuId, originalInventory,
                 productInventory.Inventory, productInventory.Sold);
-            
+
             return true;
         }
 
         [UnitOfWork(true)]
-        public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductInventory productInventory, int quantity, bool increaseSold)
+        protected virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model,
+            ProductInventory productInventory, int quantity, bool increaseSold)
         {
             if (quantity < 0)
             {
@@ -129,7 +138,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productInventoryRepository.UpdateAsync(productInventory, true);
 
-            await PublishInventoryChangedEventAsync(product.TenantId, product.StoreId,
+            await PublishInventoryChangedEventAsync(model.TenantId, model.StoreId,
                 productInventory.ProductId, productInventory.ProductSkuId, originalInventory,
                 productInventory.Inventory, productInventory.Sold);
 
