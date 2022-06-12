@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapr.Actors;
+using Dapr.Actors.Client;
 using EasyAbp.EShop.Plugins.Inventories.DaprActors;
 using EasyAbp.EShop.Products.ProductInventories;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ namespace EasyAbp.EShop.Products.DaprActorsInventory;
 
 public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITransientDependency
 {
+    public static string ActorType { get; set; } = "InventoryActor";
     public static string DaprActorsProductInventoryProviderName { get; set; } = "DaprActors";
     public static string DaprActorsProductInventoryProviderDisplayName { get; set; } = "DaprActors";
     public static string DaprActorsProductInventoryProviderDescription { get; set; } = "DaprActors";
@@ -18,13 +20,13 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
     public string InventoryProviderName { get; } = DaprActorsProductInventoryProviderName;
 
     private readonly ILogger<DaprActorsProductInventoryProvider> _logger;
-    protected IInventoryActorProvider InventoryActorProvider { get; }
+    protected IActorProxyFactory ActorProxyFactory { get; }
 
     public DaprActorsProductInventoryProvider(
-        IInventoryActorProvider inventoryActorProvider,
+        IActorProxyFactory actorProxyFactory,
         ILogger<DaprActorsProductInventoryProvider> logger)
     {
-        InventoryActorProvider = inventoryActorProvider;
+        ActorProxyFactory = actorProxyFactory;
         _logger = logger;
     }
 
@@ -98,9 +100,9 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
         return true;
     }
 
-    protected virtual async Task<IInventoryActor> GetActorAsync(InventoryQueryModel model)
+    protected virtual Task<IInventoryActor> GetActorAsync(InventoryQueryModel model)
     {
-        return await InventoryActorProvider.GetAsync(GetActorId(model));
+        return Task.FromResult(ActorProxyFactory.CreateActorProxy<IInventoryActor>(GetActorId(model), ActorType));
     }
 
     protected virtual ActorId GetActorId(InventoryQueryModel model)
