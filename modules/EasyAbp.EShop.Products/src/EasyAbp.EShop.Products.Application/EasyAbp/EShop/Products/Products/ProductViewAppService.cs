@@ -55,11 +55,10 @@ namespace EasyAbp.EShop.Products.Products
                 .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
         }
 
-        protected override IQueryable<ProductView> ApplySorting(IQueryable<ProductView> query,
-            GetProductListInput input)
+        protected override IQueryable<ProductView> ApplyDefaultSorting(IQueryable<ProductView> query)
         {
-            return base.ApplySorting(query, input)
-                .OrderBy(x => x.DisplayOrder);
+            return query.OrderBy(x => x.DisplayOrder)
+                .ThenBy(x => x.Id);
         }
 
         public override async Task<PagedResultDto<ProductViewDto>> GetListAsync(GetProductListInput input)

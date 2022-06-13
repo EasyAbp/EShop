@@ -39,11 +39,10 @@ namespace EasyAbp.EShop.Products.ProductCategories
             return queryable;
         }
 
-        protected override IQueryable<ProductCategory> ApplySorting(IQueryable<ProductCategory> query,
-            GetProductCategoryListDto input)
+        protected override IQueryable<ProductCategory> ApplyDefaultSorting(IQueryable<ProductCategory> query)
         {
-            return base.ApplySorting(query, input)
-                .OrderBy(x => x.DisplayOrder);
+            return query.OrderBy(x => x.DisplayOrder)
+                .ThenBy(x => x.Id);
         }
 
         [RemoteService(false)]
