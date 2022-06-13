@@ -61,7 +61,12 @@ namespace EasyAbp.EShop.Products.Products
             return query
                 .Where(x => x.StoreId == input.StoreId)
                 .WhereIf(!input.ShowHidden, x => !x.IsHidden)
-                .WhereIf(!input.ShowUnpublished, x => x.IsPublished)
+                .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
+        }
+
+        protected override IQueryable<Product> ApplySorting(IQueryable<Product> query, GetProductListInput input)
+        {
+            return base.ApplySorting(query, input)
                 .OrderBy(x => x.DisplayOrder);
         }
 
