@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetOccupancies;
 using EasyAbp.BookingService.AssetOccupancyProviders;
 using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Payments.Refunds;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Uow;
@@ -12,13 +13,16 @@ public class BulkAssetOccupancyResultEventHandler : IDistributedEventHandler<Bul
 {
     private readonly IOrderManager _orderManager;
     private readonly IOrderRepository _orderRepository;
+    private readonly IDistributedEventBus _distributedEventBus;
 
     public BulkAssetOccupancyResultEventHandler(
         IOrderManager orderManager,
-        IOrderRepository orderRepository)
+        IOrderRepository orderRepository,
+        IDistributedEventBus distributedEventBus)
     {
         _orderManager = orderManager;
         _orderRepository = orderRepository;
+        _distributedEventBus = distributedEventBus;
     }
 
     [UnitOfWork(true)]
@@ -51,12 +55,26 @@ public class BulkAssetOccupancyResultEventHandler : IDistributedEventHandler<Bul
             
             await _orderManager.CancelAsync(order, BookingOrderConsts.BookingOrderAutoCancellationResult);
             
-            await RefundOrderAsync(order);
+            await TryRefundOrderAsync(order);
         }
     }
 
-    protected virtual async Task RefundOrderAsync(Order order)
+    protected virtual async Task TryRefundOrderAsync(Order order)
     {
-        // Todo: create a RefundOrderPaymentEto event to refund the order's payment.
+        if (order.PaymentId is null)
+        {
+            return;
+        }
+        
+        var eto = new RefundOrderEto(
+            order.TenantId,
+            order.Id,
+            order.StoreId,
+            order.PaymentId.Value,
+            BookingOrderConsts.BookingOrderAutoCancellationResult,
+            BookingOrderConsts.BookingOrderAutoCancellationResult,
+            BookingOrderConsts.BookingOrderAutoCancellationResult);
+
+        await _distributedEventBus.PublishAsync(eto);
     }
 }
