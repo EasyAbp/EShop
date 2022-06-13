@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetOccupancies;
 using EasyAbp.BookingService.AssetOccupancies.Dtos;
+using EasyAbp.BookingService.AssetOccupancyProviders;
 using EasyAbp.BookingService.PeriodSchemes;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Orders.Orders.Dtos;
@@ -99,6 +100,7 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
         {
             return new OccupyAssetInfoModel(
                 assetId,
+                orderLine.GetBookingVolume(),
                 orderLine.GetBookingDate(),
                 orderLine.GetBookingStartingTime(),
                 orderLine.GetBookingDuration()
@@ -110,6 +112,7 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
         {
             return new OccupyAssetByCategoryInfoModel(
                 assetCategoryId,
+                orderLine.GetBookingVolume(),
                 orderLine.GetBookingDate(),
                 orderLine.GetBookingStartingTime(),
                 orderLine.GetBookingDuration()

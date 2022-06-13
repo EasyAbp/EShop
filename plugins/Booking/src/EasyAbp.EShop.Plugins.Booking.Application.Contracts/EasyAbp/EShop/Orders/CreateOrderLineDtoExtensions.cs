@@ -51,6 +51,17 @@ public static class CreateOrderLineDtoExtensions
             BookingOrderProperties.OrderLineBookingPeriodId)!.Value;
     }
 
+    public static int? FindBookingVolume(this CreateOrderLineDto orderLine)
+    {
+        return orderLine.Quantity;
+    }
+
+    public static int GetBookingVolume(this CreateOrderLineDto orderLine)
+    {
+        return Check.NotNull(FindBookingVolume(orderLine),
+            BookingOrderProperties.OrderLineBookingVolume)!.Value;
+    }
+
     public static DateTime? FindBookingDate(this CreateOrderLineDto orderLine)
     {
         return orderLine.GetProperty<DateTime?>(BookingOrderProperties.OrderLineBookingDate);

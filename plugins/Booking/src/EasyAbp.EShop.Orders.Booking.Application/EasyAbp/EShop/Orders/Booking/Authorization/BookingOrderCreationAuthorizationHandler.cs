@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetOccupancies;
 using EasyAbp.BookingService.AssetOccupancies.Dtos;
+using EasyAbp.BookingService.AssetOccupancyProviders;
 using EasyAbp.BookingService.PeriodSchemes;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Orders.Orders.Dtos;
@@ -55,13 +56,6 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
 
             if (!bookingOrderLines.Any())
             {
-                return;
-            }
-
-            // Quantity of order lines for booking should be 1.
-            if (bookingOrderLines.Any(x => x.Quantity != 1))
-            {
-                context.Fail();
                 return;
             }
 
@@ -126,6 +120,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         {
             return new OccupyAssetInfoModel(
                 assetId,
+                orderLine.GetBookingVolume(),
                 orderLine.GetBookingDate(),
                 orderLine.GetBookingStartingTime(),
                 orderLine.GetBookingDuration()
@@ -137,6 +132,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         {
             return new OccupyAssetByCategoryInfoModel(
                 assetCategoryId,
+                orderLine.GetBookingVolume(),
                 orderLine.GetBookingDate(),
                 orderLine.GetBookingStartingTime(),
                 orderLine.GetBookingDuration()

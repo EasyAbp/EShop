@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetOccupancies;
+using EasyAbp.BookingService.AssetOccupancyProviders;
 using EasyAbp.EShop.Orders.Orders;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;

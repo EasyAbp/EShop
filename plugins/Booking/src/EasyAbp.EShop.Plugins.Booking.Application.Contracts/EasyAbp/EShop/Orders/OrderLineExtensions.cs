@@ -50,6 +50,17 @@ public static class OrderLineExtensions
         return Check.NotNull(FindBookingPeriodId(orderLine),
             BookingOrderProperties.OrderLineBookingPeriodId)!.Value;
     }
+    
+    public static int? FindBookingVolume(this IOrderLine orderLine)
+    {
+        return orderLine.Quantity;
+    }
+
+    public static int GetBookingVolume(this IOrderLine orderLine)
+    {
+        return Check.NotNull(FindBookingVolume(orderLine),
+            BookingOrderProperties.OrderLineBookingVolume)!.Value;
+    }
 
     public static DateTime? FindBookingDate(this IOrderLine orderLine)
     {

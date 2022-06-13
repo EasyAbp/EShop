@@ -1,4 +1,5 @@
 using System;
+using EasyAbp.BookingService.AssetOccupancyProviders;
 using Volo.Abp.Data;
 
 namespace EasyAbp.BookingService.AssetOccupancies;
