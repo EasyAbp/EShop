@@ -64,6 +64,12 @@ namespace EasyAbp.EShop.Products.Products
                 .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
         }
 
+        protected override IQueryable<Product> ApplyDefaultSorting(IQueryable<Product> query)
+        {
+            return query.OrderBy(x => x.DisplayOrder)
+                .ThenBy(x => x.Id);
+        }
+
         protected override Product MapToEntity(CreateUpdateProductDto createInput)
         {
             var product = base.MapToEntity(createInput);
@@ -481,12 +487,12 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual ProductDto SortAttributesAndOptions(ProductDto productDto)
         {
-            productDto.ProductAttributes = productDto.ProductAttributes.OrderByDescending(x => x.DisplayOrder).ToList();
+            productDto.ProductAttributes = productDto.ProductAttributes.OrderBy(x => x.DisplayOrder).ToList();
 
             foreach (var productAttributeDto in productDto.ProductAttributes)
             {
                 productAttributeDto.ProductAttributeOptions = productAttributeDto.ProductAttributeOptions
-                    .OrderByDescending(x => x.DisplayOrder).ToList();
+                    .OrderBy(x => x.DisplayOrder).ToList();
             }
 
             return productDto;
