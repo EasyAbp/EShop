@@ -20,7 +20,6 @@
     <Compile Remove="Logs\**" />
     <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Logs\**" />
-    <EmbeddedResource Include="Pages\SkuSelector.js" />
     <None Remove="Logs\**" />
   </ItemGroup>
 
