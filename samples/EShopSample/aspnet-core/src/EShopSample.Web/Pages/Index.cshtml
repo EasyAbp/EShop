@@ -1,16 +1,33 @@
 ﻿@page
 @inherits EShopSample.Web.Pages.EShopSamplePage
+@using EasyAbp.EShop.Orders.Orders
 @model EShopSample.Web.Pages.IndexModel
+
 @section styles {
     <abp-style-bundle>
-        <abp-style src="/Pages/Index.css" />
+        <abp-style src="/Pages/Index.css"/>
     </abp-style-bundle>
 }
+
 @section scripts {
     <abp-script-bundle>
-        <abp-script src="/Pages/Index.js" />
+        <abp-script src="/Pages/Index.js"/>
+        <abp-script src="/Pages/SkuSelector.js"/>
     </abp-script-bundle>
 }
+
+<script>
+let storeId = '@Model.Store?.Id'
+let orderId = '@Model.Order?.Id'
+let cakeProductId = '@Model.CakeProduct?.Id'
+let cakeProductSkuId = null
+let accountId = '@Model.Wallet?.Id'
+let currentBalance = @(Model.Wallet?.Balance ?? 0m)
+let totalPrice = @(Model.Order?.ActualTotalPrice ?? 0m)
+let skuInfo = '@(Model.CakeProduct is not null ? Html.Raw(Model.GetJsonSkuInfo()) : "[]")'
+let secondsToAutoCancel = @Model.GetSecondsToAutoCancel()
+</script>
+
 <div class="jumbotron text-center">
     <h1>@L["Welcome"]</h1>
     <div class="row">
@@ -19,9 +36,99 @@
             <hr class="my-4"/>
         </div>
     </div>
-    <a href="https://abp.io?ref=tmpl" target="_blank" class="btn btn-primary px-4">abp.io</a>
     @if (!CurrentUser.IsAuthenticated)
     {
-        <a abp-button="Primary" href="/Account/Login" class="px-4"><i class="fa fa-sign-in"></i> @L["Login"]</a>
+        <a abp-button="Primary" href="/Account/Login" class="px-4">
+            <i class="fa fa-sign-in"></i> @L["Login"]
+        </a>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <abp-tabs>
+                    <abp-tab name="OrderCakeTab" title="@L["OrderCake"].Value" active="@(Model.Order is null)">
+                        <h1>@L[Model.CakeProduct.DisplayName]</h1>
+                        <hr>
+                        <div id="skuSelector"></div>
+                        <hr>
+                        <div id="selectedSku" class="my-1"></div>
+                        <div id="selectedSkuId" class="my-1"></div>
+                        <div id="selectedSkuPrice" class="my-1"></div>
+                        <hr>
+                        <abp-button id="CreateOrderButton" button-type="Primary">@L["CreateOrder"]</abp-button>
+                    </abp-tab>
+                    <abp-tab name="PayForOrderTab" title="@L["PayForOrder"].Value" active="@(Model.Order?.OrderStatus is OrderStatus.Pending)">
+                        @if (Model.Order is not null)
+                        {
+                            <abp-table hoverable-rows="true" responsive-sm="true">
+                                <tr>
+                                    <td>@L["OrderNumber"]</td>
+                                    <td>@Model.Order.OrderNumber</td>
+                                </tr>
+                                <tr>
+                                    <td>@L["Product"]</td>
+                                    <td>@L[Model.CakeProduct.DisplayName]</td>
+                                </tr>
+                                @foreach (var optionId in Model.CakeProduct.ProductSkus.First(x => x.Id == Model.Order.OrderLines[0].ProductSkuId).AttributeOptionIds)
+                                {
+                                    var option = Model.CakeProduct.ProductAttributes.SelectMany(x => x.ProductAttributeOptions)
+                                        .Single(x => x.Id == optionId);
+                                    var attr = Model.CakeProduct.ProductAttributes.Single(x => x.ProductAttributeOptions.Contains(option));
+                                    <tr>
+                                        <td>@L[attr.DisplayName]</td>
+                                        <td>@L[option.DisplayName]</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td>@L["TotalPrice"]</td>
+                                    <td>@Model.Order.ActualTotalPrice.ToString("F2") @Model.Order.Currency</td>
+                                </tr>
+                                <tr>
+                                    <td>@L["AccountBalance"]</td>
+                                    <td>@Model.Wallet.Balance.ToString("F2") @Model.Order.Currency</td>
+                                </tr>
+                            </abp-table>
+                            <div class="row">
+                                <div class="col-md-6 mx-auto">
+                                    <p>
+                                        @L["TimeToAutoCancel"] <span id="timeToAutoCancel">?</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <abp-button id="CancelOrderButton" button-type="Info">@L["CancelOrder"]</abp-button>
+                            <abp-button id="TopUpButton" button-type="Secondary">@L["TopUp-1-CNY"]</abp-button>
+                            <abp-button id="PayForOrderButton" button-type="Primary">@L["PayForOrder"]</abp-button>
+                        }
+                    </abp-tab>
+                    <abp-tab name="OrderHistoryTab" title="@L["OrderHistory"].Value">
+                        <abp-table hoverable-rows="true" responsive-sm="true">
+                            <thead>
+                            <tr>
+                                <th scope="Column">#</th>
+                                <th scope="Column">@L["OrderNumber"]</th>
+                                <th scope="Column">@L["Created"]</th>
+                                <th scope="Column">@L["OrderStatus"]</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                var index = Model.OrderList.TotalCount;
+                                foreach (var order in Model.OrderList.Items)
+                                {
+                                    <tr>
+                                        <th scope="Row">@(index--)</th>
+                                        <td>@order.OrderNumber</td>
+                                        <td>@order.CreationTime</td>
+                                        <td><span class="@Model.GetOrderStatusColumnClass(order)">@L[$"OrderStatus{order.OrderStatus}"]</span></td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </abp-table>
+                    </abp-tab>
+                </abp-tabs>
+            </div>
+        </div>
     }
 </div>

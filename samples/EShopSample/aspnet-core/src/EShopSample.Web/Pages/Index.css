@@ -1,3 +1,52 @@
-﻿body {
-    
+﻿#skuSelector dt {
+    width: 100px;
+    text-align: right;
+    font-weight: normal;
+    padding-top: 6px;
+}
+
+#skuSelector dl {
+    clear: both;
+    overflow: hidden;
+}
+
+#skuSelector dl.hl {
+    background: #ddd;
+}
+
+#skuSelector dt, #skuSelector dd {
+    float: left;
+    line-height: 18px;
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+#skuSelector button {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 4px 4px;
+}
+
+#skuSelector .disabled {
+    color: #999;
+    border: 1px dashed #666;
+}
+
+#skuSelector .active {
+    color: red;
+}
+
+.status-pending-text {
+    color: orange;
+}
+
+.status-processing-text {
+    color: green;
+}
+
+.status-completed-text {
+    color: blue;
+}
+
+.status-canceled-text {
 }
