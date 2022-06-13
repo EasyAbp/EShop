@@ -1,8 +1,6 @@
 {
   "culture": "en",
   "texts": {
-    "ManageYourProfile": "Manage your profile",
-    "SamplePageMessage": "A sample page for the Coupons module",
     "Menu:CouponManagement": "Coupons",
     "Permission:CouponTemplate": "Coupon template",
     "Permission:Create": "Create",

@@ -8,11 +8,12 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Products.ProductCategories
 {
-    public class ProductCategoryAppService : ReadOnlyAppService<ProductCategory, ProductCategoryDto, Guid, GetProductCategoryListDto>,
+    public class ProductCategoryAppService :
+        ReadOnlyAppService<ProductCategory, ProductCategoryDto, Guid, GetProductCategoryListDto>,
         IProductCategoryAppService
     {
         protected override string GetListPolicyName { get; set; } = ProductsPermissions.Products.Manage;
-        
+
         private readonly IProductCategoryRepository _repository;
 
         public ProductCategoryAppService(IProductCategoryRepository repository) : base(repository)
@@ -20,10 +21,11 @@ namespace EasyAbp.EShop.Products.ProductCategories
             _repository = repository;
         }
 
-        protected override async Task<IQueryable<ProductCategory>> CreateFilteredQueryAsync(GetProductCategoryListDto input)
+        protected override async Task<IQueryable<ProductCategory>> CreateFilteredQueryAsync(
+            GetProductCategoryListDto input)
         {
             var queryable = await Repository.GetQueryableAsync();
-            
+
             if (input.CategoryId.HasValue)
             {
                 queryable = queryable.Where(x => x.CategoryId == input.CategoryId);
@@ -35,6 +37,12 @@ namespace EasyAbp.EShop.Products.ProductCategories
             }
 
             return queryable;
+        }
+
+        protected override IQueryable<ProductCategory> ApplyDefaultSorting(IQueryable<ProductCategory> query)
+        {
+            return query.OrderBy(x => x.DisplayOrder)
+                .ThenBy(x => x.Id);
         }
 
         [RemoteService(false)]

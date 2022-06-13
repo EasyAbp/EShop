@@ -15,7 +15,8 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductViewAppService : MultiStoreReadOnlyAppService<ProductView, ProductViewDto, Guid, GetProductListInput>,
+    public class ProductViewAppService :
+        MultiStoreReadOnlyAppService<ProductView, ProductViewDto, Guid, GetProductListInput>,
         IProductViewAppService
     {
         protected override string GetPolicyName { get; set; } = null;
@@ -27,7 +28,7 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductManager _productManager;
         private readonly IProductRepository _productRepository;
         private readonly IProductViewRepository _repository;
-        
+
         public ProductViewAppService(
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
             IDistributedCache<ProductViewCacheItem> cache,
@@ -41,7 +42,7 @@ namespace EasyAbp.EShop.Products.Products
             _productRepository = productRepository;
             _repository = repository;
         }
-        
+
         protected override async Task<IQueryable<ProductView>> CreateFilteredQueryAsync(GetProductListInput input)
         {
             var query = input.CategoryId.HasValue
@@ -54,10 +55,16 @@ namespace EasyAbp.EShop.Products.Products
                 .WhereIf(!input.ShowUnpublished, x => x.IsPublished);
         }
 
+        protected override IQueryable<ProductView> ApplyDefaultSorting(IQueryable<ProductView> query)
+        {
+            return query.OrderBy(x => x.DisplayOrder)
+                .ThenBy(x => x.Id);
+        }
+
         public override async Task<PagedResultDto<ProductViewDto>> GetListAsync(GetProductListInput input)
         {
             await CheckGetListPolicyAsync();
-            
+
             if (input.ShowHidden || input.ShowUnpublished)
             {
                 await CheckMultiStorePolicyAsync(input.StoreId, ProductsPermissions.Products.Manage);
@@ -67,7 +74,7 @@ namespace EasyAbp.EShop.Products.Products
             {
                 await BuildStoreProductViewsAsync(input.StoreId);
             }
-            
+
             var query = await CreateFilteredQueryAsync(input);
 
             var totalCount = await AsyncExecuter.CountAsync(query);
@@ -103,7 +110,7 @@ namespace EasyAbp.EShop.Products.Products
             await BuildStoreProductViewsAsync(productView.StoreId);
 
             productView = await GetEntityByIdAsync(id);
-            
+
             return await MapToGetOutputDtoAsync(productView);
         }
 
@@ -120,7 +127,7 @@ namespace EasyAbp.EShop.Products.Products
                 var productView = ObjectMapper.Map<Product, ProductView>(product);
 
                 await FillPriceInfoWithRealPriceAsync(product, productView);
-                
+
                 await _repository.InsertAsync(productView);
             }
 
@@ -134,7 +141,7 @@ namespace EasyAbp.EShop.Products.Products
                         await SettingProvider.GetOrNullAsync(ProductsSettings.ProductView.CacheDurationSeconds)))
                 });
         }
-        
+
         protected virtual async Task FillPriceInfoWithRealPriceAsync(Product product, ProductView productView)
         {
             if (product.ProductSkus.IsNullOrEmpty())
@@ -143,7 +150,7 @@ namespace EasyAbp.EShop.Products.Products
             }
 
             decimal? min = null, max = null;
-            
+
             foreach (var productSku in product.ProductSkus)
             {
                 var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);

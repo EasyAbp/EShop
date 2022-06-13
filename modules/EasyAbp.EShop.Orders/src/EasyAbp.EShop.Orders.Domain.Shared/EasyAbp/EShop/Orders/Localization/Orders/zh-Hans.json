@@ -3,7 +3,6 @@
   "texts": {
     "Menu:EasyAbpEShop": "EShop 商城",
     "Menu:OrderManagement": "订单",
-    "ManageYourProfile": "管理个人资料",
     "Menu:Order": "订单",
     "Order": "订单",
     "OrderStoreId": "店铺 ID",
@@ -49,6 +48,7 @@
     "EasyAbp.EShop.Orders:InvalidPayment": "付款{paymentId}有无效的订单配置{orderId}",
     "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金额({amount})无效",
     "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款数量({quantity})无效",
-    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "订单{orderId}处于错误的阶段"
+    "EasyAbp.EShop.Orders:OrderIsInWrongStage": "订单{orderId}处于错误的阶段",
+    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清单中不允许存在闪购产品"
   }
 }
