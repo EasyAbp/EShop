@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NodaMoney" Version="$(NodaMoneyVersion)" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="$(AbpVersion)" />
