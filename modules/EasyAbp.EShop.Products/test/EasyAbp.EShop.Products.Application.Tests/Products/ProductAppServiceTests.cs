@@ -105,7 +105,7 @@ namespace EasyAbp.EShop.Products.Products
             var response = await _productAppService.CreateSkuAsync(productId, new CreateProductSkuDto
             {
                 AttributeOptionIds = new List<Guid> {productAttributeOptionId},
-                Currency = "CNY",
+                Currency = "USD",
                 Price = 1m,
                 OrderMinQuantity = 1,
                 OrderMaxQuantity = 10
@@ -117,7 +117,7 @@ namespace EasyAbp.EShop.Products.Products
             response.ProductSkus.Count.ShouldBe(1);
 
             var responseSku = response.ProductSkus.First();
-            responseSku.Currency.ShouldBe("CNY");
+            responseSku.Currency.ShouldBe("USD");
             responseSku.Price.ShouldBe(1m);
             responseSku.AttributeOptionIds.Count.ShouldBe(1);
             responseSku.AttributeOptionIds.First().ShouldBe(productAttributeOptionId);
@@ -202,7 +202,7 @@ namespace EasyAbp.EShop.Products.Products
                     AttributeOptionIds = new List<Guid>
                         { ProductsTestData.Product1Attribute1Option4Id, ProductsTestData.Product1Attribute2Option1Id },
                     ProductDetailId = wrongProductDetailId,
-                    Currency = "CNY",
+                    Currency = "USD",
                     Price = 10m,
                     OrderMinQuantity = 1,
                     OrderMaxQuantity = 10

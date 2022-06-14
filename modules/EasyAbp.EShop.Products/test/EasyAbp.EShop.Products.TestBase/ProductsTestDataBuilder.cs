@@ -72,17 +72,17 @@ namespace EasyAbp.EShop.Products
             var productSku1 = new ProductSku(ProductsTestData.Product1Sku1Id,
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option1Id, ProductsTestData.Product1Attribute2Option1Id }),
-                null, "CNY", null, 1m, 1, 10, null, null, null);
+                null, "USD", null, 1m, 1, 10, null, null, null);
 
             var productSku2 = new ProductSku(ProductsTestData.Product1Sku2Id,
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option2Id, ProductsTestData.Product1Attribute2Option1Id }),
-                null, "CNY", null, 2m, 1, 10, null, null, null);
+                null, "USD", null, 2m, 1, 10, null, null, null);
 
             var productSku3 = new ProductSku(ProductsTestData.Product1Sku3Id,
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option3Id, ProductsTestData.Product1Attribute2Option2Id }),
-                null, "CNY", null, 3m, 1, 10, null, null, null);
+                null, "USD", null, 3m, 1, 10, null, null, null);
             
             await _productManager.CreateSkuAsync(product, productSku1);
             await _productManager.CreateSkuAsync(product, productSku2);

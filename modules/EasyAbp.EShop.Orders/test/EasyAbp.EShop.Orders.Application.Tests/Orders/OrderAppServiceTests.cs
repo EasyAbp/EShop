@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Orders.Orders
                         OrderMaxQuantity = 100,
                         AttributeOptionIds = new List<Guid>(),
                         Price = 1m,
-                        Currency = "CNY",
+                        Currency = "USD",
                         ProductDetailId = null
                     },
                     new ProductSkuDto
@@ -64,7 +64,7 @@ namespace EasyAbp.EShop.Orders.Orders
                         OrderMaxQuantity = 100,
                         AttributeOptionIds = new List<Guid>(),
                         Price = 2m,
-                        Currency = "CNY",
+                        Currency = "USD",
                         ProductDetailId = OrderTestData.ProductDetail2Id
                     },
                     new ProductSkuDto
@@ -75,7 +75,7 @@ namespace EasyAbp.EShop.Orders.Orders
                         OrderMaxQuantity = 100,
                         AttributeOptionIds = new List<Guid>(),
                         Price = 3m,
-                        Currency = "CNY",
+                        Currency = "USD",
                         ProductDetailId = OrderTestData.ProductDetail2Id
                     }
                 },
@@ -151,7 +151,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 context.Orders.Count().ShouldBe(1);
                 var order = context.Orders.Include(x => x.OrderLines).First();
                 order.ShouldNotBeNull();
-                order.Currency.ShouldBe("CNY");
+                order.Currency.ShouldBe("USD");
                 order.CanceledTime.ShouldBeNull();
                 order.CancellationReason.ShouldBeNullOrEmpty();
                 order.CompletionTime.ShouldBeNull();
@@ -185,7 +185,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 orderLine1.TotalPrice.ShouldBe(10m);
                 orderLine1.TotalDiscount.ShouldBe(0m);
                 orderLine1.ActualTotalPrice.ShouldBe(10m);
-                orderLine1.Currency.ShouldBe("CNY");
+                orderLine1.Currency.ShouldBe("USD");
                 orderLine1.Quantity.ShouldBe(10);
                 orderLine1.ProductModificationTime.ShouldBe(OrderTestData.ProductLastModificationTime);
                 orderLine1.ProductDetailModificationTime.ShouldBe(OrderTestData.ProductDetailLastModificationTime);

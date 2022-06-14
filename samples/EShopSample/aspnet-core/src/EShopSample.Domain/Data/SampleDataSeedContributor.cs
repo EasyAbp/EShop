@@ -156,22 +156,22 @@ public class SampleDataSeedContributor : IDataSeedContributor, ITransientDepende
         var productSku1 = new ProductSku(_guidGenerator.Create(),
             await _attributeOptionIdsSerializer.SerializeAsync(new[]
                 { attribute1.ProductAttributeOptions[0].Id, attribute2.ProductAttributeOptions[0].Id }),
-            null, "CNY", null, 1m, 1, 10, null, null, null);
+            null, "USD", null, 1m, 1, 10, null, null, null);
 
         var productSku2 = new ProductSku(_guidGenerator.Create(),
             await _attributeOptionIdsSerializer.SerializeAsync(new[]
                 { attribute1.ProductAttributeOptions[1].Id, attribute2.ProductAttributeOptions[0].Id }),
-            null, "CNY", null, 2m, 1, 10, null, null, null);
+            null, "USD", null, 2m, 1, 10, null, null, null);
 
         var productSku3 = new ProductSku(_guidGenerator.Create(),
             await _attributeOptionIdsSerializer.SerializeAsync(new[]
                 { attribute1.ProductAttributeOptions[1].Id, attribute2.ProductAttributeOptions[1].Id }),
-            null, "CNY", null, 3m, 1, 10, null, null, null);
+            null, "USD", null, 3m, 1, 10, null, null, null);
 
         var productSku4 = new ProductSku(_guidGenerator.Create(),
             await _attributeOptionIdsSerializer.SerializeAsync(new[]
                 { attribute1.ProductAttributeOptions[2].Id, attribute2.ProductAttributeOptions[1].Id }),
-            null, "CNY", null, 4m, 1, 10, null, null, null);
+            null, "USD", null, 4m, 1, 10, null, null, null);
 
         await _productManager.CreateSkuAsync(product, productSku1);
         await _productManager.CreateSkuAsync(product, productSku2);

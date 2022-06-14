@@ -174,7 +174,7 @@ namespace EasyAbp.EShop.Orders.Orders
         protected virtual Task<string> GetStoreCurrencyAsync(Guid storeId)
         {
             // Todo: Get real store currency configuration.
-            return Task.FromResult("CNY");
+            return Task.FromResult("USD");
         }
     }
 }

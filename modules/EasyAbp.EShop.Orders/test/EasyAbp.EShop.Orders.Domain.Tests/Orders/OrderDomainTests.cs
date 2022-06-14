@@ -28,7 +28,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 null,
                 OrderTestData.Store1Id,
                 Guid.NewGuid(),
-                "CNY",
+                "USD",
                 1m,
                 0m,
                 1.5m,
@@ -49,7 +49,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 null,
                 null,
                 null,
-                "CNY",
+                "USD",
                 0.5m,
                 1m,
                 0m,
@@ -82,7 +82,7 @@ namespace EasyAbp.EShop.Orders.Orders
                     Id = Guid.NewGuid(),
                     TenantId = null,
                     PaymentId = OrderTestData.Payment1Id,
-                    Currency = "CNY",
+                    Currency = "USD",
                     RefundAmount = 0.3m,
                     RefundItems = new List<EShopRefundItemEto>
                     {
@@ -140,7 +140,7 @@ namespace EasyAbp.EShop.Orders.Orders
                         Id = Guid.NewGuid(),
                         TenantId = null,
                         PaymentId = OrderTestData.Payment1Id,
-                        Currency = "CNY",
+                        Currency = "USD",
                         RefundAmount = -1m,
                         RefundItems = new List<EShopRefundItemEto>
                         {
@@ -181,7 +181,7 @@ namespace EasyAbp.EShop.Orders.Orders
                         Id = Guid.NewGuid(),
                         TenantId = null,
                         PaymentId = OrderTestData.Payment1Id,
-                        Currency = "CNY",
+                        Currency = "USD",
                         RefundAmount = 0.3m,
                         RefundItems = new List<EShopRefundItemEto>
                         {

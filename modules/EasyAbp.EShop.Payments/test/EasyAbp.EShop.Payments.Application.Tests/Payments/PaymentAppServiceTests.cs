@@ -27,7 +27,7 @@ namespace EasyAbp.EShop.Payments.Payments
             orderService.GetAsync(PaymentsTestData.Order1).Returns(Task.FromResult(new OrderDto
             {
                 Id = PaymentsTestData.Order1,
-                Currency = "CNY",
+                Currency = "USD",
                 ActualTotalPrice = 0,
                 StoreId = PaymentsTestData.Store1,
                 OrderLines = new List<OrderLineDto>
@@ -35,7 +35,7 @@ namespace EasyAbp.EShop.Payments.Payments
                     new OrderLineDto
                     {
                         Id = PaymentsTestData.OrderLine1,
-                        Currency = "CNY",
+                        Currency = "USD",
                         ActualTotalPrice = 0,
                         Quantity = 1
                     }
