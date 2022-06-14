@@ -47,21 +47,21 @@ namespace EasyAbp.EShop.Products
             var product = new Product(ProductsTestData.Product1Id, null, ProductsTestData.Store1Id, "Default",
                 productDetail1.Id, "Cake", "Cake", InventoryStrategy.NoNeed, null, true, false, false, null, null, 0);
 
-            var attribute1 = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null, 2);
-            var attribute2 = new ProductAttribute(ProductsTestData.Product1Attribute2Id, "Color", null, 1);
+            var attribute1 = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null, 1);
+            var attribute2 = new ProductAttribute(ProductsTestData.Product1Attribute2Id, "Color", null, 2);
 
             attribute1.ProductAttributeOptions.AddRange(new[]
             {
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option4Id, "XL", null, 1),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option2Id, "M", null, 3),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null, 4),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option4Id, "XL", null, 4),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option2Id, "M", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null, 1),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null, 3),
             });
             
             attribute2.ProductAttributeOptions.AddRange(new[]
             {
-                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option2Id, "Green", null, 1),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option1Id, "Red", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option2Id, "Green", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option1Id, "Red", null, 1),
             });
 
             product.ProductAttributes.Add(attribute2);
