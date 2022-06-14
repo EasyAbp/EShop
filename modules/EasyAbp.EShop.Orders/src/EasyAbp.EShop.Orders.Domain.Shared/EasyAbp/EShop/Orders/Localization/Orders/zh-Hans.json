@@ -53,6 +53,8 @@
     "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金额({amount})无效",
     "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款数量({quantity})无效",
     "EasyAbp.EShop.Orders:OrderIsInWrongStage": "订单{orderId}处于错误的阶段",
-    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清单中不允许存在闪购产品"
+    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清单中不允许存在闪购产品",
+    "DisplayName:EasyAbp.EShop.Orders.CurrencyCode": "货币代码",
+    "Description:EasyAbp.EShop.Orders.CurrencyCode": "ISO 4217 货币代码 (详见 https://en.wikipedia.org/wiki/ISO_4217)"
   }
 }

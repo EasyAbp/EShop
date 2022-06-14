@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Orders.Settings;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectExtending;
+using Volo.Abp.Settings;
 using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -20,6 +23,7 @@ namespace EasyAbp.EShop.Orders.Orders
         private readonly IClock _clock;
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
+        private readonly ISettingProvider _settingProvider;
         private readonly IServiceProvider _serviceProvider;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
         private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
@@ -29,6 +33,7 @@ namespace EasyAbp.EShop.Orders.Orders
             IClock clock,
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
+            ISettingProvider settingProvider,
             IServiceProvider serviceProvider,
             IOrderNumberGenerator orderNumberGenerator,
             IProductSkuDescriptionProvider productSkuDescriptionProvider,
@@ -37,6 +42,7 @@ namespace EasyAbp.EShop.Orders.Orders
             _clock = clock;
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
+            _settingProvider = settingProvider;
             _serviceProvider = serviceProvider;
             _orderNumberGenerator = orderNumberGenerator;
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
@@ -53,16 +59,17 @@ namespace EasyAbp.EShop.Orders.Orders
                 orderLines.Add(await GenerateOrderLineAsync(input, inputOrderLine, productDict, productDetailDict));
             }
 
-            var storeCurrency = await GetStoreCurrencyAsync(input.StoreId);
+            var effectiveCurrency = await GetEffectiveCurrencyAsync();
 
-            if (orderLines.Any(x => x.Currency != storeCurrency))
+            if (orderLines.Any(x => x.Currency != effectiveCurrency))
             {
-                throw new UnexpectedCurrencyException(storeCurrency);
+                throw new UnexpectedCurrencyException(effectiveCurrency);
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
-            
-            var paymentExpireIn = orderLines.Select(x => productDict[x.ProductId].GetSkuPaymentExpireIn(x.ProductSkuId)).Min();
+
+            var paymentExpireIn = orderLines.Select(x => productDict[x.ProductId].GetSkuPaymentExpireIn(x.ProductSkuId))
+                .Min();
 
             var totalPrice = productTotalPrice;
             var totalDiscount = orderLines.Select(x => x.TotalDiscount).Sum();
@@ -72,7 +79,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 tenantId: _currentTenant.Id,
                 storeId: input.StoreId,
                 customerUserId: customerUserId,
-                currency: storeCurrency,
+                currency: effectiveCurrency,
                 productTotalPrice: productTotalPrice,
                 totalDiscount: totalDiscount,
                 totalPrice: totalPrice,
@@ -124,7 +131,7 @@ namespace EasyAbp.EShop.Orders.Orders
             }
 
             var unitPrice = await GetUnitPriceAsync(input, inputOrderLine, product, productSku);
-            
+
             var totalPrice = unitPrice * inputOrderLine.Quantity;
 
             var orderLine = new OrderLine(
@@ -148,7 +155,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 actualTotalPrice: totalPrice,
                 quantity: inputOrderLine.Quantity
             );
-            
+
             inputOrderLine.MapExtraPropertiesTo(orderLine, MappingPropertyDefinitionChecks.Destination);
 
             return orderLine;
@@ -171,10 +178,14 @@ namespace EasyAbp.EShop.Orders.Orders
             return productSku.Price;
         }
 
-        protected virtual Task<string> GetStoreCurrencyAsync(Guid storeId)
+        protected virtual async Task<string> GetEffectiveCurrencyAsync()
         {
-            // Todo: Get real store currency configuration.
-            return Task.FromResult("USD");
+            var currencyCode = Check.NotNullOrWhiteSpace(
+                await _settingProvider.GetOrNullAsync(OrdersSettings.CurrencyCode),
+                nameof(OrdersSettings.CurrencyCode)
+            );
+
+            return currencyCode;
         }
     }
 }
