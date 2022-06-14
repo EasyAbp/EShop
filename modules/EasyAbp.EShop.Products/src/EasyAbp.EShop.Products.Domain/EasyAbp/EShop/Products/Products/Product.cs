@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using EasyAbp.EShop.Products.Options.ProductGroups;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -13,13 +14,16 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual Guid StoreId { get; protected set; }
 
-        [NotNull] public virtual string ProductGroupName { get; protected set; }
+        [NotNull]
+        public virtual string ProductGroupName { get; protected set; }
 
         public virtual Guid? ProductDetailId { get; protected set; }
 
-        [CanBeNull] public virtual string UniqueName { get; protected set; }
+        [CanBeNull]
+        public virtual string UniqueName { get; protected set; }
 
-        [NotNull] public virtual string DisplayName { get; protected set; }
+        [NotNull]
+        public virtual string DisplayName { get; protected set; }
 
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
 
@@ -29,7 +33,8 @@ namespace EasyAbp.EShop.Products.Products
         /// </summary>
         public virtual string InventoryProviderName { get; protected set; }
 
-        [CanBeNull] public virtual string MediaResources { get; protected set; }
+        [CanBeNull]
+        public virtual string MediaResources { get; protected set; }
 
         public virtual int DisplayOrder { get; protected set; }
 
@@ -69,10 +74,10 @@ namespace EasyAbp.EShop.Products.Products
         {
             TenantId = tenantId;
             StoreId = storeId;
-            ProductGroupName = productGroupName;
+            ProductGroupName = Check.NotNullOrWhiteSpace(productGroupName, nameof(productGroupName));
             ProductDetailId = productDetailId;
             UniqueName = uniqueName?.Trim();
-            DisplayName = displayName;
+            DisplayName = Check.NotNullOrWhiteSpace(displayName, nameof(displayName));
             InventoryStrategy = inventoryStrategy;
             InventoryProviderName = inventoryProviderName;
             IsPublished = isPublished;
@@ -86,10 +91,34 @@ namespace EasyAbp.EShop.Products.Products
             ProductSkus = new List<ProductSku>();
         }
 
-        public void InitializeNullCollections()
+        public void Update(
+            Guid storeId,
+            [NotNull] string productGroupName,
+            Guid? productDetailId,
+            [CanBeNull] string uniqueName,
+            [NotNull] string displayName,
+            InventoryStrategy inventoryStrategy,
+            [CanBeNull] string inventoryProviderName,
+            bool isPublished,
+            bool isStatic,
+            bool isHidden,
+            TimeSpan? paymentExpireIn,
+            [CanBeNull] string mediaResources,
+            int displayOrder)
         {
-            ProductAttributes ??= new List<ProductAttribute>();
-            ProductSkus ??= new List<ProductSku>();
+            StoreId = storeId;
+            ProductGroupName = Check.NotNullOrWhiteSpace(productGroupName, nameof(productGroupName));
+            ProductDetailId = productDetailId;
+            UniqueName = uniqueName?.Trim();
+            DisplayName = Check.NotNullOrWhiteSpace(displayName, nameof(displayName));
+            InventoryStrategy = inventoryStrategy;
+            InventoryProviderName = inventoryProviderName;
+            IsPublished = isPublished;
+            IsStatic = isStatic;
+            IsHidden = isHidden;
+            PaymentExpireIn = paymentExpireIn;
+            MediaResources = mediaResources;
+            DisplayOrder = displayOrder;
         }
 
         public void TrimUniqueName()

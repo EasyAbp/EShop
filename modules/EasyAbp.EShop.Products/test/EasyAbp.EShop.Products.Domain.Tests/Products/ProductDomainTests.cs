@@ -186,7 +186,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await ProductManager.CreateAsync(product2);
 
-            var fakeSku = new ProductSku(Guid.NewGuid(), "", null, "", null, 0m, 1, 1, null, null, null);
+            var fakeSku = new ProductSku(Guid.NewGuid(), "[]", null, "USD", null, 0m, 1, 1, null, null, null);
 
             var inventoryDataModel = await ProductManager.GetInventoryDataAsync(product2, fakeSku);
 
