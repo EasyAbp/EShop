@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetOccupancies;
-using EasyAbp.BookingService.AssetOccupancyProviders;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Orders.Orders;
 using Volo.Abp.DependencyInjection;
@@ -41,7 +40,6 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
             {
                 occupyModels.Add(new OccupyAssetInfoModel(
                     assetId: assetId.Value,
-                    volume: volume.Value,
                     date: date.Value,
                     startingTime: startingTime.Value,
                     duration: duration.Value
@@ -51,7 +49,6 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
             {
                 occupyByCategoryModels.Add(new OccupyAssetByCategoryInfoModel(
                     assetCategoryId: assetCategoryId.Value,
-                    volume: volume.Value,
                     date: date.Value,
                     startingTime: startingTime.Value,
                     duration: duration.Value
