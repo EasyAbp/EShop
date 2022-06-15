@@ -49,7 +49,7 @@ public class RefundOrderEventHandlerTests : PaymentsDomainTestBase
             var payment = Activator.CreateInstance(paymentType, true) as Payment;
             payment.ShouldNotBeNull();
             paymentType.GetProperty(nameof(Payment.Id))?.SetValue(payment, PaymentsTestData.Payment1);
-            paymentType.GetProperty(nameof(Payment.Currency))?.SetValue(payment, "CNY");
+            paymentType.GetProperty(nameof(Payment.Currency))?.SetValue(payment, "USD");
             paymentType.GetProperty(nameof(Payment.ActualPaymentAmount))?.SetValue(payment, 1m);
             paymentType.GetProperty(nameof(Payment.PaymentItems))
                 ?.SetValue(payment, new List<PaymentItem> { paymentItem });

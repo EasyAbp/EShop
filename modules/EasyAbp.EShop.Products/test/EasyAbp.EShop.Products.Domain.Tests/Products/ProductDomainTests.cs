@@ -197,7 +197,7 @@ namespace EasyAbp.EShop.Products.Products
         private async Task<ProductSku> CreateTestSkuAsync(IEnumerable<Guid> attributeOptionIds)
         {
             return new ProductSku(Guid.NewGuid(), await AttributeOptionIdsSerializer.SerializeAsync(attributeOptionIds),
-                "test-sku", "CNY", null, 0m, 1, 10, null, null, null);
+                "test-sku", "USD", null, 0m, 1, 10, null, null, null);
         }
     }
 }

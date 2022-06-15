@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 var payment = Activator.CreateInstance(paymentType, true) as Payment;
                 payment.ShouldNotBeNull();
                 paymentType.GetProperty(nameof(Payment.Id))?.SetValue(payment, PaymentsTestData.Payment1);
-                paymentType.GetProperty(nameof(Payment.Currency))?.SetValue(payment, "CNY");
+                paymentType.GetProperty(nameof(Payment.Currency))?.SetValue(payment, "USD");
                 paymentType.GetProperty(nameof(Payment.ActualPaymentAmount))?.SetValue(payment, 1m);
                 paymentType.GetProperty(nameof(Payment.PaymentItems))?.SetValue(payment, new List<PaymentItem> {paymentItem});
 
@@ -83,7 +83,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 var payment = Activator.CreateInstance(paymentType, true) as Payment;
                 payment.ShouldNotBeNull();
                 paymentType.GetProperty(nameof(Payment.Id))?.SetValue(payment, PaymentsTestData.Payment1);
-                paymentType.GetProperty(nameof(Payment.Currency))?.SetValue(payment, "CNY");
+                paymentType.GetProperty(nameof(Payment.Currency))?.SetValue(payment, "USD");
                 paymentType.GetProperty(nameof(Payment.ActualPaymentAmount))?.SetValue(payment, 1m);
                 // pending refund amount
                 paymentType.GetProperty(nameof(Payment.PendingRefundAmount))?.SetValue(payment, 1m);
@@ -108,7 +108,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             orderService.GetAsync(PaymentsTestData.Order1).Returns(Task.FromResult(new OrderDto
             {
                 Id = PaymentsTestData.Order1,
-                Currency = "CNY",
+                Currency = "USD",
                 ActualTotalPrice = 0,
                 StoreId = PaymentsTestData.Store1,
                 OrderLines = new List<OrderLineDto>
@@ -116,7 +116,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                     new()
                     {
                         Id = PaymentsTestData.OrderLine1,
-                        Currency = "CNY",
+                        Currency = "USD",
                         ActualTotalPrice = 1m,
                         Quantity = 1
                     }
@@ -476,7 +476,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 PaymentId = PaymentsTestData.Payment1,
                 RefundPaymentMethod = null,
                 ExternalTradingCode = "testcode",
-                Currency = "CNY",
+                Currency = "USD",
                 RefundAmount = 1.5m,
                 DisplayReason = "DisplayReason",
                 CustomerRemark = "CustomerRemark",
@@ -490,7 +490,7 @@ namespace EasyAbp.EShop.Payments.Refunds
             
             refundDto.PaymentId.ShouldBe(PaymentsTestData.Payment1);
             refundDto.ExternalTradingCode.ShouldBe("testcode");
-            refundDto.Currency.ShouldBe("CNY");
+            refundDto.Currency.ShouldBe("USD");
             refundDto.RefundAmount.ShouldBe(1.5m);
             refundDto.DisplayReason.ShouldBe("DisplayReason");
             refundDto.CustomerRemark.ShouldBe("CustomerRemark");
