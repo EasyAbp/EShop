@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Orders.Settings;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
 using Volo.Abp;
+using Volo.Abp.Settings;
 using Volo.Abp.Timing;
 using Xunit;
 
@@ -532,17 +534,62 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
             };
 
-            Product1.InventoryStrategy = InventoryStrategy.FlashSales;
-
-            await WithUnitOfWorkAsync(async () =>
+            try
             {
-                var exception =
-                    await Should.ThrowAsync<BusinessException>(() => _orderAppService.CreateAsync(createOrderDto));
+                Product1.InventoryStrategy = InventoryStrategy.FlashSales;
 
-                exception.Code.ShouldBe(OrdersErrorCodes.ExistFlashSalesProduct);
-            });
+                await WithUnitOfWorkAsync(async () =>
+                {
+                    var exception =
+                        await Should.ThrowAsync<BusinessException>(() => _orderAppService.CreateAsync(createOrderDto));
 
-            Product1.InventoryStrategy = InventoryStrategy.NoNeed;
+                    exception.Code.ShouldBe(OrdersErrorCodes.ExistFlashSalesProduct);
+                });
+
+                Product1.InventoryStrategy = InventoryStrategy.NoNeed;
+            }
+            catch
+            {
+                Product1.InventoryStrategy = InventoryStrategy.NoNeed;
+                throw;
+            }
+        }
+
+        [Fact]
+        public async Task Should_Throw_If_Product_Sku_Uses_Unexpected_Currency()
+        {
+            var createOrderDto = new CreateOrderDto
+            {
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new()
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 1
+                    }
+                }
+            };
+
+            try
+            {
+                OrdersSettingDefinitionProvider.DefaultCurrency = "CNY"; // The effective value is "USD"
+                await WithUnitOfWorkAsync(async () =>
+                {
+                    var exception =
+                        await Should.ThrowAsync<BusinessException>(() => _orderAppService.CreateAsync(createOrderDto));
+
+                    exception.Code.ShouldBe(OrdersErrorCodes.UnexpectedCurrency);
+                });
+
+                OrdersSettingDefinitionProvider.DefaultCurrency = "USD";
+            }
+            catch
+            {
+                OrdersSettingDefinitionProvider.DefaultCurrency = "USD";
+                throw;
+            }
         }
     }
 }
