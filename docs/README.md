@@ -12,7 +12,7 @@ An abp application module group that provides basic e-shop service.
 
 We have launched an online demo for this module: [https://eshop.samples.easyabp.io](https://eshop.samples.easyabp.io)
 
-![4c53f67d7e1bdaef0449baf4e5b6840](https://user-images.githubusercontent.com/30018771/173754387-2b15a480-9de2-4f87-9366-f98e3c0a909c.png)
+![image](https://user-images.githubusercontent.com/30018771/173756329-fe16a753-dddf-4b97-a5e5-a2f4c9d9983f.png)
 
 > You can also clone this repo and run the [demo project](https://github.com/EasyAbp/EShop/tree/dev/samples/EShopSample/aspnet-core/src/EShopSample.Web) locally.
 
