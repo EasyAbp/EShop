@@ -41,23 +41,10 @@ namespace EasyAbp.EShop.Products
                 .Ignore(dto => dto.Sold)
                 .AfterMap(async (src, dest) => dest.AttributeOptionIds =
                     (await attributeOptionIdsSerializer.DeserializeAsync(src.SerializedAttributeOptionIds)).ToList());
-            CreateMap<CreateUpdateProductDto, Product>(MemberList.Source)
-                .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate())
-                .ForSourceMember(dto => dto.CategoryIds, opt => opt.DoNotValidate())
-                .Ignore(p => p.ProductAttributes)
-                .Ignore(p => p.ProductSkus)
-                .AfterMap((src, dest) => dest.InitializeNullCollections());
             CreateMap<CreateUpdateProductDetailDto, ProductDetail>(MemberList.Source)
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate());
             CreateMap<CreateUpdateProductAttributeDto, ProductAttribute>(MemberList.Source);
             CreateMap<CreateUpdateProductAttributeOptionDto, ProductAttributeOption>(MemberList.Source);
-            CreateMap<CreateProductSkuDto, ProductSku>(MemberList.Source)
-                .ForSourceMember(dto => dto.AttributeOptionIds, opt => opt.DoNotValidate())
-                .Ignore(entity => entity.SerializedAttributeOptionIds)
-                .AfterMap(async (src, dest) =>
-                    dest.SetSerializedAttributeOptionIds(
-                        await attributeOptionIdsSerializer.SerializeAsync(src.AttributeOptionIds)));
-            CreateMap<UpdateProductSkuDto, ProductSku>(MemberList.Source);
             CreateMap<Category, CategoryDto>();
             CreateMap<Category, CategorySummaryDto>();
             CreateMap<ProductCategory, ProductCategoryDto>();
