@@ -8,6 +8,7 @@ using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.Extensions.DependencyInjection;
+using NodaMoney;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
@@ -52,18 +53,14 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual async Task<Order> GenerateAsync(Guid customerUserId, CreateOrderDto input,
             Dictionary<Guid, ProductDto> productDict, Dictionary<Guid, ProductDetailDto> productDetailDict)
         {
+            var effectiveCurrency = await GetEffectiveCurrencyAsync();
+
             var orderLines = new List<OrderLine>();
 
             foreach (var inputOrderLine in input.OrderLines)
             {
-                orderLines.Add(await GenerateOrderLineAsync(input, inputOrderLine, productDict, productDetailDict));
-            }
-
-            var effectiveCurrency = await GetEffectiveCurrencyAsync();
-
-            if (orderLines.Any(x => x.Currency != effectiveCurrency))
-            {
-                throw new UnexpectedCurrencyException(effectiveCurrency);
+                orderLines.Add(await GenerateOrderLineAsync(
+                    input, inputOrderLine, productDict, productDetailDict, effectiveCurrency));
             }
 
             var productTotalPrice = orderLines.Select(x => x.TotalPrice).Sum();
@@ -79,7 +76,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 tenantId: _currentTenant.Id,
                 storeId: input.StoreId,
                 customerUserId: customerUserId,
-                currency: effectiveCurrency,
+                currency: effectiveCurrency.Code,
                 productTotalPrice: productTotalPrice,
                 totalDiscount: totalDiscount,
                 totalPrice: totalPrice,
@@ -90,7 +87,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             input.MapExtraPropertiesTo(order, MappingPropertyDefinitionChecks.Destination);
 
-            await AddOrderExtraFeesAsync(order, customerUserId, input, productDict);
+            await AddOrderExtraFeesAsync(order, customerUserId, input, productDict, effectiveCurrency);
 
             order.SetOrderLines(orderLines);
 
@@ -100,27 +97,33 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         protected virtual async Task AddOrderExtraFeesAsync(Order order, Guid customerUserId,
-            CreateOrderDto input, Dictionary<Guid, ProductDto> productDict)
+            CreateOrderDto input, Dictionary<Guid, ProductDto> productDict, Currency effectiveCurrency)
         {
             var providers = _serviceProvider.GetServices<IOrderExtraFeeProvider>();
 
             foreach (var provider in providers)
             {
-                var infoModels = await provider.GetListAsync(customerUserId, input, productDict);
+                var infoModels = await provider.GetListAsync(customerUserId, input, productDict, effectiveCurrency);
 
                 foreach (var infoModel in infoModels)
                 {
-                    order.AddOrderExtraFee(infoModel.Fee, infoModel.Name, infoModel.Key);
+                    var fee = new Money(infoModel.Fee, effectiveCurrency);
+                    order.AddOrderExtraFee(fee.Amount, infoModel.Name, infoModel.Key);
                 }
             }
         }
 
         protected virtual async Task<OrderLine> GenerateOrderLineAsync(CreateOrderDto input,
             CreateOrderLineDto inputOrderLine, Dictionary<Guid, ProductDto> productDict,
-            Dictionary<Guid, ProductDetailDto> productDetailDict)
+            Dictionary<Guid, ProductDetailDto> productDetailDict, Currency effectiveCurrency)
         {
             var product = productDict[inputOrderLine.ProductId];
             var productSku = product.GetSkuById(inputOrderLine.ProductSkuId);
+            
+            if (productSku.Currency != effectiveCurrency.Code)
+            {
+                throw new UnexpectedCurrencyException(effectiveCurrency.Code);
+            }
 
             var productDetailId = productSku.ProductDetailId ?? product.ProductDetailId;
             var productDetail = productDetailId.HasValue ? productDetailDict[productDetailId.Value] : null;
@@ -130,7 +133,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw new OrderLineInvalidQuantityException(product.Id, productSku.Id, inputOrderLine.Quantity);
             }
 
-            var unitPrice = await GetUnitPriceAsync(input, inputOrderLine, product, productSku);
+            var unitPrice = await GetUnitPriceAsync(input, inputOrderLine, product, productSku, effectiveCurrency);
 
             var totalPrice = unitPrice * inputOrderLine.Quantity;
 
@@ -149,10 +152,10 @@ namespace EasyAbp.EShop.Orders.Orders
                 skuDescription: await _productSkuDescriptionProvider.GenerateAsync(product, productSku),
                 mediaResources: product.MediaResources,
                 currency: productSku.Currency,
-                unitPrice: unitPrice,
-                totalPrice: totalPrice,
+                unitPrice: unitPrice.Amount,
+                totalPrice: totalPrice.Amount,
                 totalDiscount: 0,
-                actualTotalPrice: totalPrice,
+                actualTotalPrice: totalPrice.Amount,
                 quantity: inputOrderLine.Quantity
             );
 
@@ -161,13 +164,14 @@ namespace EasyAbp.EShop.Orders.Orders
             return orderLine;
         }
 
-        protected virtual async Task<decimal> GetUnitPriceAsync(CreateOrderDto input, CreateOrderLineDto inputOrderLine,
-            ProductDto product, ProductSkuDto productSku)
+        protected virtual async Task<Money> GetUnitPriceAsync(CreateOrderDto input, CreateOrderLineDto inputOrderLine,
+            ProductDto product, ProductSkuDto productSku, Currency effectiveCurrency)
         {
             foreach (var overrider in _orderLinePriceOverriders)
             {
                 var overridenUnitPrice =
-                    await overrider.GetUnitPriceOrNullAsync(input, inputOrderLine, product, productSku);
+                    await overrider.GetUnitPriceOrNullAsync(input, inputOrderLine, product, productSku,
+                        effectiveCurrency);
 
                 if (overridenUnitPrice is not null)
                 {
@@ -175,17 +179,17 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
             }
 
-            return productSku.Price;
+            return new Money(productSku.Price, effectiveCurrency);
         }
 
-        protected virtual async Task<string> GetEffectiveCurrencyAsync()
+        protected virtual async Task<Currency> GetEffectiveCurrencyAsync()
         {
             var currencyCode = Check.NotNullOrWhiteSpace(
                 await _settingProvider.GetOrNullAsync(OrdersSettings.CurrencyCode),
                 nameof(OrdersSettings.CurrencyCode)
             );
 
-            return currencyCode;
+            return Currency.FromCode(currencyCode);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
+using NodaMoney;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -55,12 +56,15 @@ namespace EasyAbp.EShop.Products.Products
             [CanBeNull] string mediaResources,
             Guid? productDetailId) : base(id)
         {
+            Check.NotNullOrWhiteSpace(currency, nameof(currency));
+            var nodaCurrency = NodaMoney.Currency.FromCode(currency);
+
             SerializedAttributeOptionIds =
                 Check.NotNullOrWhiteSpace(serializedAttributeOptionIds, nameof(serializedAttributeOptionIds));
             Name = name?.Trim();
-            Currency = Check.NotNullOrWhiteSpace(currency, nameof(currency));
-            OriginalPrice = originalPrice;
-            Price = price;
+            Currency = nodaCurrency.Code;
+            OriginalPrice = originalPrice.HasValue ? new Money(originalPrice.Value, nodaCurrency).Amount : null;
+            Price = new Money(price, nodaCurrency).Amount;
             OrderMinQuantity = orderMinQuantity;
             OrderMaxQuantity = orderMaxQuantity;
             PaymentExpireIn = paymentExpireIn;
@@ -87,10 +91,13 @@ namespace EasyAbp.EShop.Products.Products
             [CanBeNull] string mediaResources,
             Guid? productDetailId)
         {
+            Check.NotNullOrWhiteSpace(currency, nameof(currency));
+            var nodaCurrency = NodaMoney.Currency.FromCode(currency);
+
             Name = name?.Trim();
-            Currency = Check.NotNullOrWhiteSpace(currency, nameof(currency));
-            OriginalPrice = originalPrice;
-            Price = price;
+            Currency = nodaCurrency.Code;
+            OriginalPrice = originalPrice.HasValue ? new Money(originalPrice.Value, nodaCurrency).Amount : null;
+            Price = new Money(price, nodaCurrency).Amount;
             OrderMinQuantity = orderMinQuantity;
             OrderMaxQuantity = orderMaxQuantity;
             PaymentExpireIn = paymentExpireIn;
