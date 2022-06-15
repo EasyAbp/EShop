@@ -12,6 +12,10 @@ An abp application module group that provides basic e-shop service.
 
 We have launched an online demo for this module: [https://eshop.samples.easyabp.io](https://eshop.samples.easyabp.io)
 
+![4c53f67d7e1bdaef0449baf4e5b6840](https://user-images.githubusercontent.com/30018771/173754387-2b15a480-9de2-4f87-9366-f98e3c0a909c.png)
+
+> You can also clone this repo and run the [demo project](https://github.com/EasyAbp/EShop/tree/dev/samples/EShopSample/aspnet-core/src/EShopSample.Web) locally.
+
 ## Installation
 
 1. Follow [the document](https://github.com/EasyAbp/PaymentService#installation) to install the dependent PaymentService module.
