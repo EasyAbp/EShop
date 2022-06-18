@@ -1,6 +1,6 @@
 ﻿namespace EasyAbp.EShop.Plugins.FlashSales;
 
-public class FlashSalesRemoteServiceConsts
+public class EShopPluginsFlashSalesRemoteServiceConsts
 {
     public const string RemoteServiceName = "FlashSales";
 

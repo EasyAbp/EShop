@@ -2,5 +2,8 @@
 
 public static class FlashSalesErrorCodes
 {
-    //Add your business exception error codes here...
+    public const string Namespace = "EasyAbp.EShop.Plugins.FlashSales";
+
+    public const string EndTimeMustBeLaterThanBeginTime = $"{Namespace}:{nameof(EndTimeMustBeLaterThanBeginTime)}";
+
 }

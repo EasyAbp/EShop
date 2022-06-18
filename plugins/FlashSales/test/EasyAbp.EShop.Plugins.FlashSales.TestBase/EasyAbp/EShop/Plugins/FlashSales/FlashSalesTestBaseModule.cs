@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
     typeof(AbpAutofacModule),
     typeof(AbpTestBaseModule),
     typeof(AbpAuthorizationModule),
-    typeof(FlashSalesDomainModule)
+    typeof(EShopPluginsFlashSalesDomainModule)
     )]
 public class FlashSalesTestBaseModule : AbpModule
 {

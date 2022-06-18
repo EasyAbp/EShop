@@ -377,19 +377,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Orle
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlashSales", "FlashSales", "{867AD9F8-FD56-469D-A90D-C569EB9C3D2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.Application", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Application\EasyAbp.EShop.Plugins.FlashSales.Application.csproj", "{26611C4C-6910-498A-9FBA-BECC09392ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.Application", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Application\EasyAbp.EShop.Plugins.FlashSales.Application.csproj", "{26611C4C-6910-498A-9FBA-BECC09392ADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.Application.Contracts", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts.csproj", "{FCD72398-F832-4914-8ACF-EA4C1DD24BBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.Application.Contracts", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts.csproj", "{FCD72398-F832-4914-8ACF-EA4C1DD24BBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.Domain.Shared", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Domain.Shared\EasyAbp.EShop.Plugins.FlashSales.Domain.Shared.csproj", "{55145D4A-5A98-4B53-9293-CCB7236E69F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.Domain.Shared", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Domain.Shared\EasyAbp.EShop.Plugins.FlashSales.Domain.Shared.csproj", "{55145D4A-5A98-4B53-9293-CCB7236E69F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.Domain", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Domain\EasyAbp.EShop.Plugins.FlashSales.Domain.csproj", "{7E535D1A-3259-4098-8E47-A81B3D8B3920}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.Domain", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Domain\EasyAbp.EShop.Plugins.FlashSales.Domain.csproj", "{7E535D1A-3259-4098-8E47-A81B3D8B3920}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore\EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore.csproj", "{2D1C0E98-D86A-4C60-98CE-86C4E5571B91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore\EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore.csproj", "{2D1C0E98-D86A-4C60-98CE-86C4E5571B91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.MongoDB", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.MongoDB\EasyAbp.EShop.Plugins.FlashSales.MongoDB.csproj", "{B5ED3D8B-E2DC-4B38-A9C7-2A18B47385EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.MongoDB", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.MongoDB\EasyAbp.EShop.Plugins.FlashSales.MongoDB.csproj", "{B5ED3D8B-E2DC-4B38-A9C7-2A18B47385EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.FlashSales.HttpApi", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.HttpApi\EasyAbp.EShop.Plugins.FlashSales.HttpApi.csproj", "{0D5558BD-A22F-4565-A92A-BB14D517B1A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.HttpApi", "plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.HttpApi\EasyAbp.EShop.Plugins.FlashSales.HttpApi.csproj", "{0D5558BD-A22F-4565-A92A-BB14D517B1A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F29C5BCD-E6C0-4556-A631-CACA41B1050B}"
 EndProject
@@ -410,6 +410,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.MongoDB.Tests", "plugins\FlashSales\test\EasyAbp.EShop.Plugins.FlashSales.MongoDB.Tests\EasyAbp.EShop.Plugins.FlashSales.MongoDB.Tests.csproj", "{68993D65-2C9C-438F-8B94-15E98C469A16}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.FlashSales.TestBase", "plugins\FlashSales\test\EasyAbp.EShop.Plugins.FlashSales.TestBase\EasyAbp.EShop.Plugins.FlashSales.TestBase.csproj", "{417AB8E2-1488-4814-9699-3B189D1ABA67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Orders.Plugins.FlashSales.Application", "plugins\FlashSales\src\EasyAbp.EShop.Orders.Plugins.FlashSales.Application\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.csproj", "{5732E880-CB72-49A0-AC4F-A0620F4E4D16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1065,6 +1067,10 @@ Global
 		{417AB8E2-1488-4814-9699-3B189D1ABA67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{417AB8E2-1488-4814-9699-3B189D1ABA67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{417AB8E2-1488-4814-9699-3B189D1ABA67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5732E880-CB72-49A0-AC4F-A0620F4E4D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5732E880-CB72-49A0-AC4F-A0620F4E4D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5732E880-CB72-49A0-AC4F-A0620F4E4D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5732E880-CB72-49A0-AC4F-A0620F4E4D16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1270,6 +1276,7 @@ Global
 		{2291B087-FEC5-47BD-A7ED-04725D54E6A6} = {9C180C9E-50E9-4624-BE06-5C8C24A028E4}
 		{68993D65-2C9C-438F-8B94-15E98C469A16} = {9C180C9E-50E9-4624-BE06-5C8C24A028E4}
 		{417AB8E2-1488-4814-9699-3B189D1ABA67} = {9C180C9E-50E9-4624-BE06-5C8C24A028E4}
+		{5732E880-CB72-49A0-AC4F-A0620F4E4D16} = {F29C5BCD-E6C0-4556-A631-CACA41B1050B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

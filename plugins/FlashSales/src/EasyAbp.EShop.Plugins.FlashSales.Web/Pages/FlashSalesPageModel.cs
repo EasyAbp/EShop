@@ -10,6 +10,6 @@ public abstract class FlashSalesPageModel : AbpPageModel
     protected FlashSalesPageModel()
     {
         LocalizationResourceType = typeof(FlashSalesResource);
-        ObjectMapperContext = typeof(FlashSalesWebModule);
+        ObjectMapperContext = typeof(EShopPluginsFlashSalesWebModule);
     }
 }

@@ -11,13 +11,13 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
 [DependsOn(
     typeof(AbpValidationModule)
 )]
-public class FlashSalesDomainSharedModule : AbpModule
+public class EShopPluginsFlashSalesDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<FlashSalesDomainSharedModule>();
+            options.FileSets.AddEmbedded<EShopPluginsFlashSalesDomainSharedModule>();
         });
 
         Configure<AbpLocalizationOptions>(options =>
@@ -30,7 +30,7 @@ public class FlashSalesDomainSharedModule : AbpModule
 
         Configure<AbpExceptionLocalizationOptions>(options =>
         {
-            options.MapCodeNamespace("FlashSales", typeof(FlashSalesResource));
+            options.MapCodeNamespace(FlashSalesErrorCodes.Namespace, typeof(FlashSalesResource));
         });
     }
 }

@@ -6,19 +6,19 @@ using Volo.Abp.Application;
 namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
-    typeof(FlashSalesDomainModule),
-    typeof(FlashSalesApplicationContractsModule),
+    typeof(EShopPluginsFlashSalesDomainModule),
+    typeof(EShopPluginsFlashSalesApplicationContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule)
     )]
-public class FlashSalesApplicationModule : AbpModule
+public class EShopPluginsFlashSalesApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<FlashSalesApplicationModule>();
+        context.Services.AddAutoMapperObjectMapper<EShopPluginsFlashSalesApplicationModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<FlashSalesApplicationModule>(validate: true);
+            options.AddMaps<EShopPluginsFlashSalesApplicationModule>(validate: true);
         });
     }
 }

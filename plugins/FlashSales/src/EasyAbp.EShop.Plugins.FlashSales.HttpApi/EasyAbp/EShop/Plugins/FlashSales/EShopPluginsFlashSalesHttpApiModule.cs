@@ -8,15 +8,15 @@ using Microsoft.Extensions.DependencyInjection;
 namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
-    typeof(FlashSalesApplicationContractsModule),
+    typeof(EShopPluginsFlashSalesApplicationContractsModule),
     typeof(AbpAspNetCoreMvcModule))]
-public class FlashSalesHttpApiModule : AbpModule
+public class EShopPluginsFlashSalesHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         PreConfigure<IMvcBuilder>(mvcBuilder =>
         {
-            mvcBuilder.AddApplicationPartIfNotExists(typeof(FlashSalesHttpApiModule).Assembly);
+            mvcBuilder.AddApplicationPartIfNotExists(typeof(EShopPluginsFlashSalesHttpApiModule).Assembly);
         });
     }
 

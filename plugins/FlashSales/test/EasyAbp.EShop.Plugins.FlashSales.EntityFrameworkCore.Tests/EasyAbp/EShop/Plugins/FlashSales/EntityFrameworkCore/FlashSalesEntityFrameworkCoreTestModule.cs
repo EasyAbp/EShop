@@ -10,7 +10,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore;
 
 [DependsOn(
     typeof(FlashSalesTestBaseModule),
-    typeof(FlashSalesEntityFrameworkCoreModule),
+    typeof(EShopPluginsFlashSalesEntityFrameworkCoreModule),
     typeof(AbpEntityFrameworkCoreSqliteModule)
     )]
 public class FlashSalesEntityFrameworkCoreTestModule : AbpModule

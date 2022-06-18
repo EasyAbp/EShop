@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales.MongoDB;
 
 [DependsOn(
     typeof(FlashSalesTestBaseModule),
-    typeof(FlashSalesMongoDbModule)
+    typeof(EShopPluginsFlashSalesMongoDbModule)
     )]
 public class FlashSalesMongoDbTestModule : AbpModule
 {

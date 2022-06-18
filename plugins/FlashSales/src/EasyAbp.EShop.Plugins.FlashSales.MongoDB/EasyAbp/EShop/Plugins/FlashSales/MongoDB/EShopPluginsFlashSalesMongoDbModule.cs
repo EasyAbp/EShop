@@ -5,10 +5,10 @@ using Volo.Abp.MongoDB;
 namespace EasyAbp.EShop.Plugins.FlashSales.MongoDB;
 
 [DependsOn(
-    typeof(FlashSalesDomainModule),
+    typeof(EShopPluginsFlashSalesDomainModule),
     typeof(AbpMongoDbModule)
     )]
-public class FlashSalesMongoDbModule : AbpModule
+public class EShopPluginsFlashSalesMongoDbModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

@@ -13,22 +13,22 @@ using EasyAbp.EShop.Plugins.FlashSales.Permissions;
 namespace EasyAbp.EShop.Plugins.FlashSales.Web;
 
 [DependsOn(
-    typeof(FlashSalesApplicationContractsModule),
+    typeof(EShopPluginsFlashSalesApplicationContractsModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
     typeof(AbpAutoMapperModule)
     )]
-public class FlashSalesWebModule : AbpModule
+public class EShopPluginsFlashSalesWebModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
-            options.AddAssemblyResource(typeof(FlashSalesResource), typeof(FlashSalesWebModule).Assembly);
+            options.AddAssemblyResource(typeof(FlashSalesResource), typeof(EShopPluginsFlashSalesWebModule).Assembly);
         });
 
         PreConfigure<IMvcBuilder>(mvcBuilder =>
         {
-            mvcBuilder.AddApplicationPartIfNotExists(typeof(FlashSalesWebModule).Assembly);
+            mvcBuilder.AddApplicationPartIfNotExists(typeof(EShopPluginsFlashSalesWebModule).Assembly);
         });
     }
 
@@ -41,13 +41,13 @@ public class FlashSalesWebModule : AbpModule
 
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<FlashSalesWebModule>();
+            options.FileSets.AddEmbedded<EShopPluginsFlashSalesWebModule>();
         });
 
-        context.Services.AddAutoMapperObjectMapper<FlashSalesWebModule>();
+        context.Services.AddAutoMapperObjectMapper<EShopPluginsFlashSalesWebModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<FlashSalesWebModule>(validate: true);
+            options.AddMaps<EShopPluginsFlashSalesWebModule>(validate: true);
         });
 
         Configure<RazorPagesOptions>(options =>

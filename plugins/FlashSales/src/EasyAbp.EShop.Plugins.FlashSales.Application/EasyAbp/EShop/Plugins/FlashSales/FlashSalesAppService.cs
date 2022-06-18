@@ -8,6 +8,6 @@ public abstract class FlashSalesAppService : ApplicationService
     protected FlashSalesAppService()
     {
         LocalizationResource = typeof(FlashSalesResource);
-        ObjectMapperContext = typeof(FlashSalesApplicationModule);
+        ObjectMapperContext = typeof(EShopPluginsFlashSalesApplicationModule);
     }
 }

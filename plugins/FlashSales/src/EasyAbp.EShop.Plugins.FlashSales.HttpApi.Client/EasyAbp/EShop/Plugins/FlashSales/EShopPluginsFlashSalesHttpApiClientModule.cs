@@ -6,20 +6,20 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
-    typeof(FlashSalesApplicationContractsModule),
+    typeof(EShopPluginsFlashSalesApplicationContractsModule),
     typeof(AbpHttpClientModule))]
-public class FlashSalesHttpApiClientModule : AbpModule
+public class EShopPluginsFlashSalesHttpApiClientModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddHttpClientProxies(
-            typeof(FlashSalesApplicationContractsModule).Assembly,
-            FlashSalesRemoteServiceConsts.RemoteServiceName
+            typeof(EShopPluginsFlashSalesApplicationContractsModule).Assembly,
+            EShopPluginsFlashSalesRemoteServiceConsts.RemoteServiceName
         );
 
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<FlashSalesHttpApiClientModule>();
+            options.FileSets.AddEmbedded<EShopPluginsFlashSalesHttpApiClientModule>();
         });
 
     }

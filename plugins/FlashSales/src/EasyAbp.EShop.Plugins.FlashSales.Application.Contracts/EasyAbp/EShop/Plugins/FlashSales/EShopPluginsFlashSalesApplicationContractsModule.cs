@@ -5,11 +5,11 @@ using Volo.Abp.Authorization;
 namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
-    typeof(FlashSalesDomainSharedModule),
+    typeof(EShopPluginsFlashSalesDomainSharedModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpAuthorizationModule)
     )]
-public class FlashSalesApplicationContractsModule : AbpModule
+public class EShopPluginsFlashSalesApplicationContractsModule : AbpModule
 {
 
 }

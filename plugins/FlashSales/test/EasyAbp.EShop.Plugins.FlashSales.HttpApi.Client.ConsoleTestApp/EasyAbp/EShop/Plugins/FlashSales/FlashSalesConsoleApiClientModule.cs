@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
     typeof(AbpAutofacModule),
-    typeof(FlashSalesHttpApiClientModule),
+    typeof(EShopPluginsFlashSalesHttpApiClientModule),
     typeof(AbpHttpClientIdentityModelModule)
     )]
 public class FlashSalesConsoleApiClientModule : AbpModule

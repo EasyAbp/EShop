@@ -5,9 +5,9 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
     typeof(AbpDddDomainModule),
-    typeof(FlashSalesDomainSharedModule)
+    typeof(EShopPluginsFlashSalesDomainSharedModule)
 )]
-public class FlashSalesDomainModule : AbpModule
+public class EShopPluginsFlashSalesDomainModule : AbpModule
 {
 
 }

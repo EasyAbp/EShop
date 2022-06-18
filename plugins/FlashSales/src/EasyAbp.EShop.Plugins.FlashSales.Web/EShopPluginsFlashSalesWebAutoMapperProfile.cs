@@ -2,9 +2,9 @@
 
 namespace EasyAbp.EShop.Plugins.FlashSales.Web;
 
-public class FlashSalesWebAutoMapperProfile : Profile
+public class EShopPluginsFlashSalesWebAutoMapperProfile : Profile
 {
-    public FlashSalesWebAutoMapperProfile()
+    public EShopPluginsFlashSalesWebAutoMapperProfile()
     {
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
