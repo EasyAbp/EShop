@@ -64,7 +64,7 @@ public static class OrderLineExtensions
 
     public static DateTime? FindBookingDate(this IOrderLine orderLine)
     {
-        return orderLine.GetProperty<DateTime?>(BookingOrderProperties.OrderLineBookingDate);
+        return orderLine.FindDateTimeProperty(BookingOrderProperties.OrderLineBookingDate);
     }
 
     public static DateTime GetBookingDate(this IOrderLine orderLine)
@@ -75,7 +75,7 @@ public static class OrderLineExtensions
 
     public static TimeSpan? FindBookingStartingTime(this IOrderLine orderLine)
     {
-        return orderLine.GetProperty<TimeSpan?>(BookingOrderProperties.OrderLineBookingStartingTime);
+        return orderLine.FindTimeSpanProperty(BookingOrderProperties.OrderLineBookingStartingTime);
     }
 
     public static TimeSpan GetBookingStartingTime(this IOrderLine orderLine)
@@ -86,7 +86,7 @@ public static class OrderLineExtensions
 
     public static TimeSpan? FindBookingDuration(this IOrderLine orderLine)
     {
-        return orderLine.GetProperty<TimeSpan?>(BookingOrderProperties.OrderLineBookingDuration);
+        return orderLine.FindTimeSpanProperty(BookingOrderProperties.OrderLineBookingDuration);
     }
 
     public static TimeSpan GetBookingDuration(this IOrderLine orderLine)
