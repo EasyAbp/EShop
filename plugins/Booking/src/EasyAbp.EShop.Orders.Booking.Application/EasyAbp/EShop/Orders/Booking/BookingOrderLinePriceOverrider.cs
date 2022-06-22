@@ -7,6 +7,7 @@ using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
 using EasyAbp.EShop.Products.Products.Dtos;
+using NodaMoney;
 using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Orders.Booking;
@@ -23,25 +24,25 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
         _productAssetAppService = productAssetAppService;
         _productAssetCategoryAppService = productAssetCategoryAppService;
     }
-    
-    public virtual async Task<decimal?> GetUnitPriceOrNullAsync(CreateOrderDto input, CreateOrderLineDto inputOrderLine,
-        ProductDto product, ProductSkuDto productSku)
+
+    public virtual async Task<Money?> GetUnitPriceOrNullAsync(CreateOrderDto input, CreateOrderLineDto inputOrderLine,
+        ProductDto product, ProductSkuDto productSku, Currency effectiveCurrency)
     {
         if (inputOrderLine.FindBookingAssetId() is not null)
         {
-            return await GetAssetBookingUnitPriceAsync(input, inputOrderLine);
+            return await GetAssetBookingUnitPriceAsync(input, inputOrderLine, effectiveCurrency);
         }
 
         if (inputOrderLine.FindBookingAssetCategoryId() is not null)
         {
-            return await GetAssetCategoryBookingUnitPriceAsync(input, inputOrderLine);
+            return await GetAssetCategoryBookingUnitPriceAsync(input, inputOrderLine, effectiveCurrency);
         }
 
         return null;
     }
 
-    public virtual async Task<decimal?> GetAssetBookingUnitPriceAsync(CreateOrderDto input,
-        CreateOrderLineDto inputOrderLine)
+    public virtual async Task<Money?> GetAssetBookingUnitPriceAsync(CreateOrderDto input,
+        CreateOrderLineDto inputOrderLine, Currency effectiveCurrency)
     {
         var productAsset = (await _productAssetAppService.GetListAsync(
             new GetProductAssetListDto
@@ -60,14 +61,14 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
 
         if (productAssetPeriod is not null)
         {
-            return productAssetPeriod.Price;
+            return new Money(productAssetPeriod.Price, effectiveCurrency);
         }
 
-        return productAsset.Price;
+        return productAsset.Price.HasValue ? new Money(productAsset.Price.Value, effectiveCurrency) : null;
     }
-    
-    public virtual async Task<decimal?> GetAssetCategoryBookingUnitPriceAsync(CreateOrderDto input,
-        CreateOrderLineDto inputOrderLine)
+
+    public virtual async Task<Money?> GetAssetCategoryBookingUnitPriceAsync(CreateOrderDto input,
+        CreateOrderLineDto inputOrderLine, Currency effectiveCurrency)
     {
         var productAssetCategory = (await _productAssetCategoryAppService.GetListAsync(
             new GetProductAssetCategoryListDto
@@ -86,9 +87,11 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
 
         if (productAssetCategoryPeriod is not null)
         {
-            return productAssetCategoryPeriod.Price;
+            return new Money(productAssetCategoryPeriod.Price, effectiveCurrency);
         }
 
-        return productAssetCategory.Price;
+        return productAssetCategory.Price.HasValue
+            ? new Money(productAssetCategory.Price.Value, effectiveCurrency)
+            : null;
     }
 }
