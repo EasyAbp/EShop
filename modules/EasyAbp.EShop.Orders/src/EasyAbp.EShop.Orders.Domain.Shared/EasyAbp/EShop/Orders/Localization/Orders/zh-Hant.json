@@ -9,6 +9,10 @@
     "OrderOrderNumber": "訂單號",
     "OrderCustomerUserId": "客戶 ID",
     "OrderOrderStatus": "狀態",
+    "OrderOrderStatusPending": "待支付",
+    "OrderOrderStatusProcessing": "進行中",
+    "OrderOrderStatusCompleted": "已完成",
+    "OrderOrderStatusCanceled": "已取消",
     "OrderCurrency": "幣種",
     "OrderProductTotalPrice": "商品總價",
     "OrderTotalDiscount": "總折扣",
@@ -49,6 +53,8 @@
     "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金額({amount})無效",
     "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款數量({quantity})無效",
     "EasyAbp.EShop.Orders:OrderIsInWrongStage": "訂單{orderId}處於錯誤的階段",
-    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清單中不允許存在閃購產品"
+    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清單中不允許存在閃購產品",
+    "DisplayName:EasyAbp.EShop.Orders.CurrencyCode": "貨幣代碼",
+    "Description:EasyAbp.EShop.Orders.CurrencyCode": "ISO 4217 貨幣代碼 (詳見 https://en.wikipedia.org/wiki/ISO_4217)"
   }
 }

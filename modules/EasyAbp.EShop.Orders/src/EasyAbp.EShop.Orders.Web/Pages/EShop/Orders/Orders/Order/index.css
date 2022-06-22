@@ -1,0 +1,14 @@
+.status-pending-text {
+    color: orange;
+}
+
+.status-processing-text {
+    color: green;
+}
+
+.status-completed-text {
+    color: blue;
+}
+
+.status-canceled-text {
+}

@@ -186,7 +186,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await ProductManager.CreateAsync(product2);
 
-            var fakeSku = new ProductSku(Guid.NewGuid(), "", null, "", null, 0m, 1, 1, null, null, null);
+            var fakeSku = new ProductSku(Guid.NewGuid(), "[]", null, "USD", null, 0m, 1, 1, null, null, null);
 
             var inventoryDataModel = await ProductManager.GetInventoryDataAsync(product2, fakeSku);
 
@@ -197,7 +197,7 @@ namespace EasyAbp.EShop.Products.Products
         private async Task<ProductSku> CreateTestSkuAsync(IEnumerable<Guid> attributeOptionIds)
         {
             return new ProductSku(Guid.NewGuid(), await AttributeOptionIdsSerializer.SerializeAsync(attributeOptionIds),
-                "test-sku", "CNY", null, 0m, 1, 10, null, null, null);
+                "test-sku", "USD", null, 0m, 1, 10, null, null, null);
         }
     }
 }

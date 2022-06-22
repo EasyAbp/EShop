@@ -7,6 +7,7 @@
     <EasyAbpAbpTagHelperPlusModuleVersion>1.0.0</EasyAbpAbpTagHelperPlusModuleVersion>
     <DaprSdkVersion>1.7.0</DaprSdkVersion>
     <OrleansVersion>3.6.2</OrleansVersion>
+    <NodaMoneyVersion>1.0.5</NodaMoneyVersion>
 
   </PropertyGroup>
 </Project>

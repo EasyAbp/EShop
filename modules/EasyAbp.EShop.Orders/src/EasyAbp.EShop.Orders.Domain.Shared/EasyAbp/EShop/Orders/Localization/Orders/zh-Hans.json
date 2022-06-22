@@ -9,6 +9,10 @@
     "OrderOrderNumber": "订单号",
     "OrderCustomerUserId": "客户 ID",
     "OrderOrderStatus": "状态",
+    "OrderOrderStatusPending": "待支付",
+    "OrderOrderStatusProcessing": "进行中",
+    "OrderOrderStatusCompleted": "已完成",
+    "OrderOrderStatusCanceled": "已取消",
     "OrderCurrency": "币种",
     "OrderProductTotalPrice": "商品总价",
     "OrderTotalDiscount": "总折扣",
@@ -49,6 +53,8 @@
     "EasyAbp.EShop.Orders:InvalidRefundAmount": "退款金额({amount})无效",
     "EasyAbp.EShop.Orders:InvalidRefundQuantity": "退款数量({quantity})无效",
     "EasyAbp.EShop.Orders:OrderIsInWrongStage": "订单{orderId}处于错误的阶段",
-    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清单中不允许存在闪购产品"
+    "EasyAbp.EShop.Orders:ExistFlashSalesProduct": "清单中不允许存在闪购产品",
+    "DisplayName:EasyAbp.EShop.Orders.CurrencyCode": "货币代码",
+    "Description:EasyAbp.EShop.Orders.CurrencyCode": "ISO 4217 货币代码 (详见 https://en.wikipedia.org/wiki/ISO_4217)"
   }
 }

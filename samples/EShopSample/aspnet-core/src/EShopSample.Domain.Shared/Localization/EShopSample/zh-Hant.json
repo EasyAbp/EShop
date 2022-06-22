@@ -1,9 +1,38 @@
 {
-    "culture": "zh-Hant",
-    "texts": {
+  "culture": "zh-Hant",
+  "texts": {
     "Menu:EasyAbpEShop": "EShop 商城",
-      "Menu:Home": "首頁",
-      "Welcome": "歡迎",
-      "LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io."
-    }
+    "Menu:Home": "首頁",
+    "Welcome": "歡迎",
+    "LongWelcomeMessage": "歡迎來到此應用程式. 這是一個 EShop 模組的示例專案. 有關更多訊息, 請瀏覽 easyabp.io.",
+    "Product": "商品",
+    "Cake": "蛋糕",
+    "OrderCake": "下單買蛋糕",
+    "CreateOrder": "創建訂單",
+    "PayForOrder": "支付訂單",
+    "TopUp-1-USD": "充值 1.00 美元",
+    "OrderHistory": "歷史訂單",
+    "Flavor": "口味",
+    "Size": "分量",
+    "Chocolate": "巧克力味",
+    "Vanilla": "香草味",
+    "YourChoice": "你的選擇",
+    "SkuId": "SKU ID",
+    "OrderCreated": "訂單創建成功",
+    "OrderCanceled": "訂單已取消",
+    "TopUpSucceeded": "充值成功",
+    "PaymentSucceeded": "支付成功",
+    "InsufficientBalance": "賬戶餘額不足",
+    "OrderNumber": "訂單編號",
+    "Created": "創建時間",
+    "OrderStatus": "狀態",
+    "OrderStatusPending": "待支付",
+    "OrderStatusProcessing": "進行中",
+    "OrderStatusCompleted": "已完成",
+    "OrderStatusCanceled": "已取消",
+    "TotalPrice": "價格",
+    "AccountBalance": "賬戶餘額",
+    "TimeToAutoCancel": "剩餘可支付時間",
+    "CancelOrder": "取消訂單"
   }
+}

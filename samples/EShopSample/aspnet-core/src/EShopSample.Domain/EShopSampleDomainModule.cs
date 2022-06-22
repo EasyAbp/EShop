@@ -80,7 +80,7 @@ namespace EShopSample
             {
                 options.AccountGroups.Configure<DefaultAccountGroup>(accountGroup =>
                 {
-                    accountGroup.Currency = "CNY";
+                    accountGroup.Currency = "USD";
                 });
             });
         }

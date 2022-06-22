@@ -47,21 +47,21 @@ namespace EasyAbp.EShop.Products
             var product = new Product(ProductsTestData.Product1Id, null, ProductsTestData.Store1Id, "Default",
                 productDetail1.Id, "Cake", "Cake", InventoryStrategy.NoNeed, null, true, false, false, null, null, 0);
 
-            var attribute1 = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null, 2);
-            var attribute2 = new ProductAttribute(ProductsTestData.Product1Attribute2Id, "Color", null, 1);
+            var attribute1 = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null, 1);
+            var attribute2 = new ProductAttribute(ProductsTestData.Product1Attribute2Id, "Color", null, 2);
 
             attribute1.ProductAttributeOptions.AddRange(new[]
             {
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option4Id, "XL", null, 1),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option2Id, "M", null, 3),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null, 4),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option4Id, "XL", null, 4),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option2Id, "M", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null, 1),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null, 3),
             });
             
             attribute2.ProductAttributeOptions.AddRange(new[]
             {
-                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option2Id, "Green", null, 1),
-                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option1Id, "Red", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option2Id, "Green", null, 2),
+                new ProductAttributeOption(ProductsTestData.Product1Attribute2Option1Id, "Red", null, 1),
             });
 
             product.ProductAttributes.Add(attribute2);
@@ -72,17 +72,17 @@ namespace EasyAbp.EShop.Products
             var productSku1 = new ProductSku(ProductsTestData.Product1Sku1Id,
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option1Id, ProductsTestData.Product1Attribute2Option1Id }),
-                null, "CNY", null, 1m, 1, 10, null, null, null);
+                null, "USD", null, 1m, 1, 10, null, null, null);
 
             var productSku2 = new ProductSku(ProductsTestData.Product1Sku2Id,
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option2Id, ProductsTestData.Product1Attribute2Option1Id }),
-                null, "CNY", null, 2m, 1, 10, null, null, null);
+                null, "USD", null, 2m, 1, 10, null, null, null);
 
             var productSku3 = new ProductSku(ProductsTestData.Product1Sku3Id,
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option3Id, ProductsTestData.Product1Attribute2Option2Id }),
-                null, "CNY", null, 3m, 1, 10, null, null, null);
+                null, "USD", null, 3m, 1, 10, null, null, null);
             
             await _productManager.CreateSkuAsync(product, productSku1);
             await _productManager.CreateSkuAsync(product, productSku2);

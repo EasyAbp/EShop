@@ -70,13 +70,6 @@ namespace EasyAbp.EShop.Products.Products
                 .ThenBy(x => x.Id);
         }
 
-        protected override Product MapToEntity(CreateUpdateProductDto createInput)
-        {
-            var product = base.MapToEntity(createInput);
-
-            return product;
-        }
-
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             var product = await MapToEntityAsync(input);
@@ -356,7 +349,7 @@ namespace EasyAbp.EShop.Products.Products
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
         }
 
-        private static void CheckProductIsNotStatic(Product product)
+        protected virtual void CheckProductIsNotStatic(Product product)
         {
             if (product.IsStatic)
             {
@@ -372,7 +365,7 @@ namespace EasyAbp.EShop.Products.Products
 
             CheckProductIsNotStatic(product);
 
-            var sku = ObjectMapper.Map<CreateProductSkuDto, ProductSku>(input);
+            var sku = await MapToProductSkuAsync(input);
 
             EntityHelper.TrySetId(sku, GuidGenerator.Create);
 
@@ -388,7 +381,8 @@ namespace EasyAbp.EShop.Products.Products
             return dto;
         }
 
-        public async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId, UpdateProductSkuDto input)
+        public virtual async Task<ProductDto> UpdateSkuAsync(Guid productId, Guid productSkuId,
+            UpdateProductSkuDto input)
         {
             var product = await GetEntityByIdAsync(productId);
 
@@ -398,7 +392,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var sku = product.ProductSkus.Single(x => x.Id == productSkuId);
 
-            ObjectMapper.Map(input, sku);
+            await MapToProductSkuAsync(input, sku);
 
             await _productManager.UpdateSkuAsync(product, sku);
 
@@ -412,7 +406,7 @@ namespace EasyAbp.EShop.Products.Products
             return dto;
         }
 
-        public async Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId)
+        public virtual async Task<ProductDto> DeleteSkuAsync(Guid productId, Guid productSkuId)
         {
             var product = await GetEntityByIdAsync(productId);
 
@@ -483,6 +477,80 @@ namespace EasyAbp.EShop.Products.Products
             var productDto = base.MapToGetListOutputDto(entity);
 
             return SortAttributesAndOptions(productDto);
+        }
+
+        protected override Task<Product> MapToEntityAsync(CreateUpdateProductDto createInput)
+        {
+            return Task.FromResult(new Product(
+                GuidGenerator.Create(),
+                CurrentTenant.Id,
+                createInput.StoreId,
+                createInput.ProductGroupName,
+                createInput.ProductDetailId,
+                createInput.UniqueName,
+                createInput.DisplayName,
+                createInput.InventoryStrategy,
+                createInput.InventoryProviderName,
+                createInput.IsPublished,
+                false,
+                createInput.IsHidden,
+                createInput.PaymentExpireIn,
+                createInput.MediaResources,
+                createInput.DisplayOrder));
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateProductDto updateInput, Product entity)
+        {
+            entity.Update(
+                updateInput.StoreId,
+                updateInput.ProductGroupName,
+                updateInput.ProductDetailId,
+                updateInput.UniqueName,
+                updateInput.DisplayName,
+                updateInput.InventoryStrategy,
+                updateInput.InventoryProviderName,
+                updateInput.IsPublished,
+                false,
+                updateInput.IsHidden,
+                updateInput.PaymentExpireIn,
+                updateInput.MediaResources,
+                updateInput.DisplayOrder);
+
+            return Task.CompletedTask;
+        }
+
+        protected virtual async Task<ProductSku> MapToProductSkuAsync(CreateProductSkuDto createInput)
+        {
+            return new ProductSku(
+                GuidGenerator.Create(),
+                await _attributeOptionIdsSerializer.SerializeAsync(createInput.AttributeOptionIds),
+                createInput.Name,
+                createInput.Currency,
+                createInput.OriginalPrice,
+                createInput.Price,
+                createInput.OrderMinQuantity,
+                createInput.OrderMaxQuantity,
+                createInput.PaymentExpireIn,
+                createInput.MediaResources,
+                createInput.ProductDetailId
+            );
+        }
+
+        protected virtual Task MapToProductSkuAsync(UpdateProductSkuDto updateInput, ProductSku entity)
+        {
+            entity.Update(
+                updateInput.Name,
+                updateInput.Currency,
+                updateInput.OriginalPrice,
+                updateInput.Price,
+                updateInput.OrderMinQuantity,
+                updateInput.OrderMaxQuantity,
+                updateInput.PaymentExpireIn,
+                updateInput.MediaResources,
+                updateInput.ProductDetailId
+            );
+
+            return Task.CompletedTask;
         }
 
         protected virtual ProductDto SortAttributesAndOptions(ProductDto productDto)
