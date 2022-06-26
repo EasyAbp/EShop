@@ -1,33 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore;
 
 public static class FlashSalesDbContextModelCreatingExtensions
 {
-    public static void ConfigureFlashSales(
+    public static void ConfigureEShopPluginsFlashSales(
         this ModelBuilder builder)
     {
         Check.NotNull(builder, nameof(builder));
 
-        /* Configure all entities here. Example:
-
-        builder.Entity<Question>(b =>
+        builder.Entity<FlashSalesPlan>(b =>
         {
-            //Configure table & schema name
-            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "Questions", FlashSalesDbProperties.DbSchema);
-
+            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "Plans", FlashSalesDbProperties.DbSchema);
             b.ConfigureByConvention();
 
-            //Properties
-            b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
-
-            //Relations
-            b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
-
-            //Indexes
-            b.HasIndex(q => q.CreationTime);
+            /* Configure more properties here */
         });
-        */
+
+        builder.Entity<FlashSalesResult>(b =>
+        {
+            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "Results", FlashSalesDbProperties.DbSchema);
+            b.ConfigureByConvention();
+
+            /* Configure more properties here */
+        });
     }
 }

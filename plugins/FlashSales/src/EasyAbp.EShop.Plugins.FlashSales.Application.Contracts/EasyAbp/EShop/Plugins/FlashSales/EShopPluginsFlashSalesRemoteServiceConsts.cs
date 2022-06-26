@@ -4,5 +4,5 @@ public class EShopPluginsFlashSalesRemoteServiceConsts
 {
     public const string RemoteServiceName = "FlashSales";
 
-    public const string ModuleName = "flashSales";
+    public const string ModuleName = "flash-sales";
 }

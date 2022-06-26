@@ -1,4 +1,4 @@
-namespace EasyAbp.EShop.Plugins.FlashSales.Web.Pages.EasyAbp.EShop.Plugins.FlashSales;
+namespace EasyAbp.EShop.Plugins.FlashSales.Web.Pages.EShop.Plugins.FlashSales;
 
 public class IndexModel : FlashSalesPageModel
 {

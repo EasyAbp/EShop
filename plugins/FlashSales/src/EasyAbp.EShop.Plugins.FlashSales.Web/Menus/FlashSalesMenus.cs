@@ -1,10 +1,12 @@
-﻿namespace EasyAbp.EShop.Plugins.FlashSales.Web.Menus;
+namespace EasyAbp.EShop.Plugins.FlashSales.Web.Menus;
 
-public class FlashSalesMenus
+public static class FlashSalesMenus
 {
-    public const string Prefix = "FlashSales";
+    public const string ModuleGroupPrefix = "EasyAbp.EShop";
 
-    //Add your menu items here...
-    //public const string Home = Prefix + ".MyNewMenuItem";
+    public const string Prefix = ModuleGroupPrefix + ".Plugins.FlashSales";
 
+    public const string FlashSalesPlan = Prefix + ".FlashSalesPlan";
+
+    public const string FlashSalesResult = Prefix + ".FlashSalesResult";
 }

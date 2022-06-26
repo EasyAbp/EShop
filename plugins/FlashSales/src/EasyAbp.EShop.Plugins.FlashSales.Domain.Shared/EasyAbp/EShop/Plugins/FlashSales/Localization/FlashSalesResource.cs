@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Plugins.FlashSales.Localization;
 
-[LocalizationResourceName("FlashSales")]
+[LocalizationResourceName("EasyAbpEShopPluginsFlashSales")]
 public class FlashSalesResource
 {
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -7,9 +9,9 @@ namespace EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore;
 [ConnectionStringName(FlashSalesDbProperties.ConnectionStringName)]
 public class FlashSalesDbContext : AbpDbContext<FlashSalesDbContext>, IFlashSalesDbContext
 {
-    /* Add DbSet for each Aggregate Root here. Example:
-     * public DbSet<Question> Questions { get; set; }
-     */
+    public DbSet<FlashSalesPlan> Plans { get; set; }
+
+    public DbSet<FlashSalesResult> Results { get; set; }
 
     public FlashSalesDbContext(DbContextOptions<FlashSalesDbContext> options)
         : base(options)
@@ -21,6 +23,6 @@ public class FlashSalesDbContext : AbpDbContext<FlashSalesDbContext>, IFlashSale
     {
         base.OnModelCreating(builder);
 
-        builder.ConfigureFlashSales();
+        builder.ConfigureEShopPluginsFlashSales();
     }
 }

@@ -53,6 +53,6 @@ public class EShopPluginsFlashSalesWebModule : AbpModule
         Configure<RazorPagesOptions>(options =>
         {
                 //Configure authorization.
-            });
+        });
     }
 }

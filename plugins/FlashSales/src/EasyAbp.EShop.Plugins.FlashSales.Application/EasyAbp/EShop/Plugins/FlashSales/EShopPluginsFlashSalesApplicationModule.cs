@@ -1,15 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
-using Volo.Abp.Modularity;
+﻿using EasyAbp.EShop.Products;
+using EasyAbp.EShop.Stores;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Application;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.Caching;
+using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Plugins.FlashSales;
-
 [DependsOn(
+    typeof(EShopProductsApplicationContractsModule),
     typeof(EShopPluginsFlashSalesDomainModule),
     typeof(EShopPluginsFlashSalesApplicationContractsModule),
+    typeof(EShopStoresApplicationSharedModule),
     typeof(AbpDddApplicationModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpAutoMapperModule),
+    typeof(AbpCachingModule)
     )]
 public class EShopPluginsFlashSalesApplicationModule : AbpModule
 {
@@ -18,7 +23,14 @@ public class EShopPluginsFlashSalesApplicationModule : AbpModule
         context.Services.AddAutoMapperObjectMapper<EShopPluginsFlashSalesApplicationModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<EShopPluginsFlashSalesApplicationModule>(validate: true);
+            options.Configurators.Add(abpAutoMapperConfigurationContext =>
+            {
+                var profile = abpAutoMapperConfigurationContext.ServiceProvider
+                    .GetRequiredService<FlashSalesApplicationAutoMapperProfile>();
+
+                abpAutoMapperConfigurationContext.MapperConfiguration.AddProfile(profile);
+            });
         });
+
     }
 }
