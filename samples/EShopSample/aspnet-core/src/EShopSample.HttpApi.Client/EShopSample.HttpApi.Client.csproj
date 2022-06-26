@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.HttpApi.Client\EasyAbp.EShop.HttpApi.Client.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.HttpApi.Client\EasyAbp.EShop.Plugins.Baskets.HttpApi.Client.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client\EasyAbp.EShop.Plugins.Coupons.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client\EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client.csproj" />
     <ProjectReference Include="..\EShopSample.Application.Contracts\EShopSample.Application.Contracts.csproj" />
   </ItemGroup>
 
