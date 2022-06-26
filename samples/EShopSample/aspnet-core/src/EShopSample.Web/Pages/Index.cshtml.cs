@@ -57,11 +57,11 @@ public class IndexModel : EShopSamplePageModel
             Sorting = "CreationTime DESC"
         });
 
-        Order = OrderList.Items.FirstOrDefault(x => x.OrderStatus is OrderStatus.Pending);
-
         Store = await _storeAppService.GetDefaultAsync();
 
         CakeProduct = await _productAppService.GetByUniqueNameAsync(Store.Id, SampleDataConsts.CakeProductUniqueName);
+
+        Order = OrderList.Items.FirstOrDefault(x => x.OrderStatus is OrderStatus.Pending && x.OrderLines.Any(ol => ol.ProductId == CakeProduct.Id));
 
         Wallet = (await _accountAppService.GetListAsync(new GetAccountListInput { UserId = CurrentUser.Id })).Items[0];
     }
@@ -90,7 +90,7 @@ public class IndexModel : EShopSamplePageModel
                     sb.Append(',');
                 }
             }
-            
+
             sb.Append('}');
 
             sb.Append($",\"skuId\":\"{sku.Id}\"");
