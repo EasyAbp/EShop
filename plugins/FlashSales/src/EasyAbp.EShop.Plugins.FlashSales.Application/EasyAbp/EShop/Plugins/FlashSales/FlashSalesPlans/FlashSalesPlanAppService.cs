@@ -1,16 +1,13 @@
 using System;
 using System.Linq;
-using System.Numerics;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
 using EasyAbp.EShop.Plugins.FlashSales.Permissions;
 using EasyAbp.EShop.Products.ProductDetails;
-using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
+using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using Volo.Abp;
@@ -22,7 +19,6 @@ using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
-using static EasyAbp.EShop.Products.Permissions.ProductsPermissions;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 
@@ -38,14 +34,24 @@ public class FlashSalesPlanAppService :
     protected override string DeletePolicyName { get; set; } = FlashSalesPermissions.FlashSalesPlan.Delete;
 
     protected IFlashSalesPlanRepository FlashSalesPlanRepository { get; }
+
     protected IProductAppService ProductAppService { get; }
+
     protected IProductDetailAppService ProductDetailAppService { get; }
+
     protected IDistributedCache TokenDistributedCache { get; }
+
     protected IDistributedCache<FlashSalesPlanCacheItem, Guid> DistributedCache { get; }
+
     protected IDistributedEventBus DistributedEventBus { get; }
+
     protected FlashSalesPlanManager FlashSalesPlanManager { get; }
+
     protected IFlashSalesResultRepository FlashSalesResultRepository { get; }
+
     protected IAbpDistributedLock DistributedLock { get; }
+
+    protected IFlashSalesPlanHasher FlashSalesPlanHasher { get; }
 
     public FlashSalesPlanAppService(
         IFlashSalesPlanRepository flashSalesPlanRepository,
@@ -56,7 +62,8 @@ public class FlashSalesPlanAppService :
         IDistributedEventBus distributedEventBus,
         FlashSalesPlanManager flashSalesPlanManager,
         IFlashSalesResultRepository flashSalesResultRepository,
-        IAbpDistributedLock distributedLock)
+        IAbpDistributedLock distributedLock,
+        IFlashSalesPlanHasher flashSalesPlanHasher)
         : base(flashSalesPlanRepository)
     {
         FlashSalesPlanRepository = flashSalesPlanRepository;
@@ -68,6 +75,7 @@ public class FlashSalesPlanAppService :
         FlashSalesPlanManager = flashSalesPlanManager;
         FlashSalesResultRepository = flashSalesResultRepository;
         DistributedLock = distributedLock;
+        FlashSalesPlanHasher = flashSalesPlanHasher;
     }
 
     public override async Task<FlashSalesPlanDto> GetAsync(Guid id)
@@ -86,7 +94,7 @@ public class FlashSalesPlanAppService :
 
     public override async Task<FlashSalesPlanDto> CreateAsync(FlashSalesPlanCreateDto input)
     {
-        await CheckCreatePolicyAsync();
+        await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
         var flashSalesPlan = await FlashSalesPlanManager.CreateAsync(
             input.StoreId,
@@ -104,7 +112,7 @@ public class FlashSalesPlanAppService :
 
     public override async Task<FlashSalesPlanDto> UpdateAsync(Guid id, FlashSalesPlanUpdateDto input)
     {
-        await CheckUpdatePolicyAsync();
+        await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName);
 
         var flashSalesPlan = await GetEntityByIdAsync(id);
 
@@ -122,6 +130,15 @@ public class FlashSalesPlanAppService :
         await FlashSalesPlanRepository.UpdateAsync(flashSalesPlan, autoSave: true);
 
         return await MapToGetOutputDtoAsync(flashSalesPlan);
+    }
+
+    public override async Task DeleteAsync(Guid id)
+    {
+        var flashSalesPlan = await GetEntityByIdAsync(id);
+
+        await AuthorizationService.CheckMultiStorePolicyAsync(flashSalesPlan.StoreId, DeletePolicyName);
+
+        await FlashSalesPlanRepository.DeleteAsync(flashSalesPlan);
     }
 
     protected override async Task<IQueryable<FlashSalesPlan>> CreateFilteredQueryAsync(FlashSalesPlanGetListInput input)
@@ -212,58 +229,44 @@ public class FlashSalesPlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.PreOrderExipred);
         }
 
-        var product = await ProductAppService.GetAsync(plan.ProductId);
-        var productSku = product.GetSkuById(plan.ProductSkuId);
-
-        if (!await ComparekHashTokenAsync(cacheHashToken, plan, product, productSku))
-        {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExipred);
-        }
-
         await RemoveCacheHashTokenAsync(plan);
 
         var userId = CurrentUser.GetId();
 
         var result = await CreatePendingFlashSalesResultAsync(plan, userId);
 
-        var CreateFlashSalesOrderEto = await PrepareCreateFlashSalesOrderEtoAsync(plan, product, productSku, result, input, userId, now);
+        var flashSalesReduceInventoryEto = await PrepareFlashSalesReduceInventoryEtoAsync(plan, result.Id, input, userId, now, cacheHashToken);
 
-        await DistributedEventBus.PublishAsync(CreateFlashSalesOrderEto);
+        /*
+         * FlashSalesReduceInventoryEto(success) -> CreateFlashSalesOrderEto -> CreateFlashSalesOrderCompleteEto
+         * FlashSalesReduceInventoryEto(failed) -> CreateFlashSalesOrderCompleteEto
+         */
+        await DistributedEventBus.PublishAsync(flashSalesReduceInventoryEto);
     }
 
-    protected virtual async Task<CreateFlashSalesOrderEto> PrepareCreateFlashSalesOrderEtoAsync(
-        FlashSalesPlanDto plan,
-        ProductDto product,
-        ProductSkuDto productSku,
-        FlashSalesResult result,
+    protected virtual Task<FlashSalesReduceInventoryEto> PrepareFlashSalesReduceInventoryEtoAsync(
+        FlashSalesPlanCacheItem plan,
+        Guid resultId,
         CreateOrderInput input,
         Guid userId,
-        DateTime now)
+        DateTime now,
+        string hashToken)
     {
-        FlashSalesProductDetailEto productDetail = null;
-        var productDetailId = productSku.ProductDetailId ?? product.ProductDetailId;
-        if (productDetailId.HasValue)
-        {
-            productDetail = ObjectMapper.Map<ProductDetailDto, FlashSalesProductDetailEto>(await ProductDetailAppService.GetAsync(productDetailId.Value));
-        }
-        var productEto = ObjectMapper.Map<ProductDto, FlashSalesProductEto>(product);
-        productEto.TenantId = CurrentTenant.Id;
-        var planEto = ObjectMapper.Map<FlashSalesPlanDto, FlashSalesPlanEto>(plan);
+        var planEto = ObjectMapper.Map<FlashSalesPlanCacheItem, FlashSalesPlanEto>(plan);
         planEto.TenantId = CurrentTenant.Id;
 
-        var eto = new CreateFlashSalesOrderEto()
+        var eto = new FlashSalesReduceInventoryEto()
         {
             TenantId = CurrentTenant.Id,
             PlanId = plan.Id,
             UserId = userId,
-            PendingResultId = result.Id,
+            PendingResultId = resultId,
             StoreId = plan.StoreId,
             CreateTime = now,
             CustomerRemark = input.CustomerRemark,
             Quantity = 1,//should configure
-            Product = productEto,
-            ProductDetail = productDetail,
-            Plan = planEto
+            Plan = planEto,
+            HashToken = hashToken
         };
 
         foreach (var item in input.ExtraProperties)
@@ -271,7 +274,7 @@ public class FlashSalesPlanAppService :
             eto.ExtraProperties.Add(item.Key, item.Value);
         }
 
-        return eto;
+        return Task.FromResult(eto);
     }
 
     protected virtual async Task<FlashSalesPlanCacheItem> GetFlashSalesPlanCacheAsync(Guid id)
@@ -283,54 +286,44 @@ public class FlashSalesPlanAppService :
         });
     }
 
-    protected virtual Task<string> GetCacheKeyAsync(FlashSalesPlanDto plan)
+    protected virtual Task<string> GetCacheKeyAsync(FlashSalesPlanCacheItem plan)
     {
         return Task.FromResult($"eshopflashsales_{CurrentUser.Id}_{plan.ProductSkuId}");
     }
 
-    protected virtual async Task<string> GetCacheHashTokenAsync(FlashSalesPlanDto plan)
+    protected virtual async Task<string> GetCacheHashTokenAsync(FlashSalesPlanCacheItem plan)
     {
         return await TokenDistributedCache.GetStringAsync(await GetCacheKeyAsync(plan));
     }
 
-    protected virtual async Task RemoveCacheHashTokenAsync(FlashSalesPlanDto plan)
+    protected virtual async Task RemoveCacheHashTokenAsync(FlashSalesPlanCacheItem plan)
     {
         await TokenDistributedCache.RemoveAsync(await GetCacheKeyAsync(plan));
     }
 
-    protected virtual async Task SetCacheHashTokenAsync(FlashSalesPlanDto plan, ProductDto product, ProductSkuDto productSku)
+    protected virtual async Task SetCacheHashTokenAsync(FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
     {
-        await TokenDistributedCache.SetStringAsync(await GetCacheKeyAsync(plan), await GetHashTokenAsync(plan, product, productSku), new DistributedCacheEntryOptions()
+        var hashToken = await FlashSalesPlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
+
+        await TokenDistributedCache.SetStringAsync(await GetCacheKeyAsync(plan), hashToken, new DistributedCacheEntryOptions()
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3)
         });
     }
 
-    protected virtual Task<string> GetHashTokenAsync(FlashSalesPlanDto plan, ProductDto product, ProductSkuDto productSku)
-    {
-        using var md5 = MD5.Create();
-        var inputBytes = Encoding.UTF8.GetBytes($"{plan.LastModificationTime}|{product.LastModificationTime}|{productSku.LastModificationTime}");
-        var sb = new StringBuilder();
-        foreach (var t in md5.ComputeHash(inputBytes))
-        {
-            sb.Append(t.ToString("X2"));
-        }
-        return Task.FromResult(sb.ToString());
-    }
-
-    protected virtual async Task<bool> ComparekHashTokenAsync(string cacheHashToken, FlashSalesPlanDto plan, ProductDto product, ProductSkuDto productSku)
+    protected virtual async Task<bool> ComparekHashTokenAsync(string cacheHashToken, FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
     {
         if (cacheHashToken.IsNullOrWhiteSpace())
         {
             return false;
         }
 
-        var hashToken = await GetHashTokenAsync(plan, product, productSku);
+        var hashToken = await FlashSalesPlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
 
         return cacheHashToken == hashToken;
     }
 
-    protected virtual async Task<FlashSalesResult> CreatePendingFlashSalesResultAsync(FlashSalesPlanDto plan, Guid userId)
+    protected virtual async Task<FlashSalesResult> CreatePendingFlashSalesResultAsync(FlashSalesPlanCacheItem plan, Guid userId)
     {
         var lockKey = $"create-flash-sales-order-{plan.Id}-{userId}";
 
@@ -342,7 +335,9 @@ public class FlashSalesPlanAppService :
         }
 
         // Prevent repeat submit
-        if (await FlashSalesResultRepository.AnyAsync(x => x.PlanId == plan.Id && x.UserId == userId))
+        if (await FlashSalesResultRepository.AnyAsync(x =>
+            x.PlanId == plan.Id && x.UserId == userId && (x.Status == FlashSalesResultStatus.Successful || x.Status == FlashSalesResultStatus.Pending))
+            )
         {
             throw new BusinessException(FlashSalesErrorCodes.AlreadySubmitCreateFlashSalesOrder);
         }

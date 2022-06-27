@@ -1,5 +1,4 @@
 ﻿using System;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectExtending;
 

@@ -5,6 +5,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 
+[Serializable]
 public class FlashSalesProductEto : FullAuditedEntityEto<Guid>, IProduct, IMultiTenant
 {
     public Guid? TenantId { get; set; }
@@ -12,6 +13,8 @@ public class FlashSalesProductEto : FullAuditedEntityEto<Guid>, IProduct, IMulti
     public Guid StoreId { get; set; }
 
     public string ProductGroupName { get; set; }
+
+    public string ProductGroupDisplayName { get; set; }
 
     public Guid? ProductDetailId { get; set; }
 
@@ -32,6 +35,8 @@ public class FlashSalesProductEto : FullAuditedEntityEto<Guid>, IProduct, IMulti
     public bool IsStatic { get; set; }
 
     public bool IsHidden { get; set; }
+
+    public TimeSpan? PaymentExpireIn { get; set; }
 
     public List<FlashSalesProductAttributeEto> ProductAttributes { get; set; }
 

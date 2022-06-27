@@ -6,4 +6,5 @@ namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 [Serializable]
 public class FlashSalesPlanCacheItem : FlashSalesPlanDto
 {
+    public Guid? TenantId { get; set; }
 }

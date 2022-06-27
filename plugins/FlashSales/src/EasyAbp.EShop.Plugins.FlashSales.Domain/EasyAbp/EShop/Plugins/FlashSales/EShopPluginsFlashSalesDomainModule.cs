@@ -20,7 +20,7 @@ public class EShopPluginsFlashSalesDomainModule : AbpModule
 
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddProfile<EShopPluginsFlashSalesDomainAutoMapperProfile>(validate: true);
+            options.AddMaps<EShopPluginsFlashSalesDomainModule>(validate: true);
         });
 
         Configure<AbpDistributedEntityEventOptions>(options =>

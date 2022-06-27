@@ -8,8 +8,6 @@ namespace EasyAbp.EShop.Plugins.FlashSales.Web.Pages.EShop.Plugins.FlashSales.Fl
 
 public class EditFlashSalesPlanViewModel : IHasConcurrencyStamp
 {
-    [DisabledInput]
-    [ReadOnlyInput]
     [Display(Name = "FlashSalesPlanStoreId")]
     public Guid StoreId { get; set; }
 

@@ -4,6 +4,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 
+[Serializable]
 public class FlashSalesPlanEto : FullAuditedEntityEto<Guid>, IMultiTenant
 {
     public Guid? TenantId { get; set; }

@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans.Dtos;
 [Serializable]
 public class FlashSalesPlanUpdateDto : ExtensibleEntityDto, IHasConcurrencyStamp
 {
+    public Guid StoreId { get; set; }
+
     public DateTime BeginTime { get; set; }
 
     public DateTime EndTime { get; set; }

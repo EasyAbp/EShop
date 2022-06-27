@@ -41,9 +41,6 @@ public class CreateFlashSalesOrderEventHandler : IDistributedEventHandler<Create
     [UnitOfWork(true)]
     public virtual async Task HandleEventAsync(CreateFlashSalesOrderEto eventData)
     {
-        //How to check product is available?
-        //How to reduce product stock?
-
         var input = new CreateOrderDto()
         {
             StoreId = eventData.StoreId,

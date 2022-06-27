@@ -7,6 +7,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Plugins.FlashSales;
+
 [DependsOn(
     typeof(EShopProductsApplicationContractsModule),
     typeof(EShopPluginsFlashSalesDomainModule),
@@ -23,14 +24,7 @@ public class EShopPluginsFlashSalesApplicationModule : AbpModule
         context.Services.AddAutoMapperObjectMapper<EShopPluginsFlashSalesApplicationModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.Configurators.Add(abpAutoMapperConfigurationContext =>
-            {
-                var profile = abpAutoMapperConfigurationContext.ServiceProvider
-                    .GetRequiredService<FlashSalesApplicationAutoMapperProfile>();
-
-                abpAutoMapperConfigurationContext.MapperConfiguration.AddProfile(profile);
-            });
+            options.AddMaps<EShopPluginsFlashSalesApplicationModule>(validate: true);
         });
-
     }
 }

@@ -1,12 +1,12 @@
-﻿using EasyAbp.EShop.Orders;
-using EasyAbp.EShop.Orders.Orders;
+﻿using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
-namespace EasyAbp.EShop.Plugins.FlashSales;
+namespace EasyAbp.EShop.Orders.Plugins.FlashSales;
 
 [DependsOn(
     typeof(EShopOrdersApplicationModule),
@@ -22,16 +22,10 @@ public class EShopOrdersPluginsFlashSalesApplicationModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<EShopOrdersPluginsFlashSalesApplicationAutoMapperProfile>();
+        context.Services.AddAutoMapperObjectMapper<EShopOrdersPluginsFlashSalesApplicationModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.Configurators.Add(abpAutoMapperConfigurationContext =>
-            {
-                var profile = abpAutoMapperConfigurationContext.ServiceProvider
-                    .GetRequiredService<EShopOrdersPluginsFlashSalesApplicationAutoMapperProfile>();
-
-                abpAutoMapperConfigurationContext.MapperConfiguration.AddProfile(profile);
-            });
+            options.AddMaps<EShopOrdersPluginsFlashSalesApplicationModule>(validate: true);
         });
     }
 }
