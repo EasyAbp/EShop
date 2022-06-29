@@ -35,10 +35,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 OrderId = eventData.Entity.Id
             };
 
-            await _backgroundJobManager.EnqueueAsync(
-                args: args,
-                delay: eventData.Entity.PaymentExpiration.Value.Subtract(_clock.Now) // Todo: use a absolute time.
-            );
+            if(_backgroundJobManager.IsAvailable())
+            {
+                await _backgroundJobManager.EnqueueAsync(
+                    args: args,
+                    delay: eventData.Entity.PaymentExpiration.Value.Subtract(_clock.Now) // Todo: use a absolute time.
+                );
+            }
         }
     }
 }
