@@ -30,13 +30,14 @@ using EShopSample.Localization;
 using EShopSample.MultiTenancy;
 using EShopSample.Web.Menus;
 using Microsoft.OpenApi.Models;
-using NUglify.JavaScript.Syntax;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
@@ -61,7 +62,7 @@ namespace EShopSample.Web
         typeof(AbpAutofacModule),
         typeof(AbpIdentityWebModule),
         typeof(AbpAccountWebIdentityServerModule),
-        typeof(AbpAspNetCoreMvcUiBasicThemeModule),
+        typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpFeatureManagementWebModule),
@@ -98,6 +99,7 @@ namespace EShopSample.Web
             var configuration = context.Services.GetConfiguration();
 
             ConfigureUrls(configuration);
+            ConfigureBundles();
             ConfigureAuthentication(context, configuration);
             ConfigureAutoMapper();
             ConfigureVirtualFileSystem(hostingEnvironment);
@@ -116,11 +118,14 @@ namespace EShopSample.Web
             });
         }
 
-        private void ConfigureUrls(IConfiguration configuration)
+        private void ConfigureBundles()
         {
-            Configure<AppUrlOptions>(options =>
+            Configure<AbpBundlingOptions>(options =>
             {
-                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+                options.StyleBundles.Configure(
+                    LeptonXLiteThemeBundles.Styles.Global,
+                    bundle => { bundle.AddFiles("/global-styles.css"); }
+                );
             });
         }
 
@@ -133,6 +138,14 @@ namespace EShopSample.Web
                     options.RequireHttpsMetadata = false;
                     options.Audience = "EShopSample";
                 });
+        }
+
+        private void ConfigureUrls(IConfiguration configuration)
+        {
+            Configure<AppUrlOptions>(options =>
+            {
+                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+            });
         }
 
         private void ConfigureAutoMapper()

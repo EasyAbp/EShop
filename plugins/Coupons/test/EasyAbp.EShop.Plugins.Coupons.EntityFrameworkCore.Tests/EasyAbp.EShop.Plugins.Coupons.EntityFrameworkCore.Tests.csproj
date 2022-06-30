@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.*" />
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore\EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Coupons.TestBase\EasyAbp.EShop.Plugins.Coupons.TestBase.csproj" />
