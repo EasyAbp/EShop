@@ -12,6 +12,9 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos
 
         public DateTime? ToTime { get; set; }
 
+        [Required]
+        public string Currency { get; set; }
+
         [Range(BookingConsts.MinimumPrice, BookingConsts.MaximumPrice)]
         public decimal? Price { get; set; }
     }

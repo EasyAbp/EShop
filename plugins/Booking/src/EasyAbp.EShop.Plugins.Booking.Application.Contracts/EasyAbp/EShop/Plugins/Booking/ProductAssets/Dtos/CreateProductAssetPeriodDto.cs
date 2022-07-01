@@ -8,6 +8,9 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos
     {
         public Guid PeriodId { get; set; }
 
+        [Required]
+        public string Currency { get; set; }
+
         [Range(BookingConsts.MinimumPrice, BookingConsts.MaximumPrice)]
         public decimal Price { get; set; }
     }

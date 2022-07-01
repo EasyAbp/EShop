@@ -1,5 +1,4 @@
 using System;
-
 using System.ComponentModel.DataAnnotations;
 
 namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssets.ProductAssetPeriod.ViewModels
@@ -8,6 +7,10 @@ namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductA
     {
         [Display(Name = "ProductAssetPeriodPeriodId")]
         public Guid PeriodId { get; set; }
+
+        [Display(Name = "ProductAssetPeriodCurrency")]
+        [Required]
+        public string Currency { get; set; }
 
         [Display(Name = "ProductAssetPeriodPrice")]
         [Range(BookingConsts.MinimumPrice, BookingConsts.MaximumPrice)]

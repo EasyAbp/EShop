@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 
@@ -16,10 +17,10 @@ public class ProductAssetManager : DomainService
     }
 
     public virtual async Task<ProductAsset> CreateAsync(Guid storeId, Guid productId, Guid productSkuId, Guid assetId,
-        Guid periodSchemeId, DateTime fromTime, DateTime? toTime, decimal? price)
+        Guid periodSchemeId, DateTime fromTime, DateTime? toTime, [CanBeNull] string currency, decimal? price)
     {
         var id = GuidGenerator.Create();
-        
+
         if (await _repository.ExistConflictAsync(
                 id, storeId, productId, productSkuId, assetId, periodSchemeId, fromTime))
         {
@@ -27,10 +28,11 @@ public class ProductAssetManager : DomainService
         }
 
         return new ProductAsset(GuidGenerator.Create(), CurrentTenant.Id, storeId, productId, productSkuId, assetId,
-            periodSchemeId, fromTime, toTime, price, new List<ProductAssetPeriod>());
+            periodSchemeId, fromTime, toTime, currency, price, new List<ProductAssetPeriod>());
     }
 
-    public virtual async Task UpdateAsync(ProductAsset entity, DateTime fromTime, DateTime? toTime, decimal? price)
+    public virtual async Task UpdateAsync(ProductAsset entity, DateTime fromTime, DateTime? toTime,
+        [NotNull] string currency, decimal? price)
     {
         if (await _repository.ExistConflictAsync(entity.Id, entity.StoreId, entity.ProductId, entity.ProductSkuId,
                 entity.AssetId, entity.PeriodSchemeId, fromTime))
@@ -38,6 +40,6 @@ public class ProductAssetManager : DomainService
             throw new BusinessException(BookingErrorCodes.ConflictingProductAsset);
         }
 
-        entity.Update(fromTime, toTime, price);
+        entity.Update(fromTime, toTime, currency, price);
     }
 }

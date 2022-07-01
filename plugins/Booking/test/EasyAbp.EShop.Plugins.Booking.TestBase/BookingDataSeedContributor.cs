@@ -52,11 +52,11 @@ public class BookingDataSeedContributor : IDataSeedContributor, ITransientDepend
 
         await _productAssetRepository.InsertAsync(await _productAssetManager.CreateAsync(BookingTestConsts.Store1Id,
             BookingTestConsts.BookingProduct1Id, BookingTestConsts.BookingProduct1Sku1Id, BookingTestConsts.Asset1Id,
-            BookingTestConsts.PeriodScheme1Id, DateTime.Parse("1970-1-1"), null, 5m));
+            BookingTestConsts.PeriodScheme1Id, DateTime.Parse("1970-1-1"), null, "USD", 5m));
 
         await _productAssetCategoryRepository.InsertAsync(await _productAssetCategoryManager.CreateAsync(
             BookingTestConsts.Store1Id, BookingTestConsts.BookingProduct1Id, BookingTestConsts.BookingProduct1Sku1Id,
             BookingTestConsts.AssetCategory1Id, BookingTestConsts.PeriodScheme1Id, DateTime.Parse("1970-1-1"), null,
-            10m));
+            "USD", 10m));
     }
 }

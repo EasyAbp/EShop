@@ -8,6 +8,8 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
     {
         public Guid PeriodId { get; set; }
 
+        public string Currency { get; set; }
+
         public decimal Price { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.Shared;
 using EasyAbp.EShop.Stores.Stores;
+using JetBrains.Annotations;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -41,6 +43,12 @@ public class ProductAsset : AuditedAggregateRoot<Guid>, IMultiStore, IMultiTenan
     public virtual DateTime? ToTime { get; protected set; }
 
     /// <summary>
+    /// Should set if the <see cref="Price"/> is not <c>null</c>.
+    /// </summary>
+    [CanBeNull]
+    public virtual string Currency { get; protected set; }
+
+    /// <summary>
     /// Price for any period.
     /// Fall back to the price of ProductSku if <c>null</c>.
     /// </summary>
@@ -65,6 +73,7 @@ public class ProductAsset : AuditedAggregateRoot<Guid>, IMultiStore, IMultiTenan
         Guid periodSchemeId,
         DateTime fromTime,
         DateTime? toTime,
+        [CanBeNull] string currency,
         decimal? price,
         List<ProductAssetPeriod> periods
     ) : base(id)
@@ -77,15 +86,26 @@ public class ProductAsset : AuditedAggregateRoot<Guid>, IMultiStore, IMultiTenan
         PeriodSchemeId = periodSchemeId;
         FromTime = fromTime;
         ToTime = toTime;
-        Price = price;
-        
+        SetPrice(currency, price);
+
         Periods = periods ?? new List<ProductAssetPeriod>();
     }
 
-    internal void Update(DateTime fromTime, DateTime? toTime, decimal? price)
+    internal void Update(DateTime fromTime, DateTime? toTime, [CanBeNull] string currency, decimal? price)
     {
         FromTime = fromTime;
         ToTime = toTime;
+        SetPrice(currency, price);
+    }
+
+    protected void SetPrice([CanBeNull] string currency, decimal? price)
+    {
+        if (price is not null)
+        {
+            Check.NotNull(currency, nameof(currency));
+        }
+
+        Currency = currency;
         Price = price;
     }
 

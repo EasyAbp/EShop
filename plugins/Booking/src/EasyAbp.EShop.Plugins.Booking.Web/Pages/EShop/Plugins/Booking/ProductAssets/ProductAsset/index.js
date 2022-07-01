@@ -57,6 +57,10 @@ $(function () {
                 data: "assetId"
             },
             {
+                title: l('ProductAssetCurrency'),
+                data: "currency"
+            },
+            {
                 title: l('ProductAssetPrice'),
                 data: "price"
             },

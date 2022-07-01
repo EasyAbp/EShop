@@ -59,6 +59,10 @@ $(function () {
                 data: "periodId"
             },
             {
+                title: l('ProductAssetPeriodCurrency'),
+                data: "currency"
+            },
+            {
                 title: l('ProductAssetPeriodPrice'),
                 data: "price"
             },

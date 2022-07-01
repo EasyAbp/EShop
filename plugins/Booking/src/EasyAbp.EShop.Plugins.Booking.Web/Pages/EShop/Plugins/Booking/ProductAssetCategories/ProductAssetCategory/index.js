@@ -57,6 +57,10 @@ $(function () {
                 data: "assetCategoryId"
             },
             {
+                title: l('ProductAssetCategoryCurrency'),
+                data: "currency"
+            },
+            {
                 title: l('ProductAssetCategoryPrice'),
                 data: "price"
             },

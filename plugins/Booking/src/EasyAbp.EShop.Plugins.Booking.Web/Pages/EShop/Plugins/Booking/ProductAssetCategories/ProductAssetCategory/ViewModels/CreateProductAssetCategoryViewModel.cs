@@ -28,6 +28,9 @@ namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductA
         [Display(Name = "ProductAssetCategoryToTime")]
         public DateTime? ToTime { get; set; }
 
+        [Display(Name = "ProductAssetCategoryCurrency")]
+        public string Currency { get; set; }
+
         [Display(Name = "ProductAssetCategoryPrice")]
         [Range(BookingConsts.MinimumPrice, BookingConsts.MaximumPrice)]
         public decimal? Price { get; set; }

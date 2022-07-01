@@ -1,12 +1,12 @@
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EasyAbp.EShop.Stores.Stores;
 
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
 {
     [Serializable]
-    public class CreateProductAssetCategoryDto : IMultiStore
+    public class CreateProductAssetCategoryDto : IMultiStore, IValidatableObject
     {
         public Guid StoreId { get; set; }
 
@@ -22,7 +22,20 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
 
         public DateTime? ToTime { get; set; }
 
+        public string Currency { get; set; }
+
         [Range(BookingConsts.MinimumPrice, BookingConsts.MaximumPrice)]
         public decimal? Price { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Price is not null && Currency.IsNullOrWhiteSpace())
+            {
+                yield return new ValidationResult(
+                    "Currency should not be empty when the Price has a value!",
+                    new[] { nameof(Currency) }
+                );
+            }
+        }
     }
 }

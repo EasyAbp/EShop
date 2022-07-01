@@ -57,7 +57,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
             GetProductAssetListDto input)
         {
             await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
-            
+
             var query = await CreateFilteredQueryAsync(input);
 
             var totalCount = await AsyncExecuter.CountAsync(query);
@@ -118,12 +118,12 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
         protected override async Task<ProductAsset> MapToEntityAsync(CreateProductAssetDto input)
         {
             return await _productAssetManager.CreateAsync(input.StoreId, input.ProductId, input.ProductSkuId,
-                input.AssetId, input.PeriodSchemeId, input.FromTime, input.ToTime, input.Price);
+                input.AssetId, input.PeriodSchemeId, input.FromTime, input.ToTime, input.Currency, input.Price);
         }
 
         protected override async Task MapToEntityAsync(UpdateProductAssetDto input, ProductAsset entity)
         {
-            await _productAssetManager.UpdateAsync(entity, input.FromTime, input.ToTime, input.Price);
+            await _productAssetManager.UpdateAsync(entity, input.FromTime, input.ToTime, input.Currency, input.Price);
         }
 
         public virtual async Task<ProductAssetDto> CreatePeriodAsync(Guid productAssetId,

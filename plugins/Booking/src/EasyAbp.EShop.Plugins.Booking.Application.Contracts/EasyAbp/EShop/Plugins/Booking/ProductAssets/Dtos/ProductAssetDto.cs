@@ -21,6 +21,8 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos
 
         public DateTime? ToTime { get; set; }
 
+        public string Currency { get; set; }
+
         public decimal? Price { get; set; }
 
         public List<ProductAssetPeriodDto> Periods { get; set; }

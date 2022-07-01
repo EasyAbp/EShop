@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
@@ -8,6 +7,9 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos
     public class CreateProductAssetCategoryPeriodDto
     {
         public Guid PeriodId { get; set; }
+
+        [Required]
+        public string Currency { get; set; }
 
         [Range(BookingConsts.MinimumPrice, BookingConsts.MaximumPrice)]
         public decimal Price { get; set; }

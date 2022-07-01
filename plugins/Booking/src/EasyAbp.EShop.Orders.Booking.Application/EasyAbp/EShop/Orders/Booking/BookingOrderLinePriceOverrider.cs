@@ -61,10 +61,19 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
 
         if (productAssetPeriod is not null)
         {
+            await CheckCurrencyAsync(productAssetPeriod.Currency, effectiveCurrency);
+
             return new Money(productAssetPeriod.Price, effectiveCurrency);
         }
 
-        return productAsset.Price.HasValue ? new Money(productAsset.Price.Value, effectiveCurrency) : null;
+        if (productAsset.Price.HasValue)
+        {
+            await CheckCurrencyAsync(productAsset.Currency, effectiveCurrency);
+
+            return new Money(productAsset.Price.Value, effectiveCurrency);
+        }
+
+        return null;
     }
 
     public virtual async Task<Money?> GetAssetCategoryBookingUnitPriceAsync(CreateOrderDto input,
@@ -87,11 +96,28 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
 
         if (productAssetCategoryPeriod is not null)
         {
+            await CheckCurrencyAsync(productAssetCategoryPeriod.Currency, effectiveCurrency);
+
             return new Money(productAssetCategoryPeriod.Price, effectiveCurrency);
         }
 
-        return productAssetCategory.Price.HasValue
-            ? new Money(productAssetCategory.Price.Value, effectiveCurrency)
-            : null;
+        if (productAssetCategory.Price.HasValue)
+        {
+            await CheckCurrencyAsync(productAssetCategory.Currency, effectiveCurrency);
+
+            return new Money(productAssetCategory.Price.Value, effectiveCurrency);
+        }
+
+        return null;
+    }
+
+    protected virtual Task CheckCurrencyAsync(string currency, Currency effectiveCurrency)
+    {
+        if (currency != effectiveCurrency.Code)
+        {
+            throw new UnexpectedCurrencyException(effectiveCurrency.Code);
+        }
+
+        return Task.CompletedTask;
     }
 }

@@ -43,7 +43,8 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
             _productAssetCategoryManager = productAssetCategoryManager;
         }
 
-        protected override async Task<IQueryable<ProductAssetCategory>> CreateFilteredQueryAsync(GetProductAssetCategoryListDto input)
+        protected override async Task<IQueryable<ProductAssetCategory>> CreateFilteredQueryAsync(
+            GetProductAssetCategoryListDto input)
         {
             return (await base.CreateFilteredQueryAsync(input))
                 .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId)
@@ -57,7 +58,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
             GetProductAssetCategoryListDto input)
         {
             await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
-            
+
             var query = await CreateFilteredQueryAsync(input);
 
             var totalCount = await AsyncExecuter.CountAsync(query);
@@ -118,12 +119,13 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
         protected override async Task<ProductAssetCategory> MapToEntityAsync(CreateProductAssetCategoryDto input)
         {
             return await _productAssetCategoryManager.CreateAsync(input.StoreId, input.ProductId, input.ProductSkuId,
-                input.AssetCategoryId, input.PeriodSchemeId, input.FromTime, input.ToTime, input.Price);
+                input.AssetCategoryId, input.PeriodSchemeId, input.FromTime, input.ToTime, input.Currency, input.Price);
         }
 
         protected override async Task MapToEntityAsync(UpdateProductAssetCategoryDto input, ProductAssetCategory entity)
         {
-            await _productAssetCategoryManager.UpdateAsync(entity, input.FromTime, input.ToTime, input.Price);
+            await _productAssetCategoryManager.UpdateAsync(
+                entity, input.FromTime, input.ToTime, input.Currency, input.Price);
         }
 
         public virtual async Task<ProductAssetCategoryDto> CreatePeriodAsync(Guid productAssetCategoryId,
