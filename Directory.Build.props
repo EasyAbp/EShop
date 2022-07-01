@@ -5,6 +5,7 @@
     <EasyAbpAbpTreesModuleVersion>2.7.1</EasyAbpAbpTreesModuleVersion>
     <EasyAbpPaymentServiceModuleVersion>2.0.14</EasyAbpPaymentServiceModuleVersion>
     <EasyAbpAbpTagHelperPlusModuleVersion>1.0.1</EasyAbpAbpTagHelperPlusModuleVersion>
+    <EasyAbpBookingServiceModuleVersion>0.1.0</EasyAbpBookingServiceModuleVersion>
     <DaprSdkVersion>1.7.0</DaprSdkVersion>
     <OrleansVersion>3.6.2</OrleansVersion>
     <NodaMoneyVersion>1.0.5</NodaMoneyVersion>

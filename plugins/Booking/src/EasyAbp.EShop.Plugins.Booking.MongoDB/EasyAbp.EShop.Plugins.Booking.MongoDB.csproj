@@ -12,8 +12,4 @@
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Domain\EasyAbp.EShop.Plugins.Booking.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EasyAbp\EShop\Plugins\Booking" />
-  </ItemGroup>
-
 </Project>
