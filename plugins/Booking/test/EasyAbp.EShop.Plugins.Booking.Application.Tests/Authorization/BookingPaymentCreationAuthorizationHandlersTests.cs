@@ -30,27 +30,6 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
         context.HasFailed.ShouldBeFalse();
     }
 
-    [Fact]
-    public async Task Should_Failed_If_ProductAsset_Mapping_Not_Exists()
-    {
-        var productAssetRepository = ServiceProvider.GetRequiredService<IProductAssetRepository>();
-
-        var productAsset = await productAssetRepository.GetAsync(x =>
-            x.AssetId == BookingTestConsts.Asset1Id && x.ProductId == BookingTestConsts.BookingProduct1Id);
-
-        await productAssetRepository.DeleteAsync(productAsset, true);
-        
-        var handler = ServiceProvider.GetRequiredService<BookingPaymentCreationAuthorizationHandler>();
-
-        var context = await CreateAuthorizationHandlerContextAsync();
-        
-        await handler.HandleAsync(context);
-
-        context.HasFailed.ShouldBeFalse();
-        
-        await productAssetRepository.InsertAsync(productAsset, true);
-    }
-
     private Task<AuthorizationHandlerContext> CreateAuthorizationHandlerContextAsync()
     {
         var orderLine1 = new OrderLineDto
