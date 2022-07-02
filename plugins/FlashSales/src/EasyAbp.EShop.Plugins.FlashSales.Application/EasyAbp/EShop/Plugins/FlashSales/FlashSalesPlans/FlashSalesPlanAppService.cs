@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
 using EasyAbp.EShop.Plugins.FlashSales.Permissions;
-using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Stores.Authorization;
@@ -37,8 +36,6 @@ public class FlashSalesPlanAppService :
 
     protected IProductAppService ProductAppService { get; }
 
-    protected IProductDetailAppService ProductDetailAppService { get; }
-
     protected IDistributedCache TokenDistributedCache { get; }
 
     protected IDistributedCache<FlashSalesPlanCacheItem, Guid> DistributedCache { get; }
@@ -54,7 +51,6 @@ public class FlashSalesPlanAppService :
     public FlashSalesPlanAppService(
         IFlashSalesPlanRepository flashSalesPlanRepository,
         IProductAppService productAppService,
-        IProductDetailAppService productDetailAppService,
         IDistributedCache tokenDistributedCache,
         IDistributedCache<FlashSalesPlanCacheItem, Guid> distributedCache,
         IDistributedEventBus distributedEventBus,
@@ -65,7 +61,6 @@ public class FlashSalesPlanAppService :
     {
         FlashSalesPlanRepository = flashSalesPlanRepository;
         ProductAppService = productAppService;
-        ProductDetailAppService = productDetailAppService;
         TokenDistributedCache = tokenDistributedCache;
         DistributedCache = distributedCache;
         DistributedEventBus = distributedEventBus;
@@ -232,7 +227,7 @@ public class FlashSalesPlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
         }
 
-        if (!await ComparekHashTokenAsync(cacheHashToken, plan, product, productSku))
+        if (!await CompareHashTokenAsync(cacheHashToken, plan, product, productSku))
         {
             throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
         }
@@ -340,7 +335,7 @@ public class FlashSalesPlanAppService :
         });
     }
 
-    protected virtual async Task<bool> ComparekHashTokenAsync(string cacheHashToken, FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
+    protected virtual async Task<bool> CompareHashTokenAsync(string cacheHashToken, FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
     {
         if (cacheHashToken.IsNullOrWhiteSpace())
         {
