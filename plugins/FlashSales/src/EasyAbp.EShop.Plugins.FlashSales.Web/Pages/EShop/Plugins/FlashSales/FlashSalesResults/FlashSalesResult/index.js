@@ -2,7 +2,7 @@ $(function () {
 
     var l = abp.localization.getResource('EasyAbpEShopPluginsFlashSales');
 
-    var service = easyAbp.eShop.plugins.flashSales.flashSalesPlans.flashSalesPlan;
+    var service = easyAbp.eShop.plugins.flashSales.flashSalesResults.flashSalesResult;
     var viewModal = new abp.ModalManager(abp.appPath + 'EShop/Plugins/FlashSales/FlashSalesResults/FlashSalesResult/ViewModal');
 
     var dataTable = $('#FlashSalesResultTable').DataTable(abp.libs.datatables.normalizeConfiguration({
@@ -20,7 +20,7 @@ $(function () {
                     items:
                         [
                             {
-                                text: l('ViewFlashSalesPlan'),
+                                text: l('ViewFlashSalesResult'),
                                 action: function (data) {
                                     viewModal.open({ id: data.record.id });
                                 }
@@ -38,7 +38,14 @@ $(function () {
             },
             {
                 title: l('FlashSalesResultStatus'),
-                data: "status"
+                data: "status",
+                render: function (data) {
+                    return l('Enum:FlashSalesResultStatus.' + data);
+                }
+            },
+            {
+                title: l('FlashSalesResultReason'),
+                data: "reason"
             },
             {
                 title: l('FlashSalesResultUserId'),

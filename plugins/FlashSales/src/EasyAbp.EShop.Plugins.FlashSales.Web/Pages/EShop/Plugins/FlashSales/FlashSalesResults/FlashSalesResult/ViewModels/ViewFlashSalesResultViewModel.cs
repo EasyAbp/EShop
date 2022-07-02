@@ -7,17 +7,20 @@ namespace EasyAbp.EShop.Plugins.FlashSales.Web.Pages.EShop.Plugins.FlashSales.Fl
 public class ViewFlashSalesResultViewModel
 {
     [Display(Name = "FlashSalesResultStoreId")]
-    public virtual Guid StoreId { get; protected set; }
+    public Guid StoreId { get; set; }
 
     [Display(Name = "FlashSalesResultPlanId")]
-    public virtual Guid PlanId { get; protected set; }
+    public Guid PlanId { get; set; }
 
     [Display(Name = "FlashSalesResultStatus")]
-    public virtual FlashSalesResultStatus Status { get; protected set; }
+    public FlashSalesResultStatus Status { get; set; }
+
+    [Display(Name = "FlashSalesResultReason")]
+    public string Reason { get; set; }
 
     [Display(Name = "FlashSalesResultUserId")]
-    public virtual Guid UserId { get; protected set; }
+    public Guid UserId { get; set; }
 
     [Display(Name = "FlashSalesResultOrderId")]
-    public virtual Guid? OrderId { get; protected set; }
+    public Guid? OrderId { get; set; }
 }

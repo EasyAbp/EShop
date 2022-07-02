@@ -45,8 +45,6 @@ public class FlashSalesPlanAppService :
 
     protected IDistributedEventBus DistributedEventBus { get; }
 
-    protected FlashSalesPlanManager FlashSalesPlanManager { get; }
-
     protected IFlashSalesResultRepository FlashSalesResultRepository { get; }
 
     protected IAbpDistributedLock DistributedLock { get; }
@@ -60,7 +58,6 @@ public class FlashSalesPlanAppService :
         IDistributedCache tokenDistributedCache,
         IDistributedCache<FlashSalesPlanCacheItem, Guid> distributedCache,
         IDistributedEventBus distributedEventBus,
-        FlashSalesPlanManager flashSalesPlanManager,
         IFlashSalesResultRepository flashSalesResultRepository,
         IAbpDistributedLock distributedLock,
         IFlashSalesPlanHasher flashSalesPlanHasher)
@@ -72,7 +69,6 @@ public class FlashSalesPlanAppService :
         TokenDistributedCache = tokenDistributedCache;
         DistributedCache = distributedCache;
         DistributedEventBus = distributedEventBus;
-        FlashSalesPlanManager = flashSalesPlanManager;
         FlashSalesResultRepository = flashSalesResultRepository;
         DistributedLock = distributedLock;
         FlashSalesPlanHasher = flashSalesPlanHasher;
@@ -96,7 +92,22 @@ public class FlashSalesPlanAppService :
     {
         await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
-        var flashSalesPlan = await FlashSalesPlanManager.CreateAsync(
+        var product = await ProductAppService.GetAsync(input.ProductId);
+        var productSku = product.FindSkuById(input.ProductSkuId);
+
+        if (product.StoreId != input.StoreId)
+        {
+            throw new ProductIsNotInThisStoreException(input.ProductId, input.StoreId);
+        }
+
+        if (productSku == null)
+        {
+            throw new ProductSkuIsNotFoundException(input.ProductSkuId);
+        }
+
+        var flashSalesPlan = new FlashSalesPlan(
+            GuidGenerator.Create(),
+            CurrentTenant.Id,
             input.StoreId,
             input.BeginTime,
             input.EndTime,
@@ -114,16 +125,24 @@ public class FlashSalesPlanAppService :
     {
         await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName);
 
+        var product = await ProductAppService.GetAsync(input.ProductId);
+        var productSku = product.FindSkuById(input.ProductSkuId);
+
+        if (product.StoreId != input.StoreId)
+        {
+            throw new ProductIsNotInThisStoreException(input.ProductId, input.StoreId);
+        }
+
+        if (productSku == null)
+        {
+            throw new ProductSkuIsNotFoundException(input.ProductSkuId);
+        }
+
         var flashSalesPlan = await GetEntityByIdAsync(id);
 
-        await FlashSalesPlanManager.UpdateAsync(
-            flashSalesPlan,
-            input.BeginTime,
-            input.EndTime,
-            input.ProductId,
-            input.ProductSkuId,
-            input.IsPublished
-        );
+        flashSalesPlan.SetTimeRange(input.BeginTime, input.EndTime);
+        flashSalesPlan.SetProductSku(input.StoreId, input.ProductId, input.ProductSkuId);
+        flashSalesPlan.SetPublished(input.IsPublished);
 
         flashSalesPlan.SetConcurrencyStampIfNotNull(input.ConcurrencyStamp);
 
@@ -170,7 +189,7 @@ public class FlashSalesPlanAppService :
 
         if (product.InventoryStrategy != InventoryStrategy.FlashSales)
         {
-            throw new BusinessException(FlashSalesErrorCodes.IsNotFlashSalesProduct);
+            throw new BusinessException(FlashSalesErrorCodes.ProductInventoryStrategyIsNotFlashSales);
         }
 
         if (!plan.IsPublished)
@@ -181,6 +200,11 @@ public class FlashSalesPlanAppService :
         if (Clock.Now > plan.EndTime)
         {
             throw new BusinessException(FlashSalesErrorCodes.FlashSalesPlanIsExpired);
+        }
+
+        if (productSku.Inventory < 1)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
         }
 
         await SetCacheHashTokenAsync(plan, product, productSku);
@@ -197,15 +221,20 @@ public class FlashSalesPlanAppService :
         var cacheHashToken = await GetCacheHashTokenAsync(plan);
         if (cacheHashToken.IsNullOrWhiteSpace())
         {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExipred);
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
         }
 
         var product = await ProductAppService.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
 
+        if (productSku.Inventory < 1)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
+        }
+
         if (!await ComparekHashTokenAsync(cacheHashToken, plan, product, productSku))
         {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExipred);
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
         }
     }
 
@@ -226,7 +255,7 @@ public class FlashSalesPlanAppService :
         var cacheHashToken = await GetCacheHashTokenAsync(plan);
         if (cacheHashToken.IsNullOrWhiteSpace())
         {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExipred);
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
         }
 
         await RemoveCacheHashTokenAsync(plan);
@@ -288,7 +317,7 @@ public class FlashSalesPlanAppService :
 
     protected virtual Task<string> GetCacheKeyAsync(FlashSalesPlanCacheItem plan)
     {
-        return Task.FromResult($"eshopflashsales_{CurrentUser.Id}_{plan.ProductSkuId}");
+        return Task.FromResult($"eshopflashsales_{CurrentTenant.Id}_{CurrentUser.Id}_{plan.ProductSkuId}");
     }
 
     protected virtual async Task<string> GetCacheHashTokenAsync(FlashSalesPlanCacheItem plan)

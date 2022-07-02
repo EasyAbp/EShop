@@ -28,9 +28,8 @@ public class FlashSalesPlan : FullAuditedAggregateRoot<Guid>, IMultiTenant
         : base(id)
     {
         TenantId = tenantId;
-        StoreId = storeId;
         SetTimeRange(beginTime, endTime);
-        SetProduct(productId, productSkuId);
+        SetProductSku(storeId, productId, productSkuId);
         SetPublished(isPublished);
     }
 
@@ -45,8 +44,9 @@ public class FlashSalesPlan : FullAuditedAggregateRoot<Guid>, IMultiTenant
         EndTime = endTime;
     }
 
-    public void SetProduct(Guid productId, Guid productSkuId)
+    public void SetProductSku(Guid storeId, Guid productId, Guid productSkuId)
     {
+        StoreId = storeId;
         ProductId = productId;
         ProductSkuId = productSkuId;
     }

@@ -50,11 +50,13 @@ $(function () {
             },
             {
                 title: l('FlashSalesPlanBeginTime'),
-                data: "beginTime"
+                data: "beginTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('FlashSalesPlanEndTime'),
-                data: "endTime"
+                data: "endTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('FlashSalesPlanProductId'),

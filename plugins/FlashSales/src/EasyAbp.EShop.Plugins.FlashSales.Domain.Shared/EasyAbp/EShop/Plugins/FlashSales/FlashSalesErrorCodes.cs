@@ -6,11 +6,17 @@ public static class FlashSalesErrorCodes
 
     public const string EndTimeMustBeLaterThanBeginTime = $"{Namespace}:{nameof(EndTimeMustBeLaterThanBeginTime)}";
 
+    public const string ProductIsNotInThisStore = $"{Namespace}:{nameof(ProductIsNotInThisStore)}";
+
+    public const string ProductSkuIsNotFound = $"{Namespace}:{nameof(ProductSkuIsNotFound)}";
+
     public const string ProductIsNotPublished = $"{Namespace}:{nameof(ProductIsNotPublished)}";
 
-    public const string IsNotFlashSalesProduct = $"{Namespace}:{nameof(IsNotFlashSalesProduct)}";
+    public const string ProductSkuInventoryExceeded = $"{Namespace}:{nameof(ProductSkuInventoryExceeded)}";
 
-    public const string PreOrderExipred = $"{Namespace}:{nameof(PreOrderExipred)}";
+    public const string ProductInventoryStrategyIsNotFlashSales = $"{Namespace}:{nameof(ProductInventoryStrategyIsNotFlashSales)}";
+
+    public const string PreOrderExpried = $"{Namespace}:{nameof(PreOrderExpried)}";
 
     public const string FlashSalesPlanIsNotStart = $"{Namespace}:{nameof(FlashSalesPlanIsNotStart)}";
 
