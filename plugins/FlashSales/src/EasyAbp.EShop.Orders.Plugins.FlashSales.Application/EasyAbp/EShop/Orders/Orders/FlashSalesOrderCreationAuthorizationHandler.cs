@@ -27,6 +27,7 @@ public class FlashSalesOrderCreationAuthorizationHandler : OrderCreationAuthoriz
         if (await IsFlashSalesPlanProductSkuAsync(resource))
         {
             context.Fail(new AuthorizationFailureReason(this, Localizer["ExistFlashSalesPlanProduct"]));
+            return;
         }
 
         context.Succeed(requirement);
