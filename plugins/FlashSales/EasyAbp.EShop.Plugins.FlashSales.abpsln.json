@@ -1,7 +1,0 @@
-{
-  "modules": {
-    "EasyAbp.EShop.Plugins.FlashSales": {
-      "path": "EasyAbp.EShop.Plugins.FlashSales.abpmdl.json"
-    }
-  }
-}
