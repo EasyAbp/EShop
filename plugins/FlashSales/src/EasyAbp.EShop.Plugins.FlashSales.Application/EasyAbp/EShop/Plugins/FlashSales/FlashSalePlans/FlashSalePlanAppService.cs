@@ -211,7 +211,7 @@ public class FlashSalePlanAppService :
         var now = Clock.Now;
         if (plan.BeginTime > now)
         {
-            throw new BusinessException(FlashSalesErrorCodes.ProductIsNotPublished);
+            throw new BusinessException(FlashSalesErrorCodes.FlashSaleNotStarted);
         }
 
         if (now >= plan.EndTime)
