@@ -1353,15 +1353,10 @@ jquery-validation-unobtrusive@^3.2.12:
     jquery "^3.5.1"
     jquery-validation ">=1.16"
 
-jquery-validation@>=1.16:
-  version "1.19.1"
-  resolved "https://registry.npm.taobao.org/jquery-validation/download/jquery-validation-1.19.1.tgz#a85043467dc2b70d9fff05778646d150e747742f"
-  integrity sha1-qFBDRn3Ctw2f/wV3hkbRUOdHdC8=
-
-jquery-validation@^1.19.3:
-  version "1.19.4"
-  resolved "https://registry.npmmirror.com/jquery-validation/-/jquery-validation-1.19.4.tgz#a765781d954e5876fa437d5c75b7a9440bfa37a8"
-  integrity sha512-PcwKcATCR+JL77m9kkWd84NAHAunJP9iasF6IbMxUgl73xDAimxjt5oYFmYHDXBmTZM4rpkXxMNR/jGI5TlSjA==
+jquery-validation@>=1.16, jquery-validation@^1.19.3:
+  version "1.19.5"
+  resolved "https://registry.yarnpkg.com/jquery-validation/-/jquery-validation-1.19.5.tgz#557495b7cad79716897057c4447ad3cd76fda811"
+  integrity sha512-X2SmnPq1mRiDecVYL8edWx+yTBZDyC8ohWXFhXdtqFHgU9Wd4KHkvcbCoIZ0JaSaumzS8s2gXSkP8F7ivg/8ZQ==
 
 jquery@>=1.12.0, "jquery@>=1.5.0 <4.0", jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2:
   version "3.5.1"
