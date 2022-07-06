@@ -6,11 +6,10 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
 using EasyAbp.EShop.Plugins.FlashSales.Permissions;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using EasyAbp.EShop.Stores.Authorization;
+using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using Volo.Abp;
-using Volo.Abp.Application.Services;
 using Volo.Abp.Caching;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
@@ -23,9 +22,10 @@ namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 
 [Authorize]
 public class FlashSalesPlanAppService :
-    CrudAppService<FlashSalesPlan, FlashSalesPlanDto, Guid, FlashSalesPlanGetListInput, FlashSalesPlanCreateDto, FlashSalesPlanUpdateDto>,
+    MultiStoreCrudAppService<FlashSalesPlan, FlashSalesPlanDto, Guid, FlashSalesPlanGetListInput, FlashSalesPlanCreateDto, FlashSalesPlanUpdateDto>,
     IFlashSalesPlanAppService
 {
+    protected override string CrossStorePolicyName { get; set; } = FlashSalesPermissions.FlashSalesPlan.CrossStore;
     protected override string GetPolicyName { get; set; }
     protected override string GetListPolicyName { get; set; }
     protected override string CreatePolicyName { get; set; } = FlashSalesPermissions.FlashSalesPlan.Create;
@@ -71,13 +71,13 @@ public class FlashSalesPlanAppService :
 
     public override async Task<FlashSalesPlanDto> GetAsync(Guid id)
     {
-        await CheckGetPolicyAsync();
-
         var flashSalesPlan = await GetEntityByIdAsync(id);
+
+        await CheckMultiStorePolicyAsync(flashSalesPlan.StoreId, GetPolicyName);
 
         if (!flashSalesPlan.IsPublished)
         {
-            await CheckPolicyAsync(FlashSalesPermissions.FlashSalesPlan.Manage);
+            await CheckMultiStorePolicyAsync(flashSalesPlan.StoreId, FlashSalesPermissions.FlashSalesPlan.Manage);
         }
 
         return await MapToGetOutputDtoAsync(flashSalesPlan);
@@ -85,7 +85,7 @@ public class FlashSalesPlanAppService :
 
     public override async Task<FlashSalesPlanDto> CreateAsync(FlashSalesPlanCreateDto input)
     {
-        await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
+        await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
         var product = await ProductAppService.GetAsync(input.ProductId);
         var productSku = product.FindSkuById(input.ProductSkuId);
@@ -118,7 +118,7 @@ public class FlashSalesPlanAppService :
 
     public override async Task<FlashSalesPlanDto> UpdateAsync(Guid id, FlashSalesPlanUpdateDto input)
     {
-        await AuthorizationService.CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName);
+        await CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName);
 
         var product = await ProductAppService.GetAsync(input.ProductId);
         var productSku = product.FindSkuById(input.ProductSkuId);
@@ -150,7 +150,7 @@ public class FlashSalesPlanAppService :
     {
         var flashSalesPlan = await GetEntityByIdAsync(id);
 
-        await AuthorizationService.CheckMultiStorePolicyAsync(flashSalesPlan.StoreId, DeletePolicyName);
+        await CheckMultiStorePolicyAsync(flashSalesPlan.StoreId, DeletePolicyName);
 
         await FlashSalesPlanRepository.DeleteAsync(flashSalesPlan);
     }
@@ -159,14 +159,14 @@ public class FlashSalesPlanAppService :
     {
         if (input.IncludeUnpublished)
         {
-            await CheckPolicyAsync(FlashSalesPermissions.FlashSalesPlan.Manage);
+            await CheckMultiStorePolicyAsync(input.StoreId, FlashSalesPermissions.FlashSalesPlan.Manage);
         }
 
         return (await base.CreateFilteredQueryAsync(input))
             .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value)
             .WhereIf(input.ProductId.HasValue, x => x.ProductId == input.ProductId.Value)
             .WhereIf(input.ProductSkuId.HasValue, x => x.ProductSkuId == input.ProductSkuId.Value)
-            .WhereIf(!input.IncludeUnpublished , x => x.IsPublished)
+            .WhereIf(!input.IncludeUnpublished, x => x.IsPublished)
             .WhereIf(input.Start.HasValue, x => x.BeginTime >= input.Start.Value)
             .WhereIf(input.End.HasValue, x => x.BeginTime <= input.End.Value);
     }
@@ -177,30 +177,7 @@ public class FlashSalesPlanAppService :
         var product = await ProductAppService.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
 
-        if (!product.IsPublished)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.ProductIsNotPublished);
-        }
-
-        if (product.InventoryStrategy != InventoryStrategy.FlashSales)
-        {
-            throw new UnexpectedInventoryStrategyException(InventoryStrategy.FlashSales);
-        }
-
-        if (!plan.IsPublished)
-        {
-            throw new EntityNotFoundException(typeof(FlashSalesPlan), id);
-        }
-
-        if (Clock.Now >= plan.EndTime)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
-        }
-
-        if (productSku.Inventory < 1)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
-        }
+        await CheckPreOrderAsync(plan, product, productSku);
 
         await SetCacheHashTokenAsync(plan, product, productSku);
     }
@@ -208,10 +185,6 @@ public class FlashSalesPlanAppService :
     public virtual async Task CheckPreOrderAsync(Guid id)
     {
         var plan = await GetFlashSalesPlanCacheAsync(id);
-        if (Clock.Now > plan.EndTime)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
-        }
 
         var cacheHashToken = await GetCacheHashTokenAsync(plan);
         if (cacheHashToken.IsNullOrWhiteSpace())
@@ -227,30 +200,7 @@ public class FlashSalesPlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
         }
 
-        if (!product.IsPublished)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.ProductIsNotPublished);
-        }
-
-        if (product.InventoryStrategy != InventoryStrategy.FlashSales)
-        {
-            throw new UnexpectedInventoryStrategyException(InventoryStrategy.FlashSales);
-        }
-
-        if (!plan.IsPublished)
-        {
-            throw new EntityNotFoundException(typeof(FlashSalesPlan), id);
-        }
-
-        if (Clock.Now >= plan.EndTime)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
-        }
-
-        if (productSku.Inventory < 1)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
-        }
+        await CheckPreOrderAsync(plan, product, productSku);
     }
 
     public virtual async Task CreateOrderAsync(Guid id, CreateOrderInput input)
@@ -262,7 +212,7 @@ public class FlashSalesPlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.ProductIsNotPublished);
         }
 
-        if (now > plan.EndTime)
+        if (now >= plan.EndTime)
         {
             throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
         }
@@ -397,5 +347,35 @@ public class FlashSalesPlanAppService :
             orderId: null
         );
         return await FlashSalesResultRepository.InsertAsync(result, autoSave: true);
+    }
+
+    protected virtual Task CheckPreOrderAsync(FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
+    {
+        if (!product.IsPublished)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.ProductIsNotPublished);
+        }
+
+        if (product.InventoryStrategy != InventoryStrategy.FlashSales)
+        {
+            throw new UnexpectedInventoryStrategyException(InventoryStrategy.FlashSales);
+        }
+
+        if (!plan.IsPublished)
+        {
+            throw new EntityNotFoundException(typeof(FlashSalesPlan), plan.Id);
+        }
+
+        if (Clock.Now >= plan.EndTime)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
+        }
+
+        if (productSku.Inventory < 1)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
+        }
+
+        return Task.CompletedTask;
     }
 }

@@ -1,10 +1,11 @@
 using System;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 
-public class FlashSalesPlan : FullAuditedAggregateRoot<Guid>, IMultiTenant
+public class FlashSalesPlan : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
 {
     public virtual Guid? TenantId { get; protected set; }
 

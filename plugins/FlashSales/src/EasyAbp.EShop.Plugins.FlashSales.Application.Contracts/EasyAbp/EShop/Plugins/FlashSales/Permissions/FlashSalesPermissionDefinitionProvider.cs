@@ -12,6 +12,7 @@ public class FlashSalesPermissionDefinitionProvider : PermissionDefinitionProvid
 
         var flashSalesPlanPermission = myGroup.AddPermission(FlashSalesPermissions.FlashSalesPlan.Default, L("Permission:FlashSalesPlan"));
         flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Manage, L("Permission:Manage"));
+        flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.CrossStore, L("Permission:CrossStore"));
         flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Create, L("Permission:Create"));
         flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Update, L("Permission:Update"));
         flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Delete, L("Permission:Delete"));

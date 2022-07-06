@@ -1,10 +1,11 @@
 ﻿using System;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans.Dtos;
 
 [Serializable]
-public abstract class FlashSalesPlanCreateOrUpdateDtoBase : ExtensibleEntityDto
+public abstract class FlashSalesPlanCreateOrUpdateDtoBase : ExtensibleEntityDto, IMultiStore
 {
     public Guid StoreId { get; set; }
 
