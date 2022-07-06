@@ -88,12 +88,9 @@ public class FlashSalesPlanAppService :
         await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
         var product = await ProductAppService.GetAsync(input.ProductId);
-        product.GetSkuById(input.ProductSkuId);
+        var productSku = product.GetSkuById(input.ProductSkuId);
 
-        if (product.StoreId != input.StoreId)
-        {
-            throw new ProductIsNotInThisStoreException(input.ProductId, input.StoreId);
-        }
+        await ValidateCreateOrUpdateProductAsync(input.ProductId, product, input.ProductSkuId, productSku, input.StoreId);
 
         var flashSalesPlan = new FlashSalesPlan(
             GuidGenerator.Create(),
@@ -113,20 +110,21 @@ public class FlashSalesPlanAppService :
 
     public override async Task<FlashSalesPlanDto> UpdateAsync(Guid id, FlashSalesPlanUpdateDto input)
     {
-        await CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName);
-
+        var flashSalesPlan = await GetEntityByIdAsync(id);
         var product = await ProductAppService.GetAsync(input.ProductId);
-        product.GetSkuById(input.ProductSkuId);
+        var productSku = product.GetSkuById(input.ProductSkuId);
 
-        if (product.StoreId != input.StoreId)
+        await CheckMultiStorePolicyAsync(product.StoreId, UpdatePolicyName);
+
+        await ValidateCreateOrUpdateProductAsync(input.ProductId, product, input.ProductSkuId, productSku, flashSalesPlan.StoreId);
+
+        if (await ExistRelatedFlashSalesResultsAsync(id) && (input.ProductId != flashSalesPlan.ProductId || input.ProductSkuId != flashSalesPlan.ProductSkuId))
         {
-            throw new ProductIsNotInThisStoreException(input.ProductId, input.StoreId);
+            throw new ExistRelatedFlashSalesResultsException(id);
         }
 
-        var flashSalesPlan = await GetEntityByIdAsync(id);
-
         flashSalesPlan.SetTimeRange(input.BeginTime, input.EndTime);
-        flashSalesPlan.SetProductSku(input.StoreId, input.ProductId, input.ProductSkuId);
+        flashSalesPlan.SetProductSku(flashSalesPlan.StoreId, input.ProductId, input.ProductSkuId);
         flashSalesPlan.SetPublished(input.IsPublished);
 
         flashSalesPlan.SetConcurrencyStampIfNotNull(input.ConcurrencyStamp);
@@ -141,6 +139,11 @@ public class FlashSalesPlanAppService :
         var flashSalesPlan = await GetEntityByIdAsync(id);
 
         await CheckMultiStorePolicyAsync(flashSalesPlan.StoreId, DeletePolicyName);
+
+        if (await ExistRelatedFlashSalesResultsAsync(id))
+        {
+            throw new ExistRelatedFlashSalesResultsException(id);
+        }
 
         await FlashSalesPlanRepository.DeleteAsync(flashSalesPlan);
     }
@@ -167,7 +170,7 @@ public class FlashSalesPlanAppService :
         var product = await ProductAppService.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
 
-        await CheckPreOrderAsync(plan, product, productSku);
+        await ValidatePreOrderAsync(plan, product, productSku);
 
         await SetCacheHashTokenAsync(plan, product, productSku);
     }
@@ -190,7 +193,7 @@ public class FlashSalesPlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
         }
 
-        await CheckPreOrderAsync(plan, product, productSku);
+        await ValidatePreOrderAsync(plan, product, productSku);
     }
 
     public virtual async Task CreateOrderAsync(Guid id, CreateOrderInput input)
@@ -339,7 +342,7 @@ public class FlashSalesPlanAppService :
         return await FlashSalesResultRepository.InsertAsync(result, autoSave: true);
     }
 
-    protected virtual Task CheckPreOrderAsync(FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
+    protected virtual Task ValidatePreOrderAsync(FlashSalesPlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
     {
         if (!product.IsPublished)
         {
@@ -364,6 +367,31 @@ public class FlashSalesPlanAppService :
         if (productSku.Inventory < 1)
         {
             throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    protected virtual async Task<bool> ExistRelatedFlashSalesResultsAsync(Guid planId)
+    {
+        return await FlashSalesResultRepository.AnyAsync(x => x.PlanId == planId);
+    }
+
+    protected virtual Task ValidateCreateOrUpdateProductAsync(Guid productId, ProductDto product, Guid productSkuId, ProductSkuDto productSku, Guid storeId)
+    {
+        if (product.StoreId != storeId)
+        {
+            throw new ProductIsNotInThisStoreException(productId, storeId);
+        }
+
+        if (productSku == null)
+        {
+            throw new ProductSkuIsNotFoundException(productSkuId);
+        }
+
+        if (product.InventoryStrategy != InventoryStrategy.FlashSales)
+        {
+            throw new UnexpectedInventoryStrategyException(InventoryStrategy.FlashSales);
         }
 
         return Task.CompletedTask;

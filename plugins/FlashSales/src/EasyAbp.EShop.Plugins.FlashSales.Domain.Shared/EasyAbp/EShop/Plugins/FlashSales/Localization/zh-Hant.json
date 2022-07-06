@@ -12,7 +12,7 @@
     "EasyAbp.EShop.Plugins.FlashSales:FlashSaleIsOver": "閃購已經結束",
     "EasyAbp.EShop.Plugins.FlashSales:BusyToCreateFlashSaleOrder": "閃購下單繁忙",
     "EasyAbp.EShop.Plugins.FlashSales:DuplicateFlashSalesOrder": "重複閃購下單",
-    "ExistFlashSalesPlanProduct": "清单中不允许存在闪购计划中的产品",
+    "EasyAbp.EShop.Plugins.FlashSales:ExistRelatedFlashSalesResults": "已存在關聯的閃購結果",
     "Menu:FlashSalesManagement": "閃購管理",
     "Permission:FlashSalesPlan": "閃購計畫",
     "Permission:Manage": "管理",
