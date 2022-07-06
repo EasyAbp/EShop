@@ -88,16 +88,11 @@ public class FlashSalesPlanAppService :
         await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
         var product = await ProductAppService.GetAsync(input.ProductId);
-        var productSku = product.FindSkuById(input.ProductSkuId);
+        product.GetSkuById(input.ProductSkuId);
 
         if (product.StoreId != input.StoreId)
         {
             throw new ProductIsNotInThisStoreException(input.ProductId, input.StoreId);
-        }
-
-        if (productSku == null)
-        {
-            throw new ProductSkuIsNotFoundException(input.ProductSkuId);
         }
 
         var flashSalesPlan = new FlashSalesPlan(
@@ -121,16 +116,11 @@ public class FlashSalesPlanAppService :
         await CheckMultiStorePolicyAsync(input.StoreId, UpdatePolicyName);
 
         var product = await ProductAppService.GetAsync(input.ProductId);
-        var productSku = product.FindSkuById(input.ProductSkuId);
+        product.GetSkuById(input.ProductSkuId);
 
         if (product.StoreId != input.StoreId)
         {
             throw new ProductIsNotInThisStoreException(input.ProductId, input.StoreId);
-        }
-
-        if (productSku == null)
-        {
-            throw new ProductSkuIsNotFoundException(input.ProductSkuId);
         }
 
         var flashSalesPlan = await GetEntityByIdAsync(id);
