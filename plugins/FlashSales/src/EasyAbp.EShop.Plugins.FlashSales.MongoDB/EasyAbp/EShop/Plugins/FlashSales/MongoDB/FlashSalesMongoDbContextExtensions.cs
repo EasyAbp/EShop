@@ -1,5 +1,5 @@
-﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using Volo.Abp;
 using Volo.Abp.MongoDB;
 
@@ -12,8 +12,8 @@ public static class FlashSalesMongoDbContextExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        builder.Entity<FlashSalesPlan>(b => b.CollectionName = FlashSalesDbProperties.DbTablePrefix + "Plans");
+        builder.Entity<FlashSalePlan>(b => b.CollectionName = FlashSalesDbProperties.DbTablePrefix + "FlashSalePlans");
 
-        builder.Entity<FlashSalesResult>(b => b.CollectionName = FlashSalesDbProperties.DbTablePrefix + "Results");
+        builder.Entity<FlashSaleResult>(b => b.CollectionName = FlashSalesDbProperties.DbTablePrefix + "FlashSaleResults");
     }
 }

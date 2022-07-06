@@ -6,7 +6,7 @@ public static class FlashSalesMenus
 
     public const string Prefix = ModuleGroupPrefix + ".Plugins.FlashSales";
 
-    public const string FlashSalesPlan = Prefix + ".FlashSalesPlan";
+    public const string FlashSalePlan = Prefix + ".FlashSalePlan";
 
-    public const string FlashSalesResult = Prefix + ".FlashSalesResult";
+    public const string FlashSaleResult = Prefix + ".FlashSaleResult";
 }

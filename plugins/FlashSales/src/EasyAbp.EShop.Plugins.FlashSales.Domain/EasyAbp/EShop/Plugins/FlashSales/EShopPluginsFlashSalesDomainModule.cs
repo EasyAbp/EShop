@@ -1,4 +1,4 @@
-﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
@@ -25,9 +25,9 @@ public class EShopPluginsFlashSalesDomainModule : AbpModule
 
         Configure<AbpDistributedEntityEventOptions>(options =>
         {
-            options.EtoMappings.Add<FlashSalesPlan, FlashSalesPlanEto>(typeof(EShopPluginsFlashSalesDomainModule));
+            options.EtoMappings.Add<FlashSalePlan, FlashSalePlanEto>(typeof(EShopPluginsFlashSalesDomainModule));
 
-            options.AutoEventSelectors.Add<FlashSalesPlan>();
+            options.AutoEventSelectors.Add<FlashSalePlan>();
         });
     }
 }

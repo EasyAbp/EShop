@@ -22,24 +22,24 @@ public class FlashSalesMenuContributor : IMenuContributor
         //Add main menu items.
         var flashSalesManagementMenuItem = new ApplicationMenuItem(FlashSalesMenus.Prefix, l["Menu:FlashSalesManagement"]);
 
-        if (await context.IsGrantedAsync(FlashSalesPermissions.FlashSalesPlan.Default))
+        if (await context.IsGrantedAsync(FlashSalesPermissions.FlashSalePlan.Default))
         {
             flashSalesManagementMenuItem.AddItem(
                 new ApplicationMenuItem(
-                    FlashSalesMenus.FlashSalesPlan,
-                    l["Menu:FlashSalesPlan"],
-                    "/EShop/Plugins/FlashSales/FlashSalesPlans/FlashSalesPlan"
+                    FlashSalesMenus.FlashSalePlan,
+                    l["Menu:FlashSalePlan"],
+                    "/EShop/Plugins/FlashSales/FlashSalePlans/FlashSalePlan"
                 )
             );
         }
 
-        if (await context.IsGrantedAsync(FlashSalesPermissions.FlashSalesResult.Default))
+        if (await context.IsGrantedAsync(FlashSalesPermissions.FlashSaleResult.Default))
         {
             flashSalesManagementMenuItem.AddItem(
                 new ApplicationMenuItem(
-                    FlashSalesMenus.FlashSalesResult,
-                    l["Menu:FlashSalesResult"],
-                    "/EShop/Plugins/FlashSales/FlashSalesResults/FlashSalesResult"
+                    FlashSalesMenus.FlashSaleResult,
+                    l["Menu:FlashSaleResult"],
+                    "/EShop/Plugins/FlashSales/FlashSaleResults/FlashSaleResult"
                 )
             );
         }

@@ -37,9 +37,4 @@
     <Content Remove="wwwroot\**\*.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Pages\EShop\Plugins\FlashSales\FlashSalesResults\FlashSalesResult\index.css" />
-    <None Remove="Pages\EShop\Plugins\FlashSales\FlashSalesResults\FlashSalesResult\index.js" />
-  </ItemGroup>
-
 </Project>

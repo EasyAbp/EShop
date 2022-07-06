@@ -1,6 +1,6 @@
 using System.Linq;
 using AutoMapper;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Products.Options;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products;
@@ -15,7 +15,7 @@ public class EShopProductsPluginsFlashSalesApplicationAutoMapperProfile : Profil
         IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
         IOptionsMonitor<EShopProductsOptions> options)
     {
-        CreateMap<Product, FlashSalesProductEto>()
+        CreateMap<Product, FlashSaleProductEto>()
             .ForMember(x => x.ProductGroupDisplayName, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
@@ -23,15 +23,15 @@ public class EShopProductsPluginsFlashSalesApplicationAutoMapperProfile : Profil
                 dest.ProductGroupDisplayName = dict[src.ProductGroupName].DisplayName;
             })
             .MapExtraProperties();
-        CreateMap<ProductSku, FlashSalesProductSkuEto>()
+        CreateMap<ProductSku, FlashSaleProductSkuEto>()
             .ForMember(x => x.AttributeOptionIds, opt => opt.Ignore())
             .AfterMap(async (src, dest) => dest.AttributeOptionIds = (await attributeOptionIdsSerializer.DeserializeAsync(src.SerializedAttributeOptionIds)).ToList())
             .MapExtraProperties();
-        CreateMap<ProductAttribute, FlashSalesProductAttributeEto>()
+        CreateMap<ProductAttribute, FlashSaleProductAttributeEto>()
             .MapExtraProperties();
-        CreateMap<ProductAttributeOption, FlashSalesProductAttributeOptionEto>()
+        CreateMap<ProductAttributeOption, FlashSaleProductAttributeOptionEto>()
             .MapExtraProperties();
-        CreateMap<ProductDetail, FlashSalesProductDetailEto>()
+        CreateMap<ProductDetail, FlashSaleProductDetailEto>()
             .MapExtraProperties();
     }
 }

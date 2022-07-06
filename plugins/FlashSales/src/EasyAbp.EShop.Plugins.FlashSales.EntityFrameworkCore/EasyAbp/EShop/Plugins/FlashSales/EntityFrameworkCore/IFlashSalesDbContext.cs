@@ -1,5 +1,5 @@
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore;
 [ConnectionStringName(FlashSalesDbProperties.ConnectionStringName)]
 public interface IFlashSalesDbContext : IEfCoreDbContext
 {
-    DbSet<FlashSalesPlan> Plans { get; set; }
+    DbSet<FlashSalePlan> FlashSalePlans { get; set; }
 
-    DbSet<FlashSalesResult> Results { get; set; }
+    DbSet<FlashSaleResult> FlashSaleResults { get; set; }
 }

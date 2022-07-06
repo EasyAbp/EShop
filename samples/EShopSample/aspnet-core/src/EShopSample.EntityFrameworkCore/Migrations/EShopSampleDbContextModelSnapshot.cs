@@ -1022,7 +1022,7 @@ namespace EShopSample.Migrations
                     b.ToTable("EasyAbpEShopPluginsCouponsCouponTemplateScopes", (string)null);
                 });
 
-            modelBuilder.Entity("EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans.FlashSalesPlan", b =>
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.FlashSalePlan", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1092,10 +1092,10 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopPluginsFlashSalesPlans", (string)null);
+                    b.ToTable("EasyAbpEShopPluginsFlashSalesFlashSalePlans", (string)null);
                 });
 
-            modelBuilder.Entity("EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults.FlashSalesResult", b =>
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.FlashSaleResult", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1165,7 +1165,7 @@ namespace EShopSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpEShopPluginsFlashSalesResults", (string)null);
+                    b.ToTable("EasyAbpEShopPluginsFlashSalesFlashSaleResults", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EShop.Products.Categories.Category", b =>

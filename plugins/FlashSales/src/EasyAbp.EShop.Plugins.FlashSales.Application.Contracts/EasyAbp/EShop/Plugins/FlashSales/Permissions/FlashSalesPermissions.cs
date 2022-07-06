@@ -11,9 +11,9 @@ public class FlashSalesPermissions
         return ReflectionHelper.GetPublicConstantsRecursively(typeof(FlashSalesPermissions));
     }
 
-    public class FlashSalesPlan
+    public class FlashSalePlan
     {
-        public const string Default = GroupName + ".FlashSalesPlan";
+        public const string Default = GroupName + ".FlashSalePlan";
         public const string Manage = Default + ".Manage";
         public const string CrossStore = Default + ".CrossStore";
         public const string Update = Default + ".Update";
@@ -21,9 +21,9 @@ public class FlashSalesPermissions
         public const string Delete = Default + ".Delete";
     }
 
-    public class FlashSalesResult
+    public class FlashSaleResult
     {
-        public const string Default = GroupName + ".FlashSalesResult";
+        public const string Default = GroupName + ".FlashSaleResult";
         public const string Manage = Default + ".Manage";
     }
 }

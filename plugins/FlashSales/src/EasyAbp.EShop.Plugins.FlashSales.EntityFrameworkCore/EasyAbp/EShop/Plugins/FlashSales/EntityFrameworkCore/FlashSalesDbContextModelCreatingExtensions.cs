@@ -1,5 +1,5 @@
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -13,17 +13,17 @@ public static class FlashSalesDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        builder.Entity<FlashSalesPlan>(b =>
+        builder.Entity<FlashSalePlan>(b =>
         {
-            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "Plans", FlashSalesDbProperties.DbSchema);
+            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "FlashSalePlans", FlashSalesDbProperties.DbSchema);
             b.ConfigureByConvention();
 
             /* Configure more properties here */
         });
 
-        builder.Entity<FlashSalesResult>(b =>
+        builder.Entity<FlashSaleResult>(b =>
         {
-            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "Results", FlashSalesDbProperties.DbSchema);
+            b.ToTable(FlashSalesDbProperties.DbTablePrefix + "FlashSaleResults", FlashSalesDbProperties.DbSchema);
             b.ConfigureByConvention();
 
             /* Configure more properties here */

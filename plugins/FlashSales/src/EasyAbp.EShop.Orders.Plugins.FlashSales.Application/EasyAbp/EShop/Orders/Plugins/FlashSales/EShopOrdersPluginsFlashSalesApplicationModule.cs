@@ -15,11 +15,6 @@ namespace EasyAbp.EShop.Orders.Plugins.FlashSales;
 )]
 public class EShopOrdersPluginsFlashSalesApplicationModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        context.Services.AddSingleton<IAuthorizationHandler, FlashSalesOrderCreationAuthorizationHandler>();
-    }
-
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddAutoMapperObjectMapper<EShopOrdersPluginsFlashSalesApplicationModule>();

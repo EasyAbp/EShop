@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.AutoMapper;
@@ -14,22 +14,22 @@ namespace EasyAbp.EShop.Orders.Plugins.FlashSales
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<FlashSalesProductEto, ProductDto>(MemberList.Destination)
+            CreateMap<FlashSaleProductEto, ProductDto>(MemberList.Destination)
                 .Ignore(dto => dto.Sold)
                 .Ignore(dto => dto.MinimumPrice)
                 .Ignore(dto => dto.MaximumPrice)
                 .MapExtraProperties();
-            CreateMap<FlashSalesProductSkuEto, ProductSkuDto>(MemberList.Destination)
+            CreateMap<FlashSaleProductSkuEto, ProductSkuDto>(MemberList.Destination)
                 .ForSourceMember(entity => entity.SerializedAttributeOptionIds, opt => opt.DoNotValidate())
                 .Ignore(dto => dto.DiscountedPrice)
                 .Ignore(dto => dto.Inventory)
                 .Ignore(dto => dto.Sold)
                 .MapExtraProperties();
-            CreateMap<FlashSalesProductAttributeEto, ProductAttributeDto>(MemberList.Destination)
+            CreateMap<FlashSaleProductAttributeEto, ProductAttributeDto>(MemberList.Destination)
                 .MapExtraProperties();
-            CreateMap<FlashSalesProductAttributeOptionEto, ProductAttributeOptionDto>(MemberList.Destination)
+            CreateMap<FlashSaleProductAttributeOptionEto, ProductAttributeOptionDto>(MemberList.Destination)
                 .MapExtraProperties();
-            CreateMap<FlashSalesProductDetailEto, ProductDetailDto>(MemberList.Destination)
+            CreateMap<FlashSaleProductDetailEto, ProductDetailDto>(MemberList.Destination)
                 .MapExtraProperties();
         }
     }

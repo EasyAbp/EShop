@@ -26,5 +26,5 @@ public static class FlashSalesErrorCodes
 
     public const string DuplicateFlashSalesOrder = $"{Namespace}:{nameof(DuplicateFlashSalesOrder)}";
 
-    public const string ExistRelatedFlashSalesResults = $"{Namespace}:{nameof(ExistRelatedFlashSalesResults)}";
+    public const string RelatedFlashSaleResultsExist = $"{Namespace}:{nameof(RelatedFlashSaleResultsExist)}";
 }

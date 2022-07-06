@@ -1,8 +1,9 @@
 using AutoMapper;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans.Dtos;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults.Dtos;
 
 namespace EasyAbp.EShop.Plugins.FlashSales;
 
@@ -13,16 +14,16 @@ public class FlashSalesApplicationAutoMapperProfile : Profile
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
-        CreateMap<FlashSalesPlan, FlashSalesPlanDto>()
+        CreateMap<FlashSalePlan, FlashSalePlanDto>()
             .MapExtraProperties();
-        CreateMap<FlashSalesPlanCreateDto, FlashSalesPlan>(MemberList.Source);
-        CreateMap<FlashSalesPlanUpdateDto, FlashSalesPlan>(MemberList.Source);
-        CreateMap<FlashSalesPlan, FlashSalesPlanCacheItem>()
+        CreateMap<FlashSalePlanCreateDto, FlashSalePlan>(MemberList.Source);
+        CreateMap<FlashSalePlanUpdateDto, FlashSalePlan>(MemberList.Source);
+        CreateMap<FlashSalePlan, FlashSalePlanCacheItem>()
             .MapExtraProperties();
-        CreateMap<FlashSalesPlanCacheItem, FlashSalesPlanEto>()
+        CreateMap<FlashSalePlanCacheItem, FlashSalePlanEto>()
             .MapExtraProperties();
 
-        CreateMap<FlashSalesResult, FlashSalesResultDto>()
+        CreateMap<FlashSaleResult, FlashSaleResultDto>()
             .MapExtraProperties();
     }
 }

@@ -1,5 +1,5 @@
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
@@ -16,8 +16,8 @@ public class EShopPluginsFlashSalesEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<FlashSalesDbContext>(options =>
         {
-            options.AddRepository<FlashSalesPlan, EfCoreFlashSalesPlanRepository>();
-            options.AddRepository<FlashSalesResult, EfCoreFlashSalesResultRepository>();
+            options.AddRepository<FlashSalePlan, EfCoreFlashSalePlanRepository>();
+            options.AddRepository<FlashSaleResult, EfCoreFlashSaleResultRepository>();
         });
     }
 }

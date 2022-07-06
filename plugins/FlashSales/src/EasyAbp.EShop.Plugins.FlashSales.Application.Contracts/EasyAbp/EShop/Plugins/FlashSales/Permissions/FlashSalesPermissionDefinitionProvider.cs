@@ -10,15 +10,15 @@ public class FlashSalesPermissionDefinitionProvider : PermissionDefinitionProvid
     {
         var myGroup = context.AddGroup(FlashSalesPermissions.GroupName, L("Permission:FlashSales"));
 
-        var flashSalesPlanPermission = myGroup.AddPermission(FlashSalesPermissions.FlashSalesPlan.Default, L("Permission:FlashSalesPlan"));
-        flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Manage, L("Permission:Manage"));
-        flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.CrossStore, L("Permission:CrossStore"));
-        flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Create, L("Permission:Create"));
-        flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Update, L("Permission:Update"));
-        flashSalesPlanPermission.AddChild(FlashSalesPermissions.FlashSalesPlan.Delete, L("Permission:Delete"));
+        var flashSalePlanPermission = myGroup.AddPermission(FlashSalesPermissions.FlashSalePlan.Default, L("Permission:FlashSalePlan"));
+        flashSalePlanPermission.AddChild(FlashSalesPermissions.FlashSalePlan.Manage, L("Permission:Manage"));
+        flashSalePlanPermission.AddChild(FlashSalesPermissions.FlashSalePlan.CrossStore, L("Permission:CrossStore"));
+        flashSalePlanPermission.AddChild(FlashSalesPermissions.FlashSalePlan.Create, L("Permission:Create"));
+        flashSalePlanPermission.AddChild(FlashSalesPermissions.FlashSalePlan.Update, L("Permission:Update"));
+        flashSalePlanPermission.AddChild(FlashSalesPermissions.FlashSalePlan.Delete, L("Permission:Delete"));
 
-        var flashSalesResultPermission = myGroup.AddPermission(FlashSalesPermissions.FlashSalesResult.Default, L("Permission:FlashSalesResult"));
-        flashSalesResultPermission.AddChild(FlashSalesPermissions.FlashSalesResult.Manage, L("Permission:Manage"));
+        var flashSaleResultPermission = myGroup.AddPermission(FlashSalesPermissions.FlashSaleResult.Default, L("Permission:FlashSaleResult"));
+        flashSaleResultPermission.AddChild(FlashSalesPermissions.FlashSaleResult.Manage, L("Permission:Manage"));
     }
 
     private static LocalizableString L(string name)

@@ -1,5 +1,5 @@
-﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using MongoDB.Driver;
 using Volo.Abp.Data;
 using Volo.Abp.MongoDB;
@@ -9,9 +9,9 @@ namespace EasyAbp.EShop.Plugins.FlashSales.MongoDB;
 [ConnectionStringName(FlashSalesDbProperties.ConnectionStringName)]
 public class FlashSalesMongoDbContext : AbpMongoDbContext, IFlashSalesMongoDbContext
 {
-    public IMongoCollection<FlashSalesPlan> Plans => Collection<FlashSalesPlan>();
+    public IMongoCollection<FlashSalePlan> FlashSalePlans => Collection<FlashSalePlan>();
 
-    public IMongoCollection<FlashSalesResult> Results => Collection<FlashSalesResult>();
+    public IMongoCollection<FlashSaleResult> FlashSaleResults => Collection<FlashSaleResult>();
 
     protected override void CreateModel(IMongoModelBuilder modelBuilder)
     {
