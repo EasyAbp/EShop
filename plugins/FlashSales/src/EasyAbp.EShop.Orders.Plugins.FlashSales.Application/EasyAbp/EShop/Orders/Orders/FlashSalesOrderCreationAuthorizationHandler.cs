@@ -42,8 +42,7 @@ public class FlashSalesOrderCreationAuthorizationHandler : OrderCreationAuthoriz
             {
                 StoreId = resource.Input.StoreId,
                 ProductId = orderLine.ProductId,
-                ProductSkuId = orderLine.ProductSkuId,
-                OnlyShowPublished = true
+                ProductSkuId = orderLine.ProductSkuId
             });
             if (plans.Items.Count > 0)
             {

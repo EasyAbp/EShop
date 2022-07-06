@@ -37,7 +37,7 @@ public class FlashSalesPlan : FullAuditedAggregateRoot<Guid>, IMultiTenant
     {
         if (beginTime > endTime)
         {
-            throw new EndTimeMustBeLaterThanBeginTimeException();
+            throw new InvalidEndTimeException();
         }
 
         BeginTime = beginTime;

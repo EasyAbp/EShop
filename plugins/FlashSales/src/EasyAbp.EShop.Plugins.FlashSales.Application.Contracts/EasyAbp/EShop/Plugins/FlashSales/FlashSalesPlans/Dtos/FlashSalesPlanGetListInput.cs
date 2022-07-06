@@ -12,7 +12,7 @@ public class FlashSalesPlanGetListInput : ExtensiblePagedAndSortedResultRequestD
 
     public Guid? ProductSkuId { get; set; }
 
-    public bool OnlyShowPublished { get; set; }
+    public bool IncludeUnpublished { get; set; }
 
     public DateTime? Start { get; set; }
 

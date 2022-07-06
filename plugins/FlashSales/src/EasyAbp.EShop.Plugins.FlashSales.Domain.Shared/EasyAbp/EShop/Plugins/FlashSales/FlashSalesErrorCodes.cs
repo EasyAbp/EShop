@@ -4,7 +4,7 @@ public static class FlashSalesErrorCodes
 {
     public const string Namespace = "EasyAbp.EShop.Plugins.FlashSales";
 
-    public const string EndTimeMustBeLaterThanBeginTime = $"{Namespace}:{nameof(EndTimeMustBeLaterThanBeginTime)}";
+    public const string InvalidEndTime = $"{Namespace}:{nameof(InvalidEndTime)}";
 
     public const string ProductIsNotInThisStore = $"{Namespace}:{nameof(ProductIsNotInThisStore)}";
 
@@ -14,15 +14,15 @@ public static class FlashSalesErrorCodes
 
     public const string ProductSkuInventoryExceeded = $"{Namespace}:{nameof(ProductSkuInventoryExceeded)}";
 
-    public const string ProductInventoryStrategyIsNotFlashSales = $"{Namespace}:{nameof(ProductInventoryStrategyIsNotFlashSales)}";
+    public const string UnexpectedInventoryStrategy = $"{Namespace}:{nameof(UnexpectedInventoryStrategy)}";
 
-    public const string PreOrderExpried = $"{Namespace}:{nameof(PreOrderExpried)}";
+    public const string PreOrderExpired = $"{Namespace}:{nameof(PreOrderExpired)}";
 
-    public const string FlashSalesPlanIsNotStart = $"{Namespace}:{nameof(FlashSalesPlanIsNotStart)}";
+    public const string FlashSaleNotStarted = $"{Namespace}:{nameof(FlashSaleNotStarted)}";
 
-    public const string FlashSalesPlanIsExpired = $"{Namespace}:{nameof(FlashSalesPlanIsExpired)}";
+    public const string FlashSaleIsOver = $"{Namespace}:{nameof(FlashSaleIsOver)}";
 
-    public const string CreateFlashSalesOrderBusy = $"{Namespace}:{nameof(CreateFlashSalesOrderBusy)}";
+    public const string BusyToCreateFlashSaleOrder = $"{Namespace}:{nameof(BusyToCreateFlashSaleOrder)}";
 
-    public const string AlreadySubmitCreateFlashSalesOrder = $"{Namespace}:{nameof(AlreadySubmitCreateFlashSalesOrder)}";
+    public const string DuplicateFlashSalesOrder = $"{Namespace}:{nameof(DuplicateFlashSalesOrder)}";
 }

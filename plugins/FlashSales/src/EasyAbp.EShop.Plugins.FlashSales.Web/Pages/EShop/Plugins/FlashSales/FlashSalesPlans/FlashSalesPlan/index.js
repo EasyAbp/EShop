@@ -14,7 +14,11 @@ $(function () {
         autoWidth: false,
         scrollCollapse: true,
         order: [[2, "asc"]],
-        ajax: abp.libs.datatables.createAjax(service.getList),
+        ajax: abp.libs.datatables.createAjax(service.getList, function () {
+            return {
+                includeUnpublished: abp.auth.isGranted('EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlan.Manage')
+            };
+        }),
         columnDefs: [
             {
                 rowAction: {

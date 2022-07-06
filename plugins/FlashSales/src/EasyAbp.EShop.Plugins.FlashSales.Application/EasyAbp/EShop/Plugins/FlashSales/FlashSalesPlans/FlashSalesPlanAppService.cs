@@ -157,7 +157,7 @@ public class FlashSalesPlanAppService :
 
     protected override async Task<IQueryable<FlashSalesPlan>> CreateFilteredQueryAsync(FlashSalesPlanGetListInput input)
     {
-        if (!input.OnlyShowPublished)
+        if (input.IncludeUnpublished)
         {
             await CheckPolicyAsync(FlashSalesPermissions.FlashSalesPlan.Manage);
         }
@@ -166,7 +166,7 @@ public class FlashSalesPlanAppService :
             .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value)
             .WhereIf(input.ProductId.HasValue, x => x.ProductId == input.ProductId.Value)
             .WhereIf(input.ProductSkuId.HasValue, x => x.ProductSkuId == input.ProductSkuId.Value)
-            .WhereIf(input.OnlyShowPublished, x => x.IsPublished)
+            .WhereIf(!input.IncludeUnpublished , x => x.IsPublished)
             .WhereIf(input.Start.HasValue, x => x.BeginTime >= input.Start.Value)
             .WhereIf(input.End.HasValue, x => x.BeginTime <= input.End.Value);
     }
@@ -184,7 +184,7 @@ public class FlashSalesPlanAppService :
 
         if (product.InventoryStrategy != InventoryStrategy.FlashSales)
         {
-            throw new BusinessException(FlashSalesErrorCodes.ProductInventoryStrategyIsNotFlashSales);
+            throw new UnexpectedInventoryStrategyException(InventoryStrategy.FlashSales);
         }
 
         if (!plan.IsPublished)
@@ -192,9 +192,9 @@ public class FlashSalesPlanAppService :
             throw new EntityNotFoundException(typeof(FlashSalesPlan), id);
         }
 
-        if (Clock.Now > plan.EndTime)
+        if (Clock.Now >= plan.EndTime)
         {
-            throw new BusinessException(FlashSalesErrorCodes.FlashSalesPlanIsExpired);
+            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
         }
 
         if (productSku.Inventory < 1)
@@ -210,26 +210,46 @@ public class FlashSalesPlanAppService :
         var plan = await GetFlashSalesPlanCacheAsync(id);
         if (Clock.Now > plan.EndTime)
         {
-            throw new BusinessException(FlashSalesErrorCodes.FlashSalesPlanIsExpired);
+            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
         }
 
         var cacheHashToken = await GetCacheHashTokenAsync(plan);
         if (cacheHashToken.IsNullOrWhiteSpace())
         {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
         }
 
         var product = await ProductAppService.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
 
+        if (!await CompareHashTokenAsync(cacheHashToken, plan, product, productSku))
+        {
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
+        }
+
+        if (!product.IsPublished)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.ProductIsNotPublished);
+        }
+
+        if (product.InventoryStrategy != InventoryStrategy.FlashSales)
+        {
+            throw new UnexpectedInventoryStrategyException(InventoryStrategy.FlashSales);
+        }
+
+        if (!plan.IsPublished)
+        {
+            throw new EntityNotFoundException(typeof(FlashSalesPlan), id);
+        }
+
+        if (Clock.Now >= plan.EndTime)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
+        }
+
         if (productSku.Inventory < 1)
         {
             throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
-        }
-
-        if (!await CompareHashTokenAsync(cacheHashToken, plan, product, productSku))
-        {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
         }
     }
 
@@ -244,13 +264,13 @@ public class FlashSalesPlanAppService :
 
         if (now > plan.EndTime)
         {
-            throw new BusinessException(FlashSalesErrorCodes.FlashSalesPlanIsExpired);
+            throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
         }
 
         var cacheHashToken = await GetCacheHashTokenAsync(plan);
         if (cacheHashToken.IsNullOrWhiteSpace())
         {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpried);
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
         }
 
         await RemoveCacheHashTokenAsync(plan);
@@ -355,7 +375,7 @@ public class FlashSalesPlanAppService :
 
         if (handle == null)
         {
-            throw new BusinessException(FlashSalesErrorCodes.CreateFlashSalesOrderBusy);
+            throw new BusinessException(FlashSalesErrorCodes.BusyToCreateFlashSaleOrder);
         }
 
         // Prevent repeat submit
@@ -363,7 +383,7 @@ public class FlashSalesPlanAppService :
             x.PlanId == plan.Id && x.UserId == userId && (x.Status == FlashSalesResultStatus.Successful || x.Status == FlashSalesResultStatus.Pending))
             )
         {
-            throw new BusinessException(FlashSalesErrorCodes.AlreadySubmitCreateFlashSalesOrder);
+            throw new BusinessException(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
         }
 
         var result = new FlashSalesResult(
