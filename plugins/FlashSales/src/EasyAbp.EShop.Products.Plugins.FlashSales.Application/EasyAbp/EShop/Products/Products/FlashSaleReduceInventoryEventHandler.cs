@@ -65,7 +65,7 @@ public class FlashSaleReduceInventoryEventHandler : IDistributedEventHandler<Fla
             return;
         }
 
-        if (!await ProductManager.TryReduceInventoryAsync(product, productSku, eventData.Quantity, true))
+        if (!await ProductManager.TryReduceInventoryAsync(product, productSku, 1, true))
         {
             await DistributedEventBus.PublishAsync(new CreateFlashSaleOrderCompleteEto()
             {
@@ -98,7 +98,6 @@ public class FlashSaleReduceInventoryEventHandler : IDistributedEventHandler<Fla
             StoreId = eventData.StoreId,
             CreateTime = eventData.CreateTime,
             CustomerRemark = eventData.CustomerRemark,
-            Quantity = eventData.Quantity,
             Product = productEto,
             ProductDetail = productDetailEto,
             Plan = eventData.Plan

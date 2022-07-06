@@ -21,8 +21,6 @@ public class FlashSaleReduceInventoryEto : ExtensibleObject, IMultiTenant
 
     public string CustomerRemark { get; set; }
 
-    public int Quantity { get; set; }
-
     public FlashSalePlanEto Plan { get; set; }
     
     public string HashToken { get; set; }

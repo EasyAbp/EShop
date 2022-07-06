@@ -252,7 +252,6 @@ public class FlashSalePlanAppService :
             StoreId = plan.StoreId,
             CreateTime = now,
             CustomerRemark = input.CustomerRemark,
-            Quantity = 1,//should configure
             Plan = planEto,
             HashToken = hashToken
         };

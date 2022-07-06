@@ -52,7 +52,7 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
                 {
                     ProductId = eventData.Plan.ProductId,
                     ProductSkuId = eventData.Plan.ProductSkuId,
-                    Quantity = eventData.Quantity
+                    Quantity = 1
                 }
             }
         };

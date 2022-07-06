@@ -21,8 +21,6 @@ public class CreateFlashSaleOrderEto : ExtensibleObject, IMultiTenant
 
     public string CustomerRemark { get; set; }
 
-    public int Quantity { get; set; }
-
     public FlashSaleProductEto Product { get; set; }
 
     public FlashSaleProductDetailEto ProductDetail { get; set; }
