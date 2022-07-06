@@ -4,14 +4,16 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.Permissions;
-using Volo.Abp.Application.Services;
+using EasyAbp.EShop.Stores.Stores;
+using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
 
 public class FlashSaleResultAppService :
-    ReadOnlyAppService<FlashSaleResult, FlashSaleResultDto, Guid, FlashSaleResultGetListInput>,
+    MultiStoreCrudAppService<FlashSaleResult, FlashSaleResultDto, Guid, FlashSaleResultGetListInput>,
     IFlashSaleResultAppService
 {
+    protected override string CrossStorePolicyName { get; set; } = FlashSalesPermissions.FlashSaleResult.CrossStore;
     protected override string GetPolicyName { get; set; }
     protected override string GetListPolicyName { get; set; }
 
@@ -23,23 +25,30 @@ public class FlashSaleResultAppService :
 
     public override async Task<FlashSaleResultDto> GetAsync(Guid id)
     {
-        await CheckGetPolicyAsync();
+        var flashSalesResult = await GetEntityByIdAsync(id);
 
-        var flashSalesPlan = await GetEntityByIdAsync(id);
+        await CheckMultiStorePolicyAsync(flashSalesResult.StoreId, GetPolicyName);
 
-        if (flashSalesPlan.UserId != CurrentUser.Id)
+        if (flashSalesResult.UserId != CurrentUser.Id)
         {
-            await CheckPolicyAsync(FlashSalesPermissions.FlashSaleResult.Manage);
+            await CheckMultiStorePolicyAsync(flashSalesResult.StoreId, FlashSalesPermissions.FlashSaleResult.Manage);
         }
 
-        return await MapToGetOutputDtoAsync(flashSalesPlan);
+        return await MapToGetOutputDtoAsync(flashSalesResult);
+    }
+
+    public override async Task<PagedResultDto<FlashSaleResultDto>> GetListAsync(FlashSaleResultGetListInput input)
+    {
+        await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+
+        return await base.GetListAsync(input);
     }
 
     protected override async Task<IQueryable<FlashSaleResult>> CreateFilteredQueryAsync(FlashSaleResultGetListInput input)
     {
         if (input.UserId != CurrentUser.Id)
         {
-            await CheckPolicyAsync(FlashSalesPermissions.FlashSaleResult.Manage);
+            await CheckMultiStorePolicyAsync(input.StoreId, FlashSalesPermissions.FlashSaleResult.Manage);
         }
 
         return (await base.CreateFilteredQueryAsync(input))

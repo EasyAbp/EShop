@@ -1,9 +1,10 @@
 ﻿using System;
+using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 
-public class FlashSaleResultDto : ExtensibleFullAuditedEntityDto<Guid>
+public class FlashSaleResultDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiStore
 {
     public virtual Guid StoreId { get; set; }
 

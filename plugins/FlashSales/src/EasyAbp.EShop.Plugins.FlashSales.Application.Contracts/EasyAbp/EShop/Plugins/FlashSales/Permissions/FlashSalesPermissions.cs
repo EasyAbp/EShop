@@ -25,5 +25,6 @@ public class FlashSalesPermissions
     {
         public const string Default = GroupName + ".FlashSaleResult";
         public const string Manage = Default + ".Manage";
+        public const string CrossStore = Default + ".CrossStore";
     }
 }

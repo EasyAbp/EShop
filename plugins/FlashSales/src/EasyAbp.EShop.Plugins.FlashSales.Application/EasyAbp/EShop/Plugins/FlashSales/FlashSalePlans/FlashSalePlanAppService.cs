@@ -11,6 +11,7 @@ using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
@@ -82,6 +83,13 @@ public class FlashSalePlanAppService :
         }
 
         return await MapToGetOutputDtoAsync(flashSalePlan);
+    }
+
+    public override async Task<PagedResultDto<FlashSalePlanDto>> GetListAsync(FlashSalePlanGetListInput input)
+    {
+        await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+
+        return await base.GetListAsync(input);
     }
 
     public override async Task<FlashSalePlanDto> CreateAsync(FlashSalePlanCreateDto input)

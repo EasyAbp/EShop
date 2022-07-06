@@ -19,6 +19,7 @@ public class FlashSalesPermissionDefinitionProvider : PermissionDefinitionProvid
 
         var flashSaleResultPermission = myGroup.AddPermission(FlashSalesPermissions.FlashSaleResult.Default, L("Permission:FlashSaleResult"));
         flashSaleResultPermission.AddChild(FlashSalesPermissions.FlashSaleResult.Manage, L("Permission:Manage"));
+        flashSaleResultPermission.AddChild(FlashSalesPermissions.FlashSaleResult.CrossStore, L("Permission:CrossStore"));
     }
 
     private static LocalizableString L(string name)
