@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;
 using Volo.Abp.Uow;
 
-namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
 public class FlashSalePlanCacheInvalidator : ILocalEventHandler<EntityChangedEventData<FlashSalePlan>>, ITransientDependency
 {

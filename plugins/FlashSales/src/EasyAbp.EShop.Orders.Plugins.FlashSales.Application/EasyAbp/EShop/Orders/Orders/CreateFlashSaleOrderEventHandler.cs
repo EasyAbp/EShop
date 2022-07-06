@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;

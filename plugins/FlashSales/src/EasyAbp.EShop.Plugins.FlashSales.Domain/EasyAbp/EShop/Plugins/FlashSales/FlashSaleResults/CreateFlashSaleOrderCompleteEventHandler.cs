@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Guids;
@@ -9,29 +9,29 @@ namespace EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 
 public class CreateFlashSaleOrderCompleteEventHandler : IDistributedEventHandler<CreateFlashSaleOrderCompleteEto>, ITransientDependency
 {
-    protected IFlashSaleResultRepository FlashSalesResultRepository { get; }
+    protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
     protected IGuidGenerator GuidGenerator { get; }
 
-    public CreateFlashSaleOrderCompleteEventHandler(IFlashSaleResultRepository flashSalesResultRepository, IGuidGenerator guidGenerator)
+    public CreateFlashSaleOrderCompleteEventHandler(IFlashSaleResultRepository flashSaleResultRepository, IGuidGenerator guidGenerator)
     {
-        FlashSalesResultRepository = flashSalesResultRepository;
+        FlashSaleResultRepository = flashSaleResultRepository;
         GuidGenerator = guidGenerator;
     }
 
     [UnitOfWork]
     public virtual async Task HandleEventAsync(CreateFlashSaleOrderCompleteEto eventData)
     {
-        var flashSalesResult = await FlashSalesResultRepository.GetAsync(eventData.PendingResultId);
+        var flashSaleResult = await FlashSaleResultRepository.GetAsync(eventData.PendingResultId);
 
         if (eventData.Success)
         {
-            flashSalesResult.MarkAsSuccessful(eventData.OrderId.Value);
+            flashSaleResult.MarkAsSuccessful(eventData.OrderId.Value);
         }
         else
         {
-            flashSalesResult.MarkAsFailed(eventData.Reason);
+            flashSaleResult.MarkAsFailed(eventData.Reason);
         }
 
-        await FlashSalesResultRepository.UpdateAsync(flashSalesResult, autoSave: true);
+        await FlashSaleResultRepository.UpdateAsync(flashSaleResult, autoSave: true);
     }
 }

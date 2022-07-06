@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.Permissions;
 using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
 
-namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesResults;
+namespace EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 
 public class FlashSaleResultAppService :
     MultiStoreCrudAppService<FlashSaleResult, FlashSaleResultDto, Guid, FlashSaleResultGetListInput>,
@@ -19,22 +18,22 @@ public class FlashSaleResultAppService :
 
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
 
-    public FlashSaleResultAppService(IFlashSaleResultRepository flashSalesResultRepository) : base(flashSalesResultRepository)
+    public FlashSaleResultAppService(IFlashSaleResultRepository flashSaleResultRepository) : base(flashSaleResultRepository)
     {
     }
 
     public override async Task<FlashSaleResultDto> GetAsync(Guid id)
     {
-        var flashSalesResult = await GetEntityByIdAsync(id);
+        var flashSaleResult = await GetEntityByIdAsync(id);
 
-        await CheckMultiStorePolicyAsync(flashSalesResult.StoreId, GetPolicyName);
+        await CheckMultiStorePolicyAsync(flashSaleResult.StoreId, GetPolicyName);
 
-        if (flashSalesResult.UserId != CurrentUser.Id)
+        if (flashSaleResult.UserId != CurrentUser.Id)
         {
-            await CheckMultiStorePolicyAsync(flashSalesResult.StoreId, FlashSalesPermissions.FlashSaleResult.Manage);
+            await CheckMultiStorePolicyAsync(flashSaleResult.StoreId, FlashSalesPermissions.FlashSaleResult.Manage);
         }
 
-        return await MapToGetOutputDtoAsync(flashSalesResult);
+        return await MapToGetOutputDtoAsync(flashSaleResult);
     }
 
     public override async Task<PagedResultDto<FlashSaleResultDto>> GetListAsync(FlashSaleResultGetListInput input)

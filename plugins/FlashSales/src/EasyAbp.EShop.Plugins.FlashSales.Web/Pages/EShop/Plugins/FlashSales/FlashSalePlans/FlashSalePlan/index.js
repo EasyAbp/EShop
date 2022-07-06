@@ -35,7 +35,7 @@ $(function () {
                                 text: l('Delete'),
                                 visible: abp.auth.isGranted('EasyAbp.EShop.Plugins.FlashSales.FlashSalePlan.Delete'),
                                 confirmMessage: function (data) {
-                                    return l('FlashSalesPlanDeletionConfirmationMessage', data.record.id);
+                                    return l('FlashSalePlanDeletionConfirmationMessage', data.record.id);
                                 },
                                 action: function (data) {
                                     service.delete(data.record.id)

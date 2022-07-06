@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Volo.Abp;
 
-namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
 [Serializable]
 public class RelatedFlashSaleResultsExistException : BusinessException

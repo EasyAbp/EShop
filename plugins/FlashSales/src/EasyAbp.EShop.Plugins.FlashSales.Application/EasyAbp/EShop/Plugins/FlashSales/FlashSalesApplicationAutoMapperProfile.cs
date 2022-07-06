@@ -3,7 +3,6 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 
 namespace EasyAbp.EShop.Plugins.FlashSales;
 

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
-using EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
 using EasyAbp.EShop.Products.ProductDetails;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;

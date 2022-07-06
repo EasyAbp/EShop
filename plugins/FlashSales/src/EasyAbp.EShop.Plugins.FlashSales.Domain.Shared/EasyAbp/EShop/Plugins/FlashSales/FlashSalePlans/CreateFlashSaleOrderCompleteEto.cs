@@ -2,7 +2,7 @@
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectExtending;
 
-namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
 public class CreateFlashSaleOrderCompleteEto : ExtensibleObject, IMultiTenant
 {

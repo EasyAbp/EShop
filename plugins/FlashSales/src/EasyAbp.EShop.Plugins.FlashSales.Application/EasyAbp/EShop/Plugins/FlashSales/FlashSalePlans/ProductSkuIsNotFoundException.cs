@@ -1,7 +1,7 @@
 ﻿using System;
 using Volo.Abp;
 
-namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalesPlans;
+namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
 public class ProductSkuIsNotFoundException : BusinessException
 {
