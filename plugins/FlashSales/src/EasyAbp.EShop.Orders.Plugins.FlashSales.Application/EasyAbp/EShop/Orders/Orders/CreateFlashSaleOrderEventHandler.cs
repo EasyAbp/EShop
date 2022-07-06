@@ -67,8 +67,6 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
 
         var order = await NewOrderGenerator.GenerateAsync(eventData.UserId, input, productDict, productDetailDict);
 
-        await DiscountOrderAsync(order, productDict);
-
         await OrderRepository.InsertAsync(order, autoSave: true);
 
         await DistributedEventBus.PublishAsync(new CreateFlashSaleOrderCompleteEto()
@@ -81,13 +79,5 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
             PendingResultId = eventData.PendingResultId,
             Success = true
         });
-    }
-
-    protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, ProductDto> productDict)
-    {
-        foreach (var provider in OrderDiscountProviders)
-        {
-            await provider.DiscountAsync(order, productDict);
-        }
     }
 }
