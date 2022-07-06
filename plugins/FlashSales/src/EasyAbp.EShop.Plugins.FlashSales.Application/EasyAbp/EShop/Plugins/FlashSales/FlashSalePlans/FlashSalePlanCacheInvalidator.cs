@@ -22,13 +22,13 @@ public class FlashSalePlanCacheInvalidator : ILocalEventHandler<EntityChangedEve
         UnitOfWorkManager = unitOfWorkManager;
     }
 
-    public virtual Task HandleEventAsync(EntityChangedEventData<FlashSalePlan> eventData)
+    public virtual async Task HandleEventAsync(EntityChangedEventData<FlashSalePlan> eventData)
     {
+        await DistributedCache.RemoveAsync(eventData.Entity.Id);
+
         UnitOfWorkManager.Current.OnCompleted(async () =>
         {
             await DistributedCache.RemoveAsync(eventData.Entity.Id);
         });
-
-        return Task.CompletedTask;
     }
 }
