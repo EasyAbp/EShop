@@ -10,6 +10,7 @@ using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
@@ -54,6 +55,8 @@ public class FlashSalePlanAppService :
 
     protected IDistributedCache DistributedCache { get; }
 
+    protected FlashSalesOptions Options { get; }
+
     public FlashSalePlanAppService(
         IFlashSalePlanRepository flashSalePlanRepository,
         IProductAppService productAppService,
@@ -64,7 +67,8 @@ public class FlashSalePlanAppService :
         IAbpDistributedLock distributedLock,
         IFlashSalePlanHasher flashSalePlanHasher,
         IFlashSaleInventoryManager flashSaleInventoryManager,
-        IDistributedCache distributedCache)
+        IDistributedCache distributedCache,
+        IOptionsMonitor<FlashSalesOptions> optionsMonitor)
         : base(flashSalePlanRepository)
     {
         FlashSalePlanRepository = flashSalePlanRepository;
@@ -77,6 +81,7 @@ public class FlashSalePlanAppService :
         FlashSalePlanHasher = flashSalePlanHasher;
         FlashSaleInventoryManager = flashSaleInventoryManager;
         DistributedCache = distributedCache;
+        Options = optionsMonitor.CurrentValue;
     }
 
     public override async Task<FlashSalePlanDto> GetAsync(Guid id)
@@ -359,7 +364,7 @@ public class FlashSalePlanAppService :
             InventoryProviderName = product.InventoryProviderName,
         }, new DistributedCacheEntryOptions()
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3)
+            AbsoluteExpirationRelativeToNow = Options.PreOrderExpirationTime
         });
     }
 
