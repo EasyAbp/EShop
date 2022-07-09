@@ -242,9 +242,9 @@ public class FlashSalePlanAppService :
 
         var userId = CurrentUser.GetId();
 
-        var key = $"create-flash-sale-order-{plan.Id}-{userId}";
+        var lockKey = $"create-flash-sale-order-{plan.Id}-{userId}";
 
-        await using var handle = await DistributedLock.TryAcquireAsync(key);
+        await using var handle = await DistributedLock.TryAcquireAsync(lockKey);
 
         if (handle == null)
         {
@@ -264,33 +264,15 @@ public class FlashSalePlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
         }
 
-        // Prevent repeat submit
-        var existsResult = await FlashSaleResultRepository.FirstOrDefaultAsync(x => x.PlanId == plan.Id && x.UserId == userId);
-
-        if (existsResult != null)
+        var result = await CreatePendingFlashSaleResultAsync(plan, userId, async (existsResultId) =>
         {
-            await SetUserFlashSaleResultCacheAsync(plan, userId, existsResult.Id);
+            await SetUserFlashSaleResultCacheAsync(plan, userId, existsResultId);
 
             await FlashSaleInventoryManager.TryIncreaseInventoryAsync(
                 plan.TenantId, preOrderCache.InventoryProviderName,
                 plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true
             );
-
-            throw new BusinessException(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
-        }
-
-        var result = new FlashSaleResult(
-            id: GuidGenerator.Create(),
-            tenantId: CurrentTenant.Id,
-            storeId: plan.StoreId,
-            planId: plan.Id,
-            status: FlashSaleResultStatus.Pending,
-            reason: null,
-            userId: userId,
-            orderId: null
-        );
-
-        await FlashSaleResultRepository.InsertAsync(result, autoSave: true);
+        });
 
         await SetUserFlashSaleResultCacheAsync(plan, userId, result.Id);
 
@@ -299,33 +281,7 @@ public class FlashSalePlanAppService :
         await DistributedEventBus.PublishAsync(createFlashSaleOrderEto);
     }
 
-    protected virtual Task<CreateFlashSaleOrderEto> PrepareCreateFlashSaleOrderEtoAsync(
-        FlashSalePlanCacheItem plan, Guid resultId, CreateOrderInput input,
-        Guid userId, DateTime now, string hashToken)
-    {
-        var planEto = ObjectMapper.Map<FlashSalePlanCacheItem, FlashSalePlanEto>(plan);
-        planEto.TenantId = CurrentTenant.Id;
-
-        var eto = new CreateFlashSaleOrderEto()
-        {
-            TenantId = CurrentTenant.Id,
-            PlanId = plan.Id,
-            UserId = userId,
-            PendingResultId = resultId,
-            StoreId = plan.StoreId,
-            CreateTime = now,
-            CustomerRemark = input.CustomerRemark,
-            Plan = planEto,
-            HashToken = hashToken
-        };
-
-        foreach (var item in input.ExtraProperties)
-        {
-            eto.ExtraProperties.Add(item.Key, item.Value);
-        }
-
-        return Task.FromResult(eto);
-    }
+    #region PreOrderCache
 
     protected virtual async Task<FlashSalePlanCacheItem> GetFlashSalePlanCacheAsync(Guid id)
     {
@@ -368,17 +324,9 @@ public class FlashSalePlanAppService :
         });
     }
 
-    protected virtual async Task<bool> CompareHashTokenAsync(string cacheHashToken, FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
-    {
-        if (cacheHashToken.IsNullOrWhiteSpace())
-        {
-            return false;
-        }
+    #endregion
 
-        var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
-
-        return cacheHashToken == hashToken;
-    }
+    #region UserFlashSaleResultCache
 
     protected virtual Task<string> GetUserFlashSaleResultCacheKeyAsync(FlashSalePlanCacheItem plan, Guid userId)
     {
@@ -395,6 +343,20 @@ public class FlashSalePlanAppService :
     {
         var userFlashSaleResultCacheKey = await GetUserFlashSaleResultCacheKeyAsync(plan, userId);
         await DistributedCache.SetStringAsync(userFlashSaleResultCacheKey, resultId.ToString());
+    }
+
+    #endregion
+
+    protected virtual async Task<bool> CompareHashTokenAsync(string originHashToken, FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
+    {
+        if (originHashToken.IsNullOrWhiteSpace())
+        {
+            return false;
+        }
+
+        var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
+
+        return string.Equals(hashToken, originHashToken, StringComparison.InvariantCulture);
     }
 
     protected virtual Task ValidatePreOrderAsync(FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
@@ -450,5 +412,58 @@ public class FlashSalePlanAppService :
         }
 
         return Task.CompletedTask;
+    }
+
+    protected virtual Task<CreateFlashSaleOrderEto> PrepareCreateFlashSaleOrderEtoAsync(
+        FlashSalePlanCacheItem plan, Guid resultId, CreateOrderInput input,
+        Guid userId, DateTime now, string hashToken)
+    {
+        var planEto = ObjectMapper.Map<FlashSalePlanCacheItem, FlashSalePlanEto>(plan);
+        planEto.TenantId = CurrentTenant.Id;
+
+        var eto = new CreateFlashSaleOrderEto()
+        {
+            TenantId = CurrentTenant.Id,
+            PlanId = plan.Id,
+            UserId = userId,
+            PendingResultId = resultId,
+            StoreId = plan.StoreId,
+            CreateTime = now,
+            CustomerRemark = input.CustomerRemark,
+            Plan = planEto,
+            HashToken = hashToken
+        };
+
+        foreach (var item in input.ExtraProperties)
+        {
+            eto.ExtraProperties.Add(item.Key, item.Value);
+        }
+
+        return Task.FromResult(eto);
+    }
+
+    protected virtual async Task<FlashSaleResult> CreatePendingFlashSaleResultAsync(FlashSalePlanCacheItem plan, Guid userId, Func<Guid, Task> existResultPreProcess)
+    {
+        // Prevent repeat submit
+        var existsResult = await FlashSaleResultRepository.FirstOrDefaultAsync(x => x.PlanId == plan.Id && x.UserId == userId);
+
+        if (existsResult != null)
+        {
+            await existResultPreProcess(existsResult.Id);
+            throw new BusinessException(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
+        }
+
+        var result = new FlashSaleResult(
+            id: GuidGenerator.Create(),
+            tenantId: CurrentTenant.Id,
+            storeId: plan.StoreId,
+            planId: plan.Id,
+            status: FlashSaleResultStatus.Pending,
+            reason: null,
+            userId: userId,
+            orderId: null
+        );
+
+        return await FlashSaleResultRepository.InsertAsync(result, autoSave: true);
     }
 }
