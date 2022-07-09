@@ -10,6 +10,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Application\EasyAbp.EShop.Products.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Products.Plugins.FlashSales.Abstractions\EasyAbp.EShop.Products.Plugins.FlashSales.Abstractions.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EShop.Products;
+using EasyAbp.EShop.Products.Plugins.FlashSales;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Application;
@@ -13,6 +14,8 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
     typeof(EShopPluginsFlashSalesDomainModule),
     typeof(EShopPluginsFlashSalesApplicationContractsModule),
     typeof(EShopStoresApplicationSharedModule),
+    typeof(EShopProductsPluginsFlashSalesAbstractionsModule),
+    typeof(EShopProductsPluginsFlashSalesApplicationContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule),
     typeof(AbpCachingModule)
