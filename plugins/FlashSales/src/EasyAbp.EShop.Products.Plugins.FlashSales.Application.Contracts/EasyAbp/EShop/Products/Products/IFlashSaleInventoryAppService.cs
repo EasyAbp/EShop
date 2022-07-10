@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Products.Products;
 
 public interface IFlashSaleInventoryAppService : IApplicationService
 {
-    Task<bool> TryReduceInventoryAsync(ReduceInventoryInput input);
+    Task<bool> TryReduceAsync(ReduceInventoryInput input);
 
-    Task<bool> TryIncreaseInventoryAsync(IncreaseInventoryInput input);
+    Task<bool> TryIncreaseAsync(IncreaseInventoryInput input);
 }

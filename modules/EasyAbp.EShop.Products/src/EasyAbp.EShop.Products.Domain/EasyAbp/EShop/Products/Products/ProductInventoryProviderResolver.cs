@@ -48,7 +48,7 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
         return Task.FromResult(GetProviderByName(options.Value.DefaultInventoryProviderName));
     }
 
-    public virtual Task<IProductInventoryProvider> GetAsync([NotNull] string providerName)
+    public virtual Task<IProductInventoryProvider> GetAsync([CanBeNull] string providerName)
     {
         return Task.FromResult(GetProviderByName(providerName));
     }

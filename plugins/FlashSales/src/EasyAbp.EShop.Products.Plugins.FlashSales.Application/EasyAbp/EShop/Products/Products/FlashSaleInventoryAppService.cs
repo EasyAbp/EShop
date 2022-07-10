@@ -6,18 +6,18 @@ namespace EasyAbp.EShop.Products.Products;
 
 public class FlashSaleInventoryAppService : ProductsAppService, IFlashSaleInventoryAppService
 {
-    protected ILocalFlashSaleInventoryManager LocalFlashSaleInventoryReducer { get; }
+    protected ILocalFlashSaleInventoryManager LocalFlashSaleInventoryManager { get; }
 
-    public FlashSaleInventoryAppService(ILocalFlashSaleInventoryManager localFlashSaleInventoryReducer)
+    public FlashSaleInventoryAppService(ILocalFlashSaleInventoryManager localFlashSaleInventoryManager)
     {
-        LocalFlashSaleInventoryReducer = localFlashSaleInventoryReducer;
+        LocalFlashSaleInventoryManager = localFlashSaleInventoryManager;
     }
 
-    public virtual async Task<bool> TryReduceInventoryAsync(ReduceInventoryInput input)
+    public virtual async Task<bool> TryReduceAsync(ReduceInventoryInput input)
     {
         await CheckPolicyAsync(ProductsPluginsFlashSalesPermissions.FlashSaleInventory.Reduce);
 
-        return await LocalFlashSaleInventoryReducer.TryReduceInventoryAsync(
+        return await LocalFlashSaleInventoryManager.TryReduceInventoryAsync(
             input.TenantId,
             input.ProviderName,
             input.StoreId,
@@ -28,11 +28,11 @@ public class FlashSaleInventoryAppService : ProductsAppService, IFlashSaleInvent
         );
     }
 
-    public virtual async Task<bool> TryIncreaseInventoryAsync(IncreaseInventoryInput input)
+    public virtual async Task<bool> TryIncreaseAsync(IncreaseInventoryInput input)
     {
         await CheckPolicyAsync(ProductsPluginsFlashSalesPermissions.FlashSaleInventory.Increase);
 
-        return await LocalFlashSaleInventoryReducer.TryIncreaseInventoryAsync(
+        return await LocalFlashSaleInventoryManager.TryIncreaseInventoryAsync(
             input.TenantId,
             input.ProviderName,
             input.StoreId,

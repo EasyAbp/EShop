@@ -417,7 +417,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Plugins.FlashSales.Abstractions", "plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.Abstractions\EasyAbp.EShop.Products.Plugins.FlashSales.Abstractions.csproj", "{C1EB9DC0-F572-41DF-9716-893B154BBB13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts", "plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts.csproj", "{F08D9409-4D01-4639-A7B8-A70B7ED8E0F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts", "plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts.csproj", "{F08D9409-4D01-4639-A7B8-A70B7ED8E0F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi", "plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.csproj", "{B137BF4B-8C0A-4CE2-AF22-BD9BD29C86B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.Plugins.FlashSales.HttpApiClient", "plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApiClient\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApiClient.csproj", "{98786FEE-155D-42D6-B932-D85E24114CFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1089,6 +1093,14 @@ Global
 		{F08D9409-4D01-4639-A7B8-A70B7ED8E0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F08D9409-4D01-4639-A7B8-A70B7ED8E0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F08D9409-4D01-4639-A7B8-A70B7ED8E0F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B137BF4B-8C0A-4CE2-AF22-BD9BD29C86B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B137BF4B-8C0A-4CE2-AF22-BD9BD29C86B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B137BF4B-8C0A-4CE2-AF22-BD9BD29C86B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B137BF4B-8C0A-4CE2-AF22-BD9BD29C86B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98786FEE-155D-42D6-B932-D85E24114CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98786FEE-155D-42D6-B932-D85E24114CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98786FEE-155D-42D6-B932-D85E24114CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98786FEE-155D-42D6-B932-D85E24114CFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1298,6 +1310,8 @@ Global
 		{6AD2F468-D86C-4F9A-B280-3BCC15661C47} = {F29C5BCD-E6C0-4556-A631-CACA41B1050B}
 		{C1EB9DC0-F572-41DF-9716-893B154BBB13} = {F29C5BCD-E6C0-4556-A631-CACA41B1050B}
 		{F08D9409-4D01-4639-A7B8-A70B7ED8E0F9} = {F29C5BCD-E6C0-4556-A631-CACA41B1050B}
+		{B137BF4B-8C0A-4CE2-AF22-BD9BD29C86B7} = {F29C5BCD-E6C0-4556-A631-CACA41B1050B}
+		{98786FEE-155D-42D6-B932-D85E24114CFD} = {F29C5BCD-E6C0-4556-A631-CACA41B1050B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
