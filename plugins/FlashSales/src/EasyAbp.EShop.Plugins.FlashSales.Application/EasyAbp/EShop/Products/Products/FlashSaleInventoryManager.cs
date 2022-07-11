@@ -24,7 +24,7 @@ public class FlashSaleInventoryManager : IFlashSaleInventoryManager, ITransientD
             new ReduceInventoryInput(tenantId, providerName, storeId, productId, productSkuId, quantity, increaseSold));
     }
 
-    public virtual async Task<bool> TryIncreaseInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
+    public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
         Guid productSkuId, int quantity, bool decreaseSold)
     {
         return await FlashSaleInventoryReducerAppService.TryIncreaseAsync

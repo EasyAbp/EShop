@@ -32,7 +32,7 @@ public class FlashSaleInventoryAppService : ProductsAppService, IFlashSaleInvent
     {
         await CheckPolicyAsync(ProductsPluginsFlashSalesPermissions.FlashSaleInventory.Increase);
 
-        return await LocalFlashSaleInventoryManager.TryIncreaseInventoryAsync(
+        return await LocalFlashSaleInventoryManager.TryRollBackInventoryAsync(
             input.TenantId,
             input.ProviderName,
             input.StoreId,

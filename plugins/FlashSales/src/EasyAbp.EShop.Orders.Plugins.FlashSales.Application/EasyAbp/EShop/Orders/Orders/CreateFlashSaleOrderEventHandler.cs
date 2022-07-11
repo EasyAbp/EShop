@@ -70,7 +70,7 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
                 StoreId = eventData.StoreId,
                 PendingResultId = eventData.PendingResultId,
                 Success = false,
-                Reason = FlashSaleResultFailedReason.PreOrderExipred
+                Reason = FlashSaleResultFailedReason.InvalidHashToken
             });
             return;
         }
@@ -93,7 +93,8 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
             UserId = eventData.UserId,
             StoreId = eventData.StoreId,
             PendingResultId = eventData.PendingResultId,
-            Success = true
+            Success = true,
+            Reason = null
         });
     }
 

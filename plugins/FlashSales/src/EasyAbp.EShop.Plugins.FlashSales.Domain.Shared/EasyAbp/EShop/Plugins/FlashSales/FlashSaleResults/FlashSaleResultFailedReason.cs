@@ -4,5 +4,5 @@ public static class FlashSaleResultFailedReason
 {
     public const string InsufficientInventory = nameof(InsufficientInventory);
 
-    public const string PreOrderExipred = nameof(PreOrderExipred);
+    public const string InvalidHashToken = nameof(InvalidHashToken);
 }

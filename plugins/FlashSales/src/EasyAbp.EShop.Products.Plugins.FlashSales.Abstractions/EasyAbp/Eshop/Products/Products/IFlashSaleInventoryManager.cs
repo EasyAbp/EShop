@@ -7,5 +7,5 @@ public interface IFlashSaleInventoryManager
 {
     Task<bool> TryReduceInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId, Guid productSkuId, int quantity, bool increaseSold);
 
-    Task<bool> TryIncreaseInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId, Guid productSkuId, int quantity, bool decreaseSold);
+    Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId, Guid productSkuId, int quantity, bool decreaseSold);
 }

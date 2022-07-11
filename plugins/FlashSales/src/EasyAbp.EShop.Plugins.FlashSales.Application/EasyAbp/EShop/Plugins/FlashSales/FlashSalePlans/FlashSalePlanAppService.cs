@@ -112,7 +112,7 @@ public class FlashSalePlanAppService :
         var product = await ProductAppService.GetAsync(input.ProductId);
         var productSku = product.GetSkuById(input.ProductSkuId);
 
-        await ValidateCreateOrUpdateProductAsync(input.ProductId, product, input.ProductSkuId, productSku, input.StoreId);
+        await ValidateProductAsync(input.ProductId, product, input.StoreId);
 
         var flashSalePlan = new FlashSalePlan(
             GuidGenerator.Create(),
@@ -120,8 +120,8 @@ public class FlashSalePlanAppService :
             input.StoreId,
             input.BeginTime,
             input.EndTime,
-            input.ProductId,
-            input.ProductSkuId,
+            product.Id,
+            productSku.Id,
             input.IsPublished
         );
 
@@ -138,7 +138,7 @@ public class FlashSalePlanAppService :
 
         await CheckMultiStorePolicyAsync(product.StoreId, UpdatePolicyName);
 
-        await ValidateCreateOrUpdateProductAsync(input.ProductId, product, input.ProductSkuId, productSku, flashSalePlan.StoreId);
+        await ValidateProductAsync(input.ProductId, product, flashSalePlan.StoreId);
 
         if (await ExistRelatedFlashSaleResultsAsync(id) && (input.ProductId != flashSalePlan.ProductId || input.ProductSkuId != flashSalePlan.ProductSkuId))
         {
@@ -146,7 +146,7 @@ public class FlashSalePlanAppService :
         }
 
         flashSalePlan.SetTimeRange(input.BeginTime, input.EndTime);
-        flashSalePlan.SetProductSku(flashSalePlan.StoreId, input.ProductId, input.ProductSkuId);
+        flashSalePlan.SetProductSku(flashSalePlan.StoreId, product.Id, productSku.Id);
         flashSalePlan.SetPublished(input.IsPublished);
 
         flashSalePlan.SetConcurrencyStampIfNotNull(input.ConcurrencyStamp);
@@ -197,28 +197,7 @@ public class FlashSalePlanAppService :
         await SetPreOrderCacheAsync(plan, product, productSku);
     }
 
-    public virtual async Task CheckPreOrderAsync(Guid id)
-    {
-        var plan = await GetFlashSalePlanCacheAsync(id);
-
-        var preOrderCache = await GetPreOrderCacheAsync(plan);
-        if (preOrderCache == null)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
-        }
-
-        var product = await ProductAppService.GetAsync(plan.ProductId);
-        var productSku = product.GetSkuById(plan.ProductSkuId);
-
-        if (!await CompareHashTokenAsync(preOrderCache.HashToken, plan, product, productSku))
-        {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
-        }
-
-        await ValidatePreOrderAsync(plan, product, productSku);
-    }
-
-    public virtual async Task CreateOrderAsync(Guid id, CreateOrderInput input)
+    public virtual async Task<bool> OrderAsync(Guid id, CreateOrderInput input)
     {
         var plan = await GetFlashSalePlanCacheAsync(id);
         var now = Clock.Now;
@@ -257,18 +236,18 @@ public class FlashSalePlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
         }
 
-        if (!await FlashSaleInventoryManager.TryIncreaseInventoryAsync(
+        if (!await FlashSaleInventoryManager.TryReduceInventoryAsync(
             plan.TenantId, preOrderCache.InventoryProviderName,
             plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true))
         {
-            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
+            return false;
         }
 
         var result = await CreatePendingFlashSaleResultAsync(plan, userId, async (existsResultId) =>
         {
             await SetUserFlashSaleResultCacheAsync(plan, userId, existsResultId);
 
-            await FlashSaleInventoryManager.TryIncreaseInventoryAsync(
+            await FlashSaleInventoryManager.TryRollBackInventoryAsync(
                 plan.TenantId, preOrderCache.InventoryProviderName,
                 plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true
             );
@@ -279,6 +258,8 @@ public class FlashSalePlanAppService :
         var createFlashSaleOrderEto = await PrepareCreateFlashSaleOrderEtoAsync(plan, result.Id, input, userId, now, preOrderCache.HashToken);
 
         await DistributedEventBus.PublishAsync(createFlashSaleOrderEto);
+
+        return true;
     }
 
     #region PreOrderCache
@@ -394,16 +375,11 @@ public class FlashSalePlanAppService :
         return await FlashSaleResultRepository.AnyAsync(x => x.PlanId == planId);
     }
 
-    protected virtual Task ValidateCreateOrUpdateProductAsync(Guid productId, ProductDto product, Guid productSkuId, ProductSkuDto productSku, Guid storeId)
+    protected virtual Task ValidateProductAsync(Guid productId, ProductDto product, Guid storeId)
     {
         if (product.StoreId != storeId)
         {
             throw new ProductIsNotInThisStoreException(productId, storeId);
-        }
-
-        if (productSku == null)
-        {
-            throw new ProductSkuIsNotFoundException(productSkuId);
         }
 
         if (product.InventoryStrategy != InventoryStrategy.FlashSales)
@@ -445,7 +421,8 @@ public class FlashSalePlanAppService :
     protected virtual async Task<FlashSaleResult> CreatePendingFlashSaleResultAsync(FlashSalePlanCacheItem plan, Guid userId, Func<Guid, Task> existResultPreProcess)
     {
         // Prevent repeat submit
-        var existsResult = await FlashSaleResultRepository.FirstOrDefaultAsync(x => x.PlanId == plan.Id && x.UserId == userId);
+        var existsResult = await FlashSaleResultRepository.FirstOrDefaultAsync(x =>
+            x.PlanId == plan.Id && x.UserId == userId && x.Status != FlashSaleResultStatus.Failed && x.Reason != FlashSaleResultFailedReason.InvalidHashToken);
 
         if (existsResult != null)
         {

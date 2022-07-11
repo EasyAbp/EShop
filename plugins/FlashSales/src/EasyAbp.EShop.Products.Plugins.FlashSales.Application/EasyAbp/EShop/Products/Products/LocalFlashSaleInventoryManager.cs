@@ -23,7 +23,7 @@ public class LocalFlashSaleInventoryManager : ILocalFlashSaleInventoryManager, I
             .TryReduceInventoryAsync(model, quantity, increaseSold);
     }
 
-    public virtual async Task<bool> TryIncreaseInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
+    public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
         Guid productSkuId, int quantity, bool decreaseSold)
     {
         var model = new InventoryQueryModel(tenantId, storeId, productId, productSkuId);

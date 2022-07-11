@@ -16,8 +16,6 @@ public class FlashSaleResultAppService :
     protected override string GetPolicyName { get; set; }
     protected override string GetListPolicyName { get; set; }
 
-    protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
-
     public FlashSaleResultAppService(IFlashSaleResultRepository flashSaleResultRepository) : base(flashSaleResultRepository)
     {
     }

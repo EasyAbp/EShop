@@ -57,15 +57,9 @@ public class FlashSalePlanController :
         return Service.PreOrderAsync(id);
     }
 
-    [HttpGet("{id}/check-pre-order")]
-    public virtual Task CheckPreOrderAsync(Guid id)
-    {
-        return Service.CheckPreOrderAsync(id);
-    }
-
     [HttpPost("{id}/order")]
-    public virtual Task CreateOrderAsync(Guid id, CreateOrderInput input)
+    public virtual Task<bool> OrderAsync(Guid id, CreateOrderInput input)
     {
-        return Service.CreateOrderAsync(id, input);
+        return Service.OrderAsync(id, input);
     }
 }
