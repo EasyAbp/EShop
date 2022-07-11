@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
@@ -30,6 +31,7 @@ public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandler : IDistri
         ProductAppService = productAppService;
     }
 
+    [UnitOfWork(true)]
     public virtual async Task HandleEventAsync(CreateFlashSaleOrderCompleteEto eventData)
     {
         if (eventData.Success)
