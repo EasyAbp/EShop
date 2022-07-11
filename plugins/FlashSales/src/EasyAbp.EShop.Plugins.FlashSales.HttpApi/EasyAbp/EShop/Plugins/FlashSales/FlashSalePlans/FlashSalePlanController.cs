@@ -52,7 +52,7 @@ public class FlashSalePlanController :
     }
 
     [HttpPost("{id}/pre-order")]
-    public virtual Task PreOrderAsync(Guid id)
+    public virtual Task<FlashSalePlanPreOrderDto> PreOrderAsync(Guid id)
     {
         return Service.PreOrderAsync(id);
     }

@@ -19,6 +19,7 @@ using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Timing;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
@@ -186,15 +187,18 @@ public class FlashSalePlanAppService :
             .WhereIf(input.End.HasValue, x => x.BeginTime <= input.End.Value);
     }
 
-    public virtual async Task PreOrderAsync(Guid id)
+    public virtual async Task<FlashSalePlanPreOrderDto> PreOrderAsync(Guid id)
     {
         var plan = await GetFlashSalePlanCacheAsync(id);
         var product = await ProductAppService.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
+        var expiresTime = DateTimeOffset.Now.Add(Options.PreOrderExpires);
 
         await ValidatePreOrderAsync(plan, product, productSku);
 
-        await SetPreOrderCacheAsync(plan, product, productSku);
+        await SetPreOrderCacheAsync(plan, product, productSku, expiresTime);
+
+        return new FlashSalePlanPreOrderDto { ExpiresTime = Clock.Normalize(expiresTime.LocalDateTime), Expires = Options.PreOrderExpires.TotalSeconds };
     }
 
     public virtual async Task<bool> OrderAsync(Guid id, CreateOrderInput input)
@@ -288,7 +292,7 @@ public class FlashSalePlanAppService :
         await PreOrderDistributedCache.RemoveAsync(await GetPreOrderCacheKeyAsync(plan));
     }
 
-    protected virtual async Task SetPreOrderCacheAsync(FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
+    protected virtual async Task SetPreOrderCacheAsync(FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku, DateTimeOffset expirationTime)
     {
         var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
 
@@ -301,7 +305,7 @@ public class FlashSalePlanAppService :
             InventoryProviderName = product.InventoryProviderName,
         }, new DistributedCacheEntryOptions()
         {
-            AbsoluteExpirationRelativeToNow = Options.PreOrderExpirationTime
+            AbsoluteExpiration = expirationTime
         });
     }
 
@@ -327,18 +331,6 @@ public class FlashSalePlanAppService :
     }
 
     #endregion
-
-    protected virtual async Task<bool> CompareHashTokenAsync(string originHashToken, FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
-    {
-        if (originHashToken.IsNullOrWhiteSpace())
-        {
-            return false;
-        }
-
-        var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
-
-        return string.Equals(hashToken, originHashToken, StringComparison.InvariantCulture);
-    }
 
     protected virtual Task ValidatePreOrderAsync(FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku)
     {

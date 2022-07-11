@@ -7,5 +7,5 @@ public class FlashSalesOptions
     /// <summary>
     /// Default: 3 minutes
     /// </summary>
-    public TimeSpan PreOrderExpirationTime { get; set; } = TimeSpan.FromMinutes(3);
+    public TimeSpan PreOrderExpires { get; set; } = TimeSpan.FromMinutes(3);
 }
