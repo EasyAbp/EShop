@@ -198,7 +198,7 @@ public class FlashSalePlanAppService :
 
         await SetPreOrderCacheAsync(plan, product, productSku, expiresTime);
 
-        return new FlashSalePlanPreOrderDto { ExpiresTime = Clock.Normalize(expiresTime.LocalDateTime), Expires = Options.PreOrderExpires.TotalSeconds };
+        return new FlashSalePlanPreOrderDto { ExpiresTime = Clock.Normalize(expiresTime.LocalDateTime), ExpiresInSeconds = Options.PreOrderExpires.TotalSeconds };
     }
 
     public virtual async Task<bool> OrderAsync(Guid id, CreateOrderInput input)

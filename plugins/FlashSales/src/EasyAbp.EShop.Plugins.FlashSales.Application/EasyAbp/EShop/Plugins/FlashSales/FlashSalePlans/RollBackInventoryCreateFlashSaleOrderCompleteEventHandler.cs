@@ -31,7 +31,6 @@ public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandler : IDistri
         ProductAppService = productAppService;
     }
 
-    [UnitOfWork(true)]
     public virtual async Task HandleEventAsync(CreateFlashSaleOrderCompleteEto eventData)
     {
         if (eventData.Success)

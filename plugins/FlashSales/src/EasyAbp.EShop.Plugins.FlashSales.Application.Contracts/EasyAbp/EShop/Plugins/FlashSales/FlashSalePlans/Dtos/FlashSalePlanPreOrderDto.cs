@@ -7,5 +7,5 @@ public class FlashSalePlanPreOrderDto : ExtensibleEntityDto
 {
     public DateTime ExpiresTime { get; set; }
 
-    public double Expires { get; set; }
+    public double ExpiresInSeconds { get; set; }
 }
