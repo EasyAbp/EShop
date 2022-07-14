@@ -10,6 +10,8 @@ A booking-business plugin for EShop. It extends EShop to use the [EasyAbp.Bookin
 
 ## Installation
 
+1. Install the [EasyAbp.BookingService](https://github.com/EasyAbp/BookingService) module locally or remotely.
+
 1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-nuget-packages))
 
     * EasyAbp.EShop.Orders.Booking.Application (install at EasyAbp.EShop.Orders.Application location)
@@ -36,3 +38,29 @@ A booking-business plugin for EShop. It extends EShop to use the [EasyAbp.Bookin
 ## Usage
 
 [![](https://mermaid.ink/img/pako:eNrFlU1v2zAMhv-KoMtWIO3uxhCg6wLs1qzBbrkoEp0IlSWPkjZ4Rf_7qI84TpA2LTBgOVmU-JB8RTFPXDoFvOEefkawEr5qsUXRrS2jn4jB2dhtAMv6hwe8ns-_OPeo7XYF-EtLaNj3CDiwDVnFxgALugPWOmTCewi-uB77XBMlwRr2ACGi9awH1E75oziL1c71N_eoAH3D7hBEACZyIEIxlzbYbx12JRITVrEgcEufKYfCmkJG5tLErbb-pmbVsIX1ESn1HRTWp1yE9mNVnzc4_1iPZ1hORzt7G8POof6TF98oBQN4NQ19EuuMfheDn6lkFDCvmcziqDPyLcXQgQ0k4Iq0IZFYXyz5ilLMrONRxtXlH8lVcf9LsLGaUbJqeZNod67rDYQSrCr3Rnr1VK9Ku-_uvNortfdcBPeeJs77S6FP_S4Lei9l7If6YMvdRfNYrLfJSMSrsw_55WSSs7ByYAg-mjBSM2_cfcibB7wwYeLqo5RA56uGLxd0MiqmlzZpbzAeJvRWaPNuNHmCOYBTWWnuILQxjZ_TLgGrXplpZXJ2Q2F98MwHEaK__N574lJ6s0OXzYjBZM4OFJ_xDrCjVqDR_pRwa06p0UzkDX0qaAWpvuZr-0xHY6_oHSyUDg550wpSacbT7F8NVvImYIT9ofr3UE89_wU5QDGI)](https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNrFlU1v2zAMhv-KoMtWIO3uxhCg6wLs1qzBbrkoEp0IlSWPkjZ4Rf_7qI84TpA2LTBgOVmU-JB8RTFPXDoFvOEefkawEr5qsUXRrS2jn4jB2dhtAMv6hwe8ns-_OPeo7XYF-EtLaNj3CDiwDVnFxgALugPWOmTCewi-uB77XBMlwRr2ACGi9awH1E75oziL1c71N_eoAH3D7hBEACZyIEIxlzbYbx12JRITVrEgcEufKYfCmkJG5tLErbb-pmbVsIX1ESn1HRTWp1yE9mNVnzc4_1iPZ1hORzt7G8POof6TF98oBQN4NQ19EuuMfheDn6lkFDCvmcziqDPyLcXQgQ0k4Iq0IZFYXyz5ilLMrONRxtXlH8lVcf9LsLGaUbJqeZNod67rDYQSrCr3Rnr1VK9Ku-_uvNortfdcBPeeJs77S6FP_S4Lei9l7If6YMvdRfNYrLfJSMSrsw_55WSSs7ByYAg-mjBSM2_cfcibB7wwYeLqo5RA56uGLxd0MiqmlzZpbzAeJvRWaPNuNHmCOYBTWWnuILQxjZ_TLgGrXplpZXJ2Q2F98MwHEaK__N574lJ6s0OXzYjBZM4OFJ_xDrCjVqDR_pRwa06p0UzkDX0qaAWpvuZr-0xHY6_oHSyUDg550wpSacbT7F8NVvImYIT9ofr3UE89_wU5QDGI)
+
+### Admins
+
+1. Define a "booking" product group. Customers can use only these configured product groups for booking.
+   ```CSharp
+   public override void ConfigureServices(ServiceConfigurationContext context)
+   {
+       context.Services.AddAlwaysAllowAuthorization();
+
+       Configure<EShopBookingOptions>(options =>
+       {
+           options.BookingProductGroups.Add(new BookingProductGroupDefinition("MyBookingProductGroup"));
+       });
+   }
+   ```
+2. Use the management pages to create [ProductAsset](https://github.com/EasyAbp/EShop/blob/dev/plugins/Booking/src/EasyAbp.EShop.Plugins.Booking.Domain/EasyAbp/EShop/Plugins/Booking/ProductAssets/ProductAsset.cs) or [ProductAssetCategory](https://github.com/EasyAbp/EShop/blob/dev/plugins/Booking/src/EasyAbp.EShop.Plugins.Booking.Domain/EasyAbp/EShop/Plugins/Booking/ProductAssetCategories/ProductAssetCategory.cs) entities to set prices and more information.
+
+### Customers
+
+1. Use BookingService module's `/api/booking-service/asset-occupancy/search-booking-periods` (GET) or `/api/booking-service/asset-occupancy/search-category-booking-periods` (GET) to get available periods for an asset or an asset category.
+2. Create an EShop order with these ExtraProperties:
+   * BookingAssetId or BookingAssetCategoryId
+   * BookingPeriodSchemeId, BookingPeriodId, BookingVolume, BookingDate, BookingStartingTime, BookingDuration
+3. Pay for the order, and then it will automatically call the BookingService module to occupy the asset.
+   * If the occupancy succeeds, it will set the order to complete.
+   * If the occupancy fails, it will cancel the order and refund the payment.
