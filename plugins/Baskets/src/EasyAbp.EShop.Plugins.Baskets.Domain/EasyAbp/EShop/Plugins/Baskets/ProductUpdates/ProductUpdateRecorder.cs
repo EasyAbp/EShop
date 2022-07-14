@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Plugins.Baskets.ProductUpdates;
 using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.Products;
 using Volo.Abp.DependencyInjection;
@@ -11,7 +10,7 @@ using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
-namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
+namespace EasyAbp.EShop.Plugins.Baskets.ProductUpdates
 {
     public class ProductUpdateRecorder :
         IProductUpdateRecorder,

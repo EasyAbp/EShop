@@ -11,11 +11,13 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Authorization;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public class BasketItemAppService : CrudAppService<BasketItem, BasketItemDto, Guid, GetBasketItemListDto, CreateBasketItemDto, UpdateBasketItemDto>,
+    public class BasketItemAppService : CrudAppService<BasketItem, BasketItemDto, Guid, GetBasketItemListDto,
+            CreateBasketItemDto, UpdateBasketItemDto>,
         IBasketItemAppService
     {
         protected override string GetPolicyName { get; set; } = BasketsPermissions.BasketItem.Default;
@@ -27,18 +29,15 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         private readonly IBasketItemRepository _repository;
         private readonly IProductUpdateRepository _productUpdateRepository;
         private readonly IProductAppService _productAppService;
-        private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
 
         public BasketItemAppService(
             IBasketItemRepository repository,
             IProductUpdateRepository productUpdateRepository,
-            IProductAppService productAppService,
-            IProductSkuDescriptionProvider productSkuDescriptionProvider) : base(repository)
+            IProductAppService productAppService) : base(repository)
         {
             _repository = repository;
             _productUpdateRepository = productUpdateRepository;
             _productAppService = productAppService;
-            _productSkuDescriptionProvider = productSkuDescriptionProvider;
         }
 
         public override async Task<BasketItemDto> GetAsync(Guid id)
@@ -46,14 +45,14 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             await CheckGetPolicyAsync();
 
             var item = await GetEntityByIdAsync(id);
-            
+
             if (item.UserId != CurrentUser.GetId() && !await IsCurrentUserManagerAsync())
             {
                 throw new AbpAuthorizationException();
             }
 
             var productUpdate = await _productUpdateRepository.FindAsync(x => x.ProductSkuId == item.ProductSkuId);
-            
+
             if (productUpdate != null)
             {
                 var itemUpdateTime = item.LastModificationTime ?? item.CreationTime;
@@ -62,9 +61,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 if (itemUpdateTime < productUpdateTime)
                 {
                     var productDto = await _productAppService.GetAsync(item.ProductId);
-                    
+
                     await UpdateProductDataAsync(item.Quantity, item, productDto);
-                    
+
                     await _repository.UpdateAsync(item, true);
                 }
             }
@@ -75,7 +74,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
         public override async Task<PagedResultDto<BasketItemDto>> GetListAsync(GetBasketItemListDto input)
         {
             await CheckGetListPolicyAsync();
-            
+
             if (input.UserId != CurrentUser.GetId())
             {
                 await AuthorizationService.CheckAsync(BasketsPermissions.BasketItem.Manage);
@@ -124,49 +123,23 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 await MapToGetListOutputDtosAsync(items)
             );
         }
-        
-        protected virtual async Task UpdateProductDataAsync(int quantity, IBasketItem item, ProductDto productDto)
+
+        protected virtual async Task UpdateProductDataAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
         {
             item.SetIsInvalid(false);
 
-            var productSkuDto = productDto.FindSkuById(item.ProductSkuId);
+            var updaters = LazyServiceProvider.LazyGetRequiredService<IEnumerable<IBasketItemProductInfoUpdater>>();
 
-            if (productSkuDto == null)
+            foreach (var updater in updaters)
             {
-                item.SetIsInvalid(true);
-                
-                return;
-            }
-
-            if (productDto.InventoryStrategy != InventoryStrategy.NoNeed && quantity > productSkuDto.Inventory)
-            {
-                item.SetIsInvalid(true);
-            }
-            
-            item.UpdateProductData(quantity, new ProductDataModel
-            {
-                MediaResources = productSkuDto.MediaResources ?? productDto.MediaResources,
-                ProductUniqueName = productDto.UniqueName,
-                ProductDisplayName = productDto.DisplayName,
-                SkuName = productSkuDto.Name,
-                SkuDescription = await _productSkuDescriptionProvider.GenerateAsync(productDto, productSkuDto),
-                Currency = productSkuDto.Currency,
-                UnitPrice = productSkuDto.DiscountedPrice,
-                TotalPrice = productSkuDto.DiscountedPrice * item.Quantity,
-                TotalDiscount = (productSkuDto.Price - productSkuDto.DiscountedPrice) * item.Quantity,
-                Inventory = productSkuDto.Inventory
-            });
-
-            if (!productDto.IsPublished)
-            {
-                item.SetIsInvalid(true);
+                await updater.UpdateProductDataAsync(targetQuantity, item, productDto);
             }
         }
 
         protected override async Task<IQueryable<BasketItem>> CreateFilteredQueryAsync(GetBasketItemListDto input)
         {
             var userId = input.UserId ?? CurrentUser.GetId();
-            
+
             return (await ReadOnlyRepository.GetQueryableAsync())
                 .Where(item => item.UserId == userId && item.BasketName == input.BasketName);
         }
@@ -190,12 +163,12 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             if (item != null)
             {
                 await UpdateProductDataAsync(input.Quantity + item.Quantity, item, productDto);
-            
+
                 await Repository.UpdateAsync(item, autoSave: true);
 
                 return await MapToGetOutputDtoAsync(item);
             }
-            
+
             var productSkuDto = productDto.FindSkuById(input.ProductSkuId);
 
             if (productSkuDto == null)
@@ -205,9 +178,11 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
             item = new BasketItem(GuidGenerator.Create(), CurrentTenant.Id, input.BasketName, CurrentUser.GetId(),
                 productDto.StoreId, input.ProductId, input.ProductSkuId);
+            
+            input.MapExtraPropertiesTo(item);
 
             await UpdateProductDataAsync(input.Quantity, item, productDto);
-            
+
             await Repository.InsertAsync(item, autoSave: true);
 
             return await MapToGetOutputDtoAsync(item);
@@ -218,7 +193,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             await CheckUpdatePolicyAsync();
 
             var item = await GetEntityByIdAsync(id);
-            
+
             if (item.UserId != CurrentUser.GetId() && !await IsCurrentUserManagerAsync())
             {
                 throw new AbpAuthorizationException();
@@ -226,8 +201,10 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
             var productDto = await _productAppService.GetAsync(item.ProductId);
 
+            input.MapExtraPropertiesTo(item);
+
             await UpdateProductDataAsync(input.Quantity, item, productDto);
-            
+
             await Repository.UpdateAsync(item, autoSave: true);
 
             return await MapToGetOutputDtoAsync(item);
@@ -243,20 +220,20 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             {
                 throw new AbpAuthorizationException();
             }
-            
+
             await _repository.DeleteAsync(item, true);
         }
 
         public virtual async Task BatchDeleteAsync(IEnumerable<Guid> ids)
         {
             await CheckDeletePolicyAsync();
-            
+
             var isCurrentUserManager = await IsCurrentUserManagerAsync();
-            
+
             foreach (var id in ids)
             {
                 var item = await GetEntityByIdAsync(id);
-                
+
                 if (item.UserId != CurrentUser.GetId() && !isCurrentUserManager)
                 {
                     throw new AbpAuthorizationException();
@@ -270,7 +247,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             GenerateClientSideDataInput input)
         {
             var itemList = new List<ClientSideBasketItemModel>();
-            
+
             var products = new Dictionary<Guid, ProductDto>();
 
             foreach (var dto in input.Items)
@@ -290,7 +267,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 }
 
                 var id = dto.Id ?? GuidGenerator.Create();
-                
+
                 var item = new ClientSideBasketItemModel(id, dto.BasketName, productDto.StoreId,
                     dto.ProductId, dto.ProductSkuId);
 
