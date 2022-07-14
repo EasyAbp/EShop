@@ -1,0 +1,111 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "EasyAbp.EShop.Plugins.Booking.Domain.Shared": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Domain.Shared/EasyAbp.EShop.Plugins.Booking.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Domain": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Domain/EasyAbp.EShop.Plugins.Booking.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Application.Contracts": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Application.Contracts/EasyAbp.EShop.Plugins.Booking.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Application": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Application/EasyAbp.EShop.Plugins.Booking.Application.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore/EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.MongoDB": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.MongoDB/EasyAbp.EShop.Plugins.Booking.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.HttpApi": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.HttpApi/EasyAbp.EShop.Plugins.Booking.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.HttpApi.Client": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.HttpApi.Client/EasyAbp.EShop.Plugins.Booking.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.TestBase": {
+      "path": "test/EasyAbp.EShop.Plugins.Booking.TestBase/EasyAbp.EShop.Plugins.Booking.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests/EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Booking.MongoDB.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Booking.MongoDB.Tests/EasyAbp.EShop.Plugins.Booking.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Domain.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Booking.Domain.Tests/EasyAbp.EShop.Plugins.Booking.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Application.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Booking.Application.Tests/EasyAbp.EShop.Plugins.Booking.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Booking.HttpApi.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.HttpApi.Host/EasyAbp.EShop.Plugins.Booking.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Web": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Web/EasyAbp.EShop.Plugins.Booking.Web.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp/EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Web.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.Web.Host/EasyAbp.EShop.Plugins.Booking.Web.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Booking.IdentityServer": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.IdentityServer/EasyAbp.EShop.Plugins.Booking.IdentityServer.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Host.Shared": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.Host.Shared/EasyAbp.EShop.Plugins.Booking.Host.Shared.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Web.Unified": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.Web.Unified/EasyAbp.EShop.Plugins.Booking.Web.Unified.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Blazor": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Blazor/EasyAbp.EShop.Plugins.Booking.Blazor.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Blazor.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.Blazor.Host/EasyAbp.EShop.Plugins.Booking.Blazor.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Blazor.Server": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Blazor.Server/EasyAbp.EShop.Plugins.Booking.Blazor.Server.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Blazor.WebAssembly": {
+      "path": "src/EasyAbp.EShop.Plugins.Booking.Blazor.WebAssembly/EasyAbp.EShop.Plugins.Booking.Blazor.WebAssembly.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Booking.Blazor.Server.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Booking.Blazor.Server.Host/EasyAbp.EShop.Plugins.Booking.Blazor.Server.Host.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

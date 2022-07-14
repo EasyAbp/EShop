@@ -1,0 +1,48 @@
+@page
+@using EasyAbp.EShop.Plugins.Booking.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Plugins.Booking.Localization
+@using EasyAbp.EShop.Plugins.Booking.Web.Menus
+@using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.GrantedStores.GrantedStore
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<BookingResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["GrantedStore"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:GrantedStore"].Value);
+    PageLayout.Content.MenuItemName = BookingMenus.GrantedStore;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Plugins/Booking/GrantedStores/GrantedStore/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Plugins/Booking/GrantedStores/GrantedStore/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["GrantedStore"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+			    @if (await Authorization.IsGrantedAsync(BookingPermissions.GrantedStore.Create))
+                {
+                <abp-button id="NewGrantedStoreButton"
+                            text="@L["CreateGrantedStore"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="GrantedStoreTable" class="nowrap"/>
+    </abp-card-body>
+</abp-card>

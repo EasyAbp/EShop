@@ -1,0 +1,52 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssets.ProductAssetPeriod
+@using EasyAbp.EShop.Plugins.Booking.Localization
+@using EasyAbp.EShop.Plugins.Booking.Permissions
+@using EasyAbp.EShop.Plugins.Booking.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<BookingResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["ProductAssetPeriod"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductAssetPeriod"].Value);
+    PageLayout.Content.MenuItemName = BookingMenus.ProductAsset;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Plugins/Booking/ProductAssets/ProductAssetPeriod/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Plugins/Booking/ProductAssets/ProductAssetPeriod/index.css"/>
+}
+
+<script>
+    let productAssetId = '@Model.ProductAssetId';
+</script>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["ProductAssetPeriod"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAsset.Update))
+			    {
+			        <abp-button id="NewProductAssetPeriodButton"
+                                text="@L["CreateProductAssetPeriod"].Value"
+                                icon="plus"
+                                button-type="Primary"/>
+			    }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="ProductAssetPeriodTable" class="nowrap"/>
+    </abp-card-body>
+</abp-card>

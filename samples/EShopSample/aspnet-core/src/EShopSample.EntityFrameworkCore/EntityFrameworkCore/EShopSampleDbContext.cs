@@ -1,5 +1,6 @@
 ﻿using EasyAbp.EShop.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore;
 using EasyAbp.PaymentService.EntityFrameworkCore;
 using EasyAbp.PaymentService.Prepayment.EntityFrameworkCore;
@@ -81,6 +82,7 @@ namespace EShopSample.EntityFrameworkCore
 
             builder.ConfigureEShop();
             builder.ConfigureEShopPluginsBaskets();
+            builder.ConfigureEShopPluginsBooking();
             builder.ConfigureEShopPluginsCoupons();
             builder.ConfigurePaymentService();
             builder.ConfigurePaymentServiceWeChatPay();

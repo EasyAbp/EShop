@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>EasyAbp.EShop.Plugins.Booking</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Orders.Booking.Application\EasyAbp.EShop.Orders.Booking.Application.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Payments.Booking.Application\EasyAbp.EShop.Payments.Booking.Application.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.Booking.Application\EasyAbp.EShop.Plugins.Booking.Application.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Domain.Tests\EasyAbp.EShop.Plugins.Booking.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+  </ItemGroup>
+
+</Project>

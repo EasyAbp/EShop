@@ -1,0 +1,52 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategoryPeriod
+@using EasyAbp.EShop.Plugins.Booking.Localization
+@using EasyAbp.EShop.Plugins.Booking.Permissions
+@using EasyAbp.EShop.Plugins.Booking.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<BookingResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["ProductAssetCategoryPeriod"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductAssetCategoryPeriod"].Value);
+    PageLayout.Content.MenuItemName = BookingMenus.ProductAssetCategory;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/EShop/Plugins/Booking/ProductAssetCategories/ProductAssetCategoryPeriod/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/EShop/Plugins/Booking/ProductAssetCategories/ProductAssetCategoryPeriod/index.css"/>
+}
+
+<script>
+    let productAssetCategoryId = '@Model.ProductAssetCategoryId';
+</script>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["ProductAssetCategoryPeriod"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAssetCategory.Update))
+                {
+                    <abp-button id="NewProductAssetCategoryPeriodButton"
+                                text="@L["CreateProductAssetCategoryPeriod"].Value"
+                                icon="plus"
+                                button-type="Primary"/>
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="ProductAssetCategoryPeriodTable" class="nowrap"/>
+    </abp-card-body>
+</abp-card>

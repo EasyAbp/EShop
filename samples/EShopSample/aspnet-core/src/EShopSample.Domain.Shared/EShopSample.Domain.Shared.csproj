@@ -22,6 +22,7 @@
     <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\..\..\integration\EasyAbp.EShop\src\EasyAbp.EShop.Domain.Shared\EasyAbp.EShop.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Domain.Shared\EasyAbp.EShop.Plugins.Baskets.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain.Shared\EasyAbp.EShop.Plugins.Booking.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain.Shared\EasyAbp.EShop.Plugins.Coupons.Domain.Shared.csproj" />
   </ItemGroup>
 
