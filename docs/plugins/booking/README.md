@@ -45,8 +45,6 @@ A booking-business plugin for EShop. It extends EShop to use the [EasyAbp.Bookin
    ```CSharp
    public override void ConfigureServices(ServiceConfigurationContext context)
    {
-       context.Services.AddAlwaysAllowAuthorization();
-
        Configure<EShopBookingOptions>(options =>
        {
            options.BookingProductGroups.Add(new BookingProductGroupDefinition("MyBookingProductGroup"));
@@ -59,8 +57,8 @@ A booking-business plugin for EShop. It extends EShop to use the [EasyAbp.Bookin
 
 1. Use BookingService module's `/api/booking-service/asset-occupancy/search-booking-periods` (GET) or `/api/booking-service/asset-occupancy/search-category-booking-periods` (GET) to get available periods for an asset or an asset category.
 2. Create an EShop order with these ExtraProperties:
-   * BookingAssetId or BookingAssetCategoryId
-   * BookingPeriodSchemeId, BookingPeriodId, BookingVolume, BookingDate, BookingStartingTime, BookingDuration
+   * `BookingAssetId` or `BookingAssetCategoryId`.
+   * `BookingPeriodSchemeId`, `BookingPeriodId`, `BookingVolume`, `BookingDate`, `BookingStartingTime`, `BookingDuration`.
 3. Pay for the order, and then it will automatically call the BookingService module to occupy the asset.
    * If the occupancy succeeds, it will set the order to complete.
    * If the occupancy fails, it will cancel the order and refund the payment.
