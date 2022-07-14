@@ -10,8 +10,6 @@ public class BookingOrderProperties
 
     public const string OrderLineBookingPeriodId = "BookingPeriodId";
 
-    public const string OrderLineBookingVolume = "BookingVolume";
-
     public const string OrderLineBookingDate = "BookingDate";
 
     public const string OrderLineBookingStartingTime = "BookingStartingTime";
