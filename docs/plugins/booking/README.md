@@ -16,7 +16,7 @@ A booking-business plugin for EShop. It extends EShop to use the [EasyAbp.Bookin
 
     * EasyAbp.EShop.Orders.Booking.Application (install at EasyAbp.EShop.Orders.Application location)
     * (Optional) EasyAbp.EShop.Payments.Booking.Application (install at EasyAbp.EShop.Payments.Application location)
-    * EasyAbp.EShop.Plugins.Booking.Application
+    * (Optional) EasyAbp.EShop.Plugins.Baskets.Booking.Application (install at EasyAbp.EShop.Plugins.Baskets.Application location)
     * EasyAbp.EShop.Plugins.Booking.Application
     * EasyAbp.EShop.Plugins.Booking.Application.Contracts
     * EasyAbp.EShop.Plugins.Booking.Domain
