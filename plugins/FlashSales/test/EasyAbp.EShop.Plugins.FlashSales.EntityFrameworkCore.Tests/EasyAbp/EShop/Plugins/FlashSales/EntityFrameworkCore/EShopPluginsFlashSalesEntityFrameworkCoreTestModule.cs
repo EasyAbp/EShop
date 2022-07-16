@@ -9,11 +9,11 @@ using Volo.Abp.Modularity;
 namespace EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore;
 
 [DependsOn(
-    typeof(FlashSalesTestBaseModule),
+    typeof(EShopPluginsFlashSalesTestBaseModule),
     typeof(EShopPluginsFlashSalesEntityFrameworkCoreModule),
     typeof(AbpEntityFrameworkCoreSqliteModule)
     )]
-public class FlashSalesEntityFrameworkCoreTestModule : AbpModule
+public class EShopPluginsFlashSalesEntityFrameworkCoreTestModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

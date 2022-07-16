@@ -8,9 +8,9 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
  * database independent anyway.
  */
 [DependsOn(
-    typeof(FlashSalesEntityFrameworkCoreTestModule)
+    typeof(EShopPluginsFlashSalesEntityFrameworkCoreTestModule)
     )]
-public class FlashSalesDomainTestModule : AbpModule
+public class EShopPluginsFlashSalesDomainTestModule : AbpModule
 {
 
 }

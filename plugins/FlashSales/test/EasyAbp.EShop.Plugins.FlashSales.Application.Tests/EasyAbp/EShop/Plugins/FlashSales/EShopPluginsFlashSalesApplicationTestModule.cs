@@ -4,9 +4,9 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
     typeof(EShopPluginsFlashSalesApplicationModule),
-    typeof(FlashSalesDomainTestModule)
+    typeof(EShopPluginsFlashSalesDomainTestModule)
     )]
-public class FlashSalesApplicationTestModule : AbpModule
+public class EShopPluginsFlashSalesApplicationTestModule : AbpModule
 {
 
 }

@@ -18,7 +18,7 @@ public class ConsoleTestAppHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        using (var application = await AbpApplicationFactory.CreateAsync<FlashSalesConsoleApiClientModule>(options =>
+        using (var application = await AbpApplicationFactory.CreateAsync<EShopPluginsFlashSalesConsoleApiClientModule>(options =>
         {
             options.Services.ReplaceConfiguration(_configuration);
             options.UseAutofac();

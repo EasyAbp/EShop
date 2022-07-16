@@ -9,7 +9,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
     typeof(EShopPluginsFlashSalesHttpApiClientModule),
     typeof(AbpHttpClientIdentityModelModule)
     )]
-public class FlashSalesConsoleApiClientModule : AbpModule
+public class EShopPluginsFlashSalesConsoleApiClientModule : AbpModule
 {
 
 }

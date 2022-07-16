@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
     typeof(AbpAuthorizationModule),
     typeof(EShopPluginsFlashSalesDomainModule)
     )]
-public class FlashSalesTestBaseModule : AbpModule
+public class EShopPluginsFlashSalesTestBaseModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

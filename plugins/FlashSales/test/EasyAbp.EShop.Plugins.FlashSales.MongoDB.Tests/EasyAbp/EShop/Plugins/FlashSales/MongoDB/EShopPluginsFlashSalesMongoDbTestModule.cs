@@ -6,10 +6,10 @@ using Volo.Abp.Uow;
 namespace EasyAbp.EShop.Plugins.FlashSales.MongoDB;
 
 [DependsOn(
-    typeof(FlashSalesTestBaseModule),
+    typeof(EShopPluginsFlashSalesTestBaseModule),
     typeof(EShopPluginsFlashSalesMongoDbModule)
     )]
-public class FlashSalesMongoDbTestModule : AbpModule
+public class EShopPluginsFlashSalesMongoDbTestModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
