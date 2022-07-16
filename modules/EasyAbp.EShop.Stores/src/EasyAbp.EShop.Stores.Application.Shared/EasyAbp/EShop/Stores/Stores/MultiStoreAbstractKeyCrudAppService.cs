@@ -62,7 +62,7 @@ namespace EasyAbp.EShop.Stores.Stores
         where TEntity : class, IEntity, IMultiStore
         where TCreateInput : IMultiStore
     {        
-        protected virtual string CrossStorePolicyName { get; set; }
+        protected abstract string CrossStorePolicyName { get; set; }
         
         protected MultiStoreAbstractKeyCrudAppService(IRepository<TEntity> repository)
             : base(repository)
@@ -109,7 +109,6 @@ namespace EasyAbp.EShop.Stores.Stores
 
             await DeleteByIdAsync(id);
         }
-
 
         protected virtual async Task CheckMultiStorePolicyAsync(Guid? storeId, string policyName, bool crossStoreAllowed = true)
         {

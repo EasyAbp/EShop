@@ -8,11 +8,15 @@
         
         public const string DefaultProductGroupDescription = "";
 
-        public const string CategoryRouteBase = "/api/e-shop/products/category";
+        public const string RouteBase = "/api/e-shop/products";
         
-        public const string GetCategorySummaryListedDataSourceUrl = CategoryRouteBase + "/summary";
+        public const string GetCategorySummaryListedDataSourceUrl = RouteBase + "/category/summary";
         
-        public const string GetCategorySummarySingleDataSourceUrl = CategoryRouteBase + "/{id}";
+        public const string GetCategorySummarySingleDataSourceUrl = RouteBase + "/category/{id}";
+        
+        public const string GetProductListedDataSourceUrl = RouteBase + "/product";
+        
+        public const string GetProductSingleDataSourceUrl = RouteBase + "/product/{id}";
         
         public const string DefaultPaymentExpireInSettingName = "EasyAbp.EShop.Products.Product.DefaultPaymentExpireIn";
     }

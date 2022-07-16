@@ -1,5 +1,6 @@
 ﻿using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins.Baskets;
+using EasyAbp.EShop.Plugins.Booking;
 using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products.Plugins.FlashSales;
@@ -24,6 +25,7 @@ namespace EShopSample
         typeof(AbpFeatureManagementHttpApiModule),
         typeof(EShopHttpApiModule),
         typeof(EShopPluginsBasketsHttpApiModule),
+        typeof(EShopPluginsBookingHttpApiModule),
         typeof(EShopPluginsCouponsHttpApiModule),
         typeof(EShopPluginsFlashSalesHttpApiModule),
         typeof(EShopProductsPluginsFlashSalesHttpApiModule),

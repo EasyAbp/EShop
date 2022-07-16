@@ -18,7 +18,9 @@ namespace EShopSample.Web
 #endif
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.Console())
+#if DEBUG
+                .WriteTo.Console()
+#endif
                 .WriteTo.Async(c => c.File("Logs/logs.txt"))
                 .CreateLogger();
 

@@ -1,5 +1,6 @@
 ﻿using EasyAbp.EShop.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore;
+using EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.FlashSales.EntityFrameworkCore;
 using EasyAbp.PaymentService.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace EShopSample.EntityFrameworkCore
         typeof(AbpFeatureManagementEntityFrameworkCoreModule),
         typeof(EShopEntityFrameworkCoreModule),
         typeof(EShopPluginsBasketsEntityFrameworkCoreModule),
+        typeof(EShopPluginsBookingEntityFrameworkCoreModule),
         typeof(EShopPluginsCouponsEntityFrameworkCoreModule),
         typeof(EShopPluginsFlashSalesEntityFrameworkCoreModule),
         typeof(PaymentServiceEntityFrameworkCoreModule),

@@ -1,5 +1,6 @@
 ﻿using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins.Baskets;
+using EasyAbp.EShop.Plugins.Booking;
 using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.PaymentService;
@@ -40,6 +41,7 @@ namespace EShopSample
         typeof(AbpTenantManagementDomainModule),
         typeof(EShopDomainModule),
         typeof(EShopPluginsBasketsDomainModule),
+        typeof(EShopPluginsBookingDomainModule),
         typeof(EShopPluginsCouponsDomainModule),
         typeof(EShopPluginsFlashSalesDomainModule),
         typeof(PaymentServiceDomainModule),

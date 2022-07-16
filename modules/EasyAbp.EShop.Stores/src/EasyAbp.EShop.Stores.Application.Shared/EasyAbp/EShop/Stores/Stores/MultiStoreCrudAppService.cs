@@ -79,14 +79,14 @@ namespace EasyAbp.EShop.Stores.Stores
             return await Repository.GetAsync(id);
         }
 
-        protected override void MapToEntity(TUpdateInput updateInput, TEntity entity)
+        protected override Task MapToEntityAsync(TUpdateInput updateInput, TEntity entity)
         {
             if (updateInput is IEntityDto<TKey> entityDto)
             {
                 entityDto.Id = entity.Id;
             }
 
-            base.MapToEntity(updateInput, entity);
+            return base.MapToEntityAsync(updateInput, entity);
         }
 
         protected override IQueryable<TEntity> ApplyDefaultSorting(IQueryable<TEntity> query)
