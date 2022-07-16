@@ -13,6 +13,7 @@
     "EasyAbp.EShop.Plugins.FlashSales:BusyToCreateFlashSaleOrder": "Busy to create flash-sale order",
     "EasyAbp.EShop.Plugins.FlashSales:DuplicateFlashSalesOrder": "Duplicate flash-sales order",
     "EasyAbp.EShop.Plugins.FlashSales:RelatedFlashSaleResultsExist": "Related flash-sales results exist",
+    "EasyAbp.EShop.Plugins.FlashSales:FlashSaleResultStatusNotPending": "The status of flash-sale result has been changed",
     "Menu:FlashSalesManagement": "Flash-Sales Management",
     "Permission:FlashSalePlan": "FlashSale Plan",
     "Permission:Manage": "Manage",

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
@@ -23,12 +22,14 @@ public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandler : IDistri
         IFlashSaleInventoryManager flashSaleInventoryManager,
         IDistributedCache distributedCache,
         IFlashSalePlanRepository flashSalePlanRepository,
-        IProductAppService productAppService)
+        IProductAppService productAppService,
+        ILogger<RollBackInventoryCreateFlashSaleOrderCompleteEventHandler> logger)
     {
         FlashSaleInventoryManager = flashSaleInventoryManager;
         DistributedCache = distributedCache;
         FlashSalePlanRepository = flashSalePlanRepository;
         ProductAppService = productAppService;
+        Logger = logger;
     }
 
     public virtual async Task HandleEventAsync(CreateFlashSaleOrderCompleteEto eventData)
@@ -60,7 +61,7 @@ public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandler : IDistri
 
     protected virtual Task<string> GetUserFlashSaleResultCacheKeyAsync(FlashSalePlan plan, Guid userId)
     {
-        return Task.FromResult($"flash-sale-result-{plan.Id}-{userId}");
+        return Task.FromResult(string.Format(FlashSalePlanAppService.UserFlashSaleResultCacheKeyFormat, plan.TenantId, plan.Id, userId));
     }
 
     protected virtual async Task RemoveUserFlashSaleResultCacheAsync(FlashSalePlan plan, Guid userId)

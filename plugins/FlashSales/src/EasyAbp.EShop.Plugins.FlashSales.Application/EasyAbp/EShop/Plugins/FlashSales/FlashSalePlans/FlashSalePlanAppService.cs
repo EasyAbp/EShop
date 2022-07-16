@@ -29,6 +29,21 @@ public class FlashSalePlanAppService :
     MultiStoreCrudAppService<FlashSalePlan, FlashSalePlanDto, Guid, FlashSalePlanGetListInput, FlashSalePlanCreateDto, FlashSalePlanUpdateDto>,
     IFlashSalePlanAppService
 {
+    /// <summary>
+    /// The <see cref="GetPreOrderCacheKeyAsync(FlashSalePlanCacheItem)"/> cache key format.
+    /// <para>{0}: FlashSalePlan ID</para>
+    /// <para>{1}: User ID</para>
+    /// </summary>
+    public const string PreOrderCacheKeyFormat = "eshopflashsales_{0}_{1}";
+
+    /// <summary>
+    /// The <see cref="GetUserFlashSaleResultCacheKeyAsync(FlashSalePlanCacheItem,Guid)"/> cache key format.
+    /// <para>{0}: Tenant ID</para>
+    /// <para>{1}: FlashSalePlan ID</para>
+    /// <para>{2}: User ID</para>
+    /// </summary>
+    public const string UserFlashSaleResultCacheKeyFormat = "eshopflashsales-result_{0}_{1}_{2}";
+
     protected override string CrossStorePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.CrossStore;
     protected override string GetPolicyName { get; set; }
     protected override string GetListPolicyName { get; set; }
@@ -203,6 +218,12 @@ public class FlashSalePlanAppService :
 
     public virtual async Task<bool> OrderAsync(Guid id, CreateOrderInput input)
     {
+        var preOrderCache = await GetPreOrderCacheAsync(id);
+        if (preOrderCache == null)
+        {
+            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
+        }
+
         var plan = await GetFlashSalePlanCacheAsync(id);
         var now = Clock.Now;
         if (plan.BeginTime > now)
@@ -215,13 +236,7 @@ public class FlashSalePlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
         }
 
-        var preOrderCache = await GetPreOrderCacheAsync(plan);
-        if (preOrderCache == null)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.PreOrderExpired);
-        }
-
-        await RemovePreOrderCacheAsync(plan);
+        await RemovePreOrderCacheAsync(id);
 
         var userId = CurrentUser.GetId();
 
@@ -234,7 +249,7 @@ public class FlashSalePlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.BusyToCreateFlashSaleOrder);
         }
 
-        var userFlashSaleResultCache = await GetUserFlashSaleResultCacheAsync(plan, userId);
+        var userFlashSaleResultCache = await GetUserFlashSaleResultCacheAsync(plan.Id);
         if (!userFlashSaleResultCache.IsNullOrWhiteSpace())
         {
             throw new BusinessException(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
@@ -249,7 +264,7 @@ public class FlashSalePlanAppService :
 
         var result = await CreatePendingFlashSaleResultAsync(plan, userId, async (existsResultId) =>
         {
-            await SetUserFlashSaleResultCacheAsync(plan, userId, existsResultId);
+            await SetUserFlashSaleResultCacheAsync(plan.Id, existsResultId);
 
             await FlashSaleInventoryManager.TryRollBackInventoryAsync(
                 plan.TenantId, preOrderCache.InventoryProviderName,
@@ -257,7 +272,7 @@ public class FlashSalePlanAppService :
             );
         });
 
-        await SetUserFlashSaleResultCacheAsync(plan, userId, result.Id);
+        await SetUserFlashSaleResultCacheAsync(plan.Id, result.Id);
 
         var createFlashSaleOrderEto = await PrepareCreateFlashSaleOrderEtoAsync(plan, result.Id, input, userId, now, preOrderCache.HashToken);
 
@@ -277,26 +292,26 @@ public class FlashSalePlanAppService :
         });
     }
 
-    protected virtual Task<string> GetPreOrderCacheKeyAsync(FlashSalePlanCacheItem plan)
+    protected virtual Task<string> GetPreOrderCacheKeyAsync(Guid planId)
     {
-        return Task.FromResult($"eshopflashsales_{CurrentTenant.Id}_{CurrentUser.Id}_{plan.ProductSkuId}");
+        return Task.FromResult(string.Format(PreOrderCacheKeyFormat, planId, CurrentUser.Id));
     }
 
-    protected virtual async Task<FlashSalePlanPreOrderCacheItem> GetPreOrderCacheAsync(FlashSalePlanCacheItem plan)
+    protected virtual async Task<FlashSalePlanPreOrderCacheItem> GetPreOrderCacheAsync(Guid planId)
     {
-        return await PreOrderDistributedCache.GetAsync(await GetPreOrderCacheKeyAsync(plan));
+        return await PreOrderDistributedCache.GetAsync(await GetPreOrderCacheKeyAsync(planId));
     }
 
-    protected virtual async Task RemovePreOrderCacheAsync(FlashSalePlanCacheItem plan)
+    protected virtual async Task RemovePreOrderCacheAsync(Guid planId)
     {
-        await PreOrderDistributedCache.RemoveAsync(await GetPreOrderCacheKeyAsync(plan));
+        await PreOrderDistributedCache.RemoveAsync(await GetPreOrderCacheKeyAsync(planId));
     }
 
     protected virtual async Task SetPreOrderCacheAsync(FlashSalePlanCacheItem plan, ProductDto product, ProductSkuDto productSku, DateTimeOffset expirationTime)
     {
         var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
 
-        await PreOrderDistributedCache.SetAsync(await GetPreOrderCacheKeyAsync(plan), new FlashSalePlanPreOrderCacheItem()
+        await PreOrderDistributedCache.SetAsync(await GetPreOrderCacheKeyAsync(plan.Id), new FlashSalePlanPreOrderCacheItem()
         {
             HashToken = hashToken,
             PlanId = plan.Id,
@@ -313,20 +328,20 @@ public class FlashSalePlanAppService :
 
     #region UserFlashSaleResultCache
 
-    protected virtual Task<string> GetUserFlashSaleResultCacheKeyAsync(FlashSalePlanCacheItem plan, Guid userId)
+    protected virtual Task<string> GetUserFlashSaleResultCacheKeyAsync(Guid planId)
     {
-        return Task.FromResult($"flash-sale-result-{plan.Id}-{userId}");
+        return Task.FromResult(string.Format(UserFlashSaleResultCacheKeyFormat, CurrentTenant.Id, planId, CurrentUser.GetId()));
     }
 
-    protected virtual async Task<string> GetUserFlashSaleResultCacheAsync(FlashSalePlanCacheItem plan, Guid userId)
+    protected virtual async Task<string> GetUserFlashSaleResultCacheAsync(Guid planId)
     {
-        var userFlashSaleResultCacheKey = await GetUserFlashSaleResultCacheKeyAsync(plan, userId);
+        var userFlashSaleResultCacheKey = await GetUserFlashSaleResultCacheKeyAsync(planId);
         return await DistributedCache.GetStringAsync(userFlashSaleResultCacheKey);
     }
 
-    protected virtual async Task SetUserFlashSaleResultCacheAsync(FlashSalePlanCacheItem plan, Guid userId, Guid resultId)
+    protected virtual async Task SetUserFlashSaleResultCacheAsync(Guid planId, Guid resultId)
     {
-        var userFlashSaleResultCacheKey = await GetUserFlashSaleResultCacheKeyAsync(plan, userId);
+        var userFlashSaleResultCacheKey = await GetUserFlashSaleResultCacheKeyAsync(planId);
         await DistributedCache.SetStringAsync(userFlashSaleResultCacheKey, resultId.ToString());
     }
 
@@ -427,10 +442,7 @@ public class FlashSalePlanAppService :
             tenantId: CurrentTenant.Id,
             storeId: plan.StoreId,
             planId: plan.Id,
-            status: FlashSaleResultStatus.Pending,
-            reason: null,
-            userId: userId,
-            orderId: null
+            userId: userId
         );
 
         return await FlashSaleResultRepository.InsertAsync(result, autoSave: true);

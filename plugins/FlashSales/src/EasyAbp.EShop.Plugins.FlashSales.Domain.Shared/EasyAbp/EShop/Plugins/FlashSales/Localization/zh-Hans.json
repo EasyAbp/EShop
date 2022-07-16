@@ -13,6 +13,7 @@
     "EasyAbp.EShop.Plugins.FlashSales:BusyToCreateFlashSaleOrder": "闪购下单繁忙",
     "EasyAbp.EShop.Plugins.FlashSales:DuplicateFlashSalesOrder": "重复闪购下单",
     "EasyAbp.EShop.Plugins.FlashSales:RelatedFlashSaleResultsExist": "已存在关联的闪购结果",
+    "EasyAbp.EShop.Plugins.FlashSales:FlashSaleResultStatusNotPending": "闪购结果的状态已经变更",
     "Menu:FlashSalesManagement": "闪购",
     "Permission:FlashSalePlan": "闪购计划",
     "Permission:Manage": "管理",

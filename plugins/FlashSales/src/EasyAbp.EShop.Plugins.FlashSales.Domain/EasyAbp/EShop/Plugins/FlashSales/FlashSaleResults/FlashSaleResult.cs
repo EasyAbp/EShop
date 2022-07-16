@@ -24,26 +24,32 @@ public class FlashSaleResult : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMu
 
     protected FlashSaleResult() { }
 
-    public FlashSaleResult(Guid id, Guid? tenantId, Guid storeId, Guid planId, FlashSaleResultStatus status, string reason, Guid userId, Guid? orderId)
+    public FlashSaleResult(Guid id, Guid? tenantId, Guid storeId, Guid planId, Guid userId)
         : base(id)
     {
         TenantId = tenantId;
         StoreId = storeId;
         PlanId = planId;
-        Status = status;
-        Reason = reason;
+        Status = FlashSaleResultStatus.Pending;
         UserId = userId;
-        OrderId = orderId;
     }
 
     public void MarkAsSuccessful(Guid orderId)
     {
+        if (Status != FlashSaleResultStatus.Pending)
+        {
+            throw new FlashSaleResultStatusNotPendingException(Id);
+        }
         Status = FlashSaleResultStatus.Successful;
         OrderId = orderId;
     }
 
     public void MarkAsFailed(string reason)
     {
+        if (Status != FlashSaleResultStatus.Pending)
+        {
+            throw new FlashSaleResultStatusNotPendingException(Id);
+        }
         Status = FlashSaleResultStatus.Failed;
         Reason = Check.NotNullOrEmpty(reason, nameof(reason));
     }

@@ -1,7 +1,5 @@
-﻿using EasyAbp.EShop.Orders.Orders;
-using EasyAbp.EShop.Plugins.FlashSales;
+﻿using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;

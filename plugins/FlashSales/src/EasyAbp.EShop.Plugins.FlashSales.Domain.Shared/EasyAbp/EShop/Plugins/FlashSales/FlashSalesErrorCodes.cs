@@ -27,4 +27,6 @@ public static class FlashSalesErrorCodes
     public const string DuplicateFlashSalesOrder = $"{Namespace}:{nameof(DuplicateFlashSalesOrder)}";
 
     public const string RelatedFlashSaleResultsExist = $"{Namespace}:{nameof(RelatedFlashSaleResultsExist)}";
+
+    public const string FlashSaleResultStatusNotPending = $"{Namespace}:{nameof(FlashSaleResultStatusNotPending)}";
 }

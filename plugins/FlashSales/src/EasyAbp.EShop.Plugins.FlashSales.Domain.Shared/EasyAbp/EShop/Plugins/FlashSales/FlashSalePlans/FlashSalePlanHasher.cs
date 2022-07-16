@@ -10,7 +10,7 @@ public class FlashSalePlanHasher : IFlashSalePlanHasher, ITransientDependency
 {
     public virtual Task<string> HashAsync(DateTime? planLastModificationTime, DateTime? productLastModificationTime, DateTime? productSkuLastModificationTime)
     {
-        var input = $"{planLastModificationTime}|{productLastModificationTime}|{productSkuLastModificationTime}";
+        var input = $"{planLastModificationTime?.Ticks}|{productLastModificationTime?.Ticks}|{productSkuLastModificationTime?.Ticks}";
 
         return Task.FromResult(CreateMd5(input));
     }
