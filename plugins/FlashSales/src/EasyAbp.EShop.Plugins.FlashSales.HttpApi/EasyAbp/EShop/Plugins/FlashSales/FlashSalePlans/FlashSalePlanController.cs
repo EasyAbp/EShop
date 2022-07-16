@@ -58,7 +58,7 @@ public class FlashSalePlanController :
     }
 
     [HttpPost("{id}/order")]
-    public virtual Task<bool> OrderAsync(Guid id, CreateOrderInput input)
+    public virtual Task<CreateOrderDto> OrderAsync(Guid id, CreateOrderInput input)
     {
         return Service.OrderAsync(id, input);
     }

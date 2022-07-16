@@ -216,7 +216,7 @@ public class FlashSalePlanAppService :
         return new FlashSalePlanPreOrderDto { ExpiresTime = Clock.Normalize(expiresTime.LocalDateTime), ExpiresInSeconds = Options.PreOrderExpires.TotalSeconds };
     }
 
-    public virtual async Task<bool> OrderAsync(Guid id, CreateOrderInput input)
+    public virtual async Task<CreateOrderDto> OrderAsync(Guid id, CreateOrderInput input)
     {
         var preOrderCache = await GetPreOrderCacheAsync(id);
         if (preOrderCache == null)
@@ -259,7 +259,7 @@ public class FlashSalePlanAppService :
             plan.TenantId, preOrderCache.InventoryProviderName,
             plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true))
         {
-            return false;
+            return new CreateOrderDto() { IsSuccess = false };
         }
 
         var result = await CreatePendingFlashSaleResultAsync(plan, userId, async (existsResultId) =>
@@ -278,7 +278,7 @@ public class FlashSalePlanAppService :
 
         await DistributedEventBus.PublishAsync(createFlashSaleOrderEto);
 
-        return true;
+        return new CreateOrderDto() { IsSuccess = true, FlashSaleResultId = result.Id };
     }
 
     #region PreOrderCache

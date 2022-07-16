@@ -364,7 +364,8 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
 
         var isSucess = await AppService.OrderAsync(plan.Id, createOrderInput);
 
-        isSucess.ShouldBe(true);
+        isSucess.IsSuccess.ShouldBe(true);
+        isSucess.FlashSaleResultId.ShouldNotBeNull();
         await DistributedEventBus.Received().PublishAsync(Arg.Is<CreateFlashSaleOrderEto>(eto =>
             eto.TenantId == plan.TenantId &&
             eto.StoreId == plan.StoreId &&
@@ -463,7 +464,9 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
 
         FakeFlashSaleInventoryManager.ShouldReduceSuccess = false;
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)).ShouldBe(false);
+        var createOrderDto = await AppService.OrderAsync(plan.Id, createOrderInput);
+        createOrderDto.IsSuccess.ShouldBe(false);
+        createOrderDto.FlashSaleResultId.ShouldBeNull();
     }
 
     [Fact]
