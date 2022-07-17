@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 
-public class CreateOrderResultDto : ExtensibleEntityDto
+public class FlashSaleOrderResultDto : ExtensibleEntityDto
 {
     public bool IsSuccess { get; set; }
 
