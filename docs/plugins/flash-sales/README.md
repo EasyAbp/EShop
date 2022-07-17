@@ -1,6 +1,8 @@
 # EShop.Plugins.FlashSales
 
 [![ABP version](https://img.shields.io/badge/dynamic/xml?style=flat-square&color=yellow&label=abp&query=%2F%2FProject%2FPropertyGroup%2FAbpVersion&url=https%3A%2F%2Fraw.githubusercontent.com%2FEasyAbp%2FEShop%2Fmaster%2FDirectory.Build.props)](https://abp.io)
+[![NuGet](https://img.shields.io/nuget/v/EasyAbp.EShop.Plugins.FlashSales.Domain.svg?style=flat-square)](https://www.nuget.org/packages/EasyAbp.EShop.Plugins.FlashSales.Domain)
+[![NuGet Download](https://img.shields.io/nuget/dt/EasyAbp.EShop.Plugins.FlashSales.Domain.svg?style=flat-square)](https://www.nuget.org/packages/EasyAbp.EShop.Plugins.FlashSales.Domain)
 [![Discord online](https://badgen.net/discord/online-members/S6QaezrCRq?label=Discord)](https://discord.gg/S6QaezrCRq)
 [![GitHub stars](https://img.shields.io/github/stars/EasyAbp/EShop?style=social)](https://www.github.com/EasyAbp/EShop)
 
@@ -21,10 +23,9 @@ A flash-sales plugin for EShop.
     * EasyAbp.EShop.Plugins.FlashSales.HttpApi.Client
     * (Optional) EasyAbp.EShop.Plugins.FlashSales.MongoDB
     * (Optional) EasyAbp.EShop.Plugins.FlashSales.Web
-    * (Special Optional) EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts (install at EasyAbp.EShop.Products.Application.Contracts location)
-    * (SpecialOptional) EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi (install at EasyAbp.EShop.Products.HttpApi location)
-    * (Special Optional) EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.Client (install at EasyAbp.EShop.Products.HttpApi.Client location)
-   > When you do not open the dynamic API for the `EasyAbp.EShop.Products` module, these `Special Optional` modules must be installed.
+    * (Optional) EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts (install at EasyAbp.EShop.Products.Application.Contracts location)
+    * (Optional) EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi (install at EasyAbp.EShop.Products.HttpApi location)
+    * (Optional) EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.Client (install at EasyAbp.EShop.Products.HttpApi.Client location)
 
 2. Add `DependsOn(typeof(EShopXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-module-dependencies))
 
@@ -40,8 +41,6 @@ A flash-sales plugin for EShop.
 
 ### Customers
 
-1. Using `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/pre-order` (POST) to pre-order. It will return the expires time if the flash-sale plan is available.
-2. Within the expires time, using `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/order` (POST) to request flash purchase order.
-3. Using `/api/e-shop/plugins/flash-sales/flash-sale-result/{resultId}` (GET) to query the result.
-
-    > Continuously pulled until the result is no longer `Pending`. If the status is `Successful`, the order will be included. If the status `Failed`, the reason will be included.
+1. Use `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/pre-order` (POST) to pre-order. It will return an expiration time if your pre-order request succeeds. You should re-invoke this API to refresh your request before the expiration time.
+2. When the flash sale starts, use `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/order` (POST) to create your order. If you are fast enough, it will occupy the inventory and create an order for you in the background.
+3. If you are told that you have succeeded, continuous use `/api/e-shop/plugins/flash-sales/flash-sale-result/{resultId}` (GET) to query the order creation result until it succeeds or fails.
