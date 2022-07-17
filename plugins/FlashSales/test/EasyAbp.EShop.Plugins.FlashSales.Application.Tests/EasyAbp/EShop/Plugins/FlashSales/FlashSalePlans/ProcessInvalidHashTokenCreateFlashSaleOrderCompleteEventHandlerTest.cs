@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
@@ -13,17 +10,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
 using Shouldly;
-using Volo.Abp;
-using Volo.Abp.Caching;
-using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
 using Xunit;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
-public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandlerTest : FlashSalesApplicationTestBase
+public class ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandlerTest : FlashSalesApplicationTestBase
 {
-    protected RollBackInventoryCreateFlashSaleOrderCompleteEventHandler EventHandler { get; }
+    protected ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler EventHandler { get; }
 
     protected IDistributedCache DistributedCache { get; }
 
@@ -31,9 +25,9 @@ public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandlerTest : Fla
 
     private ProductDto Product1 { get; set; }
 
-    public RollBackInventoryCreateFlashSaleOrderCompleteEventHandlerTest()
+    public ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandlerTest()
     {
-        EventHandler = GetRequiredService<RollBackInventoryCreateFlashSaleOrderCompleteEventHandler>();
+        EventHandler = GetRequiredService<ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler>();
         DistributedCache = GetRequiredService<IDistributedCache>();
         FlashSaleInventoryManager = GetRequiredService<IFlashSaleInventoryManager>();
     }

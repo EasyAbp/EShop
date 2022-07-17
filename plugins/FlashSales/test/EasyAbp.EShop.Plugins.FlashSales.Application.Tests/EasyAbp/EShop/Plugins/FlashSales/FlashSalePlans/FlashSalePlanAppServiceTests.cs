@@ -140,7 +140,7 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
     }
 
     [Fact]
-    public async Task CreateAsync_Should_Throw_Expcetion_When_Validate_Product_Failed()
+    public async Task CreateAsync_Should_Throw_Exception_When_Validate_Product_Failed()
     {
         var createDto = new FlashSalePlanCreateDto()
         {
@@ -197,7 +197,7 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
     }
 
     [Fact]
-    public async Task UpdateAsync_Should_Throw_Expcetion_When_Validate_Product_Failed()
+    public async Task UpdateAsync_Should_Throw_Exception_When_Validate_Product_Failed()
     {
         var createDto = new FlashSalePlanCreateDto()
         {
@@ -230,7 +230,7 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
     }
 
     [Fact]
-    public async Task UpdateAsync_Should_Throw_Expcetion_When_Has_Result_And_Change_Product()
+    public async Task UpdateAsync_Should_Throw_Exception_When_Has_Result_And_Change_Product()
     {
         var createDto = new FlashSalePlanCreateDto()
         {
@@ -274,7 +274,7 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
     }
 
     [Fact]
-    public async Task DeleteAsync_Should_Throw_Expcetion_When_Has_Result()
+    public async Task DeleteAsync_Should_Throw_Exception_When_Has_Result()
     {
         var createDto = new FlashSalePlanCreateDto()
         {
@@ -362,10 +362,10 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
         };
         await AppService.PreOrderAsync(plan.Id);
 
-        var isSucess = await AppService.OrderAsync(plan.Id, createOrderInput);
+        var createOrderDto = await AppService.OrderAsync(plan.Id, createOrderInput);
 
-        isSucess.IsSuccess.ShouldBe(true);
-        isSucess.FlashSaleResultId.ShouldNotBeNull();
+        createOrderDto.IsSuccess.ShouldBe(true);
+        createOrderDto.FlashSaleResultId.ShouldNotBeNull();
         await DistributedEventBus.Received().PublishAsync(Arg.Is<CreateFlashSaleOrderEto>(eto =>
             eto.TenantId == plan.TenantId &&
             eto.StoreId == plan.StoreId &&

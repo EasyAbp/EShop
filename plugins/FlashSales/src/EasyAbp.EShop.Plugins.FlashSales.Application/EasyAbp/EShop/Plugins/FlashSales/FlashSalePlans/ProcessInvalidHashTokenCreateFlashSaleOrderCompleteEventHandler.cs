@@ -10,20 +10,20 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
-public class RollBackInventoryCreateFlashSaleOrderCompleteEventHandler : IDistributedEventHandler<CreateFlashSaleOrderCompleteEto>, ITransientDependency
+public class ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler : IDistributedEventHandler<CreateFlashSaleOrderCompleteEto>, ITransientDependency
 {
     protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
     protected IDistributedCache DistributedCache { get; }
     protected IFlashSalePlanRepository FlashSalePlanRepository { get; }
     protected IProductAppService ProductAppService { get; }
-    protected ILogger<RollBackInventoryCreateFlashSaleOrderCompleteEventHandler> Logger { get; }
+    protected ILogger<ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler> Logger { get; }
 
-    public RollBackInventoryCreateFlashSaleOrderCompleteEventHandler(
+    public ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler(
         IFlashSaleInventoryManager flashSaleInventoryManager,
         IDistributedCache distributedCache,
         IFlashSalePlanRepository flashSalePlanRepository,
         IProductAppService productAppService,
-        ILogger<RollBackInventoryCreateFlashSaleOrderCompleteEventHandler> logger)
+        ILogger<ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler> logger)
     {
         FlashSaleInventoryManager = flashSaleInventoryManager;
         DistributedCache = distributedCache;

@@ -15,5 +15,5 @@ public interface IFlashSalePlanAppService :
 {
     Task<FlashSalePlanPreOrderDto> PreOrderAsync(Guid id);
 
-    Task<CreateOrderDto> OrderAsync(Guid id, CreateOrderInput input);
+    Task<CreateOrderResultDto> OrderAsync(Guid id, CreateOrderInput input);
 }
