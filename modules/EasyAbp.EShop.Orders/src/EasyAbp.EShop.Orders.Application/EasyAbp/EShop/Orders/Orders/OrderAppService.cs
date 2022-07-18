@@ -12,6 +12,7 @@ using EasyAbp.EShop.Stores.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Uow;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -91,7 +92,7 @@ namespace EasyAbp.EShop.Orders.Orders
             var productDict = await GetProductDictionaryAsync(input.OrderLines.Select(dto => dto.ProductId).ToList());
 
             ThrowIfExistFlashSalesProduct(productDict);
-            
+
             await AuthorizationService.CheckAsync(
                 new OrderCreationResource
                 {
@@ -108,11 +109,12 @@ namespace EasyAbp.EShop.Orders.Orders
                 .Where(x => x.HasValue)
                 .Select(x => x.Value)
                 .ToList();
-            
+
             var productDetailDict = await GetProductDetailDictionaryAsync(productDetailIds);
 
             // Todo: Can we use IProductDataScopedCache/IProductDetailDataScopedCache instead of productDict/productDetailDict?
-            var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict, productDetailDict);
+            var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict,
+                productDetailDict);
 
             await DiscountOrderAsync(order, productDict);
 
@@ -203,11 +205,11 @@ namespace EasyAbp.EShop.Orders.Orders
 
             return await MapToGetOutputDtoAsync(order);
         }
-        
+
         public virtual async Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input)
         {
             var order = await GetEntityByIdAsync(id);
-            
+
             await AuthorizationService.CheckAsync(
                 order,
                 new OrderOperationAuthorizationRequirement(OrderOperation.Cancellation)
@@ -225,10 +227,39 @@ namespace EasyAbp.EShop.Orders.Orders
             await CheckMultiStorePolicyAsync(order.StoreId, OrdersPermissions.Orders.Manage);
 
             order.SetStaffRemark(input.StaffRemark);
-            
+
             await Repository.UpdateAsync(order, true);
 
             return await MapToGetOutputDtoAsync(order);
+        }
+
+        public virtual async Task<CheckCreateOrderResultDto> CheckCreateAsync(CheckCreateOrderInput input)
+        {
+            var requiresNewUow = !UnitOfWorkManager.Current?.Options.IsTransactional ?? false;
+            using var uow = UnitOfWorkManager.Begin(new AbpUnitOfWorkOptions(true), requiresNewUow);
+
+            try
+            {
+                await CreateAsync(input);
+
+                await uow.RollbackAsync();
+            }
+            catch
+            {
+                await uow.RollbackAsync();
+
+                return new CheckCreateOrderResultDto
+                {
+                    CanCreate = false,
+                    Reason = "Unknown" // Todo: get failure reason
+                };
+            }
+
+            return new CheckCreateOrderResultDto
+            {
+                CanCreate = true,
+                Reason = null,
+            };
         }
     }
 }

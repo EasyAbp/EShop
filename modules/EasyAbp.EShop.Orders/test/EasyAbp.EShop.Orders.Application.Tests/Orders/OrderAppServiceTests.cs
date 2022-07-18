@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
 using Volo.Abp;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Settings;
 using Volo.Abp.Timing;
 using Xunit;
@@ -111,6 +112,88 @@ namespace EasyAbp.EShop.Orders.Orders
                 }));
 
             services.AddTransient(_ => productDetailAppService);
+        }
+
+        [Fact]
+        public async Task Check_Create_Order_Should_Succeed()
+        {
+            var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+            var orderCount = 0;
+            await WithUnitOfWorkAsync(async () =>
+            {
+                orderCount = await orderRepository.CountAsync();
+            });
+
+            // Arrange
+            var checkCreateOrderInput = new CheckCreateOrderInput
+            {
+                CustomerRemark = "customer remark",
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 10
+                    }
+                }
+            };
+
+            CheckCreateOrderResultDto resultDto = null;
+            // Act
+            await WithUnitOfWorkAsync(async () =>
+            {
+                resultDto = await _orderAppService.CheckCreateAsync(checkCreateOrderInput);
+            });
+
+            // Assert
+            resultDto.CanCreate.ShouldBeTrue();
+            await WithUnitOfWorkAsync(async () =>
+            {
+                orderCount.ShouldBeEquivalentTo(await orderRepository.CountAsync());
+            });
+        }
+
+        [Fact]
+        public async Task Check_Create_Order_Should_Fail()
+        {
+            var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+            var orderCount = 0;
+            await WithUnitOfWorkAsync(async () =>
+            {
+                orderCount = await orderRepository.CountAsync();
+            });
+
+            // Arrange
+            var checkCreateOrderInput = new CheckCreateOrderInput
+            {
+                CustomerRemark = "customer remark",
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 101 // limited range: 1-100
+                    }
+                }
+            };
+
+            CheckCreateOrderResultDto resultDto = null;
+            // Act
+            await WithUnitOfWorkAsync(async () =>
+            {
+                resultDto = await _orderAppService.CheckCreateAsync(checkCreateOrderInput);
+            });
+
+            // Assert
+            resultDto.CanCreate.ShouldBeFalse();
+            await WithUnitOfWorkAsync(async () =>
+            {
+                orderCount.ShouldBeEquivalentTo(await orderRepository.CountAsync());
+            });
         }
 
         [Fact]

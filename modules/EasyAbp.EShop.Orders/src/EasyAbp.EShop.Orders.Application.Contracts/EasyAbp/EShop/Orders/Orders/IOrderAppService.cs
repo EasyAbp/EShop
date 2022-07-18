@@ -19,5 +19,7 @@ namespace EasyAbp.EShop.Orders.Orders
         Task<OrderDto> CancelAsync(Guid id, CancelOrderInput input);
 
         Task<OrderDto> UpdateStaffRemarkAsync(Guid id, UpdateStaffRemarkInput input);
+
+        Task<CheckCreateOrderResultDto> CheckCreateAsync(CheckCreateOrderInput input);
     }
 }

@@ -81,5 +81,12 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             return _service.UpdateStaffRemarkAsync(id, input);
         }
+
+        [HttpPost]
+        [Route("check-create")]
+        public virtual Task<CheckCreateOrderResultDto> CheckCreateAsync(CheckCreateOrderInput input)
+        {
+            return _service.CheckCreateAsync(input);
+        }
     }
 }
