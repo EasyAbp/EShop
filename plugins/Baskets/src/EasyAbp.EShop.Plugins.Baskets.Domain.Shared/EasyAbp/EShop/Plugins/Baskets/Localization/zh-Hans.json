@@ -27,6 +27,7 @@
     "EditBasketItem": "编辑",
     "BasketItemDeletionConfirmationMessage": "确认删除购物车项 {0}?",
     "SuccessfullyDeleted": "删除成功",
+    "EasyAbp.EShop.Plugins.Baskets:CheckCreateOrderFailed": "您无法购买指定商品，原因：{reason}",
     "EasyAbp.EShop.Plugins.Baskets:ProductSkuNotFound": "商品{productId}(SKU: {productSkuId})未找到"
   }
 }
