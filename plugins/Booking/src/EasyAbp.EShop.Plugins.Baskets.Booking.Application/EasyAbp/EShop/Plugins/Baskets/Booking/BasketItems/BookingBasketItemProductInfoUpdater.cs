@@ -37,7 +37,12 @@ public class BookingBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater
         DefinitionAppService = definitionAppService;
     }
 
-    public virtual async Task UpdateProductDataAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
+    public virtual Task UpdateForAnonymousAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual async Task UpdateForIdentifiedAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
     {
         if (!await IsAllowedToUpdateAsync(item, productDto) ||
             !await IsBookingProductGroupAsync(productDto.ProductGroupName))
@@ -84,7 +89,6 @@ public class BookingBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater
                 item.SetIsInvalid(true);
             }
         }
-
     }
 
     protected virtual async Task<bool> IsAllowedToUpdateAsync(IBasketItem item, ProductDto productDto)

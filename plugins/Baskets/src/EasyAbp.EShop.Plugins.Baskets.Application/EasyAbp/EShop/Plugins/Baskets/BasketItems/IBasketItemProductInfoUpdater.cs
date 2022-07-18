@@ -5,5 +5,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems;
 
 public interface IBasketItemProductInfoUpdater
 {
-    Task UpdateProductDataAsync(int targetQuantity, IBasketItem item, ProductDto productDto);
+    Task UpdateForAnonymousAsync(int targetQuantity, IBasketItem item, ProductDto productDto);
+
+    Task UpdateForIdentifiedAsync(int targetQuantity, IBasketItem item, ProductDto productDto);
 }

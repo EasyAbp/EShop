@@ -14,7 +14,17 @@ public class BasicBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater, 
         ProductSkuDescriptionProvider = productSkuDescriptionProvider;
     }
 
-    public virtual async Task UpdateProductDataAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
+    public virtual Task UpdateForAnonymousAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
+    {
+        return InternalUpdateAsync(targetQuantity, item, productDto);
+    }
+
+    public virtual Task UpdateForIdentifiedAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
+    {
+        return InternalUpdateAsync(targetQuantity, item, productDto);
+    }
+
+    protected virtual async Task InternalUpdateAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
     {
         var productSkuDto = productDto.FindSkuById(item.ProductSkuId);
 

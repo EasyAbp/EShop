@@ -132,7 +132,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
             foreach (var updater in updaters)
             {
-                await updater.UpdateProductDataAsync(targetQuantity, item, productDto);
+                await updater.UpdateForIdentifiedAsync(targetQuantity, item, productDto);
             }
         }
 
