@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Orders.Orders;
-using EasyAbp.EShop.Orders.Orders.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Plugins.Baskets.BasketItems;
 using EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos;
 using EasyAbp.EShop.Plugins.Baskets.Permissions;
 using EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Volo.Abp;
 using Volo.Abp.Settings;
 
 namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem
@@ -31,15 +27,11 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketIt
         [BindProperty]
         public EditBasketItemViewModel ViewModel { get; set; }
 
-        private readonly IOrderAppService _orderAppService;
-        private readonly IBasketItemAppService _basketItemAppService;
+        private readonly IBasketItemAppService _service;
 
-        public EditModalModel(
-            IOrderAppService orderAppService,
-            IBasketItemAppService basketItemAppService)
+        public EditModalModel(IBasketItemAppService service)
         {
-            _orderAppService = orderAppService;
-            _basketItemAppService = basketItemAppService;
+            _service = service;
         }
 
         public virtual async Task OnGetAsync()
@@ -52,38 +44,14 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketIt
                 return;
             }
             
-            var dto = await _basketItemAppService.GetAsync(Id);
+            var dto = await _service.GetAsync(Id);
             ViewModel = ObjectMapper.Map<BasketItemDto, EditBasketItemViewModel>(dto);
         }
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var item = await _basketItemAppService.GetAsync(Id);
-
             var dto = ObjectMapper.Map<EditBasketItemViewModel, UpdateBasketItemDto>(ViewModel);
-            
-            var checkCreateOrderResult = await _orderAppService.CheckCreateAsync(new CheckCreateOrderInput
-            {
-                StoreId = item.StoreId,
-                OrderLines = new List<CreateOrderLineDto>
-                {
-                    new()
-                    {
-                        ProductId = item.ProductId,
-                        ProductSkuId = item.ProductSkuId,
-                        Quantity = ViewModel.Quantity
-                    }
-                }
-            });
-
-            if (!checkCreateOrderResult.CanCreate)
-            {
-                throw new BusinessException(BasketsErrorCodes.CheckCreateOrderFailed)
-                    .WithData("reason", checkCreateOrderResult.Reason);
-            }
-            
-            await _basketItemAppService.UpdateAsync(Id, dto);
-            
+            await _service.UpdateAsync(Id, dto);
             return NoContent();
         }
     }

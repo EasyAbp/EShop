@@ -1,9 +1,8 @@
 @page
-@using EasyAbp.EShop.Plugins.Baskets
 @using EasyAbp.EShop.Plugins.Baskets.Localization
+@using EasyAbp.EShop.Plugins.Baskets.Permissions
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
 @using Volo.Abp.Settings
 @inject IHtmlLocalizer<BasketsResource> L
@@ -29,11 +28,19 @@
 
     $(document).ready(function() {
         if (@(Model.ServerSide ? "true" : "false")) return;
+        
+        var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
+        var index = basketItems.findIndex(x => x.id === '@Model.Id');
 
-        function generateClientSideData(basketItems) {
-            var basketItemService = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
-
-            basketItemService.generateClientSideData({ items: [ basketItems[index] ] }, {
+        $('#ViewModel_Quantity').val(basketItems[index].quantity);
+        
+        var $form = $("form");
+        $form.off('submit');
+        $form.on('submit', function(e){
+            e.preventDefault();
+            var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
+            basketItems[index].quantity = parseInt($form.serializeFormToObject().viewModel.quantity);
+            service.generateClientSideData({ items: [ basketItems[index] ] }, {
                 success: function (responseText, statusText, xhr, form) {
                     localStorage.setItem(localStorageItemKey, JSON.stringify(basketItems));
                     $form.trigger('abp-ajax-success',
@@ -45,39 +52,6 @@
                     })
                 }
             });
-        }
-        
-        var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
-        var index = basketItems.findIndex(x => x.id === '@Model.Id');
-
-        $('#ViewModel_Quantity').val(basketItems[index].quantity);
-        
-        var $form = $("form");
-        $form.off('submit');
-        $form.on('submit', function(e){
-            e.preventDefault();
-            var orderService = easyAbp.eShop.orders.orders.order;
-            basketItems[index].quantity = parseInt($form.serializeFormToObject().viewModel.quantity);
-            if (abp.currentUser.isAuthenticated) {
-                orderService.checkCreate({
-                    storeId: basketItems[index].storeId,
-                    orderLines: [{
-                        productId: basketItems[index].productId,
-                        productSkuId: basketItems[index].productSkuId,
-                        quantity: basketItems[index].quantity
-                    }]
-                }, {
-                    success: function (responseText, statusText, xhr, form) {
-                        if (responseText.canCreate) {
-                            generateClientSideData(basketItems);
-                        } else {
-                            abp.message.error(l('@BasketsErrorCodes.CheckCreateOrderFailed', responseText.reason));
-                        }
-                    }
-                });
-            } else {
-                generateClientSideData(basketItems);
-            }
         });
     });
 </script>
