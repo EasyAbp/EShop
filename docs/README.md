@@ -104,7 +104,7 @@ We can customize some features to use EShop in complex application scenarios.
   * Stores
 
 * Plugin modules
-  * Baskets
+  * [Baskets](https://github.com/EasyAbp/EShop/tree/dev/plugins/Baskets)
   * Coupons
   * Inventories
     * [DaprActors](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/DaprActors)
