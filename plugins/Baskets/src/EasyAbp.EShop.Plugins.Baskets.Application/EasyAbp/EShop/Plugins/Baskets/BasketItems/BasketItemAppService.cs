@@ -130,9 +130,19 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
             var updaters = LazyServiceProvider.LazyGetRequiredService<IEnumerable<IBasketItemProductInfoUpdater>>();
 
-            foreach (var updater in updaters)
+            if (CurrentUser.IsAuthenticated)
             {
-                await updater.UpdateForIdentifiedAsync(targetQuantity, item, productDto);
+                foreach (var updater in updaters)
+                {
+                    await updater.UpdateForIdentifiedAsync(targetQuantity, item, productDto);
+                }
+            }
+            else
+            {
+                foreach (var updater in updaters)
+                {
+                    await updater.UpdateForAnonymousAsync(targetQuantity, item, productDto);
+                }
             }
         }
 
