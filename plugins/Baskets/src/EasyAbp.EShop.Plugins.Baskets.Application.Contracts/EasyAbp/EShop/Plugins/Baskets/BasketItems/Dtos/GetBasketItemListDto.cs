@@ -1,13 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos
 {
     [Serializable]
     public class GetBasketItemListDto
     {
-        [Required]
-        public string BasketName { get; set; }
+        public string BasketName { get; set; } = BasketsConsts.DefaultBasketName;
         
         /// <summary>
         /// Specify the basket item owner user ID. Use current user ID if this property is null.
