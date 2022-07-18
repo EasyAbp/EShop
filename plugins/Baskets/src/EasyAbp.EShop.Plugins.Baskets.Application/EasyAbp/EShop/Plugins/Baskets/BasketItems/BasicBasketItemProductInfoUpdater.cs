@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
@@ -31,7 +32,6 @@ public class BasicBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater, 
         if (productSkuDto == null)
         {
             item.SetIsInvalid(true);
-
             return;
         }
 
@@ -52,11 +52,19 @@ public class BasicBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater, 
         if (productDto.InventoryStrategy != InventoryStrategy.NoNeed && targetQuantity > productSkuDto.Inventory)
         {
             item.SetIsInvalid(true);
+            return;
         }
 
         if (!productDto.IsPublished)
         {
             item.SetIsInvalid(true);
+            return;
+        }
+
+        if (!targetQuantity.IsBetween(productSkuDto.OrderMinQuantity, productSkuDto.OrderMaxQuantity))
+        {
+            item.SetIsInvalid(true);
+            return;
         }
     }
 }
