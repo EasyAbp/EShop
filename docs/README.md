@@ -80,7 +80,7 @@ We have launched an online demo for this module: [https://eshop.samples.easyabp.
 
 ## Advanced Usages
 
-We can customize some features to use EShop in complex application scenarios.
+We can customize the EShop for complex application scenarios.
 
 ### Gift Card Shop
 
@@ -89,8 +89,8 @@ We can customize some features to use EShop in complex application scenarios.
 * Read the article to learn how to implement it. (todo)
 
 ### Paid Knowledge Market
-* Also use the [EasyAbp.SharedResources](https://easyabp.io/modules/SharedResources/) module.
-* The carrier of knowledge can be articles, pictures, audios, videos, files, streams, etc.
+* Install the [EasyAbp.SharedResources](https://easyabp.io/modules/SharedResources/) module.
+* The carrier of knowledge can be articles, pictures, audio, videos, files, streams, etc.
 * When a knowledge order is paid, automatically authorize the customer to access the resources he purchased.
 * Read the article to learn how to implement it. (todo)
 
