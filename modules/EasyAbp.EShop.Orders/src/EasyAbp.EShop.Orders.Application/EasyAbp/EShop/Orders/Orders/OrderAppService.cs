@@ -235,8 +235,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual async Task<CheckCreateOrderResultDto> CheckCreateAsync(CheckCreateOrderInput input)
         {
-            var requiresNewUow = !UnitOfWorkManager.Current?.Options.IsTransactional ?? false;
-            using var uow = UnitOfWorkManager.Begin(new AbpUnitOfWorkOptions(true), requiresNewUow);
+            using var uow = UnitOfWorkManager.Begin(new AbpUnitOfWorkOptions(true), true);
 
             try
             {
