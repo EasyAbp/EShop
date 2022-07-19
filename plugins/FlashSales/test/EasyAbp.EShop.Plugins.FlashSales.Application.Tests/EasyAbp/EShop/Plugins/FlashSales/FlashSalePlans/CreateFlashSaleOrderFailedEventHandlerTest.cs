@@ -15,9 +15,9 @@ using Xunit;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
-public class ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandlerTest : FlashSalesApplicationTestBase
+public class CreateFlashSaleOrderFailedEventHandlerTest : FlashSalesApplicationTestBase
 {
-    protected ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler EventHandler { get; }
+    protected CreateFlashSaleOrderFailedEventHandler  EventHandler { get; }
 
     protected IDistributedCache DistributedCache { get; }
 
@@ -25,9 +25,9 @@ public class ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandlerTest
 
     private ProductDto Product1 { get; set; }
 
-    public ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandlerTest()
+    public CreateFlashSaleOrderFailedEventHandlerTest()
     {
-        EventHandler = GetRequiredService<ProcessInvalidHashTokenCreateFlashSaleOrderCompleteEventHandler>();
+        EventHandler = GetRequiredService<CreateFlashSaleOrderFailedEventHandler >();
         DistributedCache = GetRequiredService<IDistributedCache>();
         FlashSaleInventoryManager = GetRequiredService<IFlashSaleInventoryManager>();
     }
