@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Application.Contracts\EasyAbp.EShop.Products.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

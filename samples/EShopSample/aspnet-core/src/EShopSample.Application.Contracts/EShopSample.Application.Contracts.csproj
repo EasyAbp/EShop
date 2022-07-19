@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
@@ -12,6 +12,8 @@
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Application.Contracts\EasyAbp.EShop.Plugins.Baskets.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Application.Contracts\EasyAbp.EShop.Plugins.Booking.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Application.Contracts\EasyAbp.EShop.Plugins.Coupons.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Plugins.FlashSales.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts.csproj" />
     <ProjectReference Include="..\EShopSample.Domain.Shared\EShopSample.Domain.Shared.csproj" />
   </ItemGroup>
 

@@ -9,4 +9,6 @@ public interface IProductInventoryProviderResolver
     Task<bool> ExistProviderAsync([NotNull] string providerName);
 
     Task<IProductInventoryProvider> GetAsync(Product product);
+
+    Task<IProductInventoryProvider> GetAsync([NotNull] string providerName);
 }

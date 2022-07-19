@@ -7,6 +7,7 @@ using EasyAbp.EShop.Products.ProductInventories;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Products.Products;
@@ -47,6 +48,11 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
         return Task.FromResult(GetProviderByName(options.Value.DefaultInventoryProviderName));
     }
 
+    public virtual Task<IProductInventoryProvider> GetAsync([CanBeNull] string providerName)
+    {
+        return Task.FromResult(GetProviderByName(providerName));
+    }
+
     protected virtual IProductInventoryProvider GetProviderByName([CanBeNull] string providerName)
     {
         if (providerName.IsNullOrEmpty())
@@ -67,7 +73,7 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
         {
             return;
         }
-        
+
         var options = ServiceProvider.GetRequiredService<IOptions<EShopProductsOptions>>().Value;
 
         foreach (var pair in options.InventoryProviders.GetConfigurationsDictionary())

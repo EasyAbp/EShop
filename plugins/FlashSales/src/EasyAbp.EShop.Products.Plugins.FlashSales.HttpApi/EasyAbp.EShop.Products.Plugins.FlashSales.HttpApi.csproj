@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.HttpApi\EasyAbp.EShop.Products.HttpApi.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts\EasyAbp.EShop.Products.Plugins.FlashSales.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
