@@ -109,6 +109,7 @@ We can customize the EShop for complex application scenarios.
   * Inventories
     * [DaprActors](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/DaprActors)
     * [OrleansGrains](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/OrleansGrains)
+  * [FlashSales](https://github.com/EasyAbp/EShop/tree/dev/plugins/FlashSales)
   * [Booking](https://github.com/EasyAbp/EShop/tree/dev/plugins/Booking)
 
 ## Roadmap
