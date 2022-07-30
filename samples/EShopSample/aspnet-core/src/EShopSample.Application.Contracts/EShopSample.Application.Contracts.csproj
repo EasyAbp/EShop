@@ -21,6 +21,7 @@
     <PackageReference Include="EasyAbp.PaymentService.Application.Contracts" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Application.Contracts" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.Application.Contracts" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.BookingService.Application.Contracts" Version="$(EasyAbpBookingServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.ObjectExtending" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="$(AbpVersion)" />

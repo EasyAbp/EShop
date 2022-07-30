@@ -21,6 +21,7 @@
     <PackageReference Include="EasyAbp.PaymentService.HttpApi" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.BookingService.HttpApi" Version="$(EasyAbpBookingServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.Account.HttpApi" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="$(AbpVersion)" />

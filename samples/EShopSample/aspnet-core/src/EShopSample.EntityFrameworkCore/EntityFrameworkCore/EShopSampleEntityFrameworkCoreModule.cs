@@ -1,4 +1,5 @@
-﻿using EasyAbp.EShop.EntityFrameworkCore;
+﻿using EasyAbp.BookingService.EntityFrameworkCore;
+using EasyAbp.EShop.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Baskets.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 using EasyAbp.EShop.Plugins.Coupons.EntityFrameworkCore;
@@ -39,7 +40,8 @@ namespace EShopSample.EntityFrameworkCore
         typeof(EShopPluginsFlashSalesEntityFrameworkCoreModule),
         typeof(PaymentServiceEntityFrameworkCoreModule),
         typeof(PaymentServiceWeChatPayEntityFrameworkCoreModule),
-        typeof(PaymentServicePrepaymentEntityFrameworkCoreModule)
+        typeof(PaymentServicePrepaymentEntityFrameworkCoreModule),
+        typeof(BookingServiceEntityFrameworkCoreModule)
     )]
     public class EShopSampleEntityFrameworkCoreModule : AbpModule
     {

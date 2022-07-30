@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using EasyAbp.BookingService.Web;
 using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins;
 using EasyAbp.EShop.Plugins.Web;
@@ -80,7 +81,8 @@ namespace EShopSample.Web
         typeof(EShopPluginsFlashSalesWebModule),
         typeof(PaymentServiceWebModule),
         typeof(PaymentServiceWeChatPayWebModule),
-        typeof(PaymentServicePrepaymentWebModule)
+        typeof(PaymentServicePrepaymentWebModule),
+        typeof(BookingServiceWebModule)
     )]
     public class EShopSampleWebModule : AbpModule
     {

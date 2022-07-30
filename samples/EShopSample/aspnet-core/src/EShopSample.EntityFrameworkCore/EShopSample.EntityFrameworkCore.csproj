@@ -17,6 +17,7 @@
     <PackageReference Include="EasyAbp.PaymentService.EntityFrameworkCore" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.EntityFrameworkCore" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.EntityFrameworkCore" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.BookingService.EntityFrameworkCore" Version="$(EasyAbpBookingServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="$(AbpVersion)" />

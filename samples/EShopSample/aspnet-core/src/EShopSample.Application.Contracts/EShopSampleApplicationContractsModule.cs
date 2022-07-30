@@ -1,4 +1,5 @@
-﻿using EasyAbp.EShop;
+﻿using EasyAbp.BookingService;
+using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.EShop.Plugins.Booking;
 using EasyAbp.EShop.Plugins.Coupons;
@@ -33,7 +34,8 @@ namespace EShopSample
         typeof(EShopProductsPluginsFlashSalesApplicationContractsModule),
         typeof(PaymentServiceApplicationContractsModule),
         typeof(PaymentServiceWeChatPayApplicationContractsModule),
-        typeof(PaymentServicePrepaymentApplicationContractsModule)
+        typeof(PaymentServicePrepaymentApplicationContractsModule),
+        typeof(BookingServiceApplicationContractsModule)
     )]
     public class EShopSampleApplicationContractsModule : AbpModule
     {
