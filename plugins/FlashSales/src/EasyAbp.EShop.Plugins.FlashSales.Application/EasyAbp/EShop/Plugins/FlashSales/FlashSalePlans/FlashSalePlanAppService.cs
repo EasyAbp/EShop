@@ -19,12 +19,10 @@ using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Timing;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
-[Authorize]
 public class FlashSalePlanAppService :
     MultiStoreCrudAppService<FlashSalePlan, FlashSalePlanDto, Guid, FlashSalePlanGetListInput, FlashSalePlanCreateDto, FlashSalePlanUpdateDto>,
     IFlashSalePlanAppService
@@ -45,8 +43,8 @@ public class FlashSalePlanAppService :
     public const string UserFlashSaleResultCacheKeyFormat = "eshopflashsales-result_{0}_{1}_{2}";
 
     protected override string CrossStorePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.CrossStore;
-    protected override string GetPolicyName { get; set; }
-    protected override string GetListPolicyName { get; set; }
+    protected override string GetPolicyName { get; set; } = null;
+    protected override string GetListPolicyName { get; set; } = null;
     protected override string CreatePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.Create;
     protected override string UpdatePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.Update;
     protected override string DeletePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.Delete;
@@ -104,7 +102,10 @@ public class FlashSalePlanAppService :
     {
         var flashSalePlan = await GetEntityByIdAsync(id);
 
-        await CheckMultiStorePolicyAsync(flashSalePlan.StoreId, GetPolicyName);
+        if (GetPolicyName is not null)
+        {
+            await CheckMultiStorePolicyAsync(flashSalePlan.StoreId, GetPolicyName);
+        }
 
         if (!flashSalePlan.IsPublished)
         {
@@ -116,7 +117,10 @@ public class FlashSalePlanAppService :
 
     public override async Task<PagedResultDto<FlashSalePlanDto>> GetListAsync(FlashSalePlanGetListInput input)
     {
-        await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+        if (GetListPolicyName is not null)
+        {
+            await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+        }
 
         return await base.GetListAsync(input);
     }
@@ -202,6 +206,7 @@ public class FlashSalePlanAppService :
             .WhereIf(input.End.HasValue, x => x.BeginTime <= input.End.Value);
     }
 
+    [Authorize]
     public virtual async Task<FlashSalePlanPreOrderDto> PreOrderAsync(Guid id)
     {
         var plan = await GetFlashSalePlanCacheAsync(id);
@@ -216,6 +221,7 @@ public class FlashSalePlanAppService :
         return new FlashSalePlanPreOrderDto { ExpiresTime = Clock.Normalize(expiresTime.LocalDateTime), ExpiresInSeconds = Options.PreOrderExpires.TotalSeconds };
     }
 
+    [Authorize]
     public virtual async Task<FlashSaleOrderResultDto> OrderAsync(Guid id, CreateOrderInput input)
     {
         var preOrderCache = await GetPreOrderCacheAsync(id);
