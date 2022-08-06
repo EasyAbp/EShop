@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Options;
 using EasyAbp.EShop.Products.ProductInventories;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EShop.Products.Products;
@@ -57,7 +55,8 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
     {
         if (providerName.IsNullOrEmpty())
         {
-            providerName = DefaultProductInventoryProvider.DefaultProductInventoryProviderName;
+            var options = ServiceProvider.GetRequiredService<IOptions<EShopProductsOptions>>();
+            providerName = options.Value.DefaultInventoryProviderName;
         }
 
         TryBuildNameToProviderTypeMapping();
