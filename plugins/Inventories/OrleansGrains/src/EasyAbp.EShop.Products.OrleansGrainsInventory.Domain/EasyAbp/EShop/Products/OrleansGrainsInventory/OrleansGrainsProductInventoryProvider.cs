@@ -55,13 +55,13 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
     }
 
     public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
-        bool decreaseSold)
+        bool decreaseSold, bool isFlashSale = false)
     {
         var grain = await GetGrainAsync(model);
 
         try
         {
-            await grain.IncreaseInventoryAsync(quantity, decreaseSold);
+            await grain.IncreaseInventoryAsync(quantity, decreaseSold, isFlashSale);
         }
         catch (Exception e)
         {
@@ -73,7 +73,8 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
         return true;
     }
 
-    public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold)
+    public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold,
+        bool isFlashSale = false)
     {
         var grain = await GetGrainAsync(model);
 
@@ -86,7 +87,7 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
 
         try
         {
-            await grain.ReduceInventoryAsync(quantity, increaseSold);
+            await grain.ReduceInventoryAsync(quantity, increaseSold, isFlashSale);
         }
         catch (Exception e)
         {

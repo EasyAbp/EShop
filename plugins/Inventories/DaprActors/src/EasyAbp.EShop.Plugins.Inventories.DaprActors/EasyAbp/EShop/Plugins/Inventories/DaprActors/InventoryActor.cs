@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using Dapr;
 using Dapr.Actors.Runtime;
+using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Plugins.Inventories.DaprActors;
 
@@ -8,8 +10,13 @@ public class InventoryActor : Actor, IInventoryActor
 {
     public static string InventoryStateName { get; set; } = "i";
 
-    public InventoryActor(ActorHost host) : base(host)
+    protected DateTime? TimeToPersistInventory { get; set; }
+
+    protected IClock Clock { get; }
+
+    public InventoryActor(ActorHost host, IClock clock) : base(host)
     {
+        Clock = clock;
     }
 
     protected override async Task OnActivateAsync()
@@ -19,25 +26,62 @@ public class InventoryActor : Actor, IInventoryActor
 
     public virtual async Task<InventoryStateModel> GetInventoryStateAsync()
     {
-        return await StateManager.GetStateAsync<InventoryStateModel>(InventoryStateName);
+        var state = await InternalGetInventoryStateAsync();
+
+        await TrySetInventoryStateAsync(state);
+
+        return state;
     }
 
-    public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold)
+    public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
     {
-        var state = await GetInventoryStateAsync();
+        var state = await InternalGetInventoryStateAsync();
 
         InternalIncreaseInventory(state, quantity, decreaseSold);
 
-        await SetInventoryStateAsync(state);
+        if (!isFlashSale || state.Inventory == 0)
+        {
+            await SetInventoryStateAsync(state);
+        }
+        else
+        {
+            TimeToPersistInventory ??= Clock.Now + TimeSpan.FromSeconds(30);
+
+            await TrySetInventoryStateAsync(state);
+        }
     }
 
-    public async Task ReduceInventoryAsync(int quantity, bool increaseSold)
+    public virtual async Task ReduceInventoryAsync(int quantity, bool increaseSold, bool isFlashSale)
     {
-        var state = await GetInventoryStateAsync();
+        var state = await InternalGetInventoryStateAsync();
 
         InternalReduceInventory(state, quantity, increaseSold);
 
-        await SetInventoryStateAsync(state);
+        if (!isFlashSale || state.Inventory == 0)
+        {
+            await SetInventoryStateAsync(state);
+        }
+        else
+        {
+            TimeToPersistInventory ??= Clock.Now + TimeSpan.FromSeconds(30);
+
+            await TrySetInventoryStateAsync(state);
+        }
+    }
+
+    public virtual Task<InventoryStateModel> InternalGetInventoryStateAsync() =>
+        StateManager.GetStateAsync<InventoryStateModel>(InventoryStateName);
+
+    public async Task<bool> TrySetInventoryStateAsync(InventoryStateModel stateModel)
+    {
+        if (!TimeToPersistInventory.HasValue || TimeToPersistInventory.Value < Clock.Now)
+        {
+            return false;
+        }
+
+        await SetInventoryStateAsync(stateModel);
+
+        return true;
     }
 
     protected virtual async Task SetInventoryStateAsync(InventoryStateModel state)

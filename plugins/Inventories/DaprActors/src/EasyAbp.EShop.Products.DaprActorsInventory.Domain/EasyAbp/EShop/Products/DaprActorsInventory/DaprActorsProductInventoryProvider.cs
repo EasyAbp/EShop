@@ -57,13 +57,13 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
     }
 
     public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
-        bool decreaseSold)
+        bool decreaseSold, bool isFlashSale = false)
     {
         var actor = await GetActorAsync(model);
 
         try
         {
-            await actor.IncreaseInventoryAsync(quantity, decreaseSold);
+            await actor.IncreaseInventoryAsync(quantity, decreaseSold, isFlashSale);
         }
         catch (Exception e)
         {
@@ -75,7 +75,8 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
         return true;
     }
 
-    public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold)
+    public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold,
+        bool isFlashSale = false)
     {
         var actor = await GetActorAsync(model);
 
@@ -88,7 +89,7 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
 
         try
         {
-            await actor.ReduceInventoryAsync(quantity, increaseSold);
+            await actor.ReduceInventoryAsync(quantity, increaseSold, isFlashSale);
         }
         catch (Exception e)
         {

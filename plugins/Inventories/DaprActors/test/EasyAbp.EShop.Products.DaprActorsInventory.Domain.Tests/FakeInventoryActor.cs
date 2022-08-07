@@ -17,7 +17,7 @@ public class FakeInventoryActor : IInventoryActor, ITransientDependency
         return Task.FromResult(StateModel);
     }
 
-    public Task IncreaseInventoryAsync(int quantity, bool decreaseSold)
+    public Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
     {
         StateModel.Inventory += quantity;
 
@@ -29,7 +29,7 @@ public class FakeInventoryActor : IInventoryActor, ITransientDependency
         return Task.CompletedTask;
     }
 
-    public Task ReduceInventoryAsync(int quantity, bool increaseSold)
+    public Task ReduceInventoryAsync(int quantity, bool increaseSold, bool isFlashSale)
     {
         StateModel.Inventory -= quantity;
 

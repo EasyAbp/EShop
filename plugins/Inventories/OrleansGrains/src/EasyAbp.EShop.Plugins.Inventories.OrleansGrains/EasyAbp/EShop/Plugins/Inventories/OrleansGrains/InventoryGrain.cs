@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime;
+using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Plugins.Inventories.OrleansGrains;
 
@@ -10,20 +12,66 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
 {
     public const string StorageProviderName = "EShopInventoryStorage";
 
-    public virtual Task<InventoryStateModel> GetInventoryStateAsync() => Task.FromResult(State);
+    protected DateTime? TimeToPersistInventory { get; set; }
 
-    public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold)
+    protected IClock Clock { get; }
+
+    public InventoryGrain(IClock clock)
+    {
+        Clock = clock;
+    }
+
+    public virtual async Task<InventoryStateModel> GetInventoryStateAsync()
+    {
+        var state = State;
+
+        await TryWriteStateAsync();
+
+        return state;
+    }
+
+    public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
     {
         InternalIncreaseInventory(quantity, decreaseSold);
 
-        await WriteStateAsync();
+        if (!isFlashSale || State.Inventory == 0)
+        {
+            await WriteStateAsync();
+        }
+        else
+        {
+            TimeToPersistInventory ??= Clock.Now + TimeSpan.FromSeconds(30);
+
+            await TryWriteStateAsync();
+        }
     }
 
-    public async Task ReduceInventoryAsync(int quantity, bool increaseSold)
+    public virtual async Task ReduceInventoryAsync(int quantity, bool increaseSold, bool isFlashSale)
     {
         InternalReduceInventory(quantity, increaseSold);
 
+        if (!isFlashSale || State.Inventory == 0)
+        {
+            await WriteStateAsync();
+        }
+        else
+        {
+            TimeToPersistInventory ??= Clock.Now + TimeSpan.FromSeconds(30);
+
+            await TryWriteStateAsync();
+        }
+    }
+    
+    public async Task<bool> TryWriteStateAsync()
+    {
+        if (!TimeToPersistInventory.HasValue || TimeToPersistInventory.Value < Clock.Now)
+        {
+            return false;
+        }
+
         await WriteStateAsync();
+
+        return true;
     }
 
     protected virtual void InternalIncreaseInventory(int quantity, bool decreaseSold)
