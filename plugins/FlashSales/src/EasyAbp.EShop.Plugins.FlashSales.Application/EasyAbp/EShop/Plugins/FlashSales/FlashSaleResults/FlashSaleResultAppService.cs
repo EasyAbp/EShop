@@ -24,7 +24,10 @@ public class FlashSaleResultAppService :
     {
         var flashSaleResult = await GetEntityByIdAsync(id);
 
-        await CheckMultiStorePolicyAsync(flashSaleResult.StoreId, GetPolicyName);
+        if (GetPolicyName is not null)
+        {
+            await CheckMultiStorePolicyAsync(flashSaleResult.StoreId, GetPolicyName);
+        }
 
         if (flashSaleResult.UserId != CurrentUser.Id)
         {
@@ -36,7 +39,10 @@ public class FlashSaleResultAppService :
 
     public override async Task<PagedResultDto<FlashSaleResultDto>> GetListAsync(FlashSaleResultGetListInput input)
     {
-        await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+        if (GetListPolicyName is not null)
+        {
+            await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+        }
 
         return await base.GetListAsync(input);
     }
