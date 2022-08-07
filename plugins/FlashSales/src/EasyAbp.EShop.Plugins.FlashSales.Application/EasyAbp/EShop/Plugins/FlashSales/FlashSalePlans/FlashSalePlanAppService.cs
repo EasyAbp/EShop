@@ -278,9 +278,9 @@ public class FlashSalePlanAppService :
             );
         });
 
-        await SetUserFlashSaleResultCacheAsync(plan.Id, result.Id);
-
         var createFlashSaleOrderEto = await PrepareCreateFlashSaleOrderEtoAsync(plan, result.Id, input, userId, now, preOrderCache.HashToken);
+
+        await SetUserFlashSaleResultCacheAsync(plan.Id, result.Id);
 
         await DistributedEventBus.PublishAsync(createFlashSaleOrderEto);
 
@@ -348,7 +348,10 @@ public class FlashSalePlanAppService :
     protected virtual async Task SetUserFlashSaleResultCacheAsync(Guid planId, Guid resultId)
     {
         var userFlashSaleResultCacheKey = await GetUserFlashSaleResultCacheKeyAsync(planId);
-        await DistributedCache.SetStringAsync(userFlashSaleResultCacheKey, resultId.ToString());
+        await DistributedCache.SetStringAsync(userFlashSaleResultCacheKey, resultId.ToString(), new DistributedCacheEntryOptions()
+        {
+            AbsoluteExpiration = DateTimeOffset.Now.Add(Options.UserFlashSaleResultCacheExpires)
+        });
     }
 
     #endregion
@@ -423,9 +426,12 @@ public class FlashSalePlanAppService :
             HashToken = hashToken
         };
 
-        foreach (var item in input.ExtraProperties)
+        if (input.ExtraProperties != null)
         {
-            eto.ExtraProperties.Add(item.Key, item.Value);
+            foreach (var item in input.ExtraProperties)
+            {
+                eto.ExtraProperties.Add(item.Key, item.Value);
+            }
         }
 
         return Task.FromResult(eto);
