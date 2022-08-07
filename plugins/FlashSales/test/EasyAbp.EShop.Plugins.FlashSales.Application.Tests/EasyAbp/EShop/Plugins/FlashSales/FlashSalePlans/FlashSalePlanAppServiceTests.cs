@@ -342,11 +342,6 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
         (await AppService.PreOrderAsync(plan3.Id)
            .ShouldThrowAsync<BusinessException>())
            .Code.ShouldBe(FlashSalesErrorCodes.FlashSaleIsOver);
-
-        var plan4 = await CreateFlashSalePlanAsync(useSku2: true);
-        (await AppService.PreOrderAsync(plan4.Id)
-           .ShouldThrowAsync<BusinessException>())
-           .Code.ShouldBe(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
     }
 
     [Fact]

@@ -3,6 +3,8 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
+using EasyAbp.EShop.Products.Products;
+using EasyAbp.EShop.Products.Products.Dtos;
 
 namespace EasyAbp.EShop.Plugins.FlashSales;
 
@@ -23,6 +25,9 @@ public class FlashSalesApplicationAutoMapperProfile : Profile
             .MapExtraProperties();
 
         CreateMap<FlashSaleResult, FlashSaleResultDto>()
+            .MapExtraProperties();
+
+        CreateMap<ProductDto, ProductCacheItem>(MemberList.Source)
             .MapExtraProperties();
     }
 }

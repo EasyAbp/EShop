@@ -58,6 +58,8 @@ public class FlashSalePlanAppService :
 
     protected IDistributedCache<FlashSalePlanCacheItem, Guid> PlanDistributedCache { get; }
 
+    protected IDistributedCache<ProductCacheItem, Guid> ProductDistributedCache { get; }
+
     protected IDistributedEventBus DistributedEventBus { get; }
 
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
@@ -77,6 +79,7 @@ public class FlashSalePlanAppService :
         IProductAppService productAppService,
         IDistributedCache<FlashSalePlanPreOrderCacheItem> tokenDistributedCache,
         IDistributedCache<FlashSalePlanCacheItem, Guid> planDistributedCache,
+        IDistributedCache<ProductCacheItem, Guid> productDistributedCache,
         IDistributedEventBus distributedEventBus,
         IFlashSaleResultRepository flashSaleResultRepository,
         IAbpDistributedLock distributedLock,
@@ -90,6 +93,7 @@ public class FlashSalePlanAppService :
         ProductAppService = productAppService;
         PreOrderDistributedCache = tokenDistributedCache;
         PlanDistributedCache = planDistributedCache;
+        ProductDistributedCache = productDistributedCache;
         DistributedEventBus = distributedEventBus;
         FlashSaleResultRepository = flashSaleResultRepository;
         DistributedLock = distributedLock;
@@ -213,7 +217,7 @@ public class FlashSalePlanAppService :
         await CheckPolicyAsync(PreOrderPolicyName);
 
         var plan = await GetFlashSalePlanCacheAsync(id);
-        var product = await ProductAppService.GetAsync(plan.ProductId);
+        var product = await GetProductCacheAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
         var expiresTime = DateTimeOffset.Now.Add(Options.PreOrderExpires);
 
@@ -381,11 +385,6 @@ public class FlashSalePlanAppService :
             throw new BusinessException(FlashSalesErrorCodes.FlashSaleIsOver);
         }
 
-        if (productSku.Inventory < 1)
-        {
-            throw new BusinessException(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
-        }
-
         return Task.CompletedTask;
     }
 
@@ -461,5 +460,22 @@ public class FlashSalePlanAppService :
         );
 
         return await FlashSaleResultRepository.InsertAsync(result, autoSave: true);
+    }
+
+    protected virtual async Task<ProductCacheItem> GetProductCacheAsync(Guid productId)
+    {
+        return await ProductDistributedCache.GetOrAddAsync(productId, async () =>
+        {
+            var productDto = await ProductAppService.GetAsync(productId);
+
+            var cacheItem = ObjectMapper.Map<ProductDto, ProductCacheItem>(productDto);
+
+            if (cacheItem != null)
+            {
+                cacheItem.TenantId = CurrentTenant.Id;
+            }
+
+            return cacheItem;
+        });
     }
 }
