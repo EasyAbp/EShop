@@ -58,6 +58,10 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
             var options = ServiceProvider.GetRequiredService<IOptions<EShopProductsOptions>>();
             providerName = options.Value.DefaultInventoryProviderName;
         }
+        if (providerName.IsNullOrEmpty())
+        {
+            providerName = DefaultProductInventoryProvider.DefaultProductInventoryProviderName;
+        }
 
         TryBuildNameToProviderTypeMapping();
 
