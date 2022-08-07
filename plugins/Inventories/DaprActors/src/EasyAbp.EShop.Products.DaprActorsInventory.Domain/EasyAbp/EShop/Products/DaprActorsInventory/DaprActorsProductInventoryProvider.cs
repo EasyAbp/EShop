@@ -67,7 +67,7 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
         }
         catch (Exception e)
         {
-            _logger.LogError("Actor threw: {Message}", e.Message);
+            _logger.LogWarning("Actor threw: {Message}", e.InnerException?.Message ?? e.Message);
 
             return false;
         }
@@ -92,7 +92,7 @@ public class DaprActorsProductInventoryProvider : IProductInventoryProvider, ITr
         }
         catch (Exception e)
         {
-            _logger.LogError("Actor threw: {Message}", e.Message);
+            _logger.LogWarning("Actor threw: {Message}", e.InnerException?.Message ?? e.Message);
 
             return false;
         }

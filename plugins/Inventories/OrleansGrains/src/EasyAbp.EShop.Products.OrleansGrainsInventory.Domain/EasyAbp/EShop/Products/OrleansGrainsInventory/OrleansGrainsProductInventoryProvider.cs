@@ -65,7 +65,7 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
         }
         catch (Exception e)
         {
-            _logger.LogError("Grain threw: {Message}", e.Message);
+            _logger.LogWarning("Grain threw: {Message}", e.InnerException?.Message ?? e.Message);
 
             return false;
         }
@@ -90,7 +90,7 @@ public class OrleansGrainsProductInventoryProvider : IProductInventoryProvider, 
         }
         catch (Exception e)
         {
-            _logger.LogError("Grain threw: {Message}", e.Message);
+            _logger.LogWarning("Grain threw: {Message}", e.InnerException?.Message ?? e.Message);
 
             return false;
         }
