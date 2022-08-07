@@ -13,8 +13,8 @@ public class FlashSaleResultAppService :
     IFlashSaleResultAppService
 {
     protected override string CrossStorePolicyName { get; set; } = FlashSalesPermissions.FlashSaleResult.CrossStore;
-    protected override string GetPolicyName { get; set; }
-    protected override string GetListPolicyName { get; set; }
+    protected override string GetPolicyName { get; set; } = FlashSalesPermissions.FlashSaleResult.Default;
+    protected override string GetListPolicyName { get; set; } = FlashSalesPermissions.FlashSaleResult.Default;
 
     public FlashSaleResultAppService(IFlashSaleResultRepository flashSaleResultRepository) : base(flashSaleResultRepository)
     {

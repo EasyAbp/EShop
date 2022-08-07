@@ -48,6 +48,7 @@ public class FlashSalePlanAppService :
     protected override string CreatePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.Create;
     protected override string UpdatePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.Update;
     protected override string DeletePolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.Delete;
+    protected virtual string PreOrderPolicyName { get; set; } = FlashSalesPermissions.FlashSalePlan.PreOrder;
 
     protected IFlashSalePlanRepository FlashSalePlanRepository { get; }
 
@@ -209,6 +210,8 @@ public class FlashSalePlanAppService :
     [Authorize]
     public virtual async Task<FlashSalePlanPreOrderDto> PreOrderAsync(Guid id)
     {
+        await CheckPolicyAsync(PreOrderPolicyName);
+
         var plan = await GetFlashSalePlanCacheAsync(id);
         var product = await ProductAppService.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
