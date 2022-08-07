@@ -34,10 +34,11 @@ public class FakeProductInventoryProvider : IProductInventoryProvider, ITransien
         return Task.FromResult(result);
     }
 
-    public Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity, bool decreaseSold)
+    public Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity, bool decreaseSold,
+        bool isFlashSale = false)
     {
         Model.Inventory++;
-        
+
         if (decreaseSold)
         {
             Model.Sold--;
@@ -46,10 +47,11 @@ public class FakeProductInventoryProvider : IProductInventoryProvider, ITransien
         return Task.FromResult(true);
     }
 
-    public Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold)
+    public Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold,
+        bool isFlashSale = false)
     {
         Model.Inventory--;
-        
+
         if (increaseSold)
         {
             Model.Sold++;

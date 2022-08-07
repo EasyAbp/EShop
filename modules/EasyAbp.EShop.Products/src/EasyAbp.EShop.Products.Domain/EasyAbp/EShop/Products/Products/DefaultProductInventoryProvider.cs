@@ -76,7 +76,7 @@ namespace EasyAbp.EShop.Products.Products
 
         [UnitOfWork(true)]
         public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
-            bool decreaseSold)
+            bool decreaseSold, bool isFlashSale = false)
         {
             await using var handle = await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
 
@@ -94,7 +94,7 @@ namespace EasyAbp.EShop.Products.Products
 
         [UnitOfWork(true)]
         public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity,
-            bool increaseSold)
+            bool increaseSold, bool isFlashSale = false)
         {
             await using var handle = await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
 

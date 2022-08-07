@@ -20,7 +20,7 @@ public class LocalFlashSaleInventoryManager : ILocalFlashSaleInventoryManager, I
     {
         var model = new InventoryQueryModel(tenantId, storeId, productId, productSkuId);
         return await (await ProductInventoryProviderResolver.GetAsync(providerName))
-            .TryReduceInventoryAsync(model, quantity, increaseSold);
+            .TryReduceInventoryAsync(model, quantity, increaseSold, true);
     }
 
     public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
@@ -28,6 +28,6 @@ public class LocalFlashSaleInventoryManager : ILocalFlashSaleInventoryManager, I
     {
         var model = new InventoryQueryModel(tenantId, storeId, productId, productSkuId);
         return await (await ProductInventoryProviderResolver.GetAsync(providerName))
-            .TryIncreaseInventoryAsync(model, quantity, decreaseSold);
+            .TryIncreaseInventoryAsync(model, quantity, decreaseSold, true);
     }
 }

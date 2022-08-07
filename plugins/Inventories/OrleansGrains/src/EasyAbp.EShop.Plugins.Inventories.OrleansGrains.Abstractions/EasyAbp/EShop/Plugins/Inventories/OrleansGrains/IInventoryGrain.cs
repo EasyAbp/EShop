@@ -7,7 +7,7 @@ public interface IInventoryGrain : IGrainWithStringKey
 {
     Task<InventoryStateModel> GetInventoryStateAsync();
 
-    Task IncreaseInventoryAsync(int quantity, bool decreaseSold);
+    Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale);
 
-    Task ReduceInventoryAsync(int quantity, bool increaseSold);
+    Task ReduceInventoryAsync(int quantity, bool increaseSold, bool isFlashSale);
 }

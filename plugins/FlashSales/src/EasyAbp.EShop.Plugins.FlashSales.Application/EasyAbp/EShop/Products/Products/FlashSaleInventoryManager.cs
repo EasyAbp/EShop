@@ -17,17 +17,17 @@ public class FlashSaleInventoryManager : IFlashSaleInventoryManager, ITransientD
         FlashSaleInventoryReducerAppService = flashSaleInventoryReducerAppService;
     }
 
-    public virtual async Task<bool> TryReduceInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
-        Guid productSkuId, int quantity, bool increaseSold)
+    public virtual async Task<bool> TryReduceInventoryAsync(Guid? tenantId, string providerName, Guid storeId,
+        Guid productId, Guid productSkuId, int quantity, bool increaseSold)
     {
-        return await FlashSaleInventoryReducerAppService.TryReduceAsync(
-            new ReduceInventoryInput(tenantId, providerName, storeId, productId, productSkuId, quantity, increaseSold));
+        return await FlashSaleInventoryReducerAppService.TryReduceAsync(new ReduceInventoryInput(
+                tenantId, providerName, storeId, productId, productSkuId, quantity, increaseSold));
     }
 
-    public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
-        Guid productSkuId, int quantity, bool decreaseSold)
+    public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId,
+        Guid productId, Guid productSkuId, int quantity, bool decreaseSold)
     {
-        return await FlashSaleInventoryReducerAppService.TryIncreaseAsync
-            (new IncreaseInventoryInput(tenantId, providerName, storeId, productId, productSkuId, quantity, decreaseSold));
+        return await FlashSaleInventoryReducerAppService.TryIncreaseAsync(new IncreaseInventoryInput(
+            tenantId, providerName, storeId, productId, productSkuId, quantity, decreaseSold));
     }
 }
