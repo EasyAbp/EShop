@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime;
-using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Plugins.Inventories.OrleansGrains;
 
@@ -12,23 +12,12 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
 {
     public const string StorageProviderName = "EShopInventoryStorage";
 
-    protected DateTime? TimeToPersistInventory { get; set; }
+    protected bool FlashSalesInventoryUpdated { get; set; }
 
-    protected IClock Clock { get; }
+    [CanBeNull]
+    protected IDisposable FlashSalesPersistInventoryTimer { get; set; }
 
-    public InventoryGrain(IClock clock)
-    {
-        Clock = clock;
-    }
-
-    public virtual async Task<InventoryStateModel> GetInventoryStateAsync()
-    {
-        var state = State;
-
-        await TryWriteStateAsync();
-
-        return state;
-    }
+    public virtual Task<InventoryStateModel> GetInventoryStateAsync() => Task.FromResult(State);
 
     public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
     {
@@ -40,9 +29,9 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
         else
         {
-            TimeToPersistInventory ??= Clock.Now + TimeSpan.FromSeconds(30);
+            FlashSalesInventoryUpdated = true;
 
-            await TryWriteStateAsync();
+            TryRegisterFlashSalesPersistInventoryTimer();
         }
     }
 
@@ -56,22 +45,28 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
         else
         {
-            TimeToPersistInventory ??= Clock.Now + TimeSpan.FromSeconds(30);
+            FlashSalesInventoryUpdated = true;
 
-            await TryWriteStateAsync();
+            TryRegisterFlashSalesPersistInventoryTimer();
         }
     }
-    
-    public async Task<bool> TryWriteStateAsync()
+
+    protected virtual void TryRegisterFlashSalesPersistInventoryTimer()
     {
-        if (!TimeToPersistInventory.HasValue || TimeToPersistInventory.Value < Clock.Now)
+        FlashSalesPersistInventoryTimer ??= RegisterTimer(PeriodicWriteInventoryStateAsync,
+            new object(), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(3));
+    }
+
+    protected virtual async Task PeriodicWriteInventoryStateAsync(object obj)
+    {
+        if (!FlashSalesInventoryUpdated)
         {
-            return false;
+            return;
         }
 
         await WriteStateAsync();
 
-        return true;
+        FlashSalesInventoryUpdated = false;
     }
 
     protected virtual void InternalIncreaseInventory(int quantity, bool decreaseSold)
