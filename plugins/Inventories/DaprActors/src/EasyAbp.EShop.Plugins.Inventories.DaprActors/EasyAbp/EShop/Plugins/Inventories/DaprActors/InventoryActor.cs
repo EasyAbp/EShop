@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Dapr;
 using Dapr.Actors.Runtime;
-using JetBrains.Annotations;
 
 namespace EasyAbp.EShop.Plugins.Inventories.DaprActors;
 
@@ -11,9 +10,6 @@ public class InventoryActor : Actor, IInventoryActor
     public static string InventoryStateName { get; set; } = "i";
 
     protected bool FlashSalesInventoryUpdated { get; set; }
-
-    [CanBeNull]
-    protected ActorTimer FlashSalesPersistInventoryTimer { get; set; }
 
     public InventoryActor(ActorHost host) : base(host)
     {
@@ -39,8 +35,6 @@ public class InventoryActor : Actor, IInventoryActor
         }
         else
         {
-            FlashSalesInventoryUpdated = true;
-
             await TryRegisterFlashSalesPersistInventoryTimerAsync();
         }
     }
@@ -57,19 +51,24 @@ public class InventoryActor : Actor, IInventoryActor
         }
         else
         {
-            FlashSalesInventoryUpdated = true;
-
             await TryRegisterFlashSalesPersistInventoryTimerAsync();
         }
     }
 
     protected virtual async Task TryRegisterFlashSalesPersistInventoryTimerAsync()
     {
-        FlashSalesPersistInventoryTimer ??= await RegisterTimerAsync(null, nameof(PeriodicSetInventoryStateAsync),
-            null, TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(3));
+        if (FlashSalesInventoryUpdated)
+        {
+            return;
+        }
+
+        FlashSalesInventoryUpdated = true;
+
+        await RegisterTimerAsync(null, nameof(TimerSetInventoryStateAsync), null, TimeSpan.FromSeconds(5),
+            TimeSpan.FromMilliseconds(-1));
     }
 
-    protected virtual async Task PeriodicSetInventoryStateAsync()
+    protected virtual async Task TimerSetInventoryStateAsync()
     {
         if (!FlashSalesInventoryUpdated)
         {
