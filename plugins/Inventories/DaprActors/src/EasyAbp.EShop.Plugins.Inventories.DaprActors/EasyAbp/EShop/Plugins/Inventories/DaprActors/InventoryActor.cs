@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Dapr;
 using Dapr.Actors.Runtime;
+using JetBrains.Annotations;
 
 namespace EasyAbp.EShop.Plugins.Inventories.DaprActors;
 
@@ -10,6 +11,9 @@ public class InventoryActor : Actor, IInventoryActor
     public static string InventoryStateName { get; set; } = "i";
 
     protected bool FlashSalesInventoryUpdated { get; set; }
+
+    [CanBeNull]
+    protected InventoryStateModel State { get; set; }
 
     public InventoryActor(ActorHost host) : base(host)
     {
@@ -20,8 +24,8 @@ public class InventoryActor : Actor, IInventoryActor
         await StateManager.TryAddStateAsync(InventoryStateName, new InventoryStateModel());
     }
 
-    public virtual Task<InventoryStateModel> GetInventoryStateAsync() =>
-        StateManager.GetStateAsync<InventoryStateModel>(InventoryStateName);
+    public virtual async Task<InventoryStateModel> GetInventoryStateAsync() =>
+        State ??= await StateManager.GetStateAsync<InventoryStateModel>(InventoryStateName);
 
     public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
     {
