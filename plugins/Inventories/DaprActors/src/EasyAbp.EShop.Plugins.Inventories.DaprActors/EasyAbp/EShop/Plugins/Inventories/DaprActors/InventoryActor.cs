@@ -69,10 +69,10 @@ public class InventoryActor : Actor, IInventoryActor
         }
     }
 
-    public virtual Task<InventoryStateModel> InternalGetInventoryStateAsync() =>
+    protected virtual Task<InventoryStateModel> InternalGetInventoryStateAsync() =>
         StateManager.GetStateAsync<InventoryStateModel>(InventoryStateName);
 
-    public async Task<bool> TrySetInventoryStateAsync(InventoryStateModel stateModel)
+    protected virtual async Task<bool> TrySetInventoryStateAsync(InventoryStateModel stateModel)
     {
         if (!TimeToPersistInventory.HasValue || TimeToPersistInventory.Value < Clock.Now)
         {
