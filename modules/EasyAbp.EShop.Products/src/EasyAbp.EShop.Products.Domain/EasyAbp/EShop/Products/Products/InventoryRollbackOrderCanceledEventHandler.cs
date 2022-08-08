@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Uow;
@@ -10,13 +11,16 @@ namespace EasyAbp.EShop.Products.Products
     // see: https://github.com/EasyAbp/EShop/issues/139
     public class InventoryRollbackOrderCanceledEventHandler : IDistributedEventHandler<OrderCanceledEto>, ITransientDependency
     {
+        private readonly ILogger<InventoryRollbackOrderCanceledEventHandler> _logger;
         private readonly IProductManager _productManager;
         private readonly IProductRepository _productRepository;
 
         public InventoryRollbackOrderCanceledEventHandler(
+            ILogger<InventoryRollbackOrderCanceledEventHandler> logger,
             IProductManager productManager,
             IProductRepository productRepository)
         {
+            _logger = logger;
             _productManager = productManager;
             _productRepository = productRepository;
         }
@@ -40,7 +44,12 @@ namespace EasyAbp.EShop.Products.Products
 
                 var productSku = product.ProductSkus.Single(x => x.Id == orderLine.ProductSkuId);
 
-                await _productManager.TryIncreaseInventoryAsync(product, productSku, orderLine.Quantity, true);
+                if (!await _productManager.TryIncreaseInventoryAsync(product, productSku, orderLine.Quantity, true))
+                {
+                    _logger.LogWarning(
+                        "InventoryRollbackOrderCanceledEventHandler: inventory rollback failed! productId = {productId}, productSkuId = {productSkuId}, quantity = {quantity}, reduceSold = {reduceSold}",
+                        orderLine.ProductId, orderLine.ProductSkuId, orderLine.Quantity, true);
+                }
             }
         }
     }
