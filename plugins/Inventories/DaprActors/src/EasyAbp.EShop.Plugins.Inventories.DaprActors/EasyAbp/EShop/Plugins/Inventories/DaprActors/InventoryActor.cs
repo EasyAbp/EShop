@@ -81,10 +81,10 @@ public class InventoryActor : Actor, IInventoryActor
         FlashSalesInventoryUpdated = false;
     }
 
-    protected virtual async Task SetInventoryStateAsync(InventoryStateModel state)
-    {
+    protected virtual async Task SetInventoryStateAsync(InventoryStateModel state) =>
         await StateManager.SetStateAsync(InventoryStateName, state);
-    }
+
+    protected override async Task OnDeactivateAsync() => await SetInventoryStateAsync(await GetInventoryStateAsync());
 
     protected virtual void InternalIncreaseInventory(InventoryStateModel stateModel, int quantity, bool decreaseSold)
     {

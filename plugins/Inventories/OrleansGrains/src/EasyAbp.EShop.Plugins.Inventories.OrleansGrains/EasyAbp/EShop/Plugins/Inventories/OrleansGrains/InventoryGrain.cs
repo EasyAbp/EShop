@@ -69,6 +69,8 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         FlashSalesInventoryUpdated = false;
     }
 
+    public override Task OnDeactivateAsync() => WriteStateAsync();
+
     protected virtual void InternalIncreaseInventory(int quantity, bool decreaseSold)
     {
         if (quantity < 0)
