@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime;
@@ -14,9 +13,6 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
 
     protected bool FlashSalesInventoryUpdated { get; set; }
 
-    [CanBeNull]
-    protected IDisposable FlashSalesPersistInventoryTimer { get; set; }
-
     public virtual Task<InventoryStateModel> GetInventoryStateAsync() => Task.FromResult(State);
 
     public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
@@ -29,8 +25,6 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
         else
         {
-            FlashSalesInventoryUpdated = true;
-
             TryRegisterFlashSalesPersistInventoryTimer();
         }
     }
@@ -45,19 +39,24 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
         else
         {
-            FlashSalesInventoryUpdated = true;
-
             TryRegisterFlashSalesPersistInventoryTimer();
         }
     }
 
     protected virtual void TryRegisterFlashSalesPersistInventoryTimer()
     {
-        FlashSalesPersistInventoryTimer ??= RegisterTimer(PeriodicWriteInventoryStateAsync,
-            new object(), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(3));
+        if (FlashSalesInventoryUpdated)
+        {
+            return;
+        }
+
+        FlashSalesInventoryUpdated = true;
+
+        RegisterTimer(TimerWriteInventoryStateAsync, new object(), TimeSpan.FromSeconds(5),
+            TimeSpan.FromMilliseconds(-1));
     }
 
-    protected virtual async Task PeriodicWriteInventoryStateAsync(object obj)
+    protected virtual async Task TimerWriteInventoryStateAsync(object obj)
     {
         if (!FlashSalesInventoryUpdated)
         {
