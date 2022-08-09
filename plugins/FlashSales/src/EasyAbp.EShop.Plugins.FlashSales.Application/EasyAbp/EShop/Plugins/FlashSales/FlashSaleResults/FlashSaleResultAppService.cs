@@ -5,6 +5,7 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.Permissions;
 using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 
@@ -24,12 +25,11 @@ public class FlashSaleResultAppService :
     {
         var flashSaleResult = await GetEntityByIdAsync(id);
 
-        if (GetPolicyName is not null)
+        if (flashSaleResult.UserId == CurrentUser.Id)
         {
-            await CheckMultiStorePolicyAsync(flashSaleResult.StoreId, GetPolicyName);
+            await CheckGetPolicyAsync();
         }
-
-        if (flashSaleResult.UserId != CurrentUser.Id)
+        else
         {
             await CheckMultiStorePolicyAsync(flashSaleResult.StoreId, FlashSalesPermissions.FlashSaleResult.Manage);
         }
@@ -39,7 +39,11 @@ public class FlashSaleResultAppService :
 
     public override async Task<PagedResultDto<FlashSaleResultDto>> GetListAsync(FlashSaleResultGetListInput input)
     {
-        if (GetListPolicyName is not null)
+        if (input.UserId.HasValue && input.UserId == CurrentUser.Id)
+        {
+            await CheckGetListPolicyAsync();
+        }
+        else
         {
             await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
         }
@@ -49,11 +53,6 @@ public class FlashSaleResultAppService :
 
     protected override async Task<IQueryable<FlashSaleResult>> CreateFilteredQueryAsync(FlashSaleResultGetListInput input)
     {
-        if (input.UserId != CurrentUser.Id)
-        {
-            await CheckMultiStorePolicyAsync(input.StoreId, FlashSalesPermissions.FlashSaleResult.Manage);
-        }
-
         return (await base.CreateFilteredQueryAsync(input))
             .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value)
             .WhereIf(input.PlanId.HasValue, x => x.PlanId == input.PlanId.Value)

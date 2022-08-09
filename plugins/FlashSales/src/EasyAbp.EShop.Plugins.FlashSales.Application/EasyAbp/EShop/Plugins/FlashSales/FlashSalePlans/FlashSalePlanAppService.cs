@@ -107,10 +107,7 @@ public class FlashSalePlanAppService :
     {
         var flashSalePlan = await GetEntityByIdAsync(id);
 
-        if (GetPolicyName is not null)
-        {
-            await CheckMultiStorePolicyAsync(flashSalePlan.StoreId, GetPolicyName);
-        }
+        await CheckGetPolicyAsync();
 
         if (!flashSalePlan.IsPublished)
         {
@@ -122,9 +119,11 @@ public class FlashSalePlanAppService :
 
     public override async Task<PagedResultDto<FlashSalePlanDto>> GetListAsync(FlashSalePlanGetListInput input)
     {
-        if (GetListPolicyName is not null)
+        await CheckGetListPolicyAsync();
+
+        if (input.IncludeUnpublished)
         {
-            await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
+            await CheckMultiStorePolicyAsync(input.StoreId, FlashSalesPermissions.FlashSalePlan.Manage);
         }
 
         return await base.GetListAsync(input);
@@ -197,11 +196,6 @@ public class FlashSalePlanAppService :
 
     protected override async Task<IQueryable<FlashSalePlan>> CreateFilteredQueryAsync(FlashSalePlanGetListInput input)
     {
-        if (input.IncludeUnpublished)
-        {
-            await CheckMultiStorePolicyAsync(input.StoreId, FlashSalesPermissions.FlashSalePlan.Manage);
-        }
-
         return (await base.CreateFilteredQueryAsync(input))
             .WhereIf(input.StoreId.HasValue, x => x.StoreId == input.StoreId.Value)
             .WhereIf(input.ProductId.HasValue, x => x.ProductId == input.ProductId.Value)
