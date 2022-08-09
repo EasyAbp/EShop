@@ -107,10 +107,7 @@ public class FlashSalePlanAppService :
     {
         var flashSalePlan = await GetEntityByIdAsync(id);
 
-        if (GetPolicyName is not null)
-        {
-            await CheckMultiStorePolicyAsync(flashSalePlan.StoreId, GetPolicyName);
-        }
+        await CheckGetPolicyAsync();
 
         if (!flashSalePlan.IsPublished)
         {
@@ -122,10 +119,7 @@ public class FlashSalePlanAppService :
 
     public override async Task<PagedResultDto<FlashSalePlanDto>> GetListAsync(FlashSalePlanGetListInput input)
     {
-        if (GetListPolicyName is not null)
-        {
-            await CheckMultiStorePolicyAsync(input.StoreId, GetListPolicyName);
-        }
+        await CheckGetListPolicyAsync();
 
         return await base.GetListAsync(input);
     }
