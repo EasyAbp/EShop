@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Auditing;
 using Volo.Abp.Caching;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
@@ -222,6 +223,7 @@ public class FlashSalePlanAppService :
         return new FlashSalePlanPreOrderDto { ExpiresTime = Clock.Normalize(expiresTime.LocalDateTime), ExpiresInSeconds = Options.PreOrderExpires.TotalSeconds };
     }
 
+    [DisableAuditing]
     [Authorize]
     public virtual async Task<FlashSaleOrderResultDto> OrderAsync(Guid id, CreateOrderInput input)
     {
