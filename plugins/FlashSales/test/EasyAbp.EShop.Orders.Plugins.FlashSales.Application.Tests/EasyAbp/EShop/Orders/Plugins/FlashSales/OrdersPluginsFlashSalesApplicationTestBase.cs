@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 
-namespace EasyAbp.EShop.Plugins.FlashSales;
+namespace EasyAbp.EShop.Orders.Plugins.FlashSales;
 
 /* Inherit from this class for your application layer tests.
  * See SampleAppService_Tests for example.

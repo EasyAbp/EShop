@@ -1,7 +1,7 @@
-﻿using EasyAbp.EShop.Orders.Plugins.FlashSales;
+﻿using EasyAbp.EShop.Plugins.FlashSales;
 using Volo.Abp.Modularity;
 
-namespace EasyAbp.EShop.Plugins.FlashSales;
+namespace EasyAbp.EShop.Orders.Plugins.FlashSales;
 
 [DependsOn(
     typeof(EShopOrdersPluginsFlashSalesApplicationModule),

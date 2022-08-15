@@ -23,4 +23,7 @@ public class ViewFlashSaleResultViewModel
 
     [Display(Name = "FlashSaleResultOrderId")]
     public Guid? OrderId { get; set; }
+
+    [Display(Name = "FlashSaleResultReducedInventoryTime")]
+    public DateTime ReducedInventoryTime { get; set; }
 }

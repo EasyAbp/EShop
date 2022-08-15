@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+namespace EasyAbp.EShop.Plugins.FlashSales.Options;
 
 public class FlashSalesOptions
 {
@@ -12,5 +12,5 @@ public class FlashSalesOptions
     /// <summary>
     /// Default: 5 minutes
     /// </summary>
-    public TimeSpan UserFlashSaleResultCacheExpires { get; set; } = TimeSpan.FromMinutes(5);
+    public TimeSpan FlashSaleCurrentResultCacheExpires { get; set; } = TimeSpan.FromMinutes(5);
 }

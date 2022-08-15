@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Orders.Plugins.FlashSales;
 using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
@@ -93,14 +94,11 @@ public class CreateFlashSaleOrderEventHandlerTests : OrdersPluginsFlashSalesAppl
         OrderRepository.InsertAsync(default, default, default)
             .ReturnsForAnyArgs(callInfo => callInfo.Arg<Order>());
 
-        var createFlashSaleOrderEto = new CreateFlashSaleOrderEto()
+        var createFlashSaleOrderEto = new CreateFlashSaleOrderEto
         {
             TenantId = CurrentTenant.Id,
-            PlanId = FlashSalesTestData.Plan1Id,
-            StoreId = FlashSalesTestData.Store1Id,
             UserId = CurrentUser.GetId(),
-            PendingResultId = FlashSalesTestData.Result1Id,
-            CreateTime = DateTime.Now,
+            ResultId = FlashSalesTestData.Result1Id,
             CustomerRemark = "My Remark",
             HashToken = "My Hash Token",
             Plan = new FlashSalePlanEto
@@ -119,9 +117,9 @@ public class CreateFlashSaleOrderEventHandlerTests : OrdersPluginsFlashSalesAppl
         await EventHandler.HandleEventAsync(createFlashSaleOrderEto);
 
         await DistributedEventBus.Received()
-            .PublishAsync(Arg.Is<CreateFlashSaleOrderCompleteEto>(eto =>
+            .PublishAsync(Arg.Is<FlashSaleOrderCreationResultEto>(eto =>
                 eto.TenantId == CurrentTenant.Id &&
-                eto.PendingResultId == FlashSalesTestData.Result1Id &&
+                eto.ResultId == FlashSalesTestData.Result1Id &&
                 eto.Success &&
                 eto.StoreId == FlashSalesTestData.Store1Id &&
                 eto.PlanId == FlashSalesTestData.Plan1Id &&
@@ -137,14 +135,11 @@ public class CreateFlashSaleOrderEventHandlerTests : OrdersPluginsFlashSalesAppl
         FlashSalePlanHasher.HashAsync(default, default, default)
     .ReturnsForAnyArgs("My Hash Token");
 
-        var createFlashSaleOrderEto = new CreateFlashSaleOrderEto()
+        var createFlashSaleOrderEto = new CreateFlashSaleOrderEto
         {
             TenantId = CurrentTenant.Id,
-            PlanId = FlashSalesTestData.Plan1Id,
-            StoreId = FlashSalesTestData.Store1Id,
             UserId = CurrentUser.GetId(),
-            PendingResultId = FlashSalesTestData.Result1Id,
-            CreateTime = DateTime.Now,
+            ResultId = FlashSalesTestData.Result1Id,
             CustomerRemark = "My Remark",
             HashToken = "My Hash Token Failed",
             Plan = new FlashSalePlanEto
@@ -163,9 +158,9 @@ public class CreateFlashSaleOrderEventHandlerTests : OrdersPluginsFlashSalesAppl
         await EventHandler.HandleEventAsync(createFlashSaleOrderEto);
 
         await DistributedEventBus.Received()
-            .PublishAsync(Arg.Is<CreateFlashSaleOrderCompleteEto>(eto =>
+            .PublishAsync(Arg.Is<FlashSaleOrderCreationResultEto>(eto =>
                 eto.TenantId == CurrentTenant.Id &&
-                eto.PendingResultId == FlashSalesTestData.Result1Id &&
+                eto.ResultId == FlashSalesTestData.Result1Id &&
                 !eto.Success &&
                 eto.StoreId == FlashSalesTestData.Store1Id &&
                 eto.PlanId == FlashSalesTestData.Plan1Id &&

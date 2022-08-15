@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
+using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
+using EasyAbp.EShop.Plugins.FlashSales.Options;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -15,9 +15,11 @@ using NSubstitute;
 using Shouldly;
 using Volo.Abp;
 using Volo.Abp.Caching;
+using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Users;
 using Xunit;
 
@@ -28,12 +30,15 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
 
     protected IDistributedEventBus DistributedEventBus { get; }
 
+    protected IDistributedCache<ProductCacheItem, Guid> ProductDistributedCache { get; }
+
     private ProductDto Product1 { get; set; }
 
     public FlashSalePlanAppServiceTests()
     {
         AppService = GetRequiredService<FlashSalePlanAppService>();
         DistributedEventBus = GetRequiredService<IDistributedEventBus>();
+        ProductDistributedCache = GetRequiredService<IDistributedCache<ProductCacheItem, Guid>>();
     }
 
     protected override void AfterAddApplication(IServiceCollection services)
@@ -48,6 +53,12 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
 
         var distributedEventBus = Substitute.For<IDistributedEventBus>();
         services.Replace(ServiceDescriptor.Singleton(distributedEventBus));
+
+        ObjectExtensionManager.Instance.AddOrUpdate<OrderFlashSalePlanInput>(info =>
+        {
+            info.AddOrUpdateProperty<string>("key1");
+        });
+
         base.AfterAddApplication(services);
     }
 
@@ -326,13 +337,14 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
             .Code.ShouldBe(FlashSalesErrorCodes.ProductIsNotPublished);
 
         Product1.IsPublished = true;
-
         Product1.InventoryStrategy = InventoryStrategy.ReduceAfterPlacing;
+        await ProductDistributedCache.RemoveAsync(Product1.Id);
 
         await AppService.PreOrderAsync(plan.Id)
            .ShouldThrowAsync<UnexpectedInventoryStrategyException>();
 
         Product1.InventoryStrategy = InventoryStrategy.FlashSales;
+        await ProductDistributedCache.RemoveAsync(Product1.Id);
 
         var plan2 = await CreateFlashSalePlanAsync(isPublished: false);
         await AppService.PreOrderAsync(plan2.Id)
@@ -350,25 +362,23 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
         var plan = await CreateFlashSalePlanAsync();
         var hashToken = await GetRequiredService<IFlashSalePlanHasher>()
             .HashAsync(plan.LastModificationTime, Product1.LastModificationTime, Product1.GetSkuById(plan.ProductSkuId).LastModificationTime);
-        var createOrderInput = new CreateOrderInput()
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput
         {
-            CustomerRemark = "remark1",
-            ExtraProperties = { { "key1", "value1" } }
+            CustomerRemark = "remark1"
         };
+        orderFlashSalePlanInput.SetProperty("key1", "value1");
         await AppService.PreOrderAsync(plan.Id);
 
-        var result = await AppService.OrderAsync(plan.Id, createOrderInput);
+        var result = await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput);
 
         result.IsSuccess.ShouldBe(true);
-        result.FlashSaleResultId.ShouldNotBeNull();
-        await DistributedEventBus.Received().PublishAsync(Arg.Is<CreateFlashSaleOrderEto>(eto =>
+        await DistributedEventBus.Received().PublishAsync(Arg.Is<CreateFlashSaleResultEto>(eto =>
             eto.TenantId == plan.TenantId &&
-            eto.StoreId == plan.StoreId &&
-            eto.PlanId == plan.Id &&
             eto.UserId == CurrentUser.GetId() &&
             eto.HashToken == hashToken &&
-            eto.CustomerRemark == createOrderInput.CustomerRemark &&
+            eto.CustomerRemark == orderFlashSalePlanInput.CustomerRemark &&
             eto.Plan != null &&
+            eto.Plan.Id == plan.Id &&
             eto.Plan.TenantId == plan.TenantId &&
             eto.Plan.StoreId == plan.StoreId &&
             eto.Plan.BeginTime == plan.BeginTime &&
@@ -378,104 +388,121 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
             eto.Plan.IsPublished == plan.IsPublished &&
             eto.ExtraProperties.ContainsKey("key1") &&
             eto.ExtraProperties["key1"].ToString() == "value1"
-        ));
+        ), false, false);
     }
 
     [Fact]
     public async Task OrderAsync_Throw_Exception_When_Not_PreOrder()
     {
         var plan = await CreateFlashSalePlanAsync();
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)
-            .ShouldThrowAsync<BusinessException>())
-            .Code.ShouldBe(FlashSalesErrorCodes.PreOrderExpired);
+        (await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput)).ErrorCode
+            .ShouldBe(FlashSalesErrorCodes.PreOrderExpired);
     }
 
     [Fact]
     public async Task OrderAsync_Throw_Exception_When_FlashSaleNotStarted()
     {
         var plan = await CreateFlashSalePlanAsync(timeRange: CreateTimeRange.NotStart);
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
         await AppService.PreOrderAsync(plan.Id);
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)
-            .ShouldThrowAsync<BusinessException>())
-            .Code.ShouldBe(FlashSalesErrorCodes.FlashSaleNotStarted);
+        (await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput))
+            .ErrorCode.ShouldBe(FlashSalesErrorCodes.FlashSaleNotStarted);
     }
 
     [Fact]
     public async Task OrderAsync_Throw_Exception_When_FlashSaleIsOver()
     {
         var plan = await CreateFlashSalePlanAsync(timeRange: CreateTimeRange.WillBeExpired);
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
         await AppService.PreOrderAsync(plan.Id);
 
         await Task.Delay(TimeSpan.FromSeconds(1.2));
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)
-            .ShouldThrowAsync<BusinessException>())
-            .Code.ShouldBe(FlashSalesErrorCodes.FlashSaleIsOver);
+        (await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput))
+            .ErrorCode.ShouldBe(FlashSalesErrorCodes.FlashSaleIsOver);
     }
 
     [Fact]
     public async Task OrderAsync_Throw_Exception_When_BusyToCreateFlashSaleOrder()
     {
         var plan = await CreateFlashSalePlanAsync();
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
         await AppService.PreOrderAsync(plan.Id);
         var distributedLock = GetRequiredService<IAbpDistributedLock>();
         var lockKey = $"create-flash-sale-order-{plan.Id}-{CurrentUser.GetId()}";
 
         await using var handle = await distributedLock.TryAcquireAsync(lockKey);
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)
-            .ShouldThrowAsync<BusinessException>())
-            .Code.ShouldBe(FlashSalesErrorCodes.BusyToCreateFlashSaleOrder);
+        (await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput))
+            .ErrorCode.ShouldBe(FlashSalesErrorCodes.BusyToCreateFlashSaleOrder);
     }
 
     [Fact]
-    public async Task OrderAsync_Throw_Exception_When_Exist_UserFlashSaleResultCache()
+    public async Task OrderAsync_Throw_Exception_When_Exist_FlashSaleCurrentResultCache()
     {
         var plan = await CreateFlashSalePlanAsync();
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
         await AppService.PreOrderAsync(plan.Id);
-        var distributedCache = GetRequiredService<IDistributedCache>();
+        var flashSaleCurrentResultCache = GetRequiredService<IFlashSaleCurrentResultCache>();
         var userId = CurrentUser.GetId();
-        var userFlashSaleResultCacheKey = string.Format(FlashSalePlanAppService.UserFlashSaleResultCacheKeyFormat, plan.TenantId, plan.Id, userId);
-        await distributedCache.SetStringAsync(userFlashSaleResultCacheKey, Guid.NewGuid().ToString());
+        await flashSaleCurrentResultCache.SetAsync(plan.Id, userId,
+            new FlashSaleCurrentResultCacheItem
+            {
+                TenantId = CurrentTenant.Id,
+                ResultDto = new FlashSaleResultDto
+                {
+                    Id = Guid.NewGuid(),
+                    StoreId = plan.StoreId,
+                    PlanId = plan.Id,
+                    UserId = userId
+                }
+            });
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)
-            .ShouldThrowAsync<BusinessException>())
-            .Code.ShouldBe(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
+        (await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput))
+            .ErrorCode.ShouldBe(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
     }
 
     [Fact]
     public async Task OrderAsync_Return_False_When_TryReduceInventory_Failed()
     {
         var plan = await CreateFlashSalePlanAsync();
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
         await AppService.PreOrderAsync(plan.Id);
 
         FakeFlashSaleInventoryManager.ShouldReduceSuccess = false;
 
-        var result = await AppService.OrderAsync(plan.Id, createOrderInput);
+        var result = await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput);
         result.IsSuccess.ShouldBe(false);
-        result.FlashSaleResultId.ShouldBeNull();
     }
 
     [Fact]
     public async Task OrderAsync_Return_False_When_Exist_Not_Failed_Result()
     {
         var plan = await CreateFlashSalePlanAsync();
-        var createOrderInput = new CreateOrderInput();
+        var orderFlashSalePlanInput = new OrderFlashSalePlanInput();
         await AppService.PreOrderAsync(plan.Id);
         var userId = GetRequiredService<ICurrentUser>().GetId();
 
-        await CreatePendingResultAsync(plan.Id, plan.StoreId, userId);
+        var existingResult = await CreatePendingResultAsync(plan.Id, plan.StoreId, userId);
 
-        (await AppService.OrderAsync(plan.Id, createOrderInput)
-            .ShouldThrowAsync<BusinessException>())
-            .Code.ShouldBe(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
+        Guid? newResultId = null;
+        DistributedEventBus.PublishAsync<CreateFlashSaleResultEto>(null, false, false).ReturnsForAnyArgs(async info =>
+        {
+            var eto = info.Arg<CreateFlashSaleResultEto>();
+            newResultId = eto.ResultId;
+            var handler = ServiceProvider.GetRequiredService<CreateFlashSaleResultEventHandler>();
+            await handler.HandleEventAsync(eto);
+        });
+
+        await AppService.OrderAsync(plan.Id, orderFlashSalePlanInput);
+
+        await DistributedEventBus.Received()
+            .PublishAsync(Arg.Is<CreateFlashSaleResultEto>(eto => eto.ResultId == newResultId), false, false);
+
+        var flashSaleResultAppService = ServiceProvider.GetRequiredService<IFlashSaleResultAppService>();
+        (await flashSaleResultAppService.GetCurrentAsync(plan.Id)).Id.ShouldBe(existingResult.Id);
     }
 }

@@ -10,6 +10,7 @@ using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Uow;
 
@@ -61,16 +62,17 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
 
         if (!await ValidateHashTokenAsync(eventData.Plan, product, productSku, eventData.HashToken))
         {
-            await DistributedEventBus.PublishAsync(new CreateFlashSaleOrderCompleteEto()
+            await DistributedEventBus.PublishAsync(new FlashSaleOrderCreationResultEto
             {
                 TenantId = eventData.TenantId,
-                PlanId = eventData.PlanId,
+                PlanId = eventData.Plan.Id,
                 OrderId = null,
                 UserId = eventData.UserId,
-                StoreId = eventData.StoreId,
-                PendingResultId = eventData.PendingResultId,
+                StoreId = eventData.Plan.StoreId,
+                ResultId = eventData.ResultId,
                 Success = false,
-                Reason = FlashSaleResultFailedReason.InvalidHashToken
+                Reason = FlashSaleResultFailedReason.InvalidHashToken,
+                AllowToTryAgain = true
             });
             return;
         }
@@ -85,16 +87,17 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
 
         await OrderRepository.InsertAsync(order, autoSave: true);
 
-        await DistributedEventBus.PublishAsync(new CreateFlashSaleOrderCompleteEto()
+        await DistributedEventBus.PublishAsync(new FlashSaleOrderCreationResultEto
         {
             TenantId = eventData.TenantId,
-            PlanId = eventData.PlanId,
+            PlanId = eventData.Plan.Id,
             OrderId = order.Id,
             UserId = eventData.UserId,
-            StoreId = eventData.StoreId,
-            PendingResultId = eventData.PendingResultId,
+            StoreId = eventData.Plan.StoreId,
+            ResultId = eventData.ResultId,
             Success = true,
-            Reason = null
+            Reason = null,
+            AllowToTryAgain = false
         });
     }
 
@@ -126,7 +129,7 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
     {
         var input = new CreateOrderDto()
         {
-            StoreId = eventData.StoreId,
+            StoreId = eventData.Plan.StoreId,
             CustomerRemark = eventData.CustomerRemark,
             OrderLines = new List<CreateOrderLineDto>()
             {
@@ -138,6 +141,8 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
                 }
             }
         };
+
+        eventData.MapExtraPropertiesTo(input);
 
         return Task.FromResult(input);
     }

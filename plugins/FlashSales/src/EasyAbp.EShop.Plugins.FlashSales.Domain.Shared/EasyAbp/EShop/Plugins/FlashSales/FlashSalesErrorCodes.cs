@@ -29,4 +29,6 @@ public static class FlashSalesErrorCodes
     public const string RelatedFlashSaleResultsExist = $"{Namespace}:{nameof(RelatedFlashSaleResultsExist)}";
 
     public const string FlashSaleResultStatusNotPending = $"{Namespace}:{nameof(FlashSaleResultStatusNotPending)}";
+
+    public const string DistributedEventBusUnavailable = $"{Namespace}:{nameof(DistributedEventBusUnavailable)}";
 }

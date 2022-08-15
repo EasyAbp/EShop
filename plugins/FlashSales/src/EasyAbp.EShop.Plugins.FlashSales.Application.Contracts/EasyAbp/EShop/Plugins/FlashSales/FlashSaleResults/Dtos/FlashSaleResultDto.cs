@@ -6,15 +6,17 @@ namespace EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 
 public class FlashSaleResultDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiStore
 {
-    public virtual Guid StoreId { get; set; }
+    public Guid StoreId { get; set; }
 
-    public virtual Guid PlanId { get; set; }
+    public Guid PlanId { get; set; }
 
-    public virtual FlashSaleResultStatus Status { get; set; }
+    public FlashSaleResultStatus Status { get; set; }
 
-    public virtual string Reason { get; set; }
+    public string Reason { get; set; }
 
-    public virtual Guid UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public virtual Guid? OrderId { get; set; }
+    public Guid? OrderId { get; set; }
+
+    public DateTime ReducedInventoryTime { get; set; }
 }
