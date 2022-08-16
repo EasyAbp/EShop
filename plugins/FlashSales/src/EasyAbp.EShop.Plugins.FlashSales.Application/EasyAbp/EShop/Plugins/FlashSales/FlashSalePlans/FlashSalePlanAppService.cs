@@ -272,7 +272,7 @@ public class FlashSalePlanAppService :
         try
         {
             var createFlashSaleResultEto =
-                await PrepareCreateFlashSaleResultEtoAsync(plan, flashSalePlanInput, userId, Clock.Now, preOrderCache.HashToken);
+                await PrepareCreateFlashSaleResultEtoAsync(plan, flashSalePlanInput, userId, Clock.Now, preOrderCache);
 
             await FlashSaleCurrentResultCache.SetAsync(plan.Id, CurrentUser.GetId(), new FlashSaleCurrentResultCacheItem
             {
@@ -407,8 +407,8 @@ public class FlashSalePlanAppService :
     }
 
     protected virtual Task<CreateFlashSaleResultEto> PrepareCreateFlashSaleResultEtoAsync(
-        FlashSalePlanCacheItem plan, OrderFlashSalePlanInput flashSalePlanInput,
-        Guid userId, DateTime reducedInventoryTime, string hashToken)
+        FlashSalePlanCacheItem plan, OrderFlashSalePlanInput flashSalePlanInput, Guid userId,
+        DateTime reducedInventoryTime, FlashSalePlanPreOrderCacheItem preOrderCacheItem)
     {
         var planEto = ObjectMapper.Map<FlashSalePlanCacheItem, FlashSalePlanEto>(plan);
         planEto.TenantId = CurrentTenant.Id;
@@ -421,7 +421,8 @@ public class FlashSalePlanAppService :
             ReducedInventoryTime = reducedInventoryTime,
             CustomerRemark = flashSalePlanInput.CustomerRemark,
             Plan = planEto,
-            HashToken = hashToken
+            ProductInventoryProviderName = preOrderCacheItem.InventoryProviderName,
+            HashToken = preOrderCacheItem.HashToken
         };
 
         if (flashSalePlanInput.ExtraProperties != null)

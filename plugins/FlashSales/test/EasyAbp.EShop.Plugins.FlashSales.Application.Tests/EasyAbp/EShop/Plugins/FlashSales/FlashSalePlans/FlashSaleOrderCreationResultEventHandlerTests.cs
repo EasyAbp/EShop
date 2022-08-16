@@ -93,11 +93,16 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
             OrderId = GuidGenerator.Create(),
             Reason = null,
             UserId = flashSaleResult.UserId,
+            ProductInventoryProviderName = Product1.InventoryProviderName,
+            ProductId = plan.ProductId,
+            ProductSkuId = plan.ProductSkuId,
             AllowToTryAgain = false
         };
 
         FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId)
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId)
             .Returns(Task.FromResult(true));
 
         await FlashSaleOrderCreationResultEventHandler.HandleEventAsync(flashSaleOrderCreationResultEto);
@@ -113,7 +118,9 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
         flashSaleCurrentResultCache.ResultDto.Status.ShouldBe(FlashSaleResultStatus.Successful);
 
         await FlashSaleInventoryManager.DidNotReceive()
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId);
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId);
     }
 
     [Fact]
@@ -133,11 +140,16 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
             OrderId = null,
             Reason = "Failed reason",
             UserId = flashSaleResult.UserId,
+            ProductInventoryProviderName = Product1.InventoryProviderName,
+            ProductId = plan.ProductId,
+            ProductSkuId = plan.ProductSkuId,
             AllowToTryAgain = false
         };
 
         FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId)
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId)
             .Returns(Task.FromResult(true));
 
         await FlashSaleOrderCreationResultEventHandler.HandleEventAsync(flashSaleOrderCreationResultEto);
@@ -153,7 +165,9 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
         flashSaleCurrentResultCache.ResultDto.Status.ShouldBe(FlashSaleResultStatus.Failed);
 
         await FlashSaleInventoryManager.Received()
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId);
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId);
     }
 
     [Fact]
@@ -173,11 +187,16 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
             OrderId = null,
             Reason = "Failed reason",
             UserId = flashSaleResult.UserId,
+            ProductInventoryProviderName = Product1.InventoryProviderName,
+            ProductId = plan.ProductId,
+            ProductSkuId = plan.ProductSkuId,
             AllowToTryAgain = true
         };
 
         FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId)
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId)
             .Returns(Task.FromResult(true));
 
         await FlashSaleOrderCreationResultEventHandler.HandleEventAsync(flashSaleOrderCreationResultEto);
@@ -191,7 +210,9 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
         flashSaleCurrentResultCache.ShouldBeNull();
 
         await FlashSaleInventoryManager.Received()
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId);
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId);
     }
 
     [Fact]
@@ -211,11 +232,16 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
             OrderId = null,
             Reason = FlashSaleResultFailedReason.InvalidHashToken,
             UserId = flashSaleResult.UserId,
+            ProductInventoryProviderName = Product1.InventoryProviderName,
+            ProductId = plan.ProductId,
+            ProductSkuId = plan.ProductSkuId,
             AllowToTryAgain = true
         };
 
         FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId)
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId)
             .Returns(Task.FromResult(false));
 
         await FlashSaleOrderCreationResultEventHandler.HandleEventAsync(flashSaleOrderCreationResultEto);
@@ -224,6 +250,8 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
         flashSaleCurrentResultCache.ShouldNotBeNull();
 
         await FlashSaleInventoryManager.Received()
-            .TryRollBackInventoryAsync(plan.TenantId, Product1.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId);
+            .TryRollBackInventoryAsync(flashSaleOrderCreationResultEto.TenantId,
+                flashSaleOrderCreationResultEto.ProductInventoryProviderName, flashSaleOrderCreationResultEto.StoreId,
+                flashSaleOrderCreationResultEto.ProductId, flashSaleOrderCreationResultEto.ProductSkuId);
     }
 }

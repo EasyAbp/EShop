@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
+using EasyAbp.Eshop.Products.Products;
+using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.ObjectMapping;
@@ -19,30 +20,33 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
     ITransientDependency
 {
     protected IObjectMapper ObjectMapper { get; }
-    protected IGuidGenerator GuidGenerator { get; }
     protected ICurrentTenant CurrentTenant { get; }
+    protected IUnitOfWorkManager UnitOfWorkManager { get; }
     protected ILogger<CreateFlashSaleResultEventHandler> Logger { get; }
     protected IAbpDistributedLock AbpDistributedLock { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
+    protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
     protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
 
     public CreateFlashSaleResultEventHandler(
         IObjectMapper objectMapper,
-        IGuidGenerator guidGenerator,
         ICurrentTenant currentTenant,
+        IUnitOfWorkManager unitOfWorkManager,
         ILogger<CreateFlashSaleResultEventHandler> logger,
         IAbpDistributedLock abpDistributedLock,
         IDistributedEventBus distributedEventBus,
+        IFlashSaleInventoryManager flashSaleInventoryManager,
         IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
         IFlashSaleResultRepository flashSaleResultRepository)
     {
         ObjectMapper = objectMapper;
-        GuidGenerator = guidGenerator;
         CurrentTenant = currentTenant;
+        UnitOfWorkManager = unitOfWorkManager;
         Logger = logger;
         AbpDistributedLock = abpDistributedLock;
         DistributedEventBus = distributedEventBus;
+        FlashSaleInventoryManager = flashSaleInventoryManager;
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
         FlashSaleResultRepository = flashSaleResultRepository;
     }
@@ -73,7 +77,18 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
                     ResultDto = ObjectMapper.Map<FlashSaleResult, FlashSaleResultDto>(ongoingResult)
                 });
 
-            return;
+            // try to roll back the inventory.
+            UnitOfWorkManager.Current.OnCompleted(async () =>
+            {
+                if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(eventData.TenantId,
+                        eventData.ProductInventoryProviderName, eventData.Plan.StoreId,
+                        eventData.Plan.ProductId, eventData.Plan.ProductSkuId))
+                {
+                    Logger.LogWarning("Failed to roll back the flash sale inventory.");
+                }
+            });
+
+            return; // avoid to create a result entity and an order.
         }
 
         var result = new FlashSaleResult(

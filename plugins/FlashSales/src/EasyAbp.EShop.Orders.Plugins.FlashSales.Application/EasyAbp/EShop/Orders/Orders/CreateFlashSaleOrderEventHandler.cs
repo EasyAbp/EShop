@@ -72,6 +72,9 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
                 ResultId = eventData.ResultId,
                 Success = false,
                 Reason = FlashSaleResultFailedReason.InvalidHashToken,
+                ProductInventoryProviderName = product.InventoryProviderName,
+                ProductId = eventData.Plan.ProductId,
+                ProductSkuId = eventData.Plan.ProductSkuId,
                 AllowToTryAgain = true
             });
             return;
@@ -97,6 +100,9 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
             ResultId = eventData.ResultId,
             Success = true,
             Reason = null,
+            ProductInventoryProviderName = product.InventoryProviderName,
+            ProductId = eventData.Plan.ProductId,
+            ProductSkuId = eventData.Plan.ProductSkuId,
             AllowToTryAgain = false
         });
     }

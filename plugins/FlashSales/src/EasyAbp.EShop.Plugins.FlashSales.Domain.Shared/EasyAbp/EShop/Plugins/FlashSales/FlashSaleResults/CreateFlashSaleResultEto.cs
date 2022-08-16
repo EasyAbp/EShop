@@ -20,5 +20,7 @@ public class CreateFlashSaleResultEto : ExtensibleObject, IMultiTenant
 
     public FlashSalePlanEto Plan { get; set; }
 
+    public string ProductInventoryProviderName { get; set; }
+
     public string HashToken { get; set; }
 }

@@ -2,7 +2,6 @@
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.Eshop.Products.Products;
-using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
@@ -16,8 +15,6 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 {
     protected ILogger<FlashSaleOrderCreationResultEventHandler> Logger { get; }
     protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
-    protected IFlashSalePlanRepository FlashSalePlanRepository { get; }
-    protected IProductAppService ProductAppService { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
     protected IObjectMapper ObjectMapper { get; }
     protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
@@ -26,8 +23,6 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
     public FlashSaleOrderCreationResultEventHandler(
         ILogger<FlashSaleOrderCreationResultEventHandler> logger,
         IFlashSaleInventoryManager flashSaleInventoryManager,
-        IFlashSalePlanRepository flashSalePlanRepository,
-        IProductAppService productAppService,
         IUnitOfWorkManager unitOfWorkManager,
         IObjectMapper objectMapper,
         IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
@@ -35,8 +30,6 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
     {
         Logger = logger;
         FlashSaleInventoryManager = flashSaleInventoryManager;
-        FlashSalePlanRepository = flashSalePlanRepository;
-        ProductAppService = productAppService;
         UnitOfWorkManager = unitOfWorkManager;
         ObjectMapper = objectMapper;
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
@@ -56,36 +49,48 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
         }
         else
         {
-            var plan = await FlashSalePlanRepository.GetAsync(eventData.PlanId);
-            var product = await ProductAppService.GetAsync(plan.ProductId);
-
             flashSaleResult.MarkAsFailed(eventData.Reason);
 
             await FlashSaleResultRepository.UpdateAsync(flashSaleResult, autoSave: true);
-
-            if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(plan.TenantId, product.InventoryProviderName,
-                    plan.StoreId, plan.ProductId, plan.ProductSkuId))
-            {
-                Logger.LogWarning("Try roll back inventory failed.");
-                return; // Avoid to remove cache on the UOW completed.
-            }
         }
 
         UnitOfWorkManager.Current.OnCompleted(async () =>
         {
-            if (flashSaleResult.Status is FlashSaleResultStatus.Failed && eventData.AllowToTryAgain)
+            if (eventData.Success)
             {
-                await FlashSaleCurrentResultCache.RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
+                await ResetFlashSaleCurrentResultCacheAsync(flashSaleResult);
             }
             else
             {
-                await FlashSaleCurrentResultCache.SetAsync(flashSaleResult.PlanId, flashSaleResult.UserId,
-                    new FlashSaleCurrentResultCacheItem
-                    {
-                        TenantId = flashSaleResult.TenantId,
-                        ResultDto = ObjectMapper.Map<FlashSaleResult, FlashSaleResultDto>(flashSaleResult)
-                    });
+                // try to roll back the inventory.
+                if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(
+                        eventData.TenantId, eventData.ProductInventoryProviderName, eventData.StoreId,
+                        eventData.ProductId, eventData.ProductSkuId))
+                {
+                    Logger.LogWarning("Failed to roll back the flash sale inventory.");
+                    return; // avoid to remove cache if the rollback failed.
+                }
+
+                // remove the cache so the user can try to order again.
+                if (eventData.AllowToTryAgain)
+                {
+                    await FlashSaleCurrentResultCache.RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
+                }
+                else
+                {
+                    await ResetFlashSaleCurrentResultCacheAsync(flashSaleResult);
+                }
             }
         });
+    }
+
+    protected virtual async Task ResetFlashSaleCurrentResultCacheAsync(FlashSaleResult flashSaleResult)
+    {
+        await FlashSaleCurrentResultCache.SetAsync(flashSaleResult.PlanId, flashSaleResult.UserId,
+            new FlashSaleCurrentResultCacheItem
+            {
+                TenantId = flashSaleResult.TenantId,
+                ResultDto = ObjectMapper.Map<FlashSaleResult, FlashSaleResultDto>(flashSaleResult)
+            });
     }
 }

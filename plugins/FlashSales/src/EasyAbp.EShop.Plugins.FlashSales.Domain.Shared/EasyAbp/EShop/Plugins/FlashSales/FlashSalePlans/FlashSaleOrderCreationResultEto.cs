@@ -22,5 +22,11 @@ public class FlashSaleOrderCreationResultEto : ExtensibleObject, IMultiTenant
 
     public Guid? OrderId { get; set; }
 
+    public string ProductInventoryProviderName { get; set; }
+
+    public Guid ProductId { get; set; }
+
+    public Guid ProductSkuId { get; set; }
+
     public bool AllowToTryAgain { get; set; }
 }

@@ -2,6 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
+using EasyAbp.Eshop.Products.Products;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using NSubstitute;
 using Shouldly;
 using Volo.Abp.Users;
 using Xunit;
@@ -12,11 +16,21 @@ public class CreateFlashSaleResultEventHandlerTests : FlashSalesApplicationTestB
 {
     protected IFlashSaleResultAppService FlashSaleResultAppService { get; }
     protected CreateFlashSaleResultEventHandler CreateFlashSaleResultEventHandler { get; }
+    protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
 
     public CreateFlashSaleResultEventHandlerTests()
     {
         FlashSaleResultAppService = GetRequiredService<IFlashSaleResultAppService>();
         CreateFlashSaleResultEventHandler = GetRequiredService<CreateFlashSaleResultEventHandler>();
+        FlashSaleInventoryManager = GetRequiredService<IFlashSaleInventoryManager>();
+    }
+
+    protected override void AfterAddApplication(IServiceCollection services)
+    {
+        var flashSaleInventoryManager = Substitute.For<IFlashSaleInventoryManager>();
+        services.Replace(ServiceDescriptor.Singleton(flashSaleInventoryManager));
+
+        base.AfterAddApplication(services);
     }
 
     [Fact]
@@ -50,6 +64,11 @@ public class CreateFlashSaleResultEventHandlerTests : FlashSalesApplicationTestB
 
         await CreateFlashSaleResultEventHandler.HandleEventAsync(createFlashSaleResultEto1);
 
+        await FlashSaleInventoryManager.DidNotReceive()
+            .TryRollBackInventoryAsync(createFlashSaleResultEto1.TenantId,
+                createFlashSaleResultEto1.ProductInventoryProviderName, createFlashSaleResultEto1.Plan.StoreId,
+                createFlashSaleResultEto1.Plan.ProductId, createFlashSaleResultEto1.Plan.ProductSkuId);
+
         var flashResultList = await FlashSaleResultRepository.GetListAsync();
         flashResultList.Count.ShouldBe(2);
         flashResultList.ShouldContain(x => x.Id == existFlashResult1.Id);
@@ -60,6 +79,11 @@ public class CreateFlashSaleResultEventHandlerTests : FlashSalesApplicationTestB
         var createFlashSaleResultEto2 = await CreateCreateFlashSaleResultEtoAsync(DateTime.Now);
 
         await CreateFlashSaleResultEventHandler.HandleEventAsync(createFlashSaleResultEto2);
+
+        await FlashSaleInventoryManager.Received()
+            .TryRollBackInventoryAsync(createFlashSaleResultEto2.TenantId,
+                createFlashSaleResultEto2.ProductInventoryProviderName, createFlashSaleResultEto2.Plan.StoreId,
+                createFlashSaleResultEto2.Plan.ProductId, createFlashSaleResultEto2.Plan.ProductSkuId);
 
         flashResultList = await FlashSaleResultRepository.GetListAsync();
         flashResultList.Count.ShouldBe(2);
@@ -73,6 +97,11 @@ public class CreateFlashSaleResultEventHandlerTests : FlashSalesApplicationTestB
 
         await CreateFlashSaleResultEventHandler.HandleEventAsync(createFlashSaleResultEto2);
 
+        await FlashSaleInventoryManager.Received()
+            .TryRollBackInventoryAsync(createFlashSaleResultEto2.TenantId,
+                createFlashSaleResultEto2.ProductInventoryProviderName, createFlashSaleResultEto2.Plan.StoreId,
+                createFlashSaleResultEto2.Plan.ProductId, createFlashSaleResultEto2.Plan.ProductSkuId);
+
         flashResultList = await FlashSaleResultRepository.GetListAsync();
         flashResultList.Count.ShouldBe(2);
         flashResultList.ShouldContain(x => x.Id == existFlashResult1.Id);
@@ -81,7 +110,7 @@ public class CreateFlashSaleResultEventHandlerTests : FlashSalesApplicationTestB
         (await FlashSaleResultAppService.GetCurrentAsync(planId)).Id.ShouldBe(existFlashResult2.Id);
     }
 
-    public Task<CreateFlashSaleResultEto> CreateCreateFlashSaleResultEtoAsync(DateTime reducedInventoryTime)
+    protected Task<CreateFlashSaleResultEto> CreateCreateFlashSaleResultEtoAsync(DateTime reducedInventoryTime)
     {
         return Task.FromResult(new CreateFlashSaleResultEto
         {
@@ -103,7 +132,7 @@ public class CreateFlashSaleResultEventHandlerTests : FlashSalesApplicationTestB
         });
     }
 
-    public async Task<FlashSaleResult> CreateFlashSaleResultAsync()
+    protected async Task<FlashSaleResult> CreateFlashSaleResultAsync()
     {
         return await WithUnitOfWorkAsync(async () =>
         {
