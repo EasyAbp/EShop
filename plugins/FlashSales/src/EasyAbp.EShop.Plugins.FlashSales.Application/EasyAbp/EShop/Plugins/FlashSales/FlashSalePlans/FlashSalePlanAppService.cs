@@ -262,9 +262,8 @@ public class FlashSalePlanAppService :
             return CreateFailureResultDto(FlashSalesErrorCodes.DuplicateFlashSalesOrder);
         }
 
-        if (!await FlashSaleInventoryManager.TryReduceInventoryAsync(
-                plan.TenantId, preOrderCache.InventoryProviderName,
-                plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true))
+        if (!await FlashSaleInventoryManager.TryReduceInventoryAsync(plan.TenantId, preOrderCache.InventoryProviderName,
+                plan.StoreId, plan.ProductId, plan.ProductSkuId))
         {
             await FlashSaleCurrentResultCache.RemoveAsync(plan.Id, CurrentUser.GetId());
             return CreateFailureResultDto(FlashSalesErrorCodes.ProductSkuInventoryExceeded);
@@ -298,11 +297,9 @@ public class FlashSalePlanAppService :
         {
             Logger.LogWarning("Failed to publish the CreateFlashSaleOrderEto event!");
             Logger.LogException(e, LogLevel.Warning);
-            
-            await FlashSaleInventoryManager.TryRollBackInventoryAsync(
-                plan.TenantId, preOrderCache.InventoryProviderName,
-                plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true
-            );
+
+            await FlashSaleInventoryManager.TryRollBackInventoryAsync(plan.TenantId,
+                preOrderCache.InventoryProviderName, plan.StoreId, plan.ProductId, plan.ProductSkuId);
 
             await FlashSaleCurrentResultCache.RemoveAsync(plan.Id, CurrentUser.GetId());
             return CreateFailureResultDto(FlashSalesErrorCodes.DistributedEventBusUnavailable);

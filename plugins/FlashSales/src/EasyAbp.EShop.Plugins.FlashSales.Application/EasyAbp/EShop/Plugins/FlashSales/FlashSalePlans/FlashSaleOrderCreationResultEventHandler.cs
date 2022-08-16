@@ -63,10 +63,8 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 
             await FlashSaleResultRepository.UpdateAsync(flashSaleResult, autoSave: true);
 
-            if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(
-                    plan.TenantId, product.InventoryProviderName,
-                    plan.StoreId, plan.ProductId, plan.ProductSkuId, 1, true
-                ))
+            if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(plan.TenantId, product.InventoryProviderName,
+                    plan.StoreId, plan.ProductId, plan.ProductSkuId))
             {
                 Logger.LogWarning("Try roll back inventory failed.");
                 return; // Avoid to remove cache on the UOW completed.
