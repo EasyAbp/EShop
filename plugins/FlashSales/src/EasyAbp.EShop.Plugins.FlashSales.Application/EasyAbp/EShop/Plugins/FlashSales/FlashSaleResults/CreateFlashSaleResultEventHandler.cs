@@ -3,6 +3,7 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Products.Products;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -22,6 +23,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
     protected IObjectMapper ObjectMapper { get; }
     protected ICurrentTenant CurrentTenant { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
+    protected IServiceScopeFactory ServiceScopeFactory { get; }
     protected ILogger<CreateFlashSaleResultEventHandler> Logger { get; }
     protected IAbpDistributedLock AbpDistributedLock { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
@@ -33,6 +35,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
         IObjectMapper objectMapper,
         ICurrentTenant currentTenant,
         IUnitOfWorkManager unitOfWorkManager,
+        IServiceScopeFactory serviceScopeFactory,
         ILogger<CreateFlashSaleResultEventHandler> logger,
         IAbpDistributedLock abpDistributedLock,
         IDistributedEventBus distributedEventBus,
@@ -43,6 +46,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
         ObjectMapper = objectMapper;
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
+        ServiceScopeFactory = serviceScopeFactory;
         Logger = logger;
         AbpDistributedLock = abpDistributedLock;
         DistributedEventBus = distributedEventBus;
@@ -80,7 +84,11 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
             // try to roll back the inventory.
             UnitOfWorkManager.Current.OnCompleted(async () =>
             {
-                if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(eventData.TenantId,
+                using var scope = ServiceScopeFactory.CreateScope();
+
+                var flashSaleInventoryManager = scope.ServiceProvider.GetRequiredService<IFlashSaleInventoryManager>();
+
+                if (!await flashSaleInventoryManager.TryRollBackInventoryAsync(eventData.TenantId,
                         eventData.ProductInventoryProviderName, eventData.Plan.StoreId,
                         eventData.Plan.ProductId, eventData.Plan.ProductSkuId))
                 {
