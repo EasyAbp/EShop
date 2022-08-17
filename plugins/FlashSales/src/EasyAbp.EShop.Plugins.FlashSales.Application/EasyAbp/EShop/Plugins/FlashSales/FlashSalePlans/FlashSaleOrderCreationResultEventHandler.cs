@@ -2,6 +2,7 @@
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.Eshop.Products.Products;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
@@ -16,7 +17,7 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
     protected ILogger<FlashSaleOrderCreationResultEventHandler> Logger { get; }
     protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
-    protected IObjectMapper ObjectMapper { get; }
+    protected IServiceScopeFactory ServiceScopeFactory { get; }
     protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
 
@@ -24,14 +25,14 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
         ILogger<FlashSaleOrderCreationResultEventHandler> logger,
         IFlashSaleInventoryManager flashSaleInventoryManager,
         IUnitOfWorkManager unitOfWorkManager,
-        IObjectMapper objectMapper,
+        IServiceScopeFactory serviceScopeFactory,
         IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
         IFlashSaleResultRepository flashSaleResultRepository)
     {
         Logger = logger;
         FlashSaleInventoryManager = flashSaleInventoryManager;
         UnitOfWorkManager = unitOfWorkManager;
-        ObjectMapper = objectMapper;
+        ServiceScopeFactory = serviceScopeFactory;
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
         FlashSaleResultRepository = flashSaleResultRepository;
     }
@@ -86,11 +87,16 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 
     protected virtual async Task ResetFlashSaleCurrentResultCacheAsync(FlashSaleResult flashSaleResult)
     {
-        await FlashSaleCurrentResultCache.SetAsync(flashSaleResult.PlanId, flashSaleResult.UserId,
+        using var scope = ServiceScopeFactory.CreateScope();
+
+        var objectMapper = scope.ServiceProvider.GetRequiredService<IObjectMapper>();
+        var flashSaleCurrentResultCache = scope.ServiceProvider.GetRequiredService<IFlashSaleCurrentResultCache>();
+
+        await flashSaleCurrentResultCache.SetAsync(flashSaleResult.PlanId, flashSaleResult.UserId,
             new FlashSaleCurrentResultCacheItem
             {
                 TenantId = flashSaleResult.TenantId,
-                ResultDto = ObjectMapper.Map<FlashSaleResult, FlashSaleResultDto>(flashSaleResult)
+                ResultDto = objectMapper.Map<FlashSaleResult, FlashSaleResultDto>(flashSaleResult)
             });
     }
 }
