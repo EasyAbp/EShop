@@ -3,6 +3,7 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Products.Products;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -25,6 +26,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
     protected ILogger<CreateFlashSaleResultEventHandler> Logger { get; }
     protected IAbpDistributedLock AbpDistributedLock { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
+    protected IAbpApplication AbpApplication { get; }
     protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
     protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
@@ -36,6 +38,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
         ILogger<CreateFlashSaleResultEventHandler> logger,
         IAbpDistributedLock abpDistributedLock,
         IDistributedEventBus distributedEventBus,
+        IAbpApplication abpApplication,
         IFlashSaleInventoryManager flashSaleInventoryManager,
         IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
         IFlashSaleResultRepository flashSaleResultRepository)
@@ -46,6 +49,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
         Logger = logger;
         AbpDistributedLock = abpDistributedLock;
         DistributedEventBus = distributedEventBus;
+        AbpApplication = abpApplication;
         FlashSaleInventoryManager = flashSaleInventoryManager;
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
         FlashSaleResultRepository = flashSaleResultRepository;
@@ -80,7 +84,11 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
             // try to roll back the inventory.
             UnitOfWorkManager.Current.OnCompleted(async () =>
             {
-                if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(eventData.TenantId,
+                using var scope = AbpApplication.ServiceProvider.CreateScope();
+
+                var flashSaleInventoryManager = scope.ServiceProvider.GetRequiredService<IFlashSaleInventoryManager>();
+
+                if (!await flashSaleInventoryManager.TryRollBackInventoryAsync(eventData.TenantId,
                         eventData.ProductInventoryProviderName, eventData.Plan.StoreId,
                         eventData.Plan.ProductId, eventData.Plan.ProductSkuId))
                 {
