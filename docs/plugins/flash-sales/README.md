@@ -41,6 +41,6 @@ A flash-sales plugin for EShop.
 
 ### Customers
 
-1. Use `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/pre-order` (POST) to pre-order. It will return an expiration time if your pre-order request succeeds. You should re-invoke this API to refresh your request before the expiration time.
+1. Use `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/pre-order` (POST) to pre-order. It will return an expiration time if your pre-order request succeeds. Don't forget to re-invoke this API to refresh your request before the expiration time.
 2. When the flash sale starts, use `/api/e-shop/plugins/flash-sales/flash-sale-plan/{planId}/order` (POST) to create your order. If you are fast enough, it will occupy the inventory and create an order for you in the background.
-3. If you are told that you have succeeded, continuous use `/api/e-shop/plugins/flash-sales/flash-sale-result/{resultId}` (GET) to query the order creation result until it succeeds or fails.
+3. If you are told that you have succeeded, continuous use `/api/e-shop/plugins/flash-sales/flash-sale-result/current/{planId}` (GET) to query the order creation result until it succeeds or fails.

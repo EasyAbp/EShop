@@ -16,18 +16,18 @@ public class LocalFlashSaleInventoryManager : ILocalFlashSaleInventoryManager, I
     }
 
     public virtual async Task<bool> TryReduceInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
-        Guid productSkuId, int quantity, bool increaseSold)
+        Guid productSkuId)
     {
         var model = new InventoryQueryModel(tenantId, storeId, productId, productSkuId);
         return await (await ProductInventoryProviderResolver.GetAsync(providerName))
-            .TryReduceInventoryAsync(model, quantity, increaseSold, true);
+            .TryReduceInventoryAsync(model, 1, true, true);
     }
 
     public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
-        Guid productSkuId, int quantity, bool decreaseSold)
+        Guid productSkuId)
     {
         var model = new InventoryQueryModel(tenantId, storeId, productId, productSkuId);
         return await (await ProductInventoryProviderResolver.GetAsync(providerName))
-            .TryIncreaseInventoryAsync(model, quantity, decreaseSold, true);
+            .TryIncreaseInventoryAsync(model, 1, true, true);
     }
 }

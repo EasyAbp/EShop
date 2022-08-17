@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 
-public class CreateOrderInput : ExtensibleEntityDto
+public class OrderFlashSalePlanInput : ExtensibleEntityDto
 {
     public string CustomerRemark { get; set; }
 }

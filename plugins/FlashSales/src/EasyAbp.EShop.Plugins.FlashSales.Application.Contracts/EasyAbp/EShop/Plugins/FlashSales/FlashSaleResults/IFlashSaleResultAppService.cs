@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -10,5 +11,5 @@ public interface IFlashSaleResultAppService :
         Guid,
         FlashSaleResultGetListInput>
 {
-
+    Task<FlashSaleResultDto> GetCurrentAsync(Guid planId);
 }

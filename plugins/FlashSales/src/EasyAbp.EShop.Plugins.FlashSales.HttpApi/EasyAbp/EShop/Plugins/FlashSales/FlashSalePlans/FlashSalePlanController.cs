@@ -4,6 +4,8 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Auditing;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 
@@ -51,15 +53,18 @@ public class FlashSalePlanController :
         return Service.DeleteAsync(id);
     }
 
+    [UnitOfWork(IsDisabled = true)]
     [HttpPost("{id}/pre-order")]
     public virtual Task<FlashSalePlanPreOrderDto> PreOrderAsync(Guid id)
     {
         return Service.PreOrderAsync(id);
     }
 
+    [DisableAuditing]
+    [UnitOfWork(IsDisabled = true)]
     [HttpPost("{id}/order")]
-    public virtual Task<FlashSaleOrderResultDto> OrderAsync(Guid id, CreateOrderInput input)
+    public virtual Task<FlashSaleOrderResultDto> OrderAsync(Guid id, OrderFlashSalePlanInput flashSalePlanInput)
     {
-        return Service.OrderAsync(id, input);
+        return Service.OrderAsync(id, flashSalePlanInput);
     }
 }

@@ -30,4 +30,10 @@ public class FlashSaleResultController : FlashSalesController, IFlashSaleResultA
     {
         return Service.GetListAsync(input);
     }
+
+    [HttpGet("current/{planId}")]
+    public virtual Task<FlashSaleResultDto> GetCurrentAsync(Guid planId)
+    {
+        return Service.GetCurrentAsync(planId);
+    }
 }

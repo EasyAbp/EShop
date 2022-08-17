@@ -99,12 +99,9 @@ public abstract class FlashSalesApplicationTestBase : FlashSalesTestBase<EShopPl
 
     protected virtual async Task<FlashSaleResult> CreatePendingResultAsync(Guid planId, Guid storeId, Guid userId)
     {
-        return await WithUnitOfWorkAsync(async () =>
-        {
-            return await FlashSaleResultRepository.InsertAsync(
-                new FlashSaleResult(GuidGenerator.Create(), CurrentTenant.Id, storeId, planId, userId)
-            );
-        });
+        return await WithUnitOfWorkAsync(async () => await FlashSaleResultRepository.InsertAsync(
+            new FlashSaleResult(GuidGenerator.Create(), CurrentTenant.Id, storeId, planId, userId, DateTime.Now)
+        ));
     }
 
     protected virtual async Task<FlashSalePlan> CreateFlashSalePlanAsync(bool useSku2 = false, CreateTimeRange timeRange = CreateTimeRange.Starting, bool isPublished = true)

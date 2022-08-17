@@ -14,13 +14,13 @@ public class FakeFlashSaleInventoryManager : IFlashSaleInventoryManager
     }
 
     public Task<bool> TryReduceInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
-        Guid productSkuId, int quantity, bool increaseSold)
+        Guid productSkuId)
     {
         return Task.FromResult(ShouldReduceSuccess);
     }
 
     public Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId, Guid productId,
-        Guid productSkuId, int quantity, bool decreaseSold)
+        Guid productSkuId)
     {
         return Task.FromResult(true);
     }

@@ -22,9 +22,7 @@ public class FlashSaleInventoryAppService : ProductsAppService, IFlashSaleInvent
             input.ProviderName,
             input.StoreId,
             input.ProductId,
-            input.ProductSkuId,
-            input.Quantity,
-            input.IncreaseSold
+            input.ProductSkuId
         );
     }
 
@@ -37,9 +35,7 @@ public class FlashSaleInventoryAppService : ProductsAppService, IFlashSaleInvent
             input.ProviderName,
             input.StoreId,
             input.ProductId,
-            input.ProductSkuId,
-            input.Quantity,
-            input.ReduceSold
+            input.ProductSkuId
         );
     }
 }

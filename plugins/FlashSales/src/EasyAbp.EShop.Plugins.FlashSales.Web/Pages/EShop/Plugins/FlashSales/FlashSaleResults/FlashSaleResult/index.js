@@ -60,6 +60,11 @@ $(function () {
                 data: "creationTime",
                 dataFormat: 'datetime'
             },
+            {
+                title: l('FlashSaleResultReducedInventoryTime'),
+                data: "reducedInventoryTime",
+                dataFormat: 'datetime'
+            },
         ]
     }));
 

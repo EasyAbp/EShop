@@ -18,16 +18,16 @@ public class FlashSaleInventoryManager : IFlashSaleInventoryManager, ITransientD
     }
 
     public virtual async Task<bool> TryReduceInventoryAsync(Guid? tenantId, string providerName, Guid storeId,
-        Guid productId, Guid productSkuId, int quantity, bool increaseSold)
+        Guid productId, Guid productSkuId)
     {
         return await FlashSaleInventoryReducerAppService.TryReduceAsync(new ReduceInventoryInput(
-                tenantId, providerName, storeId, productId, productSkuId, quantity, increaseSold));
+                tenantId, providerName, storeId, productId, productSkuId, 1, true));
     }
 
     public virtual async Task<bool> TryRollBackInventoryAsync(Guid? tenantId, string providerName, Guid storeId,
-        Guid productId, Guid productSkuId, int quantity, bool decreaseSold)
+        Guid productId, Guid productSkuId)
     {
         return await FlashSaleInventoryReducerAppService.TryIncreaseAsync(new IncreaseInventoryInput(
-            tenantId, providerName, storeId, productId, productSkuId, quantity, decreaseSold));
+            tenantId, providerName, storeId, productId, productSkuId, 1, true));
     }
 }

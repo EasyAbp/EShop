@@ -18,7 +18,8 @@ public class FlashSaleResultTests
             tenantId: null,
             storeId: Guid.NewGuid(),
             planId: Guid.NewGuid(),
-            userId: Guid.NewGuid()
+            userId: Guid.NewGuid(),
+            DateTime.Now
         );
 
         flashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Pending);
@@ -38,7 +39,8 @@ public class FlashSaleResultTests
             tenantId: null,
             storeId: Guid.NewGuid(),
             planId: Guid.NewGuid(),
-            userId: Guid.NewGuid()
+            userId: Guid.NewGuid(),
+            DateTime.Now
         );
 
         flashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Pending);
@@ -61,7 +63,8 @@ public class FlashSaleResultTests
             tenantId: null,
             storeId: Guid.NewGuid(),
             planId: Guid.NewGuid(),
-            userId: Guid.NewGuid()
+            userId: Guid.NewGuid(),
+            DateTime.Now
         );
 
         flashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Pending);
@@ -81,7 +84,8 @@ public class FlashSaleResultTests
             tenantId: null,
             storeId: Guid.NewGuid(),
             planId: Guid.NewGuid(),
-            userId: Guid.NewGuid()
+            userId: Guid.NewGuid(),
+            DateTime.Now
         );
 
         flashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Pending);

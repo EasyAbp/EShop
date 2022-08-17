@@ -1,12 +1,12 @@
 ﻿using System;
-using EasyAbp.EShop.Stores.Stores;
+using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 
-public class FlashSaleResult : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMultiStore
+public class FlashSaleResult : FullAuditedAggregateRoot<Guid>, IFlashSaleResult, IMultiTenant
 {
     public virtual Guid? TenantId { get; protected set; }
 
@@ -22,16 +22,19 @@ public class FlashSaleResult : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMu
 
     public virtual Guid? OrderId { get; protected set; }
 
+    public virtual DateTime ReducedInventoryTime { get; protected set; }
+
     protected FlashSaleResult() { }
 
-    public FlashSaleResult(Guid id, Guid? tenantId, Guid storeId, Guid planId, Guid userId)
-        : base(id)
+    public FlashSaleResult(
+        Guid id, Guid? tenantId, Guid storeId, Guid planId, Guid userId, DateTime reducedInventoryTime) : base(id)
     {
         TenantId = tenantId;
         StoreId = storeId;
         PlanId = planId;
         Status = FlashSaleResultStatus.Pending;
         UserId = userId;
+        ReducedInventoryTime = reducedInventoryTime;
     }
 
     public void MarkAsSuccessful(Guid orderId)
@@ -44,7 +47,7 @@ public class FlashSaleResult : FullAuditedAggregateRoot<Guid>, IMultiTenant, IMu
         OrderId = orderId;
     }
 
-    public void MarkAsFailed(string reason)
+    public void MarkAsFailed([NotNull] string reason)
     {
         if (Status != FlashSaleResultStatus.Pending)
         {
