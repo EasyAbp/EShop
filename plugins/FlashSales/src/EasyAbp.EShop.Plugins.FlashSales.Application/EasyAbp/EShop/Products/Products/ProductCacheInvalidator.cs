@@ -28,7 +28,7 @@ public class ProductCacheInvalidator :
     {
         await DistributedCache.RemoveAsync(eventData.Entity.Id);
 
-        UnitOfWorkManager.Current.OnCompleted(async () =>
+        UnitOfWorkManager.Current?.OnCompleted(async () =>
         {
             await DistributedCache.RemoveAsync(eventData.Entity.Id);
         });
@@ -38,7 +38,7 @@ public class ProductCacheInvalidator :
     {
         await DistributedCache.RemoveAsync(eventData.Entity.Id);
 
-        UnitOfWorkManager.Current.OnCompleted(async () =>
+        UnitOfWorkManager.Current?.OnCompleted(async () =>
         {
             await DistributedCache.RemoveAsync(eventData.Entity.Id);
         });

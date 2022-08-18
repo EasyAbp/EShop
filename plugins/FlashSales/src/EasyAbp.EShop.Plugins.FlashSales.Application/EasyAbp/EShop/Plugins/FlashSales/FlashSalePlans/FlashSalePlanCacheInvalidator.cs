@@ -25,7 +25,7 @@ public class FlashSalePlanCacheInvalidator : ILocalEventHandler<EntityChangedEve
     {
         await DistributedCache.RemoveAsync(eventData.Entity.Id);
 
-        UnitOfWorkManager.Current.OnCompleted(async () =>
+        UnitOfWorkManager.Current?.OnCompleted(async () =>
         {
             await DistributedCache.RemoveAsync(eventData.Entity.Id);
         });
