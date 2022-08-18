@@ -93,6 +93,13 @@ namespace EasyAbp.EShop.Orders.Orders
 
             order.SetOrderNumber(await _orderNumberGenerator.CreateAsync(order));
 
+            // set ReducedInventoryAfterPlacingTime directly if an order contains no OrderLine with `InventoryStrategy.ReduceAfterPlacing`.
+            // see https://github.com/EasyAbp/EShop/issues/214
+            if (order.OrderLines.All(x => x.ProductInventoryStrategy != InventoryStrategy.ReduceAfterPlacing))
+            {
+                order.SetReducedInventoryAfterPlacingTime(_clock.Now);
+            }
+
             return order;
         }
 

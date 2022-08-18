@@ -44,11 +44,14 @@ namespace EasyAbp.EShop.Products.Products
 
             foreach (var orderLine in eventData.Order.OrderLines)
             {
-                // Todo: Should use ProductHistory.
+                var inventoryStrategy = orderLine.ProductInventoryStrategy;
+                if (inventoryStrategy is not null && inventoryStrategy != InventoryStrategy.ReduceAfterPayment)
+                {
+                    continue;
+                }
+
                 var product = await _productRepository.FindAsync(orderLine.ProductId);
-
                 var productSku = product?.ProductSkus.FirstOrDefault(sku => sku.Id == orderLine.ProductSkuId);
-
                 if (productSku == null)
                 {
                     await PublishInventoryReductionResultEventAsync(eventData, false);
@@ -56,7 +59,8 @@ namespace EasyAbp.EShop.Products.Products
                     return;
                 }
 
-                if (product.InventoryStrategy != InventoryStrategy.ReduceAfterPayment)
+                inventoryStrategy ??= product.InventoryStrategy;
+                if (inventoryStrategy != InventoryStrategy.ReduceAfterPayment)
                 {
                     continue;
                 }

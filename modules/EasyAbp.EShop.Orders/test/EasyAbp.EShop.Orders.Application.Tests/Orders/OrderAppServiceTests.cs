@@ -591,5 +591,85 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw;
             }
         }
+
+        [Fact]
+        public async Task Should_Set_ReducedInventoryAfterPlacingTime_If_No_ReduceAfterPlacing_OrderLine()
+        {
+            var createOrderDto = new CreateOrderDto
+            {
+                CustomerRemark = "customer remark",
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 10
+                    },
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku2Id,
+                        Quantity = 1
+                    }
+                }
+            };
+
+            OrderDto createResponse = null;
+            await WithUnitOfWorkAsync(async () =>
+            {
+                createResponse = await _orderAppService.CreateAsync(createOrderDto);
+            });
+
+            var order = await _orderAppService.GetAsync(createResponse.Id);
+
+            // The fake inventory reducer (OrderCreatedEventHandler) should skip handling.
+            OrderCreatedEventHandler.LastOrderId.ShouldBe(order.Id);
+            OrderCreatedEventHandler.SkippedHandling.ShouldBeTrue();
+
+            order.ReducedInventoryAfterPlacingTime.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public async Task Should_Not_Set_ReducedInventoryAfterPlacingTime_If_Contains_ReduceAfterPlacing_OrderLine()
+        {
+            Product1.InventoryStrategy = InventoryStrategy.ReduceAfterPlacing;
+
+            var createOrderDto = new CreateOrderDto
+            {
+                CustomerRemark = "customer remark",
+                StoreId = OrderTestData.Store1Id,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku1Id,
+                        Quantity = 10
+                    },
+                    new CreateOrderLineDto
+                    {
+                        ProductId = OrderTestData.Product1Id,
+                        ProductSkuId = OrderTestData.ProductSku2Id,
+                        Quantity = 1
+                    }
+                }
+            };
+
+            OrderDto createResponse = null;
+            await WithUnitOfWorkAsync(async () =>
+            {
+                createResponse = await _orderAppService.CreateAsync(createOrderDto);
+            });
+
+            var order = await _orderAppService.GetAsync(createResponse.Id);
+
+            // The fake inventory reducer (OrderCreatedEventHandler) should handle it.
+            OrderCreatedEventHandler.LastOrderId.ShouldBe(order.Id);
+            OrderCreatedEventHandler.SkippedHandling.ShouldBeFalse();
+
+            order.ReducedInventoryAfterPlacingTime.ShouldNotBeNull();
+        }
     }
 }
