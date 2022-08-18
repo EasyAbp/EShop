@@ -25,7 +25,7 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
         else
         {
-            TryRegisterFlashSalesPersistInventoryTimer();
+            await TryStartIntervalPersistInventoryAsync();
         }
     }
 
@@ -39,11 +39,11 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
         else
         {
-            TryRegisterFlashSalesPersistInventoryTimer();
+            await TryStartIntervalPersistInventoryAsync();
         }
     }
 
-    protected virtual void TryRegisterFlashSalesPersistInventoryTimer()
+    protected virtual async Task TryStartIntervalPersistInventoryAsync()
     {
         if (FlashSalesInventoryUpdated)
         {
@@ -51,6 +51,8 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
         }
 
         FlashSalesInventoryUpdated = true;
+
+        await WriteStateAsync();
 
         RegisterTimer(TimerWriteInventoryStateAsync, new object(), TimeSpan.FromSeconds(5),
             TimeSpan.FromMilliseconds(-1));
