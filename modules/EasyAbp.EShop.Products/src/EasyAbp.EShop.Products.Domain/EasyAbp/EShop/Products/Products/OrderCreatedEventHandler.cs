@@ -39,25 +39,36 @@ namespace EasyAbp.EShop.Products.Products
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(EntityCreatedEto<OrderEto> eventData)
         {
+            // skip if an order contains no OrderLine with `InventoryStrategy.ReduceAfterPlacing`.
+            // see https://github.com/EasyAbp/EShop/issues/214
+            if (eventData.Entity.ReducedInventoryAfterPlacingTime is not null)
+            {
+                return;
+            }
+
             using var changeTenant = _currentTenant.Change(eventData.Entity.TenantId);
 
             var models = new List<ConsumeInventoryModel>();
                 
             foreach (var orderLine in eventData.Entity.OrderLines)
             {
-                // Todo: Should use ProductHistory.
+                var inventoryStrategy = orderLine.ProductInventoryStrategy;
+                if (inventoryStrategy is not null && inventoryStrategy != InventoryStrategy.ReduceAfterPlacing)
+                {
+                    continue;
+                }
+
                 var product = await _productRepository.FindAsync(orderLine.ProductId);
-
                 var productSku = product?.ProductSkus.FirstOrDefault(sku => sku.Id == orderLine.ProductSkuId);
-
                 if (productSku == null)
                 {
                     await PublishInventoryReductionResultEventAsync(eventData, false);
                     
                     return;
                 }
-                    
-                if (product.InventoryStrategy != InventoryStrategy.ReduceAfterPlacing)
+
+                inventoryStrategy ??= product.InventoryStrategy;
+                if (inventoryStrategy != InventoryStrategy.ReduceAfterPlacing)
                 {
                     continue;
                 }
