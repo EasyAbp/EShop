@@ -35,6 +35,7 @@
     "OrderLineProductGroupDisplayName": "Product group",
     "OrderLineProductUniqueName": "Product unique name",
     "OrderLineProductDisplayName": "Product display name",
+    "OrderLineProductInventoryStrategy": "Product inventory strategy",
     "OrderLineSkuName": "SKU name",
     "OrderLineSkuDescription": "SKU description",
     "OrderLineMediaResources": "Media resources",

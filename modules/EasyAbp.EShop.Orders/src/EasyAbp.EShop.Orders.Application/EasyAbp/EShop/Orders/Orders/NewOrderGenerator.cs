@@ -148,6 +148,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 productGroupDisplayName: product.ProductGroupDisplayName,
                 productUniqueName: product.UniqueName,
                 productDisplayName: product.DisplayName,
+                productInventoryStrategy: product.InventoryStrategy,
                 skuName: productSku.Name,
                 skuDescription: await _productSkuDescriptionProvider.GenerateAsync(product, productSku),
                 mediaResources: product.MediaResources,

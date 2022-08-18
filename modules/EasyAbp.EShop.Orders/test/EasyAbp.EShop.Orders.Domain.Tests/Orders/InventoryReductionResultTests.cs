@@ -38,6 +38,7 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
             "Default",
             null,
             "Product 1",
+            InventoryStrategy.NoNeed,
             null,
             null,
             null,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.Refunds;
+using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
@@ -46,6 +47,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 "Default",
                 null,
                 "Product 1",
+                InventoryStrategy.NoNeed,
                 null,
                 null,
                 null,

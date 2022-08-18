@@ -35,6 +35,7 @@
     "OrderLineProductGroupDisplayName": "商品組名稱",
     "OrderLineProductUniqueName": "商品編號",
     "OrderLineProductDisplayName": "商品名稱",
+    "OrderLineProductInventoryStrategy": "商品庫存策略",
     "OrderLineSkuName": "SKU 編號",
     "OrderLineSkuDescription": "SKU 描述",
     "OrderLineMediaResources": "多媒體資源",

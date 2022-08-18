@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using EasyAbp.EShop.Products.Products;
 using JetBrains.Annotations;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -30,7 +30,9 @@ namespace EasyAbp.EShop.Orders.Orders
         
         [NotNull]
         public virtual string ProductDisplayName { get; protected set; }
-                
+
+        public virtual InventoryStrategy? ProductInventoryStrategy { get; protected set; }
+
         [CanBeNull]
         public virtual string SkuName { get; protected set; }
         
@@ -77,6 +79,7 @@ namespace EasyAbp.EShop.Orders.Orders
             [NotNull] string productGroupDisplayName,
             [CanBeNull] string productUniqueName,
             [NotNull] string productDisplayName,
+            InventoryStrategy productInventoryStrategy,
             [CanBeNull] string skuName,
             [CanBeNull] string skuDescription,
             [CanBeNull] string mediaResources,
@@ -96,6 +99,7 @@ namespace EasyAbp.EShop.Orders.Orders
             ProductGroupDisplayName = productGroupDisplayName;
             ProductUniqueName = productUniqueName;
             ProductDisplayName = productDisplayName;
+            ProductInventoryStrategy = productInventoryStrategy;
             SkuName = skuName;
             SkuDescription = skuDescription;
             MediaResources = mediaResources;
