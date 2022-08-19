@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using EasyAbp.BookingService.Web;
 using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins;
 using EasyAbp.EShop.Plugins.Web;
@@ -54,6 +55,8 @@ using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using EasyAbp.EShop.Plugins.FlashSales.Web;
+using EasyAbp.EShop.Plugins.FlashSales;
 
 namespace EShopSample.Web
 {
@@ -75,9 +78,11 @@ namespace EShopSample.Web
         typeof(EShopPluginsBasketsWebModule),
         typeof(EShopPluginsBookingWebModule),
         typeof(EShopPluginsCouponsWebModule),
+        typeof(EShopPluginsFlashSalesWebModule),
         typeof(PaymentServiceWebModule),
         typeof(PaymentServiceWeChatPayWebModule),
-        typeof(PaymentServicePrepaymentWebModule)
+        typeof(PaymentServicePrepaymentWebModule),
+        typeof(BookingServiceWebModule)
     )]
     public class EShopSampleWebModule : AbpModule
     {
@@ -216,6 +221,12 @@ namespace EShopSample.Web
                     options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Application.Contracts"));
                     options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Application"));
                     options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsCouponsWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}Coupons{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.Coupons.Web"));
+
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsFlashSalesDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}FlashSales{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.FlashSales.Domain.Shared"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsFlashSalesDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}FlashSales{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.FlashSales.Domain"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsFlashSalesApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}FlashSales{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.FlashSales.Application.Contracts"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsFlashSalesApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}FlashSales{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.FlashSales.Application"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EShopPluginsFlashSalesWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}plugins{Path.DirectorySeparatorChar}FlashSales{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}EasyAbp.EShop.Plugins.FlashSales.Web"));
                 });
             }
         }

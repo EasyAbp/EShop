@@ -12,8 +12,10 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
         Task<Dictionary<Guid, InventoryDataModel>> GetSkuIdInventoryDataMappingAsync(IList<InventoryQueryModel> models);
 
-        Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity, bool decreaseSold);
+        Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity, bool decreaseSold,
+            bool isFlashSale = false);
 
-        Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold);
+        Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity, bool increaseSold,
+            bool isFlashSale = false);
     }
 }

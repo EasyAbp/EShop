@@ -259,8 +259,10 @@ namespace EasyAbp.EShop.Products.Products
         {
             var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, productSku.Id);
 
+            var isFlashSale = product.InventoryStrategy is InventoryStrategy.FlashSales;
+
             return await (await _productInventoryProviderResolver.GetAsync(product))
-                .TryIncreaseInventoryAsync(model, quantity, reduceSold);
+                .TryIncreaseInventoryAsync(model, quantity, reduceSold, isFlashSale);
         }
 
         public virtual async Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity,
@@ -268,8 +270,10 @@ namespace EasyAbp.EShop.Products.Products
         {
             var model = new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, productSku.Id);
 
+            var isFlashSale = product.InventoryStrategy is InventoryStrategy.FlashSales;
+
             return await (await _productInventoryProviderResolver.GetAsync(product))
-                .TryReduceInventoryAsync(model, quantity, increaseSold);
+                .TryReduceInventoryAsync(model, quantity, increaseSold, isFlashSale);
         }
 
         public virtual async Task<PriceDataModel> GetRealPriceAsync(Product product, ProductSku productSku)

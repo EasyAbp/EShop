@@ -12,6 +12,7 @@
     <PackageReference Include="EasyAbp.PaymentService.Domain.Shared" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Domain.Shared" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.Domain.Shared" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.BookingService.Domain.Shared" Version="$(EasyAbpBookingServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Domain.Shared" Version="$(AbpVersion)" />
@@ -24,6 +25,7 @@
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Domain.Shared\EasyAbp.EShop.Plugins.Baskets.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain.Shared\EasyAbp.EShop.Plugins.Booking.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain.Shared\EasyAbp.EShop.Plugins.Coupons.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Domain.Shared\EasyAbp.EShop.Plugins.FlashSales.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

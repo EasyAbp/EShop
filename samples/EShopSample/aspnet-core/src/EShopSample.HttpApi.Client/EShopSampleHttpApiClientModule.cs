@@ -1,7 +1,10 @@
-﻿using EasyAbp.EShop;
+﻿using EasyAbp.BookingService;
+using EasyAbp.EShop;
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.EShop.Plugins.Booking;
 using EasyAbp.EShop.Plugins.Coupons;
+using EasyAbp.EShop.Plugins.FlashSales;
+using EasyAbp.EShop.Products.Plugins.FlashSales;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.Prepayment;
 using EasyAbp.PaymentService.WeChatPay;
@@ -27,9 +30,12 @@ namespace EShopSample
         typeof(EShopPluginsBasketsHttpApiClientModule),
         typeof(EShopPluginsBookingHttpApiClientModule),
         typeof(EShopPluginsCouponsHttpApiClientModule),
+        typeof(EShopPluginsFlashSalesHttpApiClientModule),
+        typeof(EShopProductsPluginsFlashSalesHttpApiClientModule),
         typeof(PaymentServiceHttpApiClientModule),
         typeof(PaymentServiceWeChatPayHttpApiClientModule),
-        typeof(PaymentServicePrepaymentHttpApiClientModule)
+        typeof(PaymentServicePrepaymentHttpApiClientModule),
+        typeof(BookingServiceHttpApiClientModule)
     )]
     public class EShopSampleHttpApiClientModule : AbpModule
     {

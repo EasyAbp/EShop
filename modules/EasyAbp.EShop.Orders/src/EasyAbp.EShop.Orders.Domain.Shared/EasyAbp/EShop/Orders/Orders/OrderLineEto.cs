@@ -1,4 +1,5 @@
 ﻿using System;
+using EasyAbp.EShop.Products.Products;
 using Volo.Abp.Data;
 using Volo.Abp.ObjectExtending;
 
@@ -25,7 +26,9 @@ namespace EasyAbp.EShop.Orders.Orders
         public string ProductUniqueName { get; set; }
 
         public string ProductDisplayName { get; set; }
-        
+
+        public InventoryStrategy? ProductInventoryStrategy { get; set; }
+
         public string SkuName { get; set; }
 
         public string SkuDescription { get; set; }

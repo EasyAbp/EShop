@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using EasyAbp.EShop.Products.Products;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Data;
 
@@ -26,7 +27,9 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public string ProductUniqueName { get; set; }
 
         public string ProductDisplayName { get; set; }
-        
+
+        public InventoryStrategy? ProductInventoryStrategy { get; set; }
+
         public string SkuName { get; set; }
         
         public string SkuDescription { get; set; }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
@@ -10,21 +11,66 @@ public class InventoryGrain : Grain<InventoryStateModel>, IInventoryGrain
 {
     public const string StorageProviderName = "EShopInventoryStorage";
 
+    protected bool FlashSalesInventoryUpdated { get; set; }
+
     public virtual Task<InventoryStateModel> GetInventoryStateAsync() => Task.FromResult(State);
 
-    public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold)
+    public virtual async Task IncreaseInventoryAsync(int quantity, bool decreaseSold, bool isFlashSale)
     {
         InternalIncreaseInventory(quantity, decreaseSold);
 
-        await WriteStateAsync();
+        if (!isFlashSale || State.Inventory == 0)
+        {
+            await WriteStateAsync();
+        }
+        else
+        {
+            await TryStartIntervalPersistInventoryAsync();
+        }
     }
 
-    public async Task ReduceInventoryAsync(int quantity, bool increaseSold)
+    public virtual async Task ReduceInventoryAsync(int quantity, bool increaseSold, bool isFlashSale)
     {
         InternalReduceInventory(quantity, increaseSold);
 
-        await WriteStateAsync();
+        if (!isFlashSale || State.Inventory == 0)
+        {
+            await WriteStateAsync();
+        }
+        else
+        {
+            await TryStartIntervalPersistInventoryAsync();
+        }
     }
+
+    protected virtual async Task TryStartIntervalPersistInventoryAsync()
+    {
+        if (FlashSalesInventoryUpdated)
+        {
+            return;
+        }
+
+        FlashSalesInventoryUpdated = true;
+
+        await WriteStateAsync();
+
+        RegisterTimer(TimerWriteInventoryStateAsync, new object(), TimeSpan.FromSeconds(5),
+            TimeSpan.FromMilliseconds(-1));
+    }
+
+    protected virtual async Task TimerWriteInventoryStateAsync(object obj)
+    {
+        if (!FlashSalesInventoryUpdated)
+        {
+            return;
+        }
+
+        await WriteStateAsync();
+
+        FlashSalesInventoryUpdated = false;
+    }
+
+    public override Task OnDeactivateAsync() => WriteStateAsync();
 
     protected virtual void InternalIncreaseInventory(int quantity, bool decreaseSold)
     {

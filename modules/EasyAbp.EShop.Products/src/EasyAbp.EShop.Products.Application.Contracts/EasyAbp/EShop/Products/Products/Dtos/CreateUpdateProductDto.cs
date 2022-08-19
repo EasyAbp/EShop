@@ -13,23 +13,23 @@ namespace EasyAbp.EShop.Products.Products.Dtos
     {
         [DisplayName("ProductStoreId")]
         public Guid StoreId { get; set; }
-        
+
         [DisplayName("ProductProductGroupName")]
         public string ProductGroupName { get; set; }
-        
+
         [DisplayName("ProductDetailId")]
         public Guid? ProductDetailId { get; set; }
 
         [DisplayName("ProductCategory")]
         public ICollection<Guid> CategoryIds { get; set; }
-        
+
         [DisplayName("ProductUniqueName")]
         public string UniqueName { get; set; }
-        
+
         [Required]
         [DisplayName("ProductDisplayName")]
         public string DisplayName { get; set; }
-        
+
         public ICollection<CreateUpdateProductAttributeDto> ProductAttributes { get; set; }
 
         [DisplayName("ProductInventoryStrategy")]
@@ -46,10 +46,10 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         [DisplayName("ProductIsPublished")]
         public bool IsPublished { get; set; }
-        
+
         [DisplayName("ProductIsHidden")]
         public bool IsHidden { get; set; }
-        
+
         [DisplayName("ProductPaymentExpireIn")]
         public TimeSpan? PaymentExpireIn { get; set; }
 
@@ -64,7 +64,7 @@ namespace EasyAbp.EShop.Products.Products.Dtos
                     new[] { "PaymentExpireIn" }
                 );
             }
-            
+
             if (ProductAttributes.Select(a => a.DisplayName.Trim()).Distinct().Count() != ProductAttributes.Count)
             {
                 yield return new ValidationResult(
@@ -73,15 +73,17 @@ namespace EasyAbp.EShop.Products.Products.Dtos
                 );
             }
 
-            var optionNameList = ProductAttributes.SelectMany(a => a.ProductAttributeOptions)
-                .Select(o => o.DisplayName.Trim()).ToList();
-            
-            if (optionNameList.Distinct().Count() != optionNameList.Count)
+            foreach (var productAttribute in ProductAttributes)
             {
-                yield return new ValidationResult(
-                    "DisplayNames of ProductAttributeOptions should be unique!",
-                    new[] { "ProductAttributeOptions" }
-                );
+                var options = productAttribute.ProductAttributeOptions;
+
+                if (options.Select(o => o.DisplayName.Trim()).Distinct().Count() != options.Count)
+                {
+                    yield return new ValidationResult(
+                        "DisplayNames of ProductAttributeOptions should be unique!",
+                        new[] { "ProductAttributeOptions" }
+                    );
+                }
             }
         }
     }

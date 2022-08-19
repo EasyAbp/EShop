@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -8,7 +11,7 @@ namespace EShopSample.Web
 {
     public class Program
     {
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
 #if DEBUG
@@ -27,7 +30,15 @@ namespace EShopSample.Web
             try
             {
                 Log.Information("Starting web host.");
-                CreateHostBuilder(args).Build().Run();
+                var builder = WebApplication.CreateBuilder(args);
+                builder.Host.AddAppSettingsSecretsJson()
+                    .UseAutofac()
+                    .UseSerilog();
+                await builder.AddApplicationAsync<EShopSampleWebModule>();
+                var app = builder.Build();
+                await app.InitializeApplicationAsync();
+                app.MapGet("ping", () => "pong");
+                await app.RunAsync();
                 return 0;
             }
             catch (Exception ex)
@@ -40,14 +51,5 @@ namespace EShopSample.Web
                 Log.CloseAndFlush();
             }
         }
-
-        internal static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .UseAutofac()
-                .UseSerilog();
     }
 }

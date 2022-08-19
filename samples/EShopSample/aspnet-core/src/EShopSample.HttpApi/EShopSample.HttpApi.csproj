@@ -12,6 +12,8 @@
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.HttpApi\EasyAbp.EShop.Plugins.Baskets.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.HttpApi\EasyAbp.EShop.Plugins.Booking.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.HttpApi\EasyAbp.EShop.Plugins.Coupons.HttpApi.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.HttpApi\EasyAbp.EShop.Plugins.FlashSales.HttpApi.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.csproj" />
     <ProjectReference Include="..\EShopSample.Application.Contracts\EShopSample.Application.Contracts.csproj" />
   </ItemGroup>
 
@@ -19,6 +21,7 @@
     <PackageReference Include="EasyAbp.PaymentService.HttpApi" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.HttpApi" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.HttpApi" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.BookingService.HttpApi" Version="$(EasyAbpBookingServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.Account.HttpApi" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="$(AbpVersion)" />

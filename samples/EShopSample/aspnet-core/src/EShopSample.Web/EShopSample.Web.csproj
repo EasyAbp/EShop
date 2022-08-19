@@ -42,12 +42,14 @@
     <ProjectReference Include="..\..\..\..\..\plugins\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Web\EasyAbp.EShop.Plugins.Baskets.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Web\EasyAbp.EShop.Plugins.Booking.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Web\EasyAbp.EShop.Plugins.Coupons.Web.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Web\EasyAbp.EShop.Plugins.FlashSales.Web.csproj" />
     <ProjectReference Include="..\EShopSample.Application\EShopSample.Application.csproj" />
     <ProjectReference Include="..\EShopSample.HttpApi\EShopSample.HttpApi.csproj" />
     <ProjectReference Include="..\EShopSample.EntityFrameworkCore\EShopSample.EntityFrameworkCore.csproj" />
     <PackageReference Include="EasyAbp.PaymentService.Web" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.WeChatPay.Web" Version="$(EasyAbpPaymentServiceModuleVersion)" />
     <PackageReference Include="EasyAbp.PaymentService.Prepayment.Web" Version="$(EasyAbpPaymentServiceModuleVersion)" />
+    <PackageReference Include="EasyAbp.BookingService.Web" Version="$(EasyAbpBookingServiceModuleVersion)" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="1.0.0-beta.3" />
     <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="$(AbpVersion)" />

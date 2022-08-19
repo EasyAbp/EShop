@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductInventories;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
@@ -13,6 +15,14 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class DefaultProductInventoryProvider : IProductInventoryProvider, ITransientDependency
     {
+        /// <summary>
+        /// The <see cref="GetLockKeyAsync(InventoryQueryModel)"/> lock key format.
+        /// <para>{0}: Tenant ID</para>
+        /// <para>{1}: Product ID</para>
+        /// <para>{2}: ProductSku ID</para>
+        /// </summary>
+        public const string DefaultProductInventoryLockKeyFormat = "eshop-product-inventory-{0}-{1}-{2}";
+
         public static string DefaultProductInventoryProviderName { get; set; } = "Default";
         public static string DefaultProductInventoryProviderDisplayName { get; set; } = "Default";
         public static string DefaultProductInventoryProviderDescription { get; set; } = "Default";
@@ -24,17 +34,23 @@ namespace EasyAbp.EShop.Products.Products
         private readonly ICurrentTenant _currentTenant;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IProductInventoryRepository _productInventoryRepository;
+        private readonly IAbpDistributedLock _distributedLock;
+        private readonly ILogger<DefaultProductInventoryProvider> _logger;
 
         public DefaultProductInventoryProvider(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
             IDistributedEventBus distributedEventBus,
-            IProductInventoryRepository productInventoryRepository)
+            IProductInventoryRepository productInventoryRepository,
+            IAbpDistributedLock distributedLock,
+            ILogger<DefaultProductInventoryProvider> logger)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
             _distributedEventBus = distributedEventBus;
             _productInventoryRepository = productInventoryRepository;
+            _distributedLock = distributedLock;
+            _logger = logger;
         }
 
         [UnitOfWork]
@@ -60,8 +76,17 @@ namespace EasyAbp.EShop.Products.Products
 
         [UnitOfWork(true)]
         public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
-            bool decreaseSold)
+            bool decreaseSold, bool isFlashSale = false)
         {
+            await using var handle = await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
+
+            if (handle == null)
+            {
+                _logger.LogWarning("TryIncreaseInventory failed to acquire lock for product inventory: {TenantId},{ProductId},{ProductSkuId}",
+                    model.TenantId, model.ProductId, model.ProductSkuId);
+                return false;
+            }
+
             var productInventory = await GetOrCreateProductInventoryAsync(model.ProductId, model.ProductSkuId);
 
             return await TryIncreaseInventoryAsync(model, productInventory, quantity, decreaseSold);
@@ -69,8 +94,17 @@ namespace EasyAbp.EShop.Products.Products
 
         [UnitOfWork(true)]
         public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity,
-            bool increaseSold)
+            bool increaseSold, bool isFlashSale = false)
         {
+            await using var handle = await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
+
+            if (handle == null)
+            {
+                _logger.LogWarning("TryReduceInventory failed to acquire lock for product inventory: {TenantId},{ProductId},{ProductSkuId}",
+                    model.TenantId, model.ProductId, model.ProductSkuId);
+                return false;
+            }
+
             var productInventory = await GetOrCreateProductInventoryAsync(model.ProductId, model.ProductSkuId);
 
             return await TryReduceInventoryAsync(model, productInventory, quantity, increaseSold);
@@ -157,6 +191,11 @@ namespace EasyAbp.EShop.Products.Products
                 originalInventory,
                 newInventory,
                 sold));
+        }
+
+        protected virtual Task<string> GetLockKeyAsync(InventoryQueryModel model)
+        {
+            return Task.FromResult(string.Format(DefaultProductInventoryLockKeyFormat, model.TenantId, model.ProductId, model.ProductSkuId));
         }
     }
 }

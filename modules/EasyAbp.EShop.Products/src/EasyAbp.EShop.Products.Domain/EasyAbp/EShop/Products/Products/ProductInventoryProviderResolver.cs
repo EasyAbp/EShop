@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Options;
 using EasyAbp.EShop.Products.ProductInventories;
@@ -47,11 +46,17 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
         return Task.FromResult(GetProviderByName(options.Value.DefaultInventoryProviderName));
     }
 
+    public virtual Task<IProductInventoryProvider> GetAsync([CanBeNull] string providerName)
+    {
+        return Task.FromResult(GetProviderByName(providerName));
+    }
+
     protected virtual IProductInventoryProvider GetProviderByName([CanBeNull] string providerName)
     {
         if (providerName.IsNullOrEmpty())
         {
-            providerName = DefaultProductInventoryProvider.DefaultProductInventoryProviderName;
+            var options = ServiceProvider.GetRequiredService<IOptions<EShopProductsOptions>>();
+            providerName = options.Value.DefaultInventoryProviderName ?? DefaultProductInventoryProvider.DefaultProductInventoryProviderName;
         }
 
         TryBuildNameToProviderTypeMapping();
@@ -67,7 +72,7 @@ public class ProductInventoryProviderResolver : IProductInventoryProviderResolve
         {
             return;
         }
-        
+
         var options = ServiceProvider.GetRequiredService<IOptions<EShopProductsOptions>>().Value;
 
         foreach (var pair in options.InventoryProviders.GetConfigurationsDictionary())

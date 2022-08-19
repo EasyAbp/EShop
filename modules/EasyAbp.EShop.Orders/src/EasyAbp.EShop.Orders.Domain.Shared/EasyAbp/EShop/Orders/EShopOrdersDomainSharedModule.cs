@@ -2,6 +2,7 @@
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Orders.Localization;
 using EasyAbp.EShop.Payments;
+using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using Volo.Abp.Auditing;
 using Volo.Abp.Localization.ExceptionHandling;
@@ -15,7 +16,8 @@ namespace EasyAbp.EShop.Orders
         typeof(AbpValidationModule),
         typeof(AbpAuditingContractsModule),
         typeof(EShopStoresDomainSharedModule),
-        typeof(EShopPaymentsDomainSharedModule)
+        typeof(EShopPaymentsDomainSharedModule),
+        typeof(EShopProductsDomainSharedModule)
     )]
     public class EShopOrdersDomainSharedModule : AbpModule
     {

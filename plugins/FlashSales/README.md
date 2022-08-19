@@ -1,0 +1,1 @@
+../../docs/plugins/flash-sales/README.md
