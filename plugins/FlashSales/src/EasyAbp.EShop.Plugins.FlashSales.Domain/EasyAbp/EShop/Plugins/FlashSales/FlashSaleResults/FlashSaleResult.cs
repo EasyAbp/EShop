@@ -49,10 +49,6 @@ public class FlashSaleResult : FullAuditedAggregateRoot<Guid>, IFlashSaleResult,
 
     public void MarkAsFailed([NotNull] string reason)
     {
-        if (Status != FlashSaleResultStatus.Pending)
-        {
-            throw new FlashSaleResultStatusNotPendingException(Id);
-        }
         Status = FlashSaleResultStatus.Failed;
         Reason = Check.NotNullOrEmpty(reason, nameof(reason));
     }
