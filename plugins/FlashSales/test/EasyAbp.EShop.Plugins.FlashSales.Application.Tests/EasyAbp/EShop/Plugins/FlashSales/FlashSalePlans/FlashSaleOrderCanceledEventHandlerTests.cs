@@ -86,7 +86,7 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
     }
 
     [Fact]
-    public async Task HandleEventAsync_Should_Do_Not_RemoveResultCache_When_TryRollBackInventory_Failed()
+    public async Task HandleEventAsync_Should_Not_RemoveResultCache_When_TryRollBackInventory_Failed()
     {
         var flashSaleResult = await CreateFlashSaleResultAsync();
         var orderCanceledEto = new OrderCanceledEto(new OrderEto()
@@ -124,7 +124,7 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
     }
 
     [Fact]
-    public async Task HandleEventAsync_Should_Do_Not_Something_When_Result_Not_Exists()
+    public async Task HandleEventAsync_Should_Skip_Handling_If_Result_Does_Not_Exist()
     {
         var flashSaleResult = await CreateFlashSaleResultAsync();
         var orderCanceledEto = new OrderCanceledEto(new OrderEto()
