@@ -50,13 +50,11 @@ public class FlashSalePlanAppService :
 
     protected IFlashSalePlanRepository FlashSalePlanRepository { get; }
 
-    protected IProductAppService ProductAppService { get; }
-
     protected IDistributedCache<FlashSalePlanPreOrderCacheItem> PreOrderDistributedCache { get; }
 
     protected IDistributedCache<FlashSalePlanCacheItem, Guid> PlanDistributedCache { get; }
 
-    protected IDistributedCache<ProductCacheItem, Guid> ProductDistributedCache { get; }
+    protected IProductCache ProductCache { get; }
 
     protected IDistributedEventBus DistributedEventBus { get; }
 
@@ -74,10 +72,9 @@ public class FlashSalePlanAppService :
 
     public FlashSalePlanAppService(
         IFlashSalePlanRepository flashSalePlanRepository,
-        IProductAppService productAppService,
         IDistributedCache<FlashSalePlanPreOrderCacheItem> tokenDistributedCache,
         IDistributedCache<FlashSalePlanCacheItem, Guid> planDistributedCache,
-        IDistributedCache<ProductCacheItem, Guid> productDistributedCache,
+        IProductCache productCache,
         IDistributedEventBus distributedEventBus,
         IFlashSaleResultRepository flashSaleResultRepository,
         IAbpDistributedLock distributedLock,
@@ -88,10 +85,9 @@ public class FlashSalePlanAppService :
         : base(flashSalePlanRepository)
     {
         FlashSalePlanRepository = flashSalePlanRepository;
-        ProductAppService = productAppService;
         PreOrderDistributedCache = tokenDistributedCache;
         PlanDistributedCache = planDistributedCache;
-        ProductDistributedCache = productDistributedCache;
+        ProductCache = productCache;
         DistributedEventBus = distributedEventBus;
         FlashSaleResultRepository = flashSaleResultRepository;
         DistributedLock = distributedLock;
@@ -131,7 +127,7 @@ public class FlashSalePlanAppService :
     {
         await CheckMultiStorePolicyAsync(input.StoreId, CreatePolicyName);
 
-        var product = await ProductAppService.GetAsync(input.ProductId);
+        var product = await ProductCache.GetAsync(input.ProductId);
         var productSku = product.GetSkuById(input.ProductSkuId);
 
         await ValidateProductAsync(input.ProductId, product, input.StoreId);
@@ -155,7 +151,7 @@ public class FlashSalePlanAppService :
     public override async Task<FlashSalePlanDto> UpdateAsync(Guid id, FlashSalePlanUpdateDto input)
     {
         var flashSalePlan = await GetEntityByIdAsync(id);
-        var product = await ProductAppService.GetAsync(input.ProductId);
+        var product = await ProductCache.GetAsync(input.ProductId);
         var productSku = product.GetSkuById(input.ProductSkuId);
 
         await CheckMultiStorePolicyAsync(product.StoreId, UpdatePolicyName);
@@ -210,7 +206,7 @@ public class FlashSalePlanAppService :
         await CheckPolicyAsync(PreOrderPolicyName);
 
         var plan = await GetFlashSalePlanCacheAsync(id);
-        var product = await GetProductCacheAsync(plan.ProductId);
+        var product = await ProductCache.GetAsync(plan.ProductId);
         var productSku = product.GetSkuById(plan.ProductSkuId);
         var expiresTime = DateTimeOffset.Now.Add(Options.PreOrderExpires);
 
@@ -431,22 +427,5 @@ public class FlashSalePlanAppService :
         }
 
         return Task.FromResult(eto);
-    }
-
-    protected virtual async Task<ProductCacheItem> GetProductCacheAsync(Guid productId)
-    {
-        return await ProductDistributedCache.GetOrAddAsync(productId, async () =>
-        {
-            var productDto = await ProductAppService.GetAsync(productId);
-
-            var cacheItem = ObjectMapper.Map<ProductDto, ProductCacheItem>(productDto);
-
-            if (cacheItem != null)
-            {
-                cacheItem.TenantId = CurrentTenant.Id;
-            }
-
-            return cacheItem;
-        });
     }
 }
