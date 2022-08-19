@@ -226,5 +226,11 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             StaffRemark = staffRemark;
         }
+
+        public bool IsInInventoryDeductionStage()
+        {
+            return !ReducedInventoryAfterPlacingTime.HasValue ||
+                   PaidTime.HasValue && !ReducedInventoryAfterPaymentTime.HasValue;
+        }
     }
 }

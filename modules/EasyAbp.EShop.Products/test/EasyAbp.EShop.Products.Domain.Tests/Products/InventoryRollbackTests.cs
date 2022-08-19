@@ -25,40 +25,62 @@ namespace EasyAbp.EShop.Products.Products
         [Fact]
         public async Task Should_Roll_Back_ReduceAfterPlacing_Inventory_If_Order_Is_Not_Paid()
         {
-            await TestAsync(InventoryStrategy.ReduceAfterPlacing, false, true);
+            await TestAsync(InventoryStrategy.ReduceAfterPlacing, false, true, true);
         }
 
         [Fact]
         public async Task Should_Not_Roll_Back_ReduceAfterPlacing_Inventory_If_Order_Is_Paid()
         {
-            await TestAsync(InventoryStrategy.ReduceAfterPlacing, true, false);
+            await TestAsync(InventoryStrategy.ReduceAfterPlacing, true, true, false);
         }
 
         [Fact]
         public async Task Should_Not_Roll_Back_ReduceAfterPayment_Inventory_If_Order_Is_Not_Paid()
         {
-            await TestAsync(InventoryStrategy.ReduceAfterPayment, false, false);
+            await TestAsync(InventoryStrategy.ReduceAfterPayment, false, true, false);
         }
 
         [Fact]
         public async Task Should_Not_Roll_Back_ReduceAfterPayment_Inventory_If_Order_Is_Paid()
         {
-            await TestAsync(InventoryStrategy.ReduceAfterPayment, true, false);
+            await TestAsync(InventoryStrategy.ReduceAfterPayment, true, true, false);
         }
 
         [Fact]
         public async Task Should_Not_Roll_Back_NoNeed_Inventory_If_Order_Is_Not_Paid()
         {
-            await TestAsync(InventoryStrategy.NoNeed, false, false);
+            await TestAsync(InventoryStrategy.NoNeed, false, true, false);
         }
 
         [Fact]
         public async Task Should_Not_Roll_Back_NoNeed_Inventory_If_Order_Is_Paid()
         {
-            await TestAsync(InventoryStrategy.NoNeed, true, false);
+            await TestAsync(InventoryStrategy.NoNeed, true, true, false);
         }
 
-        protected async Task TestAsync(InventoryStrategy inventoryStrategy, bool orderPaid, bool expectRollback)
+        [Fact]
+        public async Task Should_Roll_Back_FlashSales_Inventory_If_Order_Is_Not_Paid()
+        {
+            await TestAsync(InventoryStrategy.FlashSales, false, true, true);
+        }
+
+        [Fact]
+        public async Task Should_Not_Roll_Back_FlashSales_Inventory_If_Order_Is_Paid()
+        {
+            await TestAsync(InventoryStrategy.FlashSales, true, true, false);
+        }
+
+        [Fact]
+        public async Task Should_Not_Roll_Back_Inventory_If_ReducedInventoryAfterPlacingTime_Is_Null()
+        {
+            await TestAsync(InventoryStrategy.NoNeed, true, false, false);
+            await TestAsync(InventoryStrategy.ReduceAfterPlacing, true, false, false);
+            await TestAsync(InventoryStrategy.ReduceAfterPayment, true, false, false);
+            await TestAsync(InventoryStrategy.FlashSales, true, false, false);
+        }
+
+        protected async Task TestAsync(InventoryStrategy inventoryStrategy, bool orderPaid,
+            bool hasReducedInventoryAfterPlacingTime, bool expectRollback)
         {
             var product = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
             var productSku = product.ProductSkus.Single(x => x.Id == ProductsTestData.Product1Sku1Id);
@@ -98,7 +120,7 @@ namespace EasyAbp.EShop.Products.Products
                     CompletionTime = null,
                     CanceledTime = null,
                     CancellationReason = null,
-                    ReducedInventoryAfterPlacingTime = null,
+                    ReducedInventoryAfterPlacingTime = hasReducedInventoryAfterPlacingTime ? DateTime.Now : null,
                     ReducedInventoryAfterPaymentTime = null,
                     PaymentExpiration = null,
                     OrderLines = new List<OrderLineEto>
