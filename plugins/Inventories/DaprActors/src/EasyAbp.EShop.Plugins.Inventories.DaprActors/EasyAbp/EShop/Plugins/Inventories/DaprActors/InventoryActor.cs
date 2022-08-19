@@ -39,7 +39,7 @@ public class InventoryActor : Actor, IInventoryActor
         }
         else
         {
-            await TryRegisterFlashSalesPersistInventoryTimerAsync();
+            await TryStartIntervalPersistInventoryAsync();
         }
     }
 
@@ -55,11 +55,11 @@ public class InventoryActor : Actor, IInventoryActor
         }
         else
         {
-            await TryRegisterFlashSalesPersistInventoryTimerAsync();
+            await TryStartIntervalPersistInventoryAsync();
         }
     }
 
-    protected virtual async Task TryRegisterFlashSalesPersistInventoryTimerAsync()
+    protected virtual async Task TryStartIntervalPersistInventoryAsync()
     {
         if (FlashSalesInventoryUpdated)
         {
@@ -67,6 +67,8 @@ public class InventoryActor : Actor, IInventoryActor
         }
 
         FlashSalesInventoryUpdated = true;
+
+        await SetInventoryStateAsync(await GetInventoryStateAsync());
 
         await RegisterTimerAsync(null, nameof(TimerSetInventoryStateAsync), null, TimeSpan.FromSeconds(5),
             TimeSpan.FromMilliseconds(-1));
