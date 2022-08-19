@@ -75,26 +75,4 @@ public class FlashSaleResultTests
         flashSaleResult.OrderId.ShouldBe(null);
         flashSaleResult.Reason.ShouldBe("reason");
     }
-
-    [Fact]
-    public void MarkAsFailed_Should_Throw_FlashSaleResultStatusNotPendingException_When_Status_Not_Pending()
-    {
-        var flashSaleResult = new FlashSaleResult(
-            id: Guid.NewGuid(),
-            tenantId: null,
-            storeId: Guid.NewGuid(),
-            planId: Guid.NewGuid(),
-            userId: Guid.NewGuid(),
-            DateTime.Now
-        );
-
-        flashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Pending);
-
-        flashSaleResult.MarkAsFailed("reason");
-
-        Assert.Throws<FlashSaleResultStatusNotPendingException>(() =>
-        {
-            flashSaleResult.MarkAsFailed("reason");
-        });
-    }
 }
