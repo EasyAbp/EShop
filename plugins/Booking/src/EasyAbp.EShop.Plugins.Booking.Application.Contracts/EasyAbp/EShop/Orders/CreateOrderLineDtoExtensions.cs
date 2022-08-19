@@ -58,8 +58,7 @@ public static class CreateOrderLineDtoExtensions
 
     public static int GetBookingVolume(this CreateOrderLineDto orderLine)
     {
-        return Check.NotNull(FindBookingVolume(orderLine),
-            BookingOrderProperties.OrderLineBookingVolume)!.Value;
+        return FindBookingVolume(orderLine)!.Value;
     }
 
     public static DateTime? FindBookingDate(this CreateOrderLineDto orderLine)

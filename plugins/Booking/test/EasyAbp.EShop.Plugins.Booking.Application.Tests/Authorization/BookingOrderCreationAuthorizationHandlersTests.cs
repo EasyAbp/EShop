@@ -80,7 +80,7 @@ public class BookingOrderCreationAuthorizationHandlersTests : BookingApplication
         {
             ProductId = BookingTestConsts.BookingProduct1Id,
             ProductSkuId = BookingTestConsts.BookingProduct1Sku1Id,
-            Quantity = 1
+            Quantity = BookingTestConsts.Volume
         };
 
         orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingPeriodSchemeId,
@@ -91,13 +91,12 @@ public class BookingOrderCreationAuthorizationHandlersTests : BookingApplication
         orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingStartingTime,
             BookingTestConsts.Period1StartingTime);
         orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingDuration, BookingTestConsts.Period1Duration);
-        orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingVolume, BookingTestConsts.Volume);
 
         var orderLine2 = new CreateOrderLineDto
         {
             ProductId = BookingTestConsts.BookingProduct1Id,
             ProductSkuId = BookingTestConsts.BookingProduct1Sku1Id,
-            Quantity = 1
+            Quantity = BookingTestConsts.Volume
         };
 
         orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingPeriodSchemeId,
@@ -109,7 +108,6 @@ public class BookingOrderCreationAuthorizationHandlersTests : BookingApplication
         orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingStartingTime,
             BookingTestConsts.Period1StartingTime);
         orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingDuration, BookingTestConsts.Period1Duration);
-        orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingVolume, BookingTestConsts.Volume);
 
         var currentPrincipalAccessor = ServiceProvider.GetRequiredService<ICurrentPrincipalAccessor>();
 

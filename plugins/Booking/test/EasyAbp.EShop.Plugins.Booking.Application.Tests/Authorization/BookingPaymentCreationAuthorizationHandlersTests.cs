@@ -6,7 +6,6 @@ using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Payments.Booking.Authorization;
 using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Payments.Dtos;
-using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -24,7 +23,7 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
         var handler = ServiceProvider.GetRequiredService<BookingPaymentCreationAuthorizationHandler>();
 
         var context = await CreateAuthorizationHandlerContextAsync();
-        
+
         await handler.HandleAsync(context);
 
         context.HasFailed.ShouldBeFalse();
@@ -37,7 +36,7 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
             Id = BookingTestConsts.OrderLine1Id,
             ProductId = BookingTestConsts.BookingProduct1Id,
             ProductSkuId = BookingTestConsts.BookingProduct1Sku1Id,
-            Quantity = 1,
+            Quantity = BookingTestConsts.Volume,
             ExtraProperties = new ExtraPropertyDictionary()
         };
 
@@ -49,14 +48,13 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
         orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingStartingTime,
             BookingTestConsts.Period1StartingTime);
         orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingDuration, BookingTestConsts.Period1Duration);
-        orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingVolume, BookingTestConsts.Volume);
 
         var orderLine2 = new OrderLineDto
         {
             Id = BookingTestConsts.OrderLine2Id,
             ProductId = BookingTestConsts.BookingProduct1Id,
             ProductSkuId = BookingTestConsts.BookingProduct1Sku1Id,
-            Quantity = 1,
+            Quantity = BookingTestConsts.Volume,
             ExtraProperties = new ExtraPropertyDictionary()
         };
 
@@ -69,7 +67,6 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
         orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingStartingTime,
             BookingTestConsts.Period1StartingTime);
         orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingDuration, BookingTestConsts.Period1Duration);
-        orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingVolume, BookingTestConsts.Volume);
 
         var currentPrincipalAccessor = ServiceProvider.GetRequiredService<ICurrentPrincipalAccessor>();
 
