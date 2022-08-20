@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
-using EasyAbp.EShop.Products.Products;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -20,30 +19,14 @@ public class FlashSaleOrderCanceledEventHandler : IDistributedEventHandler<Order
 
     protected IAbpApplication AbpApplication { get; }
 
-    protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
-
-    protected IProductCache ProductCache { get; }
-
-    protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
-
-    protected ILogger<FlashSaleOrderCanceledEventHandler> Logger { get; }
-
     public FlashSaleOrderCanceledEventHandler(
         IFlashSaleResultRepository flashSaleResultRepository,
         IUnitOfWorkManager unitOfWorkManager,
-        IAbpApplication abpApplication,
-        IFlashSaleInventoryManager flashSaleInventoryManager,
-        IProductCache productCache,
-        IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
-        ILogger<FlashSaleOrderCanceledEventHandler> logger)
+        IAbpApplication abpApplication)
     {
         FlashSaleResultRepository = flashSaleResultRepository;
         UnitOfWorkManager = unitOfWorkManager;
         AbpApplication = abpApplication;
-        FlashSaleInventoryManager = flashSaleInventoryManager;
-        ProductCache = productCache;
-        FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
-        Logger = logger;
     }
 
     [UnitOfWork(true)]
@@ -62,25 +45,10 @@ public class FlashSaleOrderCanceledEventHandler : IDistributedEventHandler<Order
 
         UnitOfWorkManager.Current.OnCompleted(async () =>
         {
-            if (eventData.Order.OrderLines.Count == 0)
-            {
-                Logger.LogWarning("OrderCanceled order {orderId} orderLines is empty.", eventData.Order.Id);
-                return;
-            }
-            var productId = eventData.Order.OrderLines[0].ProductId;
-            var productSkuId = eventData.Order.OrderLines[0].ProductSkuId;
-            var product = await ProductCache.GetAsync(productId);
-            // try to roll back the inventory.
-            if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(
-                    eventData.TenantId, product.InventoryProviderName, eventData.Order.StoreId,
-                    productId, productSkuId))
-            {
-                Logger.LogWarning("Failed to roll back the flash sale inventory.");
-                return; // avoid to remove cache if the rollback failed.
-            }
-
+            using var scope = AbpApplication.ServiceProvider.CreateScope();
+            var flashSaleCurrentResultCache = scope.ServiceProvider.GetRequiredService<IFlashSaleCurrentResultCache>();
             // remove the cache so the user can try to order again.
-            await FlashSaleCurrentResultCache.RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
+            await flashSaleCurrentResultCache.RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
         });
     }
 }

@@ -21,15 +21,12 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
 
     protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
 
-    protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
-
     private ProductDto Product1 { get; set; }
 
     public FlashSaleOrderCanceledEventHandlerTests()
     {
         ResultMarkAsFailedOrderCanceledEventHandler = GetRequiredService<FlashSaleOrderCanceledEventHandler>();
         FlashSaleCurrentResultCache = GetRequiredService<IFlashSaleCurrentResultCache>();
-        FlashSaleInventoryManager = GetRequiredService<IFlashSaleInventoryManager>();
     }
 
     protected override void AfterAddApplication(IServiceCollection services)
@@ -39,9 +36,6 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
         var productAppService = Substitute.For<IProductAppService>();
         productAppService.GetAsync(FlashSalesTestData.Product1Id).Returns(Task.FromResult(Product1));
         services.Replace(ServiceDescriptor.Singleton(productAppService));
-
-        var flashSaleInventoryManager = Substitute.For<IFlashSaleInventoryManager>();
-        services.Replace(ServiceDescriptor.Singleton(flashSaleInventoryManager));
 
         var flashSaleCurrentResultCache = Substitute.For<IFlashSaleCurrentResultCache>();
         services.Replace(ServiceDescriptor.Singleton(flashSaleCurrentResultCache));
@@ -65,11 +59,6 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
             }
         });
         flashSaleResult = await MarkAsSuccessfulAsync(flashSaleResult.Id, orderCanceledEto.Order.Id);
-        FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(flashSaleResult.TenantId,
-                Product1.InventoryProviderName, flashSaleResult.StoreId,
-                FlashSalesTestData.Product1Id, FlashSalesTestData.ProductSku1Id)
-        .Returns(Task.FromResult(true));
 
         await ResultMarkAsFailedOrderCanceledEventHandler.HandleEventAsync(orderCanceledEto);
 
@@ -77,49 +66,7 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
         existFlashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Failed);
         existFlashSaleResult.Reason.ShouldBe(FlashSaleResultFailedReason.OrderCanceled);
 
-        await FlashSaleInventoryManager.Received()
-            .TryRollBackInventoryAsync(flashSaleResult.TenantId,
-                Product1.InventoryProviderName, flashSaleResult.StoreId,
-                FlashSalesTestData.Product1Id, FlashSalesTestData.ProductSku1Id);
         await FlashSaleCurrentResultCache.Received()
-            .RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
-    }
-
-    [Fact]
-    public async Task HandleEventAsync_Should_Not_RemoveResultCache_When_TryRollBackInventory_Failed()
-    {
-        var flashSaleResult = await CreateFlashSaleResultAsync();
-        var orderCanceledEto = new OrderCanceledEto(new OrderEto()
-        {
-            Id = Guid.NewGuid(),
-            StoreId = flashSaleResult.StoreId,
-            OrderLines = new List<OrderLineEto>()
-            {
-                new OrderLineEto()
-                {
-                    ProductId = FlashSalesTestData.Product1Id,
-                    ProductSkuId = FlashSalesTestData.ProductSku1Id
-                }
-            }
-        });
-        flashSaleResult = await MarkAsSuccessfulAsync(flashSaleResult.Id, orderCanceledEto.Order.Id);
-        FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(flashSaleResult.TenantId,
-                Product1.InventoryProviderName, flashSaleResult.StoreId,
-                FlashSalesTestData.Product1Id, FlashSalesTestData.ProductSku1Id)
-        .Returns(Task.FromResult(false));
-
-        await ResultMarkAsFailedOrderCanceledEventHandler.HandleEventAsync(orderCanceledEto);
-
-        var existFlashSaleResult = await FlashSaleResultRepository.GetAsync(flashSaleResult.Id);
-        existFlashSaleResult.Status.ShouldBe(FlashSaleResultStatus.Failed);
-        existFlashSaleResult.Reason.ShouldBe(FlashSaleResultFailedReason.OrderCanceled);
-
-        await FlashSaleInventoryManager.Received()
-            .TryRollBackInventoryAsync(flashSaleResult.TenantId,
-                Product1.InventoryProviderName, flashSaleResult.StoreId,
-                FlashSalesTestData.Product1Id, FlashSalesTestData.ProductSku1Id);
-        await FlashSaleCurrentResultCache.DidNotReceive()
             .RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
     }
 
@@ -142,11 +89,6 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
         });
         flashSaleResult = await MarkAsSuccessfulAsync(flashSaleResult.Id, orderCanceledEto.Order.Id);
         flashSaleResult = await MarkAsFailedAsync(flashSaleResult.Id, "UT");
-        FlashSaleInventoryManager
-            .TryRollBackInventoryAsync(flashSaleResult.TenantId,
-                Product1.InventoryProviderName, flashSaleResult.StoreId,
-                FlashSalesTestData.Product1Id, FlashSalesTestData.ProductSku1Id)
-        .Returns(Task.FromResult(true));
 
         await ResultMarkAsFailedOrderCanceledEventHandler.HandleEventAsync(orderCanceledEto);
 
@@ -154,10 +96,6 @@ public class FlashSaleOrderCanceledEventHandlerTests : FlashSalesApplicationTest
         existFlashSaleResult.Status.ShouldBe(flashSaleResult.Status);
         existFlashSaleResult.Reason.ShouldBe(flashSaleResult.Reason);
 
-        await FlashSaleInventoryManager.DidNotReceive()
-            .TryRollBackInventoryAsync(flashSaleResult.TenantId,
-                Product1.InventoryProviderName, flashSaleResult.StoreId,
-                FlashSalesTestData.Product1Id, FlashSalesTestData.ProductSku1Id);
         await FlashSaleCurrentResultCache.DidNotReceive()
             .RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
     }
