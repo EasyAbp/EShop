@@ -16,28 +16,19 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
     ITransientDependency
 {
     protected ILogger<FlashSaleOrderCreationResultEventHandler> Logger { get; }
-    protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
-    protected IObjectMapper ObjectMapper { get; }
     protected IAbpApplication AbpApplication { get; }
-    protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
 
     public FlashSaleOrderCreationResultEventHandler(
         ILogger<FlashSaleOrderCreationResultEventHandler> logger,
-        IFlashSaleInventoryManager flashSaleInventoryManager,
         IUnitOfWorkManager unitOfWorkManager,
-        IObjectMapper objectMapper,
         IAbpApplication abpApplication,
-        IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
         IFlashSaleResultRepository flashSaleResultRepository)
     {
         Logger = logger;
-        FlashSaleInventoryManager = flashSaleInventoryManager;
         UnitOfWorkManager = unitOfWorkManager;
-        ObjectMapper = objectMapper;
         AbpApplication = abpApplication;
-        FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
         FlashSaleResultRepository = flashSaleResultRepository;
     }
 
@@ -61,14 +52,20 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 
         UnitOfWorkManager.Current.OnCompleted(async () =>
         {
+            using var scope = AbpApplication.ServiceProvider.CreateScope();
+
+            var flashSaleInventoryManager = scope.ServiceProvider.GetRequiredService<IFlashSaleInventoryManager>();
+            var flashSaleCurrentResultCache = scope.ServiceProvider.GetRequiredService<IFlashSaleCurrentResultCache>();
+            var objectMapper = scope.ServiceProvider.GetRequiredService<IObjectMapper>();
+
             if (eventData.Success)
             {
-                await ResetFlashSaleCurrentResultCacheAsync(flashSaleResult);
+                await ResetFlashSaleCurrentResultCacheAsync(flashSaleResult, objectMapper, flashSaleCurrentResultCache);
             }
             else
             {
                 // try to roll back the inventory.
-                if (!await FlashSaleInventoryManager.TryRollBackInventoryAsync(
+                if (!await flashSaleInventoryManager.TryRollBackInventoryAsync(
                         eventData.TenantId, eventData.ProductInventoryProviderName, eventData.StoreId,
                         eventData.ProductId, eventData.ProductSkuId))
                 {
@@ -79,23 +76,19 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
                 // remove the cache so the user can try to order again.
                 if (eventData.AllowToTryAgain)
                 {
-                    await FlashSaleCurrentResultCache.RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
+                    await flashSaleCurrentResultCache.RemoveAsync(flashSaleResult.PlanId, flashSaleResult.UserId);
                 }
                 else
                 {
-                    await ResetFlashSaleCurrentResultCacheAsync(flashSaleResult);
+                    await ResetFlashSaleCurrentResultCacheAsync(flashSaleResult, objectMapper, flashSaleCurrentResultCache);
                 }
             }
         });
     }
 
-    protected virtual async Task ResetFlashSaleCurrentResultCacheAsync(FlashSaleResult flashSaleResult)
+    protected virtual async Task ResetFlashSaleCurrentResultCacheAsync(FlashSaleResult flashSaleResult,
+        IObjectMapper objectMapper, IFlashSaleCurrentResultCache flashSaleCurrentResultCache)
     {
-        using var scope = AbpApplication.ServiceProvider.CreateScope();
-
-        var objectMapper = scope.ServiceProvider.GetRequiredService<IObjectMapper>();
-        var flashSaleCurrentResultCache = scope.ServiceProvider.GetRequiredService<IFlashSaleCurrentResultCache>();
-
         await flashSaleCurrentResultCache.SetAsync(flashSaleResult.PlanId, flashSaleResult.UserId,
             new FlashSaleCurrentResultCacheItem
             {

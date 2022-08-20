@@ -30,15 +30,12 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
 
     protected IDistributedEventBus DistributedEventBus { get; }
 
-    protected IDistributedCache<ProductCacheItem, Guid> ProductDistributedCache { get; }
-
     private ProductDto Product1 { get; set; }
 
     public FlashSalePlanAppServiceTests()
     {
         AppService = GetRequiredService<FlashSalePlanAppService>();
         DistributedEventBus = GetRequiredService<IDistributedEventBus>();
-        ProductDistributedCache = GetRequiredService<IDistributedCache<ProductCacheItem, Guid>>();
     }
 
     protected override void AfterAddApplication(IServiceCollection services)
@@ -58,6 +55,8 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
         {
             info.AddOrUpdateProperty<string>("key1");
         });
+
+        services.Replace(ServiceDescriptor.Transient<IProductCache, FakeProductCache>());
 
         base.AfterAddApplication(services);
     }
@@ -338,13 +337,11 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
 
         Product1.IsPublished = true;
         Product1.InventoryStrategy = InventoryStrategy.ReduceAfterPlacing;
-        await ProductDistributedCache.RemoveAsync(Product1.Id);
 
         await AppService.PreOrderAsync(plan.Id)
            .ShouldThrowAsync<UnexpectedInventoryStrategyException>();
 
         Product1.InventoryStrategy = InventoryStrategy.FlashSales;
-        await ProductDistributedCache.RemoveAsync(Product1.Id);
 
         var plan2 = await CreateFlashSalePlanAsync(isPublished: false);
         await AppService.PreOrderAsync(plan2.Id)
