@@ -8,6 +8,6 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         Task<Order> CompleteAsync(Order order);
         
-        Task<Order> CancelAsync(Order order, string cancellationReason);
+        Task<Order> CancelAsync(Order order, string cancellationReason, bool forceCancel = false);
     }
 }

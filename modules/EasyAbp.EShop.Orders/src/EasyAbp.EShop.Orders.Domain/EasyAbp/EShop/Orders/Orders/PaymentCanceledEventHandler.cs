@@ -40,6 +40,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 
                 order.SetPaymentId(null);
 
+                // OrderAutoCancelOnUpdatedHandler may auto cancel the unpaid order.
                 await _orderRepository.UpdateAsync(order, true);
             }
         }

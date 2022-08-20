@@ -57,14 +57,14 @@ namespace EasyAbp.EShop.Orders.Orders
         }
 
         [UnitOfWork]
-        public virtual async Task<Order> CancelAsync(Order order, string cancellationReason)
+        public virtual async Task<Order> CancelAsync(Order order, string cancellationReason, bool forceCancel = false)
         {
             if (order.CanceledTime.HasValue)
             {
                 throw new OrderIsInWrongStageException(order.Id);
             }
             
-            if (order.IsInPayment())
+            if (!forceCancel && (order.IsInPayment() || order.IsInInventoryDeductionStage()))
             {
                 throw new OrderIsInWrongStageException(order.Id);
             }

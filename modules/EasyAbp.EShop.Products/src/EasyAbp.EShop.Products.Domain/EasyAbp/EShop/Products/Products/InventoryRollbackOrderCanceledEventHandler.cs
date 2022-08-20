@@ -28,7 +28,7 @@ namespace EasyAbp.EShop.Products.Products
         [UnitOfWork(true)]
         public virtual async Task HandleEventAsync(OrderCanceledEto eventData)
         {
-            if (eventData.Order.PaidTime.HasValue)
+            if (eventData.Order.PaidTime.HasValue || !eventData.Order.ReducedInventoryAfterPlacingTime.HasValue)
             {
                 return;
             }

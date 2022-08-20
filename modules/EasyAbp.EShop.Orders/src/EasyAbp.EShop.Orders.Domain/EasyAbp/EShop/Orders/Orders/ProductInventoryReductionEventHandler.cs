@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Payments.Refunds;
 using EasyAbp.EShop.Products.Products;
-using EasyAbp.PaymentService.Refunds;
-using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -49,7 +46,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
                 if (!eventData.IsSuccess)
                 {
-                    await _orderManager.CancelAsync(order, OrdersConsts.InventoryReductionFailedAutoCancellationReason);
+                    await _orderManager.CancelAsync(
+                        order, OrdersConsts.InventoryReductionFailedAutoCancellationReason, true);
 
                     return;
                 }
@@ -76,7 +74,8 @@ namespace EasyAbp.EShop.Orders.Orders
                 {
                     var refundOrderEto = CreateRefundOrderEto(order);
 
-                    await _orderManager.CancelAsync(order, OrdersConsts.InventoryReductionFailedAutoCancellationReason);
+                    await _orderManager.CancelAsync(
+                        order, OrdersConsts.InventoryReductionFailedAutoCancellationReason, true);
 
                     await RefundOrderAsync(refundOrderEto);
 

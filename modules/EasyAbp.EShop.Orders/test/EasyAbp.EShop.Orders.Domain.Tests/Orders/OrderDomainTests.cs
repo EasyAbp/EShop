@@ -64,9 +64,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 "Key",
                 0.3m
             ));
-            Order1.SetPaymentId(OrderTestData.Payment1Id);
-            Order1.SetPaidTime(DateTime.Now);
-            
+
             orderRepository.GetAsync(OrderTestData.Order1Id).Returns(Task.FromResult(Order1));
 
             services.AddTransient(_ => orderRepository);
@@ -117,7 +115,10 @@ namespace EasyAbp.EShop.Orders.Orders
                     }
                 }
             });
-            
+
+            Order1.SetPaymentId(OrderTestData.Payment1Id);
+            Order1.SetPaidTime(DateTime.Now);
+
             Order1.RefundAmount.ShouldBe(0.3m);
             
             var orderLine1 = Order1.OrderLines.Single(x => x.Id == OrderTestData.OrderLine1Id);
@@ -132,6 +133,9 @@ namespace EasyAbp.EShop.Orders.Orders
         public async Task Should_Avoid_Non_Positive_Refund_Amount()
         {
             var handler = ServiceProvider.GetRequiredService<RefundCompletedEventHandler>();
+
+            Order1.SetPaymentId(OrderTestData.Payment1Id);
+            Order1.SetPaidTime(DateTime.Now);
 
             await Should.ThrowAsync<InvalidRefundAmountException>(async () =>
             {
@@ -174,6 +178,9 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var handler = ServiceProvider.GetRequiredService<RefundCompletedEventHandler>();
 
+            Order1.SetPaymentId(OrderTestData.Payment1Id);
+            Order1.SetPaidTime(DateTime.Now);
+
             await Should.ThrowAsync<InvalidRefundQuantityException>(async () =>
             {
                 await handler.HandleEventAsync(new EShopRefundCompletedEto
@@ -208,6 +215,33 @@ namespace EasyAbp.EShop.Orders.Orders
                     }
                 });
             });
+        }
+
+        [Fact]
+        public async Task Should_Forbid_Canceling_Order_During_Payment_State()
+        {
+            var orderManager = ServiceProvider.GetRequiredService<IOrderManager>();
+            var order = await _orderRepository.GetAsync(OrderTestData.Order1Id);
+
+            order.SetPaymentId(Guid.NewGuid());
+            order.SetPaidTime(null);
+            await Should.ThrowAsync<OrderIsInWrongStageException>(() => orderManager.CancelAsync(order, "my-reason"));
+        }
+
+        [Fact]
+        public async Task Should_Forbid_Canceling_Order_During_Inventory_Reduction_State()
+        {
+            var orderManager = ServiceProvider.GetRequiredService<IOrderManager>();
+            var order = await _orderRepository.GetAsync(OrderTestData.Order1Id);
+
+            order.SetReducedInventoryAfterPlacingTime(null);
+            await Should.ThrowAsync<OrderIsInWrongStageException>(() => orderManager.CancelAsync(order, "my-reason"));
+
+            order.SetReducedInventoryAfterPlacingTime(DateTime.Now);
+            order.SetPaymentId(Guid.NewGuid());
+            order.SetPaidTime(DateTime.Now);
+            order.SetReducedInventoryAfterPlacingTime(null);
+            await Should.ThrowAsync<OrderIsInWrongStageException>(() => orderManager.CancelAsync(order, "my-reason"));
         }
     }
 }
