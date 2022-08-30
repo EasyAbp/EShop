@@ -46,7 +46,7 @@ namespace EasyAbp.EShop.Products.Web
                                 ProductAttributeOptions = new List<CreateUpdateProductAttributeOptionDto>(
                                     x.ProductAttributeOptionNames.SplitToLines(StringSplitOptions.RemoveEmptyEntries)[i]
                                         .Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o =>
-                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o}))
+                                            new CreateUpdateProductAttributeOptionDto {DisplayName = o.RemovePostFix("\r")}))
                             })));
             CreateMap<ProductDetailDto, CreateEditProductDetailViewModel>();
             CreateMap<CreateEditProductDetailViewModel, CreateUpdateProductDetailDto>()
