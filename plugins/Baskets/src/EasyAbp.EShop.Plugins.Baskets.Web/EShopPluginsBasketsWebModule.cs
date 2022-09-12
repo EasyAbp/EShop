@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using EasyAbp.EShop.Orders;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using EasyAbp.EShop.Plugins.Baskets.Localization;
 using EasyAbp.EShop.Plugins.Baskets.Web.Menus;
@@ -12,6 +13,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Plugins.Baskets.Web
 {
     [DependsOn(
+        typeof(EShopOrdersApplicationContractsModule),
         typeof(EShopPluginsBasketsApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)

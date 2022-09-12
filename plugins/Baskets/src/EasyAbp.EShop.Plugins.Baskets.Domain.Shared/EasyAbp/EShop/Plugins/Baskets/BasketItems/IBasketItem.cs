@@ -1,9 +1,10 @@
 using System;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems;
 
-public interface IBasketItem : IProductData
+public interface IBasketItem : IProductData, IHasExtraProperties
 {
     Guid Id { get; }
     

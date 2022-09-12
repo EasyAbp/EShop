@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Orders.Orders.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using EasyAbp.EShop.Plugins.Baskets.BasketItems;
 using EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos;
 using EasyAbp.EShop.Plugins.Baskets.Permissions;
 using EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Volo.Abp;
 using Volo.Abp.Settings;
 
 namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketItems.BasketItem
@@ -13,14 +17,18 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketIt
     {
         [BindProperty]
         public CreateBasketItemViewModel ViewModel { get; set; } = new();
-        
+
         public bool ServerSide { get; set; }
 
-        private readonly IBasketItemAppService _service;
+        private readonly IOrderAppService _orderAppService;
+        private readonly IBasketItemAppService _basketItemAppService;
 
-        public CreateModalModel(IBasketItemAppService service)
+        public CreateModalModel(
+            IOrderAppService orderAppService,
+            IBasketItemAppService basketItemAppService)
         {
-            _service = service;
+            _orderAppService = orderAppService;
+            _basketItemAppService = basketItemAppService;
         }
 
         public virtual async Task OnGetAsync()
@@ -32,7 +40,29 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Pages.EShop.Plugins.Baskets.BasketIt
         public virtual async Task<IActionResult> OnPostAsync()
         {
             var dto = ObjectMapper.Map<CreateBasketItemViewModel, CreateBasketItemDto>(ViewModel);
-            await _service.CreateAsync(dto);
+
+            var checkCreateOrderResult = await _orderAppService.CheckCreateAsync(new CheckCreateOrderInput
+            {
+                StoreId = ViewModel.StoreId,
+                OrderLines = new List<CreateOrderLineDto>
+                {
+                    new()
+                    {
+                        ProductId = ViewModel.ProductId,
+                        ProductSkuId = ViewModel.ProductSkuId,
+                        Quantity = ViewModel.Quantity
+                    }
+                }
+            });
+
+            if (!checkCreateOrderResult.CanCreate)
+            {
+                throw new BusinessException(BasketsErrorCodes.CheckCreateOrderFailed)
+                    .WithData("reason", checkCreateOrderResult.Reason);
+            }
+
+            await _basketItemAppService.CreateAsync(dto);
+
             return NoContent();
         }
     }

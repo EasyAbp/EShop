@@ -120,15 +120,30 @@ $(function () {
     
     function createManyServerSideBasketItems(items, autoReloadDataTable = true) {
         var item = items.shift();
-        service.create(item, {
-            success: function () {
-                if (items.length > 0) {
-                    createManyServerSideBasketItems(items);
-                } else if (autoReloadDataTable) {
-                    dataTable.ajax.reload();
+        var orderService = easyAbp.eShop.orders.orders.order;
+        orderService.checkCreate({
+            storeId: item.storeId,
+            orderLines: [{
+                productId: item.productId,
+                productSkuId: item.productSkuId,
+                quantity: item.quantity
+            }]
+        }, {
+            success: function (responseText, statusText, xhr, form) {
+                console.log(responseText);
+                if (responseText.canCreate) {
+                    service.create(item, {
+                        success: function () {
+                            if (items.length > 0) {
+                                createManyServerSideBasketItems(items);
+                            } else if (autoReloadDataTable) {
+                                dataTable.ajax.reload();
+                            }
+                        }
+                    })
                 }
             }
-        })
+        });
     }
 
     $('#NewBasketItemButton').click(function (e) {

@@ -1,10 +1,11 @@
 using System;
 using JetBrains.Annotations;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos;
 
 [Serializable]
-public class ClientSideBasketItemModel : IBasketItem
+public class ClientSideBasketItemModel : ExtensibleObject, IBasketItem
 {
     public Guid Id { get; set; }
     

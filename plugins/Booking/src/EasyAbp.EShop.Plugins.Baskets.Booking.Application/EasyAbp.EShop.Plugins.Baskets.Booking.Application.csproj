@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Baskets\src\EasyAbp.EShop.Plugins.Baskets.Application\EasyAbp.EShop.Plugins.Baskets.Application.csproj" />
+        <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Application.Contracts\EasyAbp.EShop.Plugins.Booking.Application.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.Caching" Version="$(AbpVersion)" />
+        <PackageReference Include="EasyAbp.BookingService.Application.Contracts" Version="$(EasyAbpBookingServiceModuleVersion)" />
+    </ItemGroup>
+
+</Project>

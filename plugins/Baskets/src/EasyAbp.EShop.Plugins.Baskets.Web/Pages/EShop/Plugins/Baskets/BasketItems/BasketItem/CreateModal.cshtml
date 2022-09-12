@@ -1,6 +1,6 @@
 @page
+@using EasyAbp.EShop.Plugins.Baskets
 @using EasyAbp.EShop.Plugins.Baskets.Localization
-@using EasyAbp.EShop.Plugins.Baskets.Permissions
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
@@ -25,16 +25,15 @@
 
 <script>
     var localStorageItemKey = localStorageItemKey || "EShopBasket:" + basketName;
+    var l = abp.localization.getResource('EasyAbpEShopPluginsBaskets');
 
     $(document).ready(function() {
         if (@(Model.ServerSide ? "true" : "false")) return;
         
-        var $form = $("form");
-        $form.off('submit');
-        $form.on('submit', function(e){
-            e.preventDefault();
-            var service = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
-            service.generateClientSideData({ items: [ $form.serializeFormToObject().viewModel ] }, {
+        function generateClientSideData(formObj) {
+            var basketItemService = easyAbp.eShop.plugins.baskets.basketItems.basketItem;
+
+            basketItemService.generateClientSideData({ items: [ formObj.viewModel ] }, {
                 success: function (responseText, statusText, xhr, form) {
                     var basketItems = JSON.parse(localStorage.getItem(localStorageItemKey)) || [];
                     basketItems = pushOrUpdateBasketItem(basketItems, responseText.items[0])
@@ -48,6 +47,34 @@
                     })
                 }
             });
+        }
+        
+        var $form = $("form");
+        $form.off('submit');
+        $form.on('submit', function(e){
+            e.preventDefault();
+            var orderService = easyAbp.eShop.orders.orders.order;
+            var formObj = $form.serializeFormToObject();
+            if (abp.currentUser.isAuthenticated) {
+                orderService.checkCreate({
+                    storeId: formObj.viewModel.storeId,
+                    orderLines: [{
+                        productId: formObj.viewModel.productId,
+                        productSkuId: formObj.viewModel.productSkuId,
+                        quantity: formObj.viewModel.quantity
+                    }]
+                }, {
+                    success: function (responseText, statusText, xhr, form) {
+                        if (responseText.canCreate) {
+                            generateClientSideData(formObj);
+                        } else {
+                            abp.message.error(l('@BasketsErrorCodes.CheckCreateOrderFailed', responseText.reason));
+                        }
+                    }
+                });
+            } else {
+                generateClientSideData(formObj);
+            }
         });
     });
     
