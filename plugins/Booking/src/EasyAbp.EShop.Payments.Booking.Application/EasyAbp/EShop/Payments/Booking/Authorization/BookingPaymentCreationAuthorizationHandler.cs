@@ -112,6 +112,7 @@ namespace EasyAbp.EShop.Payments.Booking.Authorization
         {
             return new OccupyAssetByCategoryInfoModel(
                 assetCategoryId,
+                orderLine.FindBookingPeriodSchemeId(),
                 orderLine.GetBookingVolume(),
                 orderLine.GetBookingDate(),
                 orderLine.GetBookingStartingTime(),
