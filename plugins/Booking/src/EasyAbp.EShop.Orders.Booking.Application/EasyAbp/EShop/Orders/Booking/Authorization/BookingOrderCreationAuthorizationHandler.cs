@@ -132,6 +132,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         {
             return new OccupyAssetByCategoryInfoModel(
                 assetCategoryId,
+                orderLine.FindBookingPeriodSchemeId(),
                 orderLine.GetBookingVolume(),
                 orderLine.GetBookingDate(),
                 orderLine.GetBookingStartingTime(),

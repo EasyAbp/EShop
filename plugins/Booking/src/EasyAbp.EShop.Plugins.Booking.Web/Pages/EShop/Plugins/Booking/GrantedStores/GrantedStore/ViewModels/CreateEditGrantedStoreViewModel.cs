@@ -18,8 +18,8 @@ namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.GrantedS
         public Guid StoreId { get; set; }
 
         [EasySelector(
-            getListedDataSourceUrl: BookingServiceUrls.GetAssetListedDataSourceUrl,
-            getSingleDataSourceUrl: BookingServiceUrls.GetAssetSingleDataSourceUrl,
+            getListedDataSourceUrl: BookingServiceCommonUrls.GetAssetListedDataSourceUrl,
+            getSingleDataSourceUrl: BookingServiceCommonUrls.GetAssetSingleDataSourceUrl,
             keyPropertyName: "id",
             textPropertyName: "name",
             moduleName: BookingServiceRemoteServiceConsts.ModuleName)]
@@ -27,8 +27,8 @@ namespace EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.GrantedS
         public Guid? AssetId { get; set; }
         
         [EasySelector(
-            getListedDataSourceUrl: BookingServiceUrls.GetAssetCategoryListedDataSourceUrl,
-            getSingleDataSourceUrl: BookingServiceUrls.GetAssetCategorySingleDataSourceUrl,
+            getListedDataSourceUrl: BookingServiceCommonUrls.GetAssetCategoryListedDataSourceUrl,
+            getSingleDataSourceUrl: BookingServiceCommonUrls.GetAssetCategorySingleDataSourceUrl,
             keyPropertyName: "id",
             textPropertyName: "name",
             moduleName: BookingServiceRemoteServiceConsts.ModuleName)]

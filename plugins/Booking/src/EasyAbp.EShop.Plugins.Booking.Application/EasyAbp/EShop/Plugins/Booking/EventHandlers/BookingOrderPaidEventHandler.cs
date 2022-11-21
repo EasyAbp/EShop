@@ -27,6 +27,7 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
         {
             var assetId = orderLine.FindBookingAssetId();
             var assetCategoryId = orderLine.FindBookingAssetCategoryId();
+            var periodSchemeId = orderLine.FindBookingPeriodSchemeId();
             var volume = orderLine.FindBookingVolume();
             var date = orderLine.FindBookingDate();
             var startingTime = orderLine.FindBookingStartingTime();
@@ -51,6 +52,7 @@ public class BookingOrderPaidEventHandler : IDistributedEventHandler<OrderPaidEt
             {
                 occupyByCategoryModels.Add(new OccupyAssetByCategoryInfoModel(
                     assetCategoryId: assetCategoryId.Value,
+                    periodSchemeId: periodSchemeId,
                     volume: volume.Value,
                     date: date.Value,
                     startingTime: startingTime.Value,
