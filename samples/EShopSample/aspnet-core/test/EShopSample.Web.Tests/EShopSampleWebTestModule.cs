@@ -87,7 +87,7 @@ namespace EShopSample
                 }
             });
 
-            app.UseVirtualFiles();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

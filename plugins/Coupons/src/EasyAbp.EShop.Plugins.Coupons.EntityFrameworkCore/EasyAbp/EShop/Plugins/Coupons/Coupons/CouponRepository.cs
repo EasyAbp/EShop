@@ -17,14 +17,14 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         {
         }
 
-        public virtual IQueryable<Coupon> GetAvailableCouponQueryable(IClock clock)
+        public virtual async Task<IQueryable<Coupon>> GetAvailableCouponQueryableAsync(IClock clock)
         {
             var now = clock.Now;
 
-            return DbSet
+            return (await GetDbSetAsync())
                 .Where(x => x.ExpirationTime > now)
                 .Join(
-                    DbContext.CouponTemplates.Where(x => !x.UsableBeginTime.HasValue || x.UsableBeginTime.Value <= now),
+                    (await GetDbContextAsync()).CouponTemplates.Where(x => !x.UsableBeginTime.HasValue || x.UsableBeginTime.Value <= now),
                     coupon => coupon.CouponTemplateId,
                     couponTemplate => couponTemplate.Id,
                     (coupon, couponTemplate) => coupon

@@ -18,7 +18,7 @@ namespace EasyAbp.EShop.Products.ProductHistories
         
         public async Task<ProductHistory> GetAsync(Guid productId, DateTime modificationTime, CancellationToken cancellationToken = default)
         {
-            var entity = await GetQueryable()
+            var entity = await (await GetQueryableAsync())
                 .Where(x => x.ModificationTime == modificationTime && x.ProductId == productId)
                 .FirstOrDefaultAsync(cancellationToken);
 

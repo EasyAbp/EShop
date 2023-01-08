@@ -1,8 +1,6 @@
 using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
 using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssets.ProductAsset.ViewModels;
-using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
 using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssets.ProductAssetPeriod.ViewModels;
-using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using AutoMapper;
 using EasyAbp.EShop.Plugins.Booking.Web.Pages.EShop.Plugins.Booking.ProductAssetCategories.ProductAssetCategory.ViewModels;
