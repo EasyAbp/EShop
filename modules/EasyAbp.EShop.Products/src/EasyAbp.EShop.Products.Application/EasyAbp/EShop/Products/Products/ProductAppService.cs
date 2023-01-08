@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -481,7 +482,7 @@ namespace EasyAbp.EShop.Products.Products
 
         protected override Task<Product> MapToEntityAsync(CreateUpdateProductDto createInput)
         {
-            return Task.FromResult(new Product(
+            var entity = new Product(
                 GuidGenerator.Create(),
                 CurrentTenant.Id,
                 createInput.StoreId,
@@ -496,7 +497,11 @@ namespace EasyAbp.EShop.Products.Products
                 createInput.IsHidden,
                 createInput.PaymentExpireIn,
                 createInput.MediaResources,
-                createInput.DisplayOrder));
+                createInput.DisplayOrder);
+
+            createInput.MapExtraPropertiesTo(entity);
+
+            return Task.FromResult(entity);
         }
 
         protected override Task MapToEntityAsync(CreateUpdateProductDto updateInput, Product entity)
@@ -516,12 +521,14 @@ namespace EasyAbp.EShop.Products.Products
                 updateInput.MediaResources,
                 updateInput.DisplayOrder);
 
+            updateInput.MapExtraPropertiesTo(entity);
+
             return Task.CompletedTask;
         }
 
         protected virtual async Task<ProductSku> MapToProductSkuAsync(CreateProductSkuDto createInput)
         {
-            return new ProductSku(
+            var entity = new ProductSku(
                 GuidGenerator.Create(),
                 await _attributeOptionIdsSerializer.SerializeAsync(createInput.AttributeOptionIds),
                 createInput.Name,
@@ -534,6 +541,10 @@ namespace EasyAbp.EShop.Products.Products
                 createInput.MediaResources,
                 createInput.ProductDetailId
             );
+
+            createInput.MapExtraPropertiesTo(entity);
+
+            return entity;
         }
 
         protected virtual Task MapToProductSkuAsync(UpdateProductSkuDto updateInput, ProductSku entity)
@@ -549,6 +560,8 @@ namespace EasyAbp.EShop.Products.Products
                 updateInput.MediaResources,
                 updateInput.ProductDetailId
             );
+
+            updateInput.MapExtraPropertiesTo(entity);
 
             return Task.CompletedTask;
         }

@@ -8,7 +8,9 @@ using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.ObjectExtending;
 using Xunit;
 
 namespace EasyAbp.EShop.Products.Products
@@ -22,7 +24,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             _productAppService = GetRequiredService<IProductAppService>();
             _eShopProductsOptions = GetRequiredService<IOptions<EShopProductsOptions>>().Value;
-            
+
             // Arrange
             _eShopProductsOptions.Groups.Configure("Default Group Name", x =>
             {
@@ -47,14 +49,14 @@ namespace EasyAbp.EShop.Products.Products
                 IsPublished = true,
                 ProductAttributes = new List<CreateUpdateProductAttributeDto>
                 {
-                    new CreateUpdateProductAttributeDto
+                    new()
                     {
                         DisplayName = "Default Attribute 1",
                         Description = "Default Description 1",
                         DisplayOrder = 1,
                         ProductAttributeOptions = new List<CreateUpdateProductAttributeOptionDto>
                         {
-                            new CreateUpdateProductAttributeOptionDto
+                            new()
                             {
                                 DisplayName = "Option 1"
                             }
@@ -62,6 +64,13 @@ namespace EasyAbp.EShop.Products.Products
                     }
                 }
             };
+
+            ObjectExtensionManager.Instance.AddOrUpdate(new[]
+            {
+                typeof(CreateUpdateProductDto), typeof(ProductDto), typeof(Product)
+            }, config => { config.AddOrUpdateProperty<string>("MyExtraProperty"); });
+
+            requestDto.SetProperty("MyExtraProperty", "1234");
 
             // Act
             var response = await _productAppService.CreateAsync(requestDto);
@@ -71,6 +80,7 @@ namespace EasyAbp.EShop.Products.Products
             response.IsPublished.ShouldBe(true);
             response.DisplayName.ShouldBe("Pencil");
             response.UniqueName.ShouldBe("Unique Pencil");
+            response.GetProperty<string>("MyExtraProperty").ShouldBe("1234");
 
             UsingDbContext(db =>
             {
@@ -102,15 +112,23 @@ namespace EasyAbp.EShop.Products.Products
                 productAttributeOptionId = productAttribute.ProductAttributeOptions.First().Id;
             });
 
-            var response = await _productAppService.CreateSkuAsync(productId, new CreateProductSkuDto
+            var requestDto = new CreateProductSkuDto
             {
-                AttributeOptionIds = new List<Guid> {productAttributeOptionId},
+                AttributeOptionIds = new List<Guid> { productAttributeOptionId },
                 Currency = "USD",
                 Price = 1m,
                 OrderMinQuantity = 1,
                 OrderMaxQuantity = 10
-            });
-            
+            };
+
+            ObjectExtensionManager.Instance.AddOrUpdate(new[]
+            {
+                typeof(CreateProductSkuDto), typeof(ProductSkuDto), typeof(ProductSku)
+            }, config => { config.AddOrUpdateProperty<string>("MyExtraProperty"); });
+
+            requestDto.SetProperty("MyExtraProperty", "1234");
+            var response = await _productAppService.CreateSkuAsync(productId, requestDto);
+
             response.ShouldNotBeNull();
             response.MinimumPrice.ShouldBe(1m);
             response.MaximumPrice.ShouldBe(1m);
@@ -123,6 +141,7 @@ namespace EasyAbp.EShop.Products.Products
             responseSku.AttributeOptionIds.First().ShouldBe(productAttributeOptionId);
             responseSku.OrderMinQuantity.ShouldBe(1);
             responseSku.OrderMaxQuantity.ShouldBe(10);
+            responseSku.GetProperty("MyExtraProperty", "1234");
         }
 
         [Fact]
@@ -132,7 +151,7 @@ namespace EasyAbp.EShop.Products.Products
             {
                 StoreId = ProductsTestData.Store1Id
             });
-            
+
             getListResult.Items.ShouldNotBeEmpty();
 
             var productDto = getListResult.Items.FirstOrDefault(x => x.Id == ProductsTestData.Product1Id);
@@ -140,19 +159,19 @@ namespace EasyAbp.EShop.Products.Products
             productDto.ShouldNotBeNull();
             productDto.MinimumPrice.ShouldBe(1m);
             productDto.MaximumPrice.ShouldBe(3m);
-            
+
             var getResult = await _productAppService.GetAsync(ProductsTestData.Product1Id);
 
             getResult.ShouldNotBeNull();
             getResult.MinimumPrice.ShouldBe(1m);
             getResult.MaximumPrice.ShouldBe(3m);
         }
-        
+
         [Fact]
         public async Task Should_Check_ProductDetailId()
         {
             var wrongProductDetailId = Guid.NewGuid();
-            
+
             var requestDto = new CreateUpdateProductDto
             {
                 ProductGroupName = "Default Group Name",
@@ -187,7 +206,7 @@ namespace EasyAbp.EShop.Products.Products
                 await _productAppService.CreateAsync(requestDto);
             })).EntityType.ShouldBe(typeof(ProductDetail));
         }
-        
+
         [Fact]
         public async Task Should_Check_Sku_ProductDetailId()
         {
