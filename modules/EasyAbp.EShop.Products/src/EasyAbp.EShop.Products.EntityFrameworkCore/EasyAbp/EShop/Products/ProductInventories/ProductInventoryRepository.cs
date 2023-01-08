@@ -18,7 +18,7 @@ namespace EasyAbp.EShop.Products.ProductInventories
 
         public async Task<InventoryDataModel> GetInventoryDataAsync(Guid productSkuId, CancellationToken cancellationToken = default)
         {
-            return await GetQueryable()
+            return await (await GetQueryableAsync())
                 .Where(x => x.ProductSkuId == productSkuId)
                 .Select(x => new InventoryDataModel
                 {

@@ -20,7 +20,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual async Task<IQueryable<ProductView>> GetQueryableAsync(Guid categoryId)
         {
-            return await JoinProductCategoriesAsync(DbSet, categoryId);
+            return await JoinProductCategoriesAsync(await GetDbSetAsync(), categoryId);
         }
 
         public virtual async Task<IQueryable<ProductView>> WithDetailsAsync(Guid categoryId)
