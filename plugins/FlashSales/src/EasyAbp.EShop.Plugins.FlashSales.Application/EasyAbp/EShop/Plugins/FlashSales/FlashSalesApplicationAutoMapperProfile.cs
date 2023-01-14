@@ -16,18 +16,26 @@ public class FlashSalesApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
         CreateMap<FlashSalePlan, FlashSalePlanDto>()
-            .MapExtraProperties();
+            .MapExtraProperties()
+            .ForSourceMember(x => x.ExtraProperties,
+                x => x.DoNotValidate()); // todo: https://github.com/abpframework/abp/issues/15404
         CreateMap<FlashSalePlanCreateDto, FlashSalePlan>(MemberList.Source);
         CreateMap<FlashSalePlanUpdateDto, FlashSalePlan>(MemberList.Source);
         CreateMap<FlashSalePlan, FlashSalePlanCacheItem>()
-            .MapExtraProperties();
+            .MapExtraProperties()
+            .ForSourceMember(x => x.ExtraProperties,
+                x => x.DoNotValidate()); // todo: https://github.com/abpframework/abp/issues/15404
         CreateMap<FlashSalePlanCacheItem, FlashSalePlanEto>()
-            .MapExtraProperties();
-
+            .MapExtraProperties()
+            .ForSourceMember(x => x.ExtraProperties,
+                x => x.DoNotValidate()); // todo: https://github.com/abpframework/abp/issues/15404
         CreateMap<FlashSaleResult, FlashSaleResultDto>()
-            .MapExtraProperties();
-
+            .MapExtraProperties()
+            .ForSourceMember(x => x.ExtraProperties,
+                x => x.DoNotValidate()); // todo: https://github.com/abpframework/abp/issues/15404
         CreateMap<ProductDto, ProductCacheItem>(MemberList.Source)
-            .MapExtraProperties();
+            .MapExtraProperties()
+            .ForSourceMember(x => x.ExtraProperties,
+                x => x.DoNotValidate()); // todo: https://github.com/abpframework/abp/issues/15404
     }
 }
