@@ -16,11 +16,13 @@ namespace EasyAbp.EShop.Payments
              * into multiple profile classes for a better organization. */
 
             CreateMap<PaymentEto, Payment>(MemberList.Source)
+                .ForSourceMember(x => x.PaymentItems, x => x.DoNotValidate())
                 .Ignore(x => x.PaymentItems);
             CreateMap<PaymentItemEto, PaymentItem>(MemberList.Source)
                 .Ignore(x => x.StoreId);
-            
+
             CreateMap<RefundEto, Refund>(MemberList.Source)
+                .ForSourceMember(x => x.RefundItems, x => x.DoNotValidate())
                 .Ignore(x => x.RefundItems);
             CreateMap<RefundItemEto, RefundItem>(MemberList.Source)
                 .Ignore(x => x.StoreId)

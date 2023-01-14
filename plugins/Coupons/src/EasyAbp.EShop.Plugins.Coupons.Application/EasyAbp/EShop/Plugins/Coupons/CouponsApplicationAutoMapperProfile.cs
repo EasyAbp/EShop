@@ -16,6 +16,7 @@ namespace EasyAbp.EShop.Plugins.Coupons
              * into multiple profile classes for a better organization. */
             CreateMap<CouponTemplate, CouponTemplateDto>();
             CreateMap<CreateUpdateCouponTemplateDto, CouponTemplate>(MemberList.Source)
+                .ForSourceMember(x => x.Scopes, x => x.DoNotValidate())
                 .Ignore(x => x.Scopes);
             
             CreateMap<CouponTemplateScope, CouponTemplateScopeDto>();
