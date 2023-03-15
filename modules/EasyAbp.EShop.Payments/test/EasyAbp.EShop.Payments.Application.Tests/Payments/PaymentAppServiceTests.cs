@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Orders.Orders.Dtos;
@@ -7,6 +8,7 @@ using EasyAbp.EShop.Payments.Payments.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
+using Volo.Abp.Data;
 using Xunit;
 
 namespace EasyAbp.EShop.Payments.Payments
@@ -41,7 +43,7 @@ namespace EasyAbp.EShop.Payments.Payments
                     }
                 }
             }));
-            
+
             services.AddTransient(_ => orderService);
         }
 
@@ -66,8 +68,15 @@ namespace EasyAbp.EShop.Payments.Payments
 
             // Act & Assert
             await _paymentAppService.CreateAsync(request);
-            
-            _testCreatePaymentEventHandler.IsEventPublished.ShouldBe(true );
+
+            _testCreatePaymentEventHandler.IsEventPublished.ShouldBe(true);
+            _testCreatePaymentEventHandler.CreatePaymentEto.PaymentItems.Count.ShouldBe(1);
+            _testCreatePaymentEventHandler.CreatePaymentEto.PaymentItems.First().ItemType
+                .ShouldBe(PaymentsConsts.PaymentItemType);
+            _testCreatePaymentEventHandler.CreatePaymentEto.PaymentItems.First().ItemKey
+                .ShouldBe(PaymentsTestData.Order1.ToString());
+            _testCreatePaymentEventHandler.CreatePaymentEto.PaymentItems.First()
+                .GetProperty(nameof(PaymentItem.StoreId)).ShouldBe(PaymentsTestData.Store1);
         }
     }
 }

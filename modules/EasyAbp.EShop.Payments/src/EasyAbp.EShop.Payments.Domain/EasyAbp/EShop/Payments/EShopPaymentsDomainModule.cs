@@ -1,4 +1,5 @@
-﻿using EasyAbp.EShop.Payments.Payments;
+﻿using EasyAbp.EShop.Payments.ObjectExtending;
+using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,16 +18,18 @@ namespace EasyAbp.EShop.Payments
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
+            EShopPaymentsObjectExtensions.Configure();
+
             Configure<AbpDistributedEntityEventOptions>(options =>
             {
                 options.EtoMappings.Add<Payment, EShopPaymentEto>(typeof(EShopPaymentsDomainModule));
                 options.EtoMappings.Add<Refund, EShopRefundEto>(typeof(EShopPaymentsDomainModule));
-                
+
                 options.AutoEventSelectors.Add<Payment>();
                 options.AutoEventSelectors.Add<Refund>();
             });
         }
-        
+
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAutoMapperObjectMapper<EShopPaymentsDomainModule>();
