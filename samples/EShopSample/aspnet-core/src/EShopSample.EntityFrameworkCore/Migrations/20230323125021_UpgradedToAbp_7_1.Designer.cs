@@ -4,6 +4,7 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleDbContext))]
-    partial class EShopSampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230323125021_UpgradedToAbp_7_1")]
+    partial class UpgradedToAbp71
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
