@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 using EasyAbp.EShop.Products.Products;
 using JetBrains.Annotations;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.DynamicProxy;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
@@ -59,13 +59,12 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual decimal RefundAmount { get; protected set; }
         
-        [JsonInclude]
-        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
+        public ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         protected OrderLine()
         {
             ExtraProperties = new ExtraPropertyDictionary();
-            this.SetDefaultsForExtraProperties();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
 
         public OrderLine(
@@ -114,7 +113,7 @@ namespace EasyAbp.EShop.Orders.Orders
             RefundAmount = 0;
             
             ExtraProperties = new ExtraPropertyDictionary();
-            this.SetDefaultsForExtraProperties();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
 
         internal void Refund(int quantity, decimal amount)
