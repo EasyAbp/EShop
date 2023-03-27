@@ -12,6 +12,8 @@
     "ProductDetailId": "Product detail ID",
     "ProductUniqueName": "Unique name",
     "ProductDisplayName": "Display name",
+    "ProductOverview": "Overview text",
+    "ProductOverviewPlaceholder": "A one-sentence description of this product, usually displayed in the product list.",
     "ProductDisplayOrder": "Display order",
     "ProductSold": "Sold",
     "ProductDetailDescription": "Description",

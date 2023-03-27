@@ -15,6 +15,8 @@ namespace EasyAbp.EShop.Products.Products
 
         string DisplayName { get; }
 
+        string Overview { get; }
+
         InventoryStrategy InventoryStrategy { get; }
 
         [CanBeNull] string InventoryProviderName { get; }

@@ -25,8 +25,8 @@ namespace EasyAbp.EShop.Products.Products
         public async Task Should_Set_ProductDetailId()
         {
             var product2 = new Product(ProductsTestData.Product2Id, null, ProductsTestData.Store1Id, "Default",
-                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, null, true, false, false,
-                null, null, 0);
+                ProductsTestData.ProductDetails2Id, "Ball", "Ball", null, InventoryStrategy.NoNeed, null, true, false,
+                false, null, null, 0);
             await ProductManager.CreateAsync(product2);
 
             product2 = await ProductRepository.GetAsync(product2.Id);
@@ -64,8 +64,8 @@ namespace EasyAbp.EShop.Products.Products
             product1.ProductDetailId.ShouldBe(ProductsTestData.ProductDetails1Id);
 
             var product2 = new Product(ProductsTestData.Product2Id, null, ProductsTestData.Store1Id, "Default",
-                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, null, true, false, false,
-                null, null, 0);
+                ProductsTestData.ProductDetails2Id, "Ball", "Ball", null, InventoryStrategy.NoNeed, null, true, false,
+                false, null, null, 0);
 
             await ProductManager.CreateAsync(product2);
 
@@ -181,7 +181,7 @@ namespace EasyAbp.EShop.Products.Products
         public async Task Should_Use_Fake_Inventory_Provider()
         {
             var product2 = new Product(ProductsTestData.Product2Id, null, ProductsTestData.Store1Id, "Default",
-                ProductsTestData.ProductDetails2Id, "Ball", "Ball", InventoryStrategy.NoNeed, "Fake", true, false,
+                ProductsTestData.ProductDetails2Id, "Ball", "Ball", null, InventoryStrategy.NoNeed, "Fake", true, false,
                 false, null, null, 0);
 
             await ProductManager.CreateAsync(product2);

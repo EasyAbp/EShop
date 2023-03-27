@@ -17,6 +17,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public string DisplayName { get; set; }
 
+        public string Overview { get; set; }
+
         public InventoryStrategy InventoryStrategy { get; set; }
 
         public string InventoryProviderName { get; set; }
@@ -32,9 +34,9 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public bool IsHidden { get; set; }
 
         public decimal? MinimumPrice { get; set; }
-        
+
         public decimal? MaximumPrice { get; set; }
-        
+
         public long Sold { get; set; }
 
         public string ProductGroupDisplayName { get; set; }
