@@ -16,9 +16,6 @@ namespace EasyAbp.EShop.Products.Products
         [CanBeNull]
         public virtual string Name { get; protected set; }
 
-        [CanBeNull]
-        public virtual string Description { get; protected set; }
-
         [NotNull]
         public virtual string Currency { get; protected set; }
 
