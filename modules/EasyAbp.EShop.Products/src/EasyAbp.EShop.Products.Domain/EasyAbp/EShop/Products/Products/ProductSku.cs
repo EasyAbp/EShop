@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using NodaMoney;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.DynamicProxy;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -15,6 +15,9 @@ namespace EasyAbp.EShop.Products.Products
 
         [CanBeNull]
         public virtual string Name { get; protected set; }
+
+        [CanBeNull]
+        public virtual string Description { get; protected set; }
 
         [NotNull]
         public virtual string Currency { get; protected set; }
@@ -34,13 +37,12 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual Guid? ProductDetailId { get; protected set; }
 
-        [JsonInclude]
-        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
+        public ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         protected ProductSku()
         {
             ExtraProperties = new ExtraPropertyDictionary();
-            this.SetDefaultsForExtraProperties();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
 
         public ProductSku(
@@ -72,7 +74,7 @@ namespace EasyAbp.EShop.Products.Products
             ProductDetailId = productDetailId;
 
             ExtraProperties = new ExtraPropertyDictionary();
-            this.SetDefaultsForExtraProperties();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
 
         internal void TrimName()

@@ -37,7 +37,6 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
             ProductId = BookingTestConsts.BookingProduct1Id,
             ProductSkuId = BookingTestConsts.BookingProduct1Sku1Id,
             Quantity = BookingTestConsts.Volume,
-            ExtraProperties = new ExtraPropertyDictionary()
         };
 
         orderLine1.SetProperty(BookingOrderProperties.OrderLineBookingPeriodSchemeId,
@@ -55,7 +54,6 @@ public class BookingPaymentCreationAuthorizationHandlersTests : BookingApplicati
             ProductId = BookingTestConsts.BookingProduct1Id,
             ProductSkuId = BookingTestConsts.BookingProduct1Sku1Id,
             Quantity = BookingTestConsts.Volume,
-            ExtraProperties = new ExtraPropertyDictionary()
         };
 
         orderLine2.SetProperty(BookingOrderProperties.OrderLineBookingPeriodSchemeId,

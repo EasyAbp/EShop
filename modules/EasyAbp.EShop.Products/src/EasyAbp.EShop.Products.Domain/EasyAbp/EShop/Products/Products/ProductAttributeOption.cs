@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.DynamicProxy;
 
 namespace EasyAbp.EShop.Products.Products
 {
@@ -17,13 +16,12 @@ namespace EasyAbp.EShop.Products.Products
         
         public virtual int DisplayOrder { get; protected set; }
 
-        [JsonInclude]
-        public virtual ExtraPropertyDictionary ExtraProperties { get; protected set; }
+        public ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         protected ProductAttributeOption()
         {
             ExtraProperties = new ExtraPropertyDictionary();
-            this.SetDefaultsForExtraProperties();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
         
         public ProductAttributeOption(
@@ -37,7 +35,7 @@ namespace EasyAbp.EShop.Products.Products
             DisplayOrder = displayOrder;
             
             ExtraProperties = new ExtraPropertyDictionary();
-            this.SetDefaultsForExtraProperties();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
     }
 }
