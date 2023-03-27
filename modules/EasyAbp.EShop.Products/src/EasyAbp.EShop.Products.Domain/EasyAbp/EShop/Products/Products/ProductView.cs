@@ -20,6 +20,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual string DisplayName { get; protected set; }
 
+        public virtual string Overview { get; protected set; }
+
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
 
         public string InventoryProviderName { get; protected set; }
@@ -56,6 +58,7 @@ namespace EasyAbp.EShop.Products.Products
             Guid? productDetailId,
             string uniqueName,
             string displayName,
+            string overview,
             InventoryStrategy inventoryStrategy,
             string inventoryProviderName,
             bool isPublished,
@@ -75,6 +78,7 @@ namespace EasyAbp.EShop.Products.Products
             ProductDetailId = productDetailId;
             UniqueName = uniqueName?.Trim();
             DisplayName = displayName;
+            Overview = overview;
             InventoryStrategy = inventoryStrategy;
             InventoryProviderName = inventoryProviderName;
             IsPublished = isPublished;

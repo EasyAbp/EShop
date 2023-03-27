@@ -123,6 +123,7 @@ public class SampleDataSeedContributor : IDataSeedContributor, ITransientDepende
             null,
             SampleDataConsts.CakeProductUniqueName,
             "Cake",
+            "Delicious cakes",
             InventoryStrategy.NoNeed,
             null,
             true,

@@ -35,17 +35,18 @@ namespace EasyAbp.EShop.Products
         public async Task BuildAsync()
         {
             using var uow = _unitOfWorkManager.Begin();
-            
+
             var productDetail1 = await _productDetailRepository.InsertAsync(
                 new ProductDetail(ProductsTestData.ProductDetails1Id, null, ProductsTestData.Store1Id,
                     "Product details for store 1"), true);
-            
+
             var productDetail2 = await _productDetailRepository.InsertAsync(
                 new ProductDetail(ProductsTestData.ProductDetails2Id, null, ProductsTestData.Store1Id,
                     "Product details for store 1"), true);
 
             var product = new Product(ProductsTestData.Product1Id, null, ProductsTestData.Store1Id, "Default",
-                productDetail1.Id, "Cake", "Cake", InventoryStrategy.NoNeed, null, true, false, false, null, null, 0);
+                productDetail1.Id, "Cake", "Cake", "Delicious cakes", InventoryStrategy.NoNeed, null, true, false,
+                false, null, null, 0);
 
             var attribute1 = new ProductAttribute(ProductsTestData.Product1Attribute1Id, "Size", null, 1);
             var attribute2 = new ProductAttribute(ProductsTestData.Product1Attribute2Id, "Color", null, 2);
@@ -57,7 +58,7 @@ namespace EasyAbp.EShop.Products
                 new ProductAttributeOption(ProductsTestData.Product1Attribute1Option1Id, "S", null, 1),
                 new ProductAttributeOption(ProductsTestData.Product1Attribute1Option3Id, "L", null, 3),
             });
-            
+
             attribute2.ProductAttributeOptions.AddRange(new[]
             {
                 new ProductAttributeOption(ProductsTestData.Product1Attribute2Option2Id, "Green", null, 2),
@@ -83,7 +84,7 @@ namespace EasyAbp.EShop.Products
                 await _attributeOptionIdsSerializer.SerializeAsync(new[]
                     { ProductsTestData.Product1Attribute1Option3Id, ProductsTestData.Product1Attribute2Option2Id }),
                 null, "USD", null, 3m, 1, 10, null, null, null);
-            
+
             await _productManager.CreateSkuAsync(product, productSku1);
             await _productManager.CreateSkuAsync(product, productSku2);
             await _productManager.CreateSkuAsync(product, productSku3);

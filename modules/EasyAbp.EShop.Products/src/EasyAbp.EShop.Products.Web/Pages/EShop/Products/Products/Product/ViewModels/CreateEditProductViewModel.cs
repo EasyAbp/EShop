@@ -13,7 +13,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [HiddenInput]
         [Display(Name = "ProductStoreId")]
         public Guid StoreId { get; set; }
-        
+
         [Required]
         [SelectItems("ProductGroups")]
         [Display(Name = "ProductProductGroupName")]
@@ -30,10 +30,14 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
 
         [Display(Name = "ProductUniqueName")]
         public string UniqueName { get; set; }
-        
+
         [Required]
         [Display(Name = "ProductDisplayName")]
         public string DisplayName { get; set; }
+
+        [Placeholder("ProductOverviewPlaceholder")]
+        [Display(Name = "ProductOverview")]
+        public string Overview { get; set; }
 
         public CreateEditProductDetailViewModel ProductDetail { get; set; } = new();
 
@@ -41,7 +45,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
         [Placeholder("ProductAttributeNamesPlaceholder")]
         [Display(Name = "ProductAttributeNames")]
         public string ProductAttributeNames { get; set; }
-        
+
         [Required]
         [TextArea(Rows = 4)]
         [Placeholder("ProductAttributeOptionNamesPlaceholder")]
@@ -60,13 +64,13 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
 
         [Display(Name = "ProductMediaResources")]
         public string MediaResources { get; set; }
-        
+
         [Display(Name = "ProductIsPublished")]
         public bool IsPublished { get; set; }
-        
+
         [Display(Name = "ProductIsHidden")]
         public bool IsHidden { get; set; }
-        
+
         [Display(Name = "ProductPaymentExpireIn")]
         public TimeSpan? PaymentExpireIn { get; set; }
 
@@ -76,7 +80,7 @@ namespace EasyAbp.EShop.Products.Web.Pages.EShop.Products.Products.Product.ViewM
             {
                 yield return new ValidationResult(
                     "The StoreId should be same as the ProductDetail.StoreId.",
-                    new[] {"StoreId"}
+                    new[] { "StoreId" }
                 );
             }
         }

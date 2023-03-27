@@ -25,6 +25,12 @@ namespace EasyAbp.EShop.Products.Products
         [NotNull]
         public virtual string DisplayName { get; protected set; }
 
+        /// <summary>
+        /// Tell your customer what the product is. It is usually shown in the product list.
+        /// </summary>
+        [CanBeNull]
+        public virtual string Overview { get; protected set; }
+
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
 
         /// <summary>
@@ -62,6 +68,7 @@ namespace EasyAbp.EShop.Products.Products
             Guid? productDetailId,
             [CanBeNull] string uniqueName,
             [NotNull] string displayName,
+            [CanBeNull] string overview,
             InventoryStrategy inventoryStrategy,
             [CanBeNull] string inventoryProviderName,
             bool isPublished,
@@ -76,6 +83,7 @@ namespace EasyAbp.EShop.Products.Products
             StoreId = storeId;
             ProductGroupName = Check.NotNullOrWhiteSpace(productGroupName, nameof(productGroupName));
             ProductDetailId = productDetailId;
+            Overview = overview;
             UniqueName = uniqueName?.Trim();
             DisplayName = Check.NotNullOrWhiteSpace(displayName, nameof(displayName));
             InventoryStrategy = inventoryStrategy;
@@ -97,6 +105,7 @@ namespace EasyAbp.EShop.Products.Products
             Guid? productDetailId,
             [CanBeNull] string uniqueName,
             [NotNull] string displayName,
+            [CanBeNull] string overview,
             InventoryStrategy inventoryStrategy,
             [CanBeNull] string inventoryProviderName,
             bool isPublished,
@@ -111,6 +120,7 @@ namespace EasyAbp.EShop.Products.Products
             ProductDetailId = productDetailId;
             UniqueName = uniqueName?.Trim();
             DisplayName = Check.NotNullOrWhiteSpace(displayName, nameof(displayName));
+            Overview = overview;
             InventoryStrategy = inventoryStrategy;
             InventoryProviderName = inventoryProviderName;
             IsPublished = isPublished;

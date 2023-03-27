@@ -30,6 +30,9 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         [DisplayName("ProductDisplayName")]
         public string DisplayName { get; set; }
 
+        [DisplayName("ProductOverview")]
+        public string Overview { get; set; }
+
         public ICollection<CreateUpdateProductAttributeDto> ProductAttributes { get; set; }
 
         [DisplayName("ProductInventoryStrategy")]

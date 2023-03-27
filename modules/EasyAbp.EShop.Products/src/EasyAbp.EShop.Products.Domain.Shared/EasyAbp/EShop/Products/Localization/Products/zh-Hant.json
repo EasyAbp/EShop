@@ -12,6 +12,8 @@
     "ProductDetailId": "商品詳情 ID",
     "ProductUniqueName": "商品編號",
     "ProductDisplayName": "商品名稱",
+    "ProductOverview": "商品文本概述",
+    "ProductOverviewPlaceholder": "用一句话描述此商品，通常显示于商品列表",
     "ProductDisplayOrder": "展示順序",
     "ProductSold": "已售",
     "ProductDetailDescription": "詳情介紹",
