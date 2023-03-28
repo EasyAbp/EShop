@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "EasyAbp.EShop.Plugins.Promotions": {
+      "path": "EasyAbp.EShop.Plugins.Promotions.abpmdl.json"
+    }
+  }
+}

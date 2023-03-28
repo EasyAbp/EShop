@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.VirtualFileSystem" Version="$(AbpVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="..\..\EasyAbp.EShop.Plugins.Promotions.abpmdl.json" />
+      <EmbeddedResource Include="..\..\EasyAbp.EShop.Plugins.Promotions.abpmdl.json" />
+    </ItemGroup>
+
+</Project>

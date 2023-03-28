@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Orders.Plugins.FlashSales.Application\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Application\EasyAbp.EShop.Plugins.FlashSales.Application.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.Application\EasyAbp.EShop.Products.Plugins.FlashSales.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Application\EasyAbp.EShop.Plugins.Promotions.Application.csproj" />
     <ProjectReference Include="..\EShopSample.Domain\EShopSample.Domain.csproj" />
     <ProjectReference Include="..\EShopSample.Application.Contracts\EShopSample.Application.Contracts.csproj" />
   </ItemGroup>
