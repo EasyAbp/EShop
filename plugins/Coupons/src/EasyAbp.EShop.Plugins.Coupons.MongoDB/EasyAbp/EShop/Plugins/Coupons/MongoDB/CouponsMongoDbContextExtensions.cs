@@ -6,7 +6,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.MongoDB
 {
     public static class CouponsMongoDbContextExtensions
     {
-        public static void ConfigureCoupons(
+        public static void ConfigureEShopPluginsCoupons(
             this IMongoModelBuilder builder,
             Action<AbpMongoModelBuilderConfigurationOptions> optionsAction = null)
         {
