@@ -32,7 +32,6 @@ namespace EasyAbp.EShop.Products.Products
         private readonly EShopProductsOptions _options;
         private readonly IProductInventoryProviderResolver _productInventoryProviderResolver;
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
-        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductRepository _repository;
 
         public ProductAppService(
@@ -41,7 +40,6 @@ namespace EasyAbp.EShop.Products.Products
             IDistributedCache<ProductViewCacheItem> cache,
             IProductInventoryProviderResolver productInventoryProviderResolver,
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
-            IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
@@ -49,7 +47,6 @@ namespace EasyAbp.EShop.Products.Products
             _options = options.Value;
             _productInventoryProviderResolver = productInventoryProviderResolver;
             _productViewCacheKeyProvider = productViewCacheKeyProvider;
-            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _repository = repository;
         }
 
@@ -127,21 +124,11 @@ namespace EasyAbp.EShop.Products.Products
             return dto;
         }
 
-        protected virtual async Task UpdateProductAttributesAsync(Product product, CreateUpdateProductDto input)
+        protected virtual Task UpdateProductAttributesAsync(Product product, CreateUpdateProductDto input)
         {
             var isProductSkusEmpty = product.ProductSkus.IsNullOrEmpty();
 
-            var usedAttributeOptionIds = new HashSet<Guid>();
-
-            foreach (var serializedAttributeOptionIds in product.ProductSkus.Select(sku =>
-                         sku.SerializedAttributeOptionIds))
-            {
-                foreach (var attributeOptionId in await _attributeOptionIdsSerializer.DeserializeAsync(
-                             serializedAttributeOptionIds))
-                {
-                    usedAttributeOptionIds.Add(attributeOptionId);
-                }
-            }
+            var usedAttributeOptionIds = new HashSet<Guid>(product.ProductSkus.SelectMany(x => x.AttributeOptionIds));
 
             foreach (var attributeDto in input.ProductAttributes)
             {
@@ -198,6 +185,7 @@ namespace EasyAbp.EShop.Products.Products
             }
 
             product.ProductAttributes.RemoveAll(a => removedAttributeNames.Contains(a.DisplayName));
+            return Task.CompletedTask;
         }
 
         public override async Task<ProductDto> GetAsync(Guid id)
@@ -528,11 +516,11 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
-        protected virtual async Task<ProductSku> MapToProductSkuAsync(CreateProductSkuDto createInput)
+        protected virtual Task<ProductSku> MapToProductSkuAsync(CreateProductSkuDto createInput)
         {
             var entity = new ProductSku(
                 GuidGenerator.Create(),
-                await _attributeOptionIdsSerializer.SerializeAsync(createInput.AttributeOptionIds),
+                createInput.AttributeOptionIds,
                 createInput.Name,
                 createInput.Currency,
                 createInput.OriginalPrice,
@@ -546,7 +534,7 @@ namespace EasyAbp.EShop.Products.Products
 
             createInput.MapExtraPropertiesTo(entity);
 
-            return entity;
+            return Task.FromResult(entity);
         }
 
         protected virtual Task MapToProductSkuAsync(UpdateProductSkuDto updateInput, ProductSku entity)

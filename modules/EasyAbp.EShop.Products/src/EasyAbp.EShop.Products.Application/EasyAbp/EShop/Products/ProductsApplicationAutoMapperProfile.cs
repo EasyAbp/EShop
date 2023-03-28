@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Products
 {
     public class ProductsApplicationAutoMapperProfile : Profile, ISingletonDependency
     {
-        public ProductsApplicationAutoMapperProfile(IAttributeOptionIdsSerializer attributeOptionIdsSerializer) 
+        public ProductsApplicationAutoMapperProfile() 
         {
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
@@ -33,14 +33,10 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductAttribute, ProductAttributeDto>();
             CreateMap<ProductAttributeOption, ProductAttributeOptionDto>();
             CreateMap<ProductSku, ProductSkuDto>()
-                .ForSourceMember(entity => entity.SerializedAttributeOptionIds, opt => opt.DoNotValidate())
-                .Ignore(dto => dto.AttributeOptionIds)
                 .Ignore(dto => dto.Price)
                 .Ignore(dto => dto.DiscountedPrice)
                 .Ignore(dto => dto.Inventory)
-                .Ignore(dto => dto.Sold)
-                .AfterMap(async (src, dest) => dest.AttributeOptionIds =
-                    (await attributeOptionIdsSerializer.DeserializeAsync(src.SerializedAttributeOptionIds)).ToList());
+                .Ignore(dto => dto.Sold);
             CreateMap<CreateUpdateProductDetailDto, ProductDetail>(MemberList.Source)
                 .ForSourceMember(dto => dto.StoreId, opt => opt.DoNotValidate());
             CreateMap<CreateUpdateProductAttributeDto, ProductAttribute>(MemberList.Source);

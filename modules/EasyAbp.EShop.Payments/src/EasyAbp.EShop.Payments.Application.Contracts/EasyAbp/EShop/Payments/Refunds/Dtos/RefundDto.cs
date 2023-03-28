@@ -19,19 +19,20 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
         public string Currency { get; set; }
 
         public decimal RefundAmount { get; set; }
-        
+
         public string DisplayReason { get; set; }
 
         public string CustomerRemark { get; set; }
 
         public string StaffRemark { get; set; }
-        
+
         public DateTime? CompletedTime { get; set; }
-        
+
         public DateTime? CanceledTime { get; set; }
-        
+
         #endregion
-        
+
+        IEnumerable<IRefundItem> IRefund.RefundItems => RefundItems;
         public List<RefundItemDto> RefundItems { get; set; }
     }
 }

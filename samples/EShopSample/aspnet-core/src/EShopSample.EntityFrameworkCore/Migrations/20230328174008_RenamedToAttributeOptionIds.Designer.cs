@@ -4,6 +4,7 @@ using EShopSample.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopSample.Migrations
 {
     [DbContext(typeof(EShopSampleDbContext))]
-    partial class EShopSampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230328174008_RenamedToAttributeOptionIds")]
+    partial class RenamedToAttributeOptionIds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -5708,7 +5711,7 @@ namespace EShopSample.Migrations
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
-                    b.OwnsOne("EasyAbp.BookingService.AssetCategories.AssetCategory.TimeInAdvance#EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
+                    b.OwnsOne("EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
                         {
                             b1.Property<Guid>("AssetCategoryId")
                                 .HasColumnType("uniqueidentifier");
@@ -5727,7 +5730,7 @@ namespace EShopSample.Migrations
 
                             b1.HasKey("AssetCategoryId");
 
-                            b1.ToTable("EasyAbpBookingServiceAssetCategories", (string)null);
+                            b1.ToTable("EasyAbpBookingServiceAssetCategories");
 
                             b1.WithOwner()
                                 .HasForeignKey("AssetCategoryId");
@@ -5740,7 +5743,7 @@ namespace EShopSample.Migrations
 
             modelBuilder.Entity("EasyAbp.BookingService.AssetSchedules.AssetSchedule", b =>
                 {
-                    b.OwnsOne("EasyAbp.BookingService.AssetSchedules.AssetSchedule.TimeInAdvance#EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
+                    b.OwnsOne("EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
                         {
                             b1.Property<Guid>("AssetScheduleId")
                                 .HasColumnType("uniqueidentifier");
@@ -5759,7 +5762,7 @@ namespace EShopSample.Migrations
 
                             b1.HasKey("AssetScheduleId");
 
-                            b1.ToTable("EasyAbpBookingServiceAssetSchedules", (string)null);
+                            b1.ToTable("EasyAbpBookingServiceAssetSchedules");
 
                             b1.WithOwner()
                                 .HasForeignKey("AssetScheduleId");
@@ -5770,7 +5773,7 @@ namespace EShopSample.Migrations
 
             modelBuilder.Entity("EasyAbp.BookingService.Assets.Asset", b =>
                 {
-                    b.OwnsOne("EasyAbp.BookingService.Assets.Asset.TimeInAdvance#EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
+                    b.OwnsOne("EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
                         {
                             b1.Property<Guid>("AssetId")
                                 .HasColumnType("uniqueidentifier");
@@ -5789,7 +5792,7 @@ namespace EShopSample.Migrations
 
                             b1.HasKey("AssetId");
 
-                            b1.ToTable("EasyAbpBookingServiceAssets", (string)null);
+                            b1.ToTable("EasyAbpBookingServiceAssets");
 
                             b1.WithOwner()
                                 .HasForeignKey("AssetId");

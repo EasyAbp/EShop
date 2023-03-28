@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Volo.Abp.Data;
 using Volo.Abp.ObjectExtending;
 
@@ -8,7 +9,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         public Guid Id { get; set; }
 
-        public string SerializedAttributeOptionIds { get; set; }
+        public List<Guid> AttributeOptionIds { get; set; }
 
         public string Name { get; set; }
 

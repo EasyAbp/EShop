@@ -19,7 +19,6 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductDetailRepository _productDetailRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProviderResolver _productInventoryProviderResolver;
-        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
         private readonly IProductGroupConfigurationProvider _productGroupConfigurationProvider;
 
         public ProductManager(
@@ -28,7 +27,6 @@ namespace EasyAbp.EShop.Products.Products
             IProductDetailRepository productDetailRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductInventoryProviderResolver productInventoryProviderResolver,
-            IAttributeOptionIdsSerializer attributeOptionIdsSerializer,
             IProductGroupConfigurationProvider productGroupConfigurationProvider)
         {
             _productRepository = productRepository;
@@ -36,7 +34,6 @@ namespace EasyAbp.EShop.Products.Products
             _productDetailRepository = productDetailRepository;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProviderResolver = productInventoryProviderResolver;
-            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
             _productGroupConfigurationProvider = productGroupConfigurationProvider;
         }
 
@@ -120,8 +117,6 @@ namespace EasyAbp.EShop.Products.Products
         [UnitOfWork]
         public virtual async Task<Product> CreateSkuAsync(Product product, ProductSku productSku)
         {
-            // productSku.SetSerializedAttributeOptionIds(await _attributeOptionIdsSerializer.FormatAsync(productSku.SerializedAttributeOptionIds));
-
             await CheckSkuAttributeOptionsAsync(product, productSku);
 
             await CheckProductSkuNameUniqueAsync(product, productSku);
@@ -151,25 +146,22 @@ namespace EasyAbp.EShop.Products.Products
             return Task.CompletedTask;
         }
 
-        protected virtual async Task CheckSkuAttributeOptionsAsync(Product product, ProductSku productSku)
+        protected virtual Task CheckSkuAttributeOptionsAsync(Product product, ProductSku productSku)
         {
-            var attributeOptionIds =
-                (await _attributeOptionIdsSerializer.DeserializeAsync(productSku.SerializedAttributeOptionIds))
-                .ToList();
-
-            if (!product.ProductAttributes.TrueForAll(attribute =>
-                    attribute.ProductAttributeOptions.Select(option => option.Id).Intersect(attributeOptionIds)
-                        .Count() == 1))
+            if (!product.ProductAttributes.TrueForAll(attribute => attribute.ProductAttributeOptions
+                    .Select(option => option.Id).Intersect(productSku.AttributeOptionIds).Count() == 1))
             {
                 throw new ProductSkuIncorrectAttributeOptionsException(product.Id,
-                    productSku.SerializedAttributeOptionIds);
+                    productSku.AttributeOptionIds.JoinAsString(","));
             }
 
-            if (product.ProductSkus.Where(sku => sku.Id != productSku.Id).FirstOrDefault(sku =>
-                    sku.SerializedAttributeOptionIds.Equals(productSku.SerializedAttributeOptionIds)) != null)
+            if (product.ProductSkus.Where(sku => sku.Id != productSku.Id).Any(sku =>
+                    sku.AttributeOptionIds.Order().SequenceEqual(productSku.AttributeOptionIds.Order())))
             {
-                throw new ProductSkuDuplicatedException(product.Id, productSku.SerializedAttributeOptionIds);
+                throw new ProductSkuDuplicatedException(product.Id, productSku.AttributeOptionIds.JoinAsString(","));
             }
+
+            return Task.CompletedTask;
         }
 
         [UnitOfWork]

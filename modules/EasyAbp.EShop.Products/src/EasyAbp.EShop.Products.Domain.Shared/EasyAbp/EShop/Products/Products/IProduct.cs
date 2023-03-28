@@ -1,34 +1,11 @@
-﻿using System;
-using EasyAbp.EShop.Stores.Stores;
-using JetBrains.Annotations;
-using Volo.Abp.Data;
+﻿using System.Collections.Generic;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public interface IProduct : IHasExtraProperties, IMultiStore
+    public interface IProduct : IProductBase
     {
-        string ProductGroupName { get; }
+        IEnumerable<IProductAttribute> ProductAttributes { get; }
 
-        Guid? ProductDetailId { get; }
-
-        string UniqueName { get; }
-
-        string DisplayName { get; }
-
-        string Overview { get; }
-
-        InventoryStrategy InventoryStrategy { get; }
-
-        [CanBeNull] string InventoryProviderName { get; }
-
-        string MediaResources { get; }
-
-        int DisplayOrder { get; }
-
-        bool IsPublished { get; }
-
-        bool IsStatic { get; }
-
-        bool IsHidden { get; }
+        IEnumerable<IProductSku> ProductSkus { get; }
     }
 }

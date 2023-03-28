@@ -52,8 +52,10 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual TimeSpan? PaymentExpireIn { get; protected set; }
 
+        IEnumerable<IProductAttribute> IProduct.ProductAttributes => ProductAttributes;
         public virtual List<ProductAttribute> ProductAttributes { get; protected set; }
 
+        IEnumerable<IProductSku> IProduct.ProductSkus => ProductSkus;
         public virtual List<ProductSku> ProductSkus { get; protected set; }
 
         protected Product()

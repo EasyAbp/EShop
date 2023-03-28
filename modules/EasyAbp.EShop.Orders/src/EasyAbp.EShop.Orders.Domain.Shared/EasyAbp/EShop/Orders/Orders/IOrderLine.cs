@@ -1,5 +1,6 @@
 ﻿using System;
 using EasyAbp.EShop.Products.Products;
+using JetBrains.Annotations;
 using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Orders.Orders
@@ -16,12 +17,16 @@ namespace EasyAbp.EShop.Orders.Orders
 
         DateTime? ProductDetailModificationTime { get; }
 
+        [NotNull]
         string ProductGroupName { get; }
 
+        [NotNull]
         string ProductGroupDisplayName { get; }
 
+        [CanBeNull]
         string ProductUniqueName { get; }
 
+        [NotNull]
         string ProductDisplayName { get; }
 
         /// <summary>
@@ -30,12 +35,16 @@ namespace EasyAbp.EShop.Orders.Orders
         /// </summary>
         InventoryStrategy? ProductInventoryStrategy { get; }
 
+        [CanBeNull]
         string SkuName { get; }
 
+        [CanBeNull]
         string SkuDescription { get; }
 
+        [CanBeNull]
         string MediaResources { get; }
 
+        [NotNull]
         string Currency { get; }
 
         decimal UnitPrice { get; }

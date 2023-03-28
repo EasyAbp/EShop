@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using NodaMoney;
 using Volo.Abp;
@@ -10,13 +11,20 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class ProductSku : FullAuditedEntity<Guid>, IProductSku
     {
-        [NotNull]
-        public virtual string SerializedAttributeOptionIds { get; protected set; }
+        private List<Guid> _attributeOptionIds;
 
-        [CanBeNull]
+        public virtual List<Guid> AttributeOptionIds
+        {
+            get => _attributeOptionIds;
+            protected set
+            {
+                _attributeOptionIds = value;
+                _attributeOptionIds.Sort();
+            }
+        }
+
         public virtual string Name { get; protected set; }
 
-        [NotNull]
         public virtual string Currency { get; protected set; }
 
         public virtual decimal? OriginalPrice { get; protected set; }
@@ -29,7 +37,6 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual TimeSpan? PaymentExpireIn { get; protected set; }
 
-        [CanBeNull]
         public virtual string MediaResources { get; protected set; }
 
         public virtual Guid? ProductDetailId { get; protected set; }
@@ -44,7 +51,7 @@ namespace EasyAbp.EShop.Products.Products
 
         public ProductSku(
             Guid id,
-            [NotNull] string serializedAttributeOptionIds,
+            List<Guid> attributeOptionIds,
             [CanBeNull] string name,
             [NotNull] string currency,
             decimal? originalPrice,
@@ -58,8 +65,8 @@ namespace EasyAbp.EShop.Products.Products
             Check.NotNullOrWhiteSpace(currency, nameof(currency));
             var nodaCurrency = NodaMoney.Currency.FromCode(currency);
 
-            SerializedAttributeOptionIds =
-                Check.NotNullOrWhiteSpace(serializedAttributeOptionIds, nameof(serializedAttributeOptionIds));
+            Check.NotNullOrEmpty(attributeOptionIds, nameof(attributeOptionIds));
+            AttributeOptionIds = attributeOptionIds;
             Name = name?.Trim();
             Currency = nodaCurrency.Code;
             OriginalPrice = originalPrice.HasValue ? new Money(originalPrice.Value, nodaCurrency).Amount : null;

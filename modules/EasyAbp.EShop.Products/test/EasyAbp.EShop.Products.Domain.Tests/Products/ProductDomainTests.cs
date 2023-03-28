@@ -12,13 +12,11 @@ namespace EasyAbp.EShop.Products.Products
     {
         private IProductRepository ProductRepository { get; }
         private IProductManager ProductManager { get; }
-        private IAttributeOptionIdsSerializer AttributeOptionIdsSerializer { get; }
 
         public ProductDomainTests()
         {
             ProductRepository = ServiceProvider.GetRequiredService<IProductRepository>();
             ProductManager = ServiceProvider.GetRequiredService<IProductManager>();
-            AttributeOptionIdsSerializer = ServiceProvider.GetRequiredService<IAttributeOptionIdsSerializer>();
         }
 
         [Fact]
@@ -129,7 +127,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             var product1 = await ProductRepository.GetAsync(ProductsTestData.Product1Id);
 
-            var attributeOptionIds = new[]
+            var attributeOptionIds = new List<Guid>
             {
                 ProductsTestData.Product1Attribute1Option4Id,
                 ProductsTestData.Product1Attribute2Option2Id
@@ -140,9 +138,8 @@ namespace EasyAbp.EShop.Products.Products
                 await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(attributeOptionIds));
             });
 
-            var serializedAttributeOptionIds = await AttributeOptionIdsSerializer.SerializeAsync(attributeOptionIds);
 
-            product1.ProductSkus.Count(x => x.SerializedAttributeOptionIds == serializedAttributeOptionIds).ShouldBe(1);
+            product1.ProductSkus.Count(x => x.AttributeOptionIds.SequenceEqual(attributeOptionIds)).ShouldBe(1);
         }
 
         [Fact]
@@ -152,7 +149,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await Should.ThrowAsync<ProductSkuIncorrectAttributeOptionsException>(async () =>
             {
-                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new[]
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new List<Guid>
                 {
                     ProductsTestData.Product1Attribute1Option1Id // need 2 options but input 1
                 }));
@@ -160,7 +157,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await Should.ThrowAsync<ProductSkuIncorrectAttributeOptionsException>(async () =>
             {
-                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new[]
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new List<Guid>
                 {
                     ProductsTestData.Product1Attribute1Option1Id,
                     Guid.NewGuid() // a nonexistent option
@@ -169,7 +166,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await Should.ThrowAsync<ProductSkuIncorrectAttributeOptionsException>(async () =>
             {
-                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new[]
+                await ProductManager.CreateSkuAsync(product1, await CreateTestSkuAsync(new List<Guid>
                 {
                     ProductsTestData.Product1Attribute1Option1Id,
                     ProductsTestData.Product1Attribute1Option2Id // 2 options from attribute1
@@ -186,7 +183,8 @@ namespace EasyAbp.EShop.Products.Products
 
             await ProductManager.CreateAsync(product2);
 
-            var fakeSku = new ProductSku(Guid.NewGuid(), "[]", null, "USD", null, 0m, 1, 1, null, null, null);
+            var fakeSku = new ProductSku(Guid.NewGuid(), new List<Guid> { Guid.NewGuid() }, null, "USD", null, 0m, 1, 1,
+                null, null, null);
 
             var inventoryDataModel = await ProductManager.GetInventoryDataAsync(product2, fakeSku);
 
@@ -194,9 +192,9 @@ namespace EasyAbp.EShop.Products.Products
             inventoryDataModel.Inventory.ShouldBe(9998);
         }
 
-        private async Task<ProductSku> CreateTestSkuAsync(IEnumerable<Guid> attributeOptionIds)
+        private async Task<ProductSku> CreateTestSkuAsync(List<Guid> attributeOptionIds)
         {
-            return new ProductSku(Guid.NewGuid(), await AttributeOptionIdsSerializer.SerializeAsync(attributeOptionIds),
+            return new ProductSku(Guid.NewGuid(), attributeOptionIds,
                 "test-sku", "USD", null, 0m, 1, 10, null, null, null);
         }
     }

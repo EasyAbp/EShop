@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderExtraFee : Entity
+    public class OrderExtraFee : Entity, IOrderExtraFee
     {
         public virtual Guid OrderId { get; protected set; }
         

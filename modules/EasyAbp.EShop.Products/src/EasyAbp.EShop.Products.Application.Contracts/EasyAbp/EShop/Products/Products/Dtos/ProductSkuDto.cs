@@ -6,10 +6,9 @@ using Volo.Abp.Data;
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class ProductSkuDto : ExtensibleFullAuditedEntityDto<Guid>
+    public class ProductSkuDto : ExtensibleFullAuditedEntityDto<Guid>, IProductSku
     {
         public List<Guid> AttributeOptionIds { get; set; }
-        
         public string Name { get; set; }
         
         public string Currency { get; set; }

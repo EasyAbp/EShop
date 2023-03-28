@@ -54,8 +54,12 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public DateTime? PaymentExpiration { get; set; }
 
+        IEnumerable<IOrderLine> IOrder.OrderLines => OrderLines;
         public List<OrderLineEto> OrderLines { get; set; }
-        
+
+        IEnumerable<IOrderExtraFee> IOrder.OrderExtraFees => OrderExtraFees;
+        public List<OrderExtraFeeEto> OrderExtraFees { get; set; }
+
         public DateTime CreationTime { get; set; }
         
         public Guid? CreatorId { get; set; }
