@@ -31,6 +31,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos
 
         public bool IsUnscoped { get; set; }
         
+        IEnumerable<ICouponTemplateScope> ICouponTemplate.Scopes => Scopes;
         public List<CouponTemplateScopeDto> Scopes { get; set; }
     }
 }

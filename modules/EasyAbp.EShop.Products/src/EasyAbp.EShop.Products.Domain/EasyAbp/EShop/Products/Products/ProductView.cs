@@ -4,7 +4,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProduct, IMultiTenant
+    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProductBase, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
 

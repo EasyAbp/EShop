@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Products.Categories;
@@ -27,7 +28,6 @@ public class SampleDataSeedContributor : IDataSeedContributor, ITransientDepende
     private readonly ICategoryRepository _categoryRepository;
     private readonly IProductCategoryRepository _productCategoryRepository;
     private readonly ISettingProvider _settingProvider;
-    private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
 
     public SampleDataSeedContributor(
         IGuidGenerator guidGenerator,
@@ -38,8 +38,7 @@ public class SampleDataSeedContributor : IDataSeedContributor, ITransientDepende
         ICategoryManager categoryManager,
         ICategoryRepository categoryRepository,
         IProductCategoryRepository productCategoryRepository,
-        ISettingProvider settingProvider,
-        IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
+        ISettingProvider settingProvider)
     {
         _guidGenerator = guidGenerator;
         _currentTenant = currentTenant;
@@ -50,7 +49,6 @@ public class SampleDataSeedContributor : IDataSeedContributor, ITransientDepende
         _categoryRepository = categoryRepository;
         _productCategoryRepository = productCategoryRepository;
         _settingProvider = settingProvider;
-        _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
     }
 
     [UnitOfWork(true)]
@@ -155,23 +153,23 @@ public class SampleDataSeedContributor : IDataSeedContributor, ITransientDepende
         await _productManager.CreateAsync(product);
 
         var productSku1 = new ProductSku(_guidGenerator.Create(),
-            await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                { attribute1.ProductAttributeOptions[0].Id, attribute2.ProductAttributeOptions[0].Id }),
+            new List<Guid>
+                { attribute1.ProductAttributeOptions[0].Id, attribute2.ProductAttributeOptions[0].Id },
             null, "USD", null, 1m, 1, 10, null, null, null);
 
         var productSku2 = new ProductSku(_guidGenerator.Create(),
-            await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                { attribute1.ProductAttributeOptions[1].Id, attribute2.ProductAttributeOptions[0].Id }),
+            new List<Guid>
+                { attribute1.ProductAttributeOptions[1].Id, attribute2.ProductAttributeOptions[0].Id },
             null, "USD", null, 2m, 1, 10, null, null, null);
 
         var productSku3 = new ProductSku(_guidGenerator.Create(),
-            await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                { attribute1.ProductAttributeOptions[1].Id, attribute2.ProductAttributeOptions[1].Id }),
+            new List<Guid>
+                { attribute1.ProductAttributeOptions[1].Id, attribute2.ProductAttributeOptions[1].Id },
             null, "USD", null, 3m, 1, 10, null, null, null);
 
         var productSku4 = new ProductSku(_guidGenerator.Create(),
-            await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                { attribute1.ProductAttributeOptions[2].Id, attribute2.ProductAttributeOptions[1].Id }),
+            new List<Guid>
+                { attribute1.ProductAttributeOptions[2].Id, attribute2.ProductAttributeOptions[1].Id },
             null, "USD", null, 4m, 1, 10, null, null, null);
 
         await _productManager.CreateSkuAsync(product, productSku1);

@@ -12,6 +12,7 @@ namespace EasyAbp.EShop.Orders
              * into multiple profile classes for a better organization. */
             CreateMap<Order, OrderEto>();
             CreateMap<OrderLine, OrderLineEto>();
+            CreateMap<OrderExtraFee, OrderExtraFeeEto>();
         }
     }
 }

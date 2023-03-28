@@ -10,44 +10,44 @@ namespace EasyAbp.EShop.Payments.Payments
     public class Payment : FullAuditedAggregateRoot<Guid>, IPayment, IMultiTenant
     {
         #region Base properties
-        
+
         public virtual Guid? TenantId { get; protected set; }
-        
+
         public virtual Guid UserId { get; protected set; }
-        
+
         [NotNull]
         public virtual string PaymentMethod { get; protected set; }
-        
+
         [CanBeNull]
         public virtual string PayeeAccount { get; protected set; }
-        
+
         [CanBeNull]
         public virtual string ExternalTradingCode { get; protected set; }
-        
+
         [NotNull]
         public virtual string Currency { get; protected set; }
-        
+
         public virtual decimal OriginalPaymentAmount { get; protected set; }
 
         public virtual decimal PaymentDiscount { get; protected set; }
-        
+
         public virtual decimal ActualPaymentAmount { get; protected set; }
-        
+
         public virtual decimal RefundAmount { get; protected set; }
-        
+
         public virtual decimal PendingRefundAmount { get; protected set; }
 
         public virtual DateTime? CompletionTime { get; protected set; }
-        
+
         public virtual DateTime? CanceledTime { get; protected set; }
-        
+
+        IEnumerable<IPaymentItem> IPayment.PaymentItems => PaymentItems;
         public virtual List<PaymentItem> PaymentItems { get; protected set; }
-        
+
         #endregion
 
         protected Payment()
         {
-            
         }
 
         public void SetPaymentItems(List<PaymentItem> paymentItems)

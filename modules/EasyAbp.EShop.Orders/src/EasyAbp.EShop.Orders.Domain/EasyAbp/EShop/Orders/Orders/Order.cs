@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using EasyAbp.EShop.Stores.Stores;
 using System.Linq;
 using JetBrains.Annotations;
-using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -15,14 +13,12 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual Guid StoreId { get; protected set; }
         
-        [NotNull]
         public virtual string OrderNumber { get; protected set; }
         
         public virtual Guid CustomerUserId { get; protected set; }
         
         public virtual OrderStatus OrderStatus { get; protected set; }
 
-        [NotNull]
         public virtual string Currency { get; protected set; }
         
         public virtual decimal ProductTotalPrice { get; protected set; }
@@ -35,10 +31,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual decimal RefundAmount { get; protected set; }
         
-        [CanBeNull]
         public virtual string CustomerRemark { get; protected set; }
         
-        [CanBeNull]
         public virtual string StaffRemark { get; protected set; }
         
         public virtual Guid? PaymentId { get; protected set; }
@@ -49,7 +43,6 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual DateTime? CanceledTime { get; protected set; }
         
-        [CanBeNull]
         public virtual string CancellationReason { get; protected set; }
 
         public virtual DateTime? ReducedInventoryAfterPlacingTime { get; protected set; }
@@ -57,9 +50,11 @@ namespace EasyAbp.EShop.Orders.Orders
         public virtual DateTime? ReducedInventoryAfterPaymentTime { get; protected set; }
         
         public virtual DateTime? PaymentExpiration { get; protected set; }
-        
+
+        IEnumerable<IOrderLine> IOrder.OrderLines => OrderLines;
         public virtual List<OrderLine> OrderLines { get; protected set; }
         
+        IEnumerable<IOrderExtraFee> IOrder.OrderExtraFees => OrderExtraFees;
         public virtual List<OrderExtraFee> OrderExtraFees { get; protected set; }
 
         protected Order()

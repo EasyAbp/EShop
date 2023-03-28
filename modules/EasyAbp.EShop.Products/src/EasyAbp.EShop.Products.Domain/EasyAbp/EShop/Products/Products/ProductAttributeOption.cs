@@ -8,12 +8,10 @@ namespace EasyAbp.EShop.Products.Products
 {
     public class ProductAttributeOption : FullAuditedEntity<Guid>, IProductAttributeOption
     {
-        [NotNull]
         public virtual string DisplayName { get; protected set; }
-        
-        [CanBeNull]
+
         public virtual string Description { get; protected set; }
-        
+
         public virtual int DisplayOrder { get; protected set; }
 
         public ExtraPropertyDictionary ExtraProperties { get; protected set; }
@@ -23,7 +21,7 @@ namespace EasyAbp.EShop.Products.Products
             ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
-        
+
         public ProductAttributeOption(
             Guid id,
             [NotNull] string displayName,
@@ -33,7 +31,7 @@ namespace EasyAbp.EShop.Products.Products
             DisplayName = displayName;
             Description = description;
             DisplayOrder = displayOrder;
-            
+
             ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }

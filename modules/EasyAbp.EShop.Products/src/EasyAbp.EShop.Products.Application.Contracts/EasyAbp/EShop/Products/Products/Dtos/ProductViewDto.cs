@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class ProductViewDto : ExtensibleCreationAuditedEntityDto<Guid>
+    public class ProductViewDto : ExtensibleCreationAuditedEntityDto<Guid>, IProductBase
     {
         public Guid StoreId { get; set; }
 

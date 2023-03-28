@@ -10,11 +10,12 @@ namespace EasyAbp.EShop.Products.Products
         public Guid Id { get; set; }
 
         public string DisplayName { get; set; }
-        
+
         public string Description { get; set; }
-        
+
         public int DisplayOrder { get; set; }
-        
+
+        IEnumerable<IProductAttributeOption> IProductAttribute.ProductAttributeOptions => ProductAttributeOptions;
         public List<ProductAttributeOptionEto> ProductAttributeOptions { get; set; }
     }
 }
