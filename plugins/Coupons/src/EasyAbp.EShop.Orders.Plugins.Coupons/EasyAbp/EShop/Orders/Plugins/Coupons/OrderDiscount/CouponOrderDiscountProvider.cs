@@ -7,7 +7,8 @@ using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.EShop.Plugins.Coupons.Coupons;
 using EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
-using EasyAbp.EShop.Products.Products.Dtos;
+using EasyAbp.EShop.Products.Products;
+using NodaMoney;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Timing;
@@ -16,6 +17,8 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
 {
     public class CouponOrderDiscountProvider : IOrderDiscountProvider, ITransientDependency
     {
+        public static string OrderDiscountName { get; set; } = "Coupon";
+
         private readonly IClock _clock;
         private readonly ICouponAppService _couponAppService;
         private readonly ICouponLookupService _couponLookupService;
@@ -32,13 +35,14 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             _couponLookupService = couponLookupService;
             _couponTemplateLookupService = couponTemplateLookupService;
         }
-        
-        public virtual async Task<Order> DiscountAsync(Order order, Dictionary<Guid, ProductDto> productDict)
+
+        public virtual async Task<List<OrderDiscountInfoModel>> GetAllAsync(Order order,
+            Dictionary<Guid, IProduct> productDict)
         {
             var couponId = order.GetProperty<Guid?>(CouponsConsts.OrderCouponIdPropertyName);
             if (couponId is null)
             {
-                return order;
+                return new List<OrderDiscountInfoModel>();
             }
 
             var now = _clock.Now;
@@ -54,7 +58,7 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             {
                 throw new CouponHasBeenOccupiedException();
             }
-            
+
             var couponTemplate = await _couponTemplateLookupService.FindByIdAsync(coupon.CouponTemplateId);
 
             if (couponTemplate == null ||
@@ -65,12 +69,12 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             }
 
             var orderLinesInScope = GetOrderLinesInScope(couponTemplate, order, productDict);
-            
-            DiscountOrderLines(couponTemplate, order, orderLinesInScope);
-            
-            await _couponAppService.OccupyAsync(coupon.Id, new OccupyCouponInput {OrderId = order.Id});
 
-            return order;
+            var models = await DiscountOrderLinesAsync(couponTemplate, coupon, order, orderLinesInScope);
+
+            await _couponAppService.OccupyAsync(coupon.Id, new OccupyCouponInput { OrderId = order.Id });
+
+            return models;
         }
 
         protected virtual bool IsCurrencyExpected(CouponTemplateData couponTemplate, Order order)
@@ -78,21 +82,25 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             return couponTemplate.Currency == order.Currency;
         }
 
-        protected virtual void DiscountOrderLines(CouponTemplateData couponTemplate, Order order,
-            List<OrderLine> orderLinesInScope)
+        protected virtual Task<List<OrderDiscountInfoModel>> DiscountOrderLinesAsync(CouponTemplateData couponTemplate,
+            CouponData coupon, Order order, List<OrderLine> orderLinesInScope)
         {
             // Todo: support Custom coupon.
             if (couponTemplate.CouponType == CouponType.Custom)
             {
                 throw new NotSupportedException();
             }
-            
-            var totalOrderLineActualTotalPrice = orderLinesInScope.Sum(x => x.ActualTotalPrice);
 
-            var totalDiscountedAmount = couponTemplate.CouponType == CouponType.PerMeet
-                ? couponTemplate.DiscountAmount *
-                  Math.Floor(totalOrderLineActualTotalPrice / couponTemplate.ConditionAmount)
-                : couponTemplate.DiscountAmount;
+            var nodaCurrency = Currency.FromCode(order.Currency);
+            var totalOrderLineActualTotalPrice =
+                new Money(orderLinesInScope.Sum(x => x.ActualTotalPrice), nodaCurrency);
+
+            var totalDiscountedAmount = new Money(
+                couponTemplate.CouponType == CouponType.PerMeet
+                    ? couponTemplate.DiscountAmount *
+                      Math.Floor(totalOrderLineActualTotalPrice.Amount / couponTemplate.ConditionAmount)
+                    : couponTemplate.DiscountAmount,
+                nodaCurrency);
 
             if (totalDiscountedAmount > totalOrderLineActualTotalPrice)
             {
@@ -101,21 +109,21 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
 
             var remainingDiscountedAmount = totalDiscountedAmount;
 
-            // Todo: https://github.com/EasyAbp/EShop/issues/104
-            const int accuracy = 2;
-            
+            var orderLineDiscounts = new Dictionary<OrderLine, Money>();
+
             foreach (var orderLine in orderLinesInScope)
             {
+                var orderLineActualTotalPrice = new Money(orderLine.ActualTotalPrice, nodaCurrency);
                 var maxDiscountAmount =
-                    Math.Round(orderLine.ActualTotalPrice / totalOrderLineActualTotalPrice * totalDiscountedAmount,
-                        accuracy, MidpointRounding.ToZero);
+                    new Money(
+                        orderLineActualTotalPrice.Amount / totalOrderLineActualTotalPrice.Amount *
+                        totalDiscountedAmount.Amount, nodaCurrency, MidpointRounding.ToZero);
 
-                var discountAmount = maxDiscountAmount > orderLine.ActualTotalPrice
-                    ? orderLine.ActualTotalPrice
+                var discountAmount = maxDiscountAmount > totalOrderLineActualTotalPrice
+                    ? orderLineActualTotalPrice
                     : maxDiscountAmount;
 
-                order.AddDiscount(orderLine.Id, discountAmount);
-
+                orderLineDiscounts[orderLine] = discountAmount;
                 remainingDiscountedAmount -= discountAmount;
             }
 
@@ -125,13 +133,12 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
                 {
                     break;
                 }
-                
-                var discountAmount = remainingDiscountedAmount > orderLine.ActualTotalPrice
-                    ? orderLine.ActualTotalPrice
-                    : remainingDiscountedAmount;
-                
-                order.AddDiscount(orderLine.Id, discountAmount);
 
+                var discountAmount = remainingDiscountedAmount > totalOrderLineActualTotalPrice
+                    ? totalOrderLineActualTotalPrice
+                    : remainingDiscountedAmount;
+
+                orderLineDiscounts[orderLine] += discountAmount;
                 remainingDiscountedAmount -= discountAmount;
             }
 
@@ -139,12 +146,19 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             {
                 throw new ApplicationException();
             }
-            
+
             order.SetProperty(CouponsConsts.OrderCouponDiscountAmountPropertyName, totalDiscountedAmount);
+
+            var models = orderLinesInScope.Select(orderLine =>
+                new OrderDiscountInfoModel(orderLine.Id, OrderDiscountName, coupon.Id.ToString(),
+                    couponTemplate.DisplayName, orderLineDiscounts[orderLine].Amount)
+            ).ToList();
+
+            return Task.FromResult(models);
         }
 
         protected virtual List<OrderLine> GetOrderLinesInScope(CouponTemplateData couponTemplate, Order order,
-            Dictionary<Guid, ProductDto> productDict)
+            Dictionary<Guid, IProduct> productDict)
         {
             if (couponTemplate.IsUnscoped)
             {
@@ -176,7 +190,8 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
             return expectedOrderLines;
         }
 
-        protected virtual decimal GetOrderLineProductPrice(OrderLine orderLine, Dictionary<Guid, ProductDto> productDict)
+        protected virtual decimal GetOrderLineProductPrice(OrderLine orderLine,
+            Dictionary<Guid, IProduct> productDict)
         {
             return productDict[orderLine.ProductId].GetSkuById(orderLine.ProductSkuId).Price;
         }

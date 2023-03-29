@@ -6,6 +6,8 @@ namespace EasyAbp.EShop.Products.Products
 {
     public interface IProductSku : IHasAttributeOptionIds, IHasExtraProperties
     {
+        Guid Id { get; }
+
         [CanBeNull]
         string Name { get; }
 
@@ -19,6 +21,8 @@ namespace EasyAbp.EShop.Products.Products
         int OrderMinQuantity { get; }
 
         int OrderMaxQuantity { get; }
+
+        TimeSpan? PaymentExpireIn { get; }
 
         [CanBeNull]
         string MediaResources { get; }

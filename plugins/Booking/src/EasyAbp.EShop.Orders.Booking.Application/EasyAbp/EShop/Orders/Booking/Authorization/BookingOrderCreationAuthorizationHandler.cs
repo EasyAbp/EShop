@@ -116,7 +116,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
             }
         }
 
-        protected virtual OccupyAssetInfoModel CreateOccupyAssetInfoModel(Guid assetId, CreateOrderLineDto orderLine)
+        protected virtual OccupyAssetInfoModel CreateOccupyAssetInfoModel(Guid assetId, ICreateOrderLineInfo orderLine)
         {
             return new OccupyAssetInfoModel(
                 assetId,
@@ -128,7 +128,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
         }
 
         protected virtual OccupyAssetByCategoryInfoModel CreateOccupyAssetByCategoryInfoModel(Guid assetCategoryId,
-            CreateOrderLineDto orderLine)
+            ICreateOrderLineInfo orderLine)
         {
             return new OccupyAssetByCategoryInfoModel(
                 assetCategoryId,
@@ -140,7 +140,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
             );
         }
         
-        protected virtual async Task<bool> IsAssetInfoValidAsync(CreateOrderLineDto orderLine,
+        protected virtual async Task<bool> IsAssetInfoValidAsync(ICreateOrderLineInfo orderLine,
             OrderCreationResource resource)
         {
             var mapping = (await _grantedStoreAppService.GetListAsync(new GetGrantedStoreListDto
@@ -179,7 +179,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
             return productAsset is not null;
         }
 
-        protected virtual async Task<bool> IsAssetCategoryInfoValidAsync(CreateOrderLineDto orderLine,
+        protected virtual async Task<bool> IsAssetCategoryInfoValidAsync(ICreateOrderLineInfo orderLine,
             OrderCreationResource resource)
         {
             var mapping = (await _grantedStoreAppService.GetListAsync(new GetGrantedStoreListDto
@@ -218,7 +218,7 @@ namespace EasyAbp.EShop.Orders.Booking.Authorization
             return productAssetCategory is not null;
         }
         
-        protected virtual async Task<bool> IsPeriodInfoValidAsync(CreateOrderLineDto orderLine)
+        protected virtual async Task<bool> IsPeriodInfoValidAsync(ICreateOrderLineInfo orderLine)
         {
             var periodSchemeId = orderLine.GetBookingPeriodSchemeId();
             var periodId = orderLine.GetBookingPeriodId();

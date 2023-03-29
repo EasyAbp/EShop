@@ -82,6 +82,7 @@ public class RefundOrderEventHandlerTests : PaymentsDomainTestBase
         {
             Name = "Name",
             Key = "Key",
+            DisplayName = "DisplayName",
             TotalAmount = 0.6m
         });
 
@@ -111,6 +112,7 @@ public class RefundOrderEventHandlerTests : PaymentsDomainTestBase
         orderExtraFees.Count.ShouldBe(1);
         orderExtraFees[0].Name.ShouldBe("Name");
         orderExtraFees[0].Key.ShouldBe("Key");
+        orderExtraFees[0].DisplayName.ShouldBe("DisplayName");
         orderExtraFees[0].TotalAmount.ShouldBe(0.6m);
     }
 }

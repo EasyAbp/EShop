@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Authorization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
-using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Stores.Stores;
@@ -102,21 +101,12 @@ namespace EasyAbp.EShop.Orders.Orders
                 new OrderOperationAuthorizationRequirement(OrderOperation.Creation)
             );
 
-            var productDetailIds = input.OrderLines
-                .Select(dto =>
-                    productDict[dto.ProductId].GetSkuById(dto.ProductSkuId).ProductDetailId ??
-                    productDict[dto.ProductId].ProductDetailId)
-                .Where(x => x.HasValue)
-                .Select(x => x.Value)
-                .ToList();
-
-            var productDetailDict = await GetProductDetailDictionaryAsync(productDetailIds);
+            var productDetailModificationTimeDict =
+                await GetProductDetailModificationTimeDictionaryAsync(input, productDict);
 
             // Todo: Can we use IProductDataScopedCache/IProductDetailDataScopedCache instead of productDict/productDetailDict?
-            var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input, productDict,
-                productDetailDict);
-
-            await DiscountOrderAsync(order, productDict);
+            var order = await _newOrderGenerator.GenerateAsync(CurrentUser.GetId(), input,
+                productDict.ToDictionary(x => x.Key, x => (IProduct)x.Value), productDetailModificationTimeDict);
 
             await Repository.InsertAsync(order, autoSave: true);
 
@@ -128,14 +118,6 @@ namespace EasyAbp.EShop.Orders.Orders
             if (productDict.Any(x => x.Value.InventoryStrategy is InventoryStrategy.FlashSales))
             {
                 throw new BusinessException(OrdersErrorCodes.ExistFlashSalesProduct);
-            }
-        }
-
-        protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, ProductDto> productDict)
-        {
-            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IOrderDiscountProvider>>())
-            {
-                await provider.DiscountAsync(order, productDict);
             }
         }
 
@@ -152,14 +134,23 @@ namespace EasyAbp.EShop.Orders.Orders
             return dict;
         }
 
-        protected virtual async Task<Dictionary<Guid, ProductDetailDto>> GetProductDetailDictionaryAsync(
-            IEnumerable<Guid> productDetailIds)
+        protected virtual async Task<Dictionary<Guid, DateTime>> GetProductDetailModificationTimeDictionaryAsync(
+            ICreateOrderInfo input, Dictionary<Guid, ProductDto> productDict)
         {
-            var dict = new Dictionary<Guid, ProductDetailDto>();
+            var productDetailIds = input.OrderLines
+                .Select(dto =>
+                    productDict[dto.ProductId].GetSkuById(dto.ProductSkuId).ProductDetailId ??
+                    productDict[dto.ProductId].ProductDetailId)
+                .Where(x => x.HasValue)
+                .Select(x => x.Value)
+                .ToList();
+
+            var dict = new Dictionary<Guid, DateTime>();
 
             foreach (var productDetailId in productDetailIds.Distinct())
             {
-                dict.Add(productDetailId, await _productDetailAppService.GetAsync(productDetailId));
+                var product = await _productDetailAppService.GetAsync(productDetailId);
+                dict.Add(productDetailId, product.LastModificationTime ?? product.CreationTime);
             }
 
             return dict;

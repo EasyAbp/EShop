@@ -53,6 +53,7 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
             OrderTestData.Order1Id,
             "Name",
             "Key",
+            "DisplayName",
             0.3m
         ));
 
@@ -153,6 +154,7 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
         var orderExtraFee = eventData.OrderExtraFees[0];
         orderExtraFee.Name.ShouldBe("Name");
         orderExtraFee.Key.ShouldBe("Key");
+        orderExtraFee.DisplayName.ShouldBe("DisplayName");
         orderExtraFee.TotalAmount.ShouldBe(0.3m);
 
         Order1.CanceledTime.ShouldNotBeNull();
