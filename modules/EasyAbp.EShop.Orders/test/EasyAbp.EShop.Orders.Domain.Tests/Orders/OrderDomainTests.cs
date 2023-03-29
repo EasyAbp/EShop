@@ -62,6 +62,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 OrderTestData.Order1Id,
                 "Name",
                 "Key",
+                "DisplayName",
                 0.3m
             ));
 

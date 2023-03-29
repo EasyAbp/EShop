@@ -5,8 +5,10 @@ using Volo.Abp.Data;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public interface IOrderLine : IHasExtraProperties
+    public interface IOrderLine : IHasExtraProperties, IHasProductGroupDisplayName
     {
+        Guid Id { get; }
+
         Guid ProductId { get; }
 
         Guid ProductSkuId { get; }
@@ -19,9 +21,6 @@ namespace EasyAbp.EShop.Orders.Orders
 
         [NotNull]
         string ProductGroupName { get; }
-
-        [NotNull]
-        string ProductGroupDisplayName { get; }
 
         [CanBeNull]
         string ProductUniqueName { get; }

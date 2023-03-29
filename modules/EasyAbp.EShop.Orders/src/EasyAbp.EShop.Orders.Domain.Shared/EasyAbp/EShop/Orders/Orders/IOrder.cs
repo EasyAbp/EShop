@@ -8,6 +8,8 @@ namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrder : IMultiStore, IHasExtraProperties
     {
+        Guid Id { get; }
+
         [NotNull]
         string OrderNumber { get; }
 

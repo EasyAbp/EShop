@@ -23,6 +23,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public int OrderMaxQuantity { get; set; }
 
+        public TimeSpan? PaymentExpireIn { get; }
+
         public string MediaResources { get; set; }
 
         public Guid? ProductDetailId { get; set; }

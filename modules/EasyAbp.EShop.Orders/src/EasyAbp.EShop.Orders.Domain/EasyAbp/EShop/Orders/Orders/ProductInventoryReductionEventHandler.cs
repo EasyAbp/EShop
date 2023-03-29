@@ -121,6 +121,7 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 Name = x.Name,
                 Key = x.Key,
+                DisplayName = x.DisplayName,
                 TotalAmount = x.Fee - x.RefundAmount
             }));
 

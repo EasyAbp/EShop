@@ -44,7 +44,7 @@ namespace EasyAbp.EShop.Orders.Orders
             context.Succeed(requirement);
         }
 
-        protected virtual Task<bool> IsProductsPublishedAsync(CreateOrderDto input,
+        protected virtual Task<bool> IsProductsPublishedAsync(ICreateOrderInfo input,
             Dictionary<Guid, ProductDto> productDictionary)
         {
             return Task.FromResult(
@@ -53,7 +53,7 @@ namespace EasyAbp.EShop.Orders.Orders
             );
         }
 
-        protected virtual Task<bool> IsInventoriesSufficientAsync(CreateOrderDto input,
+        protected virtual Task<bool> IsInventoriesSufficientAsync(ICreateOrderInfo input,
             Dictionary<Guid, ProductDto> productDictionary)
         {
             return Task.FromResult(

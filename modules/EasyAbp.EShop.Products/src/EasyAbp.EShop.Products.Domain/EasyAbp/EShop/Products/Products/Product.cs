@@ -14,21 +14,14 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual Guid StoreId { get; protected set; }
 
-        [NotNull]
         public virtual string ProductGroupName { get; protected set; }
 
         public virtual Guid? ProductDetailId { get; protected set; }
 
-        [CanBeNull]
         public virtual string UniqueName { get; protected set; }
 
-        [NotNull]
         public virtual string DisplayName { get; protected set; }
 
-        /// <summary>
-        /// Tell your customer what the product is. It is usually shown in the product list.
-        /// </summary>
-        [CanBeNull]
         public virtual string Overview { get; protected set; }
 
         public virtual InventoryStrategy InventoryStrategy { get; protected set; }
@@ -39,7 +32,6 @@ namespace EasyAbp.EShop.Products.Products
         /// </summary>
         public virtual string InventoryProviderName { get; protected set; }
 
-        [CanBeNull]
         public virtual string MediaResources { get; protected set; }
 
         public virtual int DisplayOrder { get; protected set; }

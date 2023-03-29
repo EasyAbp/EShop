@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
@@ -58,7 +59,7 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
     public virtual async Task HandleEventAsync(CreateFlashSaleOrderEto eventData)
     {
         var product = await ProductAppService.GetAsync(eventData.Plan.ProductId);
-        var productSku = product.GetSkuById(eventData.Plan.ProductSkuId);
+        var productSku = (ProductSkuDto)product.GetSkuById(eventData.Plan.ProductSkuId);
 
         if (!await ValidateHashTokenAsync(eventData.Plan, product, productSku, eventData.HashToken))
         {
@@ -84,9 +85,11 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
 
         var productDict = await GetProductDictionaryAsync(product);
 
-        var productDetailDict = await GetProductDetailDictionaryAsync(product, productSku);
+        var productDetailModificationTimeDict =
+            await GetProductDetailModificationTimeDictionaryAsync(input, productDict);
 
-        var order = await NewOrderGenerator.GenerateAsync(eventData.UserId, input, productDict, productDetailDict);
+        var order = await NewOrderGenerator.GenerateAsync(eventData.UserId, input, productDict,
+            productDetailModificationTimeDict);
 
         await OrderRepository.InsertAsync(order, autoSave: true);
 
@@ -107,25 +110,30 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
         });
     }
 
-    protected virtual Task<Dictionary<Guid, ProductDto>> GetProductDictionaryAsync(ProductDto product)
+    protected virtual Task<Dictionary<Guid, IProduct>> GetProductDictionaryAsync(ProductDto product)
     {
-        var productDict = new Dictionary<Guid, ProductDto>()
-        {
-            {product.Id, product}
-        };
+        var productDict = new Dictionary<Guid, IProduct>() { { product.Id, product } };
 
         return Task.FromResult(productDict);
     }
 
-    protected virtual async Task<Dictionary<Guid, ProductDetailDto>> GetProductDetailDictionaryAsync(ProductDto product, ProductSkuDto productSku)
+    protected virtual async Task<Dictionary<Guid, DateTime>> GetProductDetailModificationTimeDictionaryAsync(
+        ICreateOrderInfo input, Dictionary<Guid, IProduct> productDict)
     {
-        var dict = new Dictionary<Guid, ProductDetailDto>();
+        var productDetailIds = input.OrderLines
+            .Select(dto =>
+                productDict[dto.ProductId].GetSkuById(dto.ProductSkuId).ProductDetailId ??
+                productDict[dto.ProductId].ProductDetailId)
+            .Where(x => x.HasValue)
+            .Select(x => x.Value)
+            .ToList();
 
-        var productDetailId = productSku.ProductDetailId ?? product.ProductDetailId;
+        var dict = new Dictionary<Guid, DateTime>();
 
-        if (productDetailId.HasValue)
+        foreach (var productDetailId in productDetailIds.Distinct())
         {
-            dict.Add(productDetailId.Value, await ProductDetailAppService.GetAsync(productDetailId.Value));
+            var product = await ProductDetailAppService.GetAsync(productDetailId);
+            dict.Add(productDetailId, product.LastModificationTime ?? product.CreationTime);
         }
 
         return dict;
@@ -133,13 +141,13 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
 
     protected virtual Task<CreateOrderDto> ConvertToCreateOrderDtoAsync(CreateFlashSaleOrderEto eventData)
     {
-        var input = new CreateOrderDto()
+        var input = new CreateOrderDto
         {
             StoreId = eventData.Plan.StoreId,
             CustomerRemark = eventData.CustomerRemark,
-            OrderLines = new List<CreateOrderLineDto>()
+            OrderLines = new List<CreateOrderLineDto>
             {
-                new CreateOrderLineDto()
+                new()
                 {
                     ProductId = eventData.Plan.ProductId,
                     ProductSkuId = eventData.Plan.ProductSkuId,
@@ -153,9 +161,11 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
         return Task.FromResult(input);
     }
 
-    protected virtual async Task<bool> ValidateHashTokenAsync(FlashSalePlanEto plan, ProductDto product, ProductSkuDto productSku, string originHashToken)
+    protected virtual async Task<bool> ValidateHashTokenAsync(FlashSalePlanEto plan, ProductDto product,
+        ProductSkuDto productSku, string originHashToken)
     {
-        var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime, productSku.LastModificationTime);
+        var hashToken = await FlashSalePlanHasher.HashAsync(plan.LastModificationTime, product.LastModificationTime,
+            productSku.LastModificationTime);
 
         return string.Equals(hashToken, originHashToken, StringComparison.InvariantCulture);
     }

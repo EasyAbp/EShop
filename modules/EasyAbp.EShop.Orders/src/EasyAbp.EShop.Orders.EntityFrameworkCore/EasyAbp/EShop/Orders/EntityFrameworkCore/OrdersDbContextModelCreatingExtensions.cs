@@ -66,6 +66,15 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
                 b.Property(x => x.RefundAmount).HasColumnType("decimal(20,8)");
             });
 
+            builder.Entity<OrderDiscount>(b =>
+            {
+                b.ToTable(options.TablePrefix + "OrderDiscounts", options.Schema);
+                b.ConfigureByConvention();
+                /* Configure more properties here */
+                b.Property(x => x.DiscountedAmount).HasColumnType("decimal(20,8)");
+                b.HasKey(x => new {x.OrderId, x.OrderLineId, x.Name, x.Key});
+            });
+
             builder.Entity<OrderExtraFee>(b =>
             {
                 b.ToTable(options.TablePrefix + "OrderExtraFees", options.Schema);

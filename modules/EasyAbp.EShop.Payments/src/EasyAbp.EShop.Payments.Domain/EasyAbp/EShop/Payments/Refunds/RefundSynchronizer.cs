@@ -195,7 +195,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                     {
                         refundItemOrderExtraFeeEntity = new RefundItemOrderExtraFee(_guidGenerator.Create(),
                             orderExtraFeeInfoModel.Name, orderExtraFeeInfoModel.Key,
-                            orderExtraFeeInfoModel.TotalAmount);
+                            orderExtraFeeInfoModel.DisplayName, orderExtraFeeInfoModel.TotalAmount);
                         
                         refundItem.OrderExtraFees.Add(refundItemOrderExtraFeeEntity);
                     }

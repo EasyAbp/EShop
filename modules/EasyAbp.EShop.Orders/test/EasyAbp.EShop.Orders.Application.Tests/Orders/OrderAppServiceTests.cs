@@ -119,10 +119,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
             var orderCount = 0;
-            await WithUnitOfWorkAsync(async () =>
-            {
-                orderCount = await orderRepository.CountAsync();
-            });
+            await WithUnitOfWorkAsync(async () => { orderCount = await orderRepository.CountAsync(); });
 
             // Arrange
             var checkCreateOrderInput = new CheckCreateOrderInput
@@ -131,7 +128,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 StoreId = OrderTestData.Store1Id,
                 OrderLines = new List<CreateOrderLineDto>
                 {
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku1Id,
@@ -160,10 +157,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
             var orderCount = 0;
-            await WithUnitOfWorkAsync(async () =>
-            {
-                orderCount = await orderRepository.CountAsync();
-            });
+            await WithUnitOfWorkAsync(async () => { orderCount = await orderRepository.CountAsync(); });
 
             // Arrange
             var checkCreateOrderInput = new CheckCreateOrderInput
@@ -172,7 +166,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 StoreId = OrderTestData.Store1Id,
                 OrderLines = new List<CreateOrderLineDto>
                 {
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku1Id,
@@ -206,13 +200,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 StoreId = OrderTestData.Store1Id,
                 OrderLines = new List<CreateOrderLineDto>
                 {
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku1Id,
                         Quantity = 10
                     },
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku2Id,
@@ -684,13 +678,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 StoreId = OrderTestData.Store1Id,
                 OrderLines = new List<CreateOrderLineDto>
                 {
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku1Id,
                         Quantity = 10
                     },
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku2Id,
@@ -725,13 +719,13 @@ namespace EasyAbp.EShop.Orders.Orders
                 StoreId = OrderTestData.Store1Id,
                 OrderLines = new List<CreateOrderLineDto>
                 {
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku1Id,
                         Quantity = 10
                     },
-                    new CreateOrderLineDto
+                    new()
                     {
                         ProductId = OrderTestData.Product1Id,
                         ProductSkuId = OrderTestData.ProductSku2Id,

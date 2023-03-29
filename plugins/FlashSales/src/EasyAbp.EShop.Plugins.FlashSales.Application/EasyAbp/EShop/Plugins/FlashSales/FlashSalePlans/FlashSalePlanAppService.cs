@@ -207,7 +207,7 @@ public class FlashSalePlanAppService :
 
         var plan = await GetFlashSalePlanCacheAsync(id);
         var product = await ProductCache.GetAsync(plan.ProductId);
-        var productSku = product.GetSkuById(plan.ProductSkuId);
+        var productSku = (ProductSkuDto)product.GetSkuById(plan.ProductSkuId);
         var expiresTime = DateTimeOffset.Now.Add(Options.PreOrderExpires);
 
         await ValidatePreOrderAsync(plan, product, productSku);
