@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using EasyAbp.EShop.Stores.Stores;
 using System.Linq;
 using JetBrains.Annotations;
-using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -12,54 +10,54 @@ namespace EasyAbp.EShop.Orders.Orders
     public class Order : FullAuditedAggregateRoot<Guid>, IOrder, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
-        
+
         public virtual Guid StoreId { get; protected set; }
-        
-        [NotNull]
+
         public virtual string OrderNumber { get; protected set; }
-        
+
         public virtual Guid CustomerUserId { get; protected set; }
-        
+
         public virtual OrderStatus OrderStatus { get; protected set; }
 
-        [NotNull]
         public virtual string Currency { get; protected set; }
-        
+
         public virtual decimal ProductTotalPrice { get; protected set; }
-        
+
         public virtual decimal TotalDiscount { get; protected set; }
-        
+
         public virtual decimal TotalPrice { get; protected set; }
-        
+
         public virtual decimal ActualTotalPrice { get; protected set; }
 
         public virtual decimal RefundAmount { get; protected set; }
-        
-        [CanBeNull]
+
         public virtual string CustomerRemark { get; protected set; }
-        
-        [CanBeNull]
+
         public virtual string StaffRemark { get; protected set; }
-        
+
         public virtual Guid? PaymentId { get; protected set; }
-        
+
         public virtual DateTime? PaidTime { get; protected set; }
-        
+
         public virtual DateTime? CompletionTime { get; protected set; }
-        
+
         public virtual DateTime? CanceledTime { get; protected set; }
-        
-        [CanBeNull]
+
         public virtual string CancellationReason { get; protected set; }
 
         public virtual DateTime? ReducedInventoryAfterPlacingTime { get; protected set; }
-        
+
         public virtual DateTime? ReducedInventoryAfterPaymentTime { get; protected set; }
-        
+
         public virtual DateTime? PaymentExpiration { get; protected set; }
-        
+
+        IEnumerable<IOrderLine> IOrder.OrderLines => OrderLines;
         public virtual List<OrderLine> OrderLines { get; protected set; }
-        
+
+        IEnumerable<IOrderExtraFee> IOrder.OrderExtraFees => OrderExtraFees;
+
+        public virtual List<OrderDiscount> OrderDiscounts { get; protected set; }
+
         public virtual List<OrderExtraFee> OrderExtraFees { get; protected set; }
 
         protected Order()
@@ -92,9 +90,10 @@ namespace EasyAbp.EShop.Orders.Orders
             PaymentExpiration = paymentExpiration;
 
             RefundAmount = 0;
-            
+
             OrderStatus = OrderStatus.Pending;
             OrderLines = new List<OrderLine>();
+            OrderDiscounts = new List<OrderDiscount>();
             OrderExtraFees = new List<OrderExtraFee>();
         }
 
@@ -187,35 +186,47 @@ namespace EasyAbp.EShop.Orders.Orders
             return !(!PaymentId.HasValue || PaidTime.HasValue);
         }
 
-        public void AddDiscount(Guid orderLineId, decimal expectedDiscountAmount)
+        public void AddDiscount(Guid orderLineId, [NotNull] string discountName, [CanBeNull] string discountKey,
+            [CanBeNull] string discountDisplayName, decimal discountedAmount)
         {
             var orderLine = OrderLines.Single(x => x.Id == orderLineId);
 
-            orderLine.AddDiscount(expectedDiscountAmount);
-            
-            TotalDiscount += expectedDiscountAmount;
-            ActualTotalPrice -= expectedDiscountAmount;
+            orderLine.AddDiscount(discountedAmount);
+
+            TotalDiscount += discountedAmount;
+            ActualTotalPrice -= discountedAmount;
 
             if (ActualTotalPrice < decimal.Zero)
             {
                 throw new DiscountAmountOverflowException();
             }
+
+            if (OrderDiscounts.Any(x => x.OrderLineId == orderLineId && x.Name == discountName && x.Key == discountKey))
+            {
+                throw new DuplicateOrderDiscountException(orderLineId, discountName, discountKey);
+            }
+
+            var orderDiscount = new OrderDiscount(
+                Id, orderLineId, discountName, discountKey, discountDisplayName, discountedAmount);
+
+            OrderDiscounts.Add(orderDiscount);
         }
 
-        public void AddOrderExtraFee(decimal extraFee, [NotNull] string extraFeeName, [CanBeNull] string extraFeeKey)
+        public void AddOrderExtraFee(decimal extraFee, [NotNull] string extraFeeName, [CanBeNull] string extraFeeKey,
+            [CanBeNull] string extraFeeDisplayName)
         {
             if (extraFee <= decimal.Zero)
             {
                 throw new InvalidOrderExtraFeeException(extraFee);
             }
-            
-            var orderExtraFee = new OrderExtraFee(Id, extraFeeName, extraFeeKey, extraFee);
 
-            if (OrderExtraFees.Any(x => x.EntityEquals(orderExtraFee)))
+            if (OrderExtraFees.Any(x => x.Name == extraFeeName && x.Key == extraFeeKey))
             {
                 throw new DuplicateOrderExtraFeeException(extraFeeName, extraFeeKey);
             }
-            
+
+            var orderExtraFee = new OrderExtraFee(Id, extraFeeName, extraFeeKey, extraFeeDisplayName, extraFee);
+
             OrderExtraFees.Add(orderExtraFee);
 
             TotalPrice += extraFee;

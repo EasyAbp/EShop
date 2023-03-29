@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class ProductDto : ExtensibleFullAuditedEntityDto<Guid>
+    public class ProductDto : ExtensibleFullAuditedEntityDto<Guid>, IProduct, IHasProductGroupDisplayName
     {
         public Guid StoreId { get; set; }
 
@@ -44,25 +43,10 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public decimal? MaximumPrice { get; set; }
 
+        IEnumerable<IProductAttribute> IProduct.ProductAttributes => ProductAttributes;
         public List<ProductAttributeDto> ProductAttributes { get; set; }
 
+        IEnumerable<IProductSku> IProduct.ProductSkus => ProductSkus;
         public List<ProductSkuDto> ProductSkus { get; set; }
-
-        public ProductSkuDto GetSkuById(Guid skuId)
-        {
-            return ProductSkus.Single(x => x.Id == skuId);
-        }
-
-        public ProductSkuDto FindSkuById(Guid skuId)
-        {
-            return ProductSkus.FirstOrDefault(x => x.Id == skuId);
-        }
-
-        public TimeSpan? GetSkuPaymentExpireIn(Guid skuId)
-        {
-            var sku = GetSkuById(skuId);
-
-            return sku.PaymentExpireIn ?? PaymentExpireIn;
-        }
     }
 }

@@ -309,7 +309,8 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
         var plan = await CreateFlashSalePlanAsync();
         var preOrderCacheKey = string.Format(FlashSalePlanAppService.PreOrderCacheKeyFormat, plan.Id, CurrentUser.Id);
         var hashToken = await GetRequiredService<IFlashSalePlanHasher>()
-            .HashAsync(plan.LastModificationTime, Product1.LastModificationTime, Product1.GetSkuById(plan.ProductSkuId).LastModificationTime);
+            .HashAsync(plan.LastModificationTime, Product1.LastModificationTime,
+                ((ProductSkuDto)Product1.GetSkuById(plan.ProductSkuId)).LastModificationTime);
 
         var dto = await AppService.PreOrderAsync(plan.Id);
 
@@ -358,7 +359,8 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
     {
         var plan = await CreateFlashSalePlanAsync();
         var hashToken = await GetRequiredService<IFlashSalePlanHasher>()
-            .HashAsync(plan.LastModificationTime, Product1.LastModificationTime, Product1.GetSkuById(plan.ProductSkuId).LastModificationTime);
+            .HashAsync(plan.LastModificationTime, Product1.LastModificationTime,
+                ((ProductSkuDto)Product1.GetSkuById(plan.ProductSkuId)).LastModificationTime);
         var orderFlashSalePlanInput = new OrderFlashSalePlanInput
         {
             CustomerRemark = "remark1"

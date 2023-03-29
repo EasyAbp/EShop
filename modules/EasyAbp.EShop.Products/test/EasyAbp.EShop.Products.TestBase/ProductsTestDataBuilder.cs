@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products;
@@ -13,18 +14,15 @@ namespace EasyAbp.EShop.Products
         private readonly IProductManager _productManager;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IProductDetailRepository _productDetailRepository;
-        private readonly IAttributeOptionIdsSerializer _attributeOptionIdsSerializer;
 
         public ProductsTestDataBuilder(
             IProductManager productManager,
             IUnitOfWorkManager unitOfWorkManager,
-            IProductDetailRepository productDetailRepository,
-            IAttributeOptionIdsSerializer attributeOptionIdsSerializer)
+            IProductDetailRepository productDetailRepository)
         {
             _productManager = productManager;
             _unitOfWorkManager = unitOfWorkManager;
             _productDetailRepository = productDetailRepository;
-            _attributeOptionIdsSerializer = attributeOptionIdsSerializer;
         }
 
         public void Build()
@@ -71,18 +69,18 @@ namespace EasyAbp.EShop.Products
             await _productManager.CreateAsync(product);
 
             var productSku1 = new ProductSku(ProductsTestData.Product1Sku1Id,
-                await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                    { ProductsTestData.Product1Attribute1Option1Id, ProductsTestData.Product1Attribute2Option1Id }),
+                new List<Guid>
+                    { ProductsTestData.Product1Attribute1Option1Id, ProductsTestData.Product1Attribute2Option1Id },
                 null, "USD", null, 1m, 1, 10, null, null, null);
 
             var productSku2 = new ProductSku(ProductsTestData.Product1Sku2Id,
-                await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                    { ProductsTestData.Product1Attribute1Option2Id, ProductsTestData.Product1Attribute2Option1Id }),
+                new List<Guid>
+                    { ProductsTestData.Product1Attribute1Option2Id, ProductsTestData.Product1Attribute2Option1Id },
                 null, "USD", null, 2m, 1, 10, null, null, null);
 
             var productSku3 = new ProductSku(ProductsTestData.Product1Sku3Id,
-                await _attributeOptionIdsSerializer.SerializeAsync(new[]
-                    { ProductsTestData.Product1Attribute1Option3Id, ProductsTestData.Product1Attribute2Option2Id }),
+                new List<Guid>
+                    { ProductsTestData.Product1Attribute1Option3Id, ProductsTestData.Product1Attribute2Option2Id },
                 null, "USD", null, 3m, 1, 10, null, null, null);
 
             await _productManager.CreateSkuAsync(product, productSku1);

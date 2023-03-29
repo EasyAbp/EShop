@@ -4,7 +4,8 @@ using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProduct, IMultiTenant
+    public class ProductView : CreationAuditedAggregateRoot<Guid>,
+        IProductBase, IHasProductGroupDisplayName, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
 
@@ -36,6 +37,8 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual bool IsHidden { get; protected set; }
 
+        public virtual TimeSpan? PaymentExpireIn { get; protected set; }
+
         #endregion
 
         public virtual string ProductGroupDisplayName { get; protected set; }
@@ -64,6 +67,7 @@ namespace EasyAbp.EShop.Products.Products
             bool isPublished,
             bool isStatic,
             bool isHidden,
+            TimeSpan? paymentExpireIn,
             string mediaResources,
             int displayOrder,
             string productGroupDisplayName,
@@ -84,6 +88,7 @@ namespace EasyAbp.EShop.Products.Products
             IsPublished = isPublished;
             IsStatic = isStatic;
             IsHidden = isHidden;
+            PaymentExpireIn = paymentExpireIn;
             MediaResources = mediaResources;
             DisplayOrder = displayOrder;
 

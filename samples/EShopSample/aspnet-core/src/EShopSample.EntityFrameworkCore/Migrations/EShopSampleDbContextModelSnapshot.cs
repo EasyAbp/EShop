@@ -607,6 +607,31 @@ namespace EShopSample.Migrations
                     b.ToTable("EasyAbpEShopOrdersOrders", (string)null);
                 });
 
+            modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderDiscount", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderLineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("DiscountedAmount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("OrderId", "OrderLineId", "Name", "Key");
+
+                    b.ToTable("EasyAbpEShopOrdersOrderDiscounts", (string)null);
+                });
+
             modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderExtraFee", b =>
                 {
                     b.Property<Guid>("OrderId")
@@ -617,6 +642,9 @@ namespace EShopSample.Migrations
 
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Fee")
                         .HasColumnType("decimal(20,8)");
@@ -1065,6 +1093,9 @@ namespace EShopSample.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(max)");
@@ -2437,6 +2468,9 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AttributeOptionIds")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("CreationTime");
@@ -2501,9 +2535,6 @@ namespace EShopSample.Migrations
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("SerializedAttributeOptionIds")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
@@ -2567,6 +2598,9 @@ namespace EShopSample.Migrations
 
                     b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan?>("PaymentExpireIn")
+                        .HasColumnType("time");
 
                     b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
@@ -5805,6 +5839,15 @@ namespace EShopSample.Migrations
                         .HasForeignKey("PeriodSchemeId");
                 });
 
+            modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderDiscount", b =>
+                {
+                    b.HasOne("EasyAbp.EShop.Orders.Orders.Order", null)
+                        .WithMany("OrderDiscounts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.OrderExtraFee", b =>
                 {
                     b.HasOne("EasyAbp.EShop.Orders.Orders.Order", null)
@@ -6203,6 +6246,8 @@ namespace EShopSample.Migrations
 
             modelBuilder.Entity("EasyAbp.EShop.Orders.Orders.Order", b =>
                 {
+                    b.Navigation("OrderDiscounts");
+
                     b.Navigation("OrderExtraFees");
 
                     b.Navigation("OrderLines");

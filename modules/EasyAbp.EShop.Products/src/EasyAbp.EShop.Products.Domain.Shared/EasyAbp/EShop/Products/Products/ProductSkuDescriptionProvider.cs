@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Json;
 
@@ -16,13 +15,13 @@ namespace EasyAbp.EShop.Products.Products
             _jsonSerializer = jsonSerializer;
         }
         
-        public virtual Task<string> GenerateAsync(ProductDto productDto, ProductSkuDto productSkuDto)
+        public virtual Task<string> GenerateAsync(IProduct product, IProductSku productSku)
         {
             var names = new Collection<string[]>();
 
-            foreach (var attributeOptionId in productSkuDto.AttributeOptionIds)
+            foreach (var attributeOptionId in productSku.AttributeOptionIds)
             {
-                names.Add(productDto.ProductAttributes.SelectMany(
+                names.Add(product.ProductAttributes.SelectMany(
                     attribute => attribute.ProductAttributeOptions.Where(option => option.Id == attributeOptionId),
                     (attribute, option) => new [] {attribute.DisplayName, option.DisplayName}).Single());
             }
