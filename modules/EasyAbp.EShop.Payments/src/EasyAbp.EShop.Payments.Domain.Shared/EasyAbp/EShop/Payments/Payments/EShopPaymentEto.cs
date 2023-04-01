@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Payments.Payments
         public Guid Id { get; set; }
 
         public Guid? TenantId { get; set; }
-        
+
         public Guid UserId { get; set; }
 
         public string PaymentMethod { get; set; }
@@ -41,6 +41,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
         #endregion
 
-        public List<EShopPaymentItemEto> PaymentItems { get; set; } = new List<EShopPaymentItemEto>();
+        IEnumerable<IPaymentItem> IPayment.PaymentItems => PaymentItems;
+        public List<EShopPaymentItemEto> PaymentItems { get; set; } = new();
     }
 }
