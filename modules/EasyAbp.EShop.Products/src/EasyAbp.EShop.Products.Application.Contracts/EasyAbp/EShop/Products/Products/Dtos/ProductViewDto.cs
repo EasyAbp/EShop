@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class ProductViewDto : ExtensibleCreationAuditedEntityDto<Guid>
+    public class ProductViewDto : ExtensibleCreationAuditedEntityDto<Guid>, IProductBase, IHasProductGroupDisplayName
     {
         public Guid StoreId { get; set; }
 
@@ -32,6 +31,8 @@ namespace EasyAbp.EShop.Products.Products.Dtos
         public bool IsStatic { get; set; }
 
         public bool IsHidden { get; set; }
+
+        public TimeSpan? PaymentExpireIn { get; set; }
 
         public decimal? MinimumPrice { get; set; }
 

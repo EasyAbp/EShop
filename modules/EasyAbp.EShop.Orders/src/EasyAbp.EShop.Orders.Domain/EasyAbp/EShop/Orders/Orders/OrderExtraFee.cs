@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class OrderExtraFee : Entity
+    public class OrderExtraFee : Entity, IOrderExtraFee
     {
         public virtual Guid OrderId { get; protected set; }
         
@@ -13,6 +13,9 @@ namespace EasyAbp.EShop.Orders.Orders
         
         [CanBeNull]
         public virtual string Key { get; protected set; }
+
+        [CanBeNull]
+        public virtual string DisplayName { get; protected set; }
         
         public virtual decimal Fee { get; protected set; }
         
@@ -26,11 +29,13 @@ namespace EasyAbp.EShop.Orders.Orders
             Guid orderId,
             [NotNull] string name,
             [CanBeNull] string key,
+            [CanBeNull] string displayName,
             decimal fee)
         {
             OrderId = orderId;
             Name = name;
             Key = key;
+            DisplayName = displayName;
             Fee = fee;
         }
         

@@ -17,6 +17,6 @@ public class FlashSalesMongoDbContext : AbpMongoDbContext, IFlashSalesMongoDbCon
     {
         base.CreateModel(modelBuilder);
 
-        modelBuilder.ConfigureFlashSales();
+        modelBuilder.ConfigureEShopPluginsFlashSales();
     }
 }

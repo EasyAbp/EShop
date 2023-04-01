@@ -14,6 +14,6 @@ public class BookingMongoDbContext : AbpMongoDbContext, IBookingMongoDbContext
     {
         base.CreateModel(modelBuilder);
 
-        modelBuilder.ConfigureBooking();
+        modelBuilder.ConfigureEShopPluginsBooking();
     }
 }

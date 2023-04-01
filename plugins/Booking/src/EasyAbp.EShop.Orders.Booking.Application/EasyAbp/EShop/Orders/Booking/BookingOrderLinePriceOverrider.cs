@@ -6,6 +6,7 @@ using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets;
 using EasyAbp.EShop.Plugins.Booking.ProductAssets.Dtos;
+using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using NodaMoney;
 using Volo.Abp.DependencyInjection;
@@ -25,8 +26,8 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
         _productAssetCategoryAppService = productAssetCategoryAppService;
     }
 
-    public virtual async Task<Money?> GetUnitPriceOrNullAsync(CreateOrderDto input, CreateOrderLineDto inputOrderLine,
-        ProductDto product, ProductSkuDto productSku, Currency effectiveCurrency)
+    public virtual async Task<Money?> GetUnitPriceOrNullAsync(ICreateOrderInfo input,
+        ICreateOrderLineInfo inputOrderLine, IProduct product, IProductSku productSku, Currency effectiveCurrency)
     {
         if (inputOrderLine.FindBookingAssetId() is not null)
         {
@@ -41,8 +42,8 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
         return null;
     }
 
-    public virtual async Task<Money?> GetAssetBookingUnitPriceAsync(CreateOrderDto input,
-        CreateOrderLineDto inputOrderLine, Currency effectiveCurrency)
+    public virtual async Task<Money?> GetAssetBookingUnitPriceAsync(ICreateOrderInfo input,
+        ICreateOrderLineInfo inputOrderLine, Currency effectiveCurrency)
     {
         var productAsset = (await _productAssetAppService.GetListAsync(
             new GetProductAssetListDto
@@ -76,8 +77,8 @@ public class BookingOrderLinePriceOverrider : IOrderLinePriceOverrider, ITransie
         return null;
     }
 
-    public virtual async Task<Money?> GetAssetCategoryBookingUnitPriceAsync(CreateOrderDto input,
-        CreateOrderLineDto inputOrderLine, Currency effectiveCurrency)
+    public virtual async Task<Money?> GetAssetCategoryBookingUnitPriceAsync(ICreateOrderInfo input,
+        ICreateOrderLineInfo inputOrderLine, Currency effectiveCurrency)
     {
         var productAssetCategory = (await _productAssetCategoryAppService.GetListAsync(
             new GetProductAssetCategoryListDto

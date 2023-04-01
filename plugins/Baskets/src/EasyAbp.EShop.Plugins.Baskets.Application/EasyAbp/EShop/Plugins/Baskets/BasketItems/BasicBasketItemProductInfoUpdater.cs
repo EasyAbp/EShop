@@ -27,7 +27,7 @@ public class BasicBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater, 
 
     protected virtual async Task InternalUpdateAsync(int targetQuantity, IBasketItem item, ProductDto productDto)
     {
-        var productSkuDto = productDto.FindSkuById(item.ProductSkuId);
+        var productSkuDto = (ProductSkuDto)productDto.FindSkuById(item.ProductSkuId);
 
         if (productSkuDto == null)
         {

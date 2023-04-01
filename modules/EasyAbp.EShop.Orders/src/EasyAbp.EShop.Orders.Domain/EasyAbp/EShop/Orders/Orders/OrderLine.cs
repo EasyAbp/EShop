@@ -19,30 +19,22 @@ namespace EasyAbp.EShop.Orders.Orders
         
         public virtual DateTime? ProductDetailModificationTime { get; protected set; }
 
-        [NotNull]
         public virtual string ProductGroupName { get; protected set; }
         
-        [NotNull]
         public virtual string ProductGroupDisplayName { get; protected set; }
         
-        [CanBeNull]
         public virtual string ProductUniqueName { get; protected set; }
         
-        [NotNull]
         public virtual string ProductDisplayName { get; protected set; }
 
         public virtual InventoryStrategy? ProductInventoryStrategy { get; protected set; }
 
-        [CanBeNull]
         public virtual string SkuName { get; protected set; }
         
-        [CanBeNull]
         public virtual string SkuDescription { get; protected set; }
         
-        [CanBeNull]
         public virtual string MediaResources { get; protected set; }
         
-        [NotNull]
         public virtual string Currency { get; protected set; }
         
         public virtual decimal UnitPrice { get; protected set; }

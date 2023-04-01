@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.MongoDB
         {
             base.CreateModel(modelBuilder);
 
-            modelBuilder.ConfigureCoupons();
+            modelBuilder.ConfigureEShopPluginsCoupons();
         }
     }
 }
