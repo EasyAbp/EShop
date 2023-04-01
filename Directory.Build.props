@@ -3,7 +3,7 @@
 
     <AbpVersion>7.1.0</AbpVersion>
     <EasyAbpAbpTreesModuleVersion>2.10.0</EasyAbpAbpTreesModuleVersion>
-    <EasyAbpPaymentServiceModuleVersion>2.4.0</EasyAbpPaymentServiceModuleVersion>
+    <EasyAbpPaymentServiceModuleVersion>2.5.1</EasyAbpPaymentServiceModuleVersion>
     <EasyAbpAbpTagHelperPlusModuleVersion>1.4.0</EasyAbpAbpTagHelperPlusModuleVersion>
     <EasyAbpBookingServiceModuleVersion>0.5.0</EasyAbpBookingServiceModuleVersion>
     <DaprSdkVersion>1.9.0</DaprSdkVersion>
