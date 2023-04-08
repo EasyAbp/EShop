@@ -61,7 +61,7 @@
     "OrderExtraFeeRefundAmount": "Refund amount",
     "EasyAbp.EShop.Orders:UnexpectedCurrency": "Only the specified currency {expectedCurrency} is allowed.",
     "EasyAbp.EShop.Orders:OrderLineInvalidQuantity": "Invalid quantity {quantity} for product {productId} (SKU: {productSkuId}).",
-    "EasyAbp.EShop.Orders:DiscountAmountOverflow": "The discount amount overflow.",
+    "EasyAbp.EShop.Orders:DiscountAmountOverflow": "The discount amount overflows.",
     "EasyAbp.EShop.Orders:DuplicateOrderDiscount": "The discount {discountName} (key: {discountKey}) of order line {orderLineId} already exists.",
     "EasyAbp.EShop.Orders:DuplicateOrderExtraFee": "The extra fee {extraFeeName} (key: {extraFeeKey}) already exists.",
     "EasyAbp.EShop.Orders:InvalidOrderExtraFee": "The extra fee {extraFee} is invalid.",

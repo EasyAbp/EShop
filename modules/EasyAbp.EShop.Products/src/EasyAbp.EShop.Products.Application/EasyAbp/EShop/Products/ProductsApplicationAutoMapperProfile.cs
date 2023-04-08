@@ -34,7 +34,6 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductAttributeOption, ProductAttributeOptionDto>();
             CreateMap<ProductSku, ProductSkuDto>()
                 .Ignore(dto => dto.Price)
-                .Ignore(dto => dto.DiscountedPrice)
                 .Ignore(dto => dto.Inventory)
                 .Ignore(dto => dto.Sold);
             CreateMap<CreateUpdateProductDetailDto, ProductDetail>(MemberList.Source)

@@ -312,8 +312,10 @@ namespace EasyAbp.EShop.Products.Products
 
                 var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);
 
-                productSkuDto.Price = priceDataModel.Price;
-                productSkuDto.DiscountedPrice = priceDataModel.DiscountedPrice;
+                productSkuDto.PriceWithoutDiscount = priceDataModel.PriceWithoutDiscount;
+                productSkuDto.Price = priceDataModel.DiscountedPrice;
+                productSkuDto.ProductDiscounts = priceDataModel.ProductDiscounts;
+                productSkuDto.OrderDiscountPreviews = priceDataModel.OrderDiscountPreviews;
             }
 
             if (productDto.ProductSkus.Count > 0)

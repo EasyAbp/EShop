@@ -31,14 +31,14 @@ namespace EasyAbp.EShop.Products.Products
             var productDto = getListResult.Items.FirstOrDefault(x => x.Id == ProductsTestData.Product1Id);
 
             productDto.ShouldNotBeNull();
-            productDto.MinimumPrice.ShouldBe(1m);
-            productDto.MaximumPrice.ShouldBe(3m);
+            productDto.MinimumPriceWithoutDiscount.ShouldBe(1m);
+            productDto.MaximumPriceWithoutDiscount.ShouldBe(3m);
             
             var getResult = await _productViewAppService.GetAsync(ProductsTestData.Product1Id);
 
             getResult.ShouldNotBeNull();
-            getResult.MinimumPrice.ShouldBe(1m);
-            getResult.MaximumPrice.ShouldBe(3m);
+            getResult.MinimumPriceWithoutDiscount.ShouldBe(1m);
+            getResult.MaximumPriceWithoutDiscount.ShouldBe(3m);
         }
 
 

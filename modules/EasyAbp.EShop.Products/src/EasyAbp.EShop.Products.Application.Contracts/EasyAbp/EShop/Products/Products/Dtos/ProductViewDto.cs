@@ -1,14 +1,17 @@
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EShop.Products.Products.Dtos
 {
     [Serializable]
-    public class ProductViewDto : ExtensibleCreationAuditedEntityDto<Guid>, IProductBase, IHasProductGroupDisplayName
+    public class ProductViewDto : ExtensibleCreationAuditedEntityDto<Guid>, IProductView
     {
         public Guid StoreId { get; set; }
 
         public string ProductGroupName { get; set; }
+
+        public string ProductGroupDisplayName { get; set; }
 
         public Guid? ProductDetailId { get; set; }
 
@@ -38,8 +41,16 @@ namespace EasyAbp.EShop.Products.Products.Dtos
 
         public decimal? MaximumPrice { get; set; }
 
+        public decimal? MinimumPriceWithoutDiscount { get; set; }
+
+        public decimal? MaximumPriceWithoutDiscount { get; set; }
+
         public long Sold { get; set; }
 
-        public string ProductGroupDisplayName { get; set; }
+        public decimal PriceWithoutDiscount { get; set; }
+
+        public List<ProductDiscountInfoModel> ProductDiscounts { get; set; } = new();
+
+        public List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; set; } = new();
     }
 }

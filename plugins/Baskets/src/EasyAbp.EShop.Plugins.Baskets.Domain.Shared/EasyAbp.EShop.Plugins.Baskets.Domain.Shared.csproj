@@ -20,5 +20,9 @@
     <EmbeddedResource Include="EasyAbp\EShop\Plugins\Baskets\Localization\*.json" />
     <Content Remove="EasyAbp\EShop\Plugins\Baskets\Localization\*.json" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
+  </ItemGroup>
 
 </Project>

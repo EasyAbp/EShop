@@ -7,11 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.0" />
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.EntityFrameworkCore\EasyAbp.EShop.Plugins.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.TestBase\EasyAbp.EShop.Plugins.TestBase.csproj" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="$(AbpVersion)" />
   </ItemGroup>
 
 </Project>

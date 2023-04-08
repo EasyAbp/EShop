@@ -98,6 +98,8 @@
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "Should ensure SKUs are empty if you want to modify attributes of a product.",
     "EasyAbp.EShop.Products:StaticProductCannotBeModified": "Cannot modify the static product: {productId}",
     "EasyAbp.EShop.Products:StoreIsNotProductOwner": "Store {storeId} is not a owner of the product {productId}",
-    "EasyAbp.EShop.Products:InventoryInsufficient": "The inventory of the product {productId} (SKU: {productSkuId}) is insufficient, {quantity} are needed, but only {inventory}."
+    "EasyAbp.EShop.Products:InventoryInsufficient": "The inventory of the product {productId} (SKU: {productSkuId}) is insufficient, {quantity} are needed, but only {inventory}.",
+    "EasyAbp.EShop.Products:DiscountAmountOverflow": "The discount amount overflows.",
+    "EasyAbp.EShop.Products:InvalidTimePeriod": "Invalid time period."
   }
 }

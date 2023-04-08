@@ -1,25 +1,21 @@
-﻿namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
+﻿using EasyAbp.EShop.Products.Products;
+
+namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public interface IProductData
+    public interface IProductData : IHasFullDiscountsInfo
     {
         string MediaResources { get; }
-        
+
         string ProductUniqueName { get; }
-        
+
         string ProductDisplayName { get; }
-        
+
         string SkuName { get; }
-        
+
         string SkuDescription { get; }
 
         string Currency { get; }
-        
-        decimal UnitPrice { get; }
-        
-        decimal TotalPrice { get; }
-        
-        decimal TotalDiscount { get; }
-        
+
         int Inventory { get; }
     }
 }
