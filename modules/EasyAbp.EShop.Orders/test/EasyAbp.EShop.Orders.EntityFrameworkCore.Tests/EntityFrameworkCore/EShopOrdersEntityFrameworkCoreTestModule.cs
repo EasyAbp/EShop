@@ -3,14 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Orders.EntityFrameworkCore
 {
     [DependsOn(
         typeof(EShopOrdersTestBaseModule),
-        typeof(EShopOrdersEntityFrameworkCoreModule)
-        )]
+        typeof(EShopOrdersEntityFrameworkCoreModule),
+        typeof(AbpEntityFrameworkCoreSqliteModule)
+    )]
     public class EShopOrdersEntityFrameworkCoreTestModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

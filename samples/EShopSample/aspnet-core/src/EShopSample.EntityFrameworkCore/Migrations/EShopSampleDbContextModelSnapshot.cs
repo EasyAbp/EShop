@@ -1188,6 +1188,15 @@ namespace EShopSample.Migrations
                     b.Property<string>("MediaResources")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrderDiscountPreviews")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PriceWithoutDiscount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<string>("ProductDiscounts")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProductDisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -1216,13 +1225,7 @@ namespace EShopSample.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("TenantId");
 
-                    b.Property<decimal>("TotalDiscount")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(20,8)");
-
-                    b.Property<decimal>("UnitPrice")
+                    b.Property<decimal>("TotalPriceWithoutDiscount")
                         .HasColumnType("decimal(20,8)");
 
                     b.Property<Guid>("UserId")
@@ -2590,11 +2593,20 @@ namespace EShopSample.Migrations
                     b.Property<decimal?>("MaximumPrice")
                         .HasColumnType("decimal(20,8)");
 
+                    b.Property<decimal?>("MaximumPriceWithoutDiscount")
+                        .HasColumnType("decimal(20,8)");
+
                     b.Property<string>("MediaResources")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("MinimumPrice")
                         .HasColumnType("decimal(20,8)");
+
+                    b.Property<decimal?>("MinimumPriceWithoutDiscount")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.Property<string>("OrderDiscountPreviews")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
@@ -2604,6 +2616,9 @@ namespace EShopSample.Migrations
 
                     b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductDiscounts")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductGroupDisplayName")
                         .HasColumnType("nvarchar(max)");

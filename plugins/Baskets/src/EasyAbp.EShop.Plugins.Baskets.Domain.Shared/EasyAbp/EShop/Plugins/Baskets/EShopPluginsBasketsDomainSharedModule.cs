@@ -1,6 +1,7 @@
 ﻿using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Plugins.Baskets.Localization;
+using EasyAbp.EShop.Products;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
@@ -9,7 +10,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Plugins.Baskets
 {
     [DependsOn(
-        typeof(AbpValidationModule)
+        typeof(AbpValidationModule),
+        typeof(EShopProductsDomainSharedModule)
     )]
     public class EShopPluginsBasketsDomainSharedModule : AbpModule
     {

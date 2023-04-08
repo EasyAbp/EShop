@@ -9,7 +9,6 @@ using EasyAbp.EShop.Products.Settings;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.Extensions.Caching.Distributed;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Application.Services;
 using Volo.Abp.Caching;
 using Volo.Abp.Uow;
 
@@ -150,23 +149,62 @@ namespace EasyAbp.EShop.Products.Products
             }
 
             decimal? min = null, max = null;
+            decimal? minWithoutDiscount = null, maxWithoutDiscount = null;
+
+            var discounts = new DiscountsInfoModel();
 
             foreach (var productSku in product.ProductSkus)
             {
+                var overrideProductDiscounts = false;
                 var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);
 
-                if (min is null || priceDataModel.Price < min.Value)
+                if (min is null || priceDataModel.DiscountedPrice < min.Value)
                 {
-                    min = productSku.Price;
+                    min = priceDataModel.DiscountedPrice;
+                    overrideProductDiscounts = true;
                 }
 
-                if (max is null || priceDataModel.Price > max.Value)
+                if (max is null || priceDataModel.DiscountedPrice > max.Value)
                 {
-                    max = productSku.Price;
+                    max = priceDataModel.DiscountedPrice;
+                }
+
+                if (minWithoutDiscount is null || priceDataModel.PriceWithoutDiscount < minWithoutDiscount.Value)
+                {
+                    minWithoutDiscount = priceDataModel.PriceWithoutDiscount;
+                }
+
+                if (maxWithoutDiscount is null || priceDataModel.PriceWithoutDiscount > maxWithoutDiscount.Value)
+                {
+                    maxWithoutDiscount = priceDataModel.PriceWithoutDiscount;
+                }
+
+                foreach (var model in priceDataModel.ProductDiscounts)
+                {
+                    var discount = discounts.FindProductDiscount(model.Name, model.Key);
+
+                    if (discount is null || overrideProductDiscounts)
+                    {
+                        discounts.AddOrUpdateProductDiscount(new ProductDiscountInfoModel(model.Name, model.Key,
+                            model.DisplayName, model.DiscountedAmount, model.FromTime, model.ToTime));
+                    }
+                }
+
+                foreach (var model in priceDataModel.OrderDiscountPreviews)
+                {
+                    var discount = discounts.FindOrderDiscount(model.Name, model.Key);
+
+                    if (discount is null)
+                    {
+                        discounts.AddOrUpdateOrderDiscountPreview(new OrderDiscountPreviewInfoModel(model.Name,
+                            model.Key, model.DisplayName, model.MinDiscountedAmount, model.MaxDiscountedAmount,
+                            model.FromTime, model.ToTime));
+                    }
                 }
             }
 
-            productView.SetPrices(min, max);
+            productView.SetPrices(min, max, minWithoutDiscount, maxWithoutDiscount);
+            productView.SetDiscounts(discounts);
         }
     }
 }

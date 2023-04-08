@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace EasyAbp.EShop.Products.Products
+namespace EasyAbp.EShop.Products.Products;
+
+public interface IProductDiscountProvider
 {
-    public interface IProductDiscountProvider
-    {
-        Task<decimal> GetDiscountedPriceAsync(Product product, ProductSku productSku, decimal currentPrice);
-    }
+    Task DiscountAsync(ProductDiscountContext context);
 }

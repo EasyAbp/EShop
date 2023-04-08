@@ -272,19 +272,15 @@ namespace EasyAbp.EShop.Products.Products
         {
             var price = await _productPriceProvider.GetPriceAsync(product, productSku);
 
-            var discountedPrice = price;
+            var context = new ProductDiscountContext(product, productSku, price, Clock);
 
             // Todo: provider execution ordering.
             foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IProductDiscountProvider>>())
             {
-                discountedPrice = await provider.GetDiscountedPriceAsync(product, productSku, discountedPrice);
+                await provider.DiscountAsync(context);
             }
 
-            return new PriceDataModel
-            {
-                Price = price,
-                DiscountedPrice = discountedPrice
-            };
+            return context.PriceDataModel;
         }
     }
 }

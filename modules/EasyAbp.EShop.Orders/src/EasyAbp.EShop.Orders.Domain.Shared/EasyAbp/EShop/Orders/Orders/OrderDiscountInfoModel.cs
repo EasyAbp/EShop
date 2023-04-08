@@ -1,4 +1,5 @@
 using System;
+using EasyAbp.EShop.Products.Products;
 using JetBrains.Annotations;
 
 namespace EasyAbp.EShop.Orders.Orders;
@@ -18,16 +19,12 @@ public class OrderDiscountInfoModel
 
     public decimal DiscountedAmount { get; set; }
 
-    public OrderDiscountInfoModel(
-        Guid orderLineId,
-        [NotNull] string name,
-        [CanBeNull] string key,
-        [CanBeNull] string displayName,
-        decimal discountedAmount)
+    public OrderDiscountInfoModel(Guid orderLineId, [NotNull] string name, [CanBeNull] string key,
+        [CanBeNull] string displayName, decimal discountedAmount)
     {
         OrderLineId = orderLineId;
         Name = name;
-        Key = key ?? string.Empty;
+        Key = key;
         DisplayName = displayName;
         DiscountedAmount = discountedAmount;
     }

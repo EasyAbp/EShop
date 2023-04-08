@@ -1,15 +1,15 @@
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EShop.Products.Products
 {
-    public class ProductView : CreationAuditedAggregateRoot<Guid>,
-        IProductBase, IHasProductGroupDisplayName, IMultiTenant
+    public class ProductView : CreationAuditedAggregateRoot<Guid>, IProductView, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
 
-        #region Properties of IProduct
+        #region Properties of IProductBase
 
         public virtual Guid StoreId { get; protected set; }
 
@@ -43,9 +43,17 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual string ProductGroupDisplayName { get; protected set; }
 
+        public virtual List<ProductDiscountInfoModel> ProductDiscounts { get; protected set; }
+
+        public virtual List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; protected set; }
+
         public virtual decimal? MinimumPrice { get; protected set; }
 
         public virtual decimal? MaximumPrice { get; protected set; }
+
+        public virtual decimal? MinimumPriceWithoutDiscount { get; protected set; }
+
+        public virtual decimal? MaximumPriceWithoutDiscount { get; protected set; }
 
         public virtual long Sold { get; protected set; }
 
@@ -71,8 +79,12 @@ namespace EasyAbp.EShop.Products.Products
             string mediaResources,
             int displayOrder,
             string productGroupDisplayName,
+            List<ProductDiscountInfoModel> productDiscounts,
+            List<OrderDiscountPreviewInfoModel> orderDiscountPreviews,
             decimal? minimumPrice,
             decimal? maximumPrice,
+            decimal? minimumPriceWithoutDiscount,
+            decimal? maximumPriceWithoutDiscount,
             long sold
         ) : base(id)
         {
@@ -93,8 +105,12 @@ namespace EasyAbp.EShop.Products.Products
             DisplayOrder = displayOrder;
 
             ProductGroupDisplayName = productGroupDisplayName;
+            ProductDiscounts = productDiscounts ?? new List<ProductDiscountInfoModel>();
+            OrderDiscountPreviews = orderDiscountPreviews ?? new List<OrderDiscountPreviewInfoModel>();
             MinimumPrice = minimumPrice;
             MaximumPrice = maximumPrice;
+            MinimumPriceWithoutDiscount = minimumPriceWithoutDiscount;
+            MaximumPriceWithoutDiscount = maximumPriceWithoutDiscount;
             Sold = sold;
         }
 
@@ -103,10 +119,18 @@ namespace EasyAbp.EShop.Products.Products
             Sold = sold;
         }
 
-        public void SetPrices(decimal? minimumPrice, decimal? maximumPrice)
+        public void SetPrices(decimal? min, decimal? max, decimal? minWithoutDiscount, decimal? maxWithoutDiscount)
         {
-            MinimumPrice = minimumPrice;
-            MaximumPrice = maximumPrice;
+            MinimumPrice = min;
+            MaximumPrice = max;
+            MinimumPriceWithoutDiscount = minWithoutDiscount;
+            MaximumPriceWithoutDiscount = maxWithoutDiscount;
+        }
+
+        public void SetDiscounts(IHasDiscountsInfo discountsInfo)
+        {
+            ProductDiscounts = discountsInfo.ProductDiscounts ?? new List<ProductDiscountInfoModel>();
+            OrderDiscountPreviews = discountsInfo.OrderDiscountPreviews ?? new List<OrderDiscountPreviewInfoModel>();
         }
     }
 }

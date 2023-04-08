@@ -179,7 +179,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
                 return await MapToGetOutputDtoAsync(item);
             }
 
-            var productSkuDto = productDto.FindSkuById(input.ProductSkuId);
+            var productSkuDto = (ProductSkuDto)productDto.FindSkuById(input.ProductSkuId);
 
             if (productSkuDto == null)
             {
@@ -187,8 +187,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             }
 
             item = new BasketItem(GuidGenerator.Create(), CurrentTenant.Id, input.BasketName, CurrentUser.GetId(),
-                productDto.StoreId, input.ProductId, input.ProductSkuId);
-            
+                productDto.StoreId, input.ProductId, input.ProductSkuId, productSkuDto.ProductDiscounts,
+                productSkuDto.OrderDiscountPreviews);
+
             input.MapExtraPropertiesTo(item);
 
             await UpdateProductDataAsync(input.Quantity, item, productDto);
@@ -269,7 +270,7 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
                 var productDto = products[dto.ProductId];
 
-                var productSkuDto = productDto.FindSkuById(dto.ProductSkuId);
+                var productSkuDto = (ProductSkuDto)productDto.FindSkuById(dto.ProductSkuId);
 
                 if (productSkuDto == null)
                 {
@@ -278,8 +279,8 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 
                 var id = dto.Id ?? GuidGenerator.Create();
 
-                var item = new ClientSideBasketItemModel(id, dto.BasketName, productDto.StoreId,
-                    dto.ProductId, dto.ProductSkuId);
+                var item = new ClientSideBasketItemModel(id, dto.BasketName, productDto.StoreId, dto.ProductId,
+                    dto.ProductSkuId, productSkuDto.ProductDiscounts, productSkuDto.OrderDiscountPreviews);
 
                 await UpdateProductDataAsync(dto.Quantity, item, productDto);
 

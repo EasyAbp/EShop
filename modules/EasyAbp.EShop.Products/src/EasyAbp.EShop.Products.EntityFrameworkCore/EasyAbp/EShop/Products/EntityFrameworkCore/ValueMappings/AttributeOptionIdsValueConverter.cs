@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EasyAbp.EShop.Products.EntityFrameworkCore.AttributeOptionIds;
+namespace EasyAbp.EShop.Products.EntityFrameworkCore.ValueMappings;
 
 public class AttributeOptionIdsValueConverter : ValueConverter<List<Guid>, string>
 {

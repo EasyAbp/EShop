@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Categories;
+using EasyAbp.EShop.Products.EntityFrameworkCore.ValueMappings;
 using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductHistories;
@@ -40,6 +42,16 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
             base.OnModelCreating(builder);
 
             builder.ConfigureEShopProducts();
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            base.ConfigureConventions(configurationBuilder);
+
+            configurationBuilder.Properties<List<ProductDiscountInfoModel>>()
+                .HaveConversion<ProductDiscountsInfoValueConverter>();
+            configurationBuilder.Properties<List<OrderDiscountPreviewInfoModel>>()
+                .HaveConversion<OrderDiscountPreviewsInfoValueConverter>();
         }
     }
 }

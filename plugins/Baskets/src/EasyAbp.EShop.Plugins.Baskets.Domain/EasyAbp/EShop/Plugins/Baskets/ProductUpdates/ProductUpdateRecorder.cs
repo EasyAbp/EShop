@@ -16,6 +16,8 @@ namespace EasyAbp.EShop.Plugins.Baskets.ProductUpdates
         IProductUpdateRecorder,
         IDistributedEventHandler<EntityUpdatedEto<ProductEto>>,
         IDistributedEventHandler<ProductInventoryChangedEto>,
+        // todo: while discount changed
+        // todo: manually refresh event
         ITransientDependency
     {
         private readonly IGuidGenerator _guidGenerator;

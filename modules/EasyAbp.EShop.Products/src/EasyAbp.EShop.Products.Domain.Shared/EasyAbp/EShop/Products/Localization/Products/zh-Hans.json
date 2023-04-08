@@ -95,6 +95,8 @@
     "EasyAbp.EShop.Products:ProductAttributesModificationFailed": "请先确保Sku为空再修改商品的属性",
     "EasyAbp.EShop.Products:StaticProductCannotBeModified": "不能修改静态商品{productId}",
     "EasyAbp.EShop.Products:StoreIsNotProductOwner": "商店{storeId}不是商品{productId}的所有者 ",
-    "EasyAbp.EShop.Products:InventoryInsufficient": "产品{productId} (SKU: {productSkuId})的库存不足，需要数量{quantity}，但是只有数量{inventory}"
+    "EasyAbp.EShop.Products:InventoryInsufficient": "产品{productId} (SKU: {productSkuId})的库存不足，需要数量{quantity}，但是只有数量{inventory}",
+    "EasyAbp.EShop.Products:DiscountAmountOverflow": "折扣金额溢出",
+    "EasyAbp.EShop.Products:InvalidTimePeriod": "不正确的时间区间"
   }
 }

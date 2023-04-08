@@ -14,8 +14,15 @@ namespace EasyAbp.EShop.Products.Products
         [NotNull]
         string Currency { get; }
 
+        /// <summary>
+        /// The official pricing value.
+        /// This property is only used for UI.
+        /// </summary>
         decimal? OriginalPrice { get; }
 
+        /// <summary>
+        /// The realtime price.
+        /// </summary>
         decimal Price { get; }
 
         int OrderMinQuantity { get; }

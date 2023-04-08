@@ -5,6 +5,7 @@ using EasyAbp.EShop.Products.ProductCategories;
 using EasyAbp.EShop.Products.Categories;
 using EasyAbp.EShop.Products.Products;
 using System;
+using EasyAbp.EShop.Products.EntityFrameworkCore.ValueMappings;
 using EasyAbp.EShop.Products.ProductDetails;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
@@ -133,7 +134,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
             builder.Entity<ProductView>(b =>
             {
                 b.ToTable(options.TablePrefix + "ProductViews", options.Schema);
-                b.ConfigureByConvention(); 
+                b.ConfigureByConvention();
+                b.TryConfigureDiscountsInfo();
 
                 /* Configure more properties here */
                 
@@ -141,6 +143,8 @@ namespace EasyAbp.EShop.Products.EntityFrameworkCore
                 
                 b.Property(x => x.MinimumPrice).HasColumnType("decimal(20,8)");
                 b.Property(x => x.MaximumPrice).HasColumnType("decimal(20,8)");
+                b.Property(x => x.MinimumPriceWithoutDiscount).HasColumnType("decimal(20,8)");
+                b.Property(x => x.MaximumPriceWithoutDiscount).HasColumnType("decimal(20,8)");
             });
         }
     }
