@@ -82,7 +82,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
@@ -116,7 +116,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
@@ -201,7 +201,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             return dto;
@@ -232,7 +232,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             return dto;
@@ -257,13 +257,14 @@ namespace EasyAbp.EShop.Products.Products
 
             var products = await AsyncExecuter.ToListAsync(query);
 
+            var now = Clock.Now;
             var items = new List<ProductDto>();
 
             foreach (var product in products)
             {
                 var productDto = await MapToGetListOutputDtoAsync(product);
 
-                await LoadDtoExtraDataAsync(product, productDto);
+                await LoadDtoExtraDataAsync(product, productDto, now);
 
                 items.Add(productDto);
             }
@@ -296,21 +297,23 @@ namespace EasyAbp.EShop.Products.Products
             return productDto;
         }
 
-        protected virtual async Task<ProductDto> LoadDtoExtraDataAsync(Product product, ProductDto productDto)
+        protected virtual async Task<ProductDto> LoadDtoExtraDataAsync(Product product, ProductDto productDto,
+            DateTime now)
         {
             await LoadDtoInventoryDataAsync(product, productDto);
-            await LoadDtoPriceDataAsync(product, productDto);
+            await LoadDtoPriceDataAsync(product, productDto, now);
 
             return productDto;
         }
 
-        protected virtual async Task<ProductDto> LoadDtoPriceDataAsync(Product product, ProductDto productDto)
+        protected virtual async Task<ProductDto> LoadDtoPriceDataAsync(Product product, ProductDto productDto,
+            DateTime now)
         {
             foreach (var productSku in product.ProductSkus)
             {
                 var productSkuDto = productDto.ProductSkus.First(x => x.Id == productSku.Id);
 
-                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);
+                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku, now);
 
                 productSkuDto.PriceWithoutDiscount = priceDataModel.PriceWithoutDiscount;
                 productSkuDto.Price = priceDataModel.DiscountedPrice;
@@ -364,7 +367,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
@@ -389,7 +392,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
@@ -411,7 +414,7 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto);
+            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });

@@ -268,11 +268,12 @@ namespace EasyAbp.EShop.Products.Products
                 .TryReduceInventoryAsync(model, quantity, increaseSold, isFlashSale);
         }
 
-        public virtual async Task<PriceDataModel> GetRealPriceAsync(Product product, ProductSku productSku)
+        public virtual async Task<PriceDataModel> GetRealPriceAsync(Product product, ProductSku productSku,
+            DateTime now)
         {
             var price = await _productPriceProvider.GetPriceAsync(product, productSku);
 
-            var context = new ProductDiscountContext(product, productSku, price, Clock);
+            var context = new ProductDiscountContext(product, productSku, price, now);
 
             // Todo: provider execution ordering.
             foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IProductDiscountProvider>>())
