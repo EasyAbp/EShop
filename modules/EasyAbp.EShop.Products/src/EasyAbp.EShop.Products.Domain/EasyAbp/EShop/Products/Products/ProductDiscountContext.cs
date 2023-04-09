@@ -1,4 +1,4 @@
-using Volo.Abp.Timing;
+using System;
 
 namespace EasyAbp.EShop.Products.Products;
 
@@ -10,10 +10,10 @@ public class ProductDiscountContext
 
     public PriceDataModel PriceDataModel { get; }
 
-    public ProductDiscountContext(Product product, ProductSku productSku, decimal priceFromPriceProvider, IClock clock)
+    public ProductDiscountContext(Product product, ProductSku productSku, decimal priceFromPriceProvider, DateTime now)
     {
         Product = product;
         ProductSku = productSku;
-        PriceDataModel = new PriceDataModel(priceFromPriceProvider, clock);
+        PriceDataModel = new PriceDataModel(priceFromPriceProvider, now);
     }
 }

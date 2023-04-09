@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Volo.Abp.Timing;
 
 namespace EasyAbp.EShop.Products.Products;
 
@@ -24,14 +23,14 @@ public class PriceDataModel : IHasFullDiscountsInfo
 
     public List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; } = new();
 
-    public PriceDataModel(decimal priceWithoutDiscount, IClock clock)
+    public PriceDataModel(decimal priceWithoutDiscount, DateTime now)
     {
         if (PriceWithoutDiscount < decimal.Zero)
         {
             throw new OverflowException();
         }
 
-        Now = clock.Now;
+        Now = now;
         PriceWithoutDiscount = priceWithoutDiscount;
     }
 }
