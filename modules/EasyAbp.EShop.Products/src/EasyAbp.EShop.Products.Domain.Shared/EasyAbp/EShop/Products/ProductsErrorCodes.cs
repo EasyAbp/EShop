@@ -16,5 +16,7 @@
         public const string StaticProductCannotBeModified = "EasyAbp.EShop.Products:StaticProductCannotBeModified";
         public const string StoreIsNotProductOwner = "EasyAbp.EShop.Products:StoreIsNotProductOwner";
         public const string InventoryInsufficient = "EasyAbp.EShop.Products:InventoryInsufficient";
+        public const string DiscountAmountOverflow = "EasyAbp.EShop.Products:DiscountAmountOverflow";
+        public const string InvalidTimePeriod = "EasyAbp.EShop.Products:InvalidTimePeriod";
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
@@ -35,7 +37,7 @@ public class BasicBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater, 
             return;
         }
 
-        item.UpdateProductData(targetQuantity, new ProductDataModel
+        item.Update(targetQuantity, new ProductDataModel
         {
             MediaResources = productSkuDto.MediaResources ?? productDto.MediaResources,
             ProductUniqueName = productDto.UniqueName,
@@ -43,9 +45,9 @@ public class BasicBasketItemProductInfoUpdater : IBasketItemProductInfoUpdater, 
             SkuName = productSkuDto.Name,
             SkuDescription = await ProductSkuDescriptionProvider.GenerateAsync(productDto, productSkuDto),
             Currency = productSkuDto.Currency,
-            UnitPrice = productSkuDto.DiscountedPrice,
-            TotalPrice = productSkuDto.DiscountedPrice * item.Quantity,
-            TotalDiscount = (productSkuDto.Price - productSkuDto.DiscountedPrice) * item.Quantity,
+            PriceWithoutDiscount = productSkuDto.PriceWithoutDiscount,
+            ProductDiscounts = productSkuDto.ProductDiscounts,
+            OrderDiscountPreviews = productSkuDto.OrderDiscountPreviews,
             Inventory = productSkuDto.Inventory
         });
 

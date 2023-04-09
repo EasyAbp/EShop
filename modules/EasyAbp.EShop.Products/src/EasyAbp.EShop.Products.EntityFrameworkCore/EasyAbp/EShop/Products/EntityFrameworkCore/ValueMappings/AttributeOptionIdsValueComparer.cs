@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace EasyAbp.EShop.Products.EntityFrameworkCore.AttributeOptionIds;
+namespace EasyAbp.EShop.Products.EntityFrameworkCore.ValueMappings;
 
 public class AttributeOptionIdsValueComparer : ValueComparer<List<Guid>>
 {
