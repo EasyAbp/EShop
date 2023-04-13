@@ -48,6 +48,7 @@
     "OrderDiscount": "訂單折扣項",
     "OrderDiscountOrderId": "訂單 ID",
     "OrderDiscountOrderLineId": "訂單項 ID",
+    "OrderDiscountEffectGroup": "生效組",
     "OrderDiscountName": "折扣項名稱",
     "OrderDiscountKey": "折扣項 Key",
     "OrderDiscountDisplayName": "顯示名稱",

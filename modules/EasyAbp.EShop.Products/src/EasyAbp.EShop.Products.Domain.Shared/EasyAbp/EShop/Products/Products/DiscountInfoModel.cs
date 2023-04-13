@@ -3,15 +3,14 @@ using JetBrains.Annotations;
 
 namespace EasyAbp.EShop.Products.Products;
 
-public abstract class DiscountInfoModel
+public abstract class DiscountInfoModel : IDiscountInfo
 {
-    [NotNull]
+    public string EffectGroup { get; set; }
+
     public string Name { get; set; }
 
-    [CanBeNull]
     public string Key { get; set; }
 
-    [CanBeNull]
     public string DisplayName { get; set; }
 
     /// <summary>
@@ -28,14 +27,15 @@ public abstract class DiscountInfoModel
     {
     }
 
-    public DiscountInfoModel([NotNull] string name, [CanBeNull] string key, [CanBeNull] string displayName,
-        DateTime? fromTime, DateTime? toTime)
+    public DiscountInfoModel([CanBeNull] string effectGroup, [NotNull] string name, [CanBeNull] string key,
+        [CanBeNull] string displayName, DateTime? fromTime, DateTime? toTime)
     {
         if (fromTime > toTime)
         {
             throw new InvalidTimePeriodException();
         }
 
+        EffectGroup = effectGroup;
         Name = name;
         Key = key;
         DisplayName = displayName;

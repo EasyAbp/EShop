@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
 {
-    public interface IProductData : IHasFullDiscountsInfo
+    public interface IProductData : IHasFullDiscountsForProduct
     {
         string MediaResources { get; }
 

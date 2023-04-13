@@ -117,31 +117,80 @@ namespace EasyAbp.EShop.Products.Products
         {
             var products = await _productRepository.GetListAsync(x => x.StoreId == storeId, true);
 
+            var now = Clock.Now;
+
             using var uow = UnitOfWorkManager.Begin(true, true);
 
             await _repository.DeleteAsync(x => x.StoreId == storeId, true);
+
+            var productViews = new List<ProductView>();
 
             foreach (var product in products)
             {
                 var productView = ObjectMapper.Map<Product, ProductView>(product);
 
-                await FillPriceInfoWithRealPriceAsync(product, productView);
+                await FillPriceInfoWithRealPriceAsync(product, productView, now);
 
-                await _repository.InsertAsync(productView);
+                productViews.Add(await _repository.InsertAsync(productView));
             }
 
             await uow.SaveChangesAsync();
             await uow.CompleteAsync();
 
-            await _cache.SetAsync(await GetCacheKeyAsync(storeId), new ProductViewCacheItem(),
-                new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(Convert.ToInt32(
-                        await SettingProvider.GetOrNullAsync(ProductsSettings.ProductView.CacheDurationSeconds)))
-                });
+            var duration = await GetCacheDurationOrNullAsync(productViews, now);
+
+            if (duration.HasValue)
+            {
+                await _cache.SetAsync(await GetCacheKeyAsync(storeId), new ProductViewCacheItem(),
+                    new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = duration
+                    });
+            }
         }
 
-        protected virtual async Task FillPriceInfoWithRealPriceAsync(Product product, ProductView productView)
+        protected async Task<TimeSpan?> GetCacheDurationOrNullAsync(List<ProductView> productViews,
+            DateTime now)
+        {
+            // refresh the cache when a new discount takes effect or an old discount ends.
+            var minFromTime = productViews.SelectMany(x => x.ProductDiscounts)
+                .Where(x => x.FromTime.HasValue && x.FromTime > now).MinBy(x => x.FromTime)?.FromTime;
+            var minToTime = productViews.SelectMany(x => x.ProductDiscounts)
+                .Where(x => x.ToTime.HasValue && x.ToTime > now).MinBy(x => x.ToTime)?.ToTime;
+
+            DateTime? nextTime;
+            if (minFromTime.HasValue)
+            {
+                if (minToTime.HasValue)
+                {
+                    nextTime = minFromTime < minToTime ? minFromTime : minToTime;
+                }
+                else
+                {
+                    nextTime = minFromTime;
+                }
+            }
+            else
+            {
+                nextTime = minToTime;
+            }
+
+            // use `Clock.Now` to achieve higher timeliness.
+            var duration = nextTime.HasValue ? nextTime - Clock.Now : null;
+
+            if (duration <= TimeSpan.Zero)
+            {
+                return null;
+            }
+
+            var defaultDuration = TimeSpan.FromSeconds(Convert.ToInt32(
+                await SettingProvider.GetOrNullAsync(ProductsSettings.ProductView.CacheDurationSeconds)));
+
+            return duration.HasValue && duration.Value < defaultDuration ? duration : defaultDuration;
+        }
+
+        protected virtual async Task FillPriceInfoWithRealPriceAsync(Product product, ProductView productView,
+            DateTime now)
         {
             if (product.ProductSkus.IsNullOrEmpty())
             {
@@ -151,22 +200,23 @@ namespace EasyAbp.EShop.Products.Products
             decimal? min = null, max = null;
             decimal? minWithoutDiscount = null, maxWithoutDiscount = null;
 
-            var discounts = new DiscountsInfoModel();
+            var discounts = new DiscountForProductModels();
 
             foreach (var productSku in product.ProductSkus)
             {
                 var overrideProductDiscounts = false;
-                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku);
+                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku, now);
+                var discountedPrice = priceDataModel.GetDiscountedPrice();
 
-                if (min is null || priceDataModel.DiscountedPrice < min.Value)
+                if (min is null || discountedPrice < min.Value)
                 {
-                    min = priceDataModel.DiscountedPrice;
+                    min = discountedPrice;
                     overrideProductDiscounts = true;
                 }
 
-                if (max is null || priceDataModel.DiscountedPrice > max.Value)
+                if (max is null || discountedPrice > max.Value)
                 {
-                    max = priceDataModel.DiscountedPrice;
+                    max = discountedPrice;
                 }
 
                 if (minWithoutDiscount is null || priceDataModel.PriceWithoutDiscount < minWithoutDiscount.Value)
@@ -185,20 +235,19 @@ namespace EasyAbp.EShop.Products.Products
 
                     if (discount is null || overrideProductDiscounts)
                     {
-                        discounts.AddOrUpdateProductDiscount(new ProductDiscountInfoModel(model.Name, model.Key,
-                            model.DisplayName, model.DiscountedAmount, model.FromTime, model.ToTime));
+                        discounts.AddOrUpdateProductDiscount(new ProductDiscountInfoModel(model.EffectGroup, model.Name,
+                            model.Key, model.DisplayName, model.DiscountedAmount, model.FromTime, model.ToTime));
                     }
                 }
 
                 foreach (var model in priceDataModel.OrderDiscountPreviews)
                 {
-                    var discount = discounts.FindOrderDiscount(model.Name, model.Key);
+                    var discount = discounts.FindOrderDiscountPreview(model.Name, model.Key);
 
                     if (discount is null)
                     {
-                        discounts.AddOrUpdateOrderDiscountPreview(new OrderDiscountPreviewInfoModel(model.Name,
-                            model.Key, model.DisplayName, model.MinDiscountedAmount, model.MaxDiscountedAmount,
-                            model.FromTime, model.ToTime));
+                        discounts.AddOrUpdateOrderDiscountPreview(new OrderDiscountPreviewInfoModel(model.EffectGroup,
+                            model.Name, model.Key, model.DisplayName, model.FromTime, model.ToTime));
                     }
                 }
             }

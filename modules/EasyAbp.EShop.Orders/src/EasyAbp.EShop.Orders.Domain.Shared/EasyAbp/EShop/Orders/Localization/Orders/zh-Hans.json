@@ -48,6 +48,7 @@
     "OrderDiscount": "订单折扣项",
     "OrderDiscountOrderId": "订单 ID",
     "OrderDiscountOrderLineId": "订单项 ID",
+    "OrderDiscountEffectGroup": "生效组",
     "OrderDiscountName": "折扣项名称",
     "OrderDiscountKey": "折扣项 Key",
     "OrderDiscountDisplayName": "显示名称",

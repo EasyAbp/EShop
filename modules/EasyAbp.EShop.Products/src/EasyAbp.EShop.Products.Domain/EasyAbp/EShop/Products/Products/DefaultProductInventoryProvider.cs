@@ -54,9 +54,10 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [UnitOfWork]
-        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(InventoryQueryModel model)
+        public virtual async Task<InventoryDataModel>  GetInventoryDataAsync(InventoryQueryModel model)
         {
-            return await _productInventoryRepository.GetInventoryDataAsync(model.ProductSkuId);
+            return await _productInventoryRepository.GetInventoryDataAsync(model.ProductSkuId) ??
+                   new InventoryDataModel();
         }
 
         [UnitOfWork]
@@ -78,11 +79,13 @@ namespace EasyAbp.EShop.Products.Products
         public virtual async Task<bool> TryIncreaseInventoryAsync(InventoryQueryModel model, int quantity,
             bool decreaseSold, bool isFlashSale = false)
         {
-            await using var handle = await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
+            await using var handle =
+                await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
 
             if (handle == null)
             {
-                _logger.LogWarning("TryIncreaseInventory failed to acquire lock for product inventory: {TenantId},{ProductId},{ProductSkuId}",
+                _logger.LogWarning(
+                    "TryIncreaseInventory failed to acquire lock for product inventory: {TenantId},{ProductId},{ProductSkuId}",
                     model.TenantId, model.ProductId, model.ProductSkuId);
                 return false;
             }
@@ -96,11 +99,13 @@ namespace EasyAbp.EShop.Products.Products
         public virtual async Task<bool> TryReduceInventoryAsync(InventoryQueryModel model, int quantity,
             bool increaseSold, bool isFlashSale = false)
         {
-            await using var handle = await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
+            await using var handle =
+                await _distributedLock.TryAcquireAsync(await GetLockKeyAsync(model), TimeSpan.FromSeconds(30));
 
             if (handle == null)
             {
-                _logger.LogWarning("TryReduceInventory failed to acquire lock for product inventory: {TenantId},{ProductId},{ProductSkuId}",
+                _logger.LogWarning(
+                    "TryReduceInventory failed to acquire lock for product inventory: {TenantId},{ProductId},{ProductSkuId}",
                     model.TenantId, model.ProductId, model.ProductSkuId);
                 return false;
             }
@@ -195,7 +200,8 @@ namespace EasyAbp.EShop.Products.Products
 
         protected virtual Task<string> GetLockKeyAsync(InventoryQueryModel model)
         {
-            return Task.FromResult(string.Format(DefaultProductInventoryLockKeyFormat, model.TenantId, model.ProductId, model.ProductSkuId));
+            return Task.FromResult(string.Format(DefaultProductInventoryLockKeyFormat, model.TenantId, model.ProductId,
+                model.ProductSkuId));
         }
     }
 }
