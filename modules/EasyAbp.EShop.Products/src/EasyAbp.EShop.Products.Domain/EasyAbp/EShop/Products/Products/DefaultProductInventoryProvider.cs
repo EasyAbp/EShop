@@ -54,7 +54,7 @@ namespace EasyAbp.EShop.Products.Products
         }
 
         [UnitOfWork]
-        public virtual async Task<InventoryDataModel> GetInventoryDataAsync(InventoryQueryModel model)
+        public virtual async Task<InventoryDataModel>  GetInventoryDataAsync(InventoryQueryModel model)
         {
             return await _productInventoryRepository.GetInventoryDataAsync(model.ProductSkuId) ??
                    new InventoryDataModel();

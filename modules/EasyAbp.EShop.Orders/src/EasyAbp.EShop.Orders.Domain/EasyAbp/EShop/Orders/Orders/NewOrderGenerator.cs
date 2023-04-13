@@ -14,7 +14,7 @@ using Volo.Abp.Settings;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
-    public class NewOrderGenerator : DomainService, INewOrderGenerator, ITransientDependency
+    public class NewOrderGenerator : DomainService, INewOrderGenerator
     {
         private readonly ISettingProvider _settingProvider;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
@@ -107,15 +107,19 @@ namespace EasyAbp.EShop.Orders.Orders
 
         protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, IProduct> productDict)
         {
-            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IOrderDiscountProvider>>())
-            {
-                var discounts = await provider.GetAllAsync(order, productDict);
+            var context = new OrderDiscountContext(order, productDict);
 
-                foreach (var discount in discounts)
-                {
-                    order.AddDiscount(discount.OrderLineId, discount.Name, discount.Key, discount.DisplayName,
-                        discount.DiscountedAmount);
-                }
+            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IOrderDiscountProvider>>()
+                         .OrderBy(x => x.EffectOrder))
+            {
+                await provider.DiscountAsync(context);
+            }
+
+            var effectDiscounts = context.GetEffectDiscounts();
+
+            foreach (var discount in effectDiscounts)
+            {
+                order.AddDiscounts(discount);
             }
         }
 

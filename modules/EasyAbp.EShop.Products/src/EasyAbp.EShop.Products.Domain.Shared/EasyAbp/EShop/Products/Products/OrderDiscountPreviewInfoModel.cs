@@ -6,32 +6,19 @@ namespace EasyAbp.EShop.Products.Products;
 [Serializable]
 public class OrderDiscountPreviewInfoModel : DiscountInfoModel, ICloneable
 {
-    public decimal MinDiscountedAmount { get; set; }
-
-    public decimal MaxDiscountedAmount { get; set; }
-
     public OrderDiscountPreviewInfoModel()
     {
     }
 
-    public OrderDiscountPreviewInfoModel([NotNull] string name, [CanBeNull] string key, [CanBeNull] string displayName,
-        decimal minDiscountedAmount, decimal maxDiscountedAmount, DateTime? fromTime, DateTime? toTime) : base(name,
-        key, displayName, fromTime, toTime)
+    public OrderDiscountPreviewInfoModel([CanBeNull] string effectGroup, [NotNull] string name, [CanBeNull] string key,
+        [CanBeNull] string displayName, DateTime? fromTime, DateTime? toTime) : base(effectGroup, name, key,
+        displayName, fromTime, toTime)
     {
-        if (minDiscountedAmount < decimal.Zero || maxDiscountedAmount < decimal.Zero ||
-            minDiscountedAmount > maxDiscountedAmount)
-        {
-            throw new DiscountAmountOverflowException();
-        }
-
-        MinDiscountedAmount = minDiscountedAmount;
-        MaxDiscountedAmount = maxDiscountedAmount;
     }
 
-    public object Clone()
+    public virtual object Clone()
     {
-        return new OrderDiscountPreviewInfoModel(Name, Key, DisplayName, MinDiscountedAmount, MaxDiscountedAmount,
-            FromTime, ToTime);
+        return new OrderDiscountPreviewInfoModel(EffectGroup, Name, Key, DisplayName, FromTime, ToTime);
     }
 
     public override bool Equals(object obj)
@@ -39,13 +26,12 @@ public class OrderDiscountPreviewInfoModel : DiscountInfoModel, ICloneable
         return obj is OrderDiscountPreviewInfoModel other && Equals(other);
     }
 
-    protected bool Equals(OrderDiscountPreviewInfoModel other)
+    private bool Equals(OrderDiscountPreviewInfoModel other)
     {
-        return Name == other.Name &&
+        return EffectGroup == other.EffectGroup &&
+               Name == other.Name &&
                Key == other.Key &&
                DisplayName == other.DisplayName &&
-               MinDiscountedAmount == other.MinDiscountedAmount &&
-               MaxDiscountedAmount == other.MaxDiscountedAmount &&
                Nullable.Equals(FromTime, other.FromTime) &&
                Nullable.Equals(ToTime, other.ToTime);
     }
@@ -55,10 +41,9 @@ public class OrderDiscountPreviewInfoModel : DiscountInfoModel, ICloneable
         unchecked
         {
             var hashCode = Name.GetHashCode();
+            hashCode = (hashCode * 397) ^ (EffectGroup != null ? EffectGroup.GetHashCode() : 0);
             hashCode = (hashCode * 397) ^ (Key != null ? Key.GetHashCode() : 0);
             hashCode = (hashCode * 397) ^ (DisplayName != null ? DisplayName.GetHashCode() : 0);
-            hashCode = (hashCode * 397) ^ MinDiscountedAmount.GetHashCode();
-            hashCode = (hashCode * 397) ^ MaxDiscountedAmount.GetHashCode();
             hashCode = (hashCode * 397) ^ FromTime.GetHashCode();
             hashCode = (hashCode * 397) ^ ToTime.GetHashCode();
             return hashCode;

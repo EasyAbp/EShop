@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Products;
+﻿using System.Threading.Tasks;
 
 namespace EasyAbp.EShop.Orders.Orders
 {
     public interface IOrderDiscountProvider
     {
-        Task<List<OrderDiscountInfoModel>> GetAllAsync(Order order, Dictionary<Guid, IProduct> productDict);
+        int EffectOrder { get; }
+
+        Task DiscountAsync(OrderDiscountContext context);
     }
 }

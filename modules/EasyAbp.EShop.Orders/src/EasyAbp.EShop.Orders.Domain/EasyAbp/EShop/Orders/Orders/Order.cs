@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EasyAbp.EShop.Products.Products;
 using JetBrains.Annotations;
+using NodaMoney;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -186,30 +188,82 @@ namespace EasyAbp.EShop.Orders.Orders
             return !(!PaymentId.HasValue || PaidTime.HasValue);
         }
 
-        public void AddDiscount(Guid orderLineId, [NotNull] string discountName, [CanBeNull] string discountKey,
-            [CanBeNull] string discountDisplayName, decimal discountedAmount)
+        public void AddDiscounts(OrderDiscountInfoModel infoModel)
         {
-            var orderLine = OrderLines.Single(x => x.Id == orderLineId);
+            var affectedOrderLines = infoModel.AffectedOrderLineIds
+                .Select(orderLineId => OrderLines.Single(x => x.Id == orderLineId))
+                .ToList();
 
-            orderLine.AddDiscount(discountedAmount);
+            var remainingDiscountedAmount = new Money(infoModel.DiscountedAmount, Currency);
 
-            TotalDiscount += discountedAmount;
-            ActualTotalPrice -= discountedAmount;
+            var totalOrderLineActualTotalPrice = new Money(affectedOrderLines.Sum(x => x.ActualTotalPrice), Currency);
 
-            if (ActualTotalPrice < decimal.Zero)
+            var orderLineDiscounts = new Dictionary<OrderLine, Money>();
+
+            foreach (var orderLineId in infoModel.AffectedOrderLineIds)
             {
-                throw new DiscountAmountOverflowException();
+                var orderLine = OrderLines.Single(x => x.Id == orderLineId);
+
+                var orderLineActualTotalPrice = new Money(orderLine.ActualTotalPrice, Currency);
+                var maxDiscountAmount =
+                    new Money(
+                        orderLineActualTotalPrice.Amount / totalOrderLineActualTotalPrice.Amount *
+                        infoModel.DiscountedAmount, Currency, MidpointRounding.ToZero);
+
+                var discountAmount = maxDiscountAmount > totalOrderLineActualTotalPrice
+                    ? orderLineActualTotalPrice
+                    : maxDiscountAmount;
+
+                orderLineDiscounts[orderLine] = discountAmount;
+                remainingDiscountedAmount -= discountAmount;
             }
 
-            if (OrderDiscounts.Any(x => x.OrderLineId == orderLineId && x.Name == discountName && x.Key == discountKey))
+            foreach (var orderLine in affectedOrderLines.OrderByDescending(x => x.ActualTotalPrice))
             {
-                throw new DuplicateOrderDiscountException(orderLineId, discountName, discountKey);
+                if (remainingDiscountedAmount == decimal.Zero)
+                {
+                    break;
+                }
+
+                var discountAmount = remainingDiscountedAmount > totalOrderLineActualTotalPrice
+                    ? totalOrderLineActualTotalPrice
+                    : remainingDiscountedAmount;
+
+                orderLineDiscounts[orderLine] += discountAmount;
+                remainingDiscountedAmount -= discountAmount;
             }
 
-            var orderDiscount = new OrderDiscount(
-                Id, orderLineId, discountName, discountKey, discountDisplayName, discountedAmount);
+            if (remainingDiscountedAmount.Amount != decimal.Zero)
+            {
+                throw new ApplicationException();
+            }
 
-            OrderDiscounts.Add(orderDiscount);
+            foreach (var affectedOrderLine in affectedOrderLines)
+            {
+                var orderLineDiscountedAmount = orderLineDiscounts[affectedOrderLine];
+
+                affectedOrderLine.AddDiscount(orderLineDiscountedAmount.Amount);
+
+                TotalDiscount += orderLineDiscountedAmount.Amount;
+                ActualTotalPrice -= orderLineDiscountedAmount.Amount;
+
+                if (ActualTotalPrice < decimal.Zero)
+                {
+                    throw new DiscountAmountOverflowException();
+                }
+
+                if (OrderDiscounts.Any(x =>
+                        x.OrderLineId == affectedOrderLine.Id && x.Name == infoModel.Name &&
+                        x.Key == infoModel.Key))
+                {
+                    throw new DuplicateOrderDiscountException(affectedOrderLine.Id, infoModel.Name, infoModel.Key);
+                }
+
+                var orderDiscount = new OrderDiscount(Id, affectedOrderLine.Id, infoModel.EffectGroup,
+                    infoModel.Name, infoModel.Key, infoModel.DisplayName, orderLineDiscountedAmount.Amount);
+
+                OrderDiscounts.Add(orderDiscount);
+            }
         }
 
         public void AddOrderExtraFee(decimal extraFee, [NotNull] string extraFeeName, [CanBeNull] string extraFeeKey,
