@@ -30,6 +30,6 @@ namespace EasyAbp.EShop.Products.Products
 
         Task<bool> TryReduceInventoryAsync(Product product, ProductSku productSku, int quantity, bool increaseSold);
 
-        Task<PriceDataModel> GetRealPriceAsync(Product product, ProductSku productSku, DateTime now);
+        Task<ProductPriceModel> GetRealPriceAsync(Product product, ProductSku productSku, DateTime now);
     }
 }

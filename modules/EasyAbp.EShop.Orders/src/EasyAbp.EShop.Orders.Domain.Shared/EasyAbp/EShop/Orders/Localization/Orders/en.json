@@ -48,6 +48,7 @@
     "OrderDiscount": "Order discount",
     "OrderDiscountOrderId": "Order ID",
     "OrderDiscountOrderLineId": "Order line ID",
+    "OrderDiscountEffectGroup": "Effect group",
     "OrderDiscountName": "Name",
     "OrderDiscountKey": "Key",
     "OrderDiscountDisplayName": "Display name",

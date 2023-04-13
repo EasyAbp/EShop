@@ -9,7 +9,7 @@ using Xunit;
 
 namespace EasyAbp.EShop.Orders.Orders;
 
-public class OrderDiscountTests : OrdersDomainTestBase
+public class OrderDiscountProviderTests : OrdersDomainTestBase
 {
     protected override void AfterAddApplication(IServiceCollection services)
     {

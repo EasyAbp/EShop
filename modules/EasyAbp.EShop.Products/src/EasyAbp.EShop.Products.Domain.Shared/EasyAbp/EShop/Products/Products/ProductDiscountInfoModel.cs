@@ -8,12 +8,15 @@ public class ProductDiscountInfoModel : DiscountInfoModel, ICloneable
 {
     public decimal DiscountedAmount { get; set; }
 
+    public bool? InEffect { get; set; }
+
     public ProductDiscountInfoModel()
     {
     }
 
-    public ProductDiscountInfoModel([NotNull] string name, [CanBeNull] string key, [CanBeNull] string displayName,
-        decimal discountedAmount, DateTime? fromTime, DateTime? toTime) : base(name, key, displayName, fromTime, toTime)
+    public ProductDiscountInfoModel([CanBeNull] string effectGroup, [NotNull] string name, [CanBeNull] string key,
+        [CanBeNull] string displayName, decimal discountedAmount, DateTime? fromTime, DateTime? toTime,
+        bool? inEffect = null) : base(effectGroup, name, key, displayName, fromTime, toTime)
     {
         if (discountedAmount < decimal.Zero)
         {
@@ -21,11 +24,13 @@ public class ProductDiscountInfoModel : DiscountInfoModel, ICloneable
         }
 
         DiscountedAmount = discountedAmount;
+        InEffect = inEffect;
     }
 
-    public object Clone()
+    public virtual object Clone()
     {
-        return new ProductDiscountInfoModel(Name, Key, DisplayName, DiscountedAmount, FromTime, ToTime);
+        return new ProductDiscountInfoModel(
+            EffectGroup, Name, Key, DisplayName, DiscountedAmount, FromTime, ToTime, InEffect);
     }
 
     public override bool Equals(object obj)
@@ -33,12 +38,14 @@ public class ProductDiscountInfoModel : DiscountInfoModel, ICloneable
         return obj is ProductDiscountInfoModel other && Equals(other);
     }
 
-    protected bool Equals(ProductDiscountInfoModel other)
+    private bool Equals(ProductDiscountInfoModel other)
     {
-        return Name == other.Name &&
+        return EffectGroup == other.EffectGroup &&
+               Name == other.Name &&
                Key == other.Key &&
                DisplayName == other.DisplayName &&
                DiscountedAmount == other.DiscountedAmount &&
+               Nullable.Equals(InEffect, other.InEffect) &&
                Nullable.Equals(FromTime, other.FromTime) &&
                Nullable.Equals(ToTime, other.ToTime);
     }
@@ -48,9 +55,11 @@ public class ProductDiscountInfoModel : DiscountInfoModel, ICloneable
         unchecked
         {
             var hashCode = Name.GetHashCode();
+            hashCode = (hashCode * 397) ^ (EffectGroup != null ? EffectGroup.GetHashCode() : 0);
             hashCode = (hashCode * 397) ^ (Key != null ? Key.GetHashCode() : 0);
             hashCode = (hashCode * 397) ^ (DisplayName != null ? DisplayName.GetHashCode() : 0);
             hashCode = (hashCode * 397) ^ DiscountedAmount.GetHashCode();
+            hashCode = (hashCode * 397) ^ InEffect.GetHashCode();
             hashCode = (hashCode * 397) ^ FromTime.GetHashCode();
             hashCode = (hashCode * 397) ^ ToTime.GetHashCode();
             return hashCode;

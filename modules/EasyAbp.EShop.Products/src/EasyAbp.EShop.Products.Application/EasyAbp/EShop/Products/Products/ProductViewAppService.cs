@@ -200,22 +200,23 @@ namespace EasyAbp.EShop.Products.Products
             decimal? min = null, max = null;
             decimal? minWithoutDiscount = null, maxWithoutDiscount = null;
 
-            var discounts = new DiscountsInfoModel();
+            var discounts = new DiscountForProductModels();
 
             foreach (var productSku in product.ProductSkus)
             {
                 var overrideProductDiscounts = false;
                 var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku, now);
+                var discountedPrice = priceDataModel.GetDiscountedPrice();
 
-                if (min is null || priceDataModel.DiscountedPrice < min.Value)
+                if (min is null || discountedPrice < min.Value)
                 {
-                    min = priceDataModel.DiscountedPrice;
+                    min = discountedPrice;
                     overrideProductDiscounts = true;
                 }
 
-                if (max is null || priceDataModel.DiscountedPrice > max.Value)
+                if (max is null || discountedPrice > max.Value)
                 {
-                    max = priceDataModel.DiscountedPrice;
+                    max = discountedPrice;
                 }
 
                 if (minWithoutDiscount is null || priceDataModel.PriceWithoutDiscount < minWithoutDiscount.Value)
@@ -234,20 +235,19 @@ namespace EasyAbp.EShop.Products.Products
 
                     if (discount is null || overrideProductDiscounts)
                     {
-                        discounts.AddOrUpdateProductDiscount(new ProductDiscountInfoModel(model.Name, model.Key,
-                            model.DisplayName, model.DiscountedAmount, model.FromTime, model.ToTime));
+                        discounts.AddOrUpdateProductDiscount(new ProductDiscountInfoModel(model.EffectGroup, model.Name,
+                            model.Key, model.DisplayName, model.DiscountedAmount, model.FromTime, model.ToTime));
                     }
                 }
 
                 foreach (var model in priceDataModel.OrderDiscountPreviews)
                 {
-                    var discount = discounts.FindOrderDiscount(model.Name, model.Key);
+                    var discount = discounts.FindOrderDiscountPreview(model.Name, model.Key);
 
                     if (discount is null)
                     {
-                        discounts.AddOrUpdateOrderDiscountPreview(new OrderDiscountPreviewInfoModel(model.Name,
-                            model.Key, model.DisplayName, model.MinDiscountedAmount, model.MaxDiscountedAmount,
-                            model.FromTime, model.ToTime));
+                        discounts.AddOrUpdateOrderDiscountPreview(new OrderDiscountPreviewInfoModel(model.EffectGroup,
+                            model.Name, model.Key, model.DisplayName, model.FromTime, model.ToTime));
                     }
                 }
             }

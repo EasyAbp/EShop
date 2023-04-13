@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace EasyAbp.EShop.Products.Products;
 
-public interface IHasDiscountsInfo
+public interface IHasDiscountsForProduct
 {
     /// <summary>
     /// The Price of the ProductSku has been subtracted from these product discounts.

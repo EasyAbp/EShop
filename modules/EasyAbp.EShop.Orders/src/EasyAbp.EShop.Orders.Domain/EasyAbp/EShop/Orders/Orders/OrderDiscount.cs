@@ -1,22 +1,22 @@
 using System;
+using EasyAbp.EShop.Products.Products;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Orders.Orders;
 
-public class OrderDiscount : Entity
+public class OrderDiscount : Entity, IDiscountInfo
 {
     public virtual Guid OrderId { get; protected set; }
 
     public virtual Guid OrderLineId { get; protected set; }
 
-    [NotNull]
+    public virtual string EffectGroup { get; protected set; }
+
     public virtual string Name { get; protected set; }
 
-    [CanBeNull]
     public virtual string Key { get; protected set; }
 
-    [CanBeNull]
     public virtual string DisplayName { get; protected set; }
 
     public virtual decimal DiscountedAmount { get; protected set; }
@@ -28,6 +28,7 @@ public class OrderDiscount : Entity
     public OrderDiscount(
         Guid orderId,
         Guid orderLineId,
+        [CanBeNull] string effectGroup,
         [NotNull] string name,
         [CanBeNull] string key,
         [CanBeNull] string displayName,
@@ -35,6 +36,7 @@ public class OrderDiscount : Entity
     {
         OrderId = orderId;
         OrderLineId = orderLineId;
+        EffectGroup = effectGroup;
         Name = name;
         Key = key;
         DisplayName = displayName;
