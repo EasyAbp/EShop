@@ -26,9 +26,9 @@ namespace EasyAbp.EShop.Orders.Web.Menus
 
             if (await context.IsGrantedAsync(OrdersPermissions.Orders.Manage))
             {
-                var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
+                var uiDefaultStoreProvider = context.ServiceProvider.GetRequiredService<IUiDefaultStoreProvider>();
 
-                var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
+                var defaultStore = (await uiDefaultStoreProvider.GetAsync())?.Id;
                 
                 orderManagementMenuItem.AddItem(
                     new ApplicationMenuItem(OrdersMenus.Order, l["Menu:Order"], "/EShop/Orders/Orders/Order?storeId=" + defaultStore)

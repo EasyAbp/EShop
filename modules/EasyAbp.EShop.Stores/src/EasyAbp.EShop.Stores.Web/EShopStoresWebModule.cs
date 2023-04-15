@@ -14,7 +14,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EShop.Stores.Web
 {
     [DependsOn(
-        typeof(EShopStoresApplicationContractsModule),
+        typeof(EShopStoresWebSharedModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule),
         typeof(AbpIdentityApplicationContractsModule),

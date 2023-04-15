@@ -313,12 +313,12 @@ namespace EasyAbp.EShop.Products.Products
             {
                 var productSkuDto = productDto.ProductSkus.First(x => x.Id == productSku.Id);
 
-                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku, now);
+                var realTimePriceInfoModel = await _productManager.GetRealTimePriceAsync(product, productSku, now);
 
-                productSkuDto.PriceWithoutDiscount = priceDataModel.PriceWithoutDiscount;
-                productSkuDto.Price = priceDataModel.GetDiscountedPrice();
-                productSkuDto.ProductDiscounts = priceDataModel.ProductDiscounts;
-                productSkuDto.OrderDiscountPreviews = priceDataModel.OrderDiscountPreviews;
+                productSkuDto.PriceWithoutDiscount = realTimePriceInfoModel.PriceWithoutDiscount;
+                productSkuDto.Price = realTimePriceInfoModel.TotalDiscountedPrice;
+                productSkuDto.ProductDiscounts = realTimePriceInfoModel.Discounts.ProductDiscounts;
+                productSkuDto.OrderDiscountPreviews = realTimePriceInfoModel.Discounts.OrderDiscountPreviews;
             }
 
             if (productDto.ProductSkus.Count > 0)

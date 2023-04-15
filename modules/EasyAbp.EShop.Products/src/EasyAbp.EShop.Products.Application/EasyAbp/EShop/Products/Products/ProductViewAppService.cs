@@ -205,8 +205,8 @@ namespace EasyAbp.EShop.Products.Products
             foreach (var productSku in product.ProductSkus)
             {
                 var overrideProductDiscounts = false;
-                var priceDataModel = await _productManager.GetRealPriceAsync(product, productSku, now);
-                var discountedPrice = priceDataModel.GetDiscountedPrice();
+                var realTimePrice = await _productManager.GetRealTimePriceAsync(product, productSku, now);
+                var discountedPrice = realTimePrice.TotalDiscountedPrice;
 
                 if (min is null || discountedPrice < min.Value)
                 {
@@ -219,35 +219,39 @@ namespace EasyAbp.EShop.Products.Products
                     max = discountedPrice;
                 }
 
-                if (minWithoutDiscount is null || priceDataModel.PriceWithoutDiscount < minWithoutDiscount.Value)
+                if (minWithoutDiscount is null || realTimePrice.PriceWithoutDiscount < minWithoutDiscount.Value)
                 {
-                    minWithoutDiscount = priceDataModel.PriceWithoutDiscount;
+                    minWithoutDiscount = realTimePrice.PriceWithoutDiscount;
                 }
 
-                if (maxWithoutDiscount is null || priceDataModel.PriceWithoutDiscount > maxWithoutDiscount.Value)
+                if (maxWithoutDiscount is null || realTimePrice.PriceWithoutDiscount > maxWithoutDiscount.Value)
                 {
-                    maxWithoutDiscount = priceDataModel.PriceWithoutDiscount;
+                    maxWithoutDiscount = realTimePrice.PriceWithoutDiscount;
                 }
 
-                foreach (var model in priceDataModel.ProductDiscounts)
+                foreach (var discount in realTimePrice.Discounts.ProductDiscounts)
                 {
-                    var discount = discounts.FindProductDiscount(model.Name, model.Key);
+                    var existingDiscount =
+                        discounts.ProductDiscounts.Find(x => x.Name == discount.Name && x.Key == discount.Key);
 
-                    if (discount is null || overrideProductDiscounts)
+                    if (existingDiscount is null)
                     {
-                        discounts.AddOrUpdateProductDiscount(new ProductDiscountInfoModel(model.EffectGroup, model.Name,
-                            model.Key, model.DisplayName, model.DiscountedAmount, model.FromTime, model.ToTime));
+                        discounts.ProductDiscounts.Add(discount);
+                    }
+                    else if (overrideProductDiscounts)
+                    {
+                        discounts.ProductDiscounts.ReplaceOne(existingDiscount, discount);
                     }
                 }
 
-                foreach (var model in priceDataModel.OrderDiscountPreviews)
+                foreach (var discount in realTimePrice.Discounts.OrderDiscountPreviews)
                 {
-                    var discount = discounts.FindOrderDiscountPreview(model.Name, model.Key);
+                    var existingDiscount =
+                        discounts.OrderDiscountPreviews.Find(x => x.Name == discount.Name && x.Key == discount.Key);
 
-                    if (discount is null)
+                    if (existingDiscount is null)
                     {
-                        discounts.AddOrUpdateOrderDiscountPreview(new OrderDiscountPreviewInfoModel(model.EffectGroup,
-                            model.Name, model.Key, model.DisplayName, model.FromTime, model.ToTime));
+                        discounts.OrderDiscountPreviews.Add(discount);
                     }
                 }
             }

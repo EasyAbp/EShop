@@ -8,17 +8,23 @@ public class ProductDiscountInfoModel : DiscountInfoModel, ICloneable
 {
     public decimal DiscountedAmount { get; set; }
 
-    public bool? InEffect { get; set; }
+    public bool InEffect { get; set; }
 
     public ProductDiscountInfoModel()
     {
     }
 
-    public ProductDiscountInfoModel([CanBeNull] string effectGroup, [NotNull] string name, [CanBeNull] string key,
-        [CanBeNull] string displayName, decimal discountedAmount, DateTime? fromTime, DateTime? toTime,
-        bool? inEffect = null) : base(effectGroup, name, key, displayName, fromTime, toTime)
+    public ProductDiscountInfoModel(CandidateProductDiscountInfoModel candidate, decimal discountedAmount,
+        bool inEffect) : this(candidate.EffectGroup, candidate.Name, candidate.Key, candidate.DisplayName,
+        discountedAmount, candidate.FromTime, candidate.ToTime, inEffect)
     {
-        if (discountedAmount < decimal.Zero)
+    }
+
+    public ProductDiscountInfoModel([CanBeNull] string effectGroup, [NotNull] string name, [CanBeNull] string key,
+        [CanBeNull] string displayName, decimal discountedAmount, DateTime? fromTime, DateTime? toTime, bool inEffect) :
+        base(effectGroup, name, key, displayName, fromTime, toTime)
+    {
+        if (DiscountedAmount < decimal.Zero)
         {
             throw new DiscountAmountOverflowException();
         }

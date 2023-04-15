@@ -7,7 +7,6 @@ using EasyAbp.EShop.Products.Products;
 using NodaMoney;
 using Volo.Abp;
 using Volo.Abp.Auditing;
-using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Settings;
@@ -18,17 +17,20 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         private readonly ISettingProvider _settingProvider;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
+        private readonly IOrderDiscountResolver _orderDiscountResolver;
         private readonly IProductSkuDescriptionProvider _productSkuDescriptionProvider;
         private readonly IEnumerable<IOrderLinePriceOverrider> _orderLinePriceOverriders;
 
         public NewOrderGenerator(
             ISettingProvider settingProvider,
             IOrderNumberGenerator orderNumberGenerator,
+            IOrderDiscountResolver orderDiscountResolver,
             IProductSkuDescriptionProvider productSkuDescriptionProvider,
             IEnumerable<IOrderLinePriceOverrider> orderLinePriceOverriders)
         {
             _settingProvider = settingProvider;
             _orderNumberGenerator = orderNumberGenerator;
+            _orderDiscountResolver = orderDiscountResolver;
             _productSkuDescriptionProvider = productSkuDescriptionProvider;
             _orderLinePriceOverriders = orderLinePriceOverriders;
         }
@@ -107,19 +109,11 @@ namespace EasyAbp.EShop.Orders.Orders
 
         protected virtual async Task DiscountOrderAsync(Order order, Dictionary<Guid, IProduct> productDict)
         {
-            var context = new OrderDiscountContext(order, productDict);
+            var distributions = await _orderDiscountResolver.ResolveAsync(order, productDict);
 
-            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IOrderDiscountProvider>>()
-                         .OrderBy(x => x.EffectOrder))
+            foreach (var distribution in distributions)
             {
-                await provider.DiscountAsync(context);
-            }
-
-            var effectDiscounts = context.GetEffectDiscounts();
-
-            foreach (var discount in effectDiscounts)
-            {
-                order.AddDiscounts(discount);
+                order.AddDiscounts(distribution);
             }
         }
 

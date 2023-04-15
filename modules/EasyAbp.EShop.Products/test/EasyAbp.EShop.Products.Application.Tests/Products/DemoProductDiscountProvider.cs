@@ -25,25 +25,34 @@ public class DemoProductDiscountProvider : IProductDiscountProvider
             return Task.CompletedTask;
         }
 
-        var productDiscountInfoModels = new List<ProductDiscountInfoModel>
+        var candidates = new List<CandidateProductDiscountInfoModel>
         {
             // These should take effect:
-            new(null, "DemoDiscount", "1", "Demo Discount 1", 0.10m, null, null),
-            new(null, "DemoDiscount", "2", "Demo Discount 2", 0.10m, _clock.Now.AddDays(-1), null),
-            new(null, "DemoDiscount", "3", "Demo Discount 3", 0.10m, null, _clock.Now.AddDays(1)),
-            new(null, "DemoDiscount", "4", "Demo Discount 4", 0.10m, _clock.Now.AddDays(-1), _clock.Now.AddDays(1)),
+            new(null, "DemoDiscount", "1", "Demo Discount 1",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), null, null),
+            new(null, "DemoDiscount", "2", "Demo Discount 2",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), _clock.Now.AddDays(-1), null),
+            new(null, "DemoDiscount", "3", "Demo Discount 3",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), null, _clock.Now.AddDays(1)),
+            new(null, "DemoDiscount", "4", "Demo Discount 4",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), _clock.Now.AddDays(-1), _clock.Now.AddDays(1)),
             // These should not take effect:
-            new(null, "DemoDiscount", "5", "Demo Discount 5", 0.10m, null, _clock.Now.AddDays(-1)),
-            new(null, "DemoDiscount", "6", "Demo Discount 6", 0.10m, _clock.Now.AddDays(1), null),
-            new(null, "DemoDiscount", "7", "Demo Discount 7", 0.10m, _clock.Now.AddDays(1), _clock.Now.AddDays(2)),
+            new(null, "DemoDiscount", "5", "Demo Discount 5",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), null, _clock.Now.AddDays(-1)),
+            new(null, "DemoDiscount", "6", "Demo Discount 6",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), _clock.Now.AddDays(1), null),
+            new(null, "DemoDiscount", "7", "Demo Discount 7",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), _clock.Now.AddDays(1), _clock.Now.AddDays(2)),
             // Only the one with the highest discount amount should take effect: 
-            new("A", "DemoDiscount", "8", "Demo Discount 8", 0.10m, null, null),
-            new("A", "DemoDiscount", "9", "Demo Discount 9", 0.01m, null, null),
+            new("A", "DemoDiscount", "8", "Demo Discount 8",
+                new DynamicDiscountAmountModel("USD", 0.10m, 0m, null), null, null),
+            new("A", "DemoDiscount", "9", "Demo Discount 9",
+                new DynamicDiscountAmountModel("USD", 0.01m, 0m, null), null, null),
         };
 
-        foreach (var model in productDiscountInfoModels)
+        foreach (var model in candidates)
         {
-            context.AddOrUpdateProductDiscount(model);
+            context.CandidateProductDiscounts.Add(model);
         }
 
         var orderDiscountPreviewInfoModels = new List<OrderDiscountPreviewInfoModel>
@@ -54,7 +63,7 @@ public class DemoProductDiscountProvider : IProductDiscountProvider
 
         foreach (var model in orderDiscountPreviewInfoModels)
         {
-            context.AddOrUpdateOrderDiscountPreview(model);
+            context.OrderDiscountPreviews.Add(model);
         }
 
         return Task.CompletedTask;

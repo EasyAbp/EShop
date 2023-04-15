@@ -8,14 +8,8 @@ public class DiscountForProductModels : IHasDiscountsForProduct
 
     public List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; set; }
 
-    public DiscountForProductModels()
-    {
-        ProductDiscounts = new List<ProductDiscountInfoModel>();
-        OrderDiscountPreviews = new List<OrderDiscountPreviewInfoModel>();
-    }
-
-    public DiscountForProductModels(List<ProductDiscountInfoModel> productDiscounts,
-        List<OrderDiscountPreviewInfoModel> orderDiscountPreviews)
+    public DiscountForProductModels(List<ProductDiscountInfoModel> productDiscounts = null,
+        List<OrderDiscountPreviewInfoModel> orderDiscountPreviews = null)
     {
         ProductDiscounts = productDiscounts ?? new List<ProductDiscountInfoModel>();
         OrderDiscountPreviews = orderDiscountPreviews ?? new List<OrderDiscountPreviewInfoModel>();
