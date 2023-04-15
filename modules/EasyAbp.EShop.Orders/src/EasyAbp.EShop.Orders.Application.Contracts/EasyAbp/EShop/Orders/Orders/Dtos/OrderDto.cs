@@ -8,7 +8,7 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
     public class OrderDto : ExtensibleFullAuditedEntityDto<Guid>, IOrder
     {
         public Guid StoreId { get; set; }
-        
+
         public string OrderNumber { get; set; }
 
         public Guid CustomerUserId { get; set; }
@@ -22,7 +22,7 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public decimal TotalDiscount { get; set; }
 
         public decimal TotalPrice { get; set; }
-        
+
         public decimal ActualTotalPrice { get; set; }
 
         public decimal RefundAmount { get; set; }
@@ -38,18 +38,21 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
         public DateTime? CompletionTime { get; set; }
 
         public DateTime? CanceledTime { get; set; }
-        
+
         public string CancellationReason { get; set; }
 
         public DateTime? ReducedInventoryAfterPlacingTime { get; set; }
-        
+
         public DateTime? ReducedInventoryAfterPaymentTime { get; set; }
 
         public DateTime? PaymentExpiration { get; set; }
 
         IEnumerable<IOrderLine> IOrder.OrderLines => OrderLines;
         public List<OrderLineDto> OrderLines { get; set; }
-        
+
+        IEnumerable<IOrderDiscount> IOrder.OrderDiscounts => OrderDiscounts;
+        public List<OrderDiscountDto> OrderDiscounts { get; set; }
+
         IEnumerable<IOrderExtraFee> IOrder.OrderExtraFees => OrderExtraFees;
         public List<OrderExtraFeeDto> OrderExtraFees { get; set; }
     }

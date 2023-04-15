@@ -56,10 +56,10 @@ namespace EasyAbp.EShop.Orders.Orders
         IEnumerable<IOrderLine> IOrder.OrderLines => OrderLines;
         public virtual List<OrderLine> OrderLines { get; protected set; }
 
-        IEnumerable<IOrderExtraFee> IOrder.OrderExtraFees => OrderExtraFees;
-
+        IEnumerable<IOrderDiscount> IOrder.OrderDiscounts => OrderDiscounts;
         public virtual List<OrderDiscount> OrderDiscounts { get; protected set; }
 
+        IEnumerable<IOrderExtraFee> IOrder.OrderExtraFees => OrderExtraFees;
         public virtual List<OrderExtraFee> OrderExtraFees { get; protected set; }
 
         protected Order()
