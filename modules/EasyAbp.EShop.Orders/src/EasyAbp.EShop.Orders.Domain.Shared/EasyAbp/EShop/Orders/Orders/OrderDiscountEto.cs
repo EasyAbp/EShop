@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 
-namespace EasyAbp.EShop.Orders.Orders.Dtos;
+namespace EasyAbp.EShop.Orders.Orders;
 
-public class OrderDiscountDto : IOrderDiscount
+[Serializable]
+public class OrderDiscountEto : IOrderDiscount
 {
     public Guid OrderId { get; set; }
 

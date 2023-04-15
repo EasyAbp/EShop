@@ -58,6 +58,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         IEnumerable<IOrderLine> OrderLines { get; }
 
+        IEnumerable<IOrderDiscount> OrderDiscounts { get; }
+
         IEnumerable<IOrderExtraFee> OrderExtraFees { get; }
     }
 }

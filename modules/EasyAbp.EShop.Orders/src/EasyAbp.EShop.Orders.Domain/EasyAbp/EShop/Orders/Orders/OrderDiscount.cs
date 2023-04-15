@@ -1,11 +1,10 @@
 using System;
-using EasyAbp.EShop.Products.Products;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EShop.Orders.Orders;
 
-public class OrderDiscount : Entity, IDiscountInfo
+public class OrderDiscount : Entity, IOrderDiscount
 {
     public virtual Guid OrderId { get; protected set; }
 
