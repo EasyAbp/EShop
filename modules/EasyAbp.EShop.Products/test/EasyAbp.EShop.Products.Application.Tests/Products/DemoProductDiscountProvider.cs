@@ -57,8 +57,8 @@ public class DemoProductDiscountProvider : IProductDiscountProvider
 
         var orderDiscountPreviewInfoModels = new List<OrderDiscountPreviewInfoModel>
         {
-            new(null, "DemoDiscount", "1", "Demo Discount 1", null, null),
-            new(null, "DemoDiscount", "2", "Demo Discount 2", _clock.Now.AddDays(-1), _clock.Now.AddDays(1)),
+            new(null, "DemoDiscount", "1", "Demo Discount 1", null, null, null),
+            new(null, "DemoDiscount", "2", "Demo Discount 2", _clock.Now.AddDays(-1), _clock.Now.AddDays(1), null),
         };
 
         foreach (var model in orderDiscountPreviewInfoModels)
