@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyAbp.Eshop.Products.Products;
+using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.DependencyInjection;
 

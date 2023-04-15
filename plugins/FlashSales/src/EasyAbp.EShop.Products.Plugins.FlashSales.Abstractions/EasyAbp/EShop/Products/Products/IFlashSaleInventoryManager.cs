@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyAbp.Eshop.Products.Products;
+namespace EasyAbp.EShop.Products.Products;
 
 public interface IFlashSaleInventoryManager
 {

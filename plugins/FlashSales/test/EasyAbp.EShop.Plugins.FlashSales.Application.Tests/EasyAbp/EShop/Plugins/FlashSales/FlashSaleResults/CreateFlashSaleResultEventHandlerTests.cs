@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
-using EasyAbp.Eshop.Products.Products;
+using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NSubstitute;

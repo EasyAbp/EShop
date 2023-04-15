@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Orders.Orders;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Products.Products;

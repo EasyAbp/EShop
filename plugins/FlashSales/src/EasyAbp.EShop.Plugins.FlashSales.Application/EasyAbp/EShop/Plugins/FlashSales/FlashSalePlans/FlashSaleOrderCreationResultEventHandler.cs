@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
-using EasyAbp.Eshop.Products.Products;
+using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;

@@ -3,7 +3,6 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
-using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.Extensions.DependencyInjection;

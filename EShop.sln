@@ -79,7 +79,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.MongoD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.Web", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web\EasyAbp.EShop.Stores.Web.csproj", "{20E6571D-9BAF-4BE7-B7CC-7F5F32D682F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Stores.Web.Shared", "modules\EasyAbp.Eshop.Stores\src\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj", "{0102861C-9979-496A-8104-EB33F655983E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Stores.Web.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj", "{0102861C-9979-496A-8104-EB33F655983E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{83C515D3-9811-4428-9401-17B1AF5406EF}"
 EndProject

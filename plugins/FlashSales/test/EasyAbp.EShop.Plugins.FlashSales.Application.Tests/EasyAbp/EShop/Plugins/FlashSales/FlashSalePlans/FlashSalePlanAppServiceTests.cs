@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.Eshop.Products.Products;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans.Dtos;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;

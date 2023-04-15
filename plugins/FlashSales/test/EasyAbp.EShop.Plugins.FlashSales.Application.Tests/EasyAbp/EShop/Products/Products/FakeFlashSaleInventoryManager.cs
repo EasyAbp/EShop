@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyAbp.Eshop.Products.Products;
+using EasyAbp.EShop.Products.Products;
 
 namespace EasyAbp.EShop.Products.Products;
 
