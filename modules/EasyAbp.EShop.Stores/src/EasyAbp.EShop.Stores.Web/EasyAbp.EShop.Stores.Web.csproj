@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EasyAbp.EShop.Stores.Application.Contracts\EasyAbp.EShop.Stores.Application.Contracts.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

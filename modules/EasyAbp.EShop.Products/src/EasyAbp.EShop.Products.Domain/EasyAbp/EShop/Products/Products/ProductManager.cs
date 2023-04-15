@@ -16,6 +16,7 @@ namespace EasyAbp.EShop.Products.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductPriceProvider _productPriceProvider;
+        private readonly IProductDiscountResolver _productDiscountResolver;
         private readonly IProductDetailRepository _productDetailRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IProductInventoryProviderResolver _productInventoryProviderResolver;
@@ -24,6 +25,7 @@ namespace EasyAbp.EShop.Products.Products
         public ProductManager(
             IProductRepository productRepository,
             IProductPriceProvider productPriceProvider,
+            IProductDiscountResolver productDiscountResolver,
             IProductDetailRepository productDetailRepository,
             IProductCategoryRepository productCategoryRepository,
             IProductInventoryProviderResolver productInventoryProviderResolver,
@@ -31,6 +33,7 @@ namespace EasyAbp.EShop.Products.Products
         {
             _productRepository = productRepository;
             _productPriceProvider = productPriceProvider;
+            _productDiscountResolver = productDiscountResolver;
             _productDetailRepository = productDetailRepository;
             _productCategoryRepository = productCategoryRepository;
             _productInventoryProviderResolver = productInventoryProviderResolver;
@@ -268,20 +271,15 @@ namespace EasyAbp.EShop.Products.Products
                 .TryReduceInventoryAsync(model, quantity, increaseSold, isFlashSale);
         }
 
-        public virtual async Task<ProductPriceModel> GetRealPriceAsync(Product product, ProductSku productSku,
+        public virtual async Task<RealTimePriceInfoModel> GetRealTimePriceAsync(Product product, ProductSku productSku,
             DateTime now)
         {
-            var price = await _productPriceProvider.GetPriceAsync(product, productSku);
+            var priceFromPriceProvider = await _productPriceProvider.GetPriceAsync(product, productSku);
 
-            var context = new ProductDiscountContext(product, productSku, price, now);
+            var discounts =
+                await _productDiscountResolver.ResolveAsync(product, productSku, priceFromPriceProvider, now);
 
-            foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IProductDiscountProvider>>()
-                         .OrderBy(x => x.EffectOrder))
-            {
-                await provider.DiscountAsync(context);
-            }
-
-            return context.ToFinalProductPriceModel();
+            return new RealTimePriceInfoModel(priceFromPriceProvider, discounts);
         }
     }
 }
