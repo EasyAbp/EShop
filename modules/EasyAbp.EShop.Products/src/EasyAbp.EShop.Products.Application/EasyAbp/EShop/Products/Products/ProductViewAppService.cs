@@ -128,6 +128,8 @@ namespace EasyAbp.EShop.Products.Products
             foreach (var product in products)
             {
                 var productView = ObjectMapper.Map<Product, ProductView>(product);
+                productView.ProductDiscounts ??= new List<ProductDiscountInfoModel>();
+                productView.OrderDiscountPreviews ??= new List<OrderDiscountPreviewInfoModel>();
 
                 await FillPriceInfoWithRealPriceAsync(product, productView, now);
 

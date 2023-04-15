@@ -43,9 +43,9 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual string ProductGroupDisplayName { get; protected set; }
 
-        public virtual List<ProductDiscountInfoModel> ProductDiscounts { get; protected set; }
+        public virtual List<ProductDiscountInfoModel> ProductDiscounts { get; set; }
 
-        public virtual List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; protected set; }
+        public virtual List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; set; }
 
         public virtual decimal? MinimumPrice { get; protected set; }
 
