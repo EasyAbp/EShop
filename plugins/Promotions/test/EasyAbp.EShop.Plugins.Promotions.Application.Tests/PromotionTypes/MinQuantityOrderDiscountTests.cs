@@ -40,6 +40,9 @@ public class MinQuantityOrderDiscountTests : PromotionsApplicationTestBase
             ProductSkus = new List<ProductSkuEto>
             {
                 new()
+                {
+                    Currency = "USD"
+                }
             }
         };
 
