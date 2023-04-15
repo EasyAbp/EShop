@@ -12,7 +12,7 @@ public class OrderDiscountPreviewInfoModel : DiscountInfoModel, ICloneable
     /// UI cannot always calculate the discount amount correctly, but if you need to, this property can help.
     /// </summary>
     [CanBeNull]
-    public string RuleData { get; }
+    public string RuleData { get; set; }
 
     public OrderDiscountPreviewInfoModel()
     {
