@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>EasyAbp.EShop.Plugins.Promotions</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.Promotions.Application\EasyAbp.EShop.Plugins.Promotions.Application.csproj" />
+    <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Domain.Tests\EasyAbp.EShop.Plugins.Promotions.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+  </ItemGroup>
+
+</Project>

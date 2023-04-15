@@ -1,0 +1,111 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "EasyAbp.EShop.Plugins.Promotions.Domain.Shared": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Domain.Shared/EasyAbp.EShop.Plugins.Promotions.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Domain": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Domain/EasyAbp.EShop.Plugins.Promotions.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Application.Contracts": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Application.Contracts/EasyAbp.EShop.Plugins.Promotions.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Application": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Application/EasyAbp.EShop.Plugins.Promotions.Application.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore/EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.MongoDB": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.MongoDB/EasyAbp.EShop.Plugins.Promotions.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.HttpApi": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.HttpApi/EasyAbp.EShop.Plugins.Promotions.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.HttpApi.Client": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.HttpApi.Client/EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.TestBase": {
+      "path": "test/EasyAbp.EShop.Plugins.Promotions.TestBase/EasyAbp.EShop.Plugins.Promotions.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests/EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests/EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Domain.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Promotions.Domain.Tests/EasyAbp.EShop.Plugins.Promotions.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Application.Tests": {
+      "path": "test/EasyAbp.EShop.Plugins.Promotions.Application.Tests/EasyAbp.EShop.Plugins.Promotions.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.HttpApi.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.HttpApi.Host/EasyAbp.EShop.Plugins.Promotions.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Web": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Web/EasyAbp.EShop.Plugins.Promotions.Web.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp/EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Web.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.Web.Host/EasyAbp.EShop.Plugins.Promotions.Web.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.AuthServer": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.AuthServer/EasyAbp.EShop.Plugins.Promotions.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Host.Shared": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.Host.Shared/EasyAbp.EShop.Plugins.Promotions.Host.Shared.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Web.Unified": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.Web.Unified/EasyAbp.EShop.Plugins.Promotions.Web.Unified.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Blazor": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Blazor/EasyAbp.EShop.Plugins.Promotions.Blazor.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Blazor.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.Blazor.Host/EasyAbp.EShop.Plugins.Promotions.Blazor.Host.abppkg.json",
+      "folder": "host"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Blazor.Server": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Blazor.Server/EasyAbp.EShop.Plugins.Promotions.Blazor.Server.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Blazor.WebAssembly": {
+      "path": "src/EasyAbp.EShop.Plugins.Promotions.Blazor.WebAssembly/EasyAbp.EShop.Plugins.Promotions.Blazor.WebAssembly.abppkg.json",
+      "folder": "src"
+    },
+    "EasyAbp.EShop.Plugins.Promotions.Blazor.Server.Host": {
+      "path": "host/EasyAbp.EShop.Plugins.Promotions.Blazor.Server.Host/EasyAbp.EShop.Plugins.Promotions.Blazor.Server.Host.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

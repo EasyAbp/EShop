@@ -43,6 +43,7 @@
     <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Web\EasyAbp.EShop.Plugins.Booking.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Web\EasyAbp.EShop.Plugins.Coupons.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Web\EasyAbp.EShop.Plugins.FlashSales.Web.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Web\EasyAbp.EShop.Plugins.Promotions.Web.csproj" />
     <ProjectReference Include="..\EShopSample.Application\EShopSample.Application.csproj" />
     <ProjectReference Include="..\EShopSample.HttpApi\EShopSample.HttpApi.csproj" />
     <ProjectReference Include="..\EShopSample.EntityFrameworkCore\EShopSample.EntityFrameworkCore.csproj" />

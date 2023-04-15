@@ -1,0 +1,33 @@
+{
+  "culture": "zh-Hans",
+  "texts": {
+    "SimpleProductDiscount": "简单商品折扣",
+    "MinQuantityOrderDiscount": "基于最小数量的订单折扣",
+    "Permission:Promotion": "优惠策略",
+    "Permission:CrossStore": "跨店管理",
+    "Permission:Create": "新建",
+    "Permission:Update": "更新",
+    "Permission:Delete": "删除",
+    "Menu:EasyAbpEShop": "EShop 商城",
+    "Menu:PromotionManagement": "优惠活动",
+    "Menu:Promotion": "优惠策略",
+    "Promotion": "优惠策略",
+    "PromotionStoreId": "店铺 ID",
+    "PromotionPromotionType": "优惠策略类型",
+    "PromotionUniqueName": "唯一编号",
+    "PromotionDisplayName": "显示名称",
+    "PromotionConfigurations": "配置",
+    "PromotionFromTime": "生效时间",
+    "PromotionToTime": "结束时间",
+    "PromotionDisabled": "停用",
+    "PromotionPriority": "优先度",
+    "CreatePromotion": "新建",
+    "EditPromotion": "编辑",
+    "PromotionDeletionConfirmationMessage": "确认删除优惠策略 {0}?",
+    "SuccessfullyDeleted": "删除成功",
+    "TableFilter": "筛选器",
+    "EasyAbp.EShop.Plugins.Promotions:DuplicatePromotionUniqueName": "重复的优惠策略唯一编号",
+    "EasyAbp.EShop.Plugins.Promotions:InvalidPromotionType": "不正确的优惠策略类型",
+    "EasyAbp.EShop.Plugins.Promotions:InvalidPromotionConfigurations": "不正确的优惠策略配置"
+  }
+}

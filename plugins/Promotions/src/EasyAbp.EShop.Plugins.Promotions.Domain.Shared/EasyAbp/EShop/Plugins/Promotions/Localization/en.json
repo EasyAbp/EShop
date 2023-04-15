@@ -1,0 +1,33 @@
+{
+  "culture": "en",
+  "texts": {
+    "SimpleProductDiscount": "Simple product discount",
+    "MinQuantityOrderDiscount": "Min-quantity based order discount",
+    "Permission:Promotion": "Promotion",
+    "Permission:CrossStore": "Cross-store",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:EasyAbpEShop": "EShop",
+    "Menu:PromotionManagement": "Promotion",
+    "Menu:Promotion": "Promotion",
+    "Promotion": "Promotion",
+    "PromotionStoreId": "Store ID",
+    "PromotionPromotionType": "Promotion type",
+    "PromotionUniqueName": "Unique name",
+    "PromotionDisplayName": "Display name",
+    "PromotionConfigurations": "Configurations",
+    "PromotionFromTime": "From time",
+    "PromotionToTime": "To time",
+    "PromotionDisabled": "Disabled",
+    "PromotionPriority": "Priority",
+    "CreatePromotion": "Create",
+    "EditPromotion": "Edit",
+    "PromotionDeletionConfirmationMessage": "Are you sure to delete the promotion {0}?",
+    "SuccessfullyDeleted": "Successfully deleted",
+    "TableFilter": "Filter",
+    "EasyAbp.EShop.Plugins.Promotions:DuplicatePromotionUniqueName": "Duplicate promotion unique name",
+    "EasyAbp.EShop.Plugins.Promotions:InvalidPromotionType": "Invalid promotion type",
+    "EasyAbp.EShop.Plugins.Promotions:InvalidPromotionConfigurations": "Invalid promotion configurations"
+  }
+}

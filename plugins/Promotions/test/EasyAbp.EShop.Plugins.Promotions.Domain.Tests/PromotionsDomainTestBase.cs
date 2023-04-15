@@ -1,0 +1,9 @@
+﻿namespace EasyAbp.EShop.Plugins.Promotions;
+
+/* Inherit from this class for your domain layer tests.
+ * See SampleManager_Tests for example.
+ */
+public abstract class PromotionsDomainTestBase : PromotionsTestBase<PromotionsDomainTestModule>
+{
+
+}
