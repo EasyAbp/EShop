@@ -188,64 +188,16 @@ namespace EasyAbp.EShop.Orders.Orders
             return !(!PaymentId.HasValue || PaidTime.HasValue);
         }
 
-        public void AddDiscounts(OrderDiscountInfoModel infoModel)
+        public void AddDiscounts(OrderDiscountDistributionModel model)
         {
-            var affectedOrderLines = infoModel.AffectedOrderLineIds
-                .Select(orderLineId => OrderLines.Single(x => x.Id == orderLineId))
-                .ToList();
-
-            var remainingDiscountedAmount = new Money(infoModel.DiscountedAmount, Currency);
-
-            var totalOrderLineActualTotalPrice = new Money(affectedOrderLines.Sum(x => x.ActualTotalPrice), Currency);
-
-            var orderLineDiscounts = new Dictionary<OrderLine, Money>();
-
-            foreach (var orderLineId in infoModel.AffectedOrderLineIds)
+            foreach (var (orderLineId, discountAmount) in model.Distributions)
             {
                 var orderLine = OrderLines.Single(x => x.Id == orderLineId);
 
-                var orderLineActualTotalPrice = new Money(orderLine.ActualTotalPrice, Currency);
-                var maxDiscountAmount =
-                    new Money(
-                        orderLineActualTotalPrice.Amount / totalOrderLineActualTotalPrice.Amount *
-                        infoModel.DiscountedAmount, Currency, MidpointRounding.ToZero);
+                orderLine.AddDiscount(discountAmount);
 
-                var discountAmount = maxDiscountAmount > totalOrderLineActualTotalPrice
-                    ? orderLineActualTotalPrice
-                    : maxDiscountAmount;
-
-                orderLineDiscounts[orderLine] = discountAmount;
-                remainingDiscountedAmount -= discountAmount;
-            }
-
-            foreach (var orderLine in affectedOrderLines.OrderByDescending(x => x.ActualTotalPrice))
-            {
-                if (remainingDiscountedAmount == decimal.Zero)
-                {
-                    break;
-                }
-
-                var discountAmount = remainingDiscountedAmount > totalOrderLineActualTotalPrice
-                    ? totalOrderLineActualTotalPrice
-                    : remainingDiscountedAmount;
-
-                orderLineDiscounts[orderLine] += discountAmount;
-                remainingDiscountedAmount -= discountAmount;
-            }
-
-            if (remainingDiscountedAmount.Amount != decimal.Zero)
-            {
-                throw new ApplicationException();
-            }
-
-            foreach (var affectedOrderLine in affectedOrderLines)
-            {
-                var orderLineDiscountedAmount = orderLineDiscounts[affectedOrderLine];
-
-                affectedOrderLine.AddDiscount(orderLineDiscountedAmount.Amount);
-
-                TotalDiscount += orderLineDiscountedAmount.Amount;
-                ActualTotalPrice -= orderLineDiscountedAmount.Amount;
+                TotalDiscount += discountAmount;
+                ActualTotalPrice -= discountAmount;
 
                 if (ActualTotalPrice < decimal.Zero)
                 {
@@ -253,14 +205,16 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
 
                 if (OrderDiscounts.Any(x =>
-                        x.OrderLineId == affectedOrderLine.Id && x.Name == infoModel.Name &&
-                        x.Key == infoModel.Key))
+                        x.OrderLineId == orderLineId && x.Name == model.DiscountInfoModel.Name &&
+                        x.Key == model.DiscountInfoModel.Key))
                 {
-                    throw new DuplicateOrderDiscountException(affectedOrderLine.Id, infoModel.Name, infoModel.Key);
+                    throw new DuplicateOrderDiscountException(orderLineId, model.DiscountInfoModel.Name,
+                        model.DiscountInfoModel.Key);
                 }
 
-                var orderDiscount = new OrderDiscount(Id, affectedOrderLine.Id, infoModel.EffectGroup,
-                    infoModel.Name, infoModel.Key, infoModel.DisplayName, orderLineDiscountedAmount.Amount);
+                var orderDiscount = new OrderDiscount(Id, orderLineId, model.DiscountInfoModel.EffectGroup,
+                    model.DiscountInfoModel.Name, model.DiscountInfoModel.Key, model.DiscountInfoModel.DisplayName,
+                    discountAmount);
 
                 OrderDiscounts.Add(orderDiscount);
             }

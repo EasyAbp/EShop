@@ -1,56 +1,33 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using EasyAbp.EShop.Products.Products;
+using JetBrains.Annotations;
+using Volo.Abp;
 
 namespace EasyAbp.EShop.Orders.Orders;
 
+[Serializable]
 public class OrderDiscountContext
 {
+    public DateTime Now { get; }
+
     public IOrder Order { get; }
 
     public Dictionary<Guid, IProduct> ProductDict { get; }
 
     public List<OrderDiscountInfoModel> CandidateDiscounts { get; }
 
-    public OrderDiscountContext(IOrder order, Dictionary<Guid, IProduct> productDict)
+    public OrderDiscountContext(DateTime now, IOrder order, Dictionary<Guid, IProduct> productDict,
+        List<OrderDiscountInfoModel> candidateDiscounts = null)
     {
-        Order = order;
+        Now = now;
+        Order = Check.NotNull(order, nameof(order));
         ProductDict = productDict ?? new Dictionary<Guid, IProduct>();
+        CandidateDiscounts = candidateDiscounts ?? new List<OrderDiscountInfoModel>();
     }
 
-    public List<OrderDiscountInfoModel> GetEffectDiscounts()
+    public OrderDiscountInfoModel FindCandidateDiscount([NotNull] string name, [CanBeNull] string key)
     {
-        var effectDiscounts = new List<OrderDiscountInfoModel>();
-
-        foreach (var discount in CandidateDiscounts.Where(x => x.EffectGroup.IsNullOrEmpty()))
-        {
-            effectDiscounts.Add(discount);
-        }
-
-        // Make sure that each OrderLine can only be affected by one discount with the same EffectGroup.
-        var affectedOrderLineIdsInEffectGroup = new Dictionary<string, List<Guid>>();
-
-        foreach (var grouping in CandidateDiscounts.Where(x => !x.EffectGroup.IsNullOrEmpty())
-                     .GroupBy(x => x.EffectGroup))
-        {
-            var effectGroup = grouping.Key;
-            affectedOrderLineIdsInEffectGroup[effectGroup] = new List<Guid>();
-
-            // todo: can be improved to find the best discount combo.
-            foreach (var discount in grouping)
-            {
-                if (discount.AffectedOrderLineIds.Any(x => affectedOrderLineIdsInEffectGroup[effectGroup].Contains(x)))
-                {
-                    continue;
-                }
-
-                affectedOrderLineIdsInEffectGroup[effectGroup].AddRange(discount.AffectedOrderLineIds);
-
-                effectDiscounts.Add(discount);
-            }
-        }
-
-        return effectDiscounts;
+        return CandidateDiscounts.Find(x => x.Name == name && x.Key == key);
     }
 }

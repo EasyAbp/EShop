@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using EasyAbp.EShop.Payments.Localization;
 using EasyAbp.EShop.Payments.Web.Menus;
+using EasyAbp.EShop.Stores;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AutoMapper;
@@ -13,6 +14,7 @@ namespace EasyAbp.EShop.Payments.Web
 {
     [DependsOn(
         typeof(EShopPaymentsApplicationContractsModule),
+        typeof(EShopStoresWebSharedModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
     )]

@@ -105,7 +105,7 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
                     ? couponTemplate.DiscountAmount *
                       Math.Floor(totalOrderLineActualTotalPrice.Amount / couponTemplate.ConditionAmount)
                     : couponTemplate.DiscountAmount,
-                nodaCurrency);
+                nodaCurrency, MidpointRounding.ToZero);
 
             if (totalDiscountedAmount > totalOrderLineActualTotalPrice)
             {
@@ -116,7 +116,8 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
 
             var model = new OrderDiscountInfoModel(orderLinesInScope.Select(x => x.Id).ToList(),
                 OrderDiscountEffectGroup, OrderDiscountName, coupon.Id.ToString(), couponTemplate.DisplayName,
-                totalDiscountedAmount.Amount);
+                new DynamicDiscountAmountModel(context.Order.Currency, totalDiscountedAmount.Amount, 0m, null));
+            // todo: discount rate for coupons.
 
             return Task.FromResult(model);
         }

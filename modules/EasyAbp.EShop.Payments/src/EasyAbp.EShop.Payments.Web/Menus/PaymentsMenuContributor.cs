@@ -24,9 +24,9 @@ namespace EasyAbp.EShop.Payments.Web.Menus
 
             var paymentManagementMenuItem = new ApplicationMenuItem(PaymentsMenus.Prefix, l["Menu:PaymentManagement"]);
              
-            var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
+            var uiDefaultStoreProvider = context.ServiceProvider.GetRequiredService<IUiDefaultStoreProvider>();
 
-            var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
+            var defaultStore = (await uiDefaultStoreProvider.GetAsync())?.Id;
             
             if (await context.IsGrantedAsync(PaymentsPermissions.Payments.Manage))
             {

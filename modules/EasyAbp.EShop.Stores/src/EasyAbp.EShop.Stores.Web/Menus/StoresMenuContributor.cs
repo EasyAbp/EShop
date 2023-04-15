@@ -40,9 +40,9 @@ namespace EasyAbp.EShop.Stores.Web.Menus
             
             if (await context.IsGrantedAsync(StoresPermissions.Transaction.Default))
             {
-                var storeAppService = context.ServiceProvider.GetRequiredService<IStoreAppService>();
+                var uiDefaultStoreProvider = context.ServiceProvider.GetRequiredService<IUiDefaultStoreProvider>();
 
-                var defaultStore = (await storeAppService.GetDefaultAsync())?.Id;
+                var defaultStore = (await uiDefaultStoreProvider.GetAsync())?.Id;
 
                 storeManagementMenuItem.AddItem(
                     new ApplicationMenuItem(StoresMenus.Transaction, l["Menu:Transaction"], "/EShop/Stores/Transactions/Transaction?storeId=" + defaultStore));

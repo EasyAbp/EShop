@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EasyAbp.EShop.Orders.Application.Contracts\EasyAbp.EShop.Orders.Application.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Contracts\EasyAbp.EShop.Stores.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
