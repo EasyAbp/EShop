@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Domain.Shared\EasyAbp.EShop.Orders.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Products\src\EasyAbp.EShop.Products.Domain.Shared\EasyAbp.EShop.Products.Domain.Shared.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Domain.Shared\EasyAbp.EShop.Plugins.Promotions.Domain.Shared.csproj" />
   </ItemGroup>
 

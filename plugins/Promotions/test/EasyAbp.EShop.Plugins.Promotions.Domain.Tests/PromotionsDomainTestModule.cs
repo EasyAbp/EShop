@@ -1,4 +1,6 @@
-﻿using EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore;
+﻿using EasyAbp.EShop.Orders.Plugins.Promotions;
+using EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore;
+using EasyAbp.EShop.Products.Plugins.Promotions;
 using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Plugins.Promotions;
@@ -8,8 +10,10 @@ namespace EasyAbp.EShop.Plugins.Promotions;
  * database independent anyway.
  */
 [DependsOn(
-    typeof(PromotionsEntityFrameworkCoreTestModule)
-    )]
+    typeof(PromotionsEntityFrameworkCoreTestModule),
+    typeof(EShopProductsPluginsPromotionsDomainModule),
+    typeof(EShopOrdersPluginsPromotionsDomainModule)
+)]
 public class PromotionsDomainTestModule : AbpModule
 {
 

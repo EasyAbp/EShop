@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EasyAbp.EShop.Plugins.Promotions.Promotions;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore;
 
@@ -29,5 +31,15 @@ public static class PromotionsDbContextModelCreatingExtensions
             b.HasIndex(q => q.CreationTime);
         });
         */
+
+
+        builder.Entity<Promotion>(b =>
+        {
+            b.ToTable(PromotionsDbProperties.DbTablePrefix + "Promotions", PromotionsDbProperties.DbSchema);
+            b.ConfigureByConvention(); 
+            
+
+            /* Configure more properties here */
+        });
     }
 }

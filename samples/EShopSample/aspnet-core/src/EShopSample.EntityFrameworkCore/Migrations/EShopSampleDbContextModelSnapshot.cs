@@ -1914,6 +1914,92 @@ namespace EShopSample.Migrations
                     b.ToTable("EasyAbpEShopPluginsFlashSalesFlashSaleResults", (string)null);
                 });
 
+            modelBuilder.Entity("EasyAbp.EShop.Plugins.Promotions.Promotions.Promotion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<string>("Configurations")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime?>("FromTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PromotionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<DateTime?>("ToTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UniqueName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EasyAbpEShopPluginsPromotionsPromotions", (string)null);
+                });
+
             modelBuilder.Entity("EasyAbp.EShop.Products.Categories.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5760,7 +5846,7 @@ namespace EShopSample.Migrations
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
-                    b.OwnsOne("EasyAbp.BookingService.AssetCategories.AssetCategory.TimeInAdvance#EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
+                    b.OwnsOne("EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
                         {
                             b1.Property<Guid>("AssetCategoryId")
                                 .HasColumnType("uniqueidentifier");
@@ -5779,7 +5865,7 @@ namespace EShopSample.Migrations
 
                             b1.HasKey("AssetCategoryId");
 
-                            b1.ToTable("EasyAbpBookingServiceAssetCategories", (string)null);
+                            b1.ToTable("EasyAbpBookingServiceAssetCategories");
 
                             b1.WithOwner()
                                 .HasForeignKey("AssetCategoryId");
@@ -5792,7 +5878,7 @@ namespace EShopSample.Migrations
 
             modelBuilder.Entity("EasyAbp.BookingService.AssetSchedules.AssetSchedule", b =>
                 {
-                    b.OwnsOne("EasyAbp.BookingService.AssetSchedules.AssetSchedule.TimeInAdvance#EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
+                    b.OwnsOne("EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
                         {
                             b1.Property<Guid>("AssetScheduleId")
                                 .HasColumnType("uniqueidentifier");
@@ -5811,7 +5897,7 @@ namespace EShopSample.Migrations
 
                             b1.HasKey("AssetScheduleId");
 
-                            b1.ToTable("EasyAbpBookingServiceAssetSchedules", (string)null);
+                            b1.ToTable("EasyAbpBookingServiceAssetSchedules");
 
                             b1.WithOwner()
                                 .HasForeignKey("AssetScheduleId");
@@ -5822,7 +5908,7 @@ namespace EShopSample.Migrations
 
             modelBuilder.Entity("EasyAbp.BookingService.Assets.Asset", b =>
                 {
-                    b.OwnsOne("EasyAbp.BookingService.Assets.Asset.TimeInAdvance#EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
+                    b.OwnsOne("EasyAbp.BookingService.TimeInAdvance", "TimeInAdvance", b1 =>
                         {
                             b1.Property<Guid>("AssetId")
                                 .HasColumnType("uniqueidentifier");
@@ -5841,7 +5927,7 @@ namespace EShopSample.Migrations
 
                             b1.HasKey("AssetId");
 
-                            b1.ToTable("EasyAbpBookingServiceAssets", (string)null);
+                            b1.ToTable("EasyAbpBookingServiceAssets");
 
                             b1.WithOwner()
                                 .HasForeignKey("AssetId");

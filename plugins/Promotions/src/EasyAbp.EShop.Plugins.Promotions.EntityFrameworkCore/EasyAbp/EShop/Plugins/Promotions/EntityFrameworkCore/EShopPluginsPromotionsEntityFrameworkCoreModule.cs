@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EasyAbp.EShop.Plugins.Promotions.Promotions;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -17,6 +18,7 @@ public class EShopPluginsPromotionsEntityFrameworkCoreModule : AbpModule
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
+            options.AddRepository<Promotion, PromotionRepository>();
         });
     }
 }

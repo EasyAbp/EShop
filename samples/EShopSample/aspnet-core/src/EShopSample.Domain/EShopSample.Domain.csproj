@@ -13,7 +13,9 @@
     <ProjectReference Include="..\..\..\..\..\plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain\EasyAbp.EShop.Plugins.Booking.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Coupons\src\EasyAbp.EShop.Plugins.Coupons.Domain\EasyAbp.EShop.Plugins.Coupons.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\FlashSales\src\EasyAbp.EShop.Plugins.FlashSales.Domain\EasyAbp.EShop.Plugins.FlashSales.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Promotions\src\EasyAbp.EShop.Orders.Plugins.Promotions.Domain\EasyAbp.EShop.Orders.Plugins.Promotions.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\..\plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Domain\EasyAbp.EShop.Plugins.Promotions.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\..\plugins\Promotions\src\EasyAbp.EShop.Products.Plugins.Promotions.Domain\EasyAbp.EShop.Products.Plugins.Promotions.Domain.csproj" />
     <ProjectReference Include="..\EShopSample.Domain.Shared\EShopSample.Domain.Shared.csproj" />
   </ItemGroup>
 

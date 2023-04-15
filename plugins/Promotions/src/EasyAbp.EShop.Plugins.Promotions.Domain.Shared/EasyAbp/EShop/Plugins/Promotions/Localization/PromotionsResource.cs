@@ -2,7 +2,7 @@
 
 namespace EasyAbp.EShop.Plugins.Promotions.Localization;
 
-[LocalizationResourceName("Promotions")]
+[LocalizationResourceName("EasyAbpEShopPluginsPromotions")]
 public class PromotionsResource
 {
 

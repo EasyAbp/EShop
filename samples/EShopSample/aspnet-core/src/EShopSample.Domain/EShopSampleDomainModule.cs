@@ -1,9 +1,15 @@
 ﻿using EasyAbp.BookingService;
 using EasyAbp.EShop;
+using EasyAbp.EShop.Orders.Plugins.Promotions;
 using EasyAbp.EShop.Plugins.Baskets;
 using EasyAbp.EShop.Plugins.Booking;
 using EasyAbp.EShop.Plugins.Coupons;
 using EasyAbp.EShop.Plugins.FlashSales;
+using EasyAbp.EShop.Plugins.Promotions;
+using EasyAbp.EShop.Plugins.Promotions.Options;
+using EasyAbp.EShop.Plugins.Promotions.PromotionTypes.MinQuantityOrderDiscount;
+using EasyAbp.EShop.Plugins.Promotions.PromotionTypes.SimpleProductDiscount;
+using EasyAbp.EShop.Products.Plugins.Promotions;
 using EasyAbp.PaymentService;
 using EasyAbp.PaymentService.Options;
 using EasyAbp.PaymentService.Payments;
@@ -45,6 +51,9 @@ namespace EShopSample
         typeof(EShopPluginsBookingDomainModule),
         typeof(EShopPluginsCouponsDomainModule),
         typeof(EShopPluginsFlashSalesDomainModule),
+        typeof(EShopPluginsPromotionsDomainModule),
+        typeof(EShopProductsPluginsPromotionsDomainModule),
+        typeof(EShopOrdersPluginsPromotionsDomainModule),
         typeof(PaymentServiceDomainModule),
         typeof(PaymentServiceWeChatPayDomainModule),
         typeof(PaymentServicePrepaymentDomainModule),
@@ -59,13 +68,11 @@ namespace EShopSample
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            Configure<AbpMultiTenancyOptions>(options =>
-            {
-                options.IsEnabled = MultiTenancyConsts.IsEnabled;
-            });
+            Configure<AbpMultiTenancyOptions>(options => { options.IsEnabled = MultiTenancyConsts.IsEnabled; });
 
             ConfigurePaymentService();
             ConfigurePaymentServicePrepayment();
+            ConfigureEShopPromotions();
         }
 
         private void ConfigurePaymentService()
@@ -73,11 +80,13 @@ namespace EShopSample
             Configure<PaymentServiceOptions>(options =>
             {
                 options.Providers.Configure<FreePaymentServiceProvider>(FreePaymentServiceProvider.PaymentMethod);
-                options.Providers.Configure<WeChatPayPaymentServiceProvider>(WeChatPayPaymentServiceProvider.PaymentMethod);
-                options.Providers.Configure<PrepaymentPaymentServiceProvider>(PrepaymentPaymentServiceProvider.PaymentMethod);
+                options.Providers.Configure<WeChatPayPaymentServiceProvider>(WeChatPayPaymentServiceProvider
+                    .PaymentMethod);
+                options.Providers.Configure<PrepaymentPaymentServiceProvider>(PrepaymentPaymentServiceProvider
+                    .PaymentMethod);
             });
         }
-        
+
         private void ConfigurePaymentServicePrepayment()
         {
             Configure<PaymentServicePrepaymentOptions>(options =>
@@ -86,6 +95,15 @@ namespace EShopSample
                 {
                     accountGroup.Currency = "USD";
                 });
+            });
+        }
+
+        private void ConfigureEShopPromotions()
+        {
+            Configure<EShopPluginsPromotionsOptions>(options =>
+            {
+                options.PromotionTypes.AddSimpleProductDiscountPromotionType();
+                options.PromotionTypes.AddMinQuantityOrderDiscountPromotionType();
             });
         }
     }

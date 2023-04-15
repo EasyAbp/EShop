@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Products.Plugins.Promotions.Domain\EasyAbp.EShop.Products.Plugins.Promotions.Domain.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EShop.Orders.Plugins.Promotions.Domain\EasyAbp.EShop.Orders.Plugins.Promotions.Domain.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests.csproj" />
   </ItemGroup>
 

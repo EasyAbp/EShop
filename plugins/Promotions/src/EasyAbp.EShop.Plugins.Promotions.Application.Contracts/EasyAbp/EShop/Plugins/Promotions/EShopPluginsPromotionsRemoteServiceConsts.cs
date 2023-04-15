@@ -1,6 +1,6 @@
 ﻿namespace EasyAbp.EShop.Plugins.Promotions;
 
-public class PromotionsRemoteServiceConsts
+public class EShopPluginsPromotionsRemoteServiceConsts
 {
     public const string RemoteServiceName = "EasyAbpEShopPluginsPromotions";
 

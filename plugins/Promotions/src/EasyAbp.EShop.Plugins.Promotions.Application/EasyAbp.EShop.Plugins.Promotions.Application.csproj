@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Application.Shared\EasyAbp.EShop.Stores.Application.Shared.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Application.Contracts\EasyAbp.EShop.Plugins.Promotions.Application.Contracts.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Domain\EasyAbp.EShop.Plugins.Promotions.Domain.csproj" />
   </ItemGroup>

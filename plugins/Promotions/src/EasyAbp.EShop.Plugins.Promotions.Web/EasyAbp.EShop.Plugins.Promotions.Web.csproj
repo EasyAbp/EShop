@@ -13,11 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="$(AbpVersion)" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Application.Contracts\EasyAbp.EShop.Plugins.Promotions.Application.Contracts.csproj" />
   </ItemGroup>
 

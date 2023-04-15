@@ -9,11 +9,13 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
 using EasyAbp.EShop.Plugins.Promotions.Permissions;
+using EasyAbp.EShop.Stores;
 
 namespace EasyAbp.EShop.Plugins.Promotions.Web;
 
 [DependsOn(
     typeof(EShopPluginsPromotionsApplicationContractsModule),
+    typeof(EShopStoresWebSharedModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
     typeof(AbpAutoMapperModule)
     )]

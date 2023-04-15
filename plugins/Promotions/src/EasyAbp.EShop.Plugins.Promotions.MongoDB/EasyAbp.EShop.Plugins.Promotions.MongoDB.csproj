@@ -3,7 +3,7 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace />
   </PropertyGroup>
@@ -11,10 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.MongoDB" Version="$(AbpVersion)" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Domain\EasyAbp.EShop.Plugins.Promotions.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EasyAbp\EShop\Plugins\Promotions" />
   </ItemGroup>
 
 </Project>
