@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Promotions.Promotions;
 using EasyAbp.EShop.Plugins.Promotions.Promotions.Dtos;
@@ -19,19 +20,29 @@ public class PromotionProductDiscountProvider : IProductDiscountProvider, ITrans
         PromotionIntegrationService = promotionIntegrationService;
     }
 
-    public virtual async Task DiscountAsync(ProductDiscountContext context)
+    public virtual async Task DiscountAsync(GetProductsRealTimePriceContext context)
     {
-        var dto = await PromotionIntegrationService.DiscountProductAsync(new DiscountProductInputDto(context));
+        if (context.Models.IsNullOrEmpty())
+        {
+            return;
+        }
+
+        var dto = await PromotionIntegrationService.DiscountProductsAsync(new DiscountProductInputDto(context));
 
         if (dto.Context.Equals(context))
         {
             return;
         }
 
-        context.CandidateProductDiscounts.Clear();
-        context.CandidateProductDiscounts.AddRange(dto.Context.CandidateProductDiscounts);
+        foreach (var model in context.Models.Values)
+        {
+            var targetModel = dto.Context.Models[model.ProductSkuId];
 
-        context.OrderDiscountPreviews.Clear();
-        context.OrderDiscountPreviews.AddRange(dto.Context.OrderDiscountPreviews);
+            model.CandidateProductDiscounts.Clear();
+            model.CandidateProductDiscounts.AddRange(targetModel.CandidateProductDiscounts);
+
+            model.OrderDiscountPreviews.Clear();
+            model.OrderDiscountPreviews.AddRange(targetModel.OrderDiscountPreviews);
+        }
     }
 }

@@ -123,23 +123,23 @@ namespace EasyAbp.EShop.Products.Products
 
             await _repository.DeleteAsync(x => x.StoreId == storeId, true);
 
-            var productViews = new List<ProductView>();
+            var productViews = new Dictionary<Product, ProductView>();
 
             foreach (var product in products)
             {
                 var productView = ObjectMapper.Map<Product, ProductView>(product);
-                productView.ProductDiscounts ??= new List<ProductDiscountInfoModel>();
-                productView.OrderDiscountPreviews ??= new List<OrderDiscountPreviewInfoModel>();
 
-                await FillPriceInfoWithRealPriceAsync(product, productView, now);
-
-                productViews.Add(await _repository.InsertAsync(productView));
+                productViews[product] = productView;
             }
+
+            await FillPriceInfoWithRealPriceAsync(productViews, now);
+
+            await _repository.InsertManyAsync(productViews.Values, true);
 
             await uow.SaveChangesAsync();
             await uow.CompleteAsync();
 
-            var duration = await GetCacheDurationOrNullAsync(productViews, now);
+            var duration = await GetCacheDurationOrNullAsync(productViews.Values.ToList(), now);
 
             if (duration.HasValue)
             {
@@ -151,7 +151,7 @@ namespace EasyAbp.EShop.Products.Products
             }
         }
 
-        protected async Task<TimeSpan?> GetCacheDurationOrNullAsync(List<ProductView> productViews,
+        protected virtual async Task<TimeSpan?> GetCacheDurationOrNullAsync(List<ProductView> productViews,
             DateTime now)
         {
             // refresh the cache when a new discount takes effect or an old discount ends.
@@ -191,75 +191,87 @@ namespace EasyAbp.EShop.Products.Products
             return duration.HasValue && duration.Value < defaultDuration ? duration : defaultDuration;
         }
 
-        protected virtual async Task FillPriceInfoWithRealPriceAsync(Product product, ProductView productView,
+        protected virtual async Task FillPriceInfoWithRealPriceAsync(Dictionary<Product, ProductView> productViews,
             DateTime now)
         {
-            if (product.ProductSkus.IsNullOrEmpty())
+            var models = new List<ProductAndSkuDataModel>();
+
+            foreach (var product in productViews.Keys)
             {
-                return;
+                models.AddRange(ProductAndSkuDataModel.CreateByProduct(product));
             }
 
-            decimal? min = null, max = null;
-            decimal? minWithoutDiscount = null, maxWithoutDiscount = null;
+            var context = await _productManager.GetRealTimePricesAsync(models, now);
 
-            var discounts = new DiscountForProductModels();
-
-            foreach (var productSku in product.ProductSkus)
+            foreach (var (product, productView) in productViews)
             {
-                var overrideProductDiscounts = false;
-                var realTimePrice = await _productManager.GetRealTimePriceAsync(product, productSku, now);
-                var discountedPrice = realTimePrice.TotalDiscountedPrice;
-
-                if (min is null || discountedPrice < min.Value)
+                if (product.ProductSkus.IsNullOrEmpty())
                 {
-                    min = discountedPrice;
-                    overrideProductDiscounts = true;
+                    return;
                 }
 
-                if (max is null || discountedPrice > max.Value)
-                {
-                    max = discountedPrice;
-                }
+                decimal? min = null, max = null;
+                decimal? minWithoutDiscount = null, maxWithoutDiscount = null;
 
-                if (minWithoutDiscount is null || realTimePrice.PriceWithoutDiscount < minWithoutDiscount.Value)
-                {
-                    minWithoutDiscount = realTimePrice.PriceWithoutDiscount;
-                }
+                var discounts = new ProductViewDiscountModels();
 
-                if (maxWithoutDiscount is null || realTimePrice.PriceWithoutDiscount > maxWithoutDiscount.Value)
+                foreach (var productSku in product.ProductSkus)
                 {
-                    maxWithoutDiscount = realTimePrice.PriceWithoutDiscount;
-                }
+                    var overrideProductDiscounts = false;
+                    var realTimePrice = context.GetRealTimePrice(productSku);
+                    var discountedPrice = realTimePrice.TotalDiscountedPrice;
 
-                foreach (var discount in realTimePrice.Discounts.ProductDiscounts)
-                {
-                    var existingDiscount =
-                        discounts.ProductDiscounts.Find(x => x.Name == discount.Name && x.Key == discount.Key);
-
-                    if (existingDiscount is null)
+                    if (min is null || discountedPrice < min.Value)
                     {
-                        discounts.ProductDiscounts.Add(discount);
+                        min = discountedPrice;
+                        overrideProductDiscounts = true;
                     }
-                    else if (overrideProductDiscounts)
+
+                    if (max is null || discountedPrice > max.Value)
                     {
-                        discounts.ProductDiscounts.ReplaceOne(existingDiscount, discount);
+                        max = discountedPrice;
+                    }
+
+                    if (minWithoutDiscount is null || realTimePrice.PriceWithoutDiscount < minWithoutDiscount.Value)
+                    {
+                        minWithoutDiscount = realTimePrice.PriceWithoutDiscount;
+                    }
+
+                    if (maxWithoutDiscount is null || realTimePrice.PriceWithoutDiscount > maxWithoutDiscount.Value)
+                    {
+                        maxWithoutDiscount = realTimePrice.PriceWithoutDiscount;
+                    }
+
+                    foreach (var discount in realTimePrice.ProductDiscounts)
+                    {
+                        var existingDiscount =
+                            discounts.ProductDiscounts.Find(x => x.Name == discount.Name && x.Key == discount.Key);
+
+                        if (existingDiscount is null)
+                        {
+                            discounts.ProductDiscounts.Add(discount);
+                        }
+                        else if (overrideProductDiscounts)
+                        {
+                            discounts.ProductDiscounts.ReplaceOne(existingDiscount, discount);
+                        }
+                    }
+
+                    foreach (var discount in realTimePrice.OrderDiscountPreviews)
+                    {
+                        var existingDiscount =
+                            discounts.OrderDiscountPreviews.Find(x => x.Name == discount.Name && x.Key == discount.Key);
+
+                        if (existingDiscount is null)
+                        {
+                            discounts.OrderDiscountPreviews.Add(discount);
+                        }
                     }
                 }
 
-                foreach (var discount in realTimePrice.Discounts.OrderDiscountPreviews)
-                {
-                    var existingDiscount =
-                        discounts.OrderDiscountPreviews.Find(x => x.Name == discount.Name && x.Key == discount.Key);
-
-                    if (existingDiscount is null)
-                    {
-                        discounts.OrderDiscountPreviews.Add(discount);
-                    }
-                }
+                productView.SetPrices(min, max, minWithoutDiscount, maxWithoutDiscount);
+                productView.SetDiscounts(discounts);
             }
-
-            productView.SetPrices(min, max, minWithoutDiscount, maxWithoutDiscount);
-            productView.SetDiscounts(discounts);
         }
     }
 }

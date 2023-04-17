@@ -7,7 +7,7 @@ namespace EasyAbp.EShop.Plugins.Promotions.Promotions;
 [IntegrationService]
 public interface IPromotionIntegrationService
 {
-    Task<DiscountProductOutputDto> DiscountProductAsync(DiscountProductInputDto input);
+    Task<DiscountProductOutputDto> DiscountProductsAsync(DiscountProductInputDto input);
 
     Task<DiscountOrderOutputDto> DiscountOrderAsync(DiscountOrderInputDto input);
 }

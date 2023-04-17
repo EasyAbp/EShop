@@ -1,6 +1,6 @@
 namespace EasyAbp.EShop.Products.Products;
 
-public interface IHasFullDiscountsForProduct : IHasDiscountsForProduct
+public interface IHasFullDiscountsForSku : IHasDiscountsForSku
 {
     /// <summary>
     /// The realtime price without subtracting the discount amount.

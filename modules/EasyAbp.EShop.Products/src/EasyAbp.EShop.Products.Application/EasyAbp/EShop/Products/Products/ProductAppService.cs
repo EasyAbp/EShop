@@ -82,8 +82,10 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
 
@@ -116,8 +118,10 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
 
@@ -201,19 +205,21 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             return dto;
         }
 
-        protected virtual Task LoadDtosProductGroupDisplayNameAsync(IEnumerable<ProductDto> dtos)
+        protected virtual Task LoadDtosProductGroupDisplayNameAsync(List<(Product, ProductDto)> items)
         {
             var dict = _options.Groups.GetConfigurationsDictionary();
 
-            foreach (var dto in dtos)
+            foreach (var (_, productDto) in items)
             {
-                dto.ProductGroupDisplayName = dict[dto.ProductGroupName].DisplayName;
+                productDto.ProductGroupDisplayName = dict[productDto.ProductGroupName].DisplayName;
             }
 
             return Task.CompletedTask;
@@ -232,8 +238,10 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             return dto;
         }
@@ -258,23 +266,21 @@ namespace EasyAbp.EShop.Products.Products
             var products = await AsyncExecuter.ToListAsync(query);
 
             var now = Clock.Now;
-            var items = new List<ProductDto>();
+            var items = new List<(Product, ProductDto)>();
 
             foreach (var product in products)
             {
-                var productDto = await MapToGetListOutputDtoAsync(product);
-
-                await LoadDtoExtraDataAsync(product, productDto, now);
-
-                items.Add(productDto);
+                items.Add(new ValueTuple<Product, ProductDto>(
+                    product, await MapToGetListOutputDtoAsync(product)));
             }
 
+            await LoadDtosExtraDataAsync(items, now);
             await LoadDtosProductGroupDisplayNameAsync(items);
 
-            return new PagedResultDto<ProductDto>(totalCount, items);
+            return new PagedResultDto<ProductDto>(totalCount, items.Select(x => x.Item2).ToList());
         }
 
-        protected virtual async Task<ProductDto> LoadDtoInventoryDataAsync(Product product, ProductDto productDto)
+        protected virtual async Task LoadDtoInventoryDataAsync(Product product, ProductDto productDto)
         {
             var models = product.ProductSkus.Select(x =>
                 new InventoryQueryModel(product.TenantId, product.StoreId, product.Id, x.Id)).ToList();
@@ -293,41 +299,46 @@ namespace EasyAbp.EShop.Products.Products
                 productSkuDto.Sold = inventoryData.Sold;
                 productDto.Sold += productSkuDto.Sold;
             }
-
-            return productDto;
         }
 
-        protected virtual async Task<ProductDto> LoadDtoExtraDataAsync(Product product, ProductDto productDto,
-            DateTime now)
+        protected virtual async Task LoadDtosExtraDataAsync(List<(Product, ProductDto)> items, DateTime now)
         {
-            await LoadDtoInventoryDataAsync(product, productDto);
-            await LoadDtoPriceDataAsync(product, productDto, now);
-
-            return productDto;
-        }
-
-        protected virtual async Task<ProductDto> LoadDtoPriceDataAsync(Product product, ProductDto productDto,
-            DateTime now)
-        {
-            foreach (var productSku in product.ProductSkus)
+            foreach (var (product, productDto) in items)
             {
-                var productSkuDto = productDto.ProductSkus.First(x => x.Id == productSku.Id);
-
-                var realTimePriceInfoModel = await _productManager.GetRealTimePriceAsync(product, productSku, now);
-
-                productSkuDto.PriceWithoutDiscount = realTimePriceInfoModel.PriceWithoutDiscount;
-                productSkuDto.Price = realTimePriceInfoModel.TotalDiscountedPrice;
-                productSkuDto.ProductDiscounts = realTimePriceInfoModel.Discounts.ProductDiscounts;
-                productSkuDto.OrderDiscountPreviews = realTimePriceInfoModel.Discounts.OrderDiscountPreviews;
+                await LoadDtoInventoryDataAsync(product, productDto);
             }
 
-            if (productDto.ProductSkus.Count > 0)
+            await LoadDtosPriceDataAsync(items, now);
+        }
+
+        protected virtual async Task LoadDtosPriceDataAsync(List<(Product, ProductDto)> items, DateTime now)
+        {
+            var context =
+                await _productManager.GetRealTimePricesAsync(
+                    ProductAndSkuDataModel.CreateByProducts(items.Select(x => x.Item1)).ToList(), now);
+
+            foreach (var (product, productDto) in items)
             {
+                foreach (var productSku in product.ProductSkus)
+                {
+                    var productSkuDto = productDto.ProductSkus.First(x => x.Id == productSku.Id);
+
+                    var realTimePriceInfoModel = context.GetRealTimePrice(productSku);
+
+                    productSkuDto.PriceWithoutDiscount = realTimePriceInfoModel.PriceWithoutDiscount;
+                    productSkuDto.Price = realTimePriceInfoModel.TotalDiscountedPrice;
+                    productSkuDto.ProductDiscounts = realTimePriceInfoModel.ProductDiscounts;
+                    productSkuDto.OrderDiscountPreviews = realTimePriceInfoModel.OrderDiscountPreviews;
+                }
+
+                if (productDto.ProductSkus.Count <= 0)
+                {
+                    continue;
+                }
+
                 productDto.MinimumPrice = productDto.ProductSkus.Min(sku => sku.Price);
                 productDto.MaximumPrice = productDto.ProductSkus.Max(sku => sku.Price);
             }
-
-            return productDto;
         }
 
         public override async Task DeleteAsync(Guid id)
@@ -367,8 +378,10 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
 
@@ -392,8 +405,10 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
 
@@ -414,8 +429,10 @@ namespace EasyAbp.EShop.Products.Products
 
             var dto = await MapToGetOutputDtoAsync(product);
 
-            await LoadDtoExtraDataAsync(product, dto, Clock.Now);
-            await LoadDtosProductGroupDisplayNameAsync(new[] { dto });
+            var items = new List<(Product, ProductDto)> { new(product, dto) };
+
+            await LoadDtosExtraDataAsync(items, Clock.Now);
+            await LoadDtosProductGroupDisplayNameAsync(items);
 
             UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
 

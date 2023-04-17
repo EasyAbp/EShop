@@ -6,13 +6,13 @@ namespace EasyAbp.EShop.Plugins.Promotions.Promotions.Dtos;
 [Serializable]
 public class DiscountProductOutputDto
 {
-    public ProductDiscountContext Context { get; set; }
+    public GetProductsRealTimePriceContext Context { get; set; }
 
     public DiscountProductOutputDto()
     {
     }
 
-    public DiscountProductOutputDto(ProductDiscountContext context)
+    public DiscountProductOutputDto(GetProductsRealTimePriceContext context)
     {
         Context = context;
     }

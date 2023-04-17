@@ -31,26 +31,25 @@ public class SimpleProductDiscountTests : PromotionsApplicationTestBase
     {
         var promotion = await CreatePromotionAsync();
 
+        var productSku = new ProductSkuEto
+        {
+            Currency = "USD",
+            Price = 1.00m,
+        };
+
         var product = new ProductEto
         {
             ProductGroupName = "MyProductGroup",
-            ProductSkus = new List<ProductSkuEto>
-            {
-                new()
-                {
-                    Currency = "USD",
-                    Price = 1.00m,
-                }
-            }
+            ProductSkus = new List<ProductSkuEto> { productSku }
         };
 
-        var context = new ProductDiscountContext(DateTime.Now, product, product.ProductSkus.First(), 1.00m);
+        var model = new ProductRealTimePriceInfoModel(product.Id, productSku.Id, 1.00m);
 
-        await Handler.HandleProductAsync(context, promotion);
+        await Handler.HandleProductAsync(model, promotion, product, productSku);
 
-        context.CandidateProductDiscounts.Count.ShouldBe(1);
+        model.CandidateProductDiscounts.Count.ShouldBe(1);
 
-        var productDiscount = context.CandidateProductDiscounts.First();
+        var productDiscount = model.CandidateProductDiscounts.First();
         productDiscount.ShouldNotBeNull();
         productDiscount.EffectGroup.ShouldBe(PromotionConsts.PromotionEffectGroup);
         productDiscount.DisplayName.ShouldBe("test");

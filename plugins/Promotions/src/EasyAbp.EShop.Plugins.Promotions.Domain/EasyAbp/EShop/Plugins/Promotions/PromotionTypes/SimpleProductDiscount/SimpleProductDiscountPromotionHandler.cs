@@ -16,16 +16,17 @@ public class SimpleProductDiscountPromotionHandler : PromotionHandlerBase, IScop
     {
     }
 
-    public override Task HandleProductAsync(ProductDiscountContext context, Promotion promotion)
+    public override Task HandleProductAsync(ProductRealTimePriceInfoModel model, Promotion promotion, IProduct product,
+        IProductSku productSku)
     {
         foreach (var discountModel in GetConfigurations<SimpleProductDiscountConfigurations>(promotion).Discounts)
         {
-            if (context.ProductSku.Currency != discountModel.DynamicDiscountAmount.Currency)
+            if (productSku.Currency != discountModel.DynamicDiscountAmount.Currency)
             {
                 continue;
             }
 
-            if (!discountModel.IsInScope(context.Product.ProductGroupName, context.Product.Id, context.ProductSku.Id))
+            if (!discountModel.IsInScope(product.ProductGroupName, product.Id, productSku.Id))
             {
                 continue;
             }
@@ -34,7 +35,7 @@ public class SimpleProductDiscountPromotionHandler : PromotionHandlerBase, IScop
                 PromotionConsts.PromotionDiscountName, promotion.UniqueName, promotion.DisplayName,
                 discountModel.DynamicDiscountAmount, promotion.FromTime, promotion.ToTime);
 
-            context.CandidateProductDiscounts.Add(discount);
+            model.CandidateProductDiscounts.Add(discount);
         }
 
         return Task.CompletedTask;
