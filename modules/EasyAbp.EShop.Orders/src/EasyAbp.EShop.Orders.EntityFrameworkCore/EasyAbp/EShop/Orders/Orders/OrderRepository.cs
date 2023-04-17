@@ -20,6 +20,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             return (await base.WithDetailsAsync())
                 .Include(x => x.OrderLines)
+                .Include(x => x.OrderDiscounts)
                 .Include(x => x.OrderExtraFees);
         }
 
