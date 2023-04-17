@@ -127,10 +127,10 @@ namespace EasyAbp.EShop.Products.Products
             MaximumPriceWithoutDiscount = maxWithoutDiscount;
         }
 
-        public void SetDiscounts(IHasDiscountsForProduct discountsForProduct)
+        public void SetDiscounts(IHasDiscountsForSku discountsForSku)
         {
-            ProductDiscounts = discountsForProduct.ProductDiscounts ?? new List<ProductDiscountInfoModel>();
-            OrderDiscountPreviews = discountsForProduct.OrderDiscountPreviews ?? new List<OrderDiscountPreviewInfoModel>();
+            ProductDiscounts = discountsForSku.ProductDiscounts ?? new List<ProductDiscountInfoModel>();
+            OrderDiscountPreviews = discountsForSku.OrderDiscountPreviews ?? new List<OrderDiscountPreviewInfoModel>();
         }
     }
 }

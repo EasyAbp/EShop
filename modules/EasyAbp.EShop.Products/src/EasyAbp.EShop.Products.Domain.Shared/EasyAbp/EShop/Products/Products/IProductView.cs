@@ -1,6 +1,6 @@
 namespace EasyAbp.EShop.Products.Products;
 
-public interface IProductView : IProductBase, IHasDiscountsForProduct, IHasProductGroupDisplayName
+public interface IProductView : IProductBase, IHasDiscountsForSku, IHasProductGroupDisplayName
 {
     decimal? MinimumPrice { get; }
 

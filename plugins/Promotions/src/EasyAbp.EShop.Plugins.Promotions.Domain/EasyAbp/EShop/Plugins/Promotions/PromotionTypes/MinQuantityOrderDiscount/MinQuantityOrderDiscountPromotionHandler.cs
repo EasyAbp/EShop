@@ -17,30 +17,31 @@ public class MinQuantityOrderDiscountPromotionHandler : PromotionHandlerBase, IS
     {
     }
 
-    public override async Task HandleProductAsync(ProductDiscountContext context, Promotion promotion)
+    public override async Task HandleProductAsync(ProductRealTimePriceInfoModel model, Promotion promotion,
+        IProduct product, IProductSku productSku)
     {
         foreach (var discountModel in GetConfigurations<MinQuantityOrderDiscountConfigurations>(promotion).Discounts)
         {
-            if (context.ProductSku.Currency != discountModel.DynamicDiscountAmount.Currency)
+            if (productSku.Currency != discountModel.DynamicDiscountAmount.Currency)
             {
                 continue;
             }
 
-            if (!discountModel.IsInScope(context.Product.ProductGroupName, context.Product.Id, context.ProductSku.Id))
+            if (!discountModel.IsInScope(product.ProductGroupName, product.Id, productSku.Id))
             {
                 continue;
             }
 
             var newDiscount = new OrderDiscountPreviewInfoModel(PromotionConsts.PromotionEffectGroup,
                 PromotionConsts.PromotionDiscountName, promotion.UniqueName, promotion.DisplayName, promotion.FromTime,
-                promotion.ToTime, await CreateOrderDiscountPreviewRuleDataAsync(discountModel, context, promotion));
+                promotion.ToTime, await CreateOrderDiscountPreviewRuleDataAsync(discountModel, model, promotion));
 
-            context.OrderDiscountPreviews.Add(newDiscount);
+            model.OrderDiscountPreviews.Add(newDiscount);
         }
     }
 
     protected virtual Task<string?> CreateOrderDiscountPreviewRuleDataAsync(MinQuantityOrderDiscountModel discountModel,
-        ProductDiscountContext context, Promotion promotion)
+        ProductRealTimePriceInfoModel model, Promotion promotion)
     {
         return Task.FromResult<string?>(null);
     }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Promotions.Options;
 using EasyAbp.EShop.Plugins.Promotions.Promotions.Dtos;
 using EasyAbp.EShop.Plugins.Promotions.PromotionTypes;
+using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.Application.Services;
@@ -24,17 +25,30 @@ public class PromotionIntegrationService : ApplicationService, IPromotionIntegra
         Options = options.Value;
     }
 
-    public virtual async Task<DiscountProductOutputDto> DiscountProductAsync(DiscountProductInputDto input)
+    public virtual async Task<DiscountProductOutputDto> DiscountProductsAsync(DiscountProductInputDto input)
     {
         var context = input.Context;
 
-        var promotions = await GetUnexpiredPromotionsAsync(context.Product.StoreId, context.Now, true);
+        var storeGroupings = input.Context.Models.GroupBy(x => input.Context.Products[x.Value.ProductId].StoreId);
 
-        foreach (var promotion in promotions.OrderByDescending(x => x.Priority))
+        foreach (var storeGrouping in storeGroupings)
         {
-            var promotionHandler = GetPromotionHandler(promotion.PromotionType);
+            var storeId = storeGrouping.Key;
 
-            await promotionHandler.HandleProductAsync(context, promotion);
+            var promotions = await GetUnexpiredPromotionsAsync(storeId, context.Now, true);
+
+            foreach (var promotion in promotions.OrderByDescending(x => x.Priority))
+            {
+                var promotionHandler = GetPromotionHandler(promotion.PromotionType);
+
+                foreach (var (_, model) in storeGrouping)
+                {
+                    var product = context.Products[model.ProductId];
+                    var productSku = product.GetSkuById(model.ProductSkuId);
+
+                    await promotionHandler.HandleProductAsync(model, promotion, product, productSku);
+                }
+            }
         }
 
         return new DiscountProductOutputDto(context);

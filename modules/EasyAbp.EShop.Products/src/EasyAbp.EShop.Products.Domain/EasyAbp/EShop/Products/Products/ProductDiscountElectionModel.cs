@@ -7,6 +7,8 @@ namespace EasyAbp.EShop.Products.Products;
 
 public class ProductDiscountElectionModel
 {
+    public DateTime Now { get; }
+
     /// <summary>
     /// The search will stop and throw an exception if the number of executions is greater than <see cref="MaxDepth"/>.
     /// <see cref="MaxDepth"/> = Math.Pow(2, <see cref="MaxCandidates"/>)
@@ -38,8 +40,10 @@ public class ProductDiscountElectionModel
 
     private HashSet<string> UsedCombinations { get; } = new();
 
-    public ProductDiscountElectionModel(IProduct product, IProductSku productSku, decimal priceFromPriceProvider)
+    public ProductDiscountElectionModel(DateTime now, IProduct product, IProductSku productSku,
+        decimal priceFromPriceProvider)
     {
+        Now = now;
         Product = product;
         ProductSku = productSku;
         PriceFromPriceProvider = priceFromPriceProvider;

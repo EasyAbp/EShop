@@ -271,15 +271,19 @@ namespace EasyAbp.EShop.Products.Products
                 .TryReduceInventoryAsync(model, quantity, increaseSold, isFlashSale);
         }
 
-        public virtual async Task<RealTimePriceInfoModel> GetRealTimePriceAsync(Product product, ProductSku productSku,
-            DateTime now)
+        public virtual async Task<GetProductsRealTimePriceContext> GetRealTimePricesAsync(
+            List<ProductAndSkuDataModel> models, DateTime now)
         {
-            var priceFromPriceProvider = await _productPriceProvider.GetPriceAsync(product, productSku);
+            var realTimePriceInfoModels = await _productPriceProvider.GetPricesAsync(models);
 
-            var discounts =
-                await _productDiscountResolver.ResolveAsync(product, productSku, priceFromPriceProvider, now);
+            var context = new GetProductsRealTimePriceContext(
+                now,
+                models.Select(x => x.Product).Distinct(),
+                realTimePriceInfoModels);
 
-            return new RealTimePriceInfoModel(priceFromPriceProvider, discounts);
+            await _productDiscountResolver.ResolveAsync(context);
+
+            return context;
         }
     }
 }

@@ -7,7 +7,8 @@ namespace EasyAbp.EShop.Plugins.Promotions.PromotionTypes;
 
 public interface IPromotionHandler
 {
-    Task HandleProductAsync(ProductDiscountContext context, Promotion promotion);
+    Task HandleProductAsync(ProductRealTimePriceInfoModel model, Promotion promotion, IProduct product,
+        IProductSku productSku);
 
     Task HandleOrderAsync(OrderDiscountContext context, Promotion promotion);
 

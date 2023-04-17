@@ -34,25 +34,24 @@ public class MinQuantityOrderDiscountTests : PromotionsApplicationTestBase
     {
         var promotion = await CreatePromotionAsync();
 
+        var productSku = new ProductSkuEto
+        {
+            Currency = "USD"
+        };
+
         var product = new ProductEto
         {
             ProductGroupName = "MyProductGroup",
-            ProductSkus = new List<ProductSkuEto>
-            {
-                new()
-                {
-                    Currency = "USD"
-                }
-            }
+            ProductSkus = new List<ProductSkuEto> { productSku }
         };
 
-        var context = new ProductDiscountContext(DateTime.Now, product, product.ProductSkus.First(), 1.00m);
+        var model = new ProductRealTimePriceInfoModel(product.Id, productSku.Id, 1.00m);
 
-        await Handler.HandleProductAsync(context, promotion);
+        await Handler.HandleProductAsync(model, promotion, product, productSku);
 
-        context.OrderDiscountPreviews.Count.ShouldBe(1);
+        model.OrderDiscountPreviews.Count.ShouldBe(1);
 
-        var orderDiscount = context.OrderDiscountPreviews.First();
+        var orderDiscount = model.OrderDiscountPreviews.First();
         orderDiscount.ShouldNotBeNull();
         orderDiscount.EffectGroup.ShouldBe(PromotionConsts.PromotionEffectGroup);
         orderDiscount.DisplayName.ShouldBe("test");

@@ -20,7 +20,8 @@ public abstract class PromotionHandlerBase : IPromotionHandler
         JsonSerializer = jsonSerializer;
     }
 
-    public abstract Task HandleProductAsync(ProductDiscountContext context, Promotion promotion);
+    public abstract Task HandleProductAsync(ProductRealTimePriceInfoModel model, Promotion promotion, IProduct product,
+        IProductSku productSku);
 
     public abstract Task HandleOrderAsync(OrderDiscountContext context, Promotion promotion);
 

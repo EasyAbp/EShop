@@ -10,36 +10,34 @@ public class ProductDiscountResolver : IProductDiscountResolver, ITransientDepen
 {
     public IAbpLazyServiceProvider LazyServiceProvider { get; set; }
 
-    public virtual async Task<DiscountForProductModels> ResolveAsync(IProduct product, IProductSku productSku,
-        decimal priceFromPriceProvider, DateTime now)
+    public virtual async Task ResolveAsync(GetProductsRealTimePriceContext context)
     {
-        var context = new ProductDiscountContext(now, product, productSku, priceFromPriceProvider);
-
         foreach (var provider in LazyServiceProvider.LazyGetService<IEnumerable<IProductDiscountProvider>>()
                      .OrderBy(x => x.EffectOrder))
         {
             await provider.DiscountAsync(context);
         }
 
-        if (context.CandidateProductDiscounts.IsNullOrEmpty())
+        foreach (var model in context.Models.Values)
         {
-            return new DiscountForProductModels(null, context.OrderDiscountPreviews);
+            var product = context.Products[model.ProductId];
+            var productSku = product.GetSkuById(model.ProductSkuId);
+
+            var electionModel =
+                new ProductDiscountElectionModel(context.Now, product, productSku, model.PriceWithoutDiscount);
+
+            electionModel.TryEnqueue(new CandidateProductDiscounts(model.CandidateProductDiscounts));
+
+            while (!electionModel.Done)
+            {
+                await EvolveAsync(electionModel);
+            }
+
+            model.ProductDiscounts.AddRange(electionModel.GetBestScheme().Discounts);
         }
-
-        var electionModel =
-            new ProductDiscountElectionModel(context.Product, context.ProductSku, context.PriceFromPriceProvider);
-
-        electionModel.TryEnqueue(new CandidateProductDiscounts(context.CandidateProductDiscounts));
-
-        while (!electionModel.Done)
-        {
-            await EvolveAsync(electionModel, now);
-        }
-
-        return new DiscountForProductModels(electionModel.GetBestScheme().Discounts, context.OrderDiscountPreviews);
     }
 
-    protected virtual Task EvolveAsync(ProductDiscountElectionModel electionModel, DateTime now)
+    protected virtual Task EvolveAsync(ProductDiscountElectionModel electionModel)
     {
         if (electionModel.Done)
         {
@@ -60,8 +58,8 @@ public class ProductDiscountResolver : IProductDiscountResolver, ITransientDepen
             var discount = new ProductDiscountInfoModel(candidate, 0m, false);
             productDiscountInfoModels.Add(discount);
 
-            if (candidate.FromTime.HasValue && now < candidate.FromTime ||
-                candidate.ToTime.HasValue && now > candidate.ToTime)
+            if (candidate.FromTime.HasValue && electionModel.Now < candidate.FromTime ||
+                candidate.ToTime.HasValue && electionModel.Now > candidate.ToTime)
             {
                 continue;
             }

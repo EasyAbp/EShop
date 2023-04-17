@@ -6,5 +6,5 @@ public interface IProductDiscountProvider
 {
     int EffectOrder { get; }
 
-    Task DiscountAsync(ProductDiscountContext context);
+    Task DiscountAsync(GetProductsRealTimePriceContext context);
 }
