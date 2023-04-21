@@ -5,11 +5,13 @@
     const paymentService = easyAbp.paymentService.payments.payment;
     const accountService = easyAbp.paymentService.prepayment.accounts.account;
 
-    $('#CreateOrderButton').click(function (e) {
+    $('#Buy1PcsButton').click(function (e) {
         e.preventDefault();
         if (!cakeProductSkuId) return
-        let btn = $(this)
-        btn.buttonBusy(true);
+        let btn1 = $('Buy1PcsButton')
+        btn1.buttonBusy(true);
+        let btn2 = $('Buy2PcsButton')
+        btn2.buttonBusy(true);
         orderService.create({
             storeId: storeId,
             orderLines: [{
@@ -23,7 +25,34 @@
                     window.location.reload();
                 })
         }).catch(function () {
-            btn.buttonBusy(false);
+            btn1.buttonBusy(false);
+            btn2.buttonBusy(false);
+        });
+    });
+
+
+    $('#Buy2PcsButton').click(function (e) {
+        e.preventDefault();
+        if (!cakeProductSkuId) return
+        let btn1 = $('Buy1PcsButton')
+        btn1.buttonBusy(true);
+        let btn2 = $('Buy2PcsButton')
+        btn2.buttonBusy(true);
+        orderService.create({
+            storeId: storeId,
+            orderLines: [{
+                productId: cakeProductId,
+                productSkuId: cakeProductSkuId,
+                quantity: 2
+            }]
+        }).then(function () {
+            abp.message.success(l('OrderCreated'))
+                .then(function () {
+                    window.location.reload();
+                })
+        }).catch(function () {
+            btn1.buttonBusy(false);
+            btn2.buttonBusy(false);
         });
     });
 
