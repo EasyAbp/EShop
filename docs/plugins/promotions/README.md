@@ -63,7 +63,7 @@ The promotion order discounts coexist with other types of discounts with differe
 
 ### The Best Combination of Discounts
 
-The [Orders](https://github.com/EasyAbp/EShop/tree/dev/modules/EasyAbp.EShop.Orders) module of EShop will search the best combination of discounts using BFS.
+If your product or order has many related discounts with conflicts, EShop will find the best combination of discounts using BFS.
 
 See these codes for more:
 
