@@ -55,8 +55,8 @@ public class OrderDiscountResolver : IOrderDiscountResolver, ITransientDependenc
         var affectedOrderLineIdsInEffectGroup = new Dictionary<string, List<Guid>>();
         var usedDiscountNameKeyPairs = new HashSet<(string, string)>();
 
-        var currentPrices =
-            new Dictionary<IOrderLine, decimal>(order.OrderLines.ToDictionary(x => x, x => x.UnitPrice));
+        var currentTotalPrices =
+            new Dictionary<IOrderLine, decimal>(order.OrderLines.ToDictionary(x => x, x => x.TotalPrice));
 
         var distributionModels = new List<OrderDiscountDistributionModel>();
 
@@ -88,7 +88,8 @@ public class OrderDiscountResolver : IOrderDiscountResolver, ITransientDependenc
                 electionModel.TryEnqueue(newCandidateDiscounts);
             }
 
-            var distributionResult = await OrderDiscountDistributor.DistributeAsync(order, currentPrices, discount);
+            var distributionResult =
+                await OrderDiscountDistributor.DistributeAsync(order, currentTotalPrices, discount);
 
             distributionModels.Add(new OrderDiscountDistributionModel(discount, distributionResult.Distributions));
         }

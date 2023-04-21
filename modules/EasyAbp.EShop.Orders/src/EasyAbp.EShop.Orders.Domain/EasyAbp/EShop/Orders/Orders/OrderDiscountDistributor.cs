@@ -11,16 +11,17 @@ namespace EasyAbp.EShop.Orders.Orders;
 public class OrderDiscountDistributor : IOrderDiscountDistributor, ITransientDependency
 {
     public virtual Task<OrderDiscountDistributionModel> DistributeAsync(IOrder order,
-        Dictionary<IOrderLine, decimal> currentPrices, OrderDiscountInfoModel discount)
+        Dictionary<IOrderLine, decimal> currentTotalPrices, OrderDiscountInfoModel discount)
     {
         var affectedOrderLines = discount.AffectedOrderLineIds
             .Select(orderLineId => order.OrderLines.Single(x => x.Id == orderLineId))
             .ToList();
 
-        var affectedOrderLinesCurrentPrice =
-            new Money(affectedOrderLines.Sum(x => currentPrices[x]), order.Currency);
+        var affectedOrderLinesCurrentTotalPrice =
+            new Money(affectedOrderLines.Sum(x => currentTotalPrices[x]), order.Currency);
 
-        var totalDiscountAmount = discount.CalculateDiscountAmount(affectedOrderLinesCurrentPrice.Amount, order.Currency);
+        var totalDiscountAmount =
+            discount.CalculateDiscountAmount(affectedOrderLinesCurrentTotalPrice.Amount, order.Currency);
 
         var distributions = new Dictionary<Guid, decimal>();
         var remainingDiscountAmount = totalDiscountAmount;
@@ -28,31 +29,31 @@ public class OrderDiscountDistributor : IOrderDiscountDistributor, ITransientDep
         foreach (var orderLine in affectedOrderLines)
         {
             var calculatedDiscountAmount = new Money(
-                currentPrices[orderLine] / affectedOrderLinesCurrentPrice.Amount *
+                currentTotalPrices[orderLine] / affectedOrderLinesCurrentTotalPrice.Amount *
                 totalDiscountAmount, order.Currency, MidpointRounding.ToZero);
 
-            var discountAmount = calculatedDiscountAmount.Amount > currentPrices[orderLine]
-                ? currentPrices[orderLine]
+            var discountAmount = calculatedDiscountAmount.Amount > currentTotalPrices[orderLine]
+                ? currentTotalPrices[orderLine]
                 : calculatedDiscountAmount.Amount;
 
             distributions[orderLine.Id] = discountAmount;
-            currentPrices[orderLine] -= discountAmount;
+            currentTotalPrices[orderLine] -= discountAmount;
             remainingDiscountAmount -= discountAmount;
         }
 
-        foreach (var orderLine in affectedOrderLines.OrderByDescending(x => currentPrices[x]))
+        foreach (var orderLine in affectedOrderLines.OrderByDescending(x => currentTotalPrices[x]))
         {
             if (remainingDiscountAmount == decimal.Zero)
             {
                 break;
             }
 
-            var discountAmount = remainingDiscountAmount > currentPrices[orderLine]
-                ? currentPrices[orderLine]
+            var discountAmount = remainingDiscountAmount > currentTotalPrices[orderLine]
+                ? currentTotalPrices[orderLine]
                 : remainingDiscountAmount;
 
             distributions[orderLine.Id] += discountAmount;
-            currentPrices[orderLine] -= discountAmount;
+            currentTotalPrices[orderLine] -= discountAmount;
             remainingDiscountAmount -= discountAmount;
         }
 

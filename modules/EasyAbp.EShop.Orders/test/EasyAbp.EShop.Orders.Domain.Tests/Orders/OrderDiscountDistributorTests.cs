@@ -57,11 +57,11 @@ public class OrderDiscountDistributorTests : OrdersDomainTestBase
         var discount = new OrderDiscountInfoModel(order.OrderLines.Select(x => x.Id).ToList(), null, "Test", null,
             null, new DynamicDiscountAmountModel("USD", 0m, discountRate, null));
 
-        var currentPrices =
+        var currentTotalPrices =
             new Dictionary<IOrderLine, decimal>(order.OrderLines.ToDictionary(x => (IOrderLine)x,
-                x => x.UnitPrice));
+                x => x.TotalPrice));
 
-        var distributionResult = await OrderDiscountDistributor.DistributeAsync(order, currentPrices, discount);
+        var distributionResult = await OrderDiscountDistributor.DistributeAsync(order, currentTotalPrices, discount);
 
         order.AddDiscounts(distributionResult);
 
@@ -128,11 +128,11 @@ public class OrderDiscountDistributorTests : OrdersDomainTestBase
         var discount = new OrderDiscountInfoModel(order.OrderLines.Select(x => x.Id).ToList(), null, "Test", null,
             null, new DynamicDiscountAmountModel("USD", discountedAmount, 0m, null));
 
-        var currentPrices =
+        var currentTotalPrices =
             new Dictionary<IOrderLine, decimal>(order.OrderLines.ToDictionary(x => (IOrderLine)x,
-                x => x.UnitPrice));
+                x => x.TotalPrice));
 
-        var distributionResult = await OrderDiscountDistributor.DistributeAsync(order, currentPrices, discount);
+        var distributionResult = await OrderDiscountDistributor.DistributeAsync(order, currentTotalPrices, discount);
 
         order.AddDiscounts(distributionResult);
 
