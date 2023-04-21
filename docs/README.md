@@ -105,12 +105,13 @@ We can customize the EShop for complex application scenarios.
 
 * Plugin modules
   * [Baskets](https://github.com/EasyAbp/EShop/tree/dev/plugins/Baskets)
+  * [Booking](https://github.com/EasyAbp/EShop/tree/dev/plugins/Booking)
   * Coupons
+  * [FlashSales](https://github.com/EasyAbp/EShop/tree/dev/plugins/FlashSales)
   * Inventories
     * [DaprActors](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/DaprActors)
     * [OrleansGrains](https://github.com/EasyAbp/EShop/tree/dev/plugins/Inventories/OrleansGrains)
-  * [FlashSales](https://github.com/EasyAbp/EShop/tree/dev/plugins/FlashSales)
-  * [Booking](https://github.com/EasyAbp/EShop/tree/dev/plugins/Booking)
+  * [Promotions](https://github.com/EasyAbp/EShop/tree/dev/plugins/Promotions)
 
 ## Roadmap
 

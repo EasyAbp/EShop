@@ -62,7 +62,8 @@ let secondsToAutoCancel = @Model.GetSecondsToAutoCancel()
                         <div id="selectedSkuId" class="my-1"></div>
                         <div id="selectedSkuPrice" class="my-1"></div>
                         <hr>
-                        <abp-button id="CreateOrderButton" button-type="Primary">@L["CreateOrder"]</abp-button>
+                        <abp-button id="Buy1PcsButton" button-type="Primary">@L["Buy-1-PCS"]</abp-button>
+                        <abp-button id="Buy2PcsButton" button-type="Primary">@L["Buy-2-PCS"]</abp-button>
                     </abp-tab>
                     <abp-tab name="PayForOrderTab" title="@L["PayForOrder"].Value" active="@(Model.Order?.OrderStatus is OrderStatus.Pending)">
                         @if (Model.Order is not null)
@@ -86,6 +87,10 @@ let secondsToAutoCancel = @Model.GetSecondsToAutoCancel()
                                         <td>@L[option.DisplayName]</td>
                                     </tr>
                                 }
+                                <tr>
+                                    <td>@L["Quantity"]</td>
+                                    <td>@Model.Order.OrderLines[0].Quantity</td>
+                                </tr>
                                 <tr>
                                     <td>@L["TotalPrice"]</td>
                                     <td>@Model.Order.ActualTotalPrice.ToString("F2") @Model.Order.Currency</td>
