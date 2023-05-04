@@ -18,7 +18,7 @@ namespace EasyAbp.EShop.Orders.EntityFrameworkCore
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAlwaysDisableUnitOfWorkTransaction();
+            // context.Services.AddAlwaysDisableUnitOfWorkTransaction();
             var sqliteConnection = CreateDatabaseAndGetConnection();
 
             Configure<AbpDbContextOptions>(options =>
