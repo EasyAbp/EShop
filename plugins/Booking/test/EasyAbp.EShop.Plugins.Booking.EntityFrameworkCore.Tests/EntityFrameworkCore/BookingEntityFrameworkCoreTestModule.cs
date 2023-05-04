@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
+using Volo.Abp.Uow;
 
 namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class BookingEntityFrameworkCoreTestModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        context.Services.AddAlwaysDisableUnitOfWorkTransaction();
         var sqliteConnection = CreateDatabaseAndGetConnection();
 
         Configure<AbpDbContextOptions>(options =>
