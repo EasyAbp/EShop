@@ -7,6 +7,7 @@ using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
+using Volo.Abp.Uow;
 
 namespace EShopSample.EntityFrameworkCore
 {
@@ -26,6 +27,7 @@ namespace EShopSample.EntityFrameworkCore
 
         private void ConfigureInMemorySqlite(IServiceCollection services)
         {
+            services.AddAlwaysDisableUnitOfWorkTransaction();
             _sqliteConnection = CreateDatabaseAndGetConnection();
 
             services.Configure<AbpDbContextOptions>(options =>
