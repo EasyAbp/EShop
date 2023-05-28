@@ -11,7 +11,6 @@ using EasyAbp.EShop.Products.ProductHistories;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
-using System.Linq;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.DependencyInjection;
 
@@ -46,7 +45,6 @@ namespace EasyAbp.EShop.Products
             CreateMap<ProductHistory, ProductHistoryDto>();
             CreateMap<ProductDetailHistory, ProductDetailHistoryDto>();
             CreateMap<ProductView, ProductViewDto>();
-            CreateMap<Product, ProductView>(MemberList.Destination);
         }
     }
 }

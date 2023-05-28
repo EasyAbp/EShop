@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.Options;
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.Products.CacheItems;
 using EasyAbp.EShop.Products.Products.Dtos;
 using EasyAbp.EShop.Products.Settings;
 using EasyAbp.EShop.Stores.Stores;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
 using Volo.Abp.Uow;
@@ -22,6 +24,7 @@ namespace EasyAbp.EShop.Products.Products
         protected override string GetListPolicyName { get; set; } = null;
         protected override string CrossStorePolicyName { get; set; } = ProductsPermissions.Products.CrossStore;
 
+        private readonly EShopProductsOptions _options;
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IDistributedCache<ProductViewCacheItem> _cache;
         private readonly IProductManager _productManager;
@@ -29,12 +32,14 @@ namespace EasyAbp.EShop.Products.Products
         private readonly IProductViewRepository _repository;
 
         public ProductViewAppService(
+            IOptions<EShopProductsOptions> options,
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
             IDistributedCache<ProductViewCacheItem> cache,
             IProductManager productManager,
             IProductRepository productRepository,
             IProductViewRepository repository) : base(repository)
         {
+            _options = options.Value;
             _productViewCacheKeyProvider = productViewCacheKeyProvider;
             _cache = cache;
             _productManager = productManager;
@@ -123,11 +128,13 @@ namespace EasyAbp.EShop.Products.Products
 
             await _repository.DeleteAsync(x => x.StoreId == storeId, true);
 
+            var productGroupDisplayNameMapping = await GetProductGroupDisplayNamesAsync();
             var productViews = new Dictionary<Product, ProductView>();
 
             foreach (var product in products)
             {
-                var productView = ObjectMapper.Map<Product, ProductView>(product);
+                productGroupDisplayNameMapping.TryGetValue(product.ProductGroupName, out var productGroupDisplayName);
+                var productView = new ProductView(product, productGroupDisplayName);
 
                 productViews[product] = productView;
             }
@@ -149,6 +156,12 @@ namespace EasyAbp.EShop.Products.Products
                         AbsoluteExpirationRelativeToNow = duration
                     });
             }
+        }
+
+        protected virtual Task<Dictionary<string, string>> GetProductGroupDisplayNamesAsync()
+        {
+            return Task.FromResult(_options.Groups.GetConfigurationsDictionary()
+                .ToDictionary(x => x.Key, x => x.Value.DisplayName));
         }
 
         protected virtual async Task<TimeSpan?> GetCacheDurationOrNullAsync(List<ProductView> productViews,
