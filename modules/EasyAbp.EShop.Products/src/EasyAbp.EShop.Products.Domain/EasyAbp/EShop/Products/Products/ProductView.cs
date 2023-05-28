@@ -43,9 +43,9 @@ namespace EasyAbp.EShop.Products.Products
 
         public virtual string ProductGroupDisplayName { get; protected set; }
 
-        public virtual List<ProductDiscountInfoModel> ProductDiscounts { get; set; }
+        public virtual List<ProductDiscountInfoModel> ProductDiscounts { get; protected set; }
 
-        public virtual List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; set; }
+        public virtual List<OrderDiscountPreviewInfoModel> OrderDiscountPreviews { get; protected set; }
 
         public virtual decimal? MinimumPrice { get; protected set; }
 
@@ -61,57 +61,28 @@ namespace EasyAbp.EShop.Products.Products
         {
         }
 
-        public ProductView(
-            Guid id,
-            Guid? tenantId,
-            Guid storeId,
-            string productGroupName,
-            Guid? productDetailId,
-            string uniqueName,
-            string displayName,
-            string overview,
-            InventoryStrategy inventoryStrategy,
-            string inventoryProviderName,
-            bool isPublished,
-            bool isStatic,
-            bool isHidden,
-            TimeSpan? paymentExpireIn,
-            string mediaResources,
-            int displayOrder,
-            string productGroupDisplayName,
-            List<ProductDiscountInfoModel> productDiscounts,
-            List<OrderDiscountPreviewInfoModel> orderDiscountPreviews,
-            decimal? minimumPrice,
-            decimal? maximumPrice,
-            decimal? minimumPriceWithoutDiscount,
-            decimal? maximumPriceWithoutDiscount,
-            long sold
-        ) : base(id)
+        public ProductView(Product product, string productGroupDisplayName) : base(product.Id)
         {
-            TenantId = tenantId;
-            StoreId = storeId;
-            ProductGroupName = productGroupName;
-            ProductDetailId = productDetailId;
-            UniqueName = uniqueName?.Trim();
-            DisplayName = displayName;
-            Overview = overview;
-            InventoryStrategy = inventoryStrategy;
-            InventoryProviderName = inventoryProviderName;
-            IsPublished = isPublished;
-            IsStatic = isStatic;
-            IsHidden = isHidden;
-            PaymentExpireIn = paymentExpireIn;
-            MediaResources = mediaResources;
-            DisplayOrder = displayOrder;
+            TenantId = product.TenantId;
+            StoreId = product.StoreId;
+            ProductGroupName = product.ProductGroupName;
+            ProductDetailId = product.ProductDetailId;
+            UniqueName = product.UniqueName?.Trim();
+            DisplayName = product.DisplayName;
+            Overview = product.Overview;
+            InventoryStrategy = product.InventoryStrategy;
+            InventoryProviderName = product.InventoryProviderName;
+            IsPublished = product.IsPublished;
+            IsStatic = product.IsStatic;
+            IsHidden = product.IsHidden;
+            PaymentExpireIn = product.PaymentExpireIn;
+            MediaResources = product.MediaResources;
+            DisplayOrder = product.DisplayOrder;
 
             ProductGroupDisplayName = productGroupDisplayName;
-            ProductDiscounts = productDiscounts ?? new List<ProductDiscountInfoModel>();
-            OrderDiscountPreviews = orderDiscountPreviews ?? new List<OrderDiscountPreviewInfoModel>();
-            MinimumPrice = minimumPrice;
-            MaximumPrice = maximumPrice;
-            MinimumPriceWithoutDiscount = minimumPriceWithoutDiscount;
-            MaximumPriceWithoutDiscount = maximumPriceWithoutDiscount;
-            Sold = sold;
+
+            ProductDiscounts = new List<ProductDiscountInfoModel>();
+            OrderDiscountPreviews = new List<OrderDiscountPreviewInfoModel>();
         }
 
         public void SetSold(long sold)
