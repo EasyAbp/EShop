@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
 
-namespace EasyAbp.EShop.Products.DaprActorsInventory.Domain;
+namespace EasyAbp.EShop.Products.DaprActorsInventory;
 
 public class DaprActorsProductInventoryProviderTests : ProductsDaprActorsInventoryTestBase
 {

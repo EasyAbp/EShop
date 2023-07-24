@@ -1,7 +1,7 @@
 using System;
 using EphemeralMongo;
 
-namespace EasyAbp.EShop.Plugins.Promotions.MongoDB;
+namespace EasyAbp.EShop.Orders.MongoDB;
 
 public class MongoDbFixture : IDisposable
 {

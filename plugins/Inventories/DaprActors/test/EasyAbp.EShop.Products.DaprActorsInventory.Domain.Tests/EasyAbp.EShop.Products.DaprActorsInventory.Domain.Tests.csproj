@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <RootNamespace>EasyAbp.EShop.Products.DaprActorsInventory.Domain</RootNamespace>
+        <RootNamespace>EasyAbp.EShop.Products.DaprActorsInventory</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

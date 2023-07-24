@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Modularity;
+﻿using Volo.Abp.Domain;
+using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Payments.Localization;
 using EasyAbp.PaymentService;
@@ -12,6 +13,7 @@ namespace EasyAbp.EShop.Payments
 {
     [DependsOn(
         typeof(AbpValidationModule),
+        typeof(AbpDddDomainSharedModule),
         typeof(PaymentServiceDomainSharedModule)
     )]
     public class EShopPaymentsDomainSharedModule : AbpModule

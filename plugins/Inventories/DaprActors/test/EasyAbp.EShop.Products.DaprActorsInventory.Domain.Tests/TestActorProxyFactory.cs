@@ -5,7 +5,7 @@ using EasyAbp.EShop.Plugins.Inventories.DaprActors;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 
-namespace EasyAbp.EShop.Products.DaprActorsInventory.Domain;
+namespace EasyAbp.EShop.Products.DaprActorsInventory;
 
 [Dependency(ReplaceServices = true)]
 public class TestActorProxyFactory : IActorProxyFactory, ITransientDependency

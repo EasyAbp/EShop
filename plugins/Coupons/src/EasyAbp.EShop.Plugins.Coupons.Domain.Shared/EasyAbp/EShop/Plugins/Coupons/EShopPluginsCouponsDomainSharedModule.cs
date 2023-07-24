@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Modularity;
+﻿using Volo.Abp.Domain;
+using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Plugins.Coupons.Localization;
 using EasyAbp.EShop.Stores;
@@ -11,6 +12,7 @@ namespace EasyAbp.EShop.Plugins.Coupons
 {
     [DependsOn(
         typeof(AbpValidationModule),
+        typeof(AbpDddDomainSharedModule),
         typeof(EShopStoresDomainSharedModule)
     )]
     public class EShopPluginsCouponsDomainSharedModule : AbpModule

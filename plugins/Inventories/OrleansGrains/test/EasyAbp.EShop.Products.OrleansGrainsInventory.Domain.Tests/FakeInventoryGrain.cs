@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Inventories.OrleansGrains;
 using Volo.Abp.DependencyInjection;
 
-namespace EasyAbp.EShop.Products.OrleansGrainsInventory.Domain;
+namespace EasyAbp.EShop.Products.OrleansGrainsInventory;
 
 public class FakeInventoryGrain : IInventoryGrain, ITransientDependency
 {
