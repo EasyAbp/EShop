@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <RootNamespace>EasyAbp.EShop.Products.OrleansGrainsInventory.Domain</RootNamespace>
+        <RootNamespace>EasyAbp.EShop.Products.OrleansGrainsInventory</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -3,7 +3,7 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 
-namespace EasyAbp.EShop.Products.OrleansGrainsInventory.Domain;
+namespace EasyAbp.EShop.Products.OrleansGrainsInventory;
 
 [DependsOn(
     typeof(AbpAutofacModule),

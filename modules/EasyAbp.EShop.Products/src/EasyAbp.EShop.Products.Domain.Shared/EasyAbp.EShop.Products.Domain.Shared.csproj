@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="EasyAbp.Abp.Trees.Domain.Shared" Version="$(EasyAbpAbpTreesModuleVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Validation" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Json.Abstractions" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Domain.Shared\EasyAbp.EShop.Stores.Domain.Shared.csproj" />

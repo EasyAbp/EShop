@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Inventories.DaprActors;
 using Volo.Abp.DependencyInjection;
 
-namespace EasyAbp.EShop.Products.DaprActorsInventory.Domain;
+namespace EasyAbp.EShop.Products.DaprActorsInventory;
 
 public class FakeInventoryActor : IInventoryActor, ITransientDependency
 {

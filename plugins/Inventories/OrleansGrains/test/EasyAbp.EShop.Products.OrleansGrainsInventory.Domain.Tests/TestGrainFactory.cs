@@ -6,7 +6,7 @@ using Orleans;
 using Orleans.Runtime;
 using Volo.Abp.DependencyInjection;
 
-namespace EasyAbp.EShop.Products.OrleansGrainsInventory.Domain;
+namespace EasyAbp.EShop.Products.OrleansGrainsInventory;
 
 [Dependency(ReplaceServices = true)]
 public class TestGrainFactory : IGrainFactory, ITransientDependency

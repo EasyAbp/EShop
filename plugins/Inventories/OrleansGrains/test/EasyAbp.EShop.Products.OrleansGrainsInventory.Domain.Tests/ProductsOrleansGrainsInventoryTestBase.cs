@@ -2,11 +2,10 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
-using Volo.Abp.Modularity;
 using Volo.Abp.Testing;
 using Volo.Abp.Uow;
 
-namespace EasyAbp.EShop.Products.OrleansGrainsInventory.Domain
+namespace EasyAbp.EShop.Products.OrleansGrainsInventory
 {
     /* All test classes are derived from this class, directly or indirectly. */
     public abstract class

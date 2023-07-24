@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
 
-namespace EasyAbp.EShop.Products.OrleansGrainsInventory.Domain;
+namespace EasyAbp.EShop.Products.OrleansGrainsInventory;
 
 public class OrleansGrainsProductInventoryProviderTests : ProductsOrleansGrainsInventoryTestBase
 {

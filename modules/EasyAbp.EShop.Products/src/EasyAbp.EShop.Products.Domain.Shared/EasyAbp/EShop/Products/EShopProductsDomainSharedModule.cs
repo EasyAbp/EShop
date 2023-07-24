@@ -1,4 +1,5 @@
 ﻿using EasyAbp.Abp.Trees;
+using Volo.Abp.Domain;
 using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.EShop.Products.Localization;
@@ -13,6 +14,7 @@ namespace EasyAbp.EShop.Products
 {
     [DependsOn(
         typeof(AbpValidationModule),
+        typeof(AbpDddDomainSharedModule),
         typeof(AbpJsonAbstractionsModule),
         typeof(AbpTreesDomainSharedModule),
         typeof(EShopStoresDomainSharedModule)

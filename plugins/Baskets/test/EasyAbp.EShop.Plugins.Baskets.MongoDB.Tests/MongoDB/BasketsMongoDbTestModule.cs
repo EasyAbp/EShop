@@ -12,13 +12,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.MongoDB
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            var connectionString = MongoDbFixture.ConnectionString.EnsureEndsWith('/') +
-                                   "Db_" +
-                                    Guid.NewGuid().ToString("N");
-
             Configure<AbpDbConnectionOptions>(options =>
             {
-                options.ConnectionStrings.Default = connectionString;
+                options.ConnectionStrings.Default = MongoDbFixture.GetRandomConnectionString();
             });
         }
     }

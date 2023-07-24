@@ -1,13 +1,13 @@
 ﻿<Project>
   <PropertyGroup>
 
-    <AbpVersion>7.2.1</AbpVersion>
-    <EasyAbpAbpTreesModuleVersion>2.11.0</EasyAbpAbpTreesModuleVersion>
-    <EasyAbpPaymentServiceModuleVersion>2.6.0</EasyAbpPaymentServiceModuleVersion>
-    <EasyAbpAbpTagHelperPlusModuleVersion>1.5.0</EasyAbpAbpTagHelperPlusModuleVersion>
-    <EasyAbpBookingServiceModuleVersion>0.6.0</EasyAbpBookingServiceModuleVersion>
-    <DaprSdkVersion>1.9.0</DaprSdkVersion>
-    <OrleansVersion>3.6.5</OrleansVersion>
+    <AbpVersion>7.3.0</AbpVersion>
+    <EasyAbpAbpTreesModuleVersion>2.12.0</EasyAbpAbpTreesModuleVersion>
+    <EasyAbpPaymentServiceModuleVersion>2.7.0</EasyAbpPaymentServiceModuleVersion>
+    <EasyAbpAbpTagHelperPlusModuleVersion>1.6.0</EasyAbpAbpTagHelperPlusModuleVersion>
+    <EasyAbpBookingServiceModuleVersion>0.7.0</EasyAbpBookingServiceModuleVersion>
+    <DaprSdkVersion>1.11.0</DaprSdkVersion>
+    <OrleansVersion>3.7.1</OrleansVersion>
     <NodaMoneyVersion>1.0.5</NodaMoneyVersion>
 
   </PropertyGroup>
