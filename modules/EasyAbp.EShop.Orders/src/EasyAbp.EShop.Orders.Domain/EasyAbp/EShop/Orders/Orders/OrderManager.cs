@@ -34,7 +34,7 @@ namespace EasyAbp.EShop.Orders.Orders
         [UnitOfWork]
         public virtual async Task<Order> CompleteAsync(Order order)
         {
-            if (order.CompletionTime.HasValue || !order.ReducedInventoryAfterPaymentTime.HasValue)
+            if (order.CompletionTime.HasValue)
             {
                 throw new OrderIsInWrongStageException(order.Id);
             }
@@ -46,8 +46,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 await provider.CheckAsync(order);
             }
             
-            order.SetCompletionTime(_clock.Now);
-            order.SetOrderStatus(OrderStatus.Completed);
+            order.Complete(_clock.Now);
 
             await _orderRepository.UpdateAsync(order, true);
 
@@ -59,7 +58,7 @@ namespace EasyAbp.EShop.Orders.Orders
         [UnitOfWork]
         public virtual async Task<Order> CancelAsync(Order order, string cancellationReason, bool forceCancel = false)
         {
-            if (order.CanceledTime.HasValue)
+            if (order.IsCanceled())
             {
                 throw new OrderIsInWrongStageException(order.Id);
             }
@@ -69,8 +68,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 throw new OrderIsInWrongStageException(order.Id);
             }
 
-            order.SetCanceled(_clock.Now, cancellationReason);
-            order.SetOrderStatus(OrderStatus.Canceled);
+            order.SetCanceled(_clock.Now, cancellationReason, forceCancel);
             
             await _orderRepository.UpdateAsync(order, true);
             

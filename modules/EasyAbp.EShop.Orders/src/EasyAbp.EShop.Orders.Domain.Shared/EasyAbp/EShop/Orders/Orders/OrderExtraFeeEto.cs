@@ -16,5 +16,7 @@ namespace EasyAbp.EShop.Orders.Orders
         public decimal Fee { get; set; }
 
         public decimal RefundAmount { get; set; }
+
+        public decimal? PaymentAmount { get; set; }
     }
 }

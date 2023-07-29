@@ -109,14 +109,14 @@ namespace EasyAbp.EShop.Orders.Orders
                 OrdersConsts.InventoryReductionFailedAutoCancellationReason,
                 OrdersConsts.InventoryReductionFailedAutoCancellationReason,
                 OrdersConsts.InventoryReductionFailedAutoCancellationReason);
-            
+
             eto.OrderLines.AddRange(order.OrderLines.Select(x => new OrderLineRefundInfoModel
             {
                 OrderLineId = x.Id,
                 Quantity = x.Quantity - x.RefundedQuantity,
                 TotalAmount = x.ActualTotalPrice - x.RefundAmount
             }));
-            
+
             eto.OrderExtraFees.AddRange(order.OrderExtraFees.Select(x => new OrderExtraFeeRefundInfoModel
             {
                 Name = x.Name,

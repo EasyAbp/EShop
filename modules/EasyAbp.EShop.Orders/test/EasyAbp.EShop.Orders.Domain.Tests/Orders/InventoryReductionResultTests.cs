@@ -67,11 +67,11 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
     {
         typeof(Order).GetProperty(nameof(Order.CanceledTime))!.SetValue(Order1, null);
         typeof(Order).GetProperty(nameof(Order.CancellationReason))!.SetValue(Order1, null);
-        Order1.SetReducedInventoryAfterPlacingTime(null);
-        Order1.SetReducedInventoryAfterPaymentTime(null);
-        Order1.SetOrderStatus(OrderStatus.Pending);
-        Order1.SetPaymentId(null);
-        Order1.SetPaidTime(null);
+        typeof(Order).GetProperty(nameof(Order.ReducedInventoryAfterPlacingTime))!.SetValue(Order1, null);
+        typeof(Order).GetProperty(nameof(Order.ReducedInventoryAfterPaymentTime))!.SetValue(Order1, null);
+        typeof(Order).GetProperty(nameof(Order.OrderStatus))!.SetValue(Order1, OrderStatus.Pending);
+        typeof(Order).GetProperty(nameof(Order.PaidTime))!.SetValue(Order1, null);
+        Order1.CancelPayment();
 
         var handler = ServiceProvider.GetRequiredService<ProductInventoryReductionEventHandler>();
 
@@ -93,11 +93,11 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
     {
         typeof(Order).GetProperty(nameof(Order.CanceledTime))!.SetValue(Order1, null);
         typeof(Order).GetProperty(nameof(Order.CancellationReason))!.SetValue(Order1, null);
-        Order1.SetReducedInventoryAfterPlacingTime(null);
-        Order1.SetReducedInventoryAfterPaymentTime(null);
-        Order1.SetOrderStatus(OrderStatus.Pending);
-        Order1.SetPaymentId(null);
-        Order1.SetPaidTime(null);
+        typeof(Order).GetProperty(nameof(Order.ReducedInventoryAfterPlacingTime))!.SetValue(Order1, null);
+        typeof(Order).GetProperty(nameof(Order.ReducedInventoryAfterPaymentTime))!.SetValue(Order1, null);
+        typeof(Order).GetProperty(nameof(Order.OrderStatus))!.SetValue(Order1, OrderStatus.Pending);
+        typeof(Order).GetProperty(nameof(Order.PaidTime))!.SetValue(Order1, null);
+        Order1.CancelPayment();
 
         var handler = ServiceProvider.GetRequiredService<ProductInventoryReductionEventHandler>();
 
@@ -120,10 +120,10 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
         typeof(Order).GetProperty(nameof(Order.CanceledTime))!.SetValue(Order1, null);
         typeof(Order).GetProperty(nameof(Order.CancellationReason))!.SetValue(Order1, null);
         Order1.SetReducedInventoryAfterPlacingTime(DateTime.Now);
-        Order1.SetReducedInventoryAfterPaymentTime(null);
-        Order1.SetOrderStatus(OrderStatus.Processing);
-        Order1.SetPaymentId(OrderTestData.Payment1Id);
-        Order1.SetPaidTime(DateTime.Now);
+        typeof(Order).GetProperty(nameof(Order.ReducedInventoryAfterPaymentTime))!.SetValue(Order1, null);
+        await Order1.StartPaymentAsync(OrderTestData.Payment1Id, Order1.ActualTotalPrice,
+            GetRequiredService<IMoneyDistributor>());
+        Order1.SetPaid(DateTime.Now);
 
         var handler = ServiceProvider.GetRequiredService<ProductInventoryReductionEventHandler>();
 
@@ -169,10 +169,10 @@ public class InventoryReductionResultTests : OrdersDomainTestBase
         typeof(Order).GetProperty(nameof(Order.CanceledTime))!.SetValue(Order1, null);
         typeof(Order).GetProperty(nameof(Order.CancellationReason))!.SetValue(Order1, null);
         Order1.SetReducedInventoryAfterPlacingTime(DateTime.Now);
-        Order1.SetReducedInventoryAfterPaymentTime(null);
-        Order1.SetOrderStatus(OrderStatus.Processing);
-        Order1.SetPaymentId(OrderTestData.Payment1Id);
-        Order1.SetPaidTime(DateTime.Now);
+        typeof(Order).GetProperty(nameof(Order.ReducedInventoryAfterPaymentTime))!.SetValue(Order1, null);
+        await Order1.StartPaymentAsync(OrderTestData.Payment1Id, Order1.ActualTotalPrice,
+            GetRequiredService<IMoneyDistributor>());
+        Order1.SetPaid(DateTime.Now);
 
         var handler = ServiceProvider.GetRequiredService<ProductInventoryReductionEventHandler>();
 

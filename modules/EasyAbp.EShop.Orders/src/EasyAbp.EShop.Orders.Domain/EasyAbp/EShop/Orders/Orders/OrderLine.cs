@@ -10,47 +10,49 @@ namespace EasyAbp.EShop.Orders.Orders
     public class OrderLine : FullAuditedEntity<Guid>, IOrderLine
     {
         public virtual Guid ProductId { get; protected set; }
-        
+
         public virtual Guid ProductSkuId { get; protected set; }
-        
+
         public virtual Guid? ProductDetailId { get; protected set; }
 
         public virtual DateTime ProductModificationTime { get; protected set; }
-        
+
         public virtual DateTime? ProductDetailModificationTime { get; protected set; }
 
         public virtual string ProductGroupName { get; protected set; }
-        
+
         public virtual string ProductGroupDisplayName { get; protected set; }
-        
+
         public virtual string ProductUniqueName { get; protected set; }
-        
+
         public virtual string ProductDisplayName { get; protected set; }
 
         public virtual InventoryStrategy? ProductInventoryStrategy { get; protected set; }
 
         public virtual string SkuName { get; protected set; }
-        
+
         public virtual string SkuDescription { get; protected set; }
-        
+
         public virtual string MediaResources { get; protected set; }
-        
+
         public virtual string Currency { get; protected set; }
-        
+
         public virtual decimal UnitPrice { get; protected set; }
-        
+
         public virtual decimal TotalPrice { get; protected set; }
-        
+
         public virtual decimal TotalDiscount { get; protected set; }
-        
+
         public virtual decimal ActualTotalPrice { get; protected set; }
 
         public virtual int Quantity { get; protected set; }
-        
+
         public virtual int RefundedQuantity { get; protected set; }
-        
+
         public virtual decimal RefundAmount { get; protected set; }
-        
+
+        public virtual decimal? PaymentAmount { get; protected set; }
+
         public ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
         protected OrderLine()
@@ -103,7 +105,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
             RefundedQuantity = 0;
             RefundAmount = 0;
-            
+
             ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
@@ -114,11 +116,18 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new InvalidRefundQuantityException(quantity);
             }
-            
+
+            // PaymentAmount is always null before EShop v5
+            var paymentAmount = PaymentAmount ?? ActualTotalPrice;
+            if (amount <= decimal.Zero || RefundAmount + amount > paymentAmount)
+            {
+                throw new InvalidRefundAmountException(amount);
+            }
+
             RefundedQuantity += quantity;
             RefundAmount += amount;
         }
-        
+
         internal void AddDiscount(decimal expectedDiscountAmount)
         {
             TotalDiscount += expectedDiscountAmount;
@@ -128,6 +137,11 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 throw new DiscountAmountOverflowException();
             }
+        }
+
+        internal void SetPaymentAmount(decimal? paymentAmount)
+        {
+            PaymentAmount = paymentAmount;
         }
     }
 }

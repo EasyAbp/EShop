@@ -11,13 +11,13 @@ namespace EasyAbp.EShop.Orders.Orders
     public class OrderEto : ExtensibleObject, IOrder, IFullAuditedObject, IMultiTenant
     {
         public Guid Id { get; set; }
-        
+
         public Guid? TenantId { get; set; }
 
         public Guid StoreId { get; set; }
 
         public string OrderNumber { get; set; }
-        
+
         public Guid CustomerUserId { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
@@ -29,7 +29,7 @@ namespace EasyAbp.EShop.Orders.Orders
         public decimal TotalDiscount { get; set; }
 
         public decimal TotalPrice { get; set; }
-        
+
         public decimal ActualTotalPrice { get; set; }
 
         public decimal RefundAmount { get; set; }
@@ -37,21 +37,23 @@ namespace EasyAbp.EShop.Orders.Orders
         public string CustomerRemark { get; set; }
 
         public string StaffRemark { get; set; }
-        
+
         public Guid? PaymentId { get; set; }
 
         public DateTime? PaidTime { get; set; }
 
+        public decimal? PaymentAmount { get; set; }
+
         public DateTime? CompletionTime { get; set; }
 
         public DateTime? CanceledTime { get; set; }
-        
+
         public string CancellationReason { get; set; }
 
         public DateTime? ReducedInventoryAfterPlacingTime { get; set; }
-        
+
         public DateTime? ReducedInventoryAfterPaymentTime { get; set; }
-        
+
         public DateTime? PaymentExpiration { get; set; }
 
         IEnumerable<IOrderLine> IOrder.OrderLines => OrderLines;
@@ -64,17 +66,17 @@ namespace EasyAbp.EShop.Orders.Orders
         public List<OrderExtraFeeEto> OrderExtraFees { get; set; }
 
         public DateTime CreationTime { get; set; }
-        
+
         public Guid? CreatorId { get; set; }
-        
+
         public DateTime? LastModificationTime { get; set; }
-        
+
         public Guid? LastModifierId { get; set; }
-        
+
         public bool IsDeleted { get; set; }
-        
+
         public DateTime? DeletionTime { get; set; }
-        
+
         public Guid? DeleterId { get; set; }
     }
 }

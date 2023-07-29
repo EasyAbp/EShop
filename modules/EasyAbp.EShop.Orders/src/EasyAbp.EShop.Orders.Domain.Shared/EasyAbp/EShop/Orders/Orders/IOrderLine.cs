@@ -62,5 +62,7 @@ namespace EasyAbp.EShop.Orders.Orders
         int RefundedQuantity { get; }
 
         decimal RefundAmount { get; }
+
+        decimal? PaymentAmount { get; }
     }
 }

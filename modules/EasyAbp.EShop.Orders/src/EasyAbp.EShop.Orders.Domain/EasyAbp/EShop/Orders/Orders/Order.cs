@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyAbp.EShop.Products.Products;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
-using NodaMoney;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -41,6 +40,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public virtual DateTime? PaidTime { get; protected set; }
 
+        public virtual decimal? PaymentAmount { get; protected set; }
+
         public virtual DateTime? CompletionTime { get; protected set; }
 
         public virtual DateTime? CanceledTime { get; protected set; }
@@ -66,7 +67,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
         }
 
-        public Order(
+        internal Order(
             Guid id,
             Guid? tenantId,
             Guid storeId,
@@ -99,55 +100,103 @@ namespace EasyAbp.EShop.Orders.Orders
             OrderExtraFees = new List<OrderExtraFee>();
         }
 
-        public void SetOrderNumber([NotNull] string orderNumber)
+        internal void SetOrderNumber([NotNull] string orderNumber)
         {
             OrderNumber = orderNumber;
         }
 
-        public void SetOrderLines(List<OrderLine> orderLines)
+        internal void SetOrderLines(List<OrderLine> orderLines)
         {
             OrderLines = orderLines;
         }
 
-        public void SetReducedInventoryAfterPlacingTime(DateTime? time)
+        internal void SetReducedInventoryAfterPlacingTime(DateTime time)
         {
+            if (ReducedInventoryAfterPlacingTime.HasValue)
+            {
+                throw new OrderIsInWrongStageException(Id);
+            }
+
             ReducedInventoryAfterPlacingTime = time;
         }
 
-        public void SetReducedInventoryAfterPaymentTime(DateTime? time)
+        internal void SetReducedInventoryAfterPaymentTime(DateTime time)
         {
+            if (ReducedInventoryAfterPaymentTime.HasValue)
+            {
+                throw new OrderIsInWrongStageException(Id);
+            }
+
             ReducedInventoryAfterPaymentTime = time;
         }
 
-        public void SetPaymentExpiration(DateTime? paymentExpiration)
-        {
-            PaymentExpiration = paymentExpiration;
-        }
-
-        public void SetPaymentId(Guid? paymentId)
+        internal async Task StartPaymentAsync(Guid paymentId, decimal? paymentAmount, IMoneyDistributor distributor)
         {
             PaymentId = paymentId;
+            PaymentAmount = paymentAmount;
+
+            if (paymentAmount is null)
+            {
+                // PaymentAmount is always null before EShop v5
+                return;
+            }
+
+            var currentAmounts = OrderLines.ToDictionary(x => (object)x, x => x.ActualTotalPrice)
+                .Union(OrderExtraFees.ToDictionary(x => (object)x, x => x.Fee))
+                .ToDictionary(x => x.Key, x => x.Value);
+
+            var distributionResult = await distributor.DistributeAsync(
+                Currency,
+                currentAmounts,
+                paymentAmount.Value);
+
+            foreach (var (key, amount) in distributionResult.Distributions)
+            {
+                switch (key)
+                {
+                    case OrderLine orderLine:
+                        orderLine.SetPaymentAmount(amount);
+                        break;
+                    case OrderExtraFee orderExtraFee:
+                        orderExtraFee.SetPaymentAmount(amount);
+                        break;
+                }
+            }
         }
 
-        public void SetPaidTime(DateTime? paidTime)
+        internal void CancelPayment()
+        {
+            PaymentId = null;
+            PaymentAmount = null;
+
+            foreach (var orderLine in OrderLines)
+            {
+                orderLine.SetPaymentAmount(null);
+            }
+        }
+
+        internal void SetPaid(DateTime paidTime)
         {
             PaidTime = paidTime;
+            OrderStatus = OrderStatus.Processing;
         }
 
-        public void SetOrderStatus(OrderStatus orderStatus)
-        {
-            OrderStatus = orderStatus;
-        }
-
-        public void SetCompletionTime(DateTime? completionTime)
+        internal void Complete(DateTime completionTime)
         {
             CompletionTime = completionTime;
+            OrderStatus = OrderStatus.Completed;
         }
 
-        public void SetCanceled(DateTime canceledTime, [CanBeNull] string cancellationReason)
+        internal void SetCanceled(DateTime canceledTime, [CanBeNull] string cancellationReason, bool forceCancel)
         {
             CanceledTime = canceledTime;
             CancellationReason = cancellationReason;
+            OrderStatus = OrderStatus.Canceled;
+        }
+
+        public bool IsCanceled()
+        {
+            return CanceledTime.HasValue;
         }
 
         public bool IsPaid()
@@ -155,9 +204,16 @@ namespace EasyAbp.EShop.Orders.Orders
             return PaidTime.HasValue;
         }
 
-        public void RefundOrderLine(Guid orderLineId, int quantity, decimal amount)
+        internal void RefundOrderLine(Guid orderLineId, int quantity, decimal amount)
         {
-            if (amount <= decimal.Zero)
+            if (!IsPaid())
+            {
+                throw new OrderIsInWrongStageException(Id);
+            }
+
+            // PaymentAmount is always null before EShop v5
+            var paymentAmount = PaymentAmount ?? ActualTotalPrice;
+            if (amount <= decimal.Zero || RefundAmount + amount > paymentAmount)
             {
                 throw new InvalidRefundAmountException(amount);
             }
@@ -169,9 +225,16 @@ namespace EasyAbp.EShop.Orders.Orders
             RefundAmount += amount;
         }
 
-        public void RefundOrderExtraFee([NotNull] string extraFeeName, [CanBeNull] string extraFeeKey, decimal amount)
+        internal void RefundOrderExtraFee([NotNull] string extraFeeName, [CanBeNull] string extraFeeKey, decimal amount)
         {
-            if (amount <= decimal.Zero)
+            if (!IsPaid())
+            {
+                throw new OrderIsInWrongStageException(Id);
+            }
+
+            // PaymentAmount is always null before EShop v5
+            var paymentAmount = PaymentAmount ?? ActualTotalPrice;
+            if (amount <= decimal.Zero || RefundAmount + amount > paymentAmount)
             {
                 throw new InvalidRefundAmountException(amount);
             }
@@ -185,14 +248,19 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public bool IsInPayment()
         {
-            return !(!PaymentId.HasValue || PaidTime.HasValue);
+            return PaymentId.HasValue && !PaidTime.HasValue;
         }
 
-        public void AddDiscounts(OrderDiscountDistributionModel model)
+        internal void AddDiscounts(OrderDiscountDistributionModel model)
         {
-            foreach (var (orderLineId, discountAmount) in model.Distributions)
+            if (OrderStatus != OrderStatus.Pending)
             {
-                var orderLine = OrderLines.Single(x => x.Id == orderLineId);
+                throw new OrderIsInWrongStageException(Id);
+            }
+
+            foreach (var (o, discountAmount) in model.Distributions)
+            {
+                var orderLine = OrderLines.Single(x => x.Id == o.Id);
 
                 orderLine.AddDiscount(discountAmount);
 
@@ -205,14 +273,14 @@ namespace EasyAbp.EShop.Orders.Orders
                 }
 
                 if (OrderDiscounts.Any(x =>
-                        x.OrderLineId == orderLineId && x.Name == model.DiscountInfoModel.Name &&
+                        x.OrderLineId == orderLine.Id && x.Name == model.DiscountInfoModel.Name &&
                         x.Key == model.DiscountInfoModel.Key))
                 {
-                    throw new DuplicateOrderDiscountException(orderLineId, model.DiscountInfoModel.Name,
+                    throw new DuplicateOrderDiscountException(orderLine.Id, model.DiscountInfoModel.Name,
                         model.DiscountInfoModel.Key);
                 }
 
-                var orderDiscount = new OrderDiscount(Id, orderLineId, model.DiscountInfoModel.EffectGroup,
+                var orderDiscount = new OrderDiscount(Id, orderLine.Id, model.DiscountInfoModel.EffectGroup,
                     model.DiscountInfoModel.Name, model.DiscountInfoModel.Key, model.DiscountInfoModel.DisplayName,
                     discountAmount);
 
@@ -220,9 +288,14 @@ namespace EasyAbp.EShop.Orders.Orders
             }
         }
 
-        public void AddOrderExtraFee(decimal extraFee, [NotNull] string extraFeeName, [CanBeNull] string extraFeeKey,
+        internal void AddOrderExtraFee(decimal extraFee, [NotNull] string extraFeeName, [CanBeNull] string extraFeeKey,
             [CanBeNull] string extraFeeDisplayName)
         {
+            if (OrderStatus != OrderStatus.Pending)
+            {
+                throw new OrderIsInWrongStageException(Id);
+            }
+
             if (extraFee <= decimal.Zero)
             {
                 throw new InvalidOrderExtraFeeException(extraFee);

@@ -29,16 +29,16 @@ namespace EasyAbp.EShop.Orders.Orders
             using var currentTenant = _currentTenant.Change(eventData.TenantId);
 
             foreach (var paymentItem in eventData.Payment.PaymentItems.Where(item =>
-                item.ItemType == PaymentsConsts.PaymentItemType))
+                         item.ItemType == PaymentsConsts.PaymentItemType))
             {
                 var order = await _orderRepository.GetAsync(Guid.Parse(paymentItem.ItemKey));
 
-                if (order.PaymentId != eventData.Payment.Id)
+                if (order.PaymentId != eventData.Payment.Id || !order.IsInPayment() || order.IsCanceled())
                 {
                     continue;
                 }
-                
-                order.SetPaymentId(null);
+
+                order.CancelPayment();
 
                 // OrderAutoCancelOnUpdatedHandler may auto cancel the unpaid order.
                 await _orderRepository.UpdateAsync(order, true);

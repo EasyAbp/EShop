@@ -35,6 +35,8 @@ namespace EasyAbp.EShop.Orders.Orders.Dtos
 
         public DateTime? PaidTime { get; set; }
 
+        public decimal? PaymentAmount { get; set; }
+
         public DateTime? CompletionTime { get; set; }
 
         public DateTime? CanceledTime { get; set; }
