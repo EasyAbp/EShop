@@ -21,7 +21,7 @@ namespace EasyAbp.EShop.Payments.Refunds.Dtos
         [CanBeNull]
         public string StaffRemark { get; set; }
         
-        public List<CreateEShopRefundItemInput> RefundItems { get; set; } = new List<CreateEShopRefundItemInput>();
+        public List<CreateEShopRefundItemInput> RefundItems { get; set; } = new();
         
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

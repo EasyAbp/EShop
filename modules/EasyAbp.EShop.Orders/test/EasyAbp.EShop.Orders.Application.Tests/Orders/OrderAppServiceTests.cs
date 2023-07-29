@@ -14,7 +14,6 @@ using NSubstitute;
 using Shouldly;
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Settings;
 using Volo.Abp.Timing;
 using Xunit;
 
@@ -24,6 +23,7 @@ namespace EasyAbp.EShop.Orders.Orders
     {
         private readonly IClock _clock;
         private readonly IOrderAppService _orderAppService;
+        private readonly IMoneyDistributor _moneyDistributor;
 
         private ProductDto Product1 { get; set; }
 
@@ -31,6 +31,7 @@ namespace EasyAbp.EShop.Orders.Orders
         {
             _clock = GetRequiredService<IClock>();
             _orderAppService = GetRequiredService<IOrderAppService>();
+            _moneyDistributor = GetRequiredService<IMoneyDistributor>();
         }
 
         protected override void AfterAddApplication(IServiceCollection services)
@@ -243,10 +244,10 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.StaffRemark.ShouldBeNullOrEmpty();
                 order.StoreId.ShouldBe(OrderTestData.Store1Id);
                 order.TotalDiscount.ShouldBe(0m);
-                order.TotalPrice.ShouldBe(12m);
-                order.ActualTotalPrice.ShouldBe(12m);
+                order.TotalPrice.ShouldBe(order.ActualTotalPrice);
+                order.ActualTotalPrice.ShouldBe(order.ActualTotalPrice);
                 order.CustomerUserId.ShouldBe(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"));
-                order.ProductTotalPrice.ShouldBe(12m);
+                order.ProductTotalPrice.ShouldBe(order.ActualTotalPrice);
                 order.ReducedInventoryAfterPaymentTime.ShouldBeNull();
                 order.ReducedInventoryAfterPlacingTime.ShouldNotBeNull();
                 order.OrderLines.Count.ShouldBe(2);
@@ -288,7 +289,7 @@ namespace EasyAbp.EShop.Orders.Orders
                 order.OrderStatus.ShouldNotBe(OrderStatus.Completed);
                 order.CompletionTime.ShouldBeNull();
                 orderId = order.Id;
-                order.SetPaidTime(DateTime.Now);
+                order.SetPaid(DateTime.Now);
                 order.SetReducedInventoryAfterPaymentTime(DateTime.Now);
                 db.SaveChanges();
             });
@@ -345,12 +346,12 @@ namespace EasyAbp.EShop.Orders.Orders
             // Arrange
             await Order_Should_Be_Created();
             Guid orderId = Guid.Empty;
-            UsingDbContext(db =>
+            UsingDbContext(async db =>
             {
                 var order = db.Orders.First();
                 orderId = order.Id;
-                order.SetPaymentId(Guid.NewGuid());
-                db.SaveChanges();
+                await order.StartPaymentAsync(Guid.NewGuid(), order.ActualTotalPrice, _moneyDistributor);
+                await db.SaveChangesAsync();
             });
 
             // Act
@@ -360,8 +361,8 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
                 var order = await orderRepository.GetAsync(orderId);
-                order.SetPaymentExpiration(now);
-                order.SetPaymentId(null);
+                typeof(Order).GetProperty(nameof(Order.PaymentExpiration))!.SetValue(order, now);
+                order.CancelPayment();
                 await orderRepository.UpdateAsync(order, true);
             });
 
@@ -393,28 +394,28 @@ namespace EasyAbp.EShop.Orders.Orders
             // Arrange
             await Order_Should_Be_Created();
             Guid orderId = Guid.Empty;
-            UsingDbContext(db =>
+            await WithUnitOfWorkAsync(async () =>
             {
-                var order = db.Orders.First();
-                orderId = order.Id;
-                order.SetPaymentId(Guid.NewGuid());
-                order.SetPaidTime(_clock.Now);
-                order.SetOrderStatus(OrderStatus.Processing);
-                db.SaveChanges();
+                var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
+                orderId = await (await orderRepository.GetQueryableAsync()).Select(x => x.Id).FirstAsync();
+                var order = await orderRepository.GetAsync(orderId);
+                await order.StartPaymentAsync(Guid.NewGuid(), order.ActualTotalPrice, _moneyDistributor);
+                order.SetPaid(_clock.Now);
+                await orderRepository.UpdateAsync(order, true);
             });
 
             // Act
             var now = _clock.Now;
 
-            UsingDbContext(async db =>
+            await WithUnitOfWorkAsync(async () =>
             {
                 var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
                 var order = await orderRepository.GetAsync(orderId);
-                order.SetPaymentExpiration(now);
+                typeof(Order).GetProperty(nameof(Order.PaymentExpiration))!.SetValue(order, now);
                 await orderRepository.UpdateAsync(order, true);
             });
 
-            UsingDbContext(async db =>
+            await WithUnitOfWorkAsync(async () =>
             {
                 var backgroundJob = ServiceProvider.GetRequiredService<UnpaidOrderAutoCancelJob>();
                 await backgroundJob.ExecuteAsync(new UnpaidOrderAutoCancelArgs
@@ -465,7 +466,7 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
                 var order = await orderRepository.GetAsync(orderId);
-                order.SetPaymentExpiration(now);
+                typeof(Order).GetProperty(nameof(Order.PaymentExpiration))!.SetValue(order, now);
                 await orderRepository.UpdateAsync(order, true);
             });
 
@@ -507,12 +508,12 @@ namespace EasyAbp.EShop.Orders.Orders
             // Arrange
             await Order_Should_Be_Created();
             Guid orderId = Guid.Empty;
-            UsingDbContext(db =>
+            UsingDbContext(async db =>
             {
                 var order = db.Orders.First();
                 orderId = order.Id;
-                order.SetPaymentId(Guid.NewGuid());
-                db.SaveChanges();
+                await order.StartPaymentAsync(Guid.NewGuid(), order.ActualTotalPrice, _moneyDistributor);
+                await db.SaveChangesAsync();
             });
 
             // Act
@@ -522,7 +523,7 @@ namespace EasyAbp.EShop.Orders.Orders
             {
                 var orderRepository = ServiceProvider.GetRequiredService<IOrderRepository>();
                 var order = await orderRepository.GetAsync(orderId);
-                order.SetPaymentExpiration(now);
+                typeof(Order).GetProperty(nameof(Order.PaymentExpiration))!.SetValue(order, now);
                 await orderRepository.UpdateAsync(order, true);
             });
 

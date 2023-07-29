@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="EasyAbp.EShop.Orders.Application.Tests" />
+    <InternalsVisibleTo Include="EasyAbp.EShop.Orders.Domain.Tests" />
+    <InternalsVisibleTo Include="EasyAbp.EShop.Plugins.Promotions.Application.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NodaMoney" Version="$(NodaMoneyVersion)" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />

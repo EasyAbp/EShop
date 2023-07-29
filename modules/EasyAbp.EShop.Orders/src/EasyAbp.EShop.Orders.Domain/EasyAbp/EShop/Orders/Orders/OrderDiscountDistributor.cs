@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyAbp.EShop.Products.Products;
 using NodaMoney;
 using Volo.Abp.DependencyInjection;
 
@@ -10,58 +8,37 @@ namespace EasyAbp.EShop.Orders.Orders;
 
 public class OrderDiscountDistributor : IOrderDiscountDistributor, ITransientDependency
 {
-    public virtual Task<OrderDiscountDistributionModel> DistributeAsync(IOrder order,
+    protected IMoneyDistributor MoneyDistributor { get; }
+
+    public OrderDiscountDistributor(IMoneyDistributor moneyDistributor)
+    {
+        MoneyDistributor = moneyDistributor;
+    }
+
+    public virtual async Task<OrderDiscountDistributionModel> DistributeAsync(IOrder order,
         Dictionary<IOrderLine, decimal> currentTotalPrices, OrderDiscountInfoModel discount)
     {
-        var affectedOrderLines = discount.AffectedOrderLineIds
+        var affectedCurrentTotalPrices = discount.AffectedOrderLineIds
             .Select(orderLineId => order.OrderLines.Single(x => x.Id == orderLineId))
-            .ToList();
+            .ToDictionary(x => x, x => currentTotalPrices[x]);
 
-        var affectedOrderLinesCurrentTotalPrice =
-            new Money(affectedOrderLines.Sum(x => currentTotalPrices[x]), order.Currency);
+        var affectedPriceSum = new Money(affectedCurrentTotalPrices.Sum(x => x.Value), order.Currency);
 
-        var totalDiscountAmount =
-            discount.CalculateDiscountAmount(affectedOrderLinesCurrentTotalPrice.Amount, order.Currency);
+        var totalDiscountAmount = discount.CalculateDiscountAmount(affectedPriceSum.Amount, order.Currency);
 
-        var distributions = new Dictionary<Guid, decimal>();
-        var remainingDiscountAmount = totalDiscountAmount;
+        var result = await MoneyDistributor.DistributeAsync(
+            order.Currency, affectedCurrentTotalPrices, -totalDiscountAmount);
 
-        foreach (var orderLine in affectedOrderLines)
+        foreach (var affectedCurrentTotalPrice in affectedCurrentTotalPrices)
         {
-            var calculatedDiscountAmount = new Money(
-                currentTotalPrices[orderLine] / affectedOrderLinesCurrentTotalPrice.Amount *
-                totalDiscountAmount, order.Currency, MidpointRounding.ToZero);
-
-            var discountAmount = calculatedDiscountAmount.Amount > currentTotalPrices[orderLine]
-                ? currentTotalPrices[orderLine]
-                : calculatedDiscountAmount.Amount;
-
-            distributions[orderLine.Id] = discountAmount;
-            currentTotalPrices[orderLine] -= discountAmount;
-            remainingDiscountAmount -= discountAmount;
+            currentTotalPrices[affectedCurrentTotalPrice.Key] = affectedCurrentTotalPrice.Value;
         }
 
-        foreach (var orderLine in affectedOrderLines.OrderByDescending(x => currentTotalPrices[x]))
-        {
-            if (remainingDiscountAmount == decimal.Zero)
-            {
-                break;
-            }
-
-            var discountAmount = remainingDiscountAmount > currentTotalPrices[orderLine]
-                ? currentTotalPrices[orderLine]
-                : remainingDiscountAmount;
-
-            distributions[orderLine.Id] += discountAmount;
-            currentTotalPrices[orderLine] -= discountAmount;
-            remainingDiscountAmount -= discountAmount;
-        }
-
-        if (remainingDiscountAmount != decimal.Zero)
-        {
-            throw new ApplicationException("The OrderDiscountDistributor failed to distribute the remaining");
-        }
-
-        return Task.FromResult(new OrderDiscountDistributionModel(discount, distributions));
+        // revert to positive amount
+        return new OrderDiscountDistributionModel(
+            discount,
+            currentTotalPrices,
+            result.Distributions.ToDictionary(x => x.Key, x => -x.Value)
+        );
     }
 }

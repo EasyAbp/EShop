@@ -83,6 +83,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
             await AuthorizationService.CheckAsync(PaymentsPermissions.Refunds.Manage);
 
+            // todo: needs a lock.
             var payment = await _paymentRepository.GetAsync(input.PaymentId);
 
             if (payment.PendingRefundAmount != decimal.Zero)
@@ -108,7 +109,7 @@ namespace EasyAbp.EShop.Payments.Refunds
                 {
                     throw new OrderIsNotInSpecifiedPaymentException(order.Id, payment.Id);
                 }
-                
+
                 await AuthorizationService.CheckMultiStorePolicyAsync(paymentItem.StoreId,
                     PaymentsPermissions.Refunds.Manage, PaymentsPermissions.Refunds.CrossStore);
 
@@ -117,7 +118,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
                 if (refundAmount + paymentItem.RefundAmount > paymentItem.ActualPaymentAmount)
                 {
-                    throw new InvalidRefundAmountException(payment.Id, paymentItem.Id, refundAmount);
+                    throw new InvalidOrderRefundAmountException(payment.Id, paymentItem.Id, refundAmount);
                 }
 
                 foreach (var model in refundItem.OrderLines)
@@ -128,7 +129,15 @@ namespace EasyAbp.EShop.Payments.Refunds
                     {
                         throw new OrderLineNotFoundException(order.Id, model.OrderLineId);
                     }
-                    
+
+                    // PaymentAmount is always null before EShop v5
+                    var paymentAmount = orderLine.PaymentAmount ?? orderLine.ActualTotalPrice;
+                    if (orderLine.RefundAmount + model.TotalAmount > paymentAmount)
+                    {
+                        throw new InvalidOrderLineRefundAmountException(
+                            payment.Id, paymentItem.Id, orderLine.Id, refundAmount);
+                    }
+
                     if (orderLine.RefundedQuantity + model.Quantity > orderLine.Quantity)
                     {
                         throw new InvalidRefundQuantityException(model.Quantity);
@@ -143,6 +152,14 @@ namespace EasyAbp.EShop.Payments.Refunds
                     {
                         throw new OrderExtraFeeNotFoundException(order.Id, model.Name, model.Key);
                     }
+
+                    // PaymentAmount is always null before EShop v5
+                    var paymentAmount = orderExtraFee.PaymentAmount ?? orderExtraFee.Fee;
+                    if (orderExtraFee.RefundAmount + model.TotalAmount > paymentAmount)
+                    {
+                        throw new InvalidOrderExtraFeeRefundAmountException(
+                            payment.Id, paymentItem.Id, orderExtraFee.DisplayName, refundAmount);
+                    }
                 }
 
                 var eto = new CreateRefundItemInput
@@ -156,7 +173,8 @@ namespace EasyAbp.EShop.Payments.Refunds
                 eto.SetProperty(nameof(RefundItem.StoreId), order.StoreId);
                 eto.SetProperty(nameof(RefundItem.OrderId), order.Id);
                 eto.SetProperty(nameof(RefundItem.OrderLines), _jsonSerializer.Serialize(refundItem.OrderLines));
-                eto.SetProperty(nameof(RefundItem.OrderExtraFees), _jsonSerializer.Serialize(refundItem.OrderExtraFees));
+                eto.SetProperty(nameof(RefundItem.OrderExtraFees),
+                    _jsonSerializer.Serialize(refundItem.OrderExtraFees));
 
                 createRefundInput.RefundItems.Add(eto);
             }

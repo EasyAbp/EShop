@@ -91,7 +91,8 @@ public class OrderDiscountResolver : IOrderDiscountResolver, ITransientDependenc
             var distributionResult =
                 await OrderDiscountDistributor.DistributeAsync(order, currentTotalPrices, discount);
 
-            distributionModels.Add(new OrderDiscountDistributionModel(discount, distributionResult.Distributions));
+            distributionModels.Add(new OrderDiscountDistributionModel(discount, currentTotalPrices,
+                distributionResult.Distributions));
         }
 
         electionModel.Schemes.Add(new OrderDiscountsSchemeModel(distributionModels));

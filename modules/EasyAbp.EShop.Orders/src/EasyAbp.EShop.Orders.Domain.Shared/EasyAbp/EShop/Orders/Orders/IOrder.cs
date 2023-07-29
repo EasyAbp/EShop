@@ -43,6 +43,8 @@ namespace EasyAbp.EShop.Orders.Orders
 
         DateTime? PaidTime { get; }
 
+        decimal? PaymentAmount { get; }
+
         DateTime? CompletionTime { get; }
 
         DateTime? CanceledTime { get; }

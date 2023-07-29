@@ -66,8 +66,7 @@ namespace EasyAbp.EShop.Orders.Orders
                     throw new InvalidPaymentException(payment.Id, orderId);
                 }
                 
-                order.SetPaidTime(_clock.Now);
-                order.SetOrderStatus(OrderStatus.Processing);
+                order.SetPaid(_clock.Now);
 
                 await _orderRepository.UpdateAsync(order, true);
 
