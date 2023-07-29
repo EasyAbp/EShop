@@ -62,16 +62,31 @@ namespace EasyAbp.EShop.Payments.Refunds
 
         protected override async Task<IQueryable<Refund>> CreateFilteredQueryAsync(GetRefundListDto input)
         {
-            return input.UserId.HasValue
-                ? await _repository.GetQueryableByUserIdAsync(input.UserId.Value)
-                : await _repository.GetQueryableAsync();
+            return (input.UserId.HasValue
+                    ? await _repository.GetQueryableByUserIdAsync(input.UserId.Value)
+                    : await _repository.GetQueryableAsync())
+                .WhereIf(input.PaymentId.HasValue, x => x.PaymentId == input.PaymentId.Value);
         }
 
         // Todo: should a store owner user see orders of other stores in the same payment/refund?
         [Authorize]
         public override async Task<PagedResultDto<RefundDto>> GetListAsync(GetRefundListDto input)
         {
-            if (input.UserId != CurrentUser.GetId())
+            if (input.UserId.HasValue)
+            {
+                if (input.UserId.Value != CurrentUser.GetId())
+                {
+                    await CheckPolicyAsync(GetListPolicyName);
+                }
+            }
+            else if (input.PaymentId.HasValue)
+            {
+                if ((await _paymentRepository.FindAsync(input.PaymentId.Value))?.UserId != CurrentUser.GetId())
+                {
+                    await CheckPolicyAsync(GetListPolicyName);
+                }
+            }
+            else
             {
                 await CheckPolicyAsync(GetListPolicyName);
             }
