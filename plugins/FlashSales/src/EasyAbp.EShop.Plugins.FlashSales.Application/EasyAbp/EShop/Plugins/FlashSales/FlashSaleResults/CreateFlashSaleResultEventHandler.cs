@@ -22,10 +22,10 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
     protected IObjectMapper ObjectMapper { get; }
     protected ICurrentTenant CurrentTenant { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
+    protected IServiceScopeFactory ServiceScopeFactory { get; }
     protected ILogger<CreateFlashSaleResultEventHandler> Logger { get; }
     protected IAbpDistributedLock AbpDistributedLock { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
-    protected IAbpApplication AbpApplication { get; }
     protected IFlashSaleInventoryManager FlashSaleInventoryManager { get; }
     protected IFlashSaleCurrentResultCache FlashSaleCurrentResultCache { get; }
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
@@ -34,10 +34,10 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
         IObjectMapper objectMapper,
         ICurrentTenant currentTenant,
         IUnitOfWorkManager unitOfWorkManager,
+        IServiceScopeFactory serviceScopeFactory,
         ILogger<CreateFlashSaleResultEventHandler> logger,
         IAbpDistributedLock abpDistributedLock,
         IDistributedEventBus distributedEventBus,
-        IAbpApplication abpApplication,
         IFlashSaleInventoryManager flashSaleInventoryManager,
         IFlashSaleCurrentResultCache flashSaleCurrentResultCache,
         IFlashSaleResultRepository flashSaleResultRepository)
@@ -45,10 +45,10 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
         ObjectMapper = objectMapper;
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
+        ServiceScopeFactory = serviceScopeFactory;
         Logger = logger;
         AbpDistributedLock = abpDistributedLock;
         DistributedEventBus = distributedEventBus;
-        AbpApplication = abpApplication;
         FlashSaleInventoryManager = flashSaleInventoryManager;
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
         FlashSaleResultRepository = flashSaleResultRepository;
@@ -83,7 +83,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
             // try to roll back the inventory.
             UnitOfWorkManager.Current.OnCompleted(async () =>
             {
-                using var scope = AbpApplication.ServiceProvider.CreateScope();
+                using var scope = ServiceScopeFactory.CreateScope();
 
                 var flashSaleInventoryManager = scope.ServiceProvider.GetRequiredService<IFlashSaleInventoryManager>();
 

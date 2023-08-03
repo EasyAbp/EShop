@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
@@ -13,13 +14,16 @@ public class ProductCacheInvalidator :
 {
     protected IProductCache ProductCache { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
+    protected IServiceScopeFactory ServiceScopeFactory { get; }
 
     public ProductCacheInvalidator(
         IProductCache productCache,
-        IUnitOfWorkManager unitOfWorkManager)
+        IUnitOfWorkManager unitOfWorkManager,
+        IServiceScopeFactory serviceScopeFactory)
     {
         ProductCache = productCache;
         UnitOfWorkManager = unitOfWorkManager;
+        ServiceScopeFactory = serviceScopeFactory;
     }
 
     public virtual async Task HandleEventAsync(EntityUpdatedEto<ProductEto> eventData)
@@ -28,7 +32,9 @@ public class ProductCacheInvalidator :
 
         UnitOfWorkManager.Current?.OnCompleted(async () =>
         {
-            await ProductCache.RemoveAsync(eventData.Entity.Id);
+            using var scope = ServiceScopeFactory.CreateScope();
+            var productCache = scope.ServiceProvider.GetRequiredService<IProductCache>();
+            await productCache.RemoveAsync(eventData.Entity.Id);
         });
     }
 
@@ -38,7 +44,9 @@ public class ProductCacheInvalidator :
 
         UnitOfWorkManager.Current?.OnCompleted(async () =>
         {
-            await ProductCache.RemoveAsync(eventData.Entity.Id);
+            using var scope = ServiceScopeFactory.CreateScope();
+            var productCache = scope.ServiceProvider.GetRequiredService<IProductCache>();
+            await productCache.RemoveAsync(eventData.Entity.Id);
         });
     }
 }
