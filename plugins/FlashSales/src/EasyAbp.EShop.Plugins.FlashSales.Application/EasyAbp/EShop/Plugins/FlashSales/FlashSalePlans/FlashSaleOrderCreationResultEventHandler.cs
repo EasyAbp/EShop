@@ -4,7 +4,6 @@ using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults.Dtos;
 using EasyAbp.EShop.Products.Products;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.ObjectMapping;
@@ -17,18 +16,18 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 {
     protected ILogger<FlashSaleOrderCreationResultEventHandler> Logger { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
-    protected IAbpApplication AbpApplication { get; }
+    protected IServiceScopeFactory ServiceScopeFactory { get; }
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
 
     public FlashSaleOrderCreationResultEventHandler(
         ILogger<FlashSaleOrderCreationResultEventHandler> logger,
         IUnitOfWorkManager unitOfWorkManager,
-        IAbpApplication abpApplication,
+        IServiceScopeFactory serviceScopeFactory,
         IFlashSaleResultRepository flashSaleResultRepository)
     {
         Logger = logger;
         UnitOfWorkManager = unitOfWorkManager;
-        AbpApplication = abpApplication;
+        ServiceScopeFactory = serviceScopeFactory;
         FlashSaleResultRepository = flashSaleResultRepository;
     }
 
@@ -52,7 +51,7 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 
         UnitOfWorkManager.Current.OnCompleted(async () =>
         {
-            using var scope = AbpApplication.ServiceProvider.CreateScope();
+            using var scope = ServiceScopeFactory.CreateScope();
 
             var flashSaleInventoryManager = scope.ServiceProvider.GetRequiredService<IFlashSaleInventoryManager>();
             var flashSaleCurrentResultCache = scope.ServiceProvider.GetRequiredService<IFlashSaleCurrentResultCache>();

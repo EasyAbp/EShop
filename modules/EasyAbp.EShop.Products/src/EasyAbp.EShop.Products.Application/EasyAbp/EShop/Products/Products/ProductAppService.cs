@@ -8,6 +8,7 @@ using EasyAbp.EShop.Products.Options;
 using EasyAbp.EShop.Products.ProductInventories;
 using EasyAbp.EShop.Products.Products.CacheItems;
 using EasyAbp.EShop.Stores.Stores;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
@@ -28,8 +29,8 @@ namespace EasyAbp.EShop.Products.Products
         protected override string CrossStorePolicyName { get; set; } = ProductsPermissions.Products.CrossStore;
 
         private readonly IProductManager _productManager;
-        private readonly IDistributedCache<ProductViewCacheItem> _cache;
         private readonly EShopProductsOptions _options;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IProductInventoryProviderResolver _productInventoryProviderResolver;
         private readonly IProductViewCacheKeyProvider _productViewCacheKeyProvider;
         private readonly IProductRepository _repository;
@@ -37,14 +38,14 @@ namespace EasyAbp.EShop.Products.Products
         public ProductAppService(
             IProductManager productManager,
             IOptions<EShopProductsOptions> options,
-            IDistributedCache<ProductViewCacheItem> cache,
+            IServiceScopeFactory serviceScopeFactory,
             IProductInventoryProviderResolver productInventoryProviderResolver,
             IProductViewCacheKeyProvider productViewCacheKeyProvider,
             IProductRepository repository) : base(repository)
         {
             _productManager = productManager;
-            _cache = cache;
             _options = options.Value;
+            _serviceScopeFactory = serviceScopeFactory;
             _productInventoryProviderResolver = productInventoryProviderResolver;
             _productViewCacheKeyProvider = productViewCacheKeyProvider;
             _repository = repository;
@@ -87,14 +88,19 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtosExtraDataAsync(items, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(items);
 
-            UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
+            await ClearProductViewCacheOnCurrentUowCompletedAsync(product.StoreId);
 
             return dto;
         }
 
-        protected virtual async Task ClearProductViewCacheAsync(Guid storeId)
+        protected virtual async Task ClearProductViewCacheOnCurrentUowCompletedAsync(Guid storeId)
         {
-            await _cache.RemoveAsync(await _productViewCacheKeyProvider.GetCacheKeyAsync(storeId));
+            UnitOfWorkManager.Current.OnCompleted(async () =>
+            {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var cache = scope.ServiceProvider.GetRequiredService<IDistributedCache<ProductViewCacheItem>>();
+                await cache.RemoveAsync(await _productViewCacheKeyProvider.GetCacheKeyAsync(storeId));
+            });
         }
 
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
@@ -123,7 +129,7 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtosExtraDataAsync(items, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(items);
 
-            UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
+            await ClearProductViewCacheOnCurrentUowCompletedAsync(product.StoreId);
 
             return dto;
         }
@@ -351,7 +357,7 @@ namespace EasyAbp.EShop.Products.Products
 
             await _productManager.DeleteAsync(product);
 
-            UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
+            await ClearProductViewCacheOnCurrentUowCompletedAsync(product.StoreId);
         }
 
         protected virtual void CheckProductIsNotStatic(Product product)
@@ -383,7 +389,7 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtosExtraDataAsync(items, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(items);
 
-            UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
+            await ClearProductViewCacheOnCurrentUowCompletedAsync(product.StoreId);
 
             return dto;
         }
@@ -410,7 +416,7 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtosExtraDataAsync(items, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(items);
 
-            UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
+            await ClearProductViewCacheOnCurrentUowCompletedAsync(product.StoreId);
 
             return dto;
         }
@@ -434,7 +440,7 @@ namespace EasyAbp.EShop.Products.Products
             await LoadDtosExtraDataAsync(items, Clock.Now);
             await LoadDtosProductGroupDisplayNameAsync(items);
 
-            UnitOfWorkManager.Current.OnCompleted(async () => { await ClearProductViewCacheAsync(product.StoreId); });
+            await ClearProductViewCacheOnCurrentUowCompletedAsync(product.StoreId);
 
             return dto;
         }
