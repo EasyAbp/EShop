@@ -46,7 +46,7 @@ public class FlashSalesMenuContributor : IMenuContributor
 
         if (!flashSalesManagementMenuItem.Items.IsNullOrEmpty())
         {
-            var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == FlashSalesMenus.ModuleGroupPrefix,
+            var eShopMenuItem = context.Menu.GetAdministration().Items.GetOrAdd(i => i.Name == FlashSalesMenus.ModuleGroupPrefix,
                 () => new ApplicationMenuItem(FlashSalesMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
 
             eShopMenuItem.Items.Add(flashSalesManagementMenuItem);

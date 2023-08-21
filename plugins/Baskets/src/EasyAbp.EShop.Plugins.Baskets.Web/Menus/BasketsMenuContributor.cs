@@ -19,19 +19,21 @@ namespace EasyAbp.EShop.Plugins.Baskets.Web.Menus
         {
             var l = context.GetLocalizer<BasketsResource>(); //Add main menu items.
 
-            var basketManagementMenuItem = new ApplicationMenuItem(BasketsMenus.Prefix, l["Menu:BasketManagement"]);
+            // var basketManagementMenuItem = new ApplicationMenuItem(BasketsMenus.Prefix, l["Menu:BasketManagement"]);
 
-            basketManagementMenuItem.AddItem(
-                new ApplicationMenuItem(BasketsMenus.BasketItem, l["Menu:BasketItem"], $"/EShop/Plugins/Baskets/BasketItems/BasketItem?basketName={BasketsConsts.DefaultBasketName}&userId=")
+            context.Menu.AddItem(
+                new ApplicationMenuItem(BasketsMenus.BasketItem, l["Menu:BasketItem"],
+                    $"/EShop/Plugins/Baskets/BasketItems/BasketItem?basketName={BasketsConsts.DefaultBasketName}&userId=",
+                    icon: "fa fa-shopping-cart")
             );
-            
-            if (!basketManagementMenuItem.Items.IsNullOrEmpty())
-            {
-                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == BasketsMenus.ModuleGroupPrefix,
-                    () => new ApplicationMenuItem(BasketsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
-                
-                eShopMenuItem.Items.Add(basketManagementMenuItem);
-            }
+
+            // if (!basketManagementMenuItem.Items.IsNullOrEmpty())
+            // {
+            //     var eShopMenuItem = context.Menu.GetAdministration().Items.GetOrAdd(i => i.Name == BasketsMenus.ModuleGroupPrefix,
+            //         () => new ApplicationMenuItem(BasketsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
+            //     
+            //     eShopMenuItem.Items.Add(basketManagementMenuItem);
+            // }
         }
     }
 }

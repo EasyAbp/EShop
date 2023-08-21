@@ -38,9 +38,8 @@ public class PromotionsMenuContributor : IMenuContributor
 
         if (!promotionMenuItem.Items.IsNullOrEmpty())
         {
-            var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == PromotionsMenus.ModuleGroupPrefix,
-                () => new ApplicationMenuItem(PromotionsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"],
-                    icon: "fa fa-badge-percent"));
+            var eShopMenuItem = context.Menu.GetAdministration().Items.GetOrAdd(i => i.Name == PromotionsMenus.ModuleGroupPrefix,
+                () => new ApplicationMenuItem(PromotionsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
 
             eShopMenuItem.Items.Add(promotionMenuItem);
         }

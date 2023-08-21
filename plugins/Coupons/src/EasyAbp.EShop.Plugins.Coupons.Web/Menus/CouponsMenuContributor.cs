@@ -38,7 +38,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web.Menus
             
             if (!couponManagementMenuItem.Items.IsNullOrEmpty())
             {
-                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == CouponsMenus.ModuleGroupPrefix,
+                var eShopMenuItem = context.Menu.GetAdministration().Items.GetOrAdd(i => i.Name == CouponsMenus.ModuleGroupPrefix,
                     () => new ApplicationMenuItem(CouponsMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
                 
                 eShopMenuItem.Items.Add(couponManagementMenuItem);

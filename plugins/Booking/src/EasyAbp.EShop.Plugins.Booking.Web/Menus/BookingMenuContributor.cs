@@ -51,8 +51,8 @@ public class BookingMenuContributor : IMenuContributor
 
         if (!bookingMenuItem.Items.IsNullOrEmpty())
         {
-            var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == BookingMenus.ModuleGroupPrefix,
-                () => new ApplicationMenuItem(BookingMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"]));
+            var eShopMenuItem = context.Menu.GetAdministration().Items.GetOrAdd(i => i.Name == BookingMenus.ModuleGroupPrefix,
+                () => new ApplicationMenuItem(BookingMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
                 
             eShopMenuItem.Items.Add(bookingMenuItem);
         }

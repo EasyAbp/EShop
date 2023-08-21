@@ -37,7 +37,7 @@ namespace EasyAbp.EShop.Orders.Web.Menus
             
             if (!orderManagementMenuItem.Items.IsNullOrEmpty())
             {
-                var eShopMenuItem = context.Menu.Items.GetOrAdd(i => i.Name == OrdersMenus.ModuleGroupPrefix,
+                var eShopMenuItem = context.Menu.GetAdministration().Items.GetOrAdd(i => i.Name == OrdersMenus.ModuleGroupPrefix,
                     () => new ApplicationMenuItem(OrdersMenus.ModuleGroupPrefix, l["Menu:EasyAbpEShop"], icon: "fa fa-shopping-bag"));
                 
                 eShopMenuItem.Items.Add(orderManagementMenuItem);
