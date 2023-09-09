@@ -53,8 +53,7 @@ namespace EasyAbp.EShop.Orders.Orders
                     throw new InvalidPaymentException(eventData.Entity.Id, orderId);
                 }
 
-                await order.StartPaymentAsync(
-                    eventData.Entity.Id, eventData.Entity.ActualPaymentAmount, _moneyDistributor);
+                await order.StartPaymentAsync(eventData.Entity.Id, item.ActualPaymentAmount, _moneyDistributor);
 
                 await _orderRepository.UpdateAsync(order, true);
             }
