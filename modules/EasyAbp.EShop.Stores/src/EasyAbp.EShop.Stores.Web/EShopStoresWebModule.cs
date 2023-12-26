@@ -6,7 +6,6 @@ using EasyAbp.EShop.Stores.Web.Menus;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
@@ -17,7 +16,6 @@ namespace EasyAbp.EShop.Stores.Web
         typeof(EShopStoresWebSharedModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule),
-        typeof(AbpIdentityApplicationContractsModule),
         typeof(AbpTagHelperPlusModule)
     )]
     public class EShopStoresWebModule : AbpModule

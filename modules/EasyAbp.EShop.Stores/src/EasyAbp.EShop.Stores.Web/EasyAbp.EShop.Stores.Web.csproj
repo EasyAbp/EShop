@@ -15,7 +15,6 @@
     <PackageReference Include="EasyAbp.Abp.TagHelperPlus" Version="$(EasyAbpAbpTagHelperPlusModuleVersion)" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="$(AbpVersion)" />
-    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="$(AbpVersion)" />
   </ItemGroup>
 
   <ItemGroup>
