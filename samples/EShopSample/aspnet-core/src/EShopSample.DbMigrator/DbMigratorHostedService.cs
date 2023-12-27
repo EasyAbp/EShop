@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Volo.Abp;
+using Volo.Abp.Data;
 
 namespace EShopSample.DbMigrator;
 
@@ -23,11 +24,12 @@ public class DbMigratorHostedService : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using (var application = await AbpApplicationFactory.CreateAsync<EShopSampleDbMigratorModule>(options =>
-               {
-                   options.Services.ReplaceConfiguration(_configuration);
-                   options.UseAutofac();
-                   options.Services.AddLogging(c => c.AddSerilog());
-               }))
+        {
+            options.Services.ReplaceConfiguration(_configuration);
+            options.UseAutofac();
+            options.Services.AddLogging(c => c.AddSerilog());
+            options.AddDataMigrationEnvironment();
+        }))
         {
             await application.InitializeAsync();
 
