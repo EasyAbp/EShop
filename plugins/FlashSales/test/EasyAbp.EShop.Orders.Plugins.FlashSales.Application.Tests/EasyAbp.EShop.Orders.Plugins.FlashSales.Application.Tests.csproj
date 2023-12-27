@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Orders.Plugins.FlashSales.Application\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.FlashSales.TestBase\EasyAbp.EShop.Plugins.FlashSales.TestBase.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
   </ItemGroup>
 
 </Project>

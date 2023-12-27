@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Shouldly;
@@ -10,15 +8,8 @@ using Volo.Abp.AspNetCore.TestBase;
 
 namespace EShopSample
 {
-    public abstract class EShopSampleWebTestBase : AbpAspNetCoreIntegratedTestBase<EShopSampleWebTestStartup>
+    public abstract class EShopSampleWebTestBase : AbpWebApplicationFactoryIntegratedTest<Program>
     {
-        protected override IHostBuilder CreateHostBuilder()
-        {
-            return base
-                .CreateHostBuilder()
-                .UseContentRoot(WebContentDirectoryFinder.CalculateContentRootFolder());
-        }
-
         protected virtual async Task<T> GetResponseAsObjectAsync<T>(string url, HttpStatusCode expectedStatusCode = HttpStatusCode.OK)
         {
             var strResponse = await GetResponseAsStringAsync(url, expectedStatusCode);

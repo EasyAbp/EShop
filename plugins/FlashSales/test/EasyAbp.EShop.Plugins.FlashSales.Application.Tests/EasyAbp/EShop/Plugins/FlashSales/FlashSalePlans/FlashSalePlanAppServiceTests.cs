@@ -122,7 +122,7 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
     }
 
     [Fact]
-    public async Task<FlashSalePlanDto> CreateAsync()
+    public async Task CreateAsync()
     {
         var createDto = new FlashSalePlanCreateDto()
         {
@@ -144,8 +144,6 @@ public class FlashSalePlanAppServiceTests : FlashSalesApplicationTestBase
         flashSalePlan.ProductId.ShouldBe(createDto.ProductId);
         flashSalePlan.ProductSkuId.ShouldBe(createDto.ProductSkuId);
         flashSalePlan.IsPublished.ShouldBe(createDto.IsPublished);
-
-        return flashSalePlan;
     }
 
     [Fact]
