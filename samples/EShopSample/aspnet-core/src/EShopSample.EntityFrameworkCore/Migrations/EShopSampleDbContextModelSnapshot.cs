@@ -3586,6 +3586,9 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Amount")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AppId")
                         .HasColumnType("nvarchar(max)");
 
@@ -3660,8 +3663,14 @@ namespace EShopSample.Migrations
                     b.Property<string>("OutTradeNo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Payer")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PromotionDetail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResultCode")
                         .HasColumnType("nvarchar(max)");
@@ -3672,8 +3681,14 @@ namespace EShopSample.Migrations
                     b.Property<string>("ReturnMsg")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SceneInfo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("SettlementTotalFee")
                         .HasColumnType("int");
+
+                    b.Property<string>("SuccessTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier")
@@ -3684,6 +3699,12 @@ namespace EShopSample.Migrations
 
                     b.Property<int>("TotalFee")
                         .HasColumnType("int");
+
+                    b.Property<string>("TradeState")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TradeStateDesc")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TradeType")
                         .HasColumnType("nvarchar(max)");
@@ -3704,6 +3725,9 @@ namespace EShopSample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Amount")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AppId")
                         .HasColumnType("nvarchar(max)");
 
@@ -3715,6 +3739,9 @@ namespace EShopSample.Migrations
 
                     b.Property<int?>("CashRefundFee")
                         .HasColumnType("int");
+
+                    b.Property<string>("Channel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -3738,6 +3765,9 @@ namespace EShopSample.Migrations
                     b.Property<string>("CouponTypes")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreateTime")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("CreationTime");
@@ -3754,6 +3784,9 @@ namespace EShopSample.Migrations
                     b.Property<string>("FeeType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FundsAccount")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MchId")
                         .HasColumnType("nvarchar(max)");
 
@@ -3765,6 +3798,9 @@ namespace EShopSample.Migrations
 
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PromotionDetail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefundAccount")
                         .HasColumnType("nvarchar(max)");
@@ -3796,6 +3832,9 @@ namespace EShopSample.Migrations
                     b.Property<int?>("SettlementTotalFee")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SuccessTime")
                         .HasColumnType("nvarchar(max)");
 
@@ -3807,6 +3846,9 @@ namespace EShopSample.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserReceivedAccount")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -5914,8 +5956,8 @@ namespace EShopSample.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DefaultValue")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
@@ -5945,8 +5987,8 @@ namespace EShopSample.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Providers")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.HasKey("Id");
 
@@ -6011,9 +6053,16 @@ namespace EShopSample.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name");
+
+                    b.HasIndex("NormalizedName");
 
                     b.ToTable("AbpTenants", (string)null);
                 });
