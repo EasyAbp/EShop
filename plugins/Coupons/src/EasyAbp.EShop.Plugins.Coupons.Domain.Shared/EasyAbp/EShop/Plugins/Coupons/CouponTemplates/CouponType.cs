@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
         /// <summary>
         /// Discount every time the condition is met.
         /// e.g. arrange ConditionAmount = 300 and DiscountAmount = 20.
-        /// If the price of a product is 300, the actual order price will be discounted by 60.
+        /// If the price of a product is 900, the actual order price will be discounted by 60.
         /// </summary>
         PerMeet = 2,
         
