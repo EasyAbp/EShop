@@ -40,7 +40,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         [InlineData(5, 2.3, 9, 2.3, CouponType.PerMeet)]
         //不触发满减
         [InlineData(5, 2.3, 4, 0, CouponType.PerMeet)]
-        public async Task 使用一个优惠券(decimal couponConditionAmount, decimal couponDiscountAmount, decimal productSkuPrice,decimal discountAmount, CouponType couponType)
+        public async Task Should_CouponType_DiscountAmount(decimal couponConditionAmount, decimal couponDiscountAmount, decimal productSkuPrice,decimal discountAmount, CouponType couponType)
         {
             var template = new CouponTemplate(Guid.NewGuid(), null, null, couponType, "UName", "DName", "Desc", null
                 , DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1), couponConditionAmount, couponDiscountAmount, "USD", true, null);
