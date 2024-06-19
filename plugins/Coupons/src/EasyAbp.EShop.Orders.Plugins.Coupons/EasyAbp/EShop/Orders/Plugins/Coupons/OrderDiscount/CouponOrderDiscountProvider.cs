@@ -125,20 +125,23 @@ namespace EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount
         protected virtual List<IOrderLine> GetOrderLinesInScope(CouponTemplateData couponTemplate,
             OrderDiscountContext context)
         {
+            List<IOrderLine> expectedOrderLines;
+
             if (couponTemplate.IsUnscoped)
             {
-                return context.Order.OrderLines.ToList();
+                expectedOrderLines = context.Order.OrderLines.ToList();
             }
-
-            var expectedOrderLines = new List<IOrderLine>();
-
-            foreach (var scope in couponTemplate.Scopes.Where(scope => scope.StoreId == context.Order.StoreId))
+            else
             {
-                expectedOrderLines.AddRange(context.Order.OrderLines
-                    .WhereIf(scope.ProductGroupName != null,
-                        x => context.ProductDict[x.ProductId].ProductGroupName == scope.ProductGroupName)
-                    .WhereIf(scope.ProductId.HasValue, x => x.ProductId == scope.ProductId)
-                    .WhereIf(scope.ProductSkuId.HasValue, x => x.ProductSkuId == scope.ProductSkuId));
+                expectedOrderLines = [];
+                foreach (var scope in couponTemplate.Scopes.Where(scope => scope.StoreId == context.Order.StoreId))
+                {
+                    expectedOrderLines.AddRange(context.Order.OrderLines
+                        .WhereIf(scope.ProductGroupName != null,
+                            x => context.ProductDict[x.ProductId].ProductGroupName == scope.ProductGroupName)
+                        .WhereIf(scope.ProductId.HasValue, x => x.ProductId == scope.ProductId)
+                        .WhereIf(scope.ProductSkuId.HasValue, x => x.ProductSkuId == scope.ProductSkuId));
+                }
             }
 
             if (expectedOrderLines.IsNullOrEmpty())
