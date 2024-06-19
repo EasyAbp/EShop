@@ -25,20 +25,20 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         }
 
         [Theory]
-        //触发1次满减
+        //Meet the condition discount 1 time
         [InlineData(5, 2.3, 11, 2.3, CouponType.Normal)]
         [InlineData(5, 2.3, 10, 2.3, CouponType.Normal)]
         [InlineData(5, 2.3, 9, 2.3, CouponType.Normal)]
-        //不触发满减
+        //The discount condition is not met
         [InlineData(5, 2.3, 4, 0, CouponType.Normal)]
 
-        //10元 11元 触发2次满减
+        //Meet the condition discount 2 time
         [InlineData(5, 2.3, 11, 4.6, CouponType.PerMeet)] 
         [InlineData(5, 2.3, 10, 4.6, CouponType.PerMeet)]
 
-        //9元 触发1次满减
+        //Meet the condition discount 1 time
         [InlineData(5, 2.3, 9, 2.3, CouponType.PerMeet)]
-        //不触发满减
+        //The discount condition is not met
         [InlineData(5, 2.3, 4, 0, CouponType.PerMeet)]
         public async Task Should_CouponType_DiscountAmount(decimal couponConditionAmount, decimal couponDiscountAmount, decimal productSkuPrice,decimal discountAmount, CouponType couponType)
         {
