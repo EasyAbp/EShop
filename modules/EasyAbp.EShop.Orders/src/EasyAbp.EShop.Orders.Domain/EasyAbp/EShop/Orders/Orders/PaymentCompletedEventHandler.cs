@@ -51,28 +51,43 @@ namespace EasyAbp.EShop.Orders.Orders
 
             foreach (var item in payment.PaymentItems.Where(item => item.ItemType == PaymentsConsts.PaymentItemType))
             {
-                var orderId = Guid.Parse(item.ItemKey);
-                
-                var order = await _orderRepository.GetAsync(orderId);
-
-                if (order.PaymentId != payment.Id || order.PaidTime.HasValue ||
-                    order.OrderStatus != OrderStatus.Pending)
-                {
-                    throw new OrderIsInWrongStageException(order.Id);
-                }
-
-                if (!await _orderPaymentChecker.IsValidPaymentAsync(order, payment, item))
-                {
-                    throw new InvalidPaymentException(payment.Id, orderId);
-                }
-                
-                order.SetPaid(_clock.Now);
-
-                await _orderRepository.UpdateAsync(order, true);
-
-                await _distributedEventBus.PublishAsync(new OrderPaidEto(_objectMapper.Map<Order, OrderEto>(order),
-                    payment.Id, item.Id));
+                await HandleEventItemAsync(payment, item);
             }
+        }
+
+        protected virtual async Task HandleEventItemAsync(EShopPaymentEto payment, EShopPaymentItemEto item)
+        {
+            var orderId = Guid.Parse(item.ItemKey);
+
+            var order = await _orderRepository.GetAsync(orderId);
+
+            if (order.PaymentId != payment.Id || order.PaidTime.HasValue ||
+                order.OrderStatus != OrderStatus.Pending)
+            {
+                OrderIsInWrongStageException(order);
+            }
+
+            if (!await _orderPaymentChecker.IsValidPaymentAsync(order, payment, item))
+            {
+                InvalidPaymentException(payment, order);
+            }
+
+            order.SetPaid(_clock.Now);
+
+            await _orderRepository.UpdateAsync(order, true);
+
+            await _distributedEventBus.PublishAsync(new OrderPaidEto(_objectMapper.Map<Order, OrderEto>(order),
+                payment.Id, item.Id));
+        }
+
+        protected virtual void InvalidPaymentException(EShopPaymentEto payment, Order order)
+        {
+            throw new InvalidPaymentException(payment.Id, order.Id);
+        }
+
+        protected virtual void OrderIsInWrongStageException(Order order)
+        {
+            throw new OrderIsInWrongStageException(order.Id);
         }
     }
 }

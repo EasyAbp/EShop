@@ -79,7 +79,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.MongoD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.Web", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web\EasyAbp.EShop.Stores.Web.csproj", "{20E6571D-9BAF-4BE7-B7CC-7F5F32D682F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Stores.Web.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj", "{0102861C-9979-496A-8104-EB33F655983E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Stores.Web.Shared", "modules\EasyAbp.EShop.Stores\src\EasyAbp.EShop.Stores.Web.Shared\EasyAbp.EShop.Stores.Web.Shared.csproj", "{0102861C-9979-496A-8104-EB33F655983E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{83C515D3-9811-4428-9401-17B1AF5406EF}"
 EndProject
@@ -381,45 +381,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Booking", "Booking", "{CE94
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8C4583C-034E-47AF-B7EC-1A34EE288E2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Application\EasyAbp.EShop.Plugins.Booking.Application.csproj", "{10C98582-61EB-49B9-9E6B-83E90CA3795D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Application\EasyAbp.EShop.Plugins.Booking.Application.csproj", "{10C98582-61EB-49B9-9E6B-83E90CA3795D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Application.Contracts", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Application.Contracts\EasyAbp.EShop.Plugins.Booking.Application.Contracts.csproj", "{BA8BAB83-D8D9-4716-BB80-C58A67C5F7A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Application.Contracts", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Application.Contracts\EasyAbp.EShop.Plugins.Booking.Application.Contracts.csproj", "{BA8BAB83-D8D9-4716-BB80-C58A67C5F7A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Domain", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain\EasyAbp.EShop.Plugins.Booking.Domain.csproj", "{1E65087A-DAC5-4595-9E1B-1BBE6C333D7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Domain", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain\EasyAbp.EShop.Plugins.Booking.Domain.csproj", "{1E65087A-DAC5-4595-9E1B-1BBE6C333D7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Domain.Shared", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain.Shared\EasyAbp.EShop.Plugins.Booking.Domain.Shared.csproj", "{E78D741F-F071-4824-9386-E370717F7CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Domain.Shared", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Domain.Shared\EasyAbp.EShop.Plugins.Booking.Domain.Shared.csproj", "{E78D741F-F071-4824-9386-E370717F7CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.csproj", "{926BA9EC-AB2F-4E4F-8363-54426411A17C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.csproj", "{926BA9EC-AB2F-4E4F-8363-54426411A17C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.HttpApi", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.HttpApi\EasyAbp.EShop.Plugins.Booking.HttpApi.csproj", "{878A5B7A-269F-4356-8B97-E5BC5EE6BED9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.HttpApi", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.HttpApi\EasyAbp.EShop.Plugins.Booking.HttpApi.csproj", "{878A5B7A-269F-4356-8B97-E5BC5EE6BED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.HttpApi.Client", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.HttpApi.Client\EasyAbp.EShop.Plugins.Booking.HttpApi.Client.csproj", "{4EFA90C2-3EFE-4E9C-BDEB-274493EB8C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.HttpApi.Client", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.HttpApi.Client\EasyAbp.EShop.Plugins.Booking.HttpApi.Client.csproj", "{4EFA90C2-3EFE-4E9C-BDEB-274493EB8C9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Installer", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Installer\EasyAbp.EShop.Plugins.Booking.Installer.csproj", "{FF764D80-17E6-4DE4-92CC-591F706B39DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Installer", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Installer\EasyAbp.EShop.Plugins.Booking.Installer.csproj", "{FF764D80-17E6-4DE4-92CC-591F706B39DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.MongoDB", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.MongoDB\EasyAbp.EShop.Plugins.Booking.MongoDB.csproj", "{B7944CFA-31AB-4D35-925E-847E1115BF88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.MongoDB", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.MongoDB\EasyAbp.EShop.Plugins.Booking.MongoDB.csproj", "{B7944CFA-31AB-4D35-925E-847E1115BF88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Web", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Web\EasyAbp.EShop.Plugins.Booking.Web.csproj", "{E0ABB505-A788-4E66-A51E-94A9A0DD18FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Web", "plugins\Booking\src\EasyAbp.EShop.Plugins.Booking.Web\EasyAbp.EShop.Plugins.Booking.Web.csproj", "{E0ABB505-A788-4E66-A51E-94A9A0DD18FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7087FDFF-196A-4C9F-8C66-EEBC2C49F2F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Application.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.Application.Tests\EasyAbp.EShop.Plugins.Booking.Application.Tests.csproj", "{84C09B9B-97D8-4BAE-9741-ACE5707D5120}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Application.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.Application.Tests\EasyAbp.EShop.Plugins.Booking.Application.Tests.csproj", "{84C09B9B-97D8-4BAE-9741-ACE5707D5120}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.Domain.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.Domain.Tests\EasyAbp.EShop.Plugins.Booking.Domain.Tests.csproj", "{43DA07BB-DE8F-4D8F-B580-9BA75B39CFF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.Domain.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.Domain.Tests\EasyAbp.EShop.Plugins.Booking.Domain.Tests.csproj", "{43DA07BB-DE8F-4D8F-B580-9BA75B39CFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests.csproj", "{435ED217-120E-472D-A9F6-B298FFFC3ADB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore.Tests.csproj", "{435ED217-120E-472D-A9F6-B298FFFC3ADB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp.csproj", "{0F0A4F84-419F-4547-9001-0853C1E509F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Booking.HttpApi.Client.ConsoleTestApp.csproj", "{0F0A4F84-419F-4547-9001-0853C1E509F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.MongoDB.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.MongoDB.Tests\EasyAbp.EShop.Plugins.Booking.MongoDB.Tests.csproj", "{5AE1B9B6-BE5D-4919-9612-7E11D384A985}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.MongoDB.Tests", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.MongoDB.Tests\EasyAbp.EShop.Plugins.Booking.MongoDB.Tests.csproj", "{5AE1B9B6-BE5D-4919-9612-7E11D384A985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Booking.TestBase", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.TestBase\EasyAbp.EShop.Plugins.Booking.TestBase.csproj", "{739CAE6A-14E6-44FC-8863-DA905CBD289F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Booking.TestBase", "plugins\Booking\test\EasyAbp.EShop.Plugins.Booking.TestBase\EasyAbp.EShop.Plugins.Booking.TestBase.csproj", "{739CAE6A-14E6-44FC-8863-DA905CBD289F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Orders.Booking.Application\EasyAbp.EShop.Orders.Booking.Application.csproj", "{C0399352-1278-4D91-8D4E-7491FD77C18B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Orders.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Orders.Booking.Application\EasyAbp.EShop.Orders.Booking.Application.csproj", "{C0399352-1278-4D91-8D4E-7491FD77C18B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Payments.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Payments.Booking.Application\EasyAbp.EShop.Payments.Booking.Application.csproj", "{4480BFAF-C981-4242-A509-EDA6F572E45C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Payments.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Payments.Booking.Application\EasyAbp.EShop.Payments.Booking.Application.csproj", "{4480BFAF-C981-4242-A509-EDA6F572E45C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Baskets.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Plugins.Baskets.Booking.Application\EasyAbp.EShop.Plugins.Baskets.Booking.Application.csproj", "{F9FD36E6-0ED0-4649-8E1C-33B2CDE85B14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Baskets.Booking.Application", "plugins\Booking\src\EasyAbp.EShop.Plugins.Baskets.Booking.Application\EasyAbp.EShop.Plugins.Baskets.Booking.Application.csproj", "{F9FD36E6-0ED0-4649-8E1C-33B2CDE85B14}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlashSales", "FlashSales", "{867AD9F8-FD56-469D-A90D-C569EB9C3D2A}"
 EndProject
@@ -469,49 +469,49 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.Client", "plugins\FlashSales\src\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.Client\EasyAbp.EShop.Products.Plugins.FlashSales.HttpApi.Client.csproj", "{274769DC-5DD6-4CFD-8078-5E0E0CE8D6D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Plugins.FlashSales.Application.Tests", "plugins\FlashSales\test\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.Tests\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.Tests.csproj", "{17A3486C-1845-4B4E-B1A6-752106F0C309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Orders.Plugins.FlashSales.Application.Tests", "plugins\FlashSales\test\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.Tests\EasyAbp.EShop.Orders.Plugins.FlashSales.Application.Tests.csproj", "{17A3486C-1845-4B4E-B1A6-752106F0C309}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Promotions", "Promotions", "{5DF280FF-28A9-4406-8D7A-1E10150B9AB0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2661CE36-99D1-4D28-A956-6581552F8889}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Application", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Application\EasyAbp.EShop.Plugins.Promotions.Application.csproj", "{7E8FB015-17C9-4170-86DD-2A588F0C328A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Application", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Application\EasyAbp.EShop.Plugins.Promotions.Application.csproj", "{7E8FB015-17C9-4170-86DD-2A588F0C328A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Application.Contracts", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Application.Contracts\EasyAbp.EShop.Plugins.Promotions.Application.Contracts.csproj", "{3F40E7BB-A864-440B-91D5-5EBA0F52514B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Application.Contracts", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Application.Contracts\EasyAbp.EShop.Plugins.Promotions.Application.Contracts.csproj", "{3F40E7BB-A864-440B-91D5-5EBA0F52514B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Domain", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Domain\EasyAbp.EShop.Plugins.Promotions.Domain.csproj", "{C8AE050A-D84F-4487-98F1-0992DCB54E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Domain", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Domain\EasyAbp.EShop.Plugins.Promotions.Domain.csproj", "{C8AE050A-D84F-4487-98F1-0992DCB54E22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Domain.Shared", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Domain.Shared\EasyAbp.EShop.Plugins.Promotions.Domain.Shared.csproj", "{29EB001D-B020-4380-B0F6-C3C4EAD63C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Domain.Shared", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Domain.Shared\EasyAbp.EShop.Plugins.Promotions.Domain.Shared.csproj", "{29EB001D-B020-4380-B0F6-C3C4EAD63C29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.csproj", "{A03EAB5F-C165-452C-8CFD-EBF2E935C599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.csproj", "{A03EAB5F-C165-452C-8CFD-EBF2E935C599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.HttpApi", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.HttpApi\EasyAbp.EShop.Plugins.Promotions.HttpApi.csproj", "{4F349BA1-4EAD-4690-B271-9B920BDD2DF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.HttpApi", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.HttpApi\EasyAbp.EShop.Plugins.Promotions.HttpApi.csproj", "{4F349BA1-4EAD-4690-B271-9B920BDD2DF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.HttpApi.Client", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.csproj", "{35894E48-7E52-475F-AB6F-DB9E73010271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.HttpApi.Client", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.csproj", "{35894E48-7E52-475F-AB6F-DB9E73010271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Installer", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Installer\EasyAbp.EShop.Plugins.Promotions.Installer.csproj", "{FA8FA705-5675-44FB-B9B0-60B32885C7B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Installer", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Installer\EasyAbp.EShop.Plugins.Promotions.Installer.csproj", "{FA8FA705-5675-44FB-B9B0-60B32885C7B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.MongoDB", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.MongoDB\EasyAbp.EShop.Plugins.Promotions.MongoDB.csproj", "{F718CA0B-0564-4D7F-9AE8-F0F5CB8E5BFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.MongoDB", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.MongoDB\EasyAbp.EShop.Plugins.Promotions.MongoDB.csproj", "{F718CA0B-0564-4D7F-9AE8-F0F5CB8E5BFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Web", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Web\EasyAbp.EShop.Plugins.Promotions.Web.csproj", "{A31CA5E7-4E45-4572-8CF4-67C4316CE47A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Web", "plugins\Promotions\src\EasyAbp.EShop.Plugins.Promotions.Web\EasyAbp.EShop.Plugins.Promotions.Web.csproj", "{A31CA5E7-4E45-4572-8CF4-67C4316CE47A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9AE8FE82-7A05-4E2A-98E2-A98F5845B02A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Application.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.Application.Tests\EasyAbp.EShop.Plugins.Promotions.Application.Tests.csproj", "{6485CCBD-EC99-468B-B005-886F2AD5AA9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Application.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.Application.Tests\EasyAbp.EShop.Plugins.Promotions.Application.Tests.csproj", "{6485CCBD-EC99-468B-B005-886F2AD5AA9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.Domain.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.Domain.Tests\EasyAbp.EShop.Plugins.Promotions.Domain.Tests.csproj", "{3EE730D4-C8F6-4729-AD34-A7A485E3B932}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.Domain.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.Domain.Tests\EasyAbp.EShop.Plugins.Promotions.Domain.Tests.csproj", "{3EE730D4-C8F6-4729-AD34-A7A485E3B932}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests.csproj", "{846C3769-2DC7-441F-94C1-714B30110FC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests\EasyAbp.EShop.Plugins.Promotions.EntityFrameworkCore.Tests.csproj", "{846C3769-2DC7-441F-94C1-714B30110FC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp.csproj", "{5F0FE595-625E-4657-ADF2-25F0803D4578}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp\EasyAbp.EShop.Plugins.Promotions.HttpApi.Client.ConsoleTestApp.csproj", "{5F0FE595-625E-4657-ADF2-25F0803D4578}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests\EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests.csproj", "{B43EB182-F725-4DBD-891B-E576A5B8D2D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests\EasyAbp.EShop.Plugins.Promotions.MongoDB.Tests.csproj", "{B43EB182-F725-4DBD-891B-E576A5B8D2D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Plugins.Promotions.TestBase", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.TestBase\EasyAbp.EShop.Plugins.Promotions.TestBase.csproj", "{E590820A-A125-4133-9E9C-DA47BCC8FCE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Plugins.Promotions.TestBase", "plugins\Promotions\test\EasyAbp.EShop.Plugins.Promotions.TestBase\EasyAbp.EShop.Plugins.Promotions.TestBase.csproj", "{E590820A-A125-4133-9E9C-DA47BCC8FCE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Products.Plugins.Promotions.Domain", "plugins\Promotions\src\EasyAbp.EShop.Products.Plugins.Promotions.Domain\EasyAbp.EShop.Products.Plugins.Promotions.Domain.csproj", "{7CF4BA61-4919-402A-A9B3-32309E2AB17E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Products.Plugins.Promotions.Domain", "plugins\Promotions\src\EasyAbp.EShop.Products.Plugins.Promotions.Domain\EasyAbp.EShop.Products.Plugins.Promotions.Domain.csproj", "{7CF4BA61-4919-402A-A9B3-32309E2AB17E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EShop.Orders.Plugins.Promotions.Domain", "plugins\Promotions\src\EasyAbp.EShop.Orders.Plugins.Promotions.Domain\EasyAbp.EShop.Orders.Plugins.Promotions.Domain.csproj", "{341E0B8F-75CE-409D-94C2-9EB9D7113CC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EShop.Orders.Plugins.Promotions.Domain", "plugins\Promotions\src\EasyAbp.EShop.Orders.Plugins.Promotions.Domain\EasyAbp.EShop.Orders.Plugins.Promotions.Domain.csproj", "{341E0B8F-75CE-409D-94C2-9EB9D7113CC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -652,9 +652,8 @@ Global
 		{20E6571D-9BAF-4BE7-B7CC-7F5F32D682F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20E6571D-9BAF-4BE7-B7CC-7F5F32D682F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0102861C-9979-496A-8104-EB33F655983E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {0102861C-9979-496A-8104-EB33F655983E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {0102861C-9979-496A-8104-EB33F655983E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {0102861C-9979-496A-8104-EB33F655983E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0102861C-9979-496A-8104-EB33F655983E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0102861C-9979-496A-8104-EB33F655983E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F11833F9-83D7-44C6-BE12-2402DFF85E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F11833F9-83D7-44C6-BE12-2402DFF85E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F11833F9-83D7-44C6-BE12-2402DFF85E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
