@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders;
 using EasyAbp.EShop.Orders.Orders;
+using EasyAbp.EShop.Orders.Plugins.Coupons.OrderDiscount;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
 using EasyAbp.EShop.Products.Products;
 using Shouldly;
@@ -26,25 +27,28 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
 
         [Theory]
         //Meet the condition discount 1 time
-        [InlineData(5, 2.3, 11, 2.3, CouponType.Normal)]
-        [InlineData(5, 2.3, 10, 2.3, CouponType.Normal)]
-        [InlineData(5, 2.3, 9, 2.3, CouponType.Normal)]
+        [InlineData(5, 2.3, 11, 2.3, CouponType.Normal, false)]
+        [InlineData(5, 2.3, 10, 2.3, CouponType.Normal, false)]
+        [InlineData(5, 2.3, 9, 2.3, CouponType.Normal, false)]
         //The discount condition is not met
-        [InlineData(5, 2.3, 4, 0, CouponType.Normal)]
+        [InlineData(5, 2.3, 4, 0, CouponType.Normal, true)]
 
         //Meet the condition discount 2 time
-        [InlineData(5, 2.3, 11, 4.6, CouponType.PerMeet)] 
-        [InlineData(5, 2.3, 10, 4.6, CouponType.PerMeet)]
+        [InlineData(5, 2.3, 11, 4.6, CouponType.PerMeet, false)]
+        [InlineData(5, 2.3, 10, 4.6, CouponType.PerMeet, false)]
 
         //Meet the condition discount 1 time
-        [InlineData(5, 2.3, 9, 2.3, CouponType.PerMeet)]
+        [InlineData(5, 2.3, 9, 2.3, CouponType.PerMeet, false)]
         //The discount condition is not met
-        [InlineData(5, 2.3, 4, 0, CouponType.PerMeet)]
-        public async Task Should_CouponType_DiscountAmount(decimal couponConditionAmount, decimal couponDiscountAmount, decimal productSkuPrice,decimal discountAmount, CouponType couponType)
+        [InlineData(5, 2.3, 4, 0, CouponType.PerMeet, true)]
+        public async Task Should_CouponType_DiscountAmount(decimal couponConditionAmount, decimal couponDiscountAmount,
+            decimal productSkuPrice, decimal discountAmount, CouponType couponType, bool throws)
         {
             var template = new CouponTemplate(Guid.NewGuid(), null, null, couponType, "UName", "DName", "Desc", null
-                , DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1), couponConditionAmount, couponDiscountAmount, "USD", true, null);
-            var coupon = new Coupon(Guid.NewGuid(), null, template.Id, Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"), null, null);
+                , DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1), couponConditionAmount, couponDiscountAmount, "USD",
+                true, null);
+            var coupon = new Coupon(Guid.NewGuid(), null, template.Id,
+                Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"), null, null);
             await WithUnitOfWorkAsync(async () =>
             {
                 // Arrange
@@ -65,7 +69,8 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             {
                 var orderGenerator = GetRequiredService<INewOrderGenerator>();
 
-                var createOrderLine = new CreateOrderLineInfoModel(OrderTestData.Product1Id, OrderTestData.ProductSku2Id, 1);
+                var createOrderLine =
+                    new CreateOrderLineInfoModel(OrderTestData.Product1Id, OrderTestData.ProductSku2Id, 1);
                 var createOrderInfoModel = new CreateOrderInfoModel(OrderTestData.Store1Id, null,
                     new List<CreateOrderLineInfoModel>
                     {
@@ -81,13 +86,23 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
                         new ProductEto
                         {
                             Id = OrderTestData.Product1Id,
-                            ProductSkus = new List<ProductSkuEto>{ prodoctSku }
+                            ProductSkus = new List<ProductSkuEto> { prodoctSku }
                         }
                     }
                 };
 
-                order = await orderGenerator.GenerateAsync(Guid.NewGuid(), createOrderInfoModel, dic, new Dictionary<Guid, DateTime>());
-
+                if (throws)
+                {
+                    await Should.ThrowAsync<OrderDoesNotMeetCouponUsageConditionException>(() =>
+                        orderGenerator.GenerateAsync(Guid.NewGuid(), createOrderInfoModel, dic,
+                            new Dictionary<Guid, DateTime>()));
+                    return;
+                }
+                else
+                {
+                    order = await orderGenerator.GenerateAsync(Guid.NewGuid(), createOrderInfoModel, dic,
+                        new Dictionary<Guid, DateTime>());
+                }
             });
 
             //assert
@@ -98,9 +113,10 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             order.ActualTotalPrice.ShouldBe(orderLine2ExpectedPrice);
             order.TotalDiscount.ShouldBe(order.TotalPrice - order.ActualTotalPrice);
             order.OrderDiscounts.Count.ShouldBe(1);
-            var orderDiscount = order.OrderDiscounts.SingleOrDefault(x => x.OrderId == order.Id && x.OrderLineId == orderLine.Id && x.EffectGroup == "Coupon");
+            var orderDiscount = order.OrderDiscounts.SingleOrDefault(x =>
+                x.OrderId == order.Id && x.OrderLineId == orderLine.Id && x.EffectGroup == "Coupon");
+            orderDiscount.ShouldNotBeNull();
             orderDiscount.DiscountedAmount.ShouldBe(discountAmount);
         }
-
     }
 }
