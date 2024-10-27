@@ -96,7 +96,6 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
                     await Should.ThrowAsync<OrderDoesNotMeetCouponUsageConditionException>(() =>
                         orderGenerator.GenerateAsync(Guid.NewGuid(), createOrderInfoModel, dic,
                             new Dictionary<Guid, DateTime>()));
-                    return;
                 }
                 else
                 {
@@ -106,6 +105,11 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             });
 
             //assert
+
+            if (throws)
+            {
+                return;
+            }
 
             var orderLine = order.OrderLines[0];
 
