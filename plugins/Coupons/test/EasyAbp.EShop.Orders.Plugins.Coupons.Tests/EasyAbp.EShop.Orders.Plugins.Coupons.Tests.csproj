@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>EasyAbp.EShop.Orders.Plugins.Coupons</RootNamespace>
   </PropertyGroup>
 
@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Orders.Plugins.Coupons\EasyAbp.EShop.Orders.Plugins.Coupons.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Coupons.Application.Tests\EasyAbp.EShop.Plugins.Coupons.Application.Tests.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Coupons.Domain.Tests\EasyAbp.EShop.Plugins.Coupons.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
   </ItemGroup>
 
 </Project>
