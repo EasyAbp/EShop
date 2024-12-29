@@ -302,7 +302,7 @@ namespace EShopSample.Web
             }
 
             app.UseCorrelationId();
-            app.UseStaticFiles();
+            app.MapAbpStaticAssets();
             app.UseRouting();
             app.UseAuthentication();
 
