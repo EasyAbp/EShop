@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="EphemeralMongo.Core" Version="1.1.0" />
-    <PackageReference Include="EphemeralMongo6.runtime.linux-x64" Version="1.1.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
-    <PackageReference Include="EphemeralMongo6.runtime.osx-x64" Version="1.1.0" Condition="$([MSBuild]::IsOSPlatform('OSX'))" />
-    <PackageReference Include="EphemeralMongo6.runtime.win-x64" Version="1.1.0" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+    <PackageReference Include="EphemeralMongo.Core" Version="1.1.3" />
+    <PackageReference Include="EphemeralMongo6.runtime.linux-x64" Version="1.1.3" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
+    <PackageReference Include="EphemeralMongo6.runtime.osx-x64" Version="1.1.3" Condition="$([MSBuild]::IsOSPlatform('OSX'))" />
+    <PackageReference Include="EphemeralMongo6.runtime.win-x64" Version="1.1.3" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Orders.MongoDB\EasyAbp.EShop.Orders.MongoDB.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Orders.TestBase\EasyAbp.EShop.Orders.TestBase.csproj" />
   </ItemGroup>
