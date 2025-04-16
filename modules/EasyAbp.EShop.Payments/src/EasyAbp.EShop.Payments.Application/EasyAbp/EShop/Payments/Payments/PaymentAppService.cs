@@ -21,8 +21,8 @@ namespace EasyAbp.EShop.Payments.Payments
     public class PaymentAppService : ReadOnlyAppService<Payment, PaymentDto, Guid, GetPaymentListDto>,
         IPaymentAppService
     {
-        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
-        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
+        protected override string GetPolicyName { get; set; } = null;
+        protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderAppService _orderAppService;
