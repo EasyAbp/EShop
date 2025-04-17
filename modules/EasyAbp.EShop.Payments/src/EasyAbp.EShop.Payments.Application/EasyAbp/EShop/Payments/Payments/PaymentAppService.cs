@@ -45,7 +45,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
             if (payment.UserId != CurrentUser.GetId())
             {
-                await CheckPolicyAsync(GetPolicyName);
+                await CheckPolicyAsync(PaymentsPermissions.Payments.Manage);
             }
 
             return payment;
@@ -69,7 +69,7 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await CheckPolicyAsync(GetListPolicyName);
+                await CheckPolicyAsync(PaymentsPermissions.Payments.Manage);
             }
 
             return await base.GetListAsync(input);
