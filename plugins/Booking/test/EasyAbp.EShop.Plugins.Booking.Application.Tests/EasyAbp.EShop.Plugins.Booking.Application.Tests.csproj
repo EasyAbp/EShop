@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Payments.Booking.Application\EasyAbp.EShop.Payments.Booking.Application.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.Booking.Application\EasyAbp.EShop.Plugins.Booking.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Booking.Domain.Tests\EasyAbp.EShop.Plugins.Booking.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
   </ItemGroup>
 
 </Project>

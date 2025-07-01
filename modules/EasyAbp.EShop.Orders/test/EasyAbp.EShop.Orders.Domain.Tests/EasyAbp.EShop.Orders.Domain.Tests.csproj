@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <ProjectReference Include="..\EasyAbp.EShop.Orders.EntityFrameworkCore.Tests\EasyAbp.EShop.Orders.EntityFrameworkCore.Tests.csproj" />
   </ItemGroup>
 
