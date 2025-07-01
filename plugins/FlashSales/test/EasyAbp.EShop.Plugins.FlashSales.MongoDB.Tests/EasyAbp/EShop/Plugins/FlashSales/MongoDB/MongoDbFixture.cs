@@ -1,5 +1,5 @@
 using System;
-using EphemeralMongo;
+using MongoSandbox;
 
 namespace EasyAbp.EShop.Plugins.FlashSales.MongoDB;
 

@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyAbp.EShop.Plugins.Promotions.Application\EasyAbp.EShop.Plugins.Promotions.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Promotions.Domain.Tests\EasyAbp.EShop.Plugins.Promotions.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
   </ItemGroup>
 
 </Project>

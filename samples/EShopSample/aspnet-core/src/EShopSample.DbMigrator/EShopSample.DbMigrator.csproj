@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props"/>
+    <Import Project="..\..\common.props" />
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="appsettings.json"/>
+        <None Remove="appsettings.json" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="appsettings.json"/>
+        <None Remove="appsettings.json" />
         <Content Include="appsettings.json">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -20,24 +20,24 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Async" Version="2.0.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
+        <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)"/>
-        <ProjectReference Include="..\EShopSample.Application.Contracts\EShopSample.Application.Contracts.csproj"/>
-        <ProjectReference Include="..\EShopSample.EntityFrameworkCore\EShopSample.EntityFrameworkCore.csproj"/>
+        <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+        <ProjectReference Include="..\EShopSample.Application.Contracts\EShopSample.Application.Contracts.csproj" />
+        <ProjectReference Include="..\EShopSample.EntityFrameworkCore\EShopSample.EntityFrameworkCore.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Logs\**"/>
-        <Content Remove="Logs\**"/>
-        <EmbeddedResource Remove="Logs\**"/>
-        <None Remove="Logs\**"/>
+        <Compile Remove="Logs\**" />
+        <Content Remove="Logs\**" />
+        <EmbeddedResource Remove="Logs\**" />
+        <None Remove="Logs\**" />
     </ItemGroup>
 
 </Project>
