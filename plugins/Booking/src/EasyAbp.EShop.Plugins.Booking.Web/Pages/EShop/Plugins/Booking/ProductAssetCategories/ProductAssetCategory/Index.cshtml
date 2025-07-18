@@ -11,8 +11,9 @@
 @inject IHtmlLocalizer<BookingResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["ProductAssetCategory"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductAssetCategory"].Value);
+    PageLayout.Content.Title = L["Menu:ProductAssetCategory"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Booking"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = BookingMenus.ProductAssetCategory;
 }
 
@@ -24,6 +25,20 @@
 {
     <abp-style src="/Pages/EShop/Plugins/Booking/ProductAssetCategories/ProductAssetCategory/index.css"/>
 }
+@section content_toolbar
+{
+    @if (Model.Filter.StoreId != null)
+    {
+        if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAssetCategory.Create))
+        {
+            <abp-button id="NewProductAssetCategoryButton"
+                        text="@L["CreateProductAssetCategory"].Value"
+                        icon="plus"
+                        size="Small"
+                        button-type="Primary"/>
+        }
+    }
+}
 
 <script>
     let storeId = '@Model.Filter.StoreId';
@@ -33,13 +48,6 @@
 {
     <abp-dynamic-form abp-model="Filter" data-ajaxForm="true" asp-page="Index">
         <abp-card>
-            <abp-card-header>
-                <abp-row>
-                    <abp-column size-md="_6">
-                        <abp-card-title>@L["ProductAssetCategory"]</abp-card-title>
-                    </abp-column>
-                </abp-row>
-            </abp-card-header>
             <abp-card-body>
                 <abp-form-content></abp-form-content>
             </abp-card-body>
@@ -52,22 +60,6 @@
 else
 {
     <abp-card>
-        <abp-card-header>
-            <abp-row>
-                <abp-column size-md="_6">
-                    <abp-card-title>@L["ProductAssetCategory"]</abp-card-title>
-                </abp-column>
-                <abp-column size-md="_6" class="text-end">
-                    @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAssetCategory.Create))
-                    {
-                        <abp-button id="NewProductAssetCategoryButton"
-                                    text="@L["CreateProductAssetCategory"].Value"
-                                    icon="plus"
-                                    button-type="Primary"/>
-                    }
-                </abp-column>
-            </abp-row>
-        </abp-card-header>
         <abp-card-body>
             <abp-table striped-rows="true" id="ProductAssetCategoryTable" class="nowrap"/>
         </abp-card-body>

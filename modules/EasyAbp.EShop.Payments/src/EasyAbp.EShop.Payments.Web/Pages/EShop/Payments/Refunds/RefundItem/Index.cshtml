@@ -7,8 +7,9 @@
 @inject IPageLayout PageLayout
 @inject IHtmlLocalizer<PaymentsResource> L
 @{
-    PageLayout.Content.Title = L["RefundItem"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:RefundItem"].Value);
+    PageLayout.Content.Title = L["Menu:RefundItem"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:PaymentManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = PaymentsMenus.Refund;
 }
 
@@ -26,13 +27,6 @@
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["RefundItem"]</abp-card-title>
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="RefundTable" class="nowrap">
             <thead>

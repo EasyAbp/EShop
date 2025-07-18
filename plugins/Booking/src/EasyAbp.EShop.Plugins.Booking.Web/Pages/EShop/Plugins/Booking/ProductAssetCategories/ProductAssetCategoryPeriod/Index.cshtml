@@ -11,8 +11,9 @@
 @inject IHtmlLocalizer<BookingResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["ProductAssetCategoryPeriod"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductAssetCategoryPeriod"].Value);
+    PageLayout.Content.Title = L["Menu:ProductAssetCategoryPeriod"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Booking"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = BookingMenus.ProductAssetCategory;
 }
 
@@ -24,28 +25,23 @@
 {
     <abp-style src="/Pages/EShop/Plugins/Booking/ProductAssetCategories/ProductAssetCategoryPeriod/index.css"/>
 }
+@section content_toolbar
+{
+    @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAssetCategory.Update))
+    {
+        <abp-button id="NewProductAssetCategoryPeriodButton"
+                    text="@L["CreateProductAssetCategoryPeriod"].Value"
+                    icon="plus"
+                    size="Small"
+                    button-type="Primary"/>
+    }
+}
 
 <script>
     let productAssetCategoryId = '@Model.ProductAssetCategoryId';
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["ProductAssetCategoryPeriod"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-                @if (await Authorization.IsGrantedAsync(BookingPermissions.ProductAssetCategory.Update))
-                {
-                    <abp-button id="NewProductAssetCategoryPeriodButton"
-                                text="@L["CreateProductAssetCategoryPeriod"].Value"
-                                icon="plus"
-                                button-type="Primary"/>
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="ProductAssetCategoryPeriodTable" class="nowrap"/>
     </abp-card-body>

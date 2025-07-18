@@ -8,8 +8,9 @@
 @inject IPageLayout PageLayout
 @inject IHtmlLocalizer<PaymentsResource> L
 @{
-    PageLayout.Content.Title = L["PaymentItem"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:PaymentItem"].Value);
+    PageLayout.Content.Title = L["Menu:PaymentItem"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:PaymentManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = PaymentsMenus.Payment;
 }
 
@@ -27,13 +28,6 @@
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["PaymentItem"]</abp-card-title>
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="PaymentItemTable" class="nowrap">
             <thead>

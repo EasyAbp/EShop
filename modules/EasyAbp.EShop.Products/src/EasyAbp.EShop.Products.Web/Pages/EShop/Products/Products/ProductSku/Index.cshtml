@@ -11,8 +11,10 @@
 @inject IHtmlLocalizer<ProductsResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["ProductSku"].Value;
+    PageLayout.Content.Title = Model.ProductDisplayName + " - " + L["ProductSku"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Product"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = ProductsMenus.Product;
 }
 
@@ -24,27 +26,23 @@
 {
     <abp-style src="/Pages/EShop/Products/Products/ProductSku/index.css"/>
 }
+@section content_toolbar
+{
+    @if (await Authorization.IsGrantedAsync(ProductsPermissions.Products.Create))
+    { 
+        <abp-button id="NewProductSkuButton"
+                    text="@L["CreateProductSku"].Value"
+                    icon="plus"
+                    size="Small"
+                    button-type="Primary" />
+    }
+}
+
 <script>
     let productId = '@Model.ProductId';
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["ProductSku"] - @Model.ProductDisplayName</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-                @if (await Authorization.IsGrantedAsync(ProductsPermissions.Products.Create))
-                { 
-                <abp-button id="NewProductSkuButton"
-                            text="@L["CreateProductSku"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="ProductSkuTable" class="nowrap">
             <thead>

@@ -11,8 +11,9 @@
 @inject IStringLocalizer<PaymentsResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["Refund"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:Refund"].Value);
+    PageLayout.Content.Title = L["Menu:Refund"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:PaymentManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = PaymentsMenus.Refund;
     
     var cardTitle = L["Refund"].Value;

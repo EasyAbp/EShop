@@ -13,6 +13,8 @@
 @{
     PageLayout.Content.Title = L["CouponTemplateScope"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:CouponTemplate"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:CouponManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = CouponsMenus.CouponTemplate;
 }
 
@@ -24,28 +26,23 @@
 {
     <abp-style src="/Pages/EShop/Plugins/Coupons/CouponTemplates/CouponTemplateScope/index.css"/>
 }
+@section content_toolbar
+{
+    @if (await Authorization.IsGrantedAsync(CouponsPermissions.CouponTemplate.Update))
+    {
+        <abp-button id="NewCouponTemplateScopeButton"
+                    text="@L["CreateCouponTemplateScope"].Value"
+                    icon="plus"
+                    size="Small"
+                    button-type="Primary" />
+    }
+}
 
 <script>
     let couponTemplateId = '@Model.CouponTemplateId';
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["CouponTemplateScope"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-			    @if (await Authorization.IsGrantedAsync(CouponsPermissions.CouponTemplate.Update))
-                {
-                <abp-button id="NewCouponTemplateScopeButton"
-                            text="@L["CreateCouponTemplateScope"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="CouponTemplateScopeTable" class="nowrap">
             <thead>

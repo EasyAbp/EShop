@@ -13,8 +13,9 @@
 @inject IHtmlLocalizer<FlashSalesResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["FlashSalePlan"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:FlashSalePlan"].Value);
+    PageLayout.Content.Title = L["Menu:FlashSalePlan"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:FlashSalesManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = FlashSalesMenus.FlashSalePlan;
 }
 
@@ -26,24 +27,19 @@
 {
     <abp-style src="/Pages/EShop/Plugins/FlashSales/FlashSalePlans/FlashSalePlan/index.css" />
 }
+@section content_toolbar
+{
+    @if (await Authorization.IsGrantedAsync(FlashSalesPermissions.FlashSalePlan.Create))
+    {
+        <abp-button id="NewFlashSalePlanButton"
+                text="@L["CreateFlashSalePlan"].Value"
+                icon="plus"
+                size="Small"
+                button-type="Primary" />
+    }
+}
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["FlashSalePlan"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-            @if (await Authorization.IsGrantedAsync(FlashSalesPermissions.FlashSalePlan.Create))
-            {
-                <abp-button id="NewFlashSalePlanButton"
-                        text="@L["CreateFlashSalePlan"].Value"
-                        icon="plus"
-                        button-type="Primary" />
-            }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="FlashSalePlanTable" class="nowrap" />
     </abp-card-body>

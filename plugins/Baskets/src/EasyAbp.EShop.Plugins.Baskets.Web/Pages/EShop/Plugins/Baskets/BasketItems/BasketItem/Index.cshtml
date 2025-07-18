@@ -12,8 +12,7 @@
 @inject IHtmlLocalizer<BasketsResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["BasketItem"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:BasketItem"].Value);
+    PageLayout.Content.Title = L["Menu:BasketItem"].Value;
     PageLayout.Content.MenuItemName = BasketsMenus.BasketItem;
 }
 
@@ -25,25 +24,21 @@
 {
     <abp-style src="/Pages/EShop/Plugins/Baskets/BasketItems/BasketItem/index.css"/>
 }
+@section content_toolbar
+{
+    <abp-button id="NewBasketItemButton"
+                text="@L["CreateBasketItem"].Value"
+                icon="plus"
+                size="Small"
+                button-type="Primary" />
+}
+
 <script>
     let basketName = '@Model.BasketName';
     let userId = '@Model.UserId';
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["BasketItem"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-                <abp-button id="NewBasketItemButton"
-                            text="@L["CreateBasketItem"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="BasketItemTable" class="nowrap">
             <thead>

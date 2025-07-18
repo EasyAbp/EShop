@@ -8,11 +8,11 @@
 @model IndexModel
 @inject IPageLayout PageLayout
 @{
-    PageLayout.Content.Title = L["Category"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:Category"].Value);
-    PageLayout.Content.MenuItemName = ProductsMenus.Category;
-
     var parentDisplayName = Model.ParentDisplayName.IsNullOrEmpty() ? "" : $" - {Model.ParentDisplayName}";
+    PageLayout.Content.Title = L["Menu:Category"].Value + parentDisplayName;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
+    PageLayout.Content.MenuItemName = ProductsMenus.Category;
 }
 
 @section scripts
@@ -23,25 +23,20 @@
 {
     <abp-style src="/Pages/EShop/Products/Categories/Category/index.css"/>
 }
+@section content_toolbar
+{
+    <abp-button id="NewCategoryButton"
+                text="@L["CreateCategory"].Value"
+                icon="plus"
+                size="Smallz"
+                button-type="Primary" />
+}
 
 <script>
     let parentId = '@Model.ParentId';
 </script>
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Category"]@parentDisplayName</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-                <abp-button id="NewCategoryButton"
-                            text="@L["CreateCategory"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="CategoryTable" class="nowrap">
             <thead>

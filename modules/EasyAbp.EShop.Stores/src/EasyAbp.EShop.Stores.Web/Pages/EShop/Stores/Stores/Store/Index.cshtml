@@ -11,8 +11,9 @@
 @inject IHtmlLocalizer<StoresResource> L
 @inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["Store"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:Store"].Value);
+    PageLayout.Content.Title = L["Menu:Store"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:StoreManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = StoresMenus.Store;
 }
 
@@ -24,24 +25,19 @@
 {
     <abp-style src="/Pages/EShop/Stores/Stores/Store/index.css"/>
 }
+@section content_toolbar
+{
+    @if (await Authorization.IsGrantedAsync(StoresPermissions.Stores.Create))
+    { 
+        <abp-button id="NewStoreButton"
+                    text="@L["CreateStore"].Value"
+                    icon="plus"
+                    size="Small"
+                    button-type="Primary" />
+    }
+}
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Store"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-end">
-			    @if (await Authorization.IsGrantedAsync(StoresPermissions.Stores.Create))
-                { 
-                <abp-button id="NewStoreButton"
-                            text="@L["CreateStore"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="StoreTable">
             <thead>

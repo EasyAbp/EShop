@@ -8,8 +8,10 @@
 @inject IPageLayout PageLayout
 @inject IHtmlLocalizer<ProductsResource> L
 @{
-    PageLayout.Content.Title = L["Product"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:Product"].Value);
+    var titlePostfix = Model.StoreName != null ? $" - {Model.StoreName}" : "";
+    PageLayout.Content.Title = L["Menu:Product"].Value + titlePostfix;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:ProductManagement"].Value);
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EasyAbpEShop"].Value);
     PageLayout.Content.MenuItemName = ProductsMenus.Product;
 }
 
@@ -21,6 +23,18 @@
 {
     <abp-style src="/Pages/EShop/Products/Products/Product/index.css"/>
 }
+@section content_toolbar
+{
+    @if (Model.Filter.StoreId != null)
+    {
+        <abp-button id="NewProductButton"
+                    text="@L["CreateProduct"].Value"
+                    icon="plus"
+                    size="Small"
+                    button-type="Primary" />
+    }
+}
+
 <script>
     let storeId = '@Model.Filter.StoreId';
     let categoryId = '@Model.Filter.CategoryId';
@@ -30,13 +44,6 @@
 {
     <abp-dynamic-form abp-model="Filter" data-ajaxForm="true" asp-page="Index">
         <abp-card>
-            <abp-card-header>
-                <abp-row>
-                    <abp-column size-md="_6">
-                        <abp-card-title>@L["Product"]</abp-card-title>
-                    </abp-column>
-                </abp-row>
-            </abp-card-header>
             <abp-card-body>
                 <abp-form-content></abp-form-content>
             </abp-card-body>
@@ -49,19 +56,6 @@
 else
 {
     <abp-card>
-        <abp-card-header>
-            <abp-row>
-                <abp-column size-md="_6">
-                    <abp-card-title>@L["Product"] - @Model.StoreName</abp-card-title>
-                </abp-column>
-                <abp-column size-md="_6" class="text-end">
-                    <abp-button id="NewProductButton"
-                                text="@L["CreateProduct"].Value"
-                                icon="plus"
-                                button-type="Primary" />
-                </abp-column>
-            </abp-row>
-        </abp-card-header>
         <abp-card-body>
             <abp-table striped-rows="true" id="ProductTable" class="nowrap">
                 <thead>
