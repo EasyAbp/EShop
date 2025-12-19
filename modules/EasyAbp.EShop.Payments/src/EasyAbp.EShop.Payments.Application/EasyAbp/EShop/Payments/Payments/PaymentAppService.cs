@@ -22,8 +22,8 @@ namespace EasyAbp.EShop.Payments.Payments
     public class PaymentAppService : ReadOnlyAppService<Payment, PaymentDto, Guid, GetPaymentListDto>,
         IPaymentAppService
     {
-        protected override string GetPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
-        protected override string GetListPolicyName { get; set; } = PaymentsPermissions.Payments.Manage;
+        protected override string GetPolicyName { get; set; } = null;
+        protected override string GetListPolicyName { get; set; } = null;
 
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly IOrderAppService _orderAppService;
@@ -49,7 +49,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
             if (payment.UserId != CurrentUser.GetId())
             {
-                await CheckPolicyAsync(GetPolicyName);
+                await CheckPolicyAsync(PaymentsPermissions.Payments.Manage);
             }
 
             return payment;
@@ -73,7 +73,7 @@ namespace EasyAbp.EShop.Payments.Payments
         {
             if (input.UserId != CurrentUser.GetId())
             {
-                await CheckPolicyAsync(GetListPolicyName);
+                await CheckPolicyAsync(PaymentsPermissions.Payments.Manage);
             }
 
             return await base.GetListAsync(input);
