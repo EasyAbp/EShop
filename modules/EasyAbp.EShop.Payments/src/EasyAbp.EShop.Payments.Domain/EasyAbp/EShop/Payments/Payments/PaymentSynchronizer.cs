@@ -26,7 +26,7 @@ namespace EasyAbp.EShop.Payments.Payments
         private readonly IDistributedEventBus _distributedEventBus;
 
         public PaymentSynchronizer(
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopPaymentsDomainModule> objectMapper,
             ICurrentTenant currentTenant,
             IPaymentRepository paymentRepository,
             IDistributedEventBus distributedEventBus)

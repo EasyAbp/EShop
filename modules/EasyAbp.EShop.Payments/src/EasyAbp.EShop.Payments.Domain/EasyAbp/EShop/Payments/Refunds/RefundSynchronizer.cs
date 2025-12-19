@@ -32,7 +32,7 @@ namespace EasyAbp.EShop.Payments.Refunds
         private readonly IRefundRepository _refundRepository;
 
         public RefundSynchronizer(
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopPaymentsDomainModule> objectMapper,
             ICurrentTenant currentTenant,
             IGuidGenerator guidGenerator,
             IJsonSerializer jsonSerializer,

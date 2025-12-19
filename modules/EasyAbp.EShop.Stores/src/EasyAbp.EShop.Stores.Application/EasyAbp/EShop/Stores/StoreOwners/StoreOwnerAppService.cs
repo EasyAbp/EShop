@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.Localization;
 using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
 using EasyAbp.EShop.Stores.Stores;
@@ -29,6 +30,9 @@ namespace EasyAbp.EShop.Stores.StoreOwners
         {
             _repository = repository;
             _externalUserLookupServiceProvider = externalUserLookupServiceProvider;
+
+            LocalizationResource = typeof(StoresResource);
+            ObjectMapperContext = typeof(EShopStoresApplicationModule);
         }
 
         public override async Task<StoreOwnerDto> CreateAsync(CreateUpdateStoreOwnerDto input)

@@ -23,7 +23,7 @@ namespace EasyAbp.EShop.Products
         {
             Configure<AbpDistributedEntityEventOptions>(options =>
             {
-                options.EtoMappings.Add<Product, ProductEto>();
+                options.EtoMappings.Add<Product, ProductEto>(typeof(EShopProductsDomainModule));
 
                 options.AutoEventSelectors.Add<Product>();
             });

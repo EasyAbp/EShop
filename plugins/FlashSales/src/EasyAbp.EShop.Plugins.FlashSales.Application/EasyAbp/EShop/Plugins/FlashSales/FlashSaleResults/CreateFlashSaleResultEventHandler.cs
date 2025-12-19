@@ -31,7 +31,7 @@ public class CreateFlashSaleResultEventHandler : IDistributedEventHandler<Create
     protected IFlashSaleResultRepository FlashSaleResultRepository { get; }
 
     public CreateFlashSaleResultEventHandler(
-        IObjectMapper objectMapper,
+        IObjectMapper<EShopPluginsFlashSalesApplicationModule> objectMapper,
         ICurrentTenant currentTenant,
         IUnitOfWorkManager unitOfWorkManager,
         IServiceScopeFactory serviceScopeFactory,

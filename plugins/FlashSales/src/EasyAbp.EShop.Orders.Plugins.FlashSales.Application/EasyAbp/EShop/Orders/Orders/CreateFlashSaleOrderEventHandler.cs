@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Orders.Dtos;
+using EasyAbp.EShop.Orders.Plugins.FlashSales;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using EasyAbp.EShop.Plugins.FlashSales.FlashSaleResults;
 using EasyAbp.EShop.Products.ProductDetails;
@@ -37,7 +38,7 @@ public class CreateFlashSaleOrderEventHandler : IDistributedEventHandler<CreateF
 
     public CreateFlashSaleOrderEventHandler(
         INewOrderGenerator newOrderGenerator,
-        IObjectMapper objectMapper,
+        IObjectMapper<EShopOrdersPluginsFlashSalesApplicationModule> objectMapper,
         IEnumerable<IOrderDiscountProvider> orderDiscountProviders,
         IOrderRepository orderRepository,
         IDistributedEventBus distributedEventBus,

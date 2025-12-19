@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Payments.Localization;
 using EasyAbp.EShop.Stores.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -43,6 +44,9 @@ namespace EasyAbp.EShop.Payments.Refunds
             _paymentRepository = paymentRepository;
             _jsonSerializer = jsonSerializer;
             _repository = repository;
+
+            LocalizationResource = typeof(PaymentsResource);
+            ObjectMapperContext = typeof(EShopPaymentsApplicationModule);
         }
 
         // Todo: should a store owner user see orders of other stores in the same payment/refund?

@@ -6,6 +6,7 @@ using EasyAbp.EShop.Plugins.Coupons.Permissions;
 using EasyAbp.EShop.Plugins.Coupons.Coupons.Dtos;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates;
 using EasyAbp.EShop.Plugins.Coupons.CouponTemplates.Dtos;
+using EasyAbp.EShop.Plugins.Coupons.Localization;
 using EasyAbp.EShop.Stores.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
@@ -33,6 +34,9 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         {
             _couponTemplateRepository = couponTemplateRepository;
             _repository = repository;
+
+            LocalizationResource = typeof(CouponsResource);
+            ObjectMapperContext = typeof(EShopPluginsCouponsApplicationModule);
         }
 
         protected override async Task<IQueryable<Coupon>> CreateFilteredQueryAsync(GetCouponListInput input)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Microsoft.Extensions.Caching.Distributed;
 using Volo.Abp.Caching;
@@ -22,7 +23,7 @@ public class ProductCache : IProductCache, ITransientDependency
     public ProductCache(
         IDistributedCache<ProductCacheItem, Guid> productDistributedCache,
         IProductAppService productAppService,
-        IObjectMapper objectMapper,
+        IObjectMapper<EShopPluginsFlashSalesApplicationModule> objectMapper,
         ICurrentTenant currentTenant)
     {
         DistributedCache = productDistributedCache;
