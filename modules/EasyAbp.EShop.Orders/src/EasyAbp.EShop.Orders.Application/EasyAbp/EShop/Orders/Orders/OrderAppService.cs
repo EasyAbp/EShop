@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Orders.Authorization;
+using EasyAbp.EShop.Orders.Localization;
 using EasyAbp.EShop.Orders.Orders.Dtos;
 using EasyAbp.EShop.Products.ProductDetails;
 using EasyAbp.EShop.Products.Products;
@@ -42,6 +43,9 @@ namespace EasyAbp.EShop.Orders.Orders
             _productDetailAppService = productDetailAppService;
             _orderManager = orderManager;
             _repository = repository;
+
+            LocalizationResource = typeof(OrdersResource);
+            ObjectMapperContext = typeof(EShopOrdersApplicationModule);
         }
 
         protected override async Task<IQueryable<Order>> CreateFilteredQueryAsync(GetOrderListDto input)

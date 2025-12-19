@@ -55,7 +55,7 @@ public class FlashSaleOrderCreationResultEventHandler : IDistributedEventHandler
 
             var flashSaleInventoryManager = scope.ServiceProvider.GetRequiredService<IFlashSaleInventoryManager>();
             var flashSaleCurrentResultCache = scope.ServiceProvider.GetRequiredService<IFlashSaleCurrentResultCache>();
-            var objectMapper = scope.ServiceProvider.GetRequiredService<IObjectMapper>();
+            var objectMapper = scope.ServiceProvider.GetRequiredService<IObjectMapper<EShopPluginsFlashSalesApplicationModule>>();
 
             if (eventData.Success)
             {

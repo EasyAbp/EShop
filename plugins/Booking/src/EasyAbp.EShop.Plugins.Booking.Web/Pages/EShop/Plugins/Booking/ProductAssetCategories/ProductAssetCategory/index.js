@@ -70,11 +70,13 @@ $(function () {
             },
             {
                 title: l('ProductAssetCategoryFromTime'),
-                data: "fromTime"
+                data: "fromTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('ProductAssetCategoryToTime'),
-                data: "toTime"
+                data: "toTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('ProductAssetCategoryProductId'),

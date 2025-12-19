@@ -12,7 +12,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         private readonly ICouponRepository _couponRepository;
 
         public RepositoryCouponLookupService(
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopPluginsCouponsDomainModule> objectMapper,
             ICouponRepository couponRepository)
         {
             _objectMapper = objectMapper;

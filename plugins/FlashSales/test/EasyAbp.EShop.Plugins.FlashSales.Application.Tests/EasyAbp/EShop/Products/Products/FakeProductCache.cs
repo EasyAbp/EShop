@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Plugins.FlashSales;
 using EasyAbp.EShop.Products.Products.Dtos;
 using Volo.Abp.ObjectMapping;
 
@@ -10,7 +11,9 @@ public class FakeProductCache : IProductCache
     protected IProductAppService ProductAppService { get; }
     protected IObjectMapper ObjectMapper { get; }
 
-    public FakeProductCache(IProductAppService productAppService, IObjectMapper objectMapper)
+    public FakeProductCache(
+        IProductAppService productAppService,
+        IObjectMapper<EShopPluginsFlashSalesApplicationModule> objectMapper)
     {
         ProductAppService = productAppService;
         ObjectMapper = objectMapper;

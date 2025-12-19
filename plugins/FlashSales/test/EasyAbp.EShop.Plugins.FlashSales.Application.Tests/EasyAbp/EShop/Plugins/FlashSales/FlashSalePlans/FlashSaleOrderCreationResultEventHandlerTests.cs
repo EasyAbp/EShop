@@ -26,7 +26,7 @@ public class FlashSaleOrderCreationResultEventHandlerTests : FlashSalesApplicati
 
     public FlashSaleOrderCreationResultEventHandlerTests()
     {
-        ObjectMapper = GetRequiredService<IObjectMapper>();
+        ObjectMapper = GetRequiredService<IObjectMapper<EShopPluginsFlashSalesApplicationModule>>();
         FlashSaleCurrentResultCache = GetRequiredService<IFlashSaleCurrentResultCache>();
         FlashSaleOrderCreationResultEventHandler = GetRequiredService<FlashSaleOrderCreationResultEventHandler>();
         FlashSaleInventoryManager = GetRequiredService<IFlashSaleInventoryManager>();

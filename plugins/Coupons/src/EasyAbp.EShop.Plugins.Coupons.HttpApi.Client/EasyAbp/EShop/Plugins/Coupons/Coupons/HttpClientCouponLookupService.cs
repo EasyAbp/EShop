@@ -14,7 +14,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
         private readonly ICouponAppService _couponAppService;
 
         public HttpClientCouponLookupService(
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopPluginsCouponsHttpApiClientModule> objectMapper,
             ICouponAppService couponAppService)
         {
             _objectMapper = objectMapper;

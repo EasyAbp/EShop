@@ -49,8 +49,8 @@ $(function () {
             { data: "couponTemplateId" },
             { data: "userId" },
             { data: "orderId" },
-            { data: "expirationTime" },
-            { data: "usedTime" },
+            { data: "expirationTime", dataFormat: 'datetime' },
+            { data: "usedTime", dataFormat: 'datetime' },
             { data: "discountedAmount" },
         ]
     }));

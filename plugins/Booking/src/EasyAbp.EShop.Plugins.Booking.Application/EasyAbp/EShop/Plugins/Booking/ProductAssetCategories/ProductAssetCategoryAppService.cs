@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.BookingService.AssetCategories;
 using EasyAbp.BookingService.PeriodSchemes;
+using EasyAbp.EShop.Plugins.Booking.Localization;
 using EasyAbp.EShop.Plugins.Booking.Permissions;
 using EasyAbp.EShop.Plugins.Booking.ProductAssetCategories.Dtos;
 using EasyAbp.EShop.Products.Products;
@@ -41,6 +42,9 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssetCategories
             _assetCategoryAppService = assetCategoryAppService;
             _repository = repository;
             _productAssetCategoryManager = productAssetCategoryManager;
+
+            LocalizationResource = typeof(BookingResource);
+            ObjectMapperContext = typeof(EShopPluginsBookingApplicationModule);
         }
 
         protected override async Task<IQueryable<ProductAssetCategory>> CreateFilteredQueryAsync(

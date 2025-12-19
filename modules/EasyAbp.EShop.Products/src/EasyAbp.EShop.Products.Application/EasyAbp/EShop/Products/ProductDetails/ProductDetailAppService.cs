@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductDetails.Dtos;
 using EasyAbp.EShop.Products.Products;
@@ -25,6 +26,9 @@ namespace EasyAbp.EShop.Products.ProductDetails
             IProductDetailRepository repository) : base(repository)
         {
             _repository = repository;
+
+            LocalizationResource = typeof(ProductsResource);
+            ObjectMapperContext = typeof(EShopProductsApplicationModule);
         }
 
         protected override async Task<IQueryable<ProductDetail>> CreateFilteredQueryAsync(GetProductDetailListInput input)

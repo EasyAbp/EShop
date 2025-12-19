@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Products.Permissions;
 using EasyAbp.EShop.Products.ProductHistories.Dtos;
 using Volo.Abp;
@@ -18,6 +19,9 @@ namespace EasyAbp.EShop.Products.ProductHistories
         public ProductHistoryAppService(IProductHistoryRepository repository) : base(repository)
         {
             _repository = repository;
+
+            LocalizationResource = typeof(ProductsResource);
+            ObjectMapperContext = typeof(EShopProductsApplicationModule);
         }
 
         protected override async Task<IQueryable<ProductHistory>> CreateFilteredQueryAsync(GetProductHistoryListDto input)

@@ -19,7 +19,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public OrderManager(
             IClock clock,
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopOrdersDomainModule> objectMapper,
             IDistributedEventBus distributedEventBus,
             IUnitOfWorkManager unitOfWorkManager,
             IOrderRepository orderRepository)

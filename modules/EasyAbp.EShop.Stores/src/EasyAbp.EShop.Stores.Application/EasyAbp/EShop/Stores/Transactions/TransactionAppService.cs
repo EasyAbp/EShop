@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Stores.Localization;
 using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.Transactions.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -22,6 +23,9 @@ namespace EasyAbp.EShop.Stores.Transactions
         public TransactionAppService(ITransactionRepository repository) : base(repository)
         {
             _repository = repository;
+
+            LocalizationResource = typeof(StoresResource);
+            ObjectMapperContext = typeof(EShopStoresApplicationModule);
         }
 
         protected override async Task<IQueryable<Transaction>> CreateFilteredQueryAsync(GetTransactionListInput input)

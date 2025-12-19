@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Products.Categories.Dtos;
+using EasyAbp.EShop.Products.Localization;
 using EasyAbp.EShop.Products.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
@@ -29,6 +30,9 @@ namespace EasyAbp.EShop.Products.Categories
         {
             _categoryManager = categoryManager;
             _repository = repository;
+
+            LocalizationResource = typeof(ProductsResource);
+            ObjectMapperContext = typeof(EShopProductsApplicationModule);
         }
 
         protected override async Task<IQueryable<Category>> CreateFilteredQueryAsync(GetCategoryListDto input)

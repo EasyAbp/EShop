@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.EShop.Payments.Localization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Data;
@@ -36,6 +37,9 @@ namespace EasyAbp.EShop.Payments.Payments
             _distributedEventBus = distributedEventBus;
             _orderAppService = orderAppService;
             _repository = repository;
+
+            LocalizationResource = typeof(PaymentsResource);
+            ObjectMapperContext = typeof(EShopPaymentsApplicationModule);
         }
 
         // Todo: should a store owner user see orders of other stores in the same payment/refund?

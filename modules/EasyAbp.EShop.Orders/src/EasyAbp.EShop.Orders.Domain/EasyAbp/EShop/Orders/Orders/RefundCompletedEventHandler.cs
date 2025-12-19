@@ -17,7 +17,7 @@ namespace EasyAbp.EShop.Orders.Orders
 
         public RefundCompletedEventHandler(
             ICurrentTenant currentTenant,
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopOrdersDomainModule> objectMapper,
             IDistributedEventBus distributedEventBus,
             IOrderRepository orderRepository)
         {

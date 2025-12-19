@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Booking.Permissions;
 using EasyAbp.EShop.Plugins.Booking.GrantedStores.Dtos;
+using EasyAbp.EShop.Plugins.Booking.Localization;
 using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Plugins.Booking.GrantedStores
@@ -22,6 +23,9 @@ namespace EasyAbp.EShop.Plugins.Booking.GrantedStores
         public GrantedStoreAppService(IGrantedStoreRepository repository) : base(repository)
         {
             _repository = repository;
+
+            LocalizationResource = typeof(BookingResource);
+            ObjectMapperContext = typeof(EShopPluginsBookingApplicationModule);
         }
 
         protected override async Task<IQueryable<GrantedStore>> CreateFilteredQueryAsync(GetGrantedStoreListDto input)

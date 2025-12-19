@@ -12,7 +12,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EShop.Plugins.Promotions.Promotions;
 
-public class PromotionIntegrationService : ApplicationService, IPromotionIntegrationService
+public class PromotionIntegrationService : EShopPluginsPromotionsAppService, IPromotionIntegrationService
 {
     protected IPromotionRepository PromotionRepository { get; }
     protected EShopPluginsPromotionsOptions Options { get; }

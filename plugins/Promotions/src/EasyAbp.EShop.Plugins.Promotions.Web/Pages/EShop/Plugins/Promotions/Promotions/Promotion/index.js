@@ -82,11 +82,13 @@ $(function () {
             },
             {
                 title: l('PromotionFromTime'),
-                data: "fromTime"
+                data: "fromTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('PromotionToTime'),
-                data: "toTime"
+                data: "toTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('PromotionDisabled'),

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.EShop.Plugins.Baskets.Permissions;
 using EasyAbp.EShop.Plugins.Baskets.BasketItems.Dtos;
+using EasyAbp.EShop.Plugins.Baskets.Localization;
 using EasyAbp.EShop.Plugins.Baskets.ProductUpdates;
 using EasyAbp.EShop.Products.Products;
 using EasyAbp.EShop.Products.Products.Dtos;
@@ -38,6 +39,9 @@ namespace EasyAbp.EShop.Plugins.Baskets.BasketItems
             _repository = repository;
             _productUpdateRepository = productUpdateRepository;
             _productAppService = productAppService;
+
+            LocalizationResource = typeof(BasketsResource);
+            ObjectMapperContext = typeof(EShopPluginsBasketsApplicationModule);
         }
 
         public override async Task<BasketItemDto> GetAsync(Guid id)

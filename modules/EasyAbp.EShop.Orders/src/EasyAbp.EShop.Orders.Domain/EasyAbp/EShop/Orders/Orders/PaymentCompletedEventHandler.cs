@@ -24,7 +24,7 @@ namespace EasyAbp.EShop.Orders.Orders
         public PaymentCompletedEventHandler(
             IClock clock,
             ICurrentTenant currentTenant,
-            IObjectMapper objectMapper,
+            IObjectMapper<EShopOrdersDomainModule> objectMapper,
             IOrderPaymentChecker orderPaymentChecker,
             IDistributedEventBus distributedEventBus,
             IOrderRepository orderRepository)
