@@ -16,6 +16,11 @@ namespace EasyAbp.EShop.Plugins.Booking.EntityFrameworkCore;
     )]
 public class BookingEntityFrameworkCoreTestModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        PreConfigure<AbpSqliteOptions>(options => { options.BusyTimeout = null; });
+    }
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddAlwaysDisableUnitOfWorkTransaction();
