@@ -43,5 +43,40 @@ namespace EasyAbp.EShop.Payments.Payments
             ExtraProperties = new ExtraPropertyDictionary();
             this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
+
+        public PaymentItem(
+            Guid id,
+            [NotNull] string itemType,
+            string itemKey,
+            decimal originalPaymentAmount,
+            decimal paymentDiscount,
+            decimal actualPaymentAmount,
+            decimal refundAmount,
+            decimal pendingRefundAmount) : base(id)
+        {
+            ExtraProperties = new ExtraPropertyDictionary();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
+
+            Update(itemType, itemKey, originalPaymentAmount, paymentDiscount, actualPaymentAmount, refundAmount,
+                pendingRefundAmount);
+        }
+
+        public void Update(
+            [NotNull] string itemType,
+            string itemKey,
+            decimal originalPaymentAmount,
+            decimal paymentDiscount,
+            decimal actualPaymentAmount,
+            decimal refundAmount,
+            decimal pendingRefundAmount)
+        {
+            ItemType = itemType;
+            ItemKey = itemKey;
+            OriginalPaymentAmount = originalPaymentAmount;
+            PaymentDiscount = paymentDiscount;
+            ActualPaymentAmount = actualPaymentAmount;
+            RefundAmount = refundAmount;
+            PendingRefundAmount = pendingRefundAmount;
+        }
     }
 }

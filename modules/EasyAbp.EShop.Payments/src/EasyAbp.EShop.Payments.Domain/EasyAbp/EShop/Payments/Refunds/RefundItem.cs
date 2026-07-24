@@ -41,6 +41,34 @@ namespace EasyAbp.EShop.Payments.Refunds
             this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
         }
 
+        public RefundItem(
+            Guid id,
+            Guid paymentItemId,
+            decimal refundAmount,
+            string customerRemark,
+            string staffRemark) : base(id)
+        {
+            OrderLines = new List<RefundItemOrderLine>();
+            OrderExtraFees = new List<RefundItemOrderExtraFee>();
+
+            ExtraProperties = new ExtraPropertyDictionary();
+            this.SetDefaultsForExtraProperties(ProxyHelper.UnProxy(this).GetType());
+
+            Update(paymentItemId, refundAmount, customerRemark, staffRemark);
+        }
+
+        public void Update(
+            Guid paymentItemId,
+            decimal refundAmount,
+            string customerRemark,
+            string staffRemark)
+        {
+            PaymentItemId = paymentItemId;
+            RefundAmount = refundAmount;
+            CustomerRemark = customerRemark;
+            StaffRemark = staffRemark;
+        }
+
         public void SetStoreId(Guid storeId)
         {
             StoreId = storeId;

@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Http.Client" Version="$(AbpVersion)" />
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Mapperly" Version="$(AbpVersion)" />
+    <PackageReference Include="Riok.Mapperly" Version="4.3.1" />
     <ProjectReference Include="..\EasyAbp.EShop.Plugins.Coupons.Application.Contracts\EasyAbp.EShop.Plugins.Coupons.Application.Contracts.csproj" />
   </ItemGroup>
 

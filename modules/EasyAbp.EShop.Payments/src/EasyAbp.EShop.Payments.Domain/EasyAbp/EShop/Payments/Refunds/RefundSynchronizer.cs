@@ -68,10 +68,9 @@ namespace EasyAbp.EShop.Payments.Refunds
                 return;
             }
                 
-            refund = _objectMapper.Map<RefundEto, Refund>(eventData.Entity);
+            refund = CreateRefund(eventData.Entity);
 
-            refund.SetRefundItems(
-                _objectMapper.Map<List<RefundItemEto>, List<RefundItem>>(eventData.Entity.RefundItems));
+            refund.SetRefundItems(eventData.Entity.RefundItems.Select(CreateRefundItem).ToList());
 
             refund.RefundItems.ForEach(item =>
             {
@@ -107,7 +106,7 @@ namespace EasyAbp.EShop.Payments.Refunds
 
             var publishRefundCompleted = eventData.Entity.CompletedTime.HasValue && !refund.CompletedTime.HasValue;
                 
-            _objectMapper.Map(eventData.Entity, refund);
+            UpdateRefund(eventData.Entity, refund);
 
             foreach (var etoItem in eventData.Entity.RefundItems)
             {
@@ -115,13 +114,13 @@ namespace EasyAbp.EShop.Payments.Refunds
 
                 if (item == null)
                 {
-                    item = _objectMapper.Map<RefundItemEto, RefundItem>(etoItem);
-                        
+                    item = CreateRefundItem(etoItem);
+
                     refund.RefundItems.Add(item);
                 }
                 else
                 {
-                    _objectMapper.Map(etoItem, item);
+                    UpdateRefundItem(etoItem, item);
                 }
 
                 FillRefundItemStoreId(item);
@@ -205,6 +204,51 @@ namespace EasyAbp.EShop.Payments.Refunds
                     refundItem.OrderExtraFees.RemoveAll(
                         i => !orderExtraFeeIds.Contains(new { i.Name, i.Key }));
                 }
+            }
+        }
+
+        protected virtual Refund CreateRefund(RefundEto eto)
+        {
+            var refund = new Refund(eto.Id, eto.TenantId, eto.PaymentId, eto.RefundPaymentMethod,
+                eto.ExternalTradingCode, eto.Currency, eto.RefundAmount, eto.DisplayReason, eto.CustomerRemark,
+                eto.StaffRemark, eto.CompletedTime, eto.CanceledTime);
+
+            CopyExtraProperties(eto, refund);
+
+            return refund;
+        }
+
+        protected virtual void UpdateRefund(RefundEto eto, Refund refund)
+        {
+            refund.Update(eto.PaymentId, eto.RefundPaymentMethod, eto.ExternalTradingCode, eto.Currency,
+                eto.RefundAmount, eto.DisplayReason, eto.CustomerRemark, eto.StaffRemark, eto.CompletedTime,
+                eto.CanceledTime);
+
+            CopyExtraProperties(eto, refund);
+        }
+
+        protected virtual RefundItem CreateRefundItem(RefundItemEto eto)
+        {
+            var item = new RefundItem(eto.Id, eto.PaymentItemId, eto.RefundAmount, eto.CustomerRemark,
+                eto.StaffRemark);
+
+            CopyExtraProperties(eto, item);
+
+            return item;
+        }
+
+        protected virtual void UpdateRefundItem(RefundItemEto eto, RefundItem item)
+        {
+            item.Update(eto.PaymentItemId, eto.RefundAmount, eto.CustomerRemark, eto.StaffRemark);
+
+            CopyExtraProperties(eto, item);
+        }
+
+        protected virtual void CopyExtraProperties(IHasExtraProperties source, IHasExtraProperties destination)
+        {
+            foreach (var property in source.ExtraProperties)
+            {
+                destination.SetProperty(property.Key, property.Value);
             }
         }
 

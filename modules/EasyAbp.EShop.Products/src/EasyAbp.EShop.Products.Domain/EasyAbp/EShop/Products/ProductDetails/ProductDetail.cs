@@ -31,5 +31,11 @@ namespace EasyAbp.EShop.Products.ProductDetails
         {
             Description = description;
         }
+
+        public void Update(Guid? storeId, [CanBeNull] string description)
+        {
+            StoreId = storeId;
+            Description = description;
+        }
     }
 }

@@ -5,7 +5,7 @@ using EasyAbp.EShop.Orders.Web.Menus;
 using EasyAbp.EShop.Stores;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
@@ -16,7 +16,7 @@ namespace EasyAbp.EShop.Orders.Web
         typeof(EShopOrdersApplicationContractsModule),
         typeof(EShopStoresWebSharedModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpMapperlyModule)
         )]
     public class EShopOrdersWebModule : AbpModule
     {
@@ -45,11 +45,7 @@ namespace EasyAbp.EShop.Orders.Web
                 options.FileSets.AddEmbedded<EShopOrdersWebModule>();
             });
 
-            context.Services.AddAutoMapperObjectMapper<EShopOrdersWebModule>();
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<EShopOrdersWebModule>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopOrdersWebModule>();
 
             Configure<RazorPagesOptions>(options =>
             {

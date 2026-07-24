@@ -50,6 +50,59 @@ namespace EasyAbp.EShop.Payments.Payments
         {
         }
 
+        public Payment(
+            Guid id,
+            Guid? tenantId,
+            Guid userId,
+            [NotNull] string paymentMethod,
+            [CanBeNull] string payeeAccount,
+            [CanBeNull] string externalTradingCode,
+            [NotNull] string currency,
+            decimal originalPaymentAmount,
+            decimal paymentDiscount,
+            decimal actualPaymentAmount,
+            decimal refundAmount,
+            decimal pendingRefundAmount,
+            DateTime? completionTime,
+            DateTime? canceledTime,
+            DateTime creationTime) : base(id)
+        {
+            TenantId = tenantId;
+            UserId = userId;
+            CreationTime = creationTime;
+
+            Update(userId, paymentMethod, payeeAccount, externalTradingCode, currency, originalPaymentAmount,
+                paymentDiscount, actualPaymentAmount, refundAmount, pendingRefundAmount, completionTime, canceledTime);
+        }
+
+        public void Update(
+            Guid userId,
+            [NotNull] string paymentMethod,
+            [CanBeNull] string payeeAccount,
+            [CanBeNull] string externalTradingCode,
+            [NotNull] string currency,
+            decimal originalPaymentAmount,
+            decimal paymentDiscount,
+            decimal actualPaymentAmount,
+            decimal refundAmount,
+            decimal pendingRefundAmount,
+            DateTime? completionTime,
+            DateTime? canceledTime)
+        {
+            UserId = userId;
+            PaymentMethod = paymentMethod;
+            PayeeAccount = payeeAccount;
+            ExternalTradingCode = externalTradingCode;
+            Currency = currency;
+            OriginalPaymentAmount = originalPaymentAmount;
+            PaymentDiscount = paymentDiscount;
+            ActualPaymentAmount = actualPaymentAmount;
+            RefundAmount = refundAmount;
+            PendingRefundAmount = pendingRefundAmount;
+            CompletionTime = completionTime;
+            CanceledTime = canceledTime;
+        }
+
         public void SetPaymentItems(List<PaymentItem> paymentItems)
         {
             PaymentItems = paymentItems;

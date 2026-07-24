@@ -6,6 +6,7 @@ using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.StoreOwners.Dtos;
 using EasyAbp.EShop.Stores.Stores;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Stores.StoreOwners
@@ -91,6 +92,25 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             }
 
             return queryable;
+        }
+
+        protected override Task<StoreOwner> MapToEntityAsync(CreateUpdateStoreOwnerDto createInput)
+        {
+            var entity = new StoreOwner(GuidGenerator.Create(), createInput.StoreId, createInput.OwnerUserId,
+                CurrentTenant.Id);
+
+            createInput.MapExtraPropertiesTo(entity);
+
+            return Task.FromResult(entity);
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateStoreOwnerDto updateInput, StoreOwner entity)
+        {
+            entity.Update(updateInput.StoreId, updateInput.OwnerUserId);
+
+            updateInput.MapExtraPropertiesTo(entity);
+
+            return Task.CompletedTask;
         }
     }
 }

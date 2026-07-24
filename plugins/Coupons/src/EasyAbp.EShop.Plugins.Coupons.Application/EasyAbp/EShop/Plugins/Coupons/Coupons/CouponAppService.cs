@@ -102,6 +102,19 @@ namespace EasyAbp.EShop.Plugins.Coupons.Coupons
             return result;
         }
 
+        protected override Task<Coupon> MapToEntityAsync(CreateCouponDto createInput)
+        {
+            return Task.FromResult(new Coupon(GuidGenerator.Create(), null, createInput.CouponTemplateId,
+                createInput.UserId, null, null));
+        }
+
+        protected override Task MapToEntityAsync(UpdateCouponDto updateInput, Coupon entity)
+        {
+            entity.SetExpirationTime(updateInput.ExpirationTime);
+
+            return Task.CompletedTask;
+        }
+
         public override async Task<CouponDto> CreateAsync(CreateCouponDto input)
         {
             await CheckCreatePolicyAsync();

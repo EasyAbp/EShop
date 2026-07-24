@@ -3,7 +3,7 @@ using EasyAbp.EShop.Payments;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
@@ -12,7 +12,7 @@ using Volo.Abp.Modularity;
 namespace EasyAbp.EShop.Orders
 {
     [DependsOn(
-        typeof(AbpAutoMapperModule),
+        typeof(AbpMapperlyModule),
         typeof(AbpBackgroundJobsAbstractionsModule),
         typeof(EShopPaymentsDomainSharedModule),
         typeof(EShopProductsDomainSharedModule),
@@ -22,12 +22,7 @@ namespace EasyAbp.EShop.Orders
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAutoMapperObjectMapper<EShopOrdersDomainModule>();
-
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddProfile<OrdersDomainAutoMapperProfile>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopOrdersDomainModule>();
 
             Configure<AbpDistributedEntityEventOptions>(options =>
             {

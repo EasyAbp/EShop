@@ -7,6 +7,7 @@ using EasyAbp.EShop.Stores.Stores.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EShop.Stores.Stores
@@ -67,6 +68,24 @@ namespace EasyAbp.EShop.Stores.Stores
         {
             // Todo: need to be improved
             return ObjectMapper.Map<Store, StoreDto>(await _repository.FindDefaultStoreAsync());
+        }
+
+        protected override Task<Store> MapToEntityAsync(CreateUpdateStoreDto createInput)
+        {
+            var entity = new Store(GuidGenerator.Create(), CurrentTenant.Id, createInput.Name);
+
+            createInput.MapExtraPropertiesTo(entity);
+
+            return Task.FromResult(entity);
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateStoreDto updateInput, Store entity)
+        {
+            entity.Update(updateInput.Name);
+
+            updateInput.MapExtraPropertiesTo(entity);
+
+            return Task.CompletedTask;
         }
     }
 }

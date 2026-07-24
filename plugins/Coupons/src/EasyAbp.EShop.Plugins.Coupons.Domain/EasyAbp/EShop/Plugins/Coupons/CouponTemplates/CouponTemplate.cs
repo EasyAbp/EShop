@@ -94,6 +94,34 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             Scopes = scopes ?? new List<CouponTemplateScope>();
         }
 
+        public void Update(
+            Guid? storeId,
+            CouponType couponType,
+            string uniqueName,
+            string displayName,
+            string description,
+            TimeSpan? usableDuration,
+            DateTime? usableBeginTime,
+            DateTime? usableEndTime,
+            decimal conditionAmount,
+            decimal discountAmount,
+            [NotNull] string currency,
+            bool isUnscoped)
+        {
+            StoreId = storeId;
+            CouponType = couponType;
+            UniqueName = uniqueName;
+            DisplayName = displayName;
+            Description = description;
+            UsableDuration = usableDuration;
+            UsableBeginTime = usableBeginTime;
+            UsableEndTime = usableEndTime;
+            ConditionAmount = conditionAmount;
+            DiscountAmount = discountAmount;
+            Currency = currency;
+            IsUnscoped = isUnscoped;
+        }
+
         public DateTime? GetCalculatedExpirationTime(IClock clock)
         {
             DateTime? expirationTime = null;

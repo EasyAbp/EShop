@@ -4,7 +4,7 @@ using EasyAbp.EShop.Payments;
 using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 
@@ -14,7 +14,7 @@ namespace EasyAbp.EShop
         typeof(EShopDomainModule),
         typeof(EShopApplicationContractsModule),
         typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule),
+        typeof(AbpMapperlyModule),
         typeof(EShopOrdersApplicationModule),
         typeof(EShopPaymentsApplicationModule),
         typeof(EShopPluginsApplicationModule),
@@ -25,11 +25,7 @@ namespace EasyAbp.EShop
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAutoMapperObjectMapper<EShopApplicationModule>();
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<EShopApplicationModule>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopApplicationModule>();
         }
     }
 }

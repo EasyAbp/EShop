@@ -36,4 +36,12 @@ public class GrantedStore : AuditedAggregateRoot<Guid>, IMultiTenant
         AssetCategoryId = assetCategoryId;
         AllowAll = allowAll;
     }
+
+    public void Update(Guid storeId, Guid? assetId, Guid? assetCategoryId, bool allowAll)
+    {
+        StoreId = storeId;
+        AssetId = assetId;
+        AssetCategoryId = assetCategoryId;
+        AllowAll = allowAll;
+    }
 }

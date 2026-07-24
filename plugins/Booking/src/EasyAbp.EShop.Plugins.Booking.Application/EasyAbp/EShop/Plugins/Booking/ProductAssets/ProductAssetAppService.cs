@@ -138,7 +138,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
             await CheckMultiStorePolicyAsync(productAsset.StoreId, UpdatePolicyName);
 
             productAsset.AddPeriod(
-                ObjectMapper.Map<CreateProductAssetPeriodDto, ProductAssetPeriod>(input));
+                new ProductAssetPeriod(GuidGenerator.Create(), input.PeriodId, input.Currency, input.Price));
 
             await _repository.UpdateAsync(productAsset, true);
 
@@ -154,7 +154,7 @@ namespace EasyAbp.EShop.Plugins.Booking.ProductAssets
 
             var productAssetPeriod = productAsset.GetPeriod(periodId);
 
-            ObjectMapper.Map(input, productAssetPeriod);
+            productAssetPeriod.Update(input.Currency, input.Price);
 
             await _repository.UpdateAsync(productAsset, true);
 

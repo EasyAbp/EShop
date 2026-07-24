@@ -3,14 +3,14 @@ using EasyAbp.EShop.Payments.Payments;
 using EasyAbp.EShop.Payments.Refunds;
 using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.Modularity;
 
 namespace EasyAbp.EShop.Payments
 {
     [DependsOn(
-        typeof(AbpAutoMapperModule),
+        typeof(AbpMapperlyModule),
         typeof(EShopPaymentsDomainSharedModule),
         typeof(EShopStoresDomainSharedModule)
     )]
@@ -32,12 +32,7 @@ namespace EasyAbp.EShop.Payments
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAutoMapperObjectMapper<EShopPaymentsDomainModule>();
-
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddProfile<PaymentsDomainAutoMapperProfile>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopPaymentsDomainModule>();
         }
     }
 }

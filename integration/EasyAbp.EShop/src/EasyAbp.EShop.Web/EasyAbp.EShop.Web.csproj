@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Mapperly" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Orders\src\EasyAbp.EShop.Orders.Web\EasyAbp.EShop.Orders.Web.csproj" />
     <ProjectReference Include="..\..\..\..\modules\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Web\EasyAbp.EShop.Payments.Web.csproj" />

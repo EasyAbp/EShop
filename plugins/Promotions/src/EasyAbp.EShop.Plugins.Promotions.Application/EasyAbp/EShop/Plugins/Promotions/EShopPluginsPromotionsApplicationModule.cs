@@ -1,6 +1,6 @@
 ﻿using EasyAbp.EShop.Stores;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 
@@ -11,16 +11,12 @@ namespace EasyAbp.EShop.Plugins.Promotions;
     typeof(EShopPluginsPromotionsApplicationContractsModule),
     typeof(EShopStoresApplicationSharedModule),
     typeof(AbpDddApplicationModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpMapperlyModule)
 )]
 public class EShopPluginsPromotionsApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<EShopPluginsPromotionsApplicationModule>();
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<EShopPluginsPromotionsApplicationModule>(validate: true);
-        });
+        context.Services.AddMapperlyObjectMapper<EShopPluginsPromotionsApplicationModule>();
     }
 }
