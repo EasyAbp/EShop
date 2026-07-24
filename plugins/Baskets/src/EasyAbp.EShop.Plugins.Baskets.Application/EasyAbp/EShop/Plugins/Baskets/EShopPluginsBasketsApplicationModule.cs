@@ -1,6 +1,6 @@
 ﻿using EasyAbp.EShop.Products;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 
@@ -11,17 +11,13 @@ namespace EasyAbp.EShop.Plugins.Baskets
         typeof(EShopPluginsBasketsApplicationContractsModule),
         typeof(EShopProductsApplicationContractsModule),
         typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpMapperlyModule)
     )]
     public class EShopPluginsBasketsApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAutoMapperObjectMapper<EShopPluginsBasketsApplicationModule>();
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<EShopPluginsBasketsApplicationModule>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopPluginsBasketsApplicationModule>();
         }
     }
 }

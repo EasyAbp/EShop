@@ -15,7 +15,8 @@
 
   <ItemGroup>
     <PackageReference Include="NodaMoney" Version="$(NodaMoneyVersion)" />
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Mapperly" Version="$(AbpVersion)" />
+    <PackageReference Include="Riok.Mapperly" Version="4.3.1" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\EasyAbp.EShop.Payments\src\EasyAbp.EShop.Payments.Domain.Shared\EasyAbp.EShop.Payments.Domain.Shared.csproj" />

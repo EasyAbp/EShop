@@ -47,6 +47,50 @@ namespace EasyAbp.EShop.Payments.Refunds
         {
         }
 
+        public Refund(
+            Guid id,
+            Guid? tenantId,
+            Guid paymentId,
+            [NotNull] string refundPaymentMethod,
+            [NotNull] string externalTradingCode,
+            [NotNull] string currency,
+            decimal refundAmount,
+            string displayReason,
+            [CanBeNull] string customerRemark,
+            [CanBeNull] string staffRemark,
+            DateTime? completedTime,
+            DateTime? canceledTime) : base(id)
+        {
+            TenantId = tenantId;
+
+            Update(paymentId, refundPaymentMethod, externalTradingCode, currency, refundAmount, displayReason,
+                customerRemark, staffRemark, completedTime, canceledTime);
+        }
+
+        public void Update(
+            Guid paymentId,
+            [NotNull] string refundPaymentMethod,
+            [NotNull] string externalTradingCode,
+            [NotNull] string currency,
+            decimal refundAmount,
+            string displayReason,
+            [CanBeNull] string customerRemark,
+            [CanBeNull] string staffRemark,
+            DateTime? completedTime,
+            DateTime? canceledTime)
+        {
+            PaymentId = paymentId;
+            RefundPaymentMethod = refundPaymentMethod;
+            ExternalTradingCode = externalTradingCode;
+            Currency = currency;
+            RefundAmount = refundAmount;
+            DisplayReason = displayReason;
+            CustomerRemark = customerRemark;
+            StaffRemark = staffRemark;
+            CompletedTime = completedTime;
+            CanceledTime = canceledTime;
+        }
+
         public void SetRefundItems(List<RefundItem> refundItems)
         {
             RefundItems = refundItems;

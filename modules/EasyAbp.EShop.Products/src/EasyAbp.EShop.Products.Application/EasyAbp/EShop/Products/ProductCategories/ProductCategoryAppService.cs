@@ -19,6 +19,8 @@ namespace EasyAbp.EShop.Products.ProductCategories
         public ProductCategoryAppService(IProductCategoryRepository repository) : base(repository)
         {
             _repository = repository;
+
+            ObjectMapperContext = typeof(EShopProductsApplicationModule);
         }
 
         protected override async Task<IQueryable<ProductCategory>> CreateFilteredQueryAsync(

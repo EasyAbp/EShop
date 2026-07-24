@@ -94,6 +94,8 @@ public class FlashSalePlanAppService :
         FlashSaleInventoryManager = flashSaleInventoryManager;
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
         Options = options.Value;
+
+        ObjectMapperContext = typeof(EShopPluginsFlashSalesApplicationModule);
     }
 
     public override async Task<FlashSalePlanDto> GetAsync(Guid id)

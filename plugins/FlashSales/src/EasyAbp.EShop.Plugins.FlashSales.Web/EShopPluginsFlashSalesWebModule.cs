@@ -4,7 +4,7 @@ using EasyAbp.EShop.Plugins.FlashSales.Localization;
 using EasyAbp.EShop.Plugins.FlashSales.Web.Menus;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Plugins.FlashSales.Web;
 [DependsOn(
     typeof(EShopPluginsFlashSalesApplicationContractsModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpMapperlyModule)
     )]
 public class EShopPluginsFlashSalesWebModule : AbpModule
 {
@@ -44,11 +44,7 @@ public class EShopPluginsFlashSalesWebModule : AbpModule
             options.FileSets.AddEmbedded<EShopPluginsFlashSalesWebModule>();
         });
 
-        context.Services.AddAutoMapperObjectMapper<EShopPluginsFlashSalesWebModule>();
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<EShopPluginsFlashSalesWebModule>(validate: true);
-        });
+        context.Services.AddMapperlyObjectMapper<EShopPluginsFlashSalesWebModule>();
 
         Configure<RazorPagesOptions>(options =>
         {

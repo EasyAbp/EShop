@@ -26,6 +26,8 @@ public class FlashSaleResultAppService :
         IFlashSaleResultRepository flashSaleResultRepository) : base(flashSaleResultRepository)
     {
         FlashSaleCurrentResultCache = flashSaleCurrentResultCache;
+
+        ObjectMapperContext = typeof(EShopPluginsFlashSalesApplicationModule);
     }
 
     [Authorize]

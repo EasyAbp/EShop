@@ -44,5 +44,21 @@ namespace EasyAbp.EShop.Stores.Transactions
             Currency = currency;
             Amount = amount;
         }
+
+        public void Update(
+            Guid storeId,
+            Guid? orderId,
+            TransactionType transactionType,
+            [NotNull] string actionName,
+            [NotNull] string currency,
+            decimal amount)
+        {
+            StoreId = storeId;
+            OrderId = orderId;
+            TransactionType = transactionType;
+            ActionName = actionName;
+            Currency = currency;
+            Amount = amount;
+        }
     }
 }

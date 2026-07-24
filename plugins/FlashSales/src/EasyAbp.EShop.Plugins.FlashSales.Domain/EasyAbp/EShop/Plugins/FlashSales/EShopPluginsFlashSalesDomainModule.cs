@@ -1,6 +1,6 @@
 ﻿using EasyAbp.EShop.Plugins.FlashSales.FlashSalePlans;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Domain;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.Modularity;
@@ -9,19 +9,15 @@ namespace EasyAbp.EShop.Plugins.FlashSales;
 
 [DependsOn(
     typeof(AbpDddDomainModule),
-    typeof(AbpAutoMapperModule),
+    typeof(AbpMapperlyModule),
     typeof(EShopPluginsFlashSalesDomainSharedModule)
 )]
 public class EShopPluginsFlashSalesDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<EShopPluginsFlashSalesDomainModule>();
+        context.Services.AddMapperlyObjectMapper<EShopPluginsFlashSalesDomainModule>();
 
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<EShopPluginsFlashSalesDomainModule>(validate: true);
-        });
 
         Configure<AbpDistributedEntityEventOptions>(options =>
         {

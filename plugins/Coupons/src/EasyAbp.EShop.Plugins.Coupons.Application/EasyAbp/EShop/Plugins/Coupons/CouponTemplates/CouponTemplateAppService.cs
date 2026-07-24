@@ -99,6 +99,25 @@ namespace EasyAbp.EShop.Plugins.Coupons.CouponTemplates
             await _repository.DeleteAsync(couponTemplate);
         }
 
+        protected override Task<CouponTemplate> MapToEntityAsync(CreateUpdateCouponTemplateDto createInput)
+        {
+            return Task.FromResult(new CouponTemplate(GuidGenerator.Create(), null, createInput.StoreId,
+                createInput.CouponType, createInput.UniqueName, createInput.DisplayName, createInput.Description,
+                createInput.UsableDuration, createInput.UsableBeginTime, createInput.UsableEndTime,
+                createInput.ConditionAmount, createInput.DiscountAmount, createInput.Currency, createInput.IsUnscoped,
+                null));
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateCouponTemplateDto updateInput, CouponTemplate entity)
+        {
+            entity.Update(updateInput.StoreId, updateInput.CouponType, updateInput.UniqueName,
+                updateInput.DisplayName, updateInput.Description, updateInput.UsableDuration,
+                updateInput.UsableBeginTime, updateInput.UsableEndTime, updateInput.ConditionAmount,
+                updateInput.DiscountAmount, updateInput.Currency, updateInput.IsUnscoped);
+
+            return Task.CompletedTask;
+        }
+
         protected virtual bool ExistScope(IEnumerable<CreateUpdateCouponTemplateScopeDto> scopes, ICouponTemplateScope need)
         {
             return scopes.Any(x => x.StoreId == need.StoreId &&

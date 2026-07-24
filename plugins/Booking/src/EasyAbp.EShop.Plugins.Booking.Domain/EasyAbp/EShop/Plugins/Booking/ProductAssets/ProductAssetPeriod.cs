@@ -28,4 +28,10 @@ public class ProductAssetPeriod : Entity<Guid>
         Currency = currency;
         Price = price;
     }
+
+    public void Update([NotNull] string currency, decimal price)
+    {
+        Currency = currency;
+        Price = price;
+    }
 }

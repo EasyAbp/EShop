@@ -97,13 +97,29 @@ namespace EasyAbp.EShop.Products.ProductDetails
         public override async Task DeleteAsync(Guid id)
         {
             await CheckDeletePolicyAsync();
-            
+
             var detail = await GetEntityByIdAsync(id);
 
             await AuthorizationService.CheckMultiStorePolicyAsync(detail.StoreId, DeletePolicyName,
                 ProductsPermissions.Products.CrossStore);
 
             await Repository.DeleteAsync(id);
+        }
+
+        protected override Task<ProductDetail> MapToEntityAsync(CreateUpdateProductDetailDto createInput)
+        {
+            return Task.FromResult(new ProductDetail(
+                GuidGenerator.Create(),
+                CurrentTenant.Id,
+                createInput.StoreId,
+                createInput.Description));
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateProductDetailDto updateInput, ProductDetail entity)
+        {
+            entity.Update(updateInput.StoreId, updateInput.Description);
+
+            return Task.CompletedTask;
         }
     }
 }

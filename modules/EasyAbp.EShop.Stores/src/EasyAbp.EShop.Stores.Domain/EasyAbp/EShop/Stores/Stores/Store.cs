@@ -24,5 +24,10 @@ namespace EasyAbp.EShop.Stores.Stores
             TenantId = tenantId;
             Name = name;
         }
+
+        public void Update([NotNull] string name)
+        {
+            Name = name;
+        }
     }
 }

@@ -6,6 +6,7 @@ using EasyAbp.EShop.Stores.Permissions;
 using EasyAbp.EShop.Stores.Transactions.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.EShop.Stores.Transactions
 {
@@ -31,6 +32,27 @@ namespace EasyAbp.EShop.Stores.Transactions
         protected override async Task<IQueryable<Transaction>> CreateFilteredQueryAsync(GetTransactionListInput input)
         {
             return (await base.CreateFilteredQueryAsync(input)).Where(x => x.StoreId == input.StoreId);
+        }
+
+        protected override Task<Transaction> MapToEntityAsync(CreateUpdateTransactionDto createInput)
+        {
+            var entity = new Transaction(GuidGenerator.Create(), CurrentTenant.Id, createInput.StoreId,
+                createInput.OrderId, createInput.TransactionType, createInput.ActionName, createInput.Currency,
+                createInput.Amount);
+
+            createInput.MapExtraPropertiesTo(entity);
+
+            return Task.FromResult(entity);
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateTransactionDto updateInput, Transaction entity)
+        {
+            entity.Update(updateInput.StoreId, updateInput.OrderId, updateInput.TransactionType,
+                updateInput.ActionName, updateInput.Currency, updateInput.Amount);
+
+            updateInput.MapExtraPropertiesTo(entity);
+
+            return Task.CompletedTask;
         }
     }
 }

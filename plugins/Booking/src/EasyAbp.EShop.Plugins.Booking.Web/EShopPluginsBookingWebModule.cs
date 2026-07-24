@@ -8,7 +8,7 @@ using EasyAbp.EShop.Products;
 using EasyAbp.EShop.Stores;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
@@ -22,7 +22,7 @@ namespace EasyAbp.EShop.Plugins.Booking.Web;
     typeof(EShopStoresApplicationContractsModule),
     typeof(EShopPluginsBookingApplicationContractsModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpMapperlyModule)
 )]
 public class EShopPluginsBookingWebModule : AbpModule
 {
@@ -51,11 +51,7 @@ public class EShopPluginsBookingWebModule : AbpModule
             options.FileSets.AddEmbedded<EShopPluginsBookingWebModule>();
         });
 
-        context.Services.AddAutoMapperObjectMapper<EShopPluginsBookingWebModule>();
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<EShopPluginsBookingWebModule>(validate: true);
-        });
+        context.Services.AddMapperlyObjectMapper<EShopPluginsBookingWebModule>();
 
         Configure<RazorPagesOptions>(options =>
         {

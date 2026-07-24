@@ -45,6 +45,8 @@ namespace EasyAbp.EShop.Products.Products
             _productManager = productManager;
             _productRepository = productRepository;
             _repository = repository;
+
+            ObjectMapperContext = typeof(EShopProductsApplicationModule);
         }
 
         protected override async Task<IQueryable<ProductView>> CreateFilteredQueryAsync(GetProductListInput input)

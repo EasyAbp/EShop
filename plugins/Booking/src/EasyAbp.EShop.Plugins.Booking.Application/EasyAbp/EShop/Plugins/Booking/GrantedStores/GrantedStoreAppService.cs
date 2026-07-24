@@ -36,5 +36,19 @@ namespace EasyAbp.EShop.Plugins.Booking.GrantedStores
                 .WhereIf(input.AssetCategoryId.HasValue, x => x.AssetCategoryId == input.AssetCategoryId)
                 .WhereIf(input.AllowAll.HasValue, x => x.AllowAll == input.AllowAll);
         }
+
+        protected override Task<GrantedStore> MapToEntityAsync(CreateUpdateGrantedStoreDto createInput)
+        {
+            return Task.FromResult(new GrantedStore(GuidGenerator.Create(), CurrentTenant.Id, createInput.StoreId,
+                createInput.AssetId, createInput.AssetCategoryId, createInput.AllowAll));
+        }
+
+        protected override Task MapToEntityAsync(CreateUpdateGrantedStoreDto updateInput, GrantedStore entity)
+        {
+            entity.Update(updateInput.StoreId, updateInput.AssetId, updateInput.AssetCategoryId,
+                updateInput.AllowAll);
+
+            return Task.CompletedTask;
+        }
     }
 }

@@ -23,5 +23,11 @@ namespace EasyAbp.EShop.Stores.StoreOwners
             OwnerUserId = ownerUserId;
             TenantId = tenantId;
         }
+
+        public void Update(Guid storeId, Guid ownerUserId)
+        {
+            StoreId = storeId;
+            OwnerUserId = ownerUserId;
+        }
     }
 }

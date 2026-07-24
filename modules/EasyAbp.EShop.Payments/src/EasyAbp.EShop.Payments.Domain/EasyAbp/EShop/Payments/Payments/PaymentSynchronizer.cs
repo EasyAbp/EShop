@@ -54,11 +54,10 @@ namespace EasyAbp.EShop.Payments.Payments
                 return;
             }
             
-            payment = _objectMapper.Map<PaymentEto, Payment>(eventData.Entity);
+            payment = CreatePayment(eventData.Entity);
 
-            payment.SetPaymentItems(
-                _objectMapper.Map<List<PaymentItemEto>, List<PaymentItem>>(eventData.Entity.PaymentItems));
-                
+            payment.SetPaymentItems(eventData.Entity.PaymentItems.Select(CreatePaymentItem).ToList());
+
             payment.PaymentItems.ForEach(FillPaymentItemStoreId);
 
             await _paymentRepository.InsertAsync(payment, true);
@@ -107,7 +106,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
             var publishCanceledEvent = eventData.Entity.CanceledTime.HasValue && !payment.CanceledTime.HasValue;
 
-            _objectMapper.Map(eventData.Entity, payment);
+            UpdatePayment(eventData.Entity, payment);
 
             foreach (var etoItem in eventData.Entity.PaymentItems)
             {
@@ -115,7 +114,7 @@ namespace EasyAbp.EShop.Payments.Payments
 
                 if (item == null)
                 {
-                    item = _objectMapper.Map<PaymentItemEto, PaymentItem>(etoItem);
+                    item = CreatePaymentItem(etoItem);
 
                     FillPaymentItemStoreId(item);
 
@@ -123,7 +122,7 @@ namespace EasyAbp.EShop.Payments.Payments
                 }
                 else
                 {
-                    _objectMapper.Map(etoItem, item);
+                    UpdatePaymentItem(etoItem, item);
                 }
             }
                 
@@ -141,6 +140,53 @@ namespace EasyAbp.EShop.Payments.Payments
             if (publishCanceledEvent)
             {
                 await PublishPaymentCanceledEventAsync(payment);
+            }
+        }
+
+        protected virtual Payment CreatePayment(PaymentEto eto)
+        {
+            var payment = new Payment(eto.Id, eto.TenantId, eto.UserId, eto.PaymentMethod, eto.PayeeAccount,
+                eto.ExternalTradingCode, eto.Currency, eto.OriginalPaymentAmount, eto.PaymentDiscount,
+                eto.ActualPaymentAmount, eto.RefundAmount, eto.PendingRefundAmount, eto.CompletionTime,
+                eto.CanceledTime, eto.CreationTime);
+
+            CopyExtraProperties(eto, payment);
+
+            return payment;
+        }
+
+        protected virtual void UpdatePayment(PaymentEto eto, Payment payment)
+        {
+            payment.Update(eto.UserId, eto.PaymentMethod, eto.PayeeAccount, eto.ExternalTradingCode, eto.Currency,
+                eto.OriginalPaymentAmount, eto.PaymentDiscount, eto.ActualPaymentAmount, eto.RefundAmount,
+                eto.PendingRefundAmount, eto.CompletionTime, eto.CanceledTime);
+
+            CopyExtraProperties(eto, payment);
+        }
+
+        protected virtual PaymentItem CreatePaymentItem(PaymentItemEto eto)
+        {
+            var item = new PaymentItem(eto.Id, eto.ItemType, eto.ItemKey, eto.OriginalPaymentAmount,
+                eto.PaymentDiscount, eto.ActualPaymentAmount, eto.RefundAmount, eto.PendingRefundAmount);
+
+            CopyExtraProperties(eto, item);
+
+            return item;
+        }
+
+        protected virtual void UpdatePaymentItem(PaymentItemEto eto, PaymentItem item)
+        {
+            item.Update(eto.ItemType, eto.ItemKey, eto.OriginalPaymentAmount, eto.PaymentDiscount,
+                eto.ActualPaymentAmount, eto.RefundAmount, eto.PendingRefundAmount);
+
+            CopyExtraProperties(eto, item);
+        }
+
+        protected virtual void CopyExtraProperties(IHasExtraProperties source, IHasExtraProperties destination)
+        {
+            foreach (var property in source.ExtraProperties)
+            {
+                destination.SetProperty(property.Key, property.Value);
             }
         }
 

@@ -2,7 +2,7 @@
 using EasyAbp.EShop.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 
@@ -13,7 +13,7 @@ namespace EasyAbp.EShop.Payments
         typeof(EShopPaymentsApplicationContractsModule),
         typeof(EShopStoresApplicationSharedModule),
         typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpMapperlyModule)
         )]
     public class EShopPaymentsApplicationModule : AbpModule
     {
@@ -24,11 +24,7 @@ namespace EasyAbp.EShop.Payments
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddAutoMapperObjectMapper<EShopPaymentsApplicationModule>();
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<EShopPaymentsApplicationModule>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopPaymentsApplicationModule>();
         }
     }
 }

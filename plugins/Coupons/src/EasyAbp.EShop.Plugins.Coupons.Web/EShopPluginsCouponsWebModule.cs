@@ -4,7 +4,7 @@ using EasyAbp.EShop.Plugins.Coupons.Localization;
 using EasyAbp.EShop.Plugins.Coupons.Web.Menus;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
@@ -15,7 +15,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web
     [DependsOn(
         typeof(EShopPluginsCouponsApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpMapperlyModule)
         )]
     public class EShopPluginsCouponsWebModule : AbpModule
     {
@@ -44,11 +44,7 @@ namespace EasyAbp.EShop.Plugins.Coupons.Web
                 options.FileSets.AddEmbedded<EShopPluginsCouponsWebModule>();
             });
 
-            context.Services.AddAutoMapperObjectMapper<EShopPluginsCouponsWebModule>();
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<EShopPluginsCouponsWebModule>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<EShopPluginsCouponsWebModule>();
 
             Configure<RazorPagesOptions>(options =>
             {
